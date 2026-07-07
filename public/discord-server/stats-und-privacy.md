@@ -43,6 +43,3 @@ Die öffentliche Stats-Seite liefert aggregierte Daten aus Voice-, Text- und Akt
 - Retention-DMs sind selten und an Aktivitätsregeln gebunden (früher regelmäßig aktiv, dann mindestens 2 Wochen weg; maximal eine solche DM pro Person, frühestens 30 Tage nach der letzten). Nicht jeder inaktive User bekommt automatisch eine Nachricht.
 - Join-Quellen, Website-Zugänge und ähnliche Herkunftsdaten können ebenfalls analytisch erfasst werden, solange kein Opt-out gesetzt ist.
 
-## Für Devs (knapp)
-- Rust live: Public-Stats-Service `dl-stats` (Web-API inkl. `/api/public/me/*` + Discord-OAuth), Prefix-Stats in `dl-activity/src/stats_cmd.rs` + `text_stats.rs`, Privacy in `dl-community/src/privacy_ui.rs` + `privacy.rs` (Export mit Schwärzung, Erasure inkl. Turnier-Scope, Opt-out-Tombstone `core.user_privacy`), Retention in `dl-community/src/retention.rs`
-- Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben (`dl-voice/src/tracker.rs`, Steam-Leave-Cleanup)

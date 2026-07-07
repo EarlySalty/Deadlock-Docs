@@ -43,6 +43,6 @@ Der Bot fasst laufende Matches nicht an: solange ein Match läuft, sind „Start
 
 ## ⚙️ Wie es unter der Haube funktioniert
 
-Das Dashboard schreibt beim „Start" nur ein Signal in die Datenbank. Ein Hintergrund-Dienst im Bot greift das auf, fährt die Lobby-Schritte über den Steam-Game-Coordinator (Lobby erstellen → einladen → Zuschauer setzen → bereit → Start) und meldet den Join-Code zurück in den Channel. Dieselbe Technik, die auch die Turniere schon nutzen — hier für Scrims wiederverwendet.
+Der Start läuft vollautomatisch: Der Bot erstellt die Lobby, lädt verknüpfte Spieler ein und meldet den Join-Code zurück in den Channel — dieselbe bewährte Technik wie bei den Turnieren.
 
 Deutsche Deadlock Community — Scrim-Automatik. Fragen? Im Coaching-Chat oder beim Team melden.

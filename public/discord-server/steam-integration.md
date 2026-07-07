@@ -48,5 +48,3 @@ Ein Hintergrunddienst synchronisiert regelmäßig die Steam-Freundesliste des Bo
 - Ein Invite erscheint nicht immer sofort — nach Erfolg kann es 1–2 Tage dauern, bis die Einladung bei Steam sichtbar ist.
 - Vorübergehende Steam- oder Game-Coordinator-Probleme können einzelne Invite-Versuche verzögern. In solchen Fällen hilft meist ein späterer Retry.
 
-## Für Devs
-Rust live: Panel/Commands in `Deadlock-Bots/rust/crates/dl-bridges/src/steam.rs`; Link-, Rank- und Invite-Flows im Steam-Bot (`steam-flows/src/link.rs`, `rank.rs`, `friend_sync.rs`, `betainvite/`), Web-Routen in `steam-web/src/routes/link.rs`. Verifizierung = OpenID-Link + bestätigte Bot-Freundschaft. Rank- und Invite-Funktionen greifen auf dieselbe Steam-Bridge zu, damit nicht mehrere Dienste direkt gegen Steam sprechen.

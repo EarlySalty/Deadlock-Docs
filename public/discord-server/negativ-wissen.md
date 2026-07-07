@@ -14,7 +14,6 @@ Diese Seite ist bewusst eine Liste von Dingen, die es auf dem Server **nicht** g
 - **Community-Event-Kalender:** Es gibt kein allgemeines Event-System und keinen Event-Kalender im Discord. Was es stattdessen gibt: Turniere (Web-Portal) und Scrims (Anmeldung über die Coaching-Website).
 - **In-Discord-Turniere:** Das alte Turniersystem im Bot (`/turnier`, `!balance`) wurde entfernt. Turniere laufen komplett über das Web-Portal.
 - **Bezahlter Invite / Invite-Warteschlange gegen Geld:** Der Deadlock-Invite ist immer kostenlos. Ko-fi ist freiwilliger Support, kein Kauf und keine Beschleunigung.
-- **AI-Moderation:** Eine automatische KI-Moderation, die selbstständig Nachrichten löscht oder bestraft, läuft aktuell nicht.
 - **Automatisches Clip-Posting:** Die Social-Media-Pipeline für Twitch-Clips ist gebaut, aber aktuell nicht aktiv — es wird nichts automatisch auf TikTok/YouTube/Instagram gepostet.
 
 ## Befehle, die es nicht gibt

@@ -37,7 +37,3 @@ Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Thre
 - Es gibt KEINE Onboarding-Option „Invite/Betazugang" und keinen Invite-Befehl — einfach im Kanal fragen.
 - Ein Streamer-Setup-Flow im Onboarding existiert aktuell nicht (nur Hinweise); Streamer-Themen laufen über das Twitch-Dashboard.
 
-## Für Devs (knapp)
-- Rust: `dl-community/src/onboarding.rs` (+ `onboarding_steps.json`), `ai_onboarding.rs`, `tags_ui.rs`, `reaction_roles.rs`, Invite-Lounge-Watcher in `dl-community`; automatisierter Invite-Pfad im Steam-Bot: `steam-flows/src/betainvite/`
-- Der User-Slash-Command `/betainvite` wurde entfernt; der Funnel ist nur noch über den Panel-Button (`betainvite:panel:start`, Admin: `/publish_betainvite_panel`) erreichbar
-- Kanalnamen live: <#1464736918951432222>, <#1398021105339334666> (Server-as-Code-Renames)

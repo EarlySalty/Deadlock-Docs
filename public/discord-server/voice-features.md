@@ -38,6 +38,3 @@ TempVoice speichert Owner, Presets, Bans, Lurker-Status und Tag-Filter serversei
 - Voice-Punkte zählen nur für aktive Sessions. Standardmäßig müssen genug aktive Leute im Call sein; reines Stumm-Rumsitzen zählt nicht dauerhaft mit.
 - Voice-Feedback- oder Steam-Link-DMs können ausbleiben, wenn deine DMs geschlossen sind, du ein Privacy-Opt-out gesetzt hast oder eine ausgenommene Rolle trägst.
 
-## Für Devs (knapp)
-- Rust live: `dl-voice/src/tempvoice/` (engine + interface: Staging, Buttons, Presets, Tag-Filter, Owner-Claim-Regeln), `router.rs` (Router-VC, Smart-Routing), `adaptive.rs` (New-Player-/Off-Topic-/Sortier-Automatik), `rank.rs` (Anker, Subrang-Fenster ±9, Overwrites), `status.rs` (Kanalstatus), `stats.rs` (`!vstats`, Leaderboards, Admin-Debug), `feedback.rs` (Feedback-DM + Modal), `nudge.rs` (Steam-Link-DM), `tracker.rs` (Sessions, respektiert Privacy-Opt-out)
-- Admin: Panel-Post per `!tvpanel`/`!tempvoicepanel`/`!tvinterface`

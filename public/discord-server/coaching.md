@@ -32,7 +32,3 @@ Das Website-Formular speichert die Anfrage; eine Spiegelung postet sie als Embed
 - Es gibt keine feste Garantie für sofortige Verfügbarkeit. Coaches sind Community-Mitglieder und keine 24/7-Hotline.
 - Der sichtbare Ablauf ist bewusst simpel: Website-Formular, Coach meldet sich, Session im Server, danach Feedback.
 
-## Für Devs (knapp)
-- Rust live: `dl-community/src/coaching_requests.rs` (Spiegelung, Claim/Release/Abort, Status, Survey, Sperren), `coaching.rs` (Coach-Rollen-Sync + Notification-Polling)
-- Website: `builds/backend-rust/src/routes/coaching.rs` + `platform.rs` (Coach-Plattform), Frontend `dl-coaching/` (Anfrage-Seite `/anfrage`, Scrim-Anmeldung)
-- Wichtige DB-Tabellen: Coaching-Anfragen/Sessions/Sperren zentral in Postgres; Anfragen entstehen auf der Website, nicht mehr im Discord-Modal
