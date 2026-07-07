@@ -20,6 +20,9 @@ kostenlos
 ## Was passiert technisch (kurz)?
 Die Tierlist zieht regelmäßig externe Hero-Stats (standardmäßig alle 8 Stunden), bildet daraus pro Bucket Snapshots und ordnet Heroes anhand konfigurierter Winrate-Schwellen in Tiers ein — Heroes mit zu wenigen Matches (Standard: unter 500) fallen raus. Hinterlegte Builds und Streamer-Verknüpfungen werden zu jedem Hero mit ausgeliefert; Build-Votes werden getrennt gespeichert (mit kurzem Spam-Schutz von 5 Sekunden pro Absender).
 
+## Wer ist gerade der beste Held? Welcher Hero hat die höchste Winrate?
+Eine einzelne "beste" Antwort gibt es nicht, das hängt vom Patch und vom Rang-Bereich ab. Genau dafür gibt es aber die Tierlist auf der Website unter `/builds/`: Dort stehen alle Heroes mit aktueller Winrate, Match-Zahl und Tier-Einstufung, wahlweise für alle Ränge oder die hohen Brackets. Wer aktuell oben steht (S-Tier), ist die datengetriebene Antwort auf "bester Held" beziehungsweise "bester Champ". Die Zahlen aktualisieren sich mehrmals täglich.
+
 ## Grenzen & häufige Fragen
 - Die Tierlist ist datengetrieben und patchabhängig. Nach einem frischen Patch können sich Einstufungen deutlich verschieben.
 - Build-Votes sind ein Signal, aber kein Garant dafür, dass ein Build für jeden Rang oder jeden Spielstil optimal ist — und sie stehen in der Sortierung hinter der redaktionellen Reihenfolge.
