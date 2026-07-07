@@ -23,7 +23,8 @@ Diese Seite ist bewusst eine Liste von Dingen, die es auf dem Server **nicht** g
 - **`/faqclose`** — FAQ-Chats schließt man über den `Chat beenden`-Button.
 - **`/link`** — die Steam-Verknüpfung läuft über `/account_verknüpfen` oder das Panel in <#1398021105339334666>.
 - **`/turnier` und `!balance`** — entfernt, siehe oben.
-- **Ein „stopp"-Schlüsselwort** — es gibt aktuell kein Freitext-Kommando, um Bot-Nachrichten abzubestellen. Die echten Wege: `/datenschutz` (Daten + globales Opt-out), `/retention-optout` (keine „Wir vermissen dich"-DMs), Turnier-DM-Abbestellung im Turnier-Portal.
+- **`!brain` per DM** — `!brain` funktioniert nur in den dafür freigegebenen Server-Kanälen, nicht in Direktnachrichten. In DMs beantwortet der Bot Fragen einfach direkt, ganz ohne Befehl.
+- **Ein globales „stopp"-Schlüsselwort** — für die meisten Bot-Nachrichten gibt es kein Freitext-Kommando; die Wege sind `/datenschutz` (Daten + globales Opt-out), `/retention-optout` (keine „Wir vermissen dich"-DMs) und die Turnier-DM-Abbestellung im Turnier-Portal. Ausnahme: Dem Bot in den DMs kannst du tatsächlich „stopp" schreiben (er meldet sich dann nicht mehr von selbst) oder „vergiss mich" (löscht Gespräch und Gemerktes sofort).
 
 ## Abläufe, die anders sind, als oft vermutet
 

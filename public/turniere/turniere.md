@@ -89,3 +89,6 @@ Turnier-Benachrichtigungen per Discord-DM kannst du im Portal selbst abbestellen
 - Einladungen **annehmen** und Bewerbungen **einreichen** geht nur, solange der Turnierstatus es erlaubt; **ablehnen** geht jederzeit.
 
 Kurz technisch: Das Portal speichert Profile, Signups, Einladungen, Bewerbungen, Check-ins und Matchbäume serverseitig. Rank- und Steam-Bezüge werden beim Anmelden oder Teamwechsel nachgeladen, damit das Bracket und das öffentliche Profil konsistent bleiben.
+
+## Wann findet das nächste Turnier statt?
+Feste Termine gibt es hier bewusst nicht, die veralten sofort. Aktuelle und kommende Turniere findest du an zwei Stellen: in den Server-Ankündigungen <#1371952264620806214> und auf den öffentlichen Turnierseiten des Web-Portals. Wenn dort nichts angekündigt ist, steht der nächste Termin schlicht noch nicht fest.

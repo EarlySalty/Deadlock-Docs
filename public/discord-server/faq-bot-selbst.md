@@ -20,6 +20,9 @@ Dabei kümmert er sich nur um sach- und problembezogene Anliegen, also echte Fra
 
 Wichtig ist der Zeitrahmen: FAQ-Sessions bleiben 24 Stunden aktiv. Danach schließt der Bot sie automatisch.
 
+## Geht das auch per DM?
+Ja. Derselbe Bot beantwortet Fragen auch direkt in Direktnachrichten, ganz ohne Befehl: einfach anschreiben. Details dazu stehen in der Doku „Der Bot in deinen DMs (Concierge)".
+
 ## Kosten / Premium
 kostenlos
 
