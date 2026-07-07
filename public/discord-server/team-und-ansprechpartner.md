@@ -13,23 +13,23 @@ Wer steckt hinter der Deutschen Deadlock Community? Hier die Leute, die den Serv
 
 ## Moderatoren
 Sie kümmern sich um Regeln, Ordnung und Konflikte:
-- **ZeRo** (Discord: `.zerozz`)
+- **Dr. Gunaarr** (Discord: `biggoon`)
 - **Mille** (Discord: `mille9399`)
 - **PHM** (Discord: `.prettyhatemachine`)
-- **Dr. Gunaarr** (Discord: `biggoon`)
+- **ZeRo** (Discord: `.zerozz`)
 
 ## Community-Moderatoren
 Sie unterstützen die Moderation und sind nah an der Community:
-- **Nimo** (Discord: `nimofuchs`)
 - **FR4Gm1nt** (Discord: `fr4gm1nt`)
+- **Nimo** (Discord: `nimofuchs`)
 
 ## Coaches
 Sie geben kostenloses Coaching für alle Ränge (Anmeldung über <#1494373349944459355> oder die Coaching-Seite der Website):
+- **deniz** (Discord: `denizdagoat`)
+- **Gara** (Discord: `garabash.`)
+- **KubiKubiKubi** (Discord: `_qb_`)
 - **Leo** (Discord: `roovvleo`), organisiert auch die Scrims
 - **M1lano** (Discord: `milanoqsek`)
-- **deniz** (Discord: `denizdagoat`)
-- **KubiKubiKubi** (Discord: `_qb_`)
-- **Gara** (Discord: `garabash.`)
 - **Nani** selbst coacht ebenfalls
 
 ## Paten
