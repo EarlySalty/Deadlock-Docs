@@ -16,6 +16,9 @@ Früher lief bei den Scrims alles manuell: Anmeldung als Freitext, Teams von Han
 
 Du meldest dich einmal strukturiert an, die Coaches bauen daraus die Teams und starten das Match mit einem Klick — der Bot erstellt die Custom-Lobby, lädt alle ein und trägt hinterher den Sieger ein.
 
+## Wann ist das nächste Scrim?
+Feste Scrim-Termine stehen nicht in dieser Doku, die plant das Coaching-Team nach den Verfügbarkeiten aus den Anmeldungen. Konkrete Ansagen kommen in den Scrim-Ankündigungskanal <#1521522998199324853>. Wenn du im Pool bist (einmal `/scrim-signup` ausfüllen), wirst du eingeplant und dein Team-Channel bekommt rechtzeitig den Join-Code.
+
 ## 🎮 Für Spieler — so meldest du dich an
 
 1. Tippe `/scrim-signup` in den Chat. Es öffnet sich ein kurzes Formular.
