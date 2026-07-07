@@ -16,10 +16,12 @@ Der „Deutsche Deadlock Community Bot" beantwortet dir Fragen direkt per DM. Du
 - Dir auf Wunsch einen menschlichen Paten vermitteln, der dich persönlich begleitet.
 - Er merkt sich euer Gespräch, du kannst also normal Rückfragen stellen.
 
+## Was kann er?
+- Auch Spielfragen zu Deadlock (Helden, Items, Builds, Mechaniken) beantwortet er direkt in der DM, mit dem Wissen aus dem Deadlock-Brain. Ein `!brain`-Befehl ist in DMs nicht nötig, einfach fragen; wer ihn trotzdem tippt, bekommt ganz normal seine Antwort.
+
 ## Was kann er nicht?
 - Konkrete Termine (zum Beispiel „wann ist das nächste Turnier?") kennt er nicht. Termine stehen in den Ankündigungen <#1371952264620806214> und im Turnier-Portal auf der Website.
 - Wenn er etwas nicht sicher weiß, sagt er das ehrlich und verweist auf <#1426220702054355077>, wo echte Menschen antworten. Er erfindet keine Antworten.
-- `!brain` (Spielwissen zu Helden, Items und Builds) funktioniert NICHT per DM, sondern nur in den dafür freigegebenen Server-Kanälen.
 
 ## Datenschutz und Abschalten
 - Schreib dem Bot „stopp", dann meldet er sich nicht mehr von selbst. Antworten tut er dir weiterhin, wenn du ihn anschreibst.
