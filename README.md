@@ -17,6 +17,7 @@ internal/   Dev-/Admin-Wissen — Architektur, Runbooks, Cross-System (NIE öffe
 - **public/ ist öffentlich erreichbar** (FAQ-Bot liefert daraus wörtlich): keine Admin-Pfade, keine Schwellwerte, keine internen URLs/Ports, keine Secrets. Vor jedem Merge nach `public/`: Redaction-Audit.
 - **internal/ und public/ mischen nie.** Ein Dokument gehört genau in eine Welt; der Wissens-Dienst baut zwei getrennte Indizes.
 - Format: Markdown mit Frontmatter (`title`, `tags`, `stand`, `quelle`). Deutsch, locker-nüchtern, konkret.
+- Frontmatter ist Metadaten für den Dienst und wird **nie** in Antworten ausgeliefert (`quelle` nennt Repo-Pfade).
 - Doku-Änderung gehört zu jeder Code-Änderung dazu (Anti-Drift-Schritt im Standardablauf).
 
 ## Konsumenten

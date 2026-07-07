@@ -14,7 +14,8 @@ Ziel: Ein Wissens-SSOT für alles + FAQ-Bot, der Community-Fragen automatisch be
 
 ## Phasen
 
-- **P1 (läuft):** Repo + User-Wissen migrieren. Quellen: Deadlock-Bots/docs (User-Dateien, werden verschoben), docs/support-kb (30 HTML → Markdown, verschoben), Deadlock-Twitch-Bot/rust/knowledge/bot (kopiert — tb-knowledge konsumiert die Originale live, Umschalten P4). Redaction-Audit über public/.
-- **P2:** dl-knowledge-Dienst + Public-API (`POST /ask` → `{answerable, answer, sources}`) + Discord-Shadow-Mode → Live.
+- **P1 (läuft):** Repo + User-Wissen migrieren. Quellen: Deadlock-Bots/docs (User-Dateien), docs/support-kb (30 HTML → Markdown, Original gelöscht — kein Konsument), Deadlock-Twitch-Bot/rust/knowledge/bot (kopiert). Redaction-Audit über public/ (LEAK-Funde → „Für Devs"-Sektionen nach internal/ abgespalten).
+  **Wichtig:** dl-bot lädt `Deadlock-Bots/docs/*.md` zur Laufzeit als FAQ-Grounding (`load_docs`), tb-knowledge lädt `rust/knowledge/`. Beide Originale bleiben bis zur Umstellung; bis dahin Änderungen zuerst hier, dann spiegeln.
+- **P2:** dl-knowledge-Dienst + Public-API (`POST /ask` → `{answerable, answer, sources}`) + Discord-Shadow-Mode → Live. Dabei `load_docs`-Grounding auf das Deadlock-Docs-Checkout umstellen und die gespiegelten Originale in Deadlock-Bots/docs löschen.
 - **P3:** Dev-Doku aller Repos → internal/, Internal-Index + Admin-Endpoint, Anti-Drift-Hook + CLAUDE.md-Regel.
 - **P4:** Website-FAQ + Twitch In-App vom selben Endpoint; tb-knowledge auf Deadlock-Docs umstellen; Originale löschen.
