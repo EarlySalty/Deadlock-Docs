@@ -1,6 +1,6 @@
 ---
 title: "Tierlist und Builds"
-tags: [discord-server, tierlist, builds]
+tags: [discord-server, tierlist, builds, winrate, bester, held, hero, meta]
 stand: 2026-07-07
 quelle: "Deadlock-Bots/docs/tierlist-und-builds.md"
 ---
