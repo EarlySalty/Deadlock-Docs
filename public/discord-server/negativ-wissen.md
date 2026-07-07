@@ -33,6 +33,7 @@ Diese Seite ist bewusst eine Liste von Dingen, die es auf dem Server **nicht** g
 - **Kein Coaching-Formular im Discord:** Coaching-Anfragen laufen über die Website (Discord-Login + Formular). Der Discord-Button führt nur dorthin.
 - **Kein Streamer-Setup im Onboarding:** Streamer-Themen laufen über das Twitch-Streamer-Dashboard, nicht über den Onboarding-Flow.
 - **Kein automatischer Mitspieler-Vorschlag für laufende Lanes:** Der Bot schlägt in <#1376335502919335936> Lobbys vor, wenn du NICHT im Voice bist. Ein aktives Anwerben einzelner Spieler für deine bestehende Lane gibt es derzeit nicht.
+- **Kein Patch-Kalender im Bot:** Wann der letzte oder nächste Deadlock-Patch kam beziehungsweise kommt, weiß der Bot nicht. Die aktuellen Patchnotes stehen immer auf Deutsch in <#1326973956825284628>, dort siehst du auch das Datum des letzten Patches.
 - **Der Bot fragt nie nach deinem Steam-Passwort:** Die Verknüpfung läuft über den offiziellen Steam-Login (OpenID). Wer nach Passwörtern oder Codes fragt, ist nicht unser Bot.
 
 ## Wie mit Fragen dazu umgehen
