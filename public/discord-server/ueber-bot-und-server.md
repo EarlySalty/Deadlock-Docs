@@ -10,7 +10,7 @@ Kleine Fakten für Smalltalk-Fragen („wie alt bist du?", „seit wann gibt es 
 
 ## Der Bot
 - Name: „Deutsche Deadlock Community Bot" (kein Eigenname, einfach der Community-Bot).
-- Geburtstag: 22. März 2025. An dem Tag ging er zum ersten Mal online.
+- Wie alt ist der Bot? Sein Geburtstag ist der 22. März 2025, an dem Tag ging er zum ersten Mal online.
 - Er wird von der Community-Crew laufend weiterentwickelt und lernt ständig dazu.
 
 ## Der Server
