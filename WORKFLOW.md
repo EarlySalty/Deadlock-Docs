@@ -2,7 +2,34 @@
 
 - 2026-07-07: Branch `feat/p1-migration` von `main` erstellt.
 - 2026-07-07: Quellen inventarisiert: Top-Level-Docs, `support-kb` HTML, Twitch-Bot Knowledge.
-- 2026-07-07: Commit/Push werden wegen verbindlicher Worker-Regel nicht ausgefuehrt; Änderungen bleiben uncommitted.
+- 2026-07-07: Commit/Push werden wegen verbindlicher Worker-Regel nicht ausgeführt; Änderungen bleiben uncommitted.
 - 2026-07-07: 63 Markdown-Zieldateien unter `public/` erzeugt.
 - 2026-07-07: Interne Support-KB-Links von `.html` auf neue `.md`-Ziele angepasst.
 - 2026-07-07: Verifiziert: Quelle/Ziel 63 Dateien, kein leeres Ziel, Frontmatter vollständig, MD-Body-Kopien stimmen, 3 HTML-Stichproben OK.
+- 2026-07-07: Patchnotes-Bot-Doku begonnen: Styleguide gelesen, Quellrepo nur gelesen, Zielverzeichnis `internal/patchnotes-bot/` angelegt.
+- 2026-07-07: Patchnotes-Bot-Doku geschrieben und geprüft: 5 Markdown-Dateien, Frontmatter vollständig, Codepoint-Check ohne Treffer.
+- 2026-07-07: TradingBot-interne Dev-Doku gestartet; Styleguide gelesen, Mainline-Code wird aus `/home/naniadm/Documents/TradingBot` gegen alte Doku abgegrenzt.
+- 2026-07-07: TradingBot-Doku unter `internal/tradingbot/` geschrieben: Übersicht, Architektur, Datenmodell, Betrieb, Integrationen; UTF-8-/Frontmatter-/Secret-Checks bestanden.
+- 2026-07-07: Worker 4 gestartet: interne Dev-Doku für `Deadlock-Turniere`; Styleguide gelesen; keine Git-Befehle.
+- 2026-07-07: Worker 4 erzeugt 6 Dateien unter `internal/deadlock-turniere/`; aktiven Python-User-Service und parallelen Rust-Pfad getrennt dokumentiert.
+- 2026-07-07: Worker 4 verifiziert: Frontmatter vollständig; Codepoint-Check für `internal/deadlock-turniere` leer.
+- 2026-07-07: Worker 3 gestartet: kuratierte interne Doku für `Deadlock-Twitch-Bot`, Ziel `internal/deadlock-twitch-bot/`, Quelle Code statt Alt-Doku.
+- 2026-07-07: Worker 1 erstellt interne Dev-Doku für `/home/naniadm/Documents/Deadlock-Bots` nur unter `internal/deadlock-bots/`; Quelle bleibt unverändert.
+- 2026-07-07: Worker 1 hat Rust-Binaries, Workspace-Crates, zentrale Migrationen, Service-Wrapper und Integrations-Clients aus `Deadlock-Bots` gelesen; alte Docs bleiben nur Verdachtsmaterial.
+- 2026-07-07: Worker 1 hat acht kuratierte interne Dateien unter `internal/deadlock-bots/` erstellt und vorhandene Splitter mit `eingearbeitet in ...` markiert.
+- 2026-07-07: Parallel Worker 2 gestartet: Styleguide gelesen, Ziel `internal/deadlock-steam-bot/` für kuratierte Steam-Bot-Doku reserviert.
+- 2026-07-07: Deadlock-Steam-Bot inventarisiert: Rust-Binaries, systemd-Units, Postgres-Schema, Flow-Module und veraltete Alt-Doku-Funde belegt.
+- 2026-07-07: Parallel Worker 2 verifiziert: 6 Markdown-Dateien unter `internal/deadlock-steam-bot/`, Frontmatter vollständig, Codepoint-Check ohne Treffer.
+- 2026-07-07: Parallel Worker 6 gestartet; Styleguide gelesen, Website-Repo wird nur lesend inventarisiert.
+- 2026-07-07: Website-Doku unter `internal/website/` erstellt; Altdatei `website-portale-technik.md` als eingearbeitet markiert.
+- 2026-07-07: Website-Doku verifiziert: 7 Markdown-Dateien, Frontmatter vorhanden, Codepoint-Check leer.
+- 2026-07-07: Worker 3 hat 8 kuratierte Dateien unter `internal/deadlock-twitch-bot/` erstellt; Quellrepo blieb unverändert.
+- 2026-07-07: Worker 3 verifiziert: Codepoint-Check für `internal/deadlock-twitch-bot/` leer; 2 `UNSICHER:`-Stellen bleiben markiert.
+- 2026-07-07: Parallel Worker 3 gestartet: Cross-System-Betriebsdoku; Styleguide und komplette systemd-User-Units inklusive Drop-ins gelesen, keine Git-Befehle.
+- 2026-07-07: Parallel Worker 3 erstellt 5 Dateien unter `internal/betrieb/` zu systemd-Landkarte, Infisical-Secrets, zentraler DB, Caddy-Routing und Deploy.
+- 2026-07-07: Parallel Worker 3 verifiziert: Frontmatter vollständig, Codepoint-/Umlaut-Pflicht-Check leer, kein `bericht.md`, ausgeschlossene Bereiche nicht dokumentiert.
+- 2026-07-07: Parallel Worker 1 gestartet: Rust-first-Rewrite für `internal/deadlock-turniere/`; Styleguide gelesen; keine Git-Befehle.
+- 2026-07-07: Parallel Worker 2 Rust-first-Sweep gestartet: Styleguide gelesen; Ziel nur `internal/deadlock-bots/`, `internal/deadlock-steam-bot/`, `internal/deadlock-twitch-bot/`, `internal/website/`; keine Git-Befehle.
+- 2026-07-07: Parallel Worker 2 Rust-first-Sweep abgeschlossen: systemd-User-Units vollständig gelesen, Python-/Fallback-Frames auf Rust-first korrigiert, Codepoint-/Frontmatter-Checks leer.
+- 2026-07-07: Parallel Worker 1 abgeschlossen: 6 Dateien unter `internal/deadlock-turniere/` Rust-first umgeschrieben; Python bleibt nur als Legacy-Absatz in `architektur.md`.
+- 2026-07-07: Parallel Worker 1 verifiziert: Frontmatter/Stand vollständig, `UNSICHER` entfernt, Codepoint-Pflicht-Check für Zielordner und Workflow leer.
