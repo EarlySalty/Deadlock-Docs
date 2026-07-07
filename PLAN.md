@@ -12,6 +12,10 @@ Ziel: Ein Wissens-SSOT für alles + FAQ-Bot, der Community-Fragen automatisch be
 - Discord: Auto-Antwort in Support-Foren-Threads **nur** bei Confidence (answerable=true), sonst Schweigen. Shadow-Mode (Log-Kanal-Review) vor Live.
 - Anti-Drift: Pflichtschritt im Standardablauf + Hook-Erinnerung + Doku-Pfad in Worker-Aufträgen (P3).
 
+## Ausgeschlossene Repos
+
+TradingBot, Deadlock-Brain und AI-Assistant/AI-Coach sind rein interne Projekte: **keine Doku in diesem Repo, weder public noch internal.** Erwähnungen sichtbarer Discord-Features (z. B. `!brain`-Befehl in der Server-Doku) sind davon unberührt.
+
 ## Phasen
 
 - **P1 (läuft):** Repo + User-Wissen migrieren. Quellen: Deadlock-Bots/docs (User-Dateien), docs/support-kb (30 HTML → Markdown, Original gelöscht — kein Konsument), Deadlock-Twitch-Bot/rust/knowledge/bot (kopiert). Redaction-Audit über public/ (LEAK-Funde → „Für Devs"-Sektionen nach internal/ abgespalten).

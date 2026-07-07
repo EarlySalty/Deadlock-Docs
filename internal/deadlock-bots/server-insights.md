@@ -4,6 +4,8 @@ tags: [discord-server, insights, einblicke, admin, dashboard]
 stand: 2026-07-07
 quelle: "Deadlock-Bots/docs/server_insights.md"
 ---
+eingearbeitet in datenmodell.md
+
 # Server-Einblicke (Admin-Dashboard)
 
 Eigene Nachbildung der Discord-Server-Insights auf Basis unserer Bot-Daten.
