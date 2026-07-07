@@ -103,6 +103,8 @@ def extract_members(response, role_name):
         out.append(
             {"display_name": display_name, "username": username, "user_id": user_id}
         )
+    # Discord garantiert keine stabile Reihenfolge; ohne Sortierung gäbe es Scheindiffs
+    out.sort(key=lambda member: member["display_name"].lower())
     return out
 
 
@@ -178,6 +180,12 @@ def render_from_discord():
     )
 
 
+def without_stand_line(text):
+    return "\n".join(
+        line for line in text.splitlines() if not line.startswith("stand: ")
+    )
+
+
 def diff(old, new):
     return "".join(
         difflib.unified_diff(
@@ -213,10 +221,11 @@ def main(argv=None):
 
     rendered = render_from_discord()
     old = DOC_PATH.read_text(encoding="utf-8") if DOC_PATH.exists() else ""
-    patch = diff(old, rendered)
-    if not patch:
+    # stand:-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
+    if without_stand_line(old) == without_stand_line(rendered):
         print("unverändert")
         return 0
+    patch = diff(old, rendered)
 
     if args.dry_run:
         print(patch, end="")

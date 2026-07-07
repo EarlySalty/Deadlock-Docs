@@ -34,10 +34,18 @@ class TeamDocTest(unittest.TestCase):
         self.assertEqual(
             update_team_doc.extract_members(response, "Testrolle"),
             [
-                {"display_name": "Nick", "username": "user1", "user_id": "1"},
                 {"display_name": "Global", "username": "user2", "user_id": "2"},
+                {"display_name": "Nick", "username": "user1", "user_id": "1"},
                 {"display_name": "user3", "username": "user3", "user_id": "3"},
             ],
+        )
+
+    def test_nur_datumswechsel_gilt_als_unveraendert(self):
+        alt = 'titel\nstand: 2026-07-07\ninhalt'
+        neu = 'titel\nstand: 2026-07-08\ninhalt'
+        self.assertEqual(
+            update_team_doc.without_stand_line(alt),
+            update_team_doc.without_stand_line(neu),
         )
 
     def test_extract_members_rejects_empty_role(self):
