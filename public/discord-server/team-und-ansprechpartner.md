@@ -2,11 +2,11 @@
 title: "Das Team hinter dem Server (Owner, Mods, Coaches)"
 tags: [discord-server, team, owner, moderatoren, mods, coaches, ansprechpartner, wer]
 stand: 2026-07-07
-quelle: "Discord-Rollen der Deutschen Deadlock Community, Stand 2026-07-07"
+quelle: "Discord-Rollen der Deutschen Deadlock Community, automatisch aktualisiert"
 ---
 # Das Team hinter dem Server
 
-Wer steckt hinter der Deutschen Deadlock Community? Hier die Leute, die den Server vertreten und am Laufen halten.
+Wer steckt hinter der Deutschen Deadlock Community? Hier die Leute, die den Server vertreten und am Laufen halten. Diese Liste wird automatisch aus den Discord-Rollen aktualisiert.
 
 ## Owner und Gründer
 - **Nani** (Discord: `earlysalty`) hat den Server gegründet und betreibt ihn. Er ist auch als **Salty** oder **EarlySalty** bekannt, streamt unter dem Namen EarlySalty auf Twitch und baut die Bots und die Website der Community.
@@ -16,7 +16,7 @@ Sie kümmern sich um Regeln, Ordnung und Konflikte:
 - **ZeRo** (Discord: `.zerozz`)
 - **Mille** (Discord: `mille9399`)
 - **PHM** (Discord: `.prettyhatemachine`)
-- **Biggoon** alias Dr. Gunaarr (Discord: `biggoon`)
+- **Dr. Gunaarr** (Discord: `biggoon`)
 
 ## Community-Moderatoren
 Sie unterstützen die Moderation und sind nah an der Community:
@@ -26,10 +26,10 @@ Sie unterstützen die Moderation und sind nah an der Community:
 ## Coaches
 Sie geben kostenloses Coaching für alle Ränge (Anmeldung über <#1494373349944459355> oder die Coaching-Seite der Website):
 - **Leo** (Discord: `roovvleo`), organisiert auch die Scrims
-- **deniz** (Discord: `denizdagoat`)
 - **M1lano** (Discord: `milanoqsek`)
-- **qb** alias KubiKubiKubi (Discord: `_qb_`)
-- **Garabash** alias Gara (Discord: `garabash.`)
+- **deniz** (Discord: `denizdagoat`)
+- **KubiKubiKubi** (Discord: `_qb_`)
+- **Gara** (Discord: `garabash.`)
 - **Nani** selbst coacht ebenfalls
 
 ## Paten
