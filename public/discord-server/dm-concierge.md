@@ -15,8 +15,6 @@ Der „Deutsche Deadlock Community Bot" beantwortet dir Fragen direkt per DM. Du
 - Eine Vorstellung (Steckbrief) für dich vorformulieren und nach deiner Freigabe im passenden Kanal posten.
 - Dir auf Wunsch einen menschlichen Paten vermitteln, der dich persönlich begleitet.
 - Er merkt sich euer Gespräch, du kannst also normal Rückfragen stellen.
-
-## Was kann er?
 - Auch Spielfragen zu Deadlock (Helden, Items, Builds, Mechaniken) beantwortet er direkt in der DM, mit dem Wissen aus dem Deadlock-Brain. Ein `!brain`-Befehl ist in DMs nicht nötig, einfach fragen; wer ihn trotzdem tippt, bekommt ganz normal seine Antwort.
 
 ## Was kann er nicht?
