@@ -1,7 +1,7 @@
 ---
 title: "Das Team hinter dem Server (Owner, Mods, Coaches)"
 tags: [discord-server, team, owner, moderatoren, mods, coaches, ansprechpartner, wer]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Discord-Rollen der Deutschen Deadlock Community, automatisch aktualisiert"
 ---
 # Das Team hinter dem Server
@@ -30,6 +30,7 @@ Sie geben kostenloses Coaching für alle Ränge (Anmeldung über <#1494373349944
 - **KubiKubiKubi** (Discord: `_qb_`)
 - **Leo** (Discord: `roovvleo`), organisiert auch die Scrims
 - **M1lano** (Discord: `milanoqsek`)
+- **yourmomgosky** (Discord: `yourmomgosky`)
 - **Nani** selbst coacht ebenfalls
 
 ## Paten
