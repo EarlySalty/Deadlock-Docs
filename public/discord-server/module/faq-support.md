@@ -1,16 +1,16 @@
 ---
-title: "FAQ & Support-Chat"
+title: "Concierge & Support-Hilfe"
 tags: [discord-server, faq, chat]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/support-kb/modules/faq-support.html"
 ---
-# FAQ & Support-Chat
+# Concierge & Support-Hilfe
 
-Der FAQ-/Support-Chat gibt Mitgliedern einen privaten Kanal, in dem der Bot Fragen anhand der Server-Doku beantwortet. Antworten werden vor der Ausgabe geprüft, und wenn nichts Passendes gefunden wird, schweigt der Bot bewusst.
+Der Concierge beantwortet Server-, Bot- und Concierge-Fragen anhand der Server-Doku. In Support-Tickets hilft er nur automatisch, wenn die Doku eine sichere Antwort hergibt.
 
 ## Was Mitglieder merken
 
-Ein Mitglied startet über das FAQ-/Support-Panel eine Session und bekommt dafür einen eigenen, privaten Textkanal. Dort kann es Fragen stellen und erhält Antworten, die aus der Doku stammen und von einem Sprachmodell formuliert werden. Die Session lässt sich per Schliessen-Button beenden und schliesst sonst nach längerer Inaktivität automatisch. Manche Antworten kommen kurz, manche werden zurückgehalten, und wenn es keine klare Antwort gibt, meldet sich stattdessen menschlicher Support.
+Ein Mitglied stellt allgemeine Fragen in <#1491953161747955853> oder direkt per DM an den Bot. Bei Support- oder Moderationsfällen öffnet es ein Ticket in <#1459628609705738539>. Dort kann der Concierge auf die erste Nachricht antworten, aber nur wenn er sicher helfen kann; sonst übernimmt menschlicher Support.
 
 ## Mögliche Ausgänge
 
@@ -22,29 +22,27 @@ Ein Mitglied startet über das FAQ-/Support-Panel eine Session und bekommt dafü
 
 | Zustand | Was du siehst | Was es bedeutet | Sicherer nächster Schritt |
 | --- | --- | --- | --- |
-| FAQ-Chat offen | Privater Textkanal in der FAQ-Kategorie mit Bot-Antworten und einem Schliessen-Button | Eine FAQ-Session läuft; Antworten stammen aus der Doku und einem Sprachmodell | Frage stellen oder mit dem Schliessen-Button beenden |
-| FAQ-Session abgelaufen | Der Kanal wird nach längerer Inaktivität automatisch geschlossen | Die Session wurde wegen längerer Inaktivität beendet | Über das Panel eine neue Session starten |
+| Concierge-Antwort | Antwort vom Bot in DM, Fragekanal oder Ticket | Die Frage war aus der Server-Doku beantwortbar | Bei Bedarf nachfragen |
+| Keine Bot-Antwort im Ticket | Der Concierge bleibt still | Es gab keine sichere Antwort aus der Doku oder das Anliegen braucht Menschen | Auf das Team warten |
 
 ## So läuft es ab
 
-1. Mitglied klickt den FAQ-Panel-Button oder schreibt die erste Nachricht in einem neuen Ticket-Kanal
-2. Ein privater Kanal wird eröffnet
-3. Fragen werden gegen die Doku geprüft und per Sprachmodell beantwortet
-4. Antworten durchlaufen eine Redigier-/Sicherheitsprüfung, bevor sie erscheinen
-5. Die Session schliesst per Button oder automatisch nach längerer Inaktivität
+1. Mitglied stellt eine Frage in <#1491953161747955853>, per DM oder als erste Nachricht im Ticket
+2. Die Frage wird gegen die Server-Doku geprüft
+3. Nur sichere Antworten erscheinen
+4. Bei Unsicherheit bleibt der Bot still oder verweist auf Menschen
 
 ## Typische Meldungen & Fehler
 
 | Signal | Was es bedeutet | Nächster Schritt |
 | --- | --- | --- |
-| Antwort wurde zurückgehalten | Eine erzeugte Antwort wurde nicht ausgegeben, weil sie möglicherweise interne oder fremde Daten enthalten hätte | Frage anders formulieren oder über ein Ticket den Support nutzen |
+| Antwort wurde zurückgehalten | Eine erzeugte Antwort wurde nicht ausgegeben, weil sie möglicherweise interne oder fremde Daten enthalten hätte | Frage anders formulieren oder bei Supportbedarf ein Ticket öffnen |
 | Bot antwortet nicht auf die Frage | Der Bot hat in der Doku keine klare Antwort gefunden und schweigt bewusst, statt zu raten | Im Ticket auf menschlichen Support warten |
 
 ### Das darf der Support sagen
 
-- Der Bot beantwortet im FAQ-Chat nur Fragen anhand der Server-Doku; findet er nichts Passendes, schweigt er bewusst und ein Mensch übernimmt.
-- Antworten werden vor der Ausgabe auf sensible Inhalte geprüft und können zurückgehalten werden - formulier die Frage dann anders oder öffne ein Ticket.
-- Wenn dein FAQ-Kanal automatisch geschlossen wurde, lag längere Inaktivität vor; starte einfach über das Panel eine neue Session.
+- Der Bot beantwortet nur Fragen anhand der Server-Doku; findet er nichts Passendes, schweigt er bewusst und ein Mensch übernimmt.
+- Antworten werden vor der Ausgabe auf sensible Inhalte geprüft und können zurückgehalten werden - formulier die Frage dann anders oder öffne bei Supportbedarf ein Ticket.
 - Der Support-Helfer kann für deine eigene Anfrage begrenzte, geschwärzte Infos heranziehen, aber niemals Daten fremder Accounts.
 
 ### Nie an Mitglieder weitergeben

@@ -1,12 +1,12 @@
 ---
 title: "Fehlerbehebung"
 tags: [discord-server, troubleshooting, fehlerbehebung]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/support-kb/support/troubleshooting.html"
 ---
 # Fehlerbehebung
 
-Die Anliegen, die im Support am häufigsten auftauchen — mit konkreten Selbsthilfe-Schritten. Löst ein Punkt das Problem nicht, gehört es ins Ticket, dann schaut das Team drauf.
+Die Anliegen, die im Support am häufigsten auftauchen — mit konkreten Selbsthilfe-Schritten. Löst ein Punkt das Problem nicht, gehört es ins Ticket in <#1459628609705738539>, dann schaut das Team drauf.
 
 ## Steam lässt sich nicht verbinden / Rang wird nicht erkannt
 
@@ -20,7 +20,7 @@ Mehrere Konten? `/steam links` zeigt das Hinterlegte. Rang anzeigen: `/steam_ran
 
 ## Kein Beta-Invite / Invite kommt nicht an
 
-1. **Im richtigen Kanal gefragt?** Eine nette Frage plus dein Steam-Freundescode. Ohne Code kann dich niemand einladen.
+1. **In <#1426220702054355077> gefragt?** Eine nette Frage plus dein Steam-Freundescode. Ohne Code kann dich niemand einladen.
 2. **Freundschaftsanfrage angenommen?** Wer einlädt, muss zuerst mit dir auf Steam befreundet sein.
 3. **„Limited User"?** Steam blockiert Playtest-Invites, solange auf dem Account noch kein Mindestumsatz erreicht ist. Das ist eine Valve-Regel, die niemand umgehen kann — sobald der Account die Voraussetzung erfüllt, klappt es.
 4. Ein Invite taucht nicht immer sofort auf; das kann etwas dauern. Später noch einmal in den Steam-Playtest-Einladungen nachsehen.
@@ -29,12 +29,12 @@ Mehrere Konten? `/steam links` zeigt das Hinterlegte. Rang anzeigen: `/steam_ran
 
 - Der Server-Rang wird automatisch vergeben, sobald der Steam-Account **verifiziert** verknüpft ist (siehe oben).
 - Bei Ranked-Lanes erscheint der Rang automatisch im Kanalnamen; Basis ist der Rang-Anker der Lane.
-- Ist der Rang gesetzt, aber die Lane bleibt gesperrt, kann eine Rang-Voraussetzung der Lane dahinterstecken — welche genau, ist nicht öffentlich. Dann eine passende Lane wählen oder im Ticket nachfragen.
+- Ist der Rang gesetzt, aber die Lane bleibt gesperrt, kann eine Rang-Voraussetzung der Lane dahinterstecken — welche genau, ist nicht öffentlich. Dann eine passende Lane wählen oder im Ticket in <#1459628609705738539> nachfragen.
 
 ## Nachricht wurde entfernt / Timeout oder Bann kassiert
 
 - Im überwachten Kanal prüft der Bot Beiträge automatisch. Klare schwere Verstöße werden sofort entfernt und mit Timeout oder Bann geahndet; weniger eindeutige Fälle gehen als Vorschlag ans Team.
-- Jede automatische Aktion kann das **Team wieder aufheben.** Bei vermutetem Fehler: kurz im Ticket schildern — ein Mensch prüft es. Warum genau geahndet wurde, ist nicht im Detail einsehbar.
+- Jede automatische Aktion kann das **Team wieder aufheben.** Bei vermutetem Fehler: kurz im Ticket in <#1459628609705738539> schildern — ein Mensch prüft es. Warum genau geahndet wurde, ist nicht im Detail einsehbar.
 - In „Ragebaiter-Free"-Voice-Bereichen kommt bei Provokationen zuerst eine freundliche Hinweis-DM, noch keine Strafe.
 
 ## Coaching: Zugang, Ablauf, Status

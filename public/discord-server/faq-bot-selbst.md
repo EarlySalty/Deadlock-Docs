@@ -1,40 +1,36 @@
 ---
-title: "FAQ-Bot selbst"
+title: "Concierge und automatische Hilfe"
 tags: [discord-server, faq, selbst]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/faq-bot-selbst.md"
 ---
-# FAQ-Bot selbst
+# Concierge und automatische Hilfe
 
 ## Worum geht es?
-Der FAQ-Bot ist ein dokumentationsbasierter Server-Assistent. Er beantwortet Fragen zu Kanälen, Rollen, Abläufen und sichtbaren Bot-Features, merkt sich den laufenden Chat für eine begrenzte Zeit und kann in bestimmten Ticket-Kategorien direkt den ersten Hilfsversuch posten.
+Der Concierge ist ein dokumentationsbasierter Server-Assistent. Er beantwortet Fragen zu Kanälen, Rollen, Abläufen und sichtbaren Bot-Features und kann in Support-Tickets direkt den ersten Hilfsversuch posten.
 
 ## Wie nutze ich das?
-Es gibt zwei sichtbare Zugänge, die beide dasselbe machen: Im FAQ-Panel klickst du auf `Frage stellen`, oder du nutzt `/faq`. In beiden Fällen erstellt der Bot dir einen **privaten FAQ-Chat-Kanal** in der FAQ-Kategorie. Dort schreibst du einfach normal und kannst auch Rückfragen stellen.
+Für allgemeine Fragen zu Server, Bots und Concierge nutzt du <#1491953161747955853> oder schreibst dem Bot direkt per DM. Dort kannst du normal schreiben und auch Rückfragen stellen.
 
-Der Bot merkt sich den bisherigen Verlauf innerhalb derselben Session (die letzten Nachrichten). Das heißt: Du musst nicht jede Anschlussfrage komplett neu formulieren, solange du im gleichen FAQ-Chat bleibst. Wenn du fertig bist, beendest du die Session über den `Chat beenden`-Button — einen Schließen-Befehl gibt es nicht.
+Der Bot merkt sich den bisherigen Verlauf innerhalb derselben DM-Unterhaltung. Das heißt: Du musst nicht jede Anschlussfrage komplett neu formulieren.
 
-Ein weiterer sichtbarer Bereich ist die Ticket-Auto-Hilfe. Wenn in einer dafür vorgesehenen Ticket-Kategorie ein neues Ticket aufgemacht wird und der User seine erste Nachricht schreibt, versucht der FAQ-Bot sofort einen stillen Erstcheck. Falls die Frage klar aus der Server-Doku beantwortbar ist, postet er direkt eine Antwort. Wenn nicht, bleibt er absichtlich still und übergibt implizit an menschlichen Support.
+Ein weiterer sichtbarer Bereich ist die Ticket-Auto-Hilfe. Wenn in <#1459628609705738539> ein neues Ticket aufgemacht wird und die erste Nachricht klar aus der Server-Doku beantwortbar ist, postet der Concierge direkt eine Antwort. Wenn nicht, bleibt er absichtlich still und das Team übernimmt.
 
 Dabei kümmert er sich nur um sach- und problembezogene Anliegen, also echte Fragen und konkrete „X funktioniert nicht"-Fälle. Bei zwischenmenschlichem Stress, Streit oder Beschwerden über andere Mitglieder hält er sich bewusst raus; das übernehmen Menschen. Da er bereits im Ticket antwortet, verweist er nicht zurück auf das Ticket-System.
 
-Wichtig ist der Zeitrahmen: FAQ-Sessions bleiben 24 Stunden aktiv. Danach schließt der Bot sie automatisch.
-
 ## Geht das auch per DM?
-Ja. Derselbe Bot beantwortet Fragen auch direkt in Direktnachrichten, ganz ohne Befehl: einfach anschreiben. Details dazu stehen in der Doku „Der Bot in deinen DMs (Concierge)".
+Ja. Genau dafür ist der Concierge gedacht: einfach anschreiben, kein Befehl nötig.
 
 ## Kosten / Premium
 kostenlos
 
 ## Was passiert technisch (kurz)?
-Beim Start lädt der Bot alle Markdown-Dateien aus dem flachen `docs/`-Ordner und nutzt genau diesen Inhalt als Wissensbasis. Fragen und Antworten werden pro Session gespeichert, damit Rückfragen mit Kontext beantwortet werden können. Für die Ticket-Auto-Hilfe gibt es einen separaten Modus: Wenn keine sichere Antwort aus der Doku möglich ist, antwortet der Bot absichtlich gar nicht. Für Twitch-Fragen kann er zusätzlich eine Diagnose des Twitch-Setups abrufen (OAuth-Status, fehlende Scopes, Discord-Link) und daraus konkrete Schritte ableiten.
+Der Concierge nutzt die öffentliche Server-Doku als Wissensbasis. Für die Ticket-Auto-Hilfe gilt: Wenn keine sichere Antwort aus der Doku möglich ist, antwortet der Bot absichtlich gar nicht.
 
 ## Grenzen & häufige Fragen
-- Der FAQ-Bot kennt nur Server-Doku. Wenn etwas nicht dokumentiert ist, weiß er es im Zweifel nicht.
+- Der Concierge kennt nur Server-Doku. Wenn etwas nicht dokumentiert ist, weiß er es im Zweifel nicht.
 - Er kann keine internen Aktionen ausführen: keine Rollen vergeben, keine Bots neu starten, keine Tickets administrieren, keine Konfiguration ändern.
 - Er teilt keine Secrets, Tokens, internen Pfade oder Admin-Details.
 - Bei Beta-Invite-, Coaching- oder Channel-Fragen verweist er auf die dokumentierten Schritte und Orte, nicht auf versteckte Workarounds.
-- Pro User ist nur ein aktiver privater FAQ-Chat gleichzeitig vorgesehen.
 - Ticket-Auto-Hilfe ist konservativ. Wenn der Bot unsicher ist, schweigt er lieber, statt etwas zu erfinden.
-- Es gibt keinen `/faqclose`-Befehl und keine Thread-Sessions mehr — das war das alte System.
-
+- Für Support oder Moderation öffnest du ein Ticket in <#1459628609705738539>; für allgemeine Fragen nutzt du <#1491953161747955853>.

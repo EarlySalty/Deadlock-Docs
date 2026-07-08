@@ -1,7 +1,7 @@
 ---
 title: "Status & Fehler"
 tags: [discord-server, status, fehler]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/support-kb/reference/status-und-fehler.html"
 ---
 # Status & Fehler
@@ -38,8 +38,8 @@ Alle sichtbaren Zustände und Meldungen des Bots an einem Ort — was ein Mitgli
 | Eigene Stats vorhanden / leer | Bei fehlenden Aktivitätsdaten werden Nullwerte und keine Platzierung angezeigt. | Für das Konto liegen noch keine Voice-/Text-Sitzungen vor. | Aktiv werden (Voice/Text) und später erneut prüfen; Daten aktualisieren sich verzögert. |
 | Eingabeformular (Modal) | Ein Popup-Formular mit Eingabefeldern (z.B. für Codes/Texte) | Der Bot erwartet eine Eingabe, bevor er fortfährt | Felder ausfüllen und absenden |
 | Erinnerung zur Steam-Verknüpfung | Nach einiger Zeit in Voice kommt eine private Erinnerung, Steam zu verknüpfen. | Automatischer, optionaler Hinweis, ausgelöst durch Voice-Aktivität. | Verknüpfen oder ignorieren; keine Pflicht. |
-| FAQ-Chat offen | Privater Textkanal in der FAQ-Kategorie mit Bot-Antworten und einem Schliessen-Button | Eine FAQ-Session läuft; Antworten stammen aus der Doku und einem Sprachmodell | Frage stellen oder mit dem Schliessen-Button beenden |
-| FAQ-Session abgelaufen | Der Kanal wird nach längerer Inaktivität automatisch geschlossen | Die Session wurde wegen längerer Inaktivität beendet | Über das Panel eine neue Session starten |
+| Concierge-Antwort | Antwort vom Bot in DM, Fragekanal oder Ticket | Die Frage war aus der Server-Doku beantwortbar | Bei Bedarf nachfragen |
+| Keine Bot-Antwort im Ticket | Der Concierge bleibt still | Es gab keine sichere Antwort aus der Doku oder das Anliegen braucht Menschen | Auf das Team warten |
 | Feedback-Zugang nach Coaching | Zugriff auf den Feedback-Kanal für begrenzte Zeit nach dem Termin | Das Coaching ist gelaufen und Rückmeldung ist vorgesehen | Feedback im dafür geöffneten Kanal hinterlassen |
 | Feedback-Zugriff nach dem Termin | Für eine begrenzte Zeit Zugriff auf einen Feedback-Kanal | Nach einem wahrgenommenen Coaching wird der Feedback-Kanal freigeschaltet | Feedback geben, solange der Zugriff besteht |
 | Folge-DM nach Onboarding | Nach Abschluss des Einstiegs kommt eine private Nachricht mit Verweis auf die Rang-/Steam-Verknüpfung. | Ein automatischer Anschluss-Hinweis; man muss nichts tun, wenn man nicht will. | Bei Interesse dem Link folgen; sonst ignorieren. |
@@ -114,7 +114,7 @@ Alle sichtbaren Zustände und Meldungen des Bots an einem Ort — was ein Mitgli
 | "Für Ranked-Lanes brauchst du einen verifizierten Rang." | Ranked-Beitritt oder -Erstellung ohne verifizierte Rang-Rolle. | Steam verknüpfen, um die Rang-Rolle zu erhalten. |
 | "Unbekannter Rang" bei einem Gesuch oder Filter | Der eingegebene Rang-Name wird nicht erkannt. | Einen gültigen Rang aus der Auswahl wählen (Haupt- oder Sub-Rang). |
 | Anfrage fehlerhaft aufgebaut | Die Abstimmungs-Anfrage kam beschädigt an | Seite neu laden und erneut versuchen |
-| Antwort wurde zurückgehalten | Eine erzeugte Antwort wurde nicht ausgegeben, weil sie möglicherweise interne oder fremde Daten enthalten hätte | Frage anders formulieren oder über ein Ticket den Support nutzen |
+| Antwort wurde zurückgehalten | Eine erzeugte Antwort wurde nicht ausgegeben, weil sie möglicherweise interne oder fremde Daten enthalten hätte | Frage anders formulieren oder bei Supportbedarf ein Ticket öffnen |
 | Anzeigename bei Scrim-Anmeldung schon vergeben | Der Anzeigename ist bereits von einem anderen Teilnehmer belegt, daher wurde die Anmeldung nicht gespeichert. | Eindeutigen Anzeigenamen verwenden oder die Doppelung an die Scrim-Organisation melden. |
 | Automatische Ahndung schlug technisch fehl | Der Bot wollte automatisch ahnden, konnte den Timeout oder Bann aber nicht durchsetzen (z. B. fehlende Bot-Rechte oder der Nutzer war schon weg); die Nachricht kann trotzdem gelöscht worden sein. | Team informieren, dass die Aktion technisch fehlschlug; ein Moderator führt sie manuell aus oder verwirft den Fall. |
 | Automatische Ahndung technisch fehlgeschlagen | Der Bot wollte automatisch ahnden, konnte den Timeout/Bann aber nicht durchsetzen (z. B. fehlende Bot-Rechte oder Nutzer schon weg); die Nachricht kann trotzdem gelöscht worden sein. | Team informieren, dass die Aktion technisch fehlschlug; ein Moderator führt sie manuell aus oder verwirft den Fall. |
@@ -125,7 +125,7 @@ Alle sichtbaren Zustände und Meldungen des Bots an einem Ort — was ein Mitgli
 | Bild wird wegen des Formats abgelehnt oder das Formular kommt nicht durch | Ein angehängtes Bild hat ein nicht unterstütztes Format bzw. das Formular wurde nicht korrekt gesendet. | Nur JPG/PNG/WebP/GIF anhängen und das Formular normal absenden. |
 | Bilder werden als zu viele oder zu groß abgewiesen | Zu viele Bilder oder ein Bild ist zu groß. | Anzahl und Dateigröße der Bilder reduzieren und erneut absenden. |
 | Bildformat wird abgelehnt | Ein angehängtes Bild hat ein nicht unterstütztes Format bzw. das Formular wurde nicht korrekt gesendet | Nur JPG/PNG/WebP/GIF anhängen und das Formular normal absenden |
-| Bot antwortet nicht auf die Frage | Der Bot hat in der Doku keine klare Antwort gefunden und schweigt bewusst, statt zu raten | Im Ticket auf menschlichen Support warten |
+| Bot antwortet nicht auf die Frage | Der Bot hat in der Doku keine klare Antwort gefunden und schweigt bewusst, statt zu raten | Im Ticket auf menschlichen Support warten oder die Frage in <#1491953161747955853> präzisieren |
 | Bot konnte das Mitglied nicht anschreiben | Der Bot erreichte das Konto nicht (DMs geschlossen oder Konto nicht erreichbar) | Server-Direktnachrichten erlauben und die Aktion erneut auslösen |
 | Buchung wird als gesperrt angezeigt | Nach einem nicht wahrgenommenen Termin besteht eine befristete Buchungssperre | Bis zum angezeigten Ablauf warten; bei Fragen das Team ansprechen |
 | Build existiert nicht mehr | Der Build zu dieser Stimme wurde vermutlich entfernt | Seite neu laden |

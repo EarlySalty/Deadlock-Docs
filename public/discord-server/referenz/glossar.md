@@ -1,7 +1,7 @@
 ---
 title: "Glossar"
 tags: [discord-server, glossar, discord]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/support-kb/reference/glossar.html"
 ---
 # Glossar
@@ -29,7 +29,7 @@ Einheitliche Begriffe, wie sie in dieser Wissensbasis und gegenüber Mitgliedern
 | **Streamer-Partner** | Automatisch erkannte Verbindung zwischen Discord-Mitglied und Twitch-Streamer; kann eine Streamer-Rolle und Live-Ankündigungen auslösen. |
 | **Highlight-Clips** | Automatisch in festen Kanälen gepostete Clip-Beiträge. |
 | **Changelog-Beitrag** | Vom Team ausgelöste Änderungs-/Neuerungs-Meldung in festen Kanälen, teils mit Rollen-Ping. |
-| **FAQ-Chat / Ticket-Auto-Hilfe** | Dokumentationsbasierter Assistent: privater FAQ-Chat auf Anfrage und eine automatische Erst-Antwort in bestimmten Ticket-Bereichen. |
+| **Concierge / Ticket-Auto-Hilfe** | Dokumentationsbasierter Assistent: beantwortet Serverfragen per DM oder im Fragekanal und gibt in Tickets nur dann eine Erst-Antwort, wenn die Doku sicher reicht. |
 | **!brain** | Wissensfrage an den Bot. Sehr lange Antworten werden aufgeteilt. |
 | **Master-Dashboard** | Zentrale Login-/Verwaltungs-Website; liefert außerdem öffentliche Server-Statistiken und den Austritts-Umfrage-Flow. |
 | **Austritts-Umfrage** | Nach einem Austritt per DM verschickte kurze Umfrage über einen persönlichen Link. |
