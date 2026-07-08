@@ -19,9 +19,10 @@ Für Mitspieler und Voice ist die Grundstruktur relativ klar:
 
 Für Support und Orientierung sind diese Kanäle die wichtigsten:
 <#1459628609705738539> für Support-Fälle und Moderationsanliegen.
+<#1491953161747955853> für Fragen über den Server, Bots und Concierge.
+<#1426220702054355077> für offene Community-Fragen und Deadlock-Invites.
 <#1465404160005378129> für ehrliches offenes Feedback.
 <#1494373349944459355> für kostenlose Coaching-Anfragen (führt zur Website).
-<#1464736918951432222> ist die offene Invite-Lounge: nett fragen + Steam-Freundescode posten, ein Community-Mitglied lädt dich ein. Der Bot passt mit auf und erinnert, wenn der Code fehlt.
 
 Dazu kommen die Content- und Community-Bereiche:
 <#1326973956825284628> für Patch-Zusammenfassungen.
@@ -44,27 +45,27 @@ Das Regelwerk-Panel ist eine persistente Nachricht mit Start-Button (Admin-seiti
 ## Grenzen & häufige Fragen
 - Wenn dir bestimmte Kanäle fehlen, ist fast immer das Onboarding oder eine Rollen-Vergabe (Reaction Roles) nicht komplett.
 - <#1315684135175716975> ist nicht nur Info-Text. Wer den Start-Button ignoriert, verpasst oft genau die Hinweise, die später im Ticket landen.
-- Support, Coaching, LFG und Build-Fragen haben bewusst getrennte Orte. Das macht Antworten schneller und sauberer.
-- Der Deadlock-Invite hängt NICHT an einer Onboarding-Auswahl und braucht keinen Befehl — nette Frage + Freundescode in <#1464736918951432222> reicht.
+- Support, Coaching, LFG, Bot-Fragen und Build-Fragen haben bewusst getrennte Orte. Das macht Antworten schneller und sauberer.
+- Der Deadlock-Invite hängt NICHT an einer Onboarding-Auswahl und braucht keinen Befehl — nette Frage + Freundescode in <#1426220702054355077> reicht.
 - Einige Voice-Bereiche sind rein zweckgebunden, zum Beispiel die Coaching-Voices. Sie sind nicht dasselbe wie normale LFG-Lanes.
-- Der FAQ-Bot kann dir zwar sagen, wohin du musst, aber er schaltet keine Rollen oder Kanäle selbst frei.
+- Der Concierge kann dir zwar sagen, wohin du musst, aber er schaltet keine Rollen oder Kanäle selbst frei.
 
 ## Kanal-Register (IDs sind stabil, Namen können sich ändern)
 
-In allen Dokus werden Kanäle als `<#ID>` referenziert — Discord löst das immer zum aktuellen Namen auf. Diese Tabelle übersetzt die IDs (Namen = Stand 2026-07-03; die Umbenennungen auf regelwerk/deadlock-rang/deadlock-invite/server-support kommen mit der nächsten Struktur-Welle):
+In allen Dokus werden Kanäle als `<#ID>` referenziert — Discord löst das immer zum aktuellen Namen auf. Diese Tabelle übersetzt die wichtigsten IDs:
 
 | Kanal-Mention | Name (Stand heute) | Zweck |
 |---|---|---|
 | <#1315684135175716975> | ⚖️hier-starten-regelwerk | Regeln + Onboarding-Start |
-| <#1464736918951432222> | 🗝️beta-zugang | offene Invite-Lounge |
 | <#1398021105339334666> | 🏆rang-auswahl | Steam-Verknüpfung + Rang-Rolle |
 | <#1376335502919335936> | spieler-suche | LFG-Textsuche |
 | <#1439564934592729161> | sprach-kanal-verwalten | TempVoice-Panel |
 | <#1459628609705738539> | ticket-eröffnen | Support-Tickets |
+| <#1491953161747955853> | Server-/Bot-Fragen | Fragen über Server, Bots und Concierge |
 | <#1483136301271355532> | ❤️lag-kompensator | Server unterstützen: Boosts, Spenden und Extras |
 | <#1465404160005378129> | feedback-kanal | anonymes Feedback |
 | <#1494373349944459355> | ich-brauch-einen-coach | Coaching-Einstieg |
-| <#1426220702054355077> | frag-die-community | offene Fragen an die Community |
+| <#1426220702054355077> | frag-die-community | offene Community-Fragen + Deadlock-Invite |
 | <#1326973956825284628> | patchnotes | Patch-Zusammenfassungen |
 | <#1425215762460835931> | clip-submission | Clip-Einsendungen |
 | <#1304169815505637458> | twitch | Live-Hinweise Streamer |

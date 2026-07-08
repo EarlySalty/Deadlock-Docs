@@ -1,7 +1,7 @@
 ---
 title: "Was es bei uns NICHT gibt"
 tags: [discord-server, negativ, wissen, was, es]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/negativ-wissen.md"
 ---
 # Was es bei uns NICHT gibt
@@ -18,9 +18,9 @@ Diese Seite ist bewusst eine Liste von Dingen, die es auf dem Server **nicht** g
 
 ## Befehle, die es nicht gibt
 
-- **`/betainvite`** — abgeschafft. Der Invite läuft über die offene Lounge <#1464736918951432222>: nett fragen + Freundescode posten.
+- **`/betainvite`** — abgeschafft. Für einen Invite fragst du in <#1426220702054355077> nett nach und postest deinen Steam-Freundescode dazu.
 - **`/ticket`** — Tickets öffnet man über den Button in <#1459628609705738539>, nicht per Befehl.
-- **`/faqclose`** — FAQ-Chats schließt man über den `Chat beenden`-Button.
+- **`/faqclose`** — der Concierge braucht keinen Schließen-Befehl; in DMs schreibst du einfach nicht weiter.
 - **`/link`** — die Steam-Verknüpfung läuft über `/account_verknüpfen` oder das Panel in <#1398021105339334666>.
 - **`/turnier` und `!balance`** — entfernt, siehe oben.
 - **`!brain` per DM** — `!brain` funktioniert nur in den dafür freigegebenen Server-Kanälen, nicht in Direktnachrichten. In DMs beantwortet der Bot Fragen einfach direkt, ganz ohne Befehl.
@@ -28,7 +28,7 @@ Diese Seite ist bewusst eine Liste von Dingen, die es auf dem Server **nicht** g
 
 ## Abläufe, die anders sind, als oft vermutet
 
-- **Keine Onboarding-Option „Invite/Betazugang":** Der Invite hängt nicht am Onboarding. Einfach in <#1464736918951432222> nett fragen und den Freundescode posten.
+- **Keine Onboarding-Option „Invite/Betazugang":** Der Invite hängt nicht am Onboarding. Einfach in <#1426220702054355077> nett fragen und den Freundescode posten.
 - **Keine 5-€-Vorabprüfung:** Niemand prüft vorab eine Kaufhistorie. Steam selbst blockiert Playtest-Invites an „limited" Accounts (~5 $ ausgegeben nötig) — das zeigt sich erst beim Invite-Versuch, und keiner kann es umgehen.
 - **Kein Coaching-Formular im Discord:** Coaching-Anfragen laufen über die Website (Discord-Login + Formular). Der Discord-Button führt nur dorthin.
 - **Kein Streamer-Setup im Onboarding:** Streamer-Themen laufen über das Twitch-Streamer-Dashboard, nicht über den Onboarding-Flow.

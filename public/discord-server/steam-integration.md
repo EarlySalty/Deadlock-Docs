@@ -1,7 +1,7 @@
 ---
 title: "Steam-Integration"
 tags: [discord-server, steam, integration]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/steam-integration.md"
 ---
 # Steam-Integration
@@ -27,7 +27,7 @@ Für den Rank gibt es zwei Wege mit unterschiedlicher Wirkung:
 - `/checkrank`: fragt ab UND synchronisiert deine Rang-Rollen (speichert den Stand).
 Die automatischen Rang-Rollen kommen aus der Steam-Profilkarte deines verknüpften Accounts; es gibt verifizierte und unverifizierte Rollensets. Der Hintergrund-Sync hält das aktuell (Rang standardmäßig stündlich, Freunde alle 6 Stunden).
 
-Für einen Beta-Invite: nett in <#1464736918951432222> fragen und deinen Steam-Freundescode dazu posten — ein Community-Mitglied lädt dich ein. Der Steam-Bot kann Invites zusätzlich automatisiert verschicken (Sicherheitsnetz). Details dazu stehen in „Onboarding und Invites".
+Für einen Beta-Invite: nett in <#1426220702054355077> fragen und deinen Steam-Freundescode dazu posten — ein Community-Mitglied lädt dich ein. Der Steam-Bot kann Invites zusätzlich automatisiert verschicken (Sicherheitsnetz). Details dazu stehen in „Onboarding und Invites".
 
 ## Kosten / Premium
 Die Steam-Verknüpfung, Friend-Sync, Rank-Erkennung und der Beta-Invite selbst sind kostenlos.
@@ -37,7 +37,7 @@ Im Beta-Invite-Flow gibt es zusätzlich eine optionale Ko-fi-Unterstützung. Das
 ## Was passiert technisch (kurz)?
 Die Verknüpfung nutzt Steam OpenID und speichert danach die technische Steam-ID zusammen mit deinem Discord-Konto. Eine bestätigte Steam-Freundschaft ist die zweite Freigabe: Erst dann werden Verifizierung und rangbasierte Features aktiv.
 
-Ein Hintergrunddienst synchronisiert regelmäßig die Steam-Freundesliste des Bot-Accounts (alle 6 Stunden; im Invite-Ticket zusätzlich ein schneller Poll). Sobald dein Account als Freund bestätigt ist, werden Verifizierung und Rollen nachgezogen. Der Rank-Sync liest die Deadlock-Profilkarte und aktualisiert Rangdaten im Hintergrund.
+Ein Hintergrunddienst synchronisiert regelmäßig die Steam-Freundesliste des Bot-Accounts. Sobald dein Account als Freund bestätigt ist, werden Verifizierung und Rollen nachgezogen. Der Rank-Sync liest die Deadlock-Profilkarte und aktualisiert Rangdaten im Hintergrund.
 
 ## Grenzen & häufige Fragen
 - Nur ein OpenID-Login reicht nicht. Freundescode + bestätigte Steam-Freundschaft mit dem Bot gehören dazu.
@@ -47,4 +47,3 @@ Ein Hintergrunddienst synchronisiert regelmäßig die Steam-Freundesliste des Bo
 - Wenn du mehrere Steam-Accounts verknüpft hast, zählt für viele Features dein gesetzter Primäraccount.
 - Ein Invite erscheint nicht immer sofort — nach Erfolg kann es 1–2 Tage dauern, bis die Einladung bei Steam sichtbar ist.
 - Vorübergehende Steam- oder Game-Coordinator-Probleme können einzelne Invite-Versuche verzögern. In solchen Fällen hilft meist ein späterer Retry.
-

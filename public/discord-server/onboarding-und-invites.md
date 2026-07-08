@@ -1,13 +1,13 @@
 ---
 title: "Onboarding und Invites"
 tags: [discord-server, onboarding, invites]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/onboarding-und-invites.md"
 ---
 # Onboarding und Invites
 
 ## Worum geht es?
-Der Server führt neue Mitglieder gezielt durch Regeln, Rollen und die wichtigsten Bereiche. Der Deadlock-Beta-Invite ist davon unabhängig und bewusst einfach: Du fragst in <#1464736918951432222> nett nach einem Invite, und jemand aus der Community lädt dich ein.
+Der Server führt neue Mitglieder gezielt durch Regeln, Rollen und die wichtigsten Bereiche. Der Deadlock-Beta-Invite ist davon unabhängig und bewusst einfach: Du fragst in <#1426220702054355077> nett nach einem Invite, und jemand aus der Community lädt dich ein.
 
 ## Wie nutze ich das?
 **Onboarding:** Starte im <#1315684135175716975> über den Button `Hier starten` — der Bot legt dir einen privaten Onboarding-Thread an. Nach dem Discord-Member-Screening startet das Onboarding auch automatisch (Bots, bereits verifizierte und bereits durchgelaufene User werden übersprungen). Die festen Schritte: Regeln, Voice-Lanes, Mitspieler finden, Coaching, Custom Games, optionale Voice-Präferenzen (Ton/Alter) und die Steam-Verknüpfung. Beim Steam-Schritt prüfst du selbst per Button `Ich hab verknüpft` — der Bot checkt dann live, ob die Verknüpfung da ist.
@@ -16,11 +16,11 @@ Deine Voice-Tags kannst du jederzeit später über `/meine-tags` ändern; die Au
 
 Zusätzlich gibt es das AI-Onboarding-Panel mit `Persönliche Tour starten` (3 kurze Fragen im Formular) und Quick-Buttons zu Spieler-Suche, Voice-Lanes, Feedback und Regelwerk. Und: Auf einigen Panels vergeben Reaktionen automatisch Rollen (Reaction Roles) — Reaktion entfernen kann die Rolle wieder entziehen.
 
-**Deadlock-Invite:** <#1464736918951432222> ist eine offene Invite-Lounge — keine Befehle, keine Formulare, keine Vorbedingungen. So läuft es:
+**Deadlock-Invite:** <#1426220702054355077> ist der richtige Ort dafür — keine Befehle, keine Formulare, keine Vorbedingungen. So läuft es:
 
 1. Schreib eine nette Frage in den Kanal („mag mich wer einladen? :)") und poste deinen **Steam-Freundescode** dazu (findest du in Steam unter Freunde → „Freund hinzufügen").
 2. Ein Community-Mitglied fügt dich hinzu und lädt dich persönlich zum Playtest ein.
-3. Der Bot schaut mit drauf: Fehlt der Freundescode bei deiner Anfrage, erinnert er dich freundlich daran — ohne Code kann dich niemand einladen.
+3. Ohne Code kann dich niemand einladen; wenn du unsicher bist, frag dort kurz nach.
 
 Zusätzlich lohnt sich die Steam-Verknüpfung in <#1398021105339334666> in jedem Fall: Damit bekommst du deine echte Rang-Rolle, und der Steam-Bot kann Invites auch automatisiert verschicken (läuft als Sicherheitsnetz im Hintergrund).
 
@@ -28,7 +28,7 @@ Zusätzlich lohnt sich die Steam-Verknüpfung in <#1398021105339334666> in jedem
 Alles kostenlos. Ein Invite kostet nie Geld — weder von der Community noch vom Bot. Es gibt einen optionalen Ko-fi-Support (freiwillig, kein Pflichtkauf und keine Beschleunigung).
 
 ## Was passiert technisch (kurz)?
-Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Threads; der Flow speichert Entscheidungen wie Voice-Tags. In <#1464736918951432222> beobachtet der Bot Invite-Anfragen und erinnert bei fehlendem Freundescode. Der Steam-Bot kann Invites zusätzlich automatisiert über die Steam-Spielsuche verschicken.
+Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Threads; der Flow speichert Entscheidungen wie Voice-Tags. Der Steam-Bot kann Invites zusätzlich automatisiert über die Steam-Spielsuche verschicken.
 
 ## Grenzen & häufige Fragen
 - **„Ich habe keinen Invite bekommen"**: Häufigster Grund ist ein „limited" Steam-Account — Steam blockiert Playtest-Invites, wenn auf dem Account noch keine ~5 $ ausgegeben wurden. Das ist eine Valve-Regel, die erst beim Invite-Versuch sichtbar wird; kein Bot und kein Community-Mitglied kann sie umgehen.
@@ -36,4 +36,3 @@ Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Thre
 - Ohne Freundescode in deiner Anfrage kann dich niemand einladen — der Bot erinnert dich im Kanal daran.
 - Es gibt KEINE Onboarding-Option „Invite/Betazugang" und keinen Invite-Befehl — einfach im Kanal fragen.
 - Ein Streamer-Setup-Flow im Onboarding existiert aktuell nicht (nur Hinweise); Streamer-Themen laufen über das Twitch-Dashboard.
-

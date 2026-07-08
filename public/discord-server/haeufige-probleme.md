@@ -1,12 +1,12 @@
 ---
 title: "Häufige Probleme & Selbsthilfe"
 tags: [discord-server, haeufige, probleme, selbsthilfe]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/haeufige-probleme.md"
 ---
 # Häufige Probleme & Selbsthilfe
 
-Diese Seite bündelt die Anliegen, die im Support am häufigsten auftauchen, mit konkreten Selbsthilfe-Schritten. Wenn ein Punkt dein Problem nicht löst, schildere es einfach hier im Ticket – das Team schaut es sich dann an.
+Diese Seite bündelt die Anliegen, die im Support am häufigsten auftauchen, mit konkreten Selbsthilfe-Schritten. Wenn ein Punkt dein Problem nicht löst, öffne ein Ticket in <#1459628609705738539> – das Team schaut es sich dann an.
 
 ## Twitch-Bot kommt nicht in meinen Stream / Chat
 
@@ -16,7 +16,7 @@ Wenn der Bot deinem Kanal nicht beitritt oder nichts tut, liegt es fast immer an
 2. Fehlen Scopes oder muss der Token neu autorisiert werden, zeigt die Verwaltungsseite einen **Reconnect-Link**. Nutze ihn und vergib bei der Twitch-Abfrage wirklich alle angefragten Berechtigungen.
 3. Ohne gültige Twitch-Autorisierung bleiben besonders Raid- und Teile der Analyse-Funktionen eingeschränkt – ein sauberer Reconnect ist deshalb der erste Schritt.
 
-Wenn OAuth verbunden ist, keine Scopes fehlen und es trotzdem nicht läuft, schildere das hier im Ticket mit deinem Twitch-Namen.
+Wenn OAuth verbunden ist, keine Scopes fehlen und es trotzdem nicht läuft, schildere es im Ticket in <#1459628609705738539> mit deinem Twitch-Namen.
 
 ## "Ich habe autorisiert, aber es steht auf inaktiv"
 
@@ -26,7 +26,7 @@ Das heißt meistens, dass die Autorisierung **unvollständig** ist – nicht, da
 2. Wird dort ein **Reconnect** angeboten, mach ihn komplett neu und bestätige bei Twitch wirklich alle Berechtigungen – nicht nur einen Teil.
 3. Prüfe zusätzlich die **Discord-Verbindung** auf derselben Seite. Beide Seiten gehören zum vollständigen Setup.
 
-Bleibt der Status nach einem vollständigen Reconnect (alle Scopes vergeben, OAuth und Discord verbunden) weiter inaktiv, schildere es hier im Ticket.
+Bleibt der Status nach einem vollständigen Reconnect (alle Scopes vergeben, OAuth und Discord verbunden) weiter inaktiv, schildere es im Ticket in <#1459628609705738539>.
 
 ## Steam lässt sich nicht verbinden / Rang wird nicht erkannt
 
@@ -44,7 +44,7 @@ Rang prüfen: `/steam_rank` oder der Button `📊 Rang prüfen` im Panel zeigen 
 
 Geh die Punkte der Reihe nach durch:
 
-1. **In <#1464736918951432222> gefragt?** Der Weg ist bewusst simpel: nette Frage in den Kanal („mag mich wer einladen? :)") plus dein **Steam-Freundescode** (Steam → Freunde → „Freund hinzufügen"). Ohne Code kann dich niemand einladen — der Bot erinnert dich im Kanal daran.
+1. **In <#1426220702054355077> gefragt?** Der Weg ist bewusst simpel: nette Frage in den Kanal („mag mich wer einladen? :)") plus dein **Steam-Freundescode** (Steam → Freunde → „Freund hinzufügen"). Ohne Code kann dich niemand einladen.
 2. **Freundschaftsanfrage angenommen?** Wer dich einlädt, muss erst mit dir auf Steam befreundet sein. Schau in deine Steam-Anfragen.
 3. **„Limited User"?** Steam blockiert Playtest-Invites, wenn auf deinem Account noch keine ~5 $ ausgegeben wurden. Das ist eine Valve-Regel, die niemand umgehen kann — sobald dein Account die Schwelle erreicht, klappt es.
 4. Ein Invite taucht nicht immer sofort in der Bibliothek auf – es kann **1–2 Tage** dauern. Prüfe deine Steam-Playtest-Einladungen später noch einmal.

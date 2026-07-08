@@ -1,7 +1,7 @@
 ---
 title: "Der Bot in deinen DMs (Concierge)"
 tags: [discord-server, dm, concierge, bot, fragen]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots rust/crates/dl-community/src/concierge.rs"
 ---
 # Der Bot in deinen DMs (Concierge)
@@ -19,7 +19,7 @@ Der „Deutsche Deadlock Community Bot" beantwortet dir Fragen direkt per DM. Du
 
 ## Was kann er nicht?
 - Konkrete Termine (zum Beispiel „wann ist das nächste Turnier?") kennt er nicht. Termine stehen in den Ankündigungen <#1371952264620806214> und im Turnier-Portal auf der Website.
-- Wenn er etwas nicht sicher weiß, sagt er das ehrlich und verweist auf <#1426220702054355077>, wo echte Menschen antworten. Er erfindet keine Antworten.
+- Wenn er etwas nicht sicher weiß, sagt er das ehrlich und verweist für Server-, Bot- und Concierge-Fragen auf <#1491953161747955853>. Er erfindet keine Antworten.
 
 ## Datenschutz und Abschalten
 - Schreib dem Bot „stopp", dann meldet er sich nicht mehr von selbst. Antworten tut er dir weiterhin, wenn du ihn anschreibst.
