@@ -1,7 +1,7 @@
 ---
 title: "Rules und Channels"
 tags: [discord-server, rules, channels]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Bots/docs/rules-und-channels.md"
 ---
 # Rules und Channels
@@ -61,7 +61,7 @@ In allen Dokus werden Kanäle als `<#ID>` referenziert — Discord löst das imm
 | <#1376335502919335936> | spieler-suche | LFG-Textsuche |
 | <#1439564934592729161> | sprach-kanal-verwalten | TempVoice-Panel |
 | <#1459628609705738539> | ticket-eröffnen | Support-Tickets |
-| <#1483136301271355532> | ❤️lag-kompensator | Technik-Probleme mit dem Server/Bot |
+| <#1483136301271355532> | ❤️lag-kompensator | Server unterstützen: Boosts, Spenden und Extras |
 | <#1465404160005378129> | feedback-kanal | anonymes Feedback |
 | <#1494373349944459355> | ich-brauch-einen-coach | Coaching-Einstieg |
 | <#1426220702054355077> | frag-die-community | offene Fragen an die Community |
@@ -70,4 +70,3 @@ In allen Dokus werden Kanäle als `<#ID>` referenziert — Discord löst das imm
 | <#1304169815505637458> | twitch | Live-Hinweise Streamer |
 | <#1412411665713987635> | custom-games-chat | Custom Games (Text) |
 | <#1512624055814062090> | Sammelpunkt | Custom Games (Voice) |
-
