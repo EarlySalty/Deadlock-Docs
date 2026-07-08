@@ -13,7 +13,7 @@ Einheitliche Begriffe, wie sie in dieser Wissensbasis und gegenüber Mitgliedern
 | **Onboarding** | Der geführte Einstieg direkt nach dem Beitritt: Fragen zu Interessen und Spielstil, danach automatische Rollen und Kanalzugriff. |
 | **Verified-Rolle** | Rolle, die ein Mitglied nach der vollständig verifizierten Steam-Verknüpfung erhält. Schaltet Rang-Erkennung und weitere Funktionen frei. |
 | **Freundescode** | Der Steam-Freundescode des Mitglieds. Nötig, damit der Bot eine Steam-Freundschaftsanfrage schicken kann. |
-| **Rang / Rang-Rolle** | Der aus dem verifizierten Steam-Account erkannte Deadlock-Rang, als Server-Rolle abgebildet. `/checkrank` gleicht die Rollen aktiv ab. |
+| **Rang / Rang-Rolle** | Der aus dem verifizierten Steam-Account erkannte Deadlock-Rang, als Server-Rolle abgebildet. Die Rollen werden automatisch abgeglichen. |
 | **Rang-Historie** | Verlauf des Rangs über die Zeit auf der Statistik-Website. Sichtbarkeit ist pro Mitglied einstellbar: privat, nur Mitglieder oder öffentlich. |
 | **Voice-Lane (TempVoice)** | Automatisch erzeugter, selbstverwalteter Sprachkanal. Über ein Panel mit Buttons steuert der Ersteller Name, Limit, Zugang und mehr. |
 | **Ranked-Lane** | Voice-Lane mit Rang-Bezug: der Rang erscheint im Kanalnamen, und es kann eine Rang-Voraussetzung geben. |

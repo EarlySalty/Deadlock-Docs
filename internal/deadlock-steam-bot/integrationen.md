@@ -1,7 +1,7 @@
 ---
 title: "Deadlock Steam-Bot Integrationen"
 tags: [internal, steam, integrationen]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Steam-Bot"
 ---
 # Integrationen
@@ -9,6 +9,8 @@ quelle: "Deadlock-Steam-Bot"
 ## Discord-Bot
 
 `steam-bot` nutzt `BrokerClient`, wenn `STEAM_BOT_DISCORD` nicht `noop` ist. Der Client sendet an `{STEAM_BROKER_URL}/internal/master/v1/...`, nutzt `X-Internal-Token` und setzt pro Request `X-Idempotency-Key`. (`rust/crates/steam-bot/src/main.rs`, `rust/crates/steam-discord/src/broker.rs`)
+
+POST-Brokerpfade sind `discord/send-message`, `discord/send-rich-message`, `discord/edit-rich-message`, `discord/member/add-role`, `discord/member/remove-role`, `discord/create-channel`, `discord/delete-channel` und `discord/create-invite`. GET-Pfade sind `discord/role-members`, `discord/member-present`, `discord/channel-info` und `discord/roles`. POSTs behalten denselben UUIDv4-Idempotency-Key und wiederholen 5xx-Antworten bis zu zwei Mal nach 200 ms. (`rust/crates/steam-discord/src/broker.rs`)
 
 `/events/discord` nimmt Discord-Events von der Rust-Bridge im Hauptbot an. Der Handler unterstützt `interaction`, `slash_command`, `member_remove` und `admin_command`. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-bridges/src/steam.rs`, `rust/crates/steam-web/src/routes/events.rs`)
 
@@ -27,6 +29,18 @@ Steam-OpenID nutzt fest `https://steamcommunity.com/openid/login`. Der Callback 
 Discord-OAuth läuft nicht im Steam-Bot. Der Steam-Bot delegiert Start und Consume an die interne Master-Bot-API `/internal/v1/discord/initiate` und `/internal/v1/discord/consume-result`. (`rust/crates/steam-flows/src/link.rs`)
 
 Steam-Vanity und Persona-Namen nutzt der Bot über `https://api.steampowered.com` mit `STEAM_API_KEY`. Ohne Key geben die Resolver `None` zurück. (`rust/crates/steam-flows/src/steam_web_api.rs`)
+
+## Rank-Web-API
+
+`GET /rank` liefert den Link-/Rank-Status für einen Discord-User. `GET /player-matches` lädt Match-History über den bevorzugten Steam-Link und akzeptiert ein Limit. `GET /player-live` liest `activity.live_player_state` und gibt `linked`, `in_deadlock`, `live`, Hero, Minuten, Stage und Zeitstempel zurück. `GET /player-mmr-trend` liest sichtbare Rank-History für den Trend. (`rust/crates/steam-web/src/routes/rank.rs`)
+
+## Beta-Invite, Friends und Builds
+
+`/betainvite` routet aktiv auf `betainvite:panel:start`; `publish_betainvite_panel` baut nur das Panel. Der Funnel erstellt oder nutzt `beta-invite-{user_id}`-Tickets, prüft Link und Steam-Freundschaft, reiht `AUTH_SEND_PLAYTEST_INVITE` ein, schreibt Audit und plant Self-Heal je nach GC-/Steam-Fehlerklasse. Der Ko-fi-Absprung hängt am Pending-Payment-Token im Format `DDL-XXXXXXXX`. (`rust/crates/steam-web/src/routes/events.rs`, `rust/crates/steam-flows/src/betainvite.rs`, `rust/crates/steam-flows/src/betainvite/interactions.rs`)
+
+Der Steam-Friends-Listener akzeptiert eingehende Steam-Friend-Requests automatisch. Der Friend-Sync markiert bekannte Links als verifiziert, entfernt unbekannte Steam-Freunde aus der Bot-Freundesliste und queue't Rollen-Cleanup, wenn ein verknüpfter Account nach Miss-Schwelle nicht mehr befreundet ist. (`rust/crates/steam-core/src/steam/friends.rs`, `rust/crates/steam-flows/src/friend_sync.rs`)
+
+Der Build-Publisher arbeitet über `BUILD_PUBLISH`, `BUILD_DELETE`, `MAINTAIN_BUILD_CATALOG` und `BUILD_CATALOG_CYCLE`. Er liest Dashboard-Konfiguration aus `tierlist.deadlock_hero_builds`, Quellen aus `tierlist.hero_build_sources`, schreibt Clones nach `tierlist.hero_build_clones` und nutzt GC-Build-Nachrichten zum Publizieren und Löschen. (`rust/crates/steam-core/src/task/handlers/builds/mod.rs`, `rust/crates/steam-persistence/src/builds.rs`)
 
 ## Turniere und Lobby
 
@@ -57,5 +71,9 @@ Der Presence-Listener verarbeitet `CMsgClientPersonaState`, fragt Friend-Data al
 `steam-bot` baut den Router mit `KofiWebhookState::from_env()` und warnt beim Start, wenn `KOFI_VERIFICATION_TOKEN` fehlt. (`rust/crates/steam-bot/src/main.rs`)
 
 `POST /kofi/webhook` erwartet form-urlencodetes `data` mit JSON, prüft `verification_token` constant-time gegen `KOFI_VERIFICATION_TOKEN` und delegiert danach an `handle_kofi_payment()`. (`rust/crates/steam-web/src/routes/kofi.rs`, `rust/crates/steam-flows/src/supporter.rs`)
+
+Statusmapping: `missing_data_field`, `invalid_encoding`, `invalid_json` und `missing_message` liefern 400; `invalid_verification_token` liefert 401; `token_not_found` und `user_not_found` liefern 409; `webhook_disabled`, `guild_unavailable` und `payment_confirm_failed` liefern 503. Unbekannte Gründe werden 500. (`rust/crates/steam-web/src/routes/kofi.rs`, `rust/crates/steam-flows/src/supporter.rs`)
+
+Ein Support-Klick erzeugt ein Pending-Payment mit Token `DDL-XXXXXXXX`; der Webhook consumed den Token, setzt oder verlängert den Grant für 30 Tage und setzt die Supporter-Rolle defensiv. Der Supporter-Scheduler läuft alle 10 Minuten und entfernt abgelaufene Grants per Broker. (`rust/crates/steam-flows/src/betainvite/interactions.rs`, `rust/crates/steam-flows/src/supporter.rs`, `rust/crates/steam-persistence/src/supporter.rs`)
 
 `GET /kofi/health` liefert nur `{"ok": true}`. (`rust/crates/steam-web/src/routes/kofi.rs`)

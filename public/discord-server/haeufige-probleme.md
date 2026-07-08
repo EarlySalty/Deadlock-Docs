@@ -30,15 +30,15 @@ Bleibt der Status nach einem vollständigen Reconnect (alle Scopes vergeben, OAu
 
 ## Steam lässt sich nicht verbinden / Rang wird nicht erkannt
 
-Die Steam-Verknüpfung hat **drei** Schritte – ein reiner Login reicht nicht:
+Alles läuft über das **Steam-Panel** in <#1398021105339334666>. Die Verknüpfung hat **drei** Schritte – ein reiner Login reicht nicht:
 
-1. Verknüpfe Steam über `/account_verknüpfen` oder das Steam-Panel in <#1398021105339334666> (Button `Steam verknüpfen`). Der Login läuft über Steam selbst, ohne Passwort-Eingabe beim Bot.
-2. Gib deinen **Steam-Freundescode** ein (Panel-Button `Freundescode eingeben`), damit der Bot dir die Freundschaftsanfrage schicken kann.
-3. **Nimm die Steam-Freundschaftsanfrage des Bots an.** Erst damit gilt der Link als vollständig verifiziert – und erst dann funktionieren Verified-Rolle, Rang-Erkennung und Invite sauber.
+1. Im Panel auf `Steam verknüpfen` und über Steam anmelden. Der Login läuft über Steam selbst, ohne Passwort-Eingabe beim Bot.
+2. Über `Freundescode eingeben` deinen **Steam-Freundescode** hinterlegen, damit der Bot dir die Freundschaftsanfrage schicken kann.
+3. **Nimm die Steam-Freundschaftsanfrage des Bots an.** Erst damit gilt der Link als vollständig verifiziert – und erst dann funktionieren Verified-Rolle und Rang-Erkennung sauber.
 
-Mehrere Accounts hinterlegt? Mit `/steam links` siehst du, was gespeichert ist; mit `/steam setprimary` setzt du deinen Hauptaccount (für viele Features zählt der Primäraccount). `/steam whoami` zeigt deine gespeicherte ID, `/steam unlink` entfernt eine Verknüpfung.
+Deinen erkannten Rang siehst du im Panel über `📊 Rang prüfen`. Die passende **Rang-Rolle** wird danach automatisch gesetzt und aktuell gehalten, solange die Steam-Freundschaft mit dem Bot besteht. Stimmt sie nach etwas Wartezeit nicht, meld dich im Rang-Kanal <#1398021105339334666> — dann gleicht das Team sie ab.
 
-Rang prüfen: `/steam_rank` oder der Button `📊 Rang prüfen` im Panel zeigen den Rang nur an. Wenn deine **Rang-Rollen** nicht stimmen, nutze `/checkrank` – das gleicht die Rollen tatsächlich ab.
+Mehrere Steam-Accounts? Wenn du gespeicherte Accounts sehen, deinen Hauptaccount ändern oder eine Verknüpfung entfernen willst, frag kurz im Rang-Kanal — das lässt sich für dich einstellen.
 
 ## Kein Beta-Invite / Invite kommt nicht an
 
@@ -47,8 +47,8 @@ Geh die Punkte der Reihe nach durch:
 1. **In <#1426220702054355077> gefragt?** Der Weg ist bewusst simpel: nette Frage in den Kanal („mag mich wer einladen? :)") plus dein **Steam-Freundescode** (Steam → Freunde → „Freund hinzufügen"). Ohne Code kann dich niemand einladen.
 2. **Freundschaftsanfrage angenommen?** Wer dich einlädt, muss erst mit dir auf Steam befreundet sein. Schau in deine Steam-Anfragen.
 3. **„Limited User"?** Steam blockiert Playtest-Invites, wenn auf deinem Account noch keine ~5 $ ausgegeben wurden. Das ist eine Valve-Regel, die niemand umgehen kann — sobald dein Account die Schwelle erreicht, klappt es.
-4. Ein Invite taucht nicht immer sofort in der Bibliothek auf – es kann **1–2 Tage** dauern. Prüfe deine Steam-Playtest-Einladungen später noch einmal.
-5. Die Steam-Verknüpfung in <#1398021105339334666> lohnt sich zusätzlich — damit kann auch der Steam-Bot automatisiert einladen.
+4. Ein Invite taucht nicht immer sofort in der Bibliothek auf – es kann **1–2 Tage** dauern. **Prüf die Seite, die viele übersehen:** deine Steam-Playtest-Einladungen unter https://store.steampowered.com/account/playtestinvites.
+5. Die Steam-Verknüpfung in <#1398021105339334666> lohnt sich unabhängig davon — dafür bekommst du deine echte Rang-Rolle.
 
 ## Coaching: Zugang, Ablauf, Status
 

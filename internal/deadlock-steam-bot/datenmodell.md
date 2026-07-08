@@ -1,7 +1,7 @@
 ---
 title: "Deadlock Steam-Bot Datenmodell"
 tags: [internal, steam, datenmodell]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Steam-Bot"
 ---
 # Datenmodell
@@ -24,9 +24,11 @@ Sensitive Task-Typen sind `AUTH_LOGIN` und `AUTH_GUARD_CODE`. Der Claim setzt de
 
 `steam.steam_friend_check_cache`, `steam.steam_friendship_miss_tracker` und `steam.steam_cleanup_poll_state` tragen Friend-Status, Miss-Zähler und Cleanup-Poll-Zustand. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `rust/crates/steam-persistence/src/friend_cache.rs`, `rust/crates/steam-persistence/src/miss_tracker.rs`)
 
+`steam.steam_flow_throttle` ist die generische Key-Value-Throttle-Tabelle für Link-/Cleanup-Dedupe. Der Code liest `key` und `last_run`, setzt Cooldowns atomar und kann einzelne Keys löschen. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `rust/crates/steam-persistence/src/throttle.rs`)
+
 `steam.steam_launch_tokens` speichert kurzlebige One-Time-Launch-Tokens für den Link-Flow. `consume_launch_token()` setzt `consumed_at`, wenn das Token noch gültig und unbenutzt ist. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `rust/crates/steam-persistence/src/oauth_state.rs`)
 
-`steam.steam_beta_invites`, `steam.beta_invite_*` und `steam.steam_quick_invites` tragen Playtest-Invite, Ticket, Payment, Auto-Poll und Supporter-Zustand. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `rust/crates/steam-persistence/src/betainvite.rs`, `rust/crates/steam-persistence/src/supporter.rs`)
+Der Beta-Invite-Funnel nutzt `steam.steam_beta_invites`, `steam.beta_invite_intent`, `steam.beta_invite_tickets`, `steam.beta_invite_friendship_auto_poll`, `steam.beta_invite_auto_failure_alerts`, `steam.beta_invite_audit`, `steam.beta_invite_pending_payments` und `steam.beta_invite_supporter_role_grants`. Diese Tabellen tragen Invite-Status, User-Entscheidung, Ticket-Channel, Friendship-Poll, Alert-Cooldown, Audit, Pending-Payment-Token und 30-Tage-Supporter-Grants. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `rust/crates/steam-persistence/src/betainvite.rs`, `rust/crates/steam-persistence/src/supporter.rs`)
 
 `steam.steam_rank_history` speichert Rang-Snapshots. `2026070311_steam_rank_history_account_scope.sql` ergänzt `steam_id`, und `2026070260_rank_history_visibility.sql` ergänzt Sichtbarkeitsdaten. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql`, `/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070311_steam_rank_history_account_scope.sql`, `/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070260_rank_history_visibility.sql`, `rust/crates/steam-persistence/src/rank.rs`)
 
@@ -42,10 +44,18 @@ Die Migration `0015_steam_links_one_primary.sql` erzwingt höchstens einen `prim
 
 OAuth-States des Link-Flows liegen in `bot.oauth_states`. `create_state()`, `peek_state()` und `consume_state()` lesen und schreiben diese Tabelle. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0007_bot.sql`, `rust/crates/steam-persistence/src/oauth_state.rs`)
 
+`bot.standalone_bot_state` trägt den Steam-Core-Heartbeat für das Dashboard. `bot.standalone_commands` ist die FIFO-Command-Queue für `status`, `login`, `logout`, `guard.submit` und `restart`. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0007_bot.sql`, `rust/crates/steam-persistence/src/bot_state.rs`, `rust/crates/steam-persistence/src/commands.rs`)
+
+## Schema `tierlist`
+
+Der Build-Katalog nutzt `tierlist.deadlock_hero_builds`, `tierlist.hero_build_sources`, `tierlist.hero_build_clones` und `tierlist.watched_build_authors`. `steam-core` liest aktive Dashboard-Konfiguration, gleicht Quell-Builds gegen GC-Daten ab und schreibt Clone-/Sync-Status zurück. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0006_tierlist.sql`, `rust/crates/steam-persistence/src/builds.rs`, `rust/crates/steam-core/src/task/handlers/builds/catalog.rs`)
+
 ## Presence und Party
 
 `activity.live_player_state` kommt aus der zentralen Activity-Migration und wird vom Steam-Presence-Logger mit Deadlock-Status, Hero, Stage und Zeitdaten gefüllt. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0011_barrier_orphans_and_cross_fks.sql`, `rust/crates/steam-persistence/src/presence.rs`, `rust/crates/steam-core/src/steam/presence.rs`)
 
 `voice.deadlock_party_members` kommt aus der Voice-Migration und wird über Rich-Presence oder CSO-Party-Pushes aktualisiert. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0005_voice.sql`, `rust/crates/steam-persistence/src/presence.rs`, `rust/crates/steam-persistence/src/party_members.rs`, `rust/crates/steam-core/src/steam/cso.rs`)
+
+`voice.deadlock_subrank_roles` ist das Rang-Rollenmodell pro Guild, Rangwert, Subrank und Verified-Status. Der Rank-Sync liest daraus Rollen und upsertet Rollen-Mapping, bevor er Discord-Rollen über den Broker setzt. (`/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0005_voice.sql`, `rust/crates/steam-persistence/src/rank.rs`, `rust/crates/steam-flows/src/rank.rs`)
 
 Die gelesenen Live-Units setzen keinen `DEADLOCK_DB_PATH`. `steam-core.service` und `steam-bot.service` laden Secrets über Wrapper und systemd-Credentials; der Rust-Code öffnet die zentrale Postgres-DB über `DEADLOCK_CENTRAL_DSN` (`/home/naniadm/.config/systemd/user/steam-core.service`, `/home/naniadm/.config/systemd/user/steam-bot.service`, `rust/deploy/run-steam-core.sh`, `rust/deploy/run-steam-bot.sh`, `/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/src/pool.rs`).

@@ -1,7 +1,7 @@
 ---
 title: "Deadlock Steam-Bot Übersicht"
 tags: [internal, steam, bot]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Steam-Bot"
 ---
 # Deadlock Steam-Bot Übersicht
@@ -14,7 +14,7 @@ Der Workspace bindet `deadlock-proto`, `steam-domain`, `api-contract`, `steam-pe
 
 | Binary | Aufgabe | Beleg |
 |---|---|---|
-| `steam-core` | Steam-Login, GC-Verbindung, Task-Loop, HTTP-API, Presence-Listener und Heartbeat. | `rust/crates/steam-core/Cargo.toml`, `rust/crates/steam-core/src/main.rs` |
+| `steam-core` | Steam-Login, GC-Verbindung, Task-Loop, HTTP-API, Presence-Listener, Build-Katalog-Scheduler und Heartbeat. | `rust/crates/steam-core/Cargo.toml`, `rust/crates/steam-core/src/main.rs` |
 | `steam-bot` | Discord-Flows, Web-Routen, Scheduler, Ko-fi-Webhook und Broker-Calls. | `rust/crates/steam-bot/Cargo.toml`, `rust/crates/steam-bot/src/main.rs` |
 
 ## systemd
@@ -38,10 +38,14 @@ Beide Wrapper lesen Infisical-Verbindungsdaten, übernehmen optional `CREDENTIAL
 
 Der Account-Link-Flow erzeugt Launch-Tokens, baut Steam-OpenID-Redirects, verifiziert den Steam-Callback, schreibt `core.steam_links` und reiht `AUTH_SEND_FRIEND_REQUEST` ein. (`rust/crates/steam-flows/src/link.rs`, `rust/crates/steam-web/src/routes/link.rs`)
 
-Der Friend-Sync pflegt Freundschaftsanfragen, Rollen-Cleanup und Reconcile-Zustand über `steam.steam_friend_requests`, `steam.steam_friend_check_cache`, `steam.steam_friendship_miss_tracker` und `steam.steam_cleanup_poll_state`. (`rust/crates/steam-flows/src/friend_sync.rs`, `rust/crates/steam-persistence/src/friends.rs`, `rust/crates/steam-persistence/src/friend_cache.rs`, `rust/crates/steam-persistence/src/miss_tracker.rs`)
+Der Steam-Friends-Listener nimmt eingehende Steam-Freundschaftsanfragen automatisch an. Der Friend-Sync pflegt ausgehende Requests und schnellen Friend-Status über `steam.steam_friend_requests` und `steam.steam_friend_check_cache`; Unfollow- und Cleanup-Entscheidungen laufen über `steam.steam_friendship_miss_tracker` und `steam.steam_cleanup_poll_state`. Unbekannte Steam-Freunde entfernt der Sync aus der Bot-Freundesliste. (`rust/crates/steam-core/src/steam/friends.rs`, `rust/crates/steam-flows/src/friend_sync.rs`, `rust/crates/steam-persistence/src/miss_tracker.rs`)
 
 Der Rank-Flow liest verifizierte Steam-Links, fragt Profilkarten und Account-Stats über GC-Tasks ab, schreibt Snapshots und aktualisiert Discord-Rollen über den Broker. (`rust/crates/steam-flows/src/rank.rs`, `rust/crates/steam-web/src/routes/rank.rs`, `rust/crates/steam-persistence/src/rank.rs`)
 
-Der Playtest-Invite-Funnel nutzt `steam.steam_beta_invites`, Ticket-Tabellen, Friendship-Auto-Poll und Ko-fi-Zahlungen; `steam-bot` startet dafür Dispatcher, Friendship-Poller und Ticket-Cleanup. (`rust/crates/steam-bot/src/main.rs`, `rust/crates/steam-flows/src/betainvite.rs`, `rust/crates/steam-flows/src/supporter.rs`)
+Der Playtest-Invite-Funnel läuft über `/betainvite` oder `betainvite:panel:start`. Er nutzt `steam.steam_beta_invites`, Ticket-Tabellen, Friendship-Auto-Poll, Audit und Ko-fi-Zahlungen; `steam-bot` startet dafür Dispatcher, Friendship-Poller und Ticket-Cleanup. Self-Heal plant Wiederholungen für `friendship_age`, `rate_limit`, `internal_error`, `invalid_friend`, `limited_user` und `transient`. (`rust/crates/steam-web/src/routes/events.rs`, `rust/crates/steam-flows/src/betainvite.rs`, `rust/crates/steam-flows/src/supporter.rs`)
 
 Der Lobby-Flow läuft über `steam.steam_tasks` und die GC-Task-Typen `GC_CREATE_CUSTOM_LOBBY`, `GC_LOBBY_*` und `GC_GET_MATCH_RESULT`. (`rust/crates/steam-core/src/task/handlers/lobby.rs`, `rust/crates/steam-core/src/task/lanes.rs`)
+
+Der Build-Katalog läuft im Core über `MAINTAIN_BUILD_CATALOG`, `BUILD_PUBLISH`, `BUILD_DELETE` und `BUILD_CATALOG_CYCLE`. Der Scheduler plant nach 30 Sekunden den ersten `MAINTAIN_BUILD_CATALOG` und danach alle `CATALOG_MAINTENANCE_INTERVAL_MS`, default `86_400_000` ms, wenn kein offener Catalog-Task existiert. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/task/handlers/builds/mod.rs`, `rust/crates/steam-persistence/src/builds.rs`)
+
+Für Betrieb wichtig: Ohne `STEAM_CORE_API_TOKEN` lässt `steam-core` geschützte Routen im Loopback-Modus offen. `/events/discord` ist ebenfalls offen, wenn die Token-Kette `TWITCH_INTERNAL_API_TOKEN`, `STEAM_INTERNAL_API_TOKEN`, `INTERNAL_API_TOKEN` leer bleibt. Leave-Cleanup entfernt bei Server-Austritt alle Links/Freundschaften des Users, archiviert die Links und reiht Rollen-Cleanup ein. (`rust/crates/steam-core/src/api/mod.rs`, `rust/crates/steam-web/src/routes/events.rs`, `rust/crates/steam-flows/src/leave_cleanup.rs`)

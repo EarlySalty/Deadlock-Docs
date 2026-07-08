@@ -10,13 +10,13 @@ Die Anliegen, die im Support am häufigsten auftauchen — mit konkreten Selbsth
 
 ## Steam lässt sich nicht verbinden / Rang wird nicht erkannt
 
-Die Steam-Verknüpfung hat **drei** Schritte — ein reiner Login reicht nicht:
+Alles läuft über das **Steam-Panel** in <#1398021105339334666>. Die Verknüpfung hat **drei** Schritte — ein reiner Login reicht nicht:
 
-1. Steam über das Steam-Panel oder `/account_verknüpfen` verknüpfen. Der Login läuft über Steam selbst, ohne Passwort-Eingabe beim Bot.
-2. Den **Steam-Freundescode** eingeben, damit der Bot die Freundschaftsanfrage schicken kann.
-3. Die **Freundschaftsanfrage des Bots annehmen.** Erst dann gilt der Link als verifiziert — und erst dann funktionieren Verified-Rolle, Rang-Erkennung und Invite sauber.
+1. Im Panel auf `Steam verknüpfen` und über Steam anmelden. Der Login läuft über Steam selbst, ohne Passwort-Eingabe beim Bot.
+2. Über `Freundescode eingeben` den **Steam-Freundescode** hinterlegen, damit der Bot die Freundschaftsanfrage schicken kann.
+3. Die **Freundschaftsanfrage des Bots annehmen.** Erst dann gilt der Link als verifiziert — und erst dann funktionieren Verified-Rolle und Rang-Erkennung sauber.
 
-Mehrere Konten? `/steam links` zeigt das Hinterlegte. Rang anzeigen: `/steam_rank`. Stimmen die **Rang-Rollen** nicht, hilft `/checkrank` — das gleicht die Rollen tatsächlich ab, statt sie nur anzuzeigen.
+Deinen Rang siehst du im Panel über `📊 Rang prüfen`; die Rang-Rolle wird danach automatisch gesetzt und aktuell gehalten. Stimmt sie nach etwas Wartezeit nicht, meld dich im Rang-Kanal. Mehrere Steam-Konten ansehen, Hauptaccount ändern oder eine Verknüpfung entfernen? Frag kurz im Rang-Kanal — das lässt sich für dich einstellen.
 
 ## Kein Beta-Invite / Invite kommt nicht an
 

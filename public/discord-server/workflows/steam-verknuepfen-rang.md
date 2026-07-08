@@ -47,12 +47,7 @@ Im Rang-Kanal gibt es ein Panel mit den Buttons "Steam verknüpfen", "Freundesco
 | Die private Erinnerung kommt nicht an | Der Bot konnte keine DM schicken, weil private Nachrichten für den Server gesperrt sind. | DMs für den Server erlauben, wenn man die Hinweise erhalten möchte. |
 | Rang-Rolle wird nicht vergeben, obwohl verknüpft | Die Verknüpfung steht, aber die Rolle konnte gerade nicht gesetzt werden. | Kurz warten und 'Rang prüfen' erneut nutzen; hält es an, Team bitten, die Rolle zu setzen. |
 
-## Befehle
-
-- `/checkrank`
-- `/account_verknüpfen`
-- `/steam links`
-- `/steam_rank`
+## Für den Support
 
 ### Das darf der Support sagen
 

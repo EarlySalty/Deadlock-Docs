@@ -22,17 +22,17 @@ Zusätzlich gibt es das AI-Onboarding-Panel mit `Persönliche Tour starten` (3 k
 2. Ein Community-Mitglied fügt dich hinzu und lädt dich persönlich zum Playtest ein.
 3. Ohne Code kann dich niemand einladen; wenn du unsicher bist, frag dort kurz nach.
 
-Zusätzlich lohnt sich die Steam-Verknüpfung in <#1398021105339334666> in jedem Fall: Damit bekommst du deine echte Rang-Rolle, und der Steam-Bot kann Invites auch automatisiert verschicken (läuft als Sicherheitsnetz im Hintergrund).
+Zusätzlich lohnt sich die Steam-Verknüpfung in <#1398021105339334666> in jedem Fall: Damit bekommst du deine echte Rang-Rolle.
 
 ## Kosten / Premium
 Alles kostenlos. Ein Invite kostet nie Geld — weder von der Community noch vom Bot. Es gibt einen optionalen Ko-fi-Support (freiwillig, kein Pflichtkauf und keine Beschleunigung).
 
 ## Was passiert technisch (kurz)?
-Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Threads; der Flow speichert Entscheidungen wie Voice-Tags. Der Steam-Bot kann Invites zusätzlich automatisiert über die Steam-Spielsuche verschicken.
+Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Threads; der Flow speichert Entscheidungen wie Voice-Tags.
 
 ## Grenzen & häufige Fragen
 - **„Ich habe keinen Invite bekommen"**: Häufigster Grund ist ein „limited" Steam-Account — Steam blockiert Playtest-Invites, wenn auf dem Account noch keine ~5 $ ausgegeben wurden. Das ist eine Valve-Regel, die erst beim Invite-Versuch sichtbar wird; kein Bot und kein Community-Mitglied kann sie umgehen.
-- Nach einem Invite kann es 1–2 Tage dauern, bis die Einladung bei Steam sichtbar ist.
+- Nach einem Invite kann es 1–2 Tage dauern, bis die Einladung bei Steam sichtbar ist. Siehst du sie nicht, schau direkt bei Steam unter https://store.steampowered.com/account/playtestinvites nach — viele übersehen genau diese Seite.
 - Ohne Freundescode in deiner Anfrage kann dich niemand einladen — der Bot erinnert dich im Kanal daran.
 - Es gibt KEINE Onboarding-Option „Invite/Betazugang" und keinen Invite-Befehl — einfach im Kanal fragen.
 - Ein Streamer-Setup-Flow im Onboarding existiert aktuell nicht (nur Hinweise); Streamer-Themen laufen über das Twitch-Dashboard.

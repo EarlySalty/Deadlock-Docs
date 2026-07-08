@@ -1,7 +1,7 @@
 ---
 title: "Deadlock Steam-Bot Architektur"
 tags: [internal, steam, architektur]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Steam-Bot"
 ---
 # Architektur
@@ -32,13 +32,21 @@ Ein Flow reiht Arbeit über `enqueue_steam_task()` bei `steam-core` ein. Die Fun
 
 Der HTTP-Status eines Tasks kommt aus `GET /tasks/{id}`. Der Web-Handler liest `status`, `result` und `error` direkt aus `steam.steam_tasks`. (`rust/crates/steam-core/src/api/mod.rs`, `rust/crates/steam-persistence/src/tasks.rs`)
 
+`steam-core` schützt `/status`, `/friends`, `POST /tasks` und `GET /tasks/{id}` nur dann mit `X-Internal-Token`, wenn `STEAM_CORE_API_TOKEN` gesetzt ist; `/health` ist immer offen. Ohne Token bleibt die API im Loopback-/Dev-Modus offen. `/events/discord` prüft `X-Internal-Token` gegen `TWITCH_INTERNAL_API_TOKEN`, `STEAM_INTERNAL_API_TOKEN`, `INTERNAL_API_TOKEN` und ist offen, wenn diese Kette leer ist. (`rust/crates/steam-core/src/api/mod.rs`, `rust/crates/steam-web/src/routes/events.rs`)
+
+## Discord-OAuth
+
+Der Steam-Bot hält keine Discord-Client-Secrets. Er delegiert OAuth an die interne Master-Bot-API `DISCORD_OAUTH_INTERNAL_API_BASE_URL`, default `http://127.0.0.1:8766`, mit den Pfaden `/internal/v1/discord/initiate` und `/internal/v1/discord/consume-result`. Der Request setzt `X-Internal-Token`, nutzt die Fallbacks `TURNIER_INTERNAL_API_TOKEN`, `MASTER_BROKER_TOKEN`, `MAIN_BOT_INTERNAL_TOKEN`, `TWITCH_INTERNAL_API_TOKEN`, hat 20 Sekunden Timeout und fordert den Scope `identify connections` an. (`rust/crates/steam-flows/src/link.rs`)
+
 ## Scheduler
 
 `steam-bot` startet `friend_sync`, `rank`, `purge`, `leave_cleanup`, `supporter`, `betainvite_dispatcher`, `friendship_poller` und `ticket_cleanup`. Jeder Scheduler läuft unter `spawn_supervised`; ein Ende oder Panic beendet den Prozess mit Exit 1. (`rust/crates/steam-bot/src/main.rs`)
 
 Der Link-Flow hat keinen Scheduler. Er läuft über HTTP-Routen und Discord-Events. (`rust/crates/steam-bot/src/main.rs`, `rust/crates/steam-flows/src/link.rs`)
 
-`steam-core` startet den TaskRunner, den standalone Command-Consumer, den Catalog-Maintenance-Scheduler und die GC-/Steam-Supervisoren. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/command_loop.rs`)
+`steam-core` startet den TaskRunner, den standalone Command-Consumer, den Catalog-Maintenance-Scheduler und die GC-/Steam-Supervisoren. Der Command-Consumer bedient `status`, `login`, `logout`, `guard.submit` und `restart` aus `bot.standalone_commands`; `restart` finalisiert den Befehl und beendet den Prozess mit Exit 1. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/command_loop.rs`)
+
+Der Catalog-Maintenance-Scheduler plant initial nach 30 Sekunden und danach alle `CATALOG_MAINTENANCE_INTERVAL_MS`, default `86_400_000` ms, einen `MAINTAIN_BUILD_CATALOG`-Task ein, sofern kein offener Catalog-Task existiert. Presence startet nur, wenn `STEAM_PRESENCE_ENABLED` gesetzt ist. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/steam/presence.rs`)
 
 ## Fehlergrenzen
 
@@ -46,7 +54,10 @@ Wenn der Steam-Login mit konfigurierten Zugangsdaten fehlschlägt, gibt `steam-c
 
 Wenn `steam-core` die Steam-Session verliert, setzt der Disconnect-Supervisor die Shutdown-Ursache auf `Disconnect`; danach beendet der Prozess mit Exit 1. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/steam/supervisor.rs`)
 
+Wenn der initiale GC-Handshake fehlschlägt, startet `steam-core` ohne GC weiter und lässt Task-Queue, API und Heartbeat laufen. Der GC-Reconnect probiert alle 60 Sekunden bis zu 30-mal; sobald GC erreichbar ist, löst er `Disconnect` aus, damit systemd den Prozess mit sauber verdrahtetem GC neu startet. Die GC-Probe prüft alle 60 Sekunden mit 15 Sekunden Timeout und beendet nach drei Fehlschlägen ebenfalls mit Exit 1. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/steam/supervisor.rs`)
+
+Wenn Steam einen Refresh-Token rotiert, schreibt `steam-core` `STEAM_REFRESH_TOKEN` per Token-Sync nach Infisical. Schlägt der Write-back fehl, läuft der Prozess weiter und loggt die manuelle Nacharbeit ohne Tokenwert. (`rust/crates/steam-core/src/main.rs`, `rust/crates/steam-core/src/steam/token_sync.rs`)
+
 Wenn ein `steam-bot`-Scheduler endet oder panict, ruft der Watcher `std::process::exit(1)`. (`rust/crates/steam-bot/src/main.rs`)
 
 Wenn die `steam-core`-HTTP-API nicht binden kann, loggt sie den Fehler und der Prozess läuft ohne diese API weiter. (`rust/crates/steam-core/src/api/mod.rs`)
-

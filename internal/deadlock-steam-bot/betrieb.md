@@ -1,7 +1,7 @@
 ---
 title: "Deadlock Steam-Bot Betrieb"
 tags: [internal, steam, betrieb]
-stand: 2026-07-07
+stand: 2026-07-08
 quelle: "Deadlock-Steam-Bot"
 ---
 # Betrieb
@@ -56,13 +56,24 @@ Bot-Start und Core-Client: `STEAM_BOT_API_ADDR`, `STEAM_BOT_DISCORD`, `RUST_LOG`
 
 Discord-Broker: `STEAM_BROKER_URL`, `TWITCH_INTERNAL_API_TOKEN`, `STEAM_INTERNAL_API_TOKEN`, `INTERNAL_API_TOKEN`. (`rust/crates/steam-discord/src/broker.rs`, `rust/crates/steam-web/src/routes/events.rs`)
 
-Link/OAuth: `PUBLIC_BASE_URL`, `STEAM_LINK_PUBLIC_BASE_URL`, `STEAM_RETURN_PATH`, `DISCORD_OAUTH_REDIRECT`, `DISCORD_OAUTH_INTERNAL_API_BASE_URL`, `TURNIER_INTERNAL_API_TOKEN`, `MASTER_BROKER_TOKEN`, `MAIN_BOT_INTERNAL_TOKEN`, `STEAM_API_KEY`, `STEAM_FIELD_CRYPTO_KEY`, `FRIEND_CODE_LINKING_ENABLED`, `STEAM_LOGIN_LAUNCH_TTL_SEC`, `STEAM_TRUST_X_FORWARDED_FOR`. (`rust/crates/steam-flows/src/link.rs`, `rust/crates/steam-flows/src/field_crypto.rs`, `rust/crates/steam-web/src/routes/link.rs`, `rust/crates/steam-flows/src/steam_web_api.rs`)
+Link/OAuth: `PUBLIC_BASE_URL`, `STEAM_LINK_PUBLIC_BASE_URL`, `STEAM_RETURN_PATH`, `DISCORD_OAUTH_REDIRECT`, `DISCORD_OAUTH_INTERNAL_API_BASE_URL`, `TURNIER_INTERNAL_API_TOKEN`, `MASTER_BROKER_TOKEN`, `MAIN_BOT_INTERNAL_TOKEN`, `STEAM_API_KEY`, `STEAM_FIELD_CRYPTO_KEY`, `FRIEND_CODE_LINKING_ENABLED`, `STEAM_LOGIN_LAUNCH_TTL_SEC`, `STEAM_TRUST_X_FORWARDED_FOR`. Die Discord-OAuth-Delegation nutzt default `http://127.0.0.1:8766`, postet auf `/internal/v1/discord/initiate` und `/internal/v1/discord/consume-result`, setzt `X-Internal-Token` und hat 20 Sekunden Request-Timeout. (`rust/crates/steam-flows/src/link.rs`, `rust/crates/steam-flows/src/field_crypto.rs`, `rust/crates/steam-web/src/routes/link.rs`)
 
 Guild, Rollen und Scheduler: `STEAM_GUILD_ID`, `STEAM_VERIFIED_ROLE_ID`, `STEAM_FRIEND_SYNC_INTERVAL_HOURS`, `STEAM_POLL_MIN_INTERVAL_SEC`, `STEAM_UNFOLLOW_MISS_THRESHOLD`, `STEAM_POLL_BATCH_SIZE`, `STEAM_FRIEND_REQUEST_RECONCILE_INTERVAL_SEC`, `STEAM_FRIEND_REQUEST_RECONCILE_BATCH_SIZE`, `AUTO_SYNC_INTERVAL_MINUTES`, `STEAM_FRIEND_LIMIT`, `STEAM_FRIEND_RESERVE`, `STEAM_INACTIVE_PURGE_DAYS`. (`rust/crates/steam-flows/src/friend_sync.rs`, `rust/crates/steam-flows/src/rank.rs`, `rust/crates/steam-flows/src/purge.rs`, `rust/crates/steam-flows/src/leave_cleanup.rs`)
 
-Beta-Invite und Ko-fi: `STEAM_BOT_FRIEND_CODE`, `BETA_INVITE_COMMUNITY_DISPATCH_INTERVAL_SECONDS`, `BETA_INVITE_COMMUNITY_DISPATCH_MAX_RETRYABLE_FAILURES`, `BETA_INVITE_COMMUNITY_DISPATCH_MIN_SECONDS`, `BETA_INVITE_COMMUNITY_DISPATCH_MAX_SECONDS`, `MAIN_GUILD_ID`, `KOFI_VERIFICATION_TOKEN`. (`rust/crates/steam-flows/src/betainvite.rs`, `rust/crates/steam-flows/src/supporter.rs`, `rust/crates/steam-web/src/routes/kofi.rs`)
+Beta-Invite und Ko-fi: `STEAM_BOT_FRIEND_CODE`, `BETA_INVITE_COMMUNITY_DISPATCH_INTERVAL_SECONDS`, `BETA_INVITE_COMMUNITY_DISPATCH_MAX_RETRYABLE_FAILURES`, `BETA_INVITE_COMMUNITY_DISPATCH_MIN_SECONDS`, `BETA_INVITE_COMMUNITY_DISPATCH_MAX_SECONDS`, `MAIN_GUILD_ID`, `KOFI_VERIFICATION_TOKEN`. `STEAM_BOT_FRIEND_CODE` fällt auf `820142646` zurück. `FRIEND_CODE_LINKING_ENABLED` schaltet bei `0`, `false`, `off` oder `no` die Freundescode-Eingabe ab. (`rust/crates/steam-flows/src/betainvite.rs`, `rust/crates/steam-flows/src/link.rs`, `rust/crates/steam-web/src/routes/kofi.rs`)
 
 Wrapper: `INFISICAL_CONFIG_FILE`, `INFISICAL_EXPORT_SCRIPT`, `STEAM_CORE_BIN`, `STEAM_BOT_BIN`, `INFISICAL_SERVICE_TOKEN`, `CREDENTIALS_DIRECTORY`, `INFISICAL_RETRY_DELAY`, `INFISICAL_MAX_ATTEMPTS`, `STEAM_CORE_WAIT_URL`, `STEAM_CORE_WAIT_MAX`. (`rust/deploy/run-steam-core.sh`, `rust/deploy/run-steam-bot.sh`)
+
+## Runbook-Werte
+
+| Bereich | Wert | Beleg |
+|---|---|---|
+| Beta-Invite-Dispatcher | default 60 Sekunden, Minimum 15 Sekunden; Community-Delay default 900 bis 7200 Sekunden; Invite-Task-Wait 100 Sekunden. | `rust/crates/steam-flows/src/betainvite.rs` |
+| Beta-Invite-Friendship-Poll | Loop alle 15 Sekunden; Auto-Check alle 120 Sekunden, maximal 5 Versuche. | `rust/crates/steam-flows/src/betainvite.rs` |
+| Friend-Request-Reconcile | default alle 60 Sekunden, Batch default 100, Clamp 1 bis 500. | `rust/crates/steam-flows/src/friend_sync.rs` |
+| Rank-Sync | default alle 60 Minuten; Profilkarten-Timeout 45 Sekunden. | `rust/crates/steam-flows/src/rank.rs` |
+| Presence | nur mit `STEAM_PRESENCE_ENABLED`; Request alle 60 Sekunden, Chunk 50, Chunk-Delay 250 ms, Party-Member-Max-Age 600 Sekunden. | `rust/crates/steam-core/src/steam/presence.rs` |
+| Ko-fi-Supporter-Revoke | Rolle gilt 30 Tage; Scheduler läuft alle 10 Minuten und entfernt abgelaufene Grants. | `rust/crates/steam-flows/src/supporter.rs` |
 
 ## Fallen
 
@@ -72,7 +83,11 @@ Falle: Der Primary-Race ist nur geschlossen, wenn Migration `0015_steam_links_on
 
 Falle: Wenn `STEAM_CORE_API_TOKEN` fehlt, lässt `steam-core` alle geschützten Endpunkte außer `/health` im Loopback-Modus ohne Token durch. (`rust/crates/steam-core/src/api/mod.rs`)
 
+Falle: Wenn `TWITCH_INTERNAL_API_TOKEN`, `STEAM_INTERNAL_API_TOKEN` und `INTERNAL_API_TOKEN` fehlen, läuft `/events/discord` im Dev-Modus ohne Auth. Der Token wird beim ersten Request geladen und prozessweit gecacht. (`rust/crates/steam-web/src/routes/events.rs`)
+
 Falle: Wenn `KOFI_VERIFICATION_TOKEN` fehlt, antwortet `/kofi/webhook` mit 503 und verarbeitet keine Zahlungen. (`rust/crates/steam-bot/src/main.rs`, `rust/crates/steam-web/src/routes/kofi.rs`)
+
+Falle: `steam-bot/src/main.rs` kommentiert beim Ticket-Cleanup noch "48 h Inaktivität". Die aktive Konstante ist `TICKET_IDLE_TTL_SECS = 12 * 60 * 60`, also 12 Stunden; der Loop schläft 5 Minuten. (`rust/crates/steam-bot/src/main.rs`, `rust/crates/steam-flows/src/betainvite.rs`)
 
 Falle: Der Token-Auto-Refresh-Pfad ruft bei `STEAM_TOKEN_AUTO_REFRESH` und vorhandenem Passwort `std::process::exit(0)` auf. Die Unit nutzt `Restart=on-failure`; Exit 0 löst dort keinen on-failure-Neustart aus. (`rust/crates/steam-core/src/token_refresh.rs`, `rust/deploy/steam-core.service`)
 
