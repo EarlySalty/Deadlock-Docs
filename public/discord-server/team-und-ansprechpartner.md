@@ -1,7 +1,7 @@
 ---
 title: "Das Team hinter dem Server (Owner, Mods, Coaches)"
 tags: [discord-server, team, owner, moderatoren, mods, coaches, ansprechpartner, wer]
-stand: 2026-07-08
+stand: 2026-07-09
 quelle: "Discord-Rollen der Deutschen Deadlock Community, automatisch aktualisiert"
 ---
 # Das Team hinter dem Server
@@ -30,13 +30,13 @@ Sie geben kostenloses Coaching für alle Ränge (Anmeldung über <#1494373349944
 - **KubiKubiKubi** (Discord: `_qb_`)
 - **Leo** (Discord: `roovvleo`), organisiert auch die Scrims
 - **M1lano** (Discord: `milanoqsek`)
+- **yourmomgosky** (Discord: `yourmomgosky`)
 - **Nani** selbst coacht ebenfalls
 
 ## Paten
 Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste, wer die Paten-Rolle hat, kann Neulinge übernehmen. Einen Paten bekommst du über den Bot in den DMs.
 
 ## Wie erreichst du das Team?
-- Bei Problemen oder Moderationsanliegen: Ticket über den Button in <#1459628609705738539> öffnen.
+- Bei Problemen oder Fragen: Ticket über den Button in <#1459628609705738539> öffnen.
 - Regelverstöße oder Konflikte: an die Moderatoren wenden (Ticket oder direkt ansprechen).
-- Fragen zu Server, Bots und Concierge: <#1491953161747955853>.
-- Fragen an die Community und Invite-Anfragen: <#1426220702054355077>.
+- Fragen an alle: <#1426220702054355077>, da liest auch das Team mit.
