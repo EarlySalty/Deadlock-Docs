@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock-Bots Übersicht</title>
+  <meta name="tags" content="deadlock-bots, intern, rust">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots">
+</head>
+<body>
+<main>
+<h1>Deadlock-Bots Übersicht</h1>
+<p><code>Deadlock-Bots</code> bündelt Discord-Gateway-Arbeit, interne Discord-REST-Aktionen, öffentliche Web-APIs, Dashboard-Routen, zentrale Postgres-Migrationen und kleine Sync-Collector. Der Rust-Teil liegt unter <code>rust/</code> und nutzt einen Workspace mit Domain-Crates und Binaries unter <code>rust/bin/</code> (<code>rust/Cargo.toml</code>, <code>rust/bin/dl-bot/src/main.rs</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
+<p>Der Prozess <code>dl-bot</code> startet auch ohne Gateway mehrere lokale HTTP-Server: Master-Broker, Changelog-Empfänger, Server-Sync und MCP-Connector. Discord-Gateway-Arbeit läuft erst, wenn <code>DL_BOT_GATEWAY=1</code> gesetzt ist (<code>rust/bin/dl-bot/src/main.rs</code>, <code>scripts/run_dl_bot_service.sh</code>).</p>
+<section id="binaries">
+<h2>Binaries</h2>
+<table>
+<thead>
+<tr>
+<th>Binary</th>
+<th>Aufgabe</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dl-bot</code></td>
+<td>Discord-Prozess mit Broker, Changelog-API, Server-Sync, MCP-Connector und optionalem Gateway.</td>
+<td><code>rust/bin/dl-bot/Cargo.toml</code>, <code>rust/bin/dl-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-web</code></td>
+<td>Ein Prozess für Dashboard, Public-Stats und Tierlist; alle drei binden eigene Ports.</td>
+<td><code>rust/bin/dl-web/Cargo.toml</code>, <code>rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-central-migrate</code></td>
+<td>Wendet <code>rust/crates/dl-central-db/migrations</code> auf die zentrale Postgres-DB an.</td>
+<td><code>rust/bin/dl-central-migrate/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-central-sync</code></td>
+<td>Snapshotet bekannte SQLite-Quellen, lädt ETL-Ledger und schreibt in die zentrale Postgres-DB.</td>
+<td><code>rust/bin/dl-central-sync/src/main.rs</code>, <code>rust/crates/dl-central-etl/src/lib.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-twitch-invite-sync</code></td>
+<td>Holt Streamer-Invite-Zuordnungen aus der internen Twitch-API und korrigiert Join-Metadaten auf Bucket <code>twitch</code>.</td>
+<td><code>rust/bin/dl-twitch-invite-sync/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-repostats</code></td>
+<td>Sammelt Repo-Aktivität in ein JSON-Artefakt für das Dashboard.</td>
+<td><code>rust/bin/dl-repostats/src/main.rs</code>, <code>service/systemd/dl-repostats.service</code></td>
+</tr>
+<tr>
+<td><code>dl-mcp</code></td>
+<td>Eigenständiger MCP-Server für Discord-REST-Tools. Er liegt unter <code>rust/bin/</code>, ist aber nicht in den Workspace-<code>members</code> eingetragen.</td>
+<td><code>rust/bin/dl-mcp/src/main.rs</code>, <code>rust/bin/dl-mcp/Cargo.toml</code>, <code>rust/Cargo.toml</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>dl-bot</code> enthält zusätzlich das Cargo-Nebenbinary <code>seed_scrim</code>; es importiert ein Seed-Roster-JSON in die zentrale DB. Es ist kein eigener Ordner unter <code>rust/bin/</code> (<code>rust/bin/dl-bot/src/bin/seed_scrim.rs</code>).</p>
+</section>
+<section id="ports">
+<h2>Ports</h2>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Prozess</th>
+<th>Bindung</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>8766</code></td>
+<td><code>dl-web</code></td>
+<td>Dashboard, Host aus <code>DASHBOARD_HOST</code>, Default <code>127.0.0.1</code>.</td>
+<td><code>rust/crates/dl-core/src/config.rs</code>, <code>rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8768</code></td>
+<td><code>dl-web</code></td>
+<td>Public-Stats, Host aus <code>PUBLIC_STATS_HOST</code>, Default <code>127.0.0.1</code>.</td>
+<td><code>rust/crates/dl-core/src/config.rs</code>, <code>rust/crates/dl-webcore/src/config.rs</code>, <code>rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8770</code></td>
+<td><code>dl-bot</code></td>
+<td>Master-Broker, Host aus <code>MASTER_BROKER_HOST</code>, Default <code>127.0.0.1</code>.</td>
+<td><code>rust/crates/dl-core/src/config.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8771</code></td>
+<td><code>dl-web</code></td>
+<td>Tierlist, Host aus <code>TIERLIST_PUBLIC_HOST</code>, Default <code>127.0.0.1</code>.</td>
+<td><code>rust/crates/dl-core/src/config.rs</code>, <code>rust/crates/dl-webcore/src/config.rs</code>, <code>rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8890</code></td>
+<td><code>dl-bot</code> oder <code>dl-mcp</code></td>
+<td>MCP-Connector im Bot nutzt <code>MCP_CONNECTOR_PORT</code>; Standalone-<code>dl-mcp</code> nutzt <code>DL_MCP_PORT</code>.</td>
+<td><code>rust/bin/dl-bot/src/mcp.rs</code>, <code>rust/bin/dl-mcp/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8899</code></td>
+<td><code>dl-bot</code></td>
+<td>Changelog-Empfänger, immer loopback.</td>
+<td><code>rust/crates/dl-core/src/config.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8901</code></td>
+<td><code>dl-bot</code></td>
+<td>Server-Sync-Orchestrator, loopback plus interner Token.</td>
+<td><code>rust/bin/dl-bot/src/serversync.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8776</code></td>
+<td>Schwester-Bot</td>
+<td>Default-Basis der Twitch-internen API.</td>
+<td><code>rust/crates/dl-bridges/src/twitch.rs</code>, <code>rust/bin/dl-twitch-invite-sync/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>8783</code></td>
+<td>Schwester-Bot</td>
+<td>Default-Basis der Steam-Bot-API.</td>
+<td><code>rust/crates/dl-bridges/src/steam.rs</code></td>
+</tr>
+<tr>
+<td><code>8772</code></td>
+<td>Website-Backend</td>
+<td>Wrapper setzt <code>WEBSITE_API_BASE</code> auf den lokalen <code>/api</code>-Pfad.</td>
+<td><code>scripts/run_dl_bot_service.sh</code>, <code>rust/crates/dl-community/src/coaching.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="live-user-services">
+<h2>Live-User-Services</h2>
+<p><code>deadlock-bot-rust.service</code> startet im WorkingDirectory <code>/home/naniadm/Documents/Deadlock-Bots</code> den Wrapper <code>scripts/run_dl_bot_service.sh</code>; die gelesene Unit hat <code>Conflicts=deadlock-bot.service</code> und ein Drop-in für <code>OWNER_ID</code> (<code>/home/naniadm/.config/systemd/user/deadlock-bot-rust.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-bot-rust.service.d/owner.conf</code>, <code>scripts/run_dl_bot_service.sh</code>).</p>
+<p><code>deadlock-web-rust.service</code> startet im selben WorkingDirectory den Wrapper <code>scripts/run_dl_web_service.sh</code> und bindet darüber Dashboard, Public-Stats und Tierlist (<code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code>, <code>scripts/run_dl_web_service.sh</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
+<p><code>deadlock-twitch-invite-sync.timer</code> startet alle 15 Minuten den Oneshot-Service <code>deadlock-twitch-invite-sync.service</code>; der Service ruft <code>scripts/run_twitch_invite_sync.sh</code> auf und führt danach <code>rust/target/release/dl-twitch-invite-sync</code> aus (<code>/home/naniadm/.config/systemd/user/deadlock-twitch-invite-sync.timer</code>, <code>/home/naniadm/.config/systemd/user/deadlock-twitch-invite-sync.service</code>, <code>scripts/run_twitch_invite_sync.sh</code>).</p>
+<p><code>dl-repostats.timer</code> startet <code>dl-repostats.service</code> 3 Minuten nach Boot und danach alle 2 Stunden. Die Live-Unit führt direkt <code>rust/target/release/dl-repostats</code> aus (<code>/home/naniadm/.config/systemd/user/dl-repostats.timer</code>, <code>/home/naniadm/.config/systemd/user/dl-repostats.service</code>).</p>
+</section>
+</main>
+</body>
+</html>

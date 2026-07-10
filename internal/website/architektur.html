@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Website Architektur</title>
+  <meta name="tags" content="website, intern, architektur">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="Website">
+</head>
+<body>
+<main>
+<h1>Architektur</h1>
+<section id="frontend-struktur">
+<h2>Frontend-Struktur</h2>
+<p>Die Website ist kein einzelnes Frontend; Caddy hängt mehrere Vite-Builds und statische Roots unter feste Pfade (<code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/*/vite.config.*</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Teil</th>
+<th>Struktur</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deco-elevator-new</code></td>
+<td>Statische Aufzug-Landing ohne Vite-Konfig im Projektwurzelbereich.</td>
+<td><code>/home/naniadm/Documents/Website/deco-elevator-new/index.html</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>dl-landing</code></td>
+<td>Vite-Multi-Page-Build mit <code>home</code>, <code>mitspieler</code>, <code>survey</code>, <code>coaching</code>, <code>streamer</code>, <code>helden</code>, <code>guideAnfaenger</code> und <code>beitreten</code> als Inputs.</td>
+<td><code>/home/naniadm/Documents/Website/dl-landing/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-activity</code></td>
+<td>Vite-App mit <code>base: &quot;/aktivitaet/&quot;</code>, eigener Brand-Asset-Middleware und Chart.js.</td>
+<td><code>/home/naniadm/Documents/Website/dl-activity/vite.config.js</code>, <code>/home/naniadm/Documents/Website/dl-activity/package.json</code>, <code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code></td>
+</tr>
+<tr>
+<td><code>dl-patch</code></td>
+<td>Vite-App mit <code>base: &quot;/patch/&quot;</code>; das Frontend lädt Patchdaten über absolute <code>/api/public/*</code>-Pfade.</td>
+<td><code>/home/naniadm/Documents/Website/dl-patch/vite.config.js</code>, <code>/home/naniadm/Documents/Website/dl-patch/src/patch.js</code></td>
+</tr>
+<tr>
+<td><code>dl-tierlist</code></td>
+<td>Vite-Multi-Page-Build mit <code>home</code>, <code>history</code> und <code>admin</code>, ausgeliefert unter <code>/builds/</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-tierlist/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-coaching</code></td>
+<td>React/Vite-App unter <code>/coaching/</code>; <code>App.tsx</code> definiert Routen für Coaches, Anfrage, Dashboard, Coachees, Spieleransicht und Scrims.</td>
+<td><code>/home/naniadm/Documents/Website/dl-coaching/vite.config.ts</code>, <code>/home/naniadm/Documents/Website/dl-coaching/src/App.tsx</code></td>
+</tr>
+<tr>
+<td><code>builds/frontend</code></td>
+<td><strong>Legacy / nicht live geroutet.</strong> Ältere React/Vite-App; Caddy liefert <code>/builds/</code> in Wirklichkeit aus <code>dl-tierlist/dist</code>, nicht von hier. Nur noch dev-preview.</td>
+<td><code>/home/naniadm/Documents/Website/builds/frontend/vite.config.ts</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>dl-brand</code></td>
+<td>Gemeinsame Navigation und Tokens; <code>nav.js</code> baut Links zu Empfang, Mitspieler, Coaching, Aktivität, Patchnotes, Helden, Streamer und Beitreten.</td>
+<td><code>/home/naniadm/Documents/Website/dl-brand/nav.js</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api-basis-im-browser">
+<h2>API-Basis im Browser</h2>
+<p><code>dl-coaching</code> baut seine API-Basis aus <code>import.meta.env.BASE_URL</code> plus <code>/api</code>; bei <code>base: &quot;/coaching/&quot;</code> wird daraus <code>/coaching/api</code> (<code>/home/naniadm/Documents/Website/dl-coaching/src/api/client.ts</code>). Die live unter <code>/builds/</code> ausgelieferte Tierlist-App (<code>dl-tierlist</code>) spricht ihr Backend entsprechend unter <code>/builds/api</code> an (<code>/home/naniadm/Documents/Website/dl-tierlist/src/shared.js</code>).</p>
+<p><code>dl-activity</code> nutzt <code>VITE_API_BASE</code> oder die Vite-Base als Prefix und ruft darunter <code>/api/...</code> sowie <code>/auth/...</code> auf; Caddy entfernt bei <code>/aktivitaet/api/*</code> und <code>/aktivitaet/auth/*</code> den Prefix, bevor der Stats-Service auf <code>8768</code> die Anfrage sieht (<code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p><code>dl-patch</code> ruft <code>/api/public/patch-timeline</code> und <code>/api/public/patch-notes</code> ohne <code>/patch</code>-Prefix; Caddy mappt genau diese beiden Public-Endpunkte auf <code>127.0.0.1:8772</code> (<code>/home/naniadm/Documents/Website/dl-patch/src/patch.js</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+</section>
+<section id="rust-backend">
+<h2>Rust-Backend</h2>
+<p>Das Rust-Backend heißt <code>ddc-website-backend</code>, nutzt Axum, Sqlx/Postgres, Reqwest und Tokio; die Cargo-Datei bindet <code>dl-central-db</code> per lokalem Pfad ein (<code>/home/naniadm/Documents/Website/builds/backend-rust/Cargo.toml</code>).</p>
+<p><code>main.rs</code> lädt <code>Config::from_env()</code>, baut <code>AppState</code>, erstellt den Router und bindet auf <code>WEBSITE_BACKEND_HOST:WEBSITE_BACKEND_PORT</code>, Default <code>127.0.0.1:8772</code> (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/main.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code>).</p>
+<p><code>AppState::new</code> öffnet den zentralen Postgres-Pool, führt <code>db::init</code> als Smoke-Check aus, erstellt einen Reqwest-Client, Auth-Helfer und Discord-Role-Clients; danach startet der Discord-Role-Sync-Worker (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/db.rs</code>).</p>
+</section>
+<section id="router-gruppen">
+<h2>Router-Gruppen</h2>
+<table>
+<thead>
+<tr>
+<th>Gruppe</th>
+<th>Pfade</th>
+<th>Handler-Datei</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Health und Patch-Public</td>
+<td><code>/api/health</code>, <code>/api/public/patch-timeline</code>, <code>/api/public/patch-notes</code></td>
+<td><code>routes/mod.rs</code>, <code>routes/public.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/public.rs</code></td>
+</tr>
+<tr>
+<td>Auth</td>
+<td><code>/api/auth/discord/login</code>, <code>/api/auth/discord/callback</code>, <code>/api/auth/me</code>, <code>/api/auth/logout</code></td>
+<td><code>routes/auth.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/auth.rs</code></td>
+</tr>
+<tr>
+<td>Discord Linked Role</td>
+<td><code>/api/auth/discord/linked-role/*</code>, <code>/api/admin/discord-role-connections/metadata</code>, <code>/api/internal/discord-role-connections/sync</code></td>
+<td><code>routes/linked_role.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/linked_role.rs</code></td>
+</tr>
+<tr>
+<td>Meta</td>
+<td><code>/api/heroes</code>, <code>/api/builds</code>, <code>/api/items</code>, <code>/api/tierlists</code>, <code>/api/patchnotes</code>, <code>/api/history</code>, <code>/api/admin/*</code></td>
+<td><code>routes/meta.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code></td>
+</tr>
+<tr>
+<td>Coaching</td>
+<td><code>/api/coaching/coaches</code>, <code>/api/coaching/requests</code>, <code>/api/coaching/surveys</code>, <code>/api/coaching/dashboard</code>, <code>/api/coaching/sessions/*</code></td>
+<td><code>routes/coaching.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code></td>
+</tr>
+<tr>
+<td>Coaching-Plattform</td>
+<td><code>/api/coaching/platform/*</code></td>
+<td><code>routes/platform.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code></td>
+</tr>
+<tr>
+<td>Scrims</td>
+<td><code>/api/scrim/*</code></td>
+<td><code>routes/scrim.rs</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="legacy">
+<h2>Legacy</h2>
+<p>Legacy: Der Wrapper enthält noch einen Python-Zweig für <code>WEBSITE_BACKEND_IMPL=python</code>, aber die gelesene Live-Unit startet <code>scripts/run_builds_backend.sh</code> mit Default <code>rust</code> und der Rust-Zweig verlangt <code>builds/backend-rust/target/release/ddc-website-backend</code>. Die Website-Doku beschreibt deshalb das Rust-Backend als Laufzeitpfad (<code>/home/naniadm/.config/systemd/user/deadlock-website-backend.service</code>, <code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/main.rs</code>).</p>
+</section>
+</main>
+</body>
+</html>

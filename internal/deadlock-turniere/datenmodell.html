@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Datenmodell</title>
+  <meta name="tags" content="internal, deadlock-turniere, datenmodell">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Datenmodell</h1>
+<p>Rust nutzt die zentrale Postgres-DB aus <code>DEADLOCK_CENTRAL_DSN</code>. Die produktiven Tabellen werden im Schema <code>turnier.*</code> angesprochen; lokale Dateidatenbanken sind nicht der Fachdatenpfad. Produktive Migrationen laufen außerhalb des Turnier-Dienstes, denn <code>turnier_db::run_migrations()</code> ist ein No-op. (<code>rust/crates/turnier-db/src/pool.rs</code>, <code>rust/crates/turnier-config/src/lib.rs</code>)</p>
+<section id="zugriff">
+<h2>Zugriff</h2>
+<p><code>connect_central()</code> liest die DSN über <code>dl_central_db::dsn_from_env()</code> und baut daraus einen <code>PgPool</code>. Der Pool wird in <code>AppState</code> gehalten und an API, Scheduler, MatchManager, DiscordNotifier und RankResolver weitergereicht. (<code>rust/crates/turnier-db/src/pool.rs</code>, <code>rust/crates/turnier-api/src/state.rs</code>)</p>
+<p>Rust-Queries sind schemaqualifiziert. Beispiele sind <code>turnier.tournaments</code>, <code>turnier.teams</code>, <code>turnier.team_members</code>, <code>turnier.bracket_matches</code>, <code>turnier.group_matches</code>, <code>turnier.sessions</code>, <code>turnier.rank_cache</code> und <code>turnier.tournament_presets</code>. (<code>rust/crates/turnier-api/src/public/teams.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>, <code>rust/crates/turnier-auth/src/session.rs</code>)</p>
+</section>
+<section id="turniere-und-teams">
+<h2>Turniere und Teams</h2>
+<p><code>turnier.tournaments</code> trägt den Turnierstatus, Modus, Teamgröße, Zeitfenster, Serienformat, Spielmodus, Auto-Lobby-Flag, Test-Flag, Reminder-Offsets und Lobby-Settings. Status- und Moduswerte sind in <code>turnier-core</code> als String-Enums modelliert. (<code>rust/crates/turnier-core/src/enums.rs</code>, <code>rust/crates/turnier-api/src/admin/tournaments.rs</code>)</p>
+<p>Der Modus ist <code>bracket_only</code> oder <code>group_stage</code>. <code>determine_tournament_mode</code> schaltet ab <strong>≥ 16 Teams</strong> automatisch auf <code>group_stage</code>, darunter bleibt <code>bracket_only</code>; ein Admin-Override erzwingt beides. Diese Schwelle ist in der public-Doku bewusst nur als „größere Turniere → Gruppenphase&quot; umschrieben. (<code>rust/crates/turnier-engine/src/status.rs</code>, <code>rust/crates/turnier-core/src/tournament.rs</code>)</p>
+<p>Teams liegen in <code>turnier.teams</code>, Mitglieder in <code>turnier.team_members</code>, Solo-Anmeldungen in <code>turnier.tournament_signups</code>. Team-Erstellen, Team-Beitritt, 1vs1-Autoteam und Check-in schreiben diese Tabellen in Transaktionen. (<code>rust/crates/turnier-api/src/public/teams.rs</code>, <code>rust/crates/turnier-api/src/public/signups.rs</code>)</p>
+<p>Gruppen bestehen aus <code>turnier.groups</code>, <code>turnier.group_teams</code> und <code>turnier.group_matches</code>. Die Engine erzeugt Gruppen per Snake-Draft, legt <code>group_teams</code> mit <code>wins=0</code>, <code>losses=0</code>, <code>points=0</code> an und erzeugt Round-Robin-<code>group_matches</code>. (<code>rust/crates/turnier-engine/src/persist/groups.rs</code>)</p>
+</section>
+<section id="matches-serien-und-draft">
+<h2>Matches, Serien und Draft</h2>
+<p>Bracket-Daten liegen in <code>turnier.bracket_matches</code>, <code>turnier.bracket_mini_groups</code> und <code>turnier.bracket_mini_group_teams</code>. Der Match-Repo-Code liest Bracket- und Group-Matches über zwei feste Query-Zweige und schreibt Lobby-Daten scope-gebunden zurück. (<code>rust/crates/turnier-match/src/repo.rs</code>)</p>
+<p>Nach Lobby-Erstellung schreibt Rust <code>steam_party_id</code>, <code>party_code</code>, <code>status='lobby_created'</code> und optional <code>hero_assignments</code>. Nach Match-Start setzt Rust <code>status='in_progress'</code> und übernimmt optional <code>deadlock_match_id</code>. (<code>rust/crates/turnier-match/src/lobby.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>)</p>
+<p>Serien liegen in <code>turnier.match_games</code>. <code>record_game_result()</code> erzeugt fehlende Spiele idempotent, schreibt Gewinner, Steam-/Deadlock-IDs, Dauer und Stats und entscheidet die Serie über <code>wins_needed = series_format / 2 + 1</code>. (<code>rust/crates/turnier-match/src/series.rs</code>)</p>
+<p>Drafts liegen in <code>turnier.draft_sessions</code> und <code>turnier.draft_actions</code>. <code>start_draft()</code> legt eine Session und die Standard-Aktionssequenz an; <code>take_action()</code> läuft in einer Postgres-Transaktion mit Compare-and-Swap auf <code>current_action_index</code>. (<code>rust/crates/turnier-draft/src/repo.rs</code>, <code>rust/crates/turnier-draft/src/state.rs</code>)</p>
+</section>
+<section id="ergebnisse-und-punkte">
+<h2>Ergebnisse und Punkte</h2>
+<p>Bracket-Ergebnisse setzen <code>turnier.bracket_matches.status='completed'</code>, schreiben <code>turnier.match_results</code>, propagieren Gewinner in Folge-Matches, schließen Mini-Groups bei Bedarf ab und planen Folge-Lobbys best-effort. (<code>rust/crates/turnier-match/src/result.rs</code>)</p>
+<p>Group-Ergebnisse setzen <code>turnier.group_matches.status='completed'</code>, schreiben Gewinner, Dauer, Stats und <code>match_results</code>, erhöhen beim Gewinner <code>wins</code> und <code>points</code> um 3 und beim Verlierer <code>losses</code>. (<code>rust/crates/turnier-match/src/result.rs</code>)</p>
+<p>Eine bestehende Datenfalle bleibt erhalten: im Bracket-Pfad steht in <code>match_results.winning_team</code> die Gewinner-Team-ID, im Group-Pfad der Slot <code>1</code> oder <code>2</code>. Das ist im Rust-Code ausdrücklich als <code>needs-decision</code> markiert und nicht vereinheitlicht. (<code>rust/crates/turnier-match/src/result.rs</code>)</p>
+</section>
+<section id="auth-profile-und-automatik">
+<h2>Auth, Profile und Automatik</h2>
+<p>Sessions liegen in <code>turnier.sessions</code> als opake Tokens mit sieben Tagen Laufzeit. Rollen werden als CSV gespeichert, beim Request gelesen und gegen die beim Start materialisierten RoleSets ausgewertet. (<code>rust/crates/turnier-auth/src/session.rs</code>, <code>rust/crates/turnier-auth/src/roles.rs</code>, <code>rust/crates/turnier-api/src/extract.rs</code>)</p>
+<p>Profile, Consent, Avatare und Benachrichtigungsschalter liegen in <code>turnier.user_profiles</code> und <code>turnier.user_consents</code>. Die Consent/Profile-Routen lesen und schreiben diese Tabellen über den gemeinsamen Pool. (<code>rust/crates/turnier-api/src/consent.rs</code>)</p>
+<p>Rangdaten liegen in <code>turnier.rank_cache</code> (L2-Cache, TTL 24 h). Der Resolver liest zuerst L1/L2-Cache, dann die externe Steam-Bridge-SQLite (<code>steam_links</code>, bevorzugt der Primary-Account) und danach als REST-Fallback die Discord-Rang-Rollen; Treffer aus Bridge oder Rollen werden wieder in <code>rank_cache</code> gespeichert. (<code>rust/crates/turnier-steam/src/resolver.rs</code>, <code>rust/crates/turnier-steam/src/cache.rs</code>)</p>
+<p>Turnier-Automatik nutzt <code>turnier.tournament_presets</code>, <code>turnier.tournament_proposals</code>, <code>turnier.tournament_proposal_votes</code>, <code>turnier.tournament_proposal_feedback</code>, <code>turnier.tournament_dm_optout</code> und <code>turnier.tournament_signals</code>. Presets speichern wiederverwendbare Konfiguration, Proposals speichern Vorschläge und Votes, Opt-out unterdrückt Kategorie-DMs. (<code>rust/crates/turnier-automatik/src/presets.rs</code>, <code>rust/crates/turnier-automatik/src/proposals.rs</code>, <code>rust/crates/turnier-automatik/src/optout.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>stats-und-privacy — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>stats-und-privacy — Dev-Notizen</h1>
+<p>eingearbeitet in datenmodell.md</p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: Public-Stats-Service <code>dl-stats</code> (Web-API inkl. <code>/api/public/me/*</code> + Discord-OAuth), Prefix-Stats in <code>dl-activity/src/stats_cmd.rs</code> + <code>text_stats.rs</code>, Privacy in <code>dl-community/src/privacy_ui.rs</code> + <code>privacy.rs</code> (Export mit Schwärzung, Erasure inkl. Turnier-Scope, Opt-out-Tombstone <code>core.user_privacy</code>), Retention in <code>dl-community/src/retention.rs</code></li>
+<li>Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben (<code>dl-voice/src/tracker.rs</code>, Steam-Leave-Cleanup)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

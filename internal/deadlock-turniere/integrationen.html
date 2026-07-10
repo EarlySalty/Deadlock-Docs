@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Integrationen</title>
+  <meta name="tags" content="internal, deadlock-turniere, integrationen">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Integrationen</h1>
+<p>Der Rust-Dienst integriert drei externe Pfade: delegierten Discord-OAuth, Discord-Effekte über den Master-Broker und Steam-Lobby-Aktionen über die Steam-Bridge-Queue. Rangdaten kommen aus <code>turnier.rank_cache</code>, Steam-Bridge und Discord-Rollen. (<code>rust/crates/turnier-auth/src/oauth.rs</code>, <code>rust/crates/turnier-discord/src/broker.rs</code>, <code>rust/crates/turnier-steam/src/resolver.rs</code>)</p>
+<section id="discord-oauth">
+<h2>Discord-OAuth</h2>
+<p>Der OAuth-Flow wird an Deadlock-Bots delegiert. <code>OAuthClient</code> ruft <code>POST /internal/v1/discord/initiate</code> und <code>POST /internal/v1/discord/consume-result</code> mit Header <code>X-Internal-Token</code> auf; Scope ist <code>identify guilds.members.read</code>, <code>requesting_service</code> ist <code>turnier</code>. (<code>rust/crates/turnier-auth/src/oauth.rs</code>)</p>
+<p><code>/auth/discord/login</code> holt die Authorize-URL und leitet den Browser weiter. <code>/auth/discord/complete</code> löst <code>state_id</code> ein, erstellt eine Session in <code>turnier.sessions</code>, setzt <code>session_token</code> und leitet zur konfigurierten Frontend-URL. <code>/auth/discord/logout</code> löscht Session und Cookie. (<code>rust/crates/turnier-api/src/auth.rs</code>, <code>rust/crates/turnier-auth/src/session.rs</code>)</p>
+<p>Authentifizierte Requests lesen zuerst <code>Authorization: Bearer &lt;token&gt;</code>, danach das Cookie <code>session_token</code>. <code>AuthUser</code> verlangt eine gültige Session, <code>ModUser</code> und <code>AdminUser</code> prüfen die aus Config-Rollen berechneten Flags. (<code>rust/crates/turnier-api/src/extract.rs</code>, <code>rust/crates/turnier-auth/src/roles.rs</code>)</p>
+</section>
+<section id="discord-broker">
+<h2>Discord-Broker</h2>
+<p>Der Discord-Broker-Client hält einen wiederverwendeten <code>reqwest::Client</code>, normalisiert die Base-URL, nutzt <code>X-Internal-Token</code> und mappt Broker-Fehler aus JSON-Feldern <code>error</code> oder <code>detail</code>. (<code>rust/crates/turnier-discord/src/broker.rs</code>)</p>
+<p>Der Notifier nutzt interne Broker-Pfade für Channel anlegen, Rich Message senden, Plain Message senden, Channel löschen, Voice Move, Voice-Member-Liste und Rollenmitglieder. Die Pfade stehen zentral im <code>path</code>-Modul. (<code>rust/crates/turnier-discord/src/notifier.rs</code>)</p>
+<p>Discord-Effekte werden in <code>turnier.discord_tasks</code> protokolliert. Rust legt eine Zeile direkt mit <code>status='RUNNING'</code> an und markiert danach <code>DONE</code> oder <code>FAILED</code> mit Result-Payload oder Fehlertext. (<code>rust/crates/turnier-discord/src/tasks.rs</code>)</p>
+<p>DM-Versand respektiert <code>turnier.user_profiles</code> und <code>turnier.tournament_dm_optout</code>. Der Notifier lädt nur die eventrelevanten Profilspalten und schreibt pro Empfänger ein Ergebnis in <code>sent</code>, <code>skipped</code> oder <code>failed</code>. (<code>rust/crates/turnier-discord/src/notifier.rs</code>)</p>
+</section>
+<section id="steam-bridge">
+<h2>Steam-Bridge</h2>
+<p>Die Steam-Bridge ist ein separater SQLite-Pool auf <code>STEAM_BRIDGE_DB_PATH</code>. <code>SteamBridge::open()</code> legt die Datei nicht an; leerer Pfad oder fehlende Datei führen zu <code>Ok(None)</code> und damit zu deaktivierten Steam-Tasks im MatchManager. (<code>rust/crates/turnier-match/src/steam_bridge.rs</code>, <code>rust/crates/turnier-api/src/state.rs</code>)</p>
+<p>Steam-Aufträge werden in <code>steam_tasks</code> geschrieben. Rust erzeugt Tasks mit Typ, JSON-Payload und <code>PENDING</code>, markiert hängende <code>RUNNING</code>-Tasks nach 120 Sekunden als <code>FAILED</code> und pollt alle 500 ms bis <code>DONE</code>, <code>FAILED</code> oder Timeout. (<code>rust/crates/turnier-match/src/steam_bridge.rs</code>)</p>
+<p>Lobby-Erstellung erzeugt <code>GC_CREATE_CUSTOM_LOBBY</code> mit <code>tournament_id</code>, <code>match_id</code>, <code>match_type</code>, <code>game_mode</code>, <code>region_mode</code> und optionalen ConVars. Danach schreibt Rust Lobby-Daten ins Match, lädt eindeutige Steam-IDs ein und erstellt Discord-Channel und Announcement best-effort. (<code>rust/crates/turnier-match/src/lobby.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>)</p>
+<p>Spieler-Einladungen nutzen <code>GC_LOBBY_INVITE_PLAYER</code> pro eindeutiger Steam-ID. Vorher prüft Rust aktive Tasks mit gleicher <code>party_id</code> und <code>steam_id</code>; aktive Einladungen landen im <code>skipped</code>-Bucket. (<code>rust/crates/turnier-match/src/steam_bridge.rs</code>, <code>rust/crates/turnier-match/src/lobby.rs</code>)</p>
+<p>Match-Start setzt erst Spectator und Ready über <code>GC_LOBBY_SET_SPECTATOR</code> und <code>GC_LOBBY_READY</code>, startet dann <code>GC_LOBBY_START_MATCH</code> und setzt das Match auf <code>in_progress</code>. Lobby verlassen nutzt <code>GC_LOBBY_LEAVE</code> und schreibt keine neuen Lobby-Daten zurück. (<code>rust/crates/turnier-match/src/lobby.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>)</p>
+</section>
+<section id="rangdaten">
+<h2>Rangdaten</h2>
+<p>Der Rang-Resolver liest zuerst den prozesslokalen und persistenten Cache, danach Steam-Bridge und danach Discord-Rollen. Treffer aus Steam-Bridge oder Discord-Rollen schreibt er per UPSERT nach <code>turnier.rank_cache</code>. (<code>rust/crates/turnier-steam/src/resolver.rs</code>, <code>rust/crates/turnier-steam/src/cache.rs</code>)</p>
+<p>Der Cache nutzt 24 Stunden TTL. L2 liest <code>turnier.rank_cache</code> mit <code>cached_at &gt; now() - interval '24 hours'</code>, L1 nutzt dieselbe Dauer im Prozess. (<code>rust/crates/turnier-steam/src/cache.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

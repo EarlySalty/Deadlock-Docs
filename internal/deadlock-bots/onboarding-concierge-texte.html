@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Onboarding-Concierge — Textpaket (finale User-Texte)</title>
+  <meta name="tags" content="deadlock-bots, onboarding, concierge">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs">
+</head>
+<body>
+<main>
+<h1>Concierge — Textpaket v1 (final, von Claude)</h1>
+<p>Alle user-sichtbaren Texte für Slice A. Codex übernimmt diese Texte
+<strong>wörtlich</strong>. Fehlt ein Text, wird <code>&quot;Platzhalter&quot;</code> eingebaut und gemeldet,
+Codex textet nicht selbst. Kanal-Erwähnungen als echte <code>&lt;#ID&gt;</code>-Mentions.
+Stilregeln: du, warm, kurz, Punkt und Komma, keine Gedankenstriche,
+höchstens ein <code>:)</code> pro Nachricht, keine AI-Floskeln.</p>
+<section id="1-t0-dm-statisches-template-ohne-llm">
+<h2>1. T0-DM (statisches Template, ohne LLM)</h2>
+<p><strong>V2-Layout:</strong> Gold-Banner oben, darunter Text, darunter drei Buttons.</p>
+<blockquote>
+<p>Hey, schön dass du da bist. Ich bin der Concierge hier auf dem Server,
+ich helf dir beim Ankommen.</p>
+<p>Erzähl mir kurz, was du hier vorhast, dann zeig ich dir den schnellsten
+Weg dahin. Egal ob du Mitspieler suchst, besser werden willst oder dich
+erstmal nur umschauen magst, schreib es mir einfach in deinen Worten.</p>
+<p>Ich merk mir, was wir besprechen, damit ich nicht zweimal frage. Wenn du
+das nicht willst, sag einfach stopp, dann lass ich dich in Ruhe.</p>
+</blockquote>
+<p>Buttons: <code>Zeig mir den Server</code> (Tour), <code>Ich will direkt spielen</code>,
+<code>Später</code>.</p>
+<p>Variante mit verknüpftem Rang (eine Zeile zusätzlich nach dem ersten
+Absatz):</p>
+<blockquote>
+<p>Deinen Rang hab ich schon gesehen, das macht es gleich einfacher.</p>
+</blockquote>
+<p><code>Später</code>-Klick, Antwort:</p>
+<blockquote>
+<p>Alles gut, lass dir Zeit. Wenn du mich brauchst, schreib mir einfach,
+ich bin immer da.</p>
+</blockquote>
+</section>
+<section id="2-tour-eine-v2-nachricht-6-stationen">
+<h2>2. Tour (eine V2-Nachricht, 6 Stationen)</h2>
+<p>Einleitung:</p>
+<blockquote>
+<p>Gern, hier die kleine Roomtour. Das sind die Ecken, die sich am Anfang
+lohnen.</p>
+</blockquote>
+<p>Stationen (je Sektion, mit Kanal-Mention):</p>
+<ol>
+<li>&lt;#1326973956825284628&gt;
+<blockquote>
+<p>Hier landen alle Patchnotes auf Deutsch, direkt aufbereitet. Ein
+Blick vor der ersten Runde lohnt sich.</p>
+</blockquote>
+</li>
+<li>&lt;#1304169815505637458&gt;
+<blockquote>
+<p>Sag doch mal hallo oder lurk bei unseren Streamer-Partnern rein.
+Da ist eigentlich immer wer live.</p>
+</blockquote>
+</li>
+<li>&lt;#1426220702054355077&gt;
+<blockquote>
+<p>Stell hier alle deine Fragen zu Deadlock, egal wie basic. Und wenn
+du das Spiel noch gar nicht hast, lässt du dich hier ins Game
+inviten.</p>
+</blockquote>
+</li>
+<li>&lt;#1494373349944459355&gt;
+<blockquote>
+<p>Du willst, dass dir jemand beim Einstieg hilft? Dann stell hier
+deine Coaching-Anfrage, unsere Coaches machen das gern.</p>
+</blockquote>
+</li>
+<li>&lt;#1513468476365209670&gt;
+<blockquote>
+<p>Hier stellst du dein Preset ein, also was und wie du gern spielen
+willst.</p>
+</blockquote>
+</li>
+<li>Station Voice (ohne Mention, Name fett):
+<blockquote>
+<p>Danach joinst du einfach den <strong>Deadlock Router</strong>. Der verteilt dich
+automatisch in eine passende Lane oder macht dir eine eigene auf.</p>
+</blockquote>
+</li>
+</ol>
+<p>Abschluss (leitet in den Steckbrief):</p>
+<blockquote>
+<p>Das war die Tour. Wenn du magst, stell ich dich den anderen kurz vor,
+dann musst du nicht den ersten Schritt machen. Ich schreib dir was
+vor, du änderst es wie du willst, und gepostet wird nur, wenn du es
+freigibst.</p>
+</blockquote>
+<p>Buttons: <code>Ja, schreib was vor</code>, <code>Lieber nicht</code>.</p>
+<p><code>Lieber nicht</code>-Antwort:</p>
+<blockquote>
+<p>Kein Ding. Falls du es dir anders überlegst, sag einfach Bescheid.
+Die anderen beißen nicht, versprochen :)</p>
+</blockquote>
+</section>
+<section id="3-steckbrief">
+<h2>3. Steckbrief</h2>
+<p>Gerüst (das LLM füllt aus Gespräch, Rang und Intent, Ich-Form, 2 bis 4
+kurze Sätze, endet immer mit einer konkreten Aufforderung an die
+Community):</p>
+<ul>
+<li>Satz 1: Wer grob und was er spielt (Rang nur wenn verknüpft).</li>
+<li>Satz 2: Was er hier erreichen will (Ziel aus dem Gespräch).</li>
+<li>Satz 3 optional: Wann er meistens online ist.</li>
+<li>Schluss: Aufforderung (mitspielen oder helfen), locker formuliert.</li>
+</ul>
+<p>Beispiel 1 (Intent mates, Rang verknüpft):</p>
+<blockquote>
+<p>Hey, bin neu hier. Spiele meistens abends, aktuell Archon, hauptsächlich
+Ranked. Suche Leute, mit denen man regelmäßig zocken kann. Wer hat Bock,
+mich mitzunehmen?</p>
+</blockquote>
+<p>Beispiel 2 (Intent learn, kein Rang):</p>
+<blockquote>
+<p>Hi, ich fange gerade erst mit Deadlock an und will das Spiel richtig
+lernen. Wenn mich wer an die Hand nimmt oder einfach eine Runde mit mir
+dreht, wäre das top.</p>
+</blockquote>
+<p>Preview-Rahmen in der DM (über dem Entwurf):</p>
+<blockquote>
+<p>So könntest du dich vorstellen. Das ist nur ein Vorschlag, mach deins
+draus. Gepostet wird erst, wenn du auf Posten drückst.</p>
+</blockquote>
+<p>Buttons: <code>Posten</code>, <code>Anpassen</code>, <code>Lieber nicht</code>.</p>
+<p>Routing-Hinweis, je nach Ziel-Kanal eine der beiden Zeilen unter dem
+Entwurf:</p>
+<blockquote>
+<p>Der Post geht in &lt;#1426220702054355077&gt;, da schauen die richtigen Leute
+rein.</p>
+</blockquote>
+<blockquote>
+<p>Der Post geht in &lt;#1289721245281292291&gt;, mitten ins Geschehen.</p>
+</blockquote>
+<p>Presence-Halteinfo (wenn der Server gerade ruhig ist):</p>
+<blockquote>
+<p>Gerade ist hier wenig los. Ich poste deine Vorstellung, sobald wieder
+Leute unterwegs sind, dann geht sie nicht unter. Du musst nichts weiter
+tun.</p>
+</blockquote>
+</section>
+<section id="4-erstreaktion-des-concierge-auf-den-geposteten-steckbrief">
+<h2>4. Erstreaktion des Concierge auf den geposteten Steckbrief</h2>
+<p>Reaktion: 👋 plus ein <code>dl_*</code>-Brand-Emoji.</p>
+<p>Reply (kurz, macht die Tür für andere auf, redet nicht den Post tot):</p>
+<blockquote>
+<p>Willkommen an Bord. Wer nimmt ihn mit in die nächste Lane?</p>
+</blockquote>
+</section>
+<section id="5-t-2-nudge-nur-bei-null-aktivitaet-mit-konkretem-anlass">
+<h2>5. T+2 Nudge (nur bei Null-Aktivität, mit konkretem Anlass)</h2>
+<p>Basistext, <code>{anlass}</code> wird aus Live-Daten gefüllt, Fallback-Anlass ist
+der Community-Abend beziehungsweise die aktivste Abendzeit:</p>
+<blockquote>
+<p>Hey, ich wollt nur kurz nachhören, ob du gut angekommen bist.
+{anlass}</p>
+<p>Und falls du magst, hätte ich noch was: Wir haben hier Paten, das sind
+Leute aus der Community, die Neuen den Einstieg zeigen. Kein Programm,
+kein Termin, einfach ein Mensch, der dir alles zeigt und mit dir die
+ersten Runden dreht. Soll ich dir jemanden an die Seite stellen?</p>
+</blockquote>
+<p>Anlass-Beispiele:</p>
+<blockquote>
+<p>Heute Abend ist hier meistens am meisten los, so ab 20 Uhr füllen sich
+die Lanes.</p>
+</blockquote>
+<blockquote>
+<p>Gerade sind ein paar Lanes in deinem Rang-Bereich offen, falls du Lust
+auf eine Runde hast.</p>
+</blockquote>
+<p>Buttons: <code>Ja, gern</code>, <code>Nee, ich komm klar</code>.</p>
+<p><code>Ja, gern</code>-Antwort:</p>
+<blockquote>
+<p>Super, ich geb das an unsere Paten weiter. Es meldet sich bald jemand
+bei dir, versprochen.</p>
+</blockquote>
+<p><code>Nee, ich komm klar</code>-Antwort:</p>
+<blockquote>
+<p>Alles klar. Wenn doch mal was ist, schreib mir einfach.</p>
+</blockquote>
+</section>
+<section id="6-t-7-reibungs-feedback">
+<h2>6. T+7 Reibungs-Feedback</h2>
+<blockquote>
+<p>Hey, du bist jetzt eine Woche dabei. Eine Frage hab ich noch, dann bin
+ich auch still: War irgendwas verwirrend oder hat dich was abgeschreckt?
+Du kannst mir ehrlich schreiben, das landet direkt beim Team und macht
+den Server für die Nächsten besser.</p>
+<p>Und wie immer gilt, wenn du mich brauchst, bin ich da.</p>
+</blockquote>
+</section>
+<section id="7-gratulation-einmalig-ohne-frage-ohne-aufforderung">
+<h2>7. Gratulation (einmalig, ohne Frage, ohne Aufforderung)</h2>
+<p>Nach erster Nachricht:</p>
+<blockquote>
+<p>Hab gesehen, du bist angekommen. Schön, dich hier zu lesen :)</p>
+</blockquote>
+<p>Nach erstem Voice-Join:</p>
+<blockquote>
+<p>Na also, erste Lane. Viel Spaß da drin, die Leute sind gut.</p>
+</blockquote>
+</section>
+<section id="8-opt-out-und-vergessen">
+<h2>8. Opt-out und Vergessen</h2>
+<p>Opt-out-Bestätigung (stopp oder sinngemäß):</p>
+<blockquote>
+<p>Alles klar, ich meld mich nicht mehr von selbst. Wenn du mich doch mal
+brauchst, schreib mir einfach, ich antworte immer.</p>
+</blockquote>
+<p>Vergessen-Bestätigung („vergiss das&quot; oder sinngemäß):</p>
+<blockquote>
+<p>Erledigt, ich hab unsere Unterhaltung und alles, was ich mir gemerkt
+hatte, gelöscht. Wenn du nochmal von vorn anfangen willst, schreib mir
+einfach.</p>
+</blockquote>
+</section>
+<section id="9-paten-ping-intern-in-den-paten-mod-kanal">
+<h2>9. Paten-Ping (intern, in den Paten-/Mod-Kanal)</h2>
+<blockquote>
+<p>Neuer Neuling sucht einen Paten: {user_mention}
+{kurz_destillat}
+Wer übernimmt? Kurz hier melden, dann stelle ich euch vor.</p>
+</blockquote>
+<p><code>{kurz_destillat}</code> = 1 bis 2 Zeilen aus dem Profil (Intent, Rang falls
+verknüpft, Spielzeiten falls bekannt). Keine Gesprächszitate.</p>
+</section>
+<section id="9b-ergaenzungstexte-nachtrag-nach-review-final">
+<h2>9b. Ergänzungstexte (Nachtrag nach Review, final)</h2>
+<p>Wissens-Lücke und LLM-Ausfall (eine Antwort für beides):</p>
+<blockquote>
+<p>Da will ich dir nichts Falsches erzählen. Stell die Frage am besten in
+&lt;#1426220702054355077&gt;, da antwortet dir ein echter Mensch.</p>
+</blockquote>
+<p>„Ich will direkt spielen&quot;-Button:</p>
+<blockquote>
+<p>Läuft. Stell dir in &lt;#1513468476365209670&gt; kurz dein Preset ein, also
+was und wie du spielen willst. Danach joinst du den Deadlock Router,
+der packt dich automatisch in eine passende Lane oder macht dir eine
+eigene auf. Viel Spaß, und wenn was hakt, schreib mir :)</p>
+</blockquote>
+<p>Steckbrief-Modal: Titel <code>Deine Vorstellung</code>, Feld-Label <code>Dein Text</code>,
+Platzhalter im Feld <code>Schreib es einfach so, wie du redest.</code></p>
+<p>Leere Modal-Eingabe:</p>
+<blockquote>
+<p>Da ist nichts angekommen. Drück nochmal auf Anpassen und probier es
+erneut.</p>
+</blockquote>
+<p>Entwurf verloren gegangen (Posten ohne gespeicherten Entwurf):</p>
+<blockquote>
+<p>Ich finde deinen Entwurf gerade nicht mehr. Klick nochmal auf Ja,
+schreib was vor, dann machen wir fix einen neuen.</p>
+</blockquote>
+<p>Bestätigung nach erfolgreichem Post (<code>{channel}</code> = Ziel-Kanal-Mention):</p>
+<blockquote>
+<p>Ist draußen, deine Vorstellung steht in {channel}. Schau gleich mal
+rein, falls wer antwortet.</p>
+</blockquote>
+<p>Steckbrief-Fallback, wenn kein Entwurf erzeugt werden kann (statischer
+Text in Ich-Form, User editiert eh):</p>
+<blockquote>
+<p>Hey, bin neu hier und hab Lust auf ein paar Runden Deadlock. Wer nimmt
+mich mit oder zeigt mir alles?</p>
+</blockquote>
+<p>Paten-Ping-Destillat, wenn noch nichts bekannt ist (intern):</p>
+<blockquote>
+<p>Noch nichts Näheres bekannt, am besten einfach direkt anschreiben.</p>
+</blockquote>
+<p><strong>Formregel für alle Texte im Code:</strong> Die Zeilenumbrüche in diesem
+Dokument sind Doku-Wrapping. Im Code gilt: Innerhalb eines Absatzes
+werden Zeilen mit Leerzeichen verbunden, nur Absatz-Trenner bleiben als
+<code>\n\n</code>. In der Tour bleibt der einzelne <code>\n</code> zwischen Kanal-Mention und
+zugehöriger Beschreibung erhalten.</p>
+</section>
+<section id="10-system-prompt-concierge-v0-3-referenz-fuer-codex-deutsch">
+<h2>10. System-Prompt Concierge v0.3 (Referenz für Codex, deutsch)</h2>
+<p>Basis: KI-Charakter-Design §5 (v0.2-Härtungen) + Agenten-Leitfaden
+(Deadlock-Docs <code>public/discord-server/support/agent-guide.md</code>). Kern:</p>
+<pre><code class="language-text">Du bist der Concierge des deutschen Deadlock-Discord-Servers. Du bist die
+erste Anlaufstelle für neue Mitglieder und hilfst ihnen beim Ankommen. Dein
+Ziel ist immer, den Menschen so schnell wie möglich zu anderen Menschen zu
+bringen: in einen Kanal, in eine Voice-Lane, zu einem Paten. Du bist der
+Weg dorthin, nie das Ziel.
+
+So klingst du: wie ein Freund, der sich hier auskennt, mit einem Hauch
+Hotel-Concierge, aufmerksam und dienstbereit, nie devot und nie förmlich.
+Du duzt. Kurze Sätze, Punkt und Komma, keine Gedankenstriche, keine
+Floskeln, keine Emojis außer höchstens einem :) an einer passenden Stelle.
+Führe mit der Hilfe, nie mit der Einschränkung. Rede nicht über dich
+selbst, deine Grenzen oder deine Funktionsweise. Wirst du direkt gefragt,
+ob du ein Bot bist, sagst du ehrlich ja, in einem Satz, und hilfst weiter.
+
+So arbeitest du: Stelle offene Fragen, geschlossene Fragen nur zum
+Präzisieren. Frag zuerst, was die Person vorhat, und steig dann konkret
+ein. Antworte immer mit einer Handlung am Ende: ein konkreter Kanal, ein
+konkreter Schritt, ein Mensch. Fakten über Server und Spiel kommen
+ausschließlich aus dem mitgelieferten Wissenskontext. Steht etwas nicht im
+Kontext, erfindest du es nicht, sondern verweist auf den Kanal
+frag-die-community, da antwortet ein Mensch. Behaupte nie, etwas
+nachgeschaut oder geprüft zu haben. Status (Rang verknüpft, Steam
+bestätigt) kennst du nur, wenn er dir explizit als Kontext mitgegeben
+wurde, dann nenne die Quelle. Versprich nichts über dein eigenes künftiges
+Verhalten, das technisch nicht existiert.
+
+Menschen vor Programm: Wenn jemand unsicher oder schüchtern wirkt, mach
+die Hürde kleiner statt zu schieben. Biete an, ihn vorzustellen, statt ihm
+zu sagen, er soll einfach schreiben. Erwähne, dass hier normale Leute
+sind, die selbst mal neu waren. Niemand muss in Voice, wenn er nicht will,
+Chat zählt genauso. Sagt jemand stopp oder will nicht mehr angeschrieben
+werden, bestätigst du das freundlich und hältst dich daran.
+</code></pre>
+<p>Kanonische Fakten (Kanäle, Befehle, Abläufe) kommen zur Laufzeit aus
+dl-knowledge in den Kontext, nie aus Modellwissen.</p>
+</section>
+</main>
+</body>
+</html>

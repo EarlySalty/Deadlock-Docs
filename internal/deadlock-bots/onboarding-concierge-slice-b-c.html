@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Onboarding-Concierge — Spec Slice B (Paten-Matching) + Slice C (eine DM-Stimme)</title>
+  <meta name="tags" content="deadlock-bots, onboarding, concierge, paten">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs, rust/crates/dl-voice/src/nudge.rs, rust/crates/dl-voice/src/feedback.rs">
+</head>
+<body>
+<main>
+<h1>Slice B — Paten-Matching, Slice C — eine DM-Stimme</h1>
+<p>Verbindliche Umsetzungs-Spec. Alle user-sichtbaren Texte stehen in §T und
+werden EXAKT übernommen (keine Umformulierung). Basis-Design aus dem
+grillme vom 07.07.: Pate ist immer ein Mensch aus der Rolle
+1524047896297738311, der Concierge vermittelt und zieht sich zurück.</p>
+<section id="slice-b-flow">
+<h2>Slice B — Flow</h2>
+<p>Heutiger Stand (Slice A): Klick auf „Ja, gern&quot; (<code>concierge:pate:yes</code>) →
+<code>request_pate</code> postet einen Rollen-Ping als Text in <code>pater_channel_id</code>.
+Kein Claim, kein Kanal, kein Match.</p>
+<p>Neu:</p>
+<ol>
+<li><strong>Claim-Post statt Roh-Ping.</strong> <code>request_pate</code> postet in
+<code>DL_CONCIERGE_PATE_CHANNEL_ID</code> (Kanal existiert: 1524083665838276860,
+#paten-zentrale) eine V2-Nachricht (Gold-Container wie alle
+Concierge-Posts): Rollen-Ping <code>&lt;@&amp;1524047896297738311&gt;</code> +
+Kurz-Digest des Neulings (<code>short_digest</code>, existiert) +
+Rang-Empfehlung + Button „Ich übernehme&quot;
+(<code>custom_id: concierge:pate:claim:&lt;user_id&gt;</code>). Texte §T1.</li>
+<li><strong>Rang-Empfehlung.</strong> Kandidaten = Member der Paten-Rolle. Dafür
+bekommt der <code>ConciergePort</code> eine neue Methode
+<code>role_member_ids(guild_id, role_id) -&gt; Result&lt;Vec&lt;u64&gt;, String&gt;</code>;
+Implementierung im dl-bot-Glue über den bestehenden Adapter/REST
+(Member-Liste holen, nach Rolle filtern; es gibt bereits
+<code>role_members</code> im dl-broker-Port als Vorbild). Score = Abstand der
+Rang-Indizes: Rang je User aus <code>core.steam_links.deadlock_rank_name</code>
+(Query wie <code>has_linked_rank</code>, <code>ORDER BY primary_account DESC, deadlock_rank_updated_at DESC LIMIT 1</code>), Index über <code>RANK_ORDER</code> aus
+<code>dl-stats</code> (Crate-Dependency nur, wenn kein Zyklus entsteht; sonst
+SQL + lokale Konstante mit Kommentar auf die Quelle). Paten mit ≥3
+aktiven Patenschaften fliegen aus der Empfehlung. Ohne Rang-Daten
+oder ohne Kandidaten: Fallback-Zeile §T1b, kein Fehler.</li>
+<li><strong>Claim.</strong> Handler prüft in dieser Reihenfolge: Klicker hat die
+Paten-Rolle (Member-Roles aus der Interaction) → sonst §T2a
+ephemeral. KV-Claim <code>claim_once(&quot;concierge:pate_claim&quot;, user_id)</code>
+gegen Doppelvergabe → verloren heißt §T2b ephemeral. Load-Limit:
+Klicker hat &lt;3 aktive Patenschaften → sonst §T2c ephemeral (und der
+KV-Claim wird NICHT verbraucht bzw. wieder freigegeben, damit ein
+anderer Pate noch übernehmen kann; wenn claim_once das nicht kann,
+Reihenfolge tauschen: Limit vor Claim prüfen).</li>
+<li><strong>Match.</strong> Bei Erfolg: Zeile in <code>bot.concierge_patenschaften</code>;
+privaten Textkanal erstellen (bestehender Port
+<code>create_private_channel</code>, Kategorie <code>DL_CONCIERGE_PATE_CATEGORY_ID</code>,
+Default 1465839366634209361, Fallback <code>fallback_category_id</code>), Name
+<code>pate-&lt;username-slug&gt;</code>; der Kanal braucht zusätzlich ein Overwrite
+für den Paten (View/Send/History) — wenn <code>create_private_channel</code>
+nur einen User kann, Port-Methode um <code>extra_user_id: Option&lt;u64&gt;</code>
+erweitern. Dann: Intro-Post §T3 im neuen Kanal (V2), DM §T4 an den
+Neuling, Bestätigung als Reply auf den Claim-Post §T5, Journey-Event
+<code>pate_matched</code>.</li>
+<li><strong>„Auf Wunsch&quot;.</strong> LLM-Antwortvertrag (JSON in <code>llm_answer</code>) um Feld
+<code>&quot;pate_request&quot;: bool</code> erweitern; System-Prompt-Ergänzung §T6. Wenn
+true: an die normale Antwort die bestehenden Ja/Nein-Buttons
+(<code>concierge:pate:yes/no</code>) hängen; ist die Antwort leer, stattdessen
+Text §T6b mit denselben Buttons.</li>
+<li><strong>DB-Migration</strong> <code>2026070712_concierge_patenschaften.sql</code>:
+<ul>
+<li><code>bot.concierge_patenschaften</code> (<code>id BIGSERIAL PK</code>, <code>user_id BIGINT NOT NULL</code>, <code>pate_id BIGINT NOT NULL</code>, <code>guild_id BIGINT NOT NULL</code>,
+<code>channel_id BIGINT</code>, <code>created_at TIMESTAMPTZ NOT NULL</code>,
+<code>released_at TIMESTAMPTZ</code>); Unique-Partial-Index ein aktives Match
+pro User (<code>WHERE released_at IS NULL</code>), Index auf <code>pate_id</code> mit
+demselben Filter (Load-Query).</li>
+<li><code>journey_events</code>-CHECK-Constraint um <code>'pate_matched'</code> erweitern
+(Constraint droppen und mit vollständiger Liste neu anlegen, wie in
+Migration 2026070710).</li>
+<li>Neue Journey-Variante <code>PateMatched</code> in
+<code>dl-activity/src/journey.rs</code>.</li>
+<li><code>bot.concierge_patenschaften</code> in <code>privacy.rs</code> <code>USER_TABLES</code>
+aufnehmen (Erasure) und in <code>forget_user</code> mitlöschen.</li>
+</ul>
+</li>
+<li><strong>Kein Auto-Release in v1.</strong> Patenschaften enden nur manuell (SQL);
+Load zählt <code>released_at IS NULL</code>. Bewusste Lücke, steht hier.</li>
+</ol>
+</section>
+<section id="slice-c-flow">
+<h2>Slice C — Flow</h2>
+<p>Stufe 1 (Ton) + Gedächtnis-Light. Nur diese zwei Streams, Leave-Survey
+und Coaching-DMs bleiben unangetastet:</p>
+<ol>
+<li><strong>Steam-Nudge</strong> (<code>rust/crates/dl-voice/src/nudge.rs</code>): Embed-Titel
+und <code>DM_DESCRIPTION</code> durch §T7 ersetzen. Button-Label und Mechanik
+unverändert.</li>
+<li><strong>Voice-Feedback</strong> (<code>rust/crates/dl-voice/src/feedback.rs</code>): Texte in
+<code>build_message</code> (first/second), <code>ACK_TEXT</code>,
+<code>FEEDBACK_ALREADY_RESPONDED_TEXT</code>, <code>FEEDBACK_WINDOW_EXPIRED_TEXT</code>
+durch §T8 ersetzen. Button-Label bleibt.</li>
+<li><strong>Gedächtnis-Light:</strong> Neue pub-Methode
+<code>ConciergeStore::record_system_dm(user_id, guild_id, marker: &amp;str)</code>
+(kapselt <code>ensure_profile</code> + <code>record_conversation</code> mit Rolle
+<code>assistant</code>). Im dl-bot-Glue nach ERFOLGREICHEM Versand der
+Steam-Nudge-DM bzw. Feedback-DM aufrufen, Marker §T9, nur wenn
+<code>concierge_config.enabled</code>. dl-voice bleibt frei von
+Concierge-Wissen, die Verknüpfung lebt ausschließlich im Glue.</li>
+</ol>
+</section>
+<section id="t-finale-texte-exakt-uebernehmen">
+<h2>§T — Finale Texte (exakt übernehmen)</h2>
+<p>T1 Claim-Post (Content über dem Button; <code>{user_mention}</code>, <code>{digest}</code>,
+<code>{candidate_mention}</code> ersetzen):</p>
+<blockquote>
+<p>&lt;@&amp;1524047896297738311&gt; Ein Neuling hätte gern einen Paten an seiner Seite: {user_mention}
+{digest}
+Vom Rang her würde {candidate_mention} am besten passen. Übernehmen darf, wer zuerst drückt.</p>
+</blockquote>
+<p>T1b Fallback-Schlusszeile (statt der Rang-Zeile, wenn keine Empfehlung
+möglich): <code>Wer Zeit und Lust hat, drückt auf Übernehmen.</code></p>
+<p>T1-Button-Label: <code>Ich übernehme</code></p>
+<p>T2a (ephemeral, Klicker ohne Paten-Rolle): <code>Der Knopf ist für unsere Paten reserviert. Wenn du selbst Pate werden willst, meld dich bei den Mods, wir freuen uns über jeden.</code></p>
+<p>T2b (ephemeral, schon vergeben): <code>Da war jemand schneller, die Patenschaft ist schon vergeben. Danke dir fürs Draufdrücken.</code></p>
+<p>T2c (ephemeral, Load-Limit): <code>Du begleitest gerade schon drei Neulinge, das reicht erstmal. Lass diesmal jemand anderem den Vortritt und danke, dass du so aktiv bist.</code></p>
+<p>T3 Kanal-Intro (V2 im neuen privaten Kanal; <code>{user_mention}</code>,
+<code>{pate_mention}</code>, <code>{digest}</code>):</p>
+<blockquote>
+<p>Willkommen ihr beiden. {user_mention}, darf ich vorstellen: {pate_mention} kennt unseren Server und das Spiel und ist ab jetzt dein direkter Draht.</p>
+<p>Kurz zu {user_mention}:
+{digest}</p>
+<p>Der Kanal hier gehört euch. Macht doch direkt mal eine Runde zusammen aus. Ich zieh mich zurück, wenn ihr mich braucht, bin ich per DM da.</p>
+</blockquote>
+<p>T4 Match-DM an den Neuling (<code>{pate_name}</code>, <code>{channel_mention}</code>):
+<code>Gute Nachrichten: {pate_name} übernimmt deine Patenschaft. Ich hab euch einen eigenen Kanal eingerichtet: {channel_mention}. Schau rein, ihr könnt direkt loslegen.</code></p>
+<p>T5 Reply auf den Claim-Post (<code>{pate_mention}</code>): <code>Erledigt, {pate_mention} übernimmt. Danke dir!</code></p>
+<p>T6 System-Prompt-Ergänzung (als zusätzliche Regel-Zeile an den
+bestehenden SYSTEM_PROMPT anhängen, JSON-Vertrag entsprechend um das
+Feld ergänzen): <code>Wenn der User sich einen Paten, Mentor oder eine feste Bezugsperson wünscht, setze &quot;pate_request&quot;: true. Setze es nicht, wenn er nur wissen will, was ein Pate ist.</code></p>
+<p>T6b (Antwort, wenn pate_request true und reply leer):
+<code>Klingt, als würde dir ein fester Ansprechpartner guttun. Soll ich einen unserer Paten für dich suchen?</code></p>
+<p>T7 Steam-Nudge:</p>
+<ul>
+<li>Titel: <code>Dein Rang gehört auf den Server</code></li>
+<li>Beschreibung: <code>Schön, dass du so oft in unseren Voice-Lanes bist. Ein Tipp von mir: Verknüpf einmal kurz deinen Steam-Account, dann bekommst du deinen Deadlock-Rang als Rolle, wirst in der Spielersuche richtig einsortiert und dein Live-Status in den Lanes stimmt. Dauert keine Minute, der Knopf unten bringt dich direkt hin. Und wenn du dabei Fragen hast, schreib mir einfach, ich bin per DM da.</code></li>
+</ul>
+<p>T8 Voice-Feedback (<code>{name}</code> ersetzen):</p>
+<ul>
+<li>first: <code>Hey {name}, schön, dass du bei uns in den Voice-Lanes warst. Wie waren deine ersten Runden? Wenn du zwei Minuten hast, erzähl mir kurz, was gut lief und wo es gehakt hat. Das landet direkt bei den Leuten, die den Server bauen.</code></li>
+<li>second: <code>Hey {name}, danke, dass du wieder in den Lanes warst. Magst du mir kurz erzählen, wie es diesmal war? Dein Eindruck hilft uns mehr als jede Statistik.</code></li>
+<li>ACK: <code>Danke dir, ist angekommen und wird weitergegeben. Wenn dir sonst noch was auffällt, schreib mir jederzeit.</code></li>
+<li>ALREADY: <code>Du hast mir dazu schon geantwortet, alles gut. Danke dir!</code></li>
+<li>EXPIRED: <code>Das Fenster für dieses Feedback ist leider schon zu. Wenn du mir trotzdem was mitgeben willst, schreib einfach los, ich lese alles.</code></li>
+</ul>
+<p>T9 Gedächtnis-Marker:</p>
+<ul>
+<li>Steam-Nudge: <code>[Ich habe dir eine DM mit dem Tipp zur Steam-Verknüpfung geschickt.]</code></li>
+<li>Feedback: <code>[Ich habe dich per DM nach Feedback zu deinen Voice-Runden gefragt.]</code></li>
+</ul>
+<p>Formregel wie im Textpaket: Doku-Zeilenumbrüche mitten im Satz werden im
+Code zu Leerzeichen, nur bewusste Absätze bleiben <code>\n\n</code>.</p>
+</section>
+<section id="env-betrieb">
+<h2>Env / Betrieb</h2>
+<ul>
+<li><code>DL_CONCIERGE_PATE_CHANNEL_ID=1524083665838276860</code> (Kanal
+#paten-zentrale, nur Paten-Rolle sieht ihn)</li>
+<li><code>DL_CONCIERGE_PATE_CATEGORY_ID=1465839366634209361</code> (Kategorie „Neue
+Spieler&quot; für die privaten Paten-Kanäle), Fallback bleibt
+<code>fallback_category_id</code>.</li>
+<li>Beide werden beim Deploy ins (gitignorte) Startskript eingetragen.</li>
+</ul>
+</section>
+<section id="tests-vertrag-zuerst">
+<h2>Tests (Vertrag zuerst)</h2>
+<ul>
+<li>Claim-Reihenfolge: ohne Rolle T2a; zweiter Klick T2b; Pate mit 3
+aktiven Patenschaften T2c und die Patenschaft bleibt vergebbar.</li>
+<li>Match legt genau eine aktive Patenschaft pro User an (Unique-Index),
+Journey <code>pate_matched</code> wird emittiert.</li>
+<li>Rang-Empfehlung: nächster Rang-Index gewinnt; Pate am Limit wird
+übersprungen; ohne Daten T1b.</li>
+<li>pate_request=true hängt Buttons an; false nicht.</li>
+<li>record_system_dm legt Profil an und schreibt assistant-Turn.</li>
+<li>Bestehende 88 dl-community-Tests bleiben grün.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

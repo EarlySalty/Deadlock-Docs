@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Integrationen</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, integrationen">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Integrationen</h1>
+<section id="twitch-helix">
+<h2>Twitch Helix</h2>
+<ul>
+<li><code>HelixClient</code> kapselt <code>reqwest</code>, App-Token-Refresh, User-Token-Anfragen, Timeouts, Retry für 500/502/503/504 und Cooldown bei <code>invalid_client</code>. (rust/crates/tb-transport-twitch/src/client.rs)</li>
+<li>Der Bot baut Helix aus <code>TWITCH_CLIENT_ID</code> und <code>TWITCH_CLIENT_SECRET</code> und nutzt den Client für Monitoring, Raid, Chat und OAuth-Folgeaktionen. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/oauth_followups.rs; rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li>Chat-Nachrichten gehen über Helix <code>/helix/chat/messages</code>; der Client erzwingt bei einer ersten 401 einen Token-Refresh und wiederholt einmal. (rust/crates/tb-chat/src/moderation.rs)</li>
+</ul>
+</section>
+<section id="twitch-eventsub">
+<h2>Twitch EventSub</h2>
+<ul>
+<li>Der EventSub-Receiver nimmt nur signierte Webhook-Requests an und prüft <code>sha256=</code>-Signaturen über Message-ID, Timestamp und Body. (rust/crates/tb-monitoring/src/webhook_receiver.rs)</li>
+<li>Die Subscription-Verwaltung erstellt Core-Subscriptions für <code>stream.online</code>, <code>stream.offline</code> und <code>channel.update</code>; Chat- und Telemetrie-Subscriptions kommen ergänzend dazu. (rust/crates/tb-monitoring/src/subscriptions.rs; rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li>Der Dispatcher kennt Core-, Chat- und Telemetrie-Events und leitet sie in Inbox, Hooks oder Telemetrie-Stores. (rust/crates/tb-monitoring/src/dispatch.rs)</li>
+</ul>
+</section>
+<section id="discord">
+<h2>Discord</h2>
+<ul>
+<li>Der Bot nutzt <code>BrokerRelay</code> gegen den Master-Broker und ruft interne Discord-Pfade für Rich-Messages, Rollen, Invites, DMs, Member und Role-Lookups auf. (rust/crates/tb-transport-discord/src/relay.rs)</li>
+<li><code>BrokerRelay</code> setzt <code>X-Internal-Token</code>, eine deterministische Idempotency-Key-Header und einen 10-Sekunden-Timeout. (rust/crates/tb-transport-discord/src/relay.rs)</li>
+<li>Twitch-OAuth-Folgeaktionen lösen Discord-User auf und vergeben Streamer-Rollen über den Broker. (rust/bin/tb-bot/src/oauth_followups.rs)</li>
+<li>Der Dashboard-Admin-Login nutzt einen lokalen Discord-OAuth-Broker auf <code>127.0.0.1:8766</code>. (rust/crates/tb-dashboard-api/src/auth/discord_admin_login.rs)</li>
+</ul>
+</section>
+<section id="interne-api-8776">
+<h2>Interne API 8776</h2>
+<ul>
+<li>Die interne API liegt unter <code>/internal/twitch/v1</code>, läuft im Rust-Bot und bindet im Live-Setup auf Port <code>8776</code>. (rust/crates/tb-internal-api/src/lib.rs; rust/bin/tb-bot/src/main.rs; rust/scripts/run_tb_bot_service.sh)</li>
+<li>Die API verlangt Loopback und <code>X-Internal-Token</code>. (rust/crates/tb-internal-api/src/lib.rs)</li>
+<li>Die API bietet Health, EventSub-Dispatch, Raid, Streamer-Invites, Chat-Commands, Globalban, Diagnose, Raid-Blacklist, Monitoring, Market-Share, Self-Explainer, Scam-Guard, Spam-Learning, Raid-OAuth, Link-Klicks, Stats, Analytics und Debug-Routen. (rust/crates/tb-internal-api/src/lib.rs)</li>
+<li>Dashboard-Handler bilden interne Aktionen auf diese API ab und verwenden <code>TWITCH_INTERNAL_API_TOKEN</code> plus <code>TWITCH_INTERNAL_API_BASE_URL</code> oder Host/Port-Fallbacks. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_enforce.rs; rust/crates/tb-dashboard-api/src/handlers/admin_chat_action.rs; rust/crates/tb-dashboard-api/src/handlers/raid_pages.rs; rust/crates/tb-dashboard-api/src/handlers/self_explainer.rs)</li>
+</ul>
+</section>
+<section id="website">
+<h2>Website</h2>
+<ul>
+<li>Die Streamer-Website wird aus <code>website/dist</code> ausgeliefert, wenn <code>WEBSITE_DIST_PATH</code> nicht gesetzt ist. (rust/crates/tb-dashboard-api/src/handlers/website.rs)</li>
+<li>Die Website nutzt <code>/streamer/</code> als Vite-Base und darf beim Build die Knowledge-Dateien unter <code>rust/knowledge/bot/*.md</code> lesen. (website/vite.config.ts)</li>
+<li>Öffentliche Links zeigen auf <code>/twitch/onboarding</code>, <code>/twitch/faq</code>, <code>/twitch/auth/login</code>, <code>/twitch/dashboard</code>, <code>/twitch/dashboard-v2</code>, <code>/twitch/affiliate</code>, <code>/social-media</code> und <code>/twitch/raid/auth</code>. (website/src/data/externalLinks.ts)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

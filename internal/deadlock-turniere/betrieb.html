@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Betrieb</title>
+  <meta name="tags" content="internal, deadlock-turniere, betrieb">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Betrieb</h1>
+<p>Der Betriebspfad ist der systemd-User-Service <code>deadlock-turniere.service</code> mit Rust-Cutover-Drop-in. Neustarts laufen als User-Service, nicht über Root. Die zentrale Pflicht-Variable für Fachdaten ist <code>DEADLOCK_CENTRAL_DSN</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>, <code>scripts/run_turniere_backend_rust.sh</code>, <code>rust/crates/turnier-db/src/pool.rs</code>)</p>
+<section id="service">
+<h2>Service</h2>
+<p>Neustart: <code>systemctl --user restart deadlock-turniere.service</code>. Für Laufzeitprüfung immer <code>systemctl --user cat deadlock-turniere.service</code> verwenden, weil die Basisdatei und die Drop-ins zusammen den wirksamen Start ergeben. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/etc/systemd/user/deadlock-turniere.service.d/10-infisical-gate.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
+<p>Vor dem Start wartet das globale Drop-in auf Infisical, das Credential-Drop-in lädt <code>infisical-token</code>, und das Rust-Cutover-Drop-in ersetzt <code>ExecStart</code> durch <code>scripts/run_turniere_backend_rust.sh</code>. Diese Reihenfolge ist Teil der kompletten Unit. (<code>/etc/systemd/user/deadlock-turniere.service.d/10-infisical-gate.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/20-creds.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
+<p>Der Rust-Launcher liest <code>TURNIERE_CONFIG_FILE</code> oder <code>$HOME/.config/deadlock-turniere/turniere.env</code>, optional <code>INFISICAL_CONFIG_FILE</code> oder <code>$HOME/.config/deadlock-bots/infisical.conf</code>, und bei gesetztem <code>CREDENTIALS_DIRECTORY</code> die Datei <code>infisical-token</code>. Fehlt <code>INFISICAL_SERVICE_TOKEN</code>, beendet er den Start. (<code>scripts/run_turniere_backend_rust.sh</code>)</p>
+</section>
+<section id="konfiguration">
+<h2>Konfiguration</h2>
+<p>Die Rust-Config liest zuerst <code>NAME_FILE</code>, danach Secret-Dateien in <code>CREDENTIALS_DIRECTORY</code>, <code>SECRETS_DIRECTORY</code> oder <code>VAULT_SECRETS_DIR</code>, danach Env-Werte, danach Defaults. Der Resolver trimmt Datei- und Env-Werte und ignoriert leere Werte. (<code>rust/crates/turnier-config/src/secrets.rs</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEADLOCK_CENTRAL_DSN</code></td>
+<td>Pflicht-DSN für die zentrale Postgres-DB</td>
+</tr>
+<tr>
+<td><code>BACKEND_HOST</code>, <code>BACKEND_PORT</code></td>
+<td>Listener-Adresse für <code>turnier-bot</code></td>
+</tr>
+<tr>
+<td><code>BACKEND_ALLOWED_HOSTS</code></td>
+<td>Zusatzhosts für den Host-Guard</td>
+</tr>
+<tr>
+<td><code>FRONTEND_URL</code>, <code>TURNIER_PUBLIC_URL</code></td>
+<td>CORS, Redirects und öffentliche Links</td>
+</tr>
+<tr>
+<td><code>DISCORD_OAUTH_INTERNAL_API_BASE_URL</code></td>
+<td>Interne OAuth-Basis-URL</td>
+</tr>
+<tr>
+<td><code>TURNIER_INTERNAL_API_TOKEN</code>, <code>MASTER_BROKER_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>TWITCH_INTERNAL_API_TOKEN</code></td>
+<td>Token-Aliase für OAuth/Broker</td>
+</tr>
+<tr>
+<td><code>DISCORD_MASTER_BROKER_BASE_URL</code>, <code>DISCORD_MASTER_BROKER_TOKEN</code></td>
+<td>Master-Broker für Discord-Effekte</td>
+</tr>
+<tr>
+<td><code>DISCORD_BOT_TOKEN</code>, <code>DISCORD_TOKEN</code>, <code>BOT_TOKEN</code></td>
+<td>Token-Aliase für Discord-Client-Fallbacks</td>
+</tr>
+<tr>
+<td><code>STEAM_BRIDGE_DB_PATH</code></td>
+<td>SQLite-Queue des Steam-Workers</td>
+</tr>
+<tr>
+<td><code>AVATAR_DIR</code></td>
+<td>Profilavatar-Verzeichnis</td>
+</tr>
+<tr>
+<td><code>TURNIER_ENABLE_TEST_MODE</code></td>
+<td>Schalter für Test-Routen</td>
+</tr>
+<tr>
+<td><code>CENTRAL_TEST_DSN</code>, <code>TURNIER_TEST_DB_CONFIRM</code></td>
+<td>Schutzwerte für Test-Wipe</td>
+</tr>
+</tbody>
+</table>
+<p><code>Config::from_env()</code> definiert die aktiven Server-, Discord-, OAuth-, Broker-, Rollen-, Avatar- und Steam-Bridge-Namen. <code>turnier-api::test_mode</code> hängt Test-Routen nur an, wenn <code>TURNIER_ENABLE_TEST_MODE</code> aktiv ist, und schützt den Wipe zusätzlich über <code>CENTRAL_TEST_DSN</code> und <code>TURNIER_TEST_DB_CONFIRM=throwaway-only</code>. (<code>rust/crates/turnier-config/src/lib.rs</code>, <code>rust/crates/turnier-api/src/test_mode.rs</code>)</p>
+</section>
+<section id="pruefungen">
+<h2>Prüfungen</h2>
+<p>Smoke-Check ohne Listener: <code>rust/target/release/turnier-bot --check</code>. Dieser Pfad lädt Config, öffnet die zentrale DB, baut <code>AppState</code>, Scheduler und Router und beendet sich vor <code>TcpListener::bind()</code>. (<code>rust/crates/turnier-bot/src/main.rs</code>)</p>
+<p>Der Launcher prüft vor dem Exec, ob <code>DEADLOCK_CENTRAL_DSN</code> gesetzt ist. Fehlt die Variable, beendet der Start mit einem Fehler, bevor <code>turnier-bot</code> läuft. (<code>scripts/run_turniere_backend_rust.sh</code>)</p>
+</section>
+<section id="fallstricke">
+<h2>Fallstricke</h2>
+<p>Die erste <code>ExecStart</code>-Zeile in der Basisdatei ist nicht die Laufzeit-Wahrheit. Das Drop-in <code>30-rust-cutover.conf</code> löscht sie und setzt den Rust-Launcher als neuen Start. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
+<p><code>STEAM_BRIDGE_DB_PATH</code> zeigt auf eine externe SQLite-Datei des Steam-Workers. Wenn der Pfad leer ist oder die Datei fehlt, liefert <code>SteamBridge::open()</code> <code>Ok(None)</code> und der MatchManager läuft ohne Steam-Tasks weiter. (<code>rust/crates/turnier-config/src/lib.rs</code>, <code>rust/crates/turnier-match/src/steam_bridge.rs</code>, <code>rust/crates/turnier-api/src/state.rs</code>)</p>
+<p>Das verzögerte Löschen von Discord-Match-Channels lebt im Prozess. Ein Neustart während der Wartezeit verliert diesen geplanten Löschvorgang. (<code>rust/crates/turnier-discord/src/notifier.rs</code>, <code>rust/crates/turnier-match/src/result.rs</code>)</p>
+<p>Reminder nutzen ein 5-Minuten-Fenster und Dedupe-Tabellen. Verpasste Fenster nach längerem Ausfall werden nicht nachgeholt. (<code>rust/crates/turnier-scheduler/src/reminders.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

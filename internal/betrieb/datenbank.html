@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Cross-System-Betrieb - Datenbank</title>
+  <meta name="tags" content="internal, betrieb, datenbank, postgres">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots zentrale DB, Rust-Wrapper, Service-Units">
+</head>
+<body>
+<main>
+<h1>Cross-System-Betrieb - Datenbank</h1>
+<p>Die zentrale Deadlock-Datenbank ist Postgres/TimescaleDB auf Loopback.
+Der gemeinsame Rust-Pfad liest die DSN über <code>DEADLOCK_CENTRAL_DSN</code>.
+Migrationen gehören dem Deadlock-Bots-Workspace.</p>
+<section id="zentrale-postgres">
+<h2>Zentrale Postgres</h2>
+<table>
+<thead>
+<tr>
+<th>Baustein</th>
+<th>Wert</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container</td>
+<td><code>deadlock-central-postgres</code> aus <code>timescale/timescaledb:2.17.2-pg16</code></td>
+<td><code>Deadlock-Bots/rust/infra/central-db/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Bind</td>
+<td><code>127.0.0.1:5434</code> auf Container-Port <code>5432</code></td>
+<td><code>Deadlock-Bots/rust/infra/central-db/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Datenbankname</td>
+<td><code>deadlock</code></td>
+<td><code>Deadlock-Bots/rust/infra/central-db/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Startskript</td>
+<td><code>up.sh</code> verlangt <code>DEADLOCK_CENTRAL_DSN</code>, leitet daraus nur <code>POSTGRES_PASSWORD</code> für Docker ab und startet Compose.</td>
+<td><code>Deadlock-Bots/rust/infra/central-db/up.sh</code></td>
+</tr>
+<tr>
+<td>optionale System-Unit-Vorlage</td>
+<td><code>deadlock-central-db.service</code> startet und stoppt denselben Compose-Stack; Klartext-Secrets sind dort ausdrücklich nicht vorgesehen.</td>
+<td><code>Deadlock-Bots/rust/infra/central-db/deadlock-central-db.service</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dsn-und-migrationen">
+<h2>DSN und Migrationen</h2>
+<p><code>dl-central-db</code> definiert <code>DEADLOCK_CENTRAL_DSN</code> als einzige zentrale DSN-Env und baut daraus den <code>PgPool</code>. <code>dl-central-migrate</code> ruft <code>sqlx::migrate!</code> auf dem Migrationsverzeichnis <code>crates/dl-central-db/migrations</code> auf. (<code>Deadlock-Bots/rust/crates/dl-central-db/src/pool.rs</code>; <code>Deadlock-Bots/rust/bin/dl-central-migrate/src/main.rs</code>)</p>
+<p>Der Migrationsweg ist:</p>
+<pre><code class="language-bash">cd /home/naniadm/Documents/Deadlock-Bots/rust
+cargo run -p dl-central-migrate
+</code></pre>
+<p><code>central_test_db.sh</code> nutzt denselben Binary-Pfad gegen einen Wegwerfcontainer und setzt dort <code>DEADLOCK_CENTRAL_DSN</code> nur für den Testprozess. (<code>Deadlock-Bots/rust/scripts/central_test_db.sh</code>)</p>
+</section>
+<section id="schemata">
+<h2>Schemata</h2>
+<table>
+<thead>
+<tr>
+<th>Schema</th>
+<th>Zweck im Betrieb</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core</code></td>
+<td>Benutzer und Steam-Links als gemeinsame Identitätsschicht.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching</code></td>
+<td>Coaching-Plattform und Website-Coaching.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Website/builds/backend-rust/src/routes/platform.rs</code></td>
+</tr>
+<tr>
+<td><code>scrim</code></td>
+<td>Scrim-/Match-Orchestrierung und Website-Scrim-Routen.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Website/builds/backend-rust/src/routes/scrim.rs</code></td>
+</tr>
+<tr>
+<td><code>steam</code></td>
+<td>Steam-Links, Ränge, Friend-Requests und Steam-Tasks.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0003_steam.sql</code>; <code>Deadlock-Steam-Bot/rust/crates/steam-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>turnier</code></td>
+<td>Turnier-Backend und Match-Automatik.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0009_turnier.sql</code>; <code>Deadlock-Turniere/rust/crates/turnier-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>patchnotes</code></td>
+<td>Patchnotes-Identitäten und Patchnotes-Daten.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0014_patchnotes_identity_sequences.sql</code>; <code>Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh</code></td>
+</tr>
+<tr>
+<td><code>activity</code></td>
+<td>Aktivitätsdaten, Journey und Live-Player-State.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>; <code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code></td>
+</tr>
+<tr>
+<td><code>voice</code>, <code>tierlist</code>, <code>moderation</code>, <code>bot</code>, <code>clips</code>, <code>content</code></td>
+<td>Bot-Funktionen, Voice, Tierlist, Moderation, Clips und Content.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql</code>; <code>Deadlock-Bots/rust/crates/dl-central-db/migrations/0008_clips.sql</code></td>
+</tr>
+<tr>
+<td><code>server_config</code></td>
+<td>Server-Konfiguration aus dem Rust-Bot.</td>
+<td><code>Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070210_server_config_schema.sql</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dienstbindung">
+<h2>Dienstbindung</h2>
+<p>Deadlock-Bots, Steam, Turniere, Patchnotes und Website starten nicht sinnvoll ohne zentrale DSN im jeweiligen Rust- oder Wrapper-Pfad. Twitch hat einen separaten Analytics-Postgres-Pfad über <code>TWITCH_ANALYTICS_DSN</code> und eigene Rust-Migrationen; das ist kein <code>DEADLOCK_CENTRAL_DSN</code>-Pfad. (<code>Deadlock-Bots/rust/bin/dl-web/src/main.rs</code>; <code>Deadlock-Steam-Bot/rust/crates/steam-core/src/main.rs</code>; <code>Deadlock-Turniere/scripts/run_turniere_backend_rust.sh</code>; <code>Website/scripts/run_builds_backend.sh</code>; <code>Deadlock-Twitch-Bot/rust/bin/tb-dashboard/src/main.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

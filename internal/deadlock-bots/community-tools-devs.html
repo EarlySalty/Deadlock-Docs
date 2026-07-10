@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>community-tools — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/community-tools.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>community-tools — Dev-Notizen</h1>
+<p>eingearbeitet in architektur.md</p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: <code>dl-community/src/tags_ui.rs</code> + <code>tags.rs</code> (User-/Mod-Tags), <code>feedback_hub.rs</code>, <code>clips.rs</code>, <code>leave_survey.rs</code>, <code>faq.rs</code> (FAQ-Chat + Ticket-Auto-Help), <code>dm_assistant.rs</code> (DM-Hilfe), <code>dl-activity/src/lfg.rs</code> (Intent, Cooldown, Co-Player, Decision-Log)</li>
+<li>Player-Finder (<code>dl-activity/src/player_finder.rs</code>) existiert im Code, ist aber per Default deaktiviert (<code>PLAYER_FINDER_ENABLED=false</code>)</li>
+<li>Bug-Reporter (<code>cogs/bug_reporter.py</code>) wurde beim Rust-Cutover bewusst nicht portiert</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

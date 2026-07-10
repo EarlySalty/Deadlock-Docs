@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>onboarding-und-invites — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="public/discord-server/onboarding-und-invites.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>onboarding-und-invites — Dev-Notizen</h1>
+<p>eingearbeitet in architektur.md</p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust: <code>dl-community/src/onboarding.rs</code> (+ <code>onboarding_steps.json</code>), <code>ai_onboarding.rs</code>, <code>tags_ui.rs</code>, <code>reaction_roles.rs</code>, Invite-Lounge-Watcher in <code>dl-community</code>; automatisierter Invite-Pfad im Steam-Bot: <code>steam-flows/src/betainvite/</code></li>
+<li>Der Slash-Command <code>/betainvite</code> existiert weiter im Rust-Event-Ingress und routet auf <code>betainvite:panel:start</code>. Operativ nutzen wir ihn nicht als automatischen Bot-Invite-Weg; der Community-Weg bleibt Frag-Kanal plus veröffentlichtes Panel. (<code>steam-web/src/routes/events.rs</code>)</li>
+<li>Kanalnamen live: &lt;#1464736918951432222&gt;, &lt;#1398021105339334666&gt; (Server-as-Code-Renames)</li>
+</ul>
+</section>
+<section id="invite-lounge-watcher-wann-der-freundescode-tipp-feuert">
+<h2>Invite-Lounge-Watcher — wann der Freundescode-Tipp feuert</h2>
+<p>Der Watcher (<code>rust/crates/dl-community/src/invite_lounge.rs</code>) hört auf jede Nachricht im Kanal <code>1426220702054355077</code> und antwortet als reine Text-Reply mit <code>INVITE_LOUNGE_HINT_TEXT</code>. Kein Panel, kein Button, kein Slash-Command. Gespawnt wird er in <code>rust/bin/dl-bot/src/main.rs</code> über <code>invite_lounge::spawn</code>.</p>
+<p>Geantwortet wird nur, wenn alle vier Bedingungen zugleich gelten (<code>should_reply</code>):</p>
+<ol>
+<li>Nachricht kommt aus einer Guild und aus genau diesem Kanal.</li>
+<li>Der Autor ist neu auf dem Server: <code>author_joined_at</code> liegt weniger als <code>NEWCOMER_MAX_JOIN_SECONDS</code> (7 Tage) zurück. Das Beitrittsdatum stammt aus dem Gateway-Member-Objekt der Nachricht (<code>dl-discord/src/gateway.rs</code>), kein zusätzlicher API-Call. Ist es unbekannt (<code>None</code>), wird nicht geantwortet — fail-closed.</li>
+<li>Der Text sieht nach Invite-Frage aus: enthält &quot;invite&quot;, &quot;einlad&quot;, &quot;playtest&quot; oder &quot;beta&quot; (umlautgefaltet) <strong>und</strong> ein Fragesignal (&quot;?&quot; oder eines von wer/mag/kann/könnte/jemand/würde/hätte).</li>
+<li>Der Text enthält noch keinen Freundescode: keine 6- bis 12-stellige Zahl, kein Link auf <code>steamcommunity.com</code> oder <code>s.team/p/</code>.</li>
+</ol>
+<p>Danach greift ein Cooldown von 24 h pro Autor, gespeichert in <code>bot.kv_store</code> unter der Namespace <code>invite_lounge:cooldown</code>, Key <code>user:&lt;id&gt;</code>.</p>
+<p>Das 7-Tage-Fenster ist bewusst dasselbe wie <code>NEW_MEMBER_MAX_JOIN_HOURS = 168</code> in <code>dl-moderation/src/behavior_detector.rs</code>, aber als eigene Konstante geführt: <code>dl-community</code> hängt nicht von <code>dl-moderation</code> ab.</p>
+<p><strong>Warum die Neu-Prüfung existiert (2026-07-10):</strong> Vorher entschied allein der Text. Dadurch antwortete der Bot auch Stammmitgliedern, die einem Neuling halfen (&quot;Ich kann dich gerne im Laufe des Tages einladen&quot; enthält &quot;einlad&quot; + &quot;kann&quot;). Genau dieser Satz liegt jetzt als Regressionstest <code>veteran_mit_invite_frage_triggert_nicht</code> in der Datei.</p>
+</section>
+</main>
+</body>
+</html>

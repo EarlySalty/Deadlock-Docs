@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Affiliate</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, affiliate">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Affiliate</h1>
+<section id="flow">
+<h2>Flow</h2>
+<ul>
+<li>Affiliate-Onboarding startet über <code>/twitch/auth/affiliate/login</code> und endet über <code>/twitch/auth/affiliate/callback</code> in einer Affiliate-Session. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
+<li>Stripe-Connect läuft über <code>/twitch/affiliate/connect/stripe</code> und <code>/twitch/affiliate/connect/stripe/callback</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
+<li>Streamer-Claims laufen über <code>/twitch/affiliate/claim</code> und API-Routen unter <code>/twitch/api/affiliate/*</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs; rust/crates/tb-dashboard-api/src/lib.rs)</li>
+<li>Das Affiliate-Cookie heißt <code>twitch_affiliate_session</code>. (rust/crates/tb-dashboard-api/src/session.rs)</li>
+</ul>
+</section>
+<section id="daten">
+<h2>Daten</h2>
+<ul>
+<li><code>affiliate_accounts</code> hält Affiliate-Account-Status, Twitch-ID, Twitch-Login, Stripe-Account und Payout-Status. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
+<li><code>affiliate_pii</code> hält personenbezogene Auszahlungsdaten getrennt vom Account. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
+<li><code>affiliate_streamer_claims</code> hält beanspruchte Streamer-Beziehungen. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
+<li><code>affiliate_commissions</code>, <code>affiliate_gutschrift_counter</code> und <code>affiliate_gutschriften</code> halten Provisionen und Gutschriften. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
+</ul>
+</section>
+<section id="admin-und-job">
+<h2>Admin und Job</h2>
+<ul>
+<li>Admin-Routen liefern Affiliate-Stats, Listen, Detaildaten, Status-Toggle, Gutschriften und Gutschrift-Generierung. (rust/crates/tb-dashboard-api/src/handlers/admin_affiliate.rs)</li>
+<li><code>tb-dashboard</code> startet einen Affiliate-Gutschrift-Loop, der nach 20 Sekunden beginnt und danach alle 6 Stunden läuft. (rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-dashboard-api/src/handlers/admin_affiliate.rs)</li>
+<li>Der Gutschrift-Job nutzt Feldverschlüsselung und einen SMTP-Sender. (rust/crates/tb-dashboard-api/src/handlers/admin_affiliate.rs)</li>
+</ul>
+</section>
+<section id="env-namen">
+<h2>Env-Namen</h2>
+<ul>
+<li>Twitch-OAuth nutzt <code>TWITCH_CLIENT_ID</code> und <code>TWITCH_CLIENT_SECRET</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
+<li>Stripe-Connect nutzt <code>STRIPE_CONNECT_CLIENT_ID</code> und den Stripe-Secret-Key aus <code>STRIPE_SECRET_KEY</code> oder <code>TWITCH_BILLING_STRIPE_SECRET_KEY</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
+<li>Öffentliche URLs für Gutschriften kommen aus <code>TWITCH_PUBLIC_DASHBOARD_BASE_URL</code>, <code>TWITCH_PUBLIC_URL</code>, <code>PUBLIC_URL</code>, <code>TWITCH_ADMIN_PUBLIC_URL</code> oder <code>MASTER_DASHBOARD_PUBLIC_URL</code>. (rust/crates/tb-dashboard-api/src/handlers/admin_affiliate.rs)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

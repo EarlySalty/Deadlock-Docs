@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Cross-System-Betrieb - Caddy-Routing</title>
+  <meta name="tags" content="internal, betrieb, caddy, routing">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Caddy Docker Compose und Caddyfile">
+</head>
+<body>
+<main>
+<h1>Cross-System-Betrieb - Caddy-Routing</h1>
+<p>Caddy läuft als Docker-Container mit Host-Netzwerk.
+Die aktive Konfiguration liegt unter <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>.
+Öffentliche Pfade werden fast immer auf Loopback-Ports oder statische <code>dist</code>-Verzeichnisse gemappt.</p>
+<section id="caddy-laufzeit">
+<h2>Caddy-Laufzeit</h2>
+<table>
+<thead>
+<tr>
+<th>Baustein</th>
+<th>Wert</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container</td>
+<td><code>caddy:2.10-alpine</code> mit <code>container_name: caddy</code></td>
+<td><code>Caddy/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Netzwerk</td>
+<td><code>network_mode: host</code></td>
+<td><code>Caddy/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Konfiguration</td>
+<td><code>./conf</code> wird read-only nach <code>/etc/caddy</code> gemountet.</td>
+<td><code>Caddy/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td>Website-Mounts</td>
+<td><code>Website</code>, <code>Deadlock-Twitch-Bot</code> und <code>Deadlock-Turniere/frontend/dist</code> werden read-only eingebunden.</td>
+<td><code>Caddy/docker-compose.yml</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="oeffentliche-routen">
+<h2>Öffentliche Routen</h2>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Ziel</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/callback/discord</code></td>
+<td><code>127.0.0.1:8766</code></td>
+<td><code>Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>/callback/twitch</code></td>
+<td><code>127.0.0.1:8769</code></td>
+<td><code>Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>/callback/steam</code></td>
+<td>Rewrite auf <code>/link/callback/steam</code>, dann <code>127.0.0.1:8783</code></td>
+<td><code>Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>/twitch/eventsub/callback</code></td>
+<td><code>127.0.0.1:8786</code></td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Twitch-Bot/rust/bin/tb-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>/twitch/*</code>, <code>/analyse/*</code>, <code>/social-media/*</code>, <code>/demo/*</code>, <code>/raid/*</code></td>
+<td>Rust Twitch-Dashboard auf <code>127.0.0.1:8769</code>; nicht portierte Routen fallen intern auf Legacy-Fallback, wenn gesetzt.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_dashboard_service.sh</code></td>
+</tr>
+<tr>
+<td><code>/link/*</code></td>
+<td>Rust Steam-Bot auf <code>127.0.0.1:8783</code>; <code>/link/health</code> wird zu <code>/health</code> umgeschrieben.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Steam-Bot/rust/crates/steam-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>/turnier/api/*</code>, <code>/turnier/auth/*</code></td>
+<td>Prefix <code>/turnier</code> wird entfernt, dann <code>127.0.0.1:8900</code>.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Turniere/rust/crates/turnier-config/src/lib.rs</code></td>
+</tr>
+<tr>
+<td><code>/turnier*</code></td>
+<td>statisches Frontend aus <code>Deadlock-Turniere/frontend/dist</code></td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Caddy/docker-compose.yml</code></td>
+</tr>
+<tr>
+<td><code>/patch*</code></td>
+<td>statisches Frontend aus <code>Website/dl-patch/dist</code></td>
+<td><code>Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>/api/public/patch-timeline</code>, <code>/api/public/patch-notes</code></td>
+<td>Website-Backend auf <code>127.0.0.1:8772</code></td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td><code>/api/public/*</code></td>
+<td>Master-Dashboard/API auf <code>127.0.0.1:8766</code></td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Bots/rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>/aktivitaet/api/*</code>, <code>/aktivitaet/auth/*</code>, <code>/aktivitaet/health</code></td>
+<td>Public-Stats auf <code>127.0.0.1:8768</code>; die restliche App kommt aus <code>Website/dl-activity/dist</code>.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Bots/rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>/builds/api/*</code>, <code>/builds/auth/*</code></td>
+<td>Tierlist auf <code>127.0.0.1:8771</code>; die App kommt aus <code>Website/dl-tierlist/dist</code>.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Deadlock-Bots/rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>/coaching/api/*</code></td>
+<td>Website-Backend auf <code>127.0.0.1:8772</code>; die App kommt aus <code>Website/dl-coaching/dist</code>.</td>
+<td><code>Caddy/conf/Caddyfile</code>; <code>Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="admin-subdomain">
+<h2>Admin-Subdomain</h2>
+<p><code>admin.deutsche-deadlock-community.de</code> leitet Twitch-Admin-Auth, Panel und Admin-Support auf <code>127.0.0.1:8769</code>; generische Admin- und Fallback-Routen gehen auf <code>127.0.0.1:8766</code>. Öffentliche Twitch-, Analyse-, Social- und Demo-Pfade werden auf der Admin-Subdomain hart mit <code>404</code> beantwortet. (<code>Caddy/conf/Caddyfile</code>)</p>
+</section>
+</main>
+</body>
+</html>

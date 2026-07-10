@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>faq-bot-selbst — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/faq-bot-selbst.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>faq-bot-selbst — Dev-Notizen</h1>
+<p>eingearbeitet in faq-grounding.md</p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: <code>dl-community/src/faq.rs</code> — Panel (<code>/faqpanel</code>, idempotentes Panel-Healing), <code>/faq</code>, Button <code>faq_chat:start</code>, Close-Button <code>faq_chat:close:{session}</code>, Ticket-Auto-Help (Kategorie-Check + KEIN_TREFFER-Protokoll), Twitch-Diagnose-Tool</li>
+<li>Grounding: flacher Loader für <code>docs/*.md</code> (<code>load_docs</code>), Verlauf = letzte 10 Nachrichten</li>
+<li>Wichtige DB-Tabellen: <code>bot.faq_chat_sessions</code>, <code>bot.faq_chat_messages</code>, Panel-ID im KV (<code>faq_chat:panel</code>)</li>
+<li>Legacy-Details stehen gesammelt in <code>architektur.md</code>.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

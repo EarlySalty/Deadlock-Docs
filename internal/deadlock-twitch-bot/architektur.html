@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Architektur</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, architektur">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Architektur</h1>
+<section id="crates">
+<h2>Crates</h2>
+<ul>
+<li>Der Rust-Workspace enthält Domänen-, Config-, DB-, Transport-, Monitoring-, Raid-, Chat-, Dashboard-, Internal-API-, Social-, Highlight-, Engagement-, Knowledge-, Tips- und LLM-Crates. (rust/Cargo.toml)</li>
+<li><code>bin/tb-bot</code> hängt an <code>tb-config</code>, <code>tb-db</code>, <code>tb-internal-api</code>, <code>tb-chat</code>, <code>tb-knowledge</code>, <code>tb-tips</code>, <code>tb-monitoring</code>, <code>tb-raid</code>, <code>tb-transport-twitch</code>, <code>tb-transport-discord</code>, <code>tb-social-media</code>, <code>tb-analytics</code>, <code>tb-highlight</code> und <code>tb-engagement</code>. (rust/bin/tb-bot/Cargo.toml)</li>
+<li><code>bin/tb-dashboard</code> hängt an <code>tb-config</code>, <code>tb-db</code> und <code>tb-dashboard-api</code>. (rust/bin/tb-dashboard/Cargo.toml)</li>
+</ul>
+</section>
+<section id="prozessgrenzen">
+<h2>Prozessgrenzen</h2>
+<ul>
+<li><code>tb-bot</code> erstellt die interne API und injiziert Helix, EventSub-Dispatcher, Raid-Ports, Chat-Ports, Scam-Guard-Ports, Analytics-Ports und Discord-Relay in den Router. (rust/bin/tb-bot/src/main.rs; rust/crates/tb-internal-api/src/lib.rs)</li>
+<li><code>tb-dashboard</code> erstellt den Dashboard-Router und mischt öffentliche Routen, Auth-Routen, Affiliate-Routen, Admin-Routen, Billing-Routen, Website-Routen und SPA-Routen. (rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-dashboard-api/src/lib.rs)</li>
+<li><code>tb-dashboard</code> spricht für Scam-Guard-Aktionen, Chat-Aktionen, Raid-Seiten und Self-Explainer-Logs gegen die interne API des Bots. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_enforce.rs; rust/crates/tb-dashboard-api/src/handlers/admin_chat_action.rs; rust/crates/tb-dashboard-api/src/handlers/raid_pages.rs; rust/crates/tb-dashboard-api/src/handlers/self_explainer.rs)</li>
+</ul>
+</section>
+<section id="eventsub-fluss">
+<h2>EventSub-Fluss</h2>
+<ul>
+<li>Twitch ruft <code>/twitch/eventsub/callback</code> auf, der Receiver prüft Message-ID, Timestamp, HMAC und ein Zeitfenster von 600 Sekunden. (rust/crates/tb-monitoring/src/webhook_receiver.rs)</li>
+<li>Verification-Events geben die Challenge zurück, Revocation-Events markieren Subscriptions als untrackbar, Notification-Events gehen an den Dispatcher. (rust/crates/tb-monitoring/src/webhook_receiver.rs)</li>
+<li>Der Dispatcher dedupliziert EventSub-Messages über <code>eventsub_guard_state</code> und leitet Core-Events wie <code>stream.online</code>, <code>stream.offline</code>, <code>channel.update</code> und <code>channel.raid</code> in <code>twitch_eventsub_processing_inbox</code>. (rust/crates/tb-monitoring/src/dispatch.rs; rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li>Chat- und Telemetrie-Events laufen über EventSub-Hooks oder direkte Telemetrie-Stores, statt über die Core-Inbox. (rust/crates/tb-monitoring/src/dispatch.rs)</li>
+</ul>
+</section>
+<section id="chat-und-irc-fluss">
+<h2>Chat- und IRC-Fluss</h2>
+<ul>
+<li>Native Chat ist nur aktiv, wenn <code>TB_CHAT_ENABLED=1</code> gesetzt ist. (rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li>Der Chat-Stack nutzt EventSub Webhooks für <code>channel.chat.message</code> und <code>channel.chat.notification</code>; ein Join ist eine Webhook-Subscription und kein WebSocket-Join. (rust/crates/tb-chat/src/lib.rs; rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li><code>ChatHooks</code> nimmt Chat-Events aus EventSub an und reicht Message-Events an die Pipeline weiter. (rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li>Die Pipeline filtert eigene Nachrichten, bekannte Bots, Channel-Typen, globale Bans, Scam-Pitches, Spam, Invite-Verdacht, Fun-Antworten, Tracking, Engagement, Promo und Commands in fester Reihenfolge. (rust/crates/tb-chat/src/pipeline.rs)</li>
+<li>Ausgehende Chat-Aktionen laufen über <code>ChatApi</code> und den Helix-Chat-Client mit Bot-Token-Refresh. (rust/crates/tb-chat/src/api.rs; rust/crates/tb-chat/src/moderation.rs; rust/bin/tb-bot/src/chat_wiring.rs)</li>
+<li>Der IRC-Lurker ist ein anonymer Präsenzsammler, wenn <code>TB_IRC_LURKER_ENABLED=1</code> gesetzt ist; er synchronisiert Live-Kanäle aus <code>twitch_live_state</code> und schreibt Chatter-Präsenz. (rust/bin/tb-bot/src/irc_lurker_wiring.rs)</li>
+</ul>
+</section>
+<section id="datenfluss">
+<h2>Datenfluss</h2>
+<ul>
+<li>Beide Binaries lesen <code>TWITCH_ANALYTICS_DSN</code> und bauen daraus einen PostgreSQL-Pool. (rust/crates/tb-config/src/lib.rs; rust/crates/tb-db/src/pool.rs)</li>
+<li>Rust-Migrationen liegen unter <code>rust/migrations</code> und werden über <code>sqlx::migrate!</code> eingebettet. (rust/crates/tb-db/src/migrate.rs)</li>
+<li>Der Schema-Owner-Marker <code>tb_schema_ownership</code> kennzeichnet <code>analytics_schema</code> als Rust-owned. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership.sql)</li>
+</ul>
+</section>
+<section id="legacy">
+<h2>Legacy</h2>
+<p>Legacy: Die alten Python-Units <code>deadlock-twitch-bot.service</code> und <code>deadlock-twitch-dashboard.service</code> existieren noch, waren beim Abgleich aber inaktiv. Die aktiven Live-Units starten <code>rust/target/release/tb-bot</code> und <code>rust/target/release/tb-dashboard</code> (<code>/home/naniadm/.config/systemd/user/deadlock-twitch-bot.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-twitch-dashboard.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-twitch-bot-rust.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-twitch-dashboard-rust.service</code>).</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot Architektur</title>
+  <meta name="tags" content="internal, patchnotes-bot, architektur">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock--Patchnotes-Bot">
+</head>
+<body>
+<main>
+<h1>Patchnotes-Bot Architektur</h1>
+<p><code>main.py</code> ist der Prozesskern: Discord-Client, Ready-Handler, Scan-Loop, Retranslation-Befehle, Dispatch-State, Brain-Sync-Start und Discord-Versand liegen dort. (<code>main.py</code>)</p>
+<p><code>changelog_latest_fetcher.py</code> bestimmt den neuesten Kandidaten aus Steam-News-API und Forum-Thread. Das Modul bewertet Steam-Einträge über Titel-, Bullet- und Abschnittshinweise und liefert nur den neuesten Steam-Kandidaten an die Posting-Pipeline. (<code>changelog_latest_fetcher.py</code>)</p>
+<p><code>changelog_content_fetcher.py</code> extrahiert den Inhalt. Steam wird aus <code>data-partnereventstore</code> und BBCode gelesen, Forum aus <code>article.message</code> und <code>div.bbWrapper</code>; Steam-Spiegel aus Forumsposts werden nur aus dem ausgewählten Post verfolgt. (<code>changelog_content_fetcher.py</code>)</p>
+<p><code>patchnotes_db.py</code> ist der Laufzeit-DB-Layer. Er nutzt <code>asyncpg.create_pool()</code>, liest <code>DEADLOCK_CENTRAL_DSN</code>, schreibt <code>patchnotes.changelog_posts</code>, spiegelt Rohtext nach <code>patchnotes.deadlock_changelogs</code> und nutzt <code>bot.kv_store</code> für Bot-State. (<code>patchnotes_db.py</code>)</p>
+<p><code>perplexity_requests.py</code> baut System- und User-Prompt, ruft <code>https://api.perplexity.ai/chat/completions</code> mit <code>disable_search=True</code> auf und liest <code>PERPLEXITY_API_KEY</code>, <code>PERPLEXITY_MODEL</code> und <code>PERPLEXITY_MAX_TOKENS</code>. (<code>perplexity_requests.py</code>)</p>
+<p><code>patch_view.py</code> und <code>entity_emojis.py</code> gehören zum optionalen Components-V2-Pfad. <code>main.py</code> nutzt ihn nur, wenn <code>PATCH_EMBED_V2</code> gesetzt ist; Renderfehler fallen auf Textversand zurück. (<code>main.py</code>, <code>patch_view.py</code>, <code>entity_emojis.py</code>)</p>
+<p><code>reconcile_patchnotes.py</code> ist kein Runtime-Pfad. Das Tool vergleicht alte SQLite-Daten mit zentralem Postgres und schreibt nur mit <code>--apply --confirm-apply</code>. (<code>reconcile_patchnotes.py</code>)</p>
+<section id="dedup">
+<h2>Dedup</h2>
+<p>Die Inhalts-Signatur kommt aus <code>_content_signature()</code>: Der Bot trimmt den Rohtext, ersetzt jede Whitespace-Gruppe durch einen Zeilenumbruch und hasht das Ergebnis mit SHA-256. (<code>main.py</code>)</p>
+<p>Der Dispatch-State liegt in <code>bot.kv_store</code> unter Namespace <code>patchnotes_bot</code> und Key <code>dispatch_content_sha256:&lt;signatur&gt;</code>. <code>pending</code> und <code>sent</code> blockieren einen erneuten Versand. (<code>main.py</code>, <code>patchnotes_db.py</code>)</p>
+<p><code>_patch_data_already_processed()</code> blockiert Kandidaten über drei Wege: gespeicherter Dispatch-State, gespeicherte kanonische URL oder identischer <code>raw_content</code> in <code>patchnotes.changelog_posts</code>. (<code>main.py</code>, <code>patchnotes_db.py</code>)</p>
+<p><code>_select_candidate_urls()</code> vergleicht Steam- und Forum-IDs nicht direkt. Bei Steam wird nur der neueste Steam-Link geprüft; bei Forum nutzt der Bot die Post-Reihenfolge und begrenzt Catch-up über <code>PATCH_MAX_CATCHUP_POSTS</code>. (<code>main.py</code>)</p>
+</section>
+<section id="ki-aufbereitung">
+<h2>KI-Aufbereitung</h2>
+<p><code>_translate_patch_content()</code> versucht große Patches zuerst als einen Request, solange der Text unter <code>PATCH_TRANSLATE_SPLIT_THRESHOLD</code> liegt. Bei abgeschnittener Antwort oder überschrittenem Schwellenwert teilt <code>_translate_patch_content_in_parts()</code> den Text entlang erkannter Abschnitte. (<code>main.py</code>)</p>
+<p><code>_request_patch_translation()</code> ruft Perplexity erst normal und dann im Strict-Modus auf. Leere, unbrauchbare oder abgeschnittene Antworten werden verworfen; bei nicht rettbarem Fehler fällt der Bot auf Rohtext zurück oder splittert den Text. (<code>main.py</code>)</p>
+<p>Nach der KI-Antwort entfernt der Bot Code-Fences, Zitate, Links und Rollen-Pings, repariert bekannte Begriffe, gruppiert Hero- und Item-Blöcke und teilt den Text unter das Discord-Limit. (<code>main.py</code>)</p>
+<p>Perplexity bekommt keinen Websuchlauf. <code>fetch_answer()</code> sendet <code>disable_search=True</code>, <code>temperature=0.0</code> im Strict-Modus und <code>temperature=0.2</code> sonst. (<code>perplexity_requests.py</code>)</p>
+</section>
+</main>
+</body>
+</html>

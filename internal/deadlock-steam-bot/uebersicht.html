@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Steam-Bot Übersicht</title>
+  <meta name="tags" content="internal, steam, bot">
+  <meta name="stand" content="2026-07-08">
+  <meta name="quelle" content="Deadlock-Steam-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Steam-Bot Übersicht</h1>
+<p>Der Steam-Bot läuft als Rust-Workspace mit zwei Service-Binaries. <code>steam-core</code> hält die Steam-Session, verbindet den Deadlock-Game-Coordinator, bedient die interne Task-API und verarbeitet <code>steam.steam_tasks</code>. <code>steam-bot</code> öffnet dieselbe zentrale Postgres-DB, startet Discord-Transport, Flow-Scheduler und die Web-Routen für Link, Rang, Ko-fi und Events. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-bot/src/main.rs</code>)</p>
+<p>Der Workspace bindet <code>deadlock-proto</code>, <code>steam-domain</code>, <code>api-contract</code>, <code>steam-persistence</code>, <code>steam-gc</code>, <code>steam-core</code>, <code>steam-discord</code>, <code>steam-web</code>, <code>steam-flows</code> und <code>steam-bot</code> ein. <code>dl-central-db</code> kommt als Workspace-Abhängigkeit aus dem Schwester-Repo und liefert DSN, Pool und Migrationen. (<code>rust/Cargo.toml</code>)</p>
+<section id="binaries">
+<h2>Binaries</h2>
+<table>
+<thead>
+<tr>
+<th>Binary</th>
+<th>Aufgabe</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>steam-core</code></td>
+<td>Steam-Login, GC-Verbindung, Task-Loop, HTTP-API, Presence-Listener, Build-Katalog-Scheduler und Heartbeat.</td>
+<td><code>rust/crates/steam-core/Cargo.toml</code>, <code>rust/crates/steam-core/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>steam-bot</code></td>
+<td>Discord-Flows, Web-Routen, Scheduler, Ko-fi-Webhook und Broker-Calls.</td>
+<td><code>rust/crates/steam-bot/Cargo.toml</code>, <code>rust/crates/steam-bot/src/main.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="systemd">
+<h2>systemd</h2>
+<p><code>steam-core.service</code> startet <code>rust/deploy/run-steam-core.sh</code> im WorkingDirectory <code>~/Documents/Deadlock-Steam-Bot/rust</code>. Die Live-Unit nutzt <code>Restart=on-failure</code>, <code>RestartSec=5</code>, <code>TimeoutStopSec=20</code>, lädt <code>infisical-token</code> per Drop-in und setzt <code>STEAM_PRESENCE_ENABLED=1</code> per Drop-in (<code>/home/naniadm/.config/systemd/user/steam-core.service</code>, <code>/home/naniadm/.config/systemd/user/steam-core.service.d/20-creds.conf</code>, <code>/home/naniadm/.config/systemd/user/steam-core.service.d/30-presence.conf</code>).</p>
+<p><code>steam-bot.service</code> startet <code>rust/deploy/run-steam-bot.sh</code>, hat <code>After=network-online.target steam-core.service</code>, setzt <code>STEAM_BOT_API_ADDR=127.0.0.1:8783</code> und <code>STEAM_BOT_DISCORD=broker</code>, lädt <code>infisical-token</code> per Drop-in und setzt Friend-Limit-Reservierung per Drop-in (<code>/home/naniadm/.config/systemd/user/steam-bot.service</code>, <code>/home/naniadm/.config/systemd/user/steam-bot.service.d/20-creds.conf</code>, <code>/home/naniadm/.config/systemd/user/steam-bot.service.d/phase0-friend-limit.conf</code>).</p>
+<p>Beide Wrapper lesen Infisical-Verbindungsdaten, übernehmen optional <code>CREDENTIALS_DIRECTORY/infisical-token</code>, laden Secrets per <code>Deadlock-Bots/scripts/export_infisical_env.py --format shell</code> und ersetzen die Shell per <code>exec</code> durch das Rust-Binary. (<code>rust/deploy/run-steam-core.sh</code>, <code>rust/deploy/run-steam-bot.sh</code>)</p>
+</section>
+<section id="ports">
+<h2>Ports</h2>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Dienst</th>
+<th>Mechanismus</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>127.0.0.1:8782</code></td>
+<td><code>steam-core</code></td>
+<td>Default für <code>STEAM_CORE_API_ADDR</code>; die API bietet <code>/health</code>, <code>/status</code>, <code>/friends</code>, <code>POST /tasks</code> und <code>GET /tasks/{id}</code>.</td>
+<td><code>rust/crates/steam-core/src/config.rs</code>, <code>rust/crates/steam-core/src/api/mod.rs</code></td>
+</tr>
+<tr>
+<td><code>127.0.0.1:8783</code></td>
+<td><code>steam-bot</code></td>
+<td>Default für <code>STEAM_BOT_API_ADDR</code>; der Web-Layer bietet <code>/health</code>, <code>/link/*</code>, <code>/rank</code>, <code>/player-*</code>, <code>/kofi/*</code> und <code>/events/discord</code>.</td>
+<td><code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-web/src/lib.rs</code>, <code>rust/crates/steam-web/src/routes/mod.rs</code></td>
+</tr>
+<tr>
+<td><code>127.0.0.1:8770</code></td>
+<td>Master-Broker</td>
+<td><code>steam-bot</code> nutzt diesen Default für Discord-Aktionen, wenn <code>STEAM_BROKER_URL</code> fehlt.</td>
+<td><code>rust/crates/steam-discord/src/broker.rs</code></td>
+</tr>
+<tr>
+<td><code>127.0.0.1:8766</code></td>
+<td>Discord-OAuth-API des Master-Bots</td>
+<td>Der Link-Flow delegiert Discord-OAuth an diese interne API, wenn <code>DISCORD_OAUTH_INTERNAL_API_BASE_URL</code> fehlt.</td>
+<td><code>rust/crates/steam-flows/src/link.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="funktionsumfang">
+<h2>Funktionsumfang</h2>
+<p>Der Account-Link-Flow erzeugt Launch-Tokens, baut Steam-OpenID-Redirects, verifiziert den Steam-Callback, schreibt <code>core.steam_links</code> und reiht <code>AUTH_SEND_FRIEND_REQUEST</code> ein. (<code>rust/crates/steam-flows/src/link.rs</code>, <code>rust/crates/steam-web/src/routes/link.rs</code>)</p>
+<p>Der Steam-Friends-Listener nimmt eingehende Steam-Freundschaftsanfragen automatisch an. Der Friend-Sync pflegt ausgehende Requests und schnellen Friend-Status über <code>steam.steam_friend_requests</code> und <code>steam.steam_friend_check_cache</code>; Unfollow- und Cleanup-Entscheidungen laufen über <code>steam.steam_friendship_miss_tracker</code> und <code>steam.steam_cleanup_poll_state</code>. Unbekannte Steam-Freunde entfernt der Sync aus der Bot-Freundesliste. (<code>rust/crates/steam-core/src/steam/friends.rs</code>, <code>rust/crates/steam-flows/src/friend_sync.rs</code>, <code>rust/crates/steam-persistence/src/miss_tracker.rs</code>)</p>
+<p>Der Rank-Flow liest verifizierte Steam-Links, fragt Profilkarten und Account-Stats über GC-Tasks ab, schreibt Snapshots und aktualisiert Discord-Rollen über den Broker. (<code>rust/crates/steam-flows/src/rank.rs</code>, <code>rust/crates/steam-web/src/routes/rank.rs</code>, <code>rust/crates/steam-persistence/src/rank.rs</code>)</p>
+<p>Der Playtest-Invite-Funnel läuft über <code>/betainvite</code> oder <code>betainvite:panel:start</code>. Er nutzt <code>steam.steam_beta_invites</code>, Ticket-Tabellen, Friendship-Auto-Poll, Audit und Ko-fi-Zahlungen; <code>steam-bot</code> startet dafür Dispatcher, Friendship-Poller und Ticket-Cleanup. Self-Heal plant Wiederholungen für <code>friendship_age</code>, <code>rate_limit</code>, <code>internal_error</code>, <code>invalid_friend</code>, <code>limited_user</code> und <code>transient</code>. (<code>rust/crates/steam-web/src/routes/events.rs</code>, <code>rust/crates/steam-flows/src/betainvite.rs</code>, <code>rust/crates/steam-flows/src/supporter.rs</code>)</p>
+<p>Der Lobby-Flow läuft über <code>steam.steam_tasks</code> und die GC-Task-Typen <code>GC_CREATE_CUSTOM_LOBBY</code>, <code>GC_LOBBY_*</code> und <code>GC_GET_MATCH_RESULT</code>. (<code>rust/crates/steam-core/src/task/handlers/lobby.rs</code>, <code>rust/crates/steam-core/src/task/lanes.rs</code>)</p>
+<p>Der Build-Katalog läuft im Core über <code>MAINTAIN_BUILD_CATALOG</code>, <code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code> und <code>BUILD_CATALOG_CYCLE</code>. Der Scheduler plant nach 30 Sekunden den ersten <code>MAINTAIN_BUILD_CATALOG</code> und danach alle <code>CATALOG_MAINTENANCE_INTERVAL_MS</code>, default <code>86_400_000</code> ms, wenn kein offener Catalog-Task existiert. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-core/src/task/handlers/builds/mod.rs</code>, <code>rust/crates/steam-persistence/src/builds.rs</code>)</p>
+<p>Für Betrieb wichtig: Ohne <code>STEAM_CORE_API_TOKEN</code> lässt <code>steam-core</code> geschützte Routen im Loopback-Modus offen. <code>/events/discord</code> ist ebenfalls offen, wenn die Token-Kette <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>STEAM_INTERNAL_API_TOKEN</code>, <code>INTERNAL_API_TOKEN</code> leer bleibt. Leave-Cleanup entfernt bei Server-Austritt alle Links/Freundschaften des Users, archiviert die Links und reiht Rollen-Cleanup ein. (<code>rust/crates/steam-core/src/api/mod.rs</code>, <code>rust/crates/steam-web/src/routes/events.rs</code>, <code>rust/crates/steam-flows/src/leave_cleanup.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

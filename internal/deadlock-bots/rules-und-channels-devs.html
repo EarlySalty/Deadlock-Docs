@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>rules-und-channels — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/rules-und-channels.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>rules-und-channels — Dev-Notizen</h1>
+<p>eingearbeitet in architektur.md</p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: <code>dl-community/src/onboarding.rs</code> (Panel + Threads + Screening-Autostart), <code>reaction_roles.rs</code>, <code>tags_ui.rs</code>, <code>privacy_ui.rs</code>, <code>retention.rs</code>; Ranked-Voice: <code>dl-voice/src/rank.rs</code> (Anker + Subrang-Fenster ±9 + Overwrites)</li>
+<li>Kanal-Renames aus Server-as-Code (<code>dl-server-as-code/src/rules.rs</code>) sind GEPLANT, aktuell aber zurückgerollt (Rechte-Incident 2026-07-03): <code>beta-zugang</code> → <code>deadlock-invite</code>, <code>rang-auswahl</code> → <code>deadlock-rang</code>, <code>lag-kompensator</code> → <code>server-support</code>, <code>hier-starten-regelwerk</code> → <code>regelwerk</code>; kommen mit der nächsten Struktur-Welle wieder</li>
+<li>Doku-Konvention: Kanäle IMMER als <code>&lt;#ID&gt;</code> schreiben (rename-fest), nie als Klartext-<code>#name</code>; neue Kanäle in die Register-Tabelle oben eintragen</li>
+<li>Wichtige DB-Tabellen: keine eigene Fach-Tabelle; Persistenz läuft über Onboarding- und KV-Mechaniken</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Datenmodell</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, datenmodell">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Datenmodell</h1>
+<section id="migrationen">
+<h2>Migrationen</h2>
+<ul>
+<li>Die Rust-Migrationen sind die aktive Schemaquelle, weil <code>tb-db</code> <code>../../migrations</code> einbettet und <code>tb-dashboard</code> sie beim Start ausführt. (rust/crates/tb-db/src/migrate.rs; rust/bin/tb-dashboard/src/main.rs)</li>
+<li><code>tb_schema_ownership</code> markiert <code>analytics_schema</code> als <code>rust</code>. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership.sql)</li>
+</ul>
+</section>
+<section id="identitaet-und-partner">
+<h2>Identität und Partner</h2>
+<ul>
+<li><code>twitch_streamers</code> hält Streamer-Logins und Twitch-User-IDs; spätere Migrationen entfernen die alte numerische ID und nutzen <code>twitch_login</code> als Schlüssel. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260630140000_streamers_drop_legacy_id.sql)</li>
+<li><code>twitch_partners</code> hält Partnerstatus, manuelle Flags, Raid-Bot-Flags, Live-Ping-Rollen und technische Pausen. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_streamer_identities</code> verbindet Twitch-User mit Discord-Usern und Discord-Anzeigenamen. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_partners_all_state</code> und <code>twitch_streamers_partner_state</code> materialisieren Partner- und Streamer-Zustände für Dashboard und Bot. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260622130000_partner_state_keystone.sql; rust/migrations/20260623150000_drop_manual_verified_columns.sql)</li>
+</ul>
+</section>
+<section id="live-sessions">
+<h2>Live-Sessions</h2>
+<ul>
+<li><code>twitch_live_state</code> hält den aktuellen Live-Status, Stream-ID, Session-ID und Deadlock-Erkennung je Kanal. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_stream_sessions</code> hält abgeschlossene und laufende Sessions mit Start, Ende, Viewern, Chatter-Zahlen, Titel, Sprache und Statusflags. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_session_viewers</code> hält Zeitreihenpunkte pro Session und wird als Hypertable geführt. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260630130000_reconcile_event_hypertables.sql)</li>
+<li><code>twitch_session_chatters</code> hält Chatter-Präsenz und Zähler pro Session. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+</ul>
+</section>
+<section id="eventsub">
+<h2>EventSub</h2>
+<ul>
+<li><code>eventsub_guard_state</code> speichert Dedupe-Schlüssel mit Ablaufzeit. (rust/migrations/20260601000000_baseline_schema.sql; rust/crates/tb-monitoring/src/dispatch.rs)</li>
+<li><code>twitch_eventsub_processing_inbox</code> hält Core-Events für asynchrone Verarbeitung. (rust/migrations/20260601000000_baseline_schema.sql; rust/crates/tb-monitoring/src/dispatch.rs)</li>
+<li><code>twitch_eventsub_bridge_outbox</code>, <code>twitch_eventsub_bridge_dead_letter</code> und <code>twitch_eventsub_capacity_snapshot</code> bilden die Bridge- und Kapazitätsseite ab. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+</ul>
+</section>
+<section id="chat-und-moderation">
+<h2>Chat und Moderation</h2>
+<ul>
+<li><code>twitch_chat_messages</code> und <code>twitch_chatter_rollup</code> halten Chat-Verlauf und aggregierte Chatter-Daten. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_chatter_global_ban</code> und <code>twitch_chatter_global_ban_applied</code> halten globale Ban-Regeln und deren Anwendung. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>tb_chat_autoban_log</code>, <code>twitch_outbound_chat_suppressions</code>, <code>twitch_auto_learned_safe_patterns</code> und <code>twitch_auto_learned_spam_patterns</code> gehören zur Runtime-Moderation. (rust/migrations/20260630141000_chat_moderation_runtime_tables.sql)</li>
+<li><code>twitch_scam_guard_settings</code> und <code>twitch_scam_guard_verdicts</code> halten Scam-Guard-Konfiguration und Urteile. (rust/migrations/20260618010000_conversation_scam_guard.sql)</li>
+</ul>
+</section>
+<section id="raids">
+<h2>Raids</h2>
+<ul>
+<li><code>twitch_raid_auth</code> hält Raid-OAuth-Daten, Scopes, Status, Reauth-Flags und verschlüsselte Token-Spalten. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_raid_history</code>, <code>twitch_raid_arrival_tracking</code>, <code>twitch_raid_retention</code>, <code>twitch_raid_blacklist</code> und <code>twitch_raid_disabled_strikes</code> halten Raid-Ausführung, Ankunft, Retention, Sperren und Strike-Status. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li><code>twitch_auto_raid_pause</code> steht in der Baseline, wird aber später als Legacy-Backup-Tabelle gelöscht. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260630120000_drop_legacy_backup_tables.sql)</li>
+</ul>
+</section>
+<section id="telemetrie-und-features">
+<h2>Telemetrie und Features</h2>
+<ul>
+<li><code>20260630130000_reconcile_event_hypertables.sql</code> legt Hypertables für Ads, Bans, Bits, Channel-Points, Clips, EventSub-Kapazität, Follows, Hype-Trains, Link-Klicks, Raids, Sessions, Shoutouts, Statistik-Kategorien, Subscriptions und Viewers an. (rust/migrations/20260630130000_reconcile_event_hypertables.sql)</li>
+<li>Engagement nutzt Tabellen für Settings, Conversation, Logs, Stream-Transkripte, Sender-Auth und Self-Explainer. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260628130000_engagement_sender_auth.sql; rust/migrations/20260617040000_self_explainer_feedback.sql)</li>
+<li>Social-Media-Features nutzen Tabellen für Clips, Upload-Queue, Analytics, Approval, Enrichment, Plattform-Auth, Settings, Templates und Reports. (rust/migrations/20260601000000_baseline_schema.sql)</li>
+<li>Billing nutzt <code>twitch_billing_subscriptions</code>, <code>twitch_billing_profiles</code> und <code>twitch_billing_events</code>. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260617010000_billing_profiles.sql; rust/migrations/20260630144000_billing_events.sql)</li>
+<li>Affiliate nutzt <code>affiliate_accounts</code>, <code>affiliate_pii</code>, <code>affiliate_streamer_claims</code>, <code>affiliate_commissions</code>, <code>affiliate_gutschrift_counter</code> und <code>affiliate_gutschriften</code>. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Match-Automatik</title>
+  <meta name="tags" content="internal, deadlock-turniere, match-automatik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Match-Automatik</h1>
+<p>Die Automatik läuft im Rust-Prozess. <code>turnier-bot</code> startet den Scheduler als Hintergrund-Task; der Scheduler prüft Phasen, Reminder und offene Matches. Match-Lobbys werden vom <code>MatchManager</code> erstellt und über Steam-Bridge plus Discord-Broker begleitet. (<code>rust/crates/turnier-bot/src/main.rs</code>, <code>rust/crates/turnier-scheduler/src/loop_runner.rs</code>, <code>rust/crates/turnier-match/src/lib.rs</code>)</p>
+<section id="scheduler">
+<h2>Scheduler</h2>
+<p>Der Scheduler läuft einmal sofort und danach alle 60 Sekunden. Pro Tick ruft er vier Checks auf: Phasen-Kaskade, Registrierungs-Reminder, Start-Reminder und Match-Reminder; Fehler in einem Check beenden weder die anderen Checks noch den Loop. (<code>rust/crates/turnier-scheduler/src/loop_runner.rs</code>)</p>
+<p>Die Statuskette ist <code>draft -&gt; registration -&gt; checkin -&gt; group_phase -&gt; bracket -&gt; completed -&gt; archived</code>. <code>valid_next_statuses()</code> und <code>is_valid_transition()</code> definieren die erlaubten Übergänge. (<code>rust/crates/turnier-engine/src/status.rs</code>, <code>rust/crates/turnier-core/src/enums.rs</code>)</p>
+<p>Fällige Wechsel hängen an <code>registration_start</code>, <code>registration_end</code> oder <code>checkin_start</code>, <code>group_phase_start</code> und <code>bracket_start</code>. Bei <code>tournament_mode == &quot;bracket_only&quot;</code> überspringt Rust <code>group_phase</code>, wechselt aber erst nach <code>bracket</code>, wenn auch <code>bracket_start</code> fällig ist. (<code>rust/crates/turnier-scheduler/src/transition.rs</code>)</p>
+<p><code>advance_tournament_status()</code> ist die gemeinsame Mutation für Scheduler und Admin-Routen. Sie validiert den Übergang, schreibt den Status per Optimistic Lock, generiert bei <code>group_phase</code> Gruppen und Gruppenmatches, generiert bei <code>bracket</code> das Bracket, schreibt Audit-Log und plant Auto-Lobbys best-effort. (<code>rust/crates/turnier-scheduler/src/transition.rs</code>)</p>
+</section>
+<section id="auto-lobby">
+<h2>Auto-Lobby</h2>
+<p>Auto-Lobby ist pro Turnier über <code>auto_lobby_enabled</code> und <code>is_test</code> gegated. Der Code wählt Bracket- und Group-Matches mit beiden Teams, Status <code>pending</code> oder <code>checkin</code> und ohne <code>steam_party_id</code>. (<code>rust/crates/turnier-match/src/auto_lobby.rs</code>)</p>
+<p>Für Bracket-Matches ruft Auto-Lobby <code>create_lobby()</code>, für Group-Matches <code>create_group_lobby()</code>. Fehler pro Match werden geloggt und brechen die restliche Planung nicht ab. (<code>rust/crates/turnier-match/src/auto_lobby.rs</code>, <code>rust/crates/turnier-match/src/lobby.rs</code>)</p>
+<p>Lobby-Erstellung prüft den Match-Status, verhindert doppelte Lobby-Anfragen, lädt Lobby-Settings, Teilnehmer und Spielmodus-Payload und sendet <code>GC_CREATE_CUSTOM_LOBBY</code> an die Steam-Bridge. Nach Erfolg schreibt Rust <code>steam_party_id</code>, <code>party_code</code>, <code>status='lobby_created'</code> und optional <code>hero_assignments</code>. (<code>rust/crates/turnier-match/src/lobby.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>)</p>
+<p>Nach Lobby-Erstellung lädt Rust Teilnehmer per <code>GC_LOBBY_INVITE_PLAYER</code> ein. Für Nicht-Test-Turniere erstellt der Notifier einen Match-Channel, sendet Lobby-Info, benachrichtigt Caster und postet das Lobby-Announcement. (<code>rust/crates/turnier-match/src/lobby.rs</code>, <code>rust/crates/turnier-discord/src/notifier.rs</code>)</p>
+</section>
+<section id="ergebnisse">
+<h2>Ergebnisse</h2>
+<p>Ein Bracket-Ergebnis setzt das Match auf <code>completed</code>, löscht alte Result-Zeilen, schreibt <code>match_results</code>, propagiert den Gewinner, schließt Mini-Groups bei Bedarf ab und plant Folge-Lobbys. Discord-Stats und Channel-Cleanup laufen best-effort. (<code>rust/crates/turnier-match/src/result.rs</code>)</p>
+<p>Ein Group-Ergebnis setzt <code>group_matches.status='completed'</code>, schreibt Gewinner, Dauer, Stats und <code>match_results</code>, erhöht beim Gewinner <code>wins</code> und <code>points</code> um 3 und erhöht beim Verlierer <code>losses</code>. (<code>rust/crates/turnier-match/src/result.rs</code>)</p>
+<p>Serien für Bracket-Matches liegen in <code>match_games</code>. <code>record_game_result()</code> stellt das Spiel sicher, schreibt das Ergebnis und entscheidet die Serie über <code>series_format</code> oder <code>final_series_format</code>. (<code>rust/crates/turnier-match/src/series.rs</code>)</p>
+</section>
+<section id="reminder-und-automatik">
+<h2>Reminder und Automatik</h2>
+<p>Registrierungs-Reminder gehen an Profile mit passendem Benachrichtigungsschalter, Start-Reminder an Turnierteilnehmer, Match-Reminder an Teammitglieder offener Bracket-Matches. Dedupe läuft über <code>sent_tournament_reminders</code>, <code>sent_start_reminders</code> und <code>sent_match_reminders</code>. (<code>rust/crates/turnier-scheduler/src/reminders.rs</code>)</p>
+<p>Turnier-Presets speichern Kategorie <code>fun</code> oder <code>comp</code>, Teamgröße, Bracket-Format, Serienformat, Turniermodus, Spielmodus, Objective, Invite-Modus, Reminder-Offsets, Regeln und Beschreibungstemplate. Die Admin-API hängt sie unter <code>/api/admin/presets</code> ein. (<code>rust/crates/turnier-automatik/src/presets.rs</code>, <code>rust/crates/turnier-api/src/admin/automatik.rs</code>)</p>
+<p>Proposals haben die Zustände <code>draft</code>, <code>pending_approval</code>, <code>approved</code>, <code>rejected</code> und <code>expired</code>. Die State-Machine erlaubt Submit, Approve, Reject, Expire und Feedback; Approve verlangt mindestens einen Approve-Vote. (<code>rust/crates/turnier-automatik/src/proposals.rs</code>)</p>
+<p>Votes und Approve-Events verlangen die Caster-Rolle aus <code>DISCORD_CASTER_ROLE_ID</code>. Beim Vote speichert Rust die eingeloggte Actor-ID und auditiert zusätzlich die angefragte <code>caster_id</code>. (<code>rust/crates/turnier-api/src/admin/automatik.rs</code>)</p>
+<p>DM-Opt-out speichert Scope <code>fun</code>, <code>comp</code> oder <code>all</code>. <code>all</code> unterdrückt beide Kategorien, und die Empfängerberechnung nimmt Rollenmitglieder minus passende Opt-outs bei erhaltener Reihenfolge. (<code>rust/crates/turnier-automatik/src/optout.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

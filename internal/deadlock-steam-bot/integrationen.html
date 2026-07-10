@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Steam-Bot Integrationen</title>
+  <meta name="tags" content="internal, steam, integrationen">
+  <meta name="stand" content="2026-07-08">
+  <meta name="quelle" content="Deadlock-Steam-Bot">
+</head>
+<body>
+<main>
+<h1>Integrationen</h1>
+<section id="discord-bot">
+<h2>Discord-Bot</h2>
+<p><code>steam-bot</code> nutzt <code>BrokerClient</code>, wenn <code>STEAM_BOT_DISCORD</code> nicht <code>noop</code> ist. Der Client sendet an <code>{STEAM_BROKER_URL}/internal/master/v1/...</code>, nutzt <code>X-Internal-Token</code> und setzt pro Request <code>X-Idempotency-Key</code>. (<code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-discord/src/broker.rs</code>)</p>
+<p>POST-Brokerpfade sind <code>discord/send-message</code>, <code>discord/send-rich-message</code>, <code>discord/edit-rich-message</code>, <code>discord/member/add-role</code>, <code>discord/member/remove-role</code>, <code>discord/create-channel</code>, <code>discord/delete-channel</code> und <code>discord/create-invite</code>. GET-Pfade sind <code>discord/role-members</code>, <code>discord/member-present</code>, <code>discord/channel-info</code> und <code>discord/roles</code>. POSTs behalten denselben UUIDv4-Idempotency-Key und wiederholen 5xx-Antworten bis zu zwei Mal nach 200 ms. (<code>rust/crates/steam-discord/src/broker.rs</code>)</p>
+<p><code>/events/discord</code> nimmt Discord-Events von der Rust-Bridge im Hauptbot an. Der Handler unterstützt <code>interaction</code>, <code>slash_command</code>, <code>member_remove</code> und <code>admin_command</code>. (<code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-bridges/src/steam.rs</code>, <code>rust/crates/steam-web/src/routes/events.rs</code>)</p>
+<p>Der Event-Ingress prüft <code>X-Internal-Token</code> gegen <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>STEAM_INTERNAL_API_TOKEN</code> oder <code>INTERNAL_API_TOKEN</code>; fehlt ein erwarteter Token, läuft der Endpoint im Dev-Modus ohne Auth. (<code>rust/crates/steam-web/src/routes/events.rs</code>)</p>
+<p>Link-Panel-Interaktionen laufen über Prefixe <code>steam_link_panel:</code>, <code>steamlink:</code>, <code>steam_link:</code> und <code>linkpanel_</code>. Playtest-Invite-Interaktionen laufen über <code>betainvite:</code>. (<code>rust/crates/steam-web/src/routes/events.rs</code>)</p>
+<p>Slash-Commands werden im Event-Ingress auf Flow-Funktionen gemappt. Dazu gehören <code>account_verknüpfen</code>, <code>steam_links</code>, <code>steam_whoami</code>, <code>steam_setprimary</code>, <code>steam_unlink</code>, <code>steam_rank</code>, <code>checkrank</code>, <code>steam_rank_sync</code>, <code>subrank_sync</code>, <code>sync_steam_friends</code> und Beta-Invite-Commands. (<code>rust/crates/steam-web/src/routes/events.rs</code>, <code>rust/crates/steam-flows/src/link_commands.rs</code>, <code>rust/crates/steam-flows/src/rank.rs</code>)</p>
+</section>
+<section id="account-link-und-discord-oauth">
+<h2>Account-Link und Discord-OAuth</h2>
+<p>Der Browser-Link-Flow bietet <code>/link/steam/start</code>, <code>/link/steam/callback</code>, <code>/link/callback/steam</code>, <code>/link/steam/return</code>, <code>/link/discord/login</code>, <code>/link/discord/complete</code> und Legacy-Alias <code>/link/steam/login</code>. (<code>rust/crates/steam-web/src/routes/link.rs</code>)</p>
+<p>Steam-OpenID nutzt fest <code>https://steamcommunity.com/openid/login</code>. Der Callback prüft <code>openid.mode</code>, lädt den State, sendet <code>check_authentication</code> an Steam, extrahiert <code>openid.claimed_id</code> und konsumiert den State atomar. (<code>rust/crates/steam-flows/src/link.rs</code>)</p>
+<p>Discord-OAuth läuft nicht im Steam-Bot. Der Steam-Bot delegiert Start und Consume an die interne Master-Bot-API <code>/internal/v1/discord/initiate</code> und <code>/internal/v1/discord/consume-result</code>. (<code>rust/crates/steam-flows/src/link.rs</code>)</p>
+<p>Steam-Vanity und Persona-Namen nutzt der Bot über <code>https://api.steampowered.com</code> mit <code>STEAM_API_KEY</code>. Ohne Key geben die Resolver <code>None</code> zurück. (<code>rust/crates/steam-flows/src/steam_web_api.rs</code>)</p>
+</section>
+<section id="rank-web-api">
+<h2>Rank-Web-API</h2>
+<p><code>GET /rank</code> liefert den Link-/Rank-Status für einen Discord-User. <code>GET /player-matches</code> lädt Match-History über den bevorzugten Steam-Link und akzeptiert ein Limit. <code>GET /player-live</code> liest <code>activity.live_player_state</code> und gibt <code>linked</code>, <code>in_deadlock</code>, <code>live</code>, Hero, Minuten, Stage und Zeitstempel zurück. <code>GET /player-mmr-trend</code> liest sichtbare Rank-History für den Trend. (<code>rust/crates/steam-web/src/routes/rank.rs</code>)</p>
+</section>
+<section id="beta-invite-friends-und-builds">
+<h2>Beta-Invite, Friends und Builds</h2>
+<p><code>/betainvite</code> routet aktiv auf <code>betainvite:panel:start</code>; <code>publish_betainvite_panel</code> baut nur das Panel. Der Funnel erstellt oder nutzt <code>beta-invite-{user_id}</code>-Tickets, prüft Link und Steam-Freundschaft, reiht <code>AUTH_SEND_PLAYTEST_INVITE</code> ein, schreibt Audit und plant Self-Heal je nach GC-/Steam-Fehlerklasse. Der Ko-fi-Absprung hängt am Pending-Payment-Token im Format <code>DDL-XXXXXXXX</code>. (<code>rust/crates/steam-web/src/routes/events.rs</code>, <code>rust/crates/steam-flows/src/betainvite.rs</code>, <code>rust/crates/steam-flows/src/betainvite/interactions.rs</code>)</p>
+<p>Der Steam-Friends-Listener akzeptiert eingehende Steam-Friend-Requests automatisch. Der Friend-Sync markiert bekannte Links als verifiziert, entfernt unbekannte Steam-Freunde aus der Bot-Freundesliste und queue't Rollen-Cleanup, wenn ein verknüpfter Account nach Miss-Schwelle nicht mehr befreundet ist. (<code>rust/crates/steam-core/src/steam/friends.rs</code>, <code>rust/crates/steam-flows/src/friend_sync.rs</code>)</p>
+<p>Der Build-Publisher arbeitet über <code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code>, <code>MAINTAIN_BUILD_CATALOG</code> und <code>BUILD_CATALOG_CYCLE</code>. Er liest Dashboard-Konfiguration aus <code>tierlist.deadlock_hero_builds</code>, Quellen aus <code>tierlist.hero_build_sources</code>, schreibt Clones nach <code>tierlist.hero_build_clones</code> und nutzt GC-Build-Nachrichten zum Publizieren und Löschen. (<code>rust/crates/steam-core/src/task/handlers/builds/mod.rs</code>, <code>rust/crates/steam-persistence/src/builds.rs</code>)</p>
+</section>
+<section id="turniere-und-lobby">
+<h2>Turniere und Lobby</h2>
+<p>Admin-Lobby-Commands kommen als <code>admin_command</code>-Events und werden an <code>steam_flows::admin::handle_admin_command()</code> delegiert. <code>steam_lobby_events</code> und <code>steam_status</code> laufen synchron; andere Admin-Commands laufen im Hintergrund und posten das Ergebnis in den Admin-Log-Kanal. (<code>rust/crates/steam-web/src/routes/events.rs</code>, <code>rust/crates/steam-flows/src/admin.rs</code>)</p>
+<p>Die Admin-Commands <code>steam_lobby_convar</code>, <code>steam_lobby_apply</code>, <code>steam_lobby_events</code> und <code>steam_lobby_event</code> erzeugen <code>GC_LOBBY_SET_CONVAR</code> oder <code>GC_LOBBY_APPLY_CONVARS</code> in <code>steam-core</code>. (<code>rust/crates/steam-flows/src/admin.rs</code>)</p>
+<p><code>steam-core</code> verarbeitet Lobby-Tasks in der Lane <code>lobby</code> mit Parallelität 1. Die Lane enthält <code>GC_CREATE_CUSTOM_LOBBY</code>, <code>GC_LOBBY_SET_CONVAR</code>, <code>GC_LOBBY_APPLY_CONVARS</code>, <code>GC_LOBBY_INVITE_PLAYER</code>, <code>GC_LOBBY_SET_SPECTATOR</code>, <code>GC_LOBBY_READY</code>, <code>GC_LOBBY_START_MATCH</code>, <code>GC_LOBBY_LEAVE</code> und <code>GC_GET_MATCH_RESULT</code>. (<code>rust/crates/steam-core/src/task/lanes.rs</code>)</p>
+<p><code>GC_CREATE_CUSTOM_LOBBY</code> sendet <code>CMsgClientToGcPartyCreate</code>, wartet bis zu 20 Sekunden auf den Join-Code aus dem CSO-Party-Cache und gibt <code>party_id</code>, <code>join_code</code>, <code>party_code_display</code> und angewendete ConVars zurück. (<code>rust/crates/steam-core/src/task/handlers/lobby.rs</code>, <code>rust/crates/steam-core/src/steam/cso.rs</code>)</p>
+<p><code>GC_LOBBY_START_MATCH</code> sendet <code>CMsgClientToGcPartyStartMatch</code>, löst danach <code>match_id</code> über <code>GetActiveMatches</code> auf und versucht nach 3 Sekunden einmal erneut, wenn der GC die Match-ID noch nicht zeigt. (<code>rust/crates/steam-core/src/task/handlers/lobby.rs</code>)</p>
+<p><code>GC_GET_MATCH_RESULT</code> akzeptiert <code>match_id</code> oder <code>party_id</code>, liest aktive Matches und fällt auf <code>GetMatchMetaData</code> zurück, wenn kein Snapshot verfügbar ist. (<code>rust/crates/steam-core/src/task/handlers/lobby.rs</code>)</p>
+</section>
+<section id="steam-und-gc">
+<h2>Steam und GC</h2>
+<p><code>steam-core</code> nutzt <code>steam-vent</code> für Login, Friends-Listen, Persona-State und GC-Verbindung. (<code>rust/Cargo.toml</code>, <code>rust/crates/steam-core/src/steam/session.rs</code>, <code>rust/crates/steam-core/src/steam/friends.rs</code>)</p>
+<p>Der GC-Handshake läuft nach dem Steam-Login. Wenn der initiale GC-Connect fehlschlägt, startet der Supervisor einen Hintergrund-Reconnect und der Service läuft mit Task-Queue, API und Heartbeat weiter. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-core/src/steam/supervisor.rs</code>)</p>
+<p>Die GC-Task-Handler nutzen <code>round_trip()</code> und Deadlock-Protobuf-Typen für Profilkarten, Account-Stats, Match-History, Build-Katalog, Playtest-Invite und Lobby-Operationen. (<code>rust/crates/steam-core/src/task/handlers/mod.rs</code>, <code>rust/crates/steam-core/src/task/handlers/gc.rs</code>, <code>rust/crates/steam-core/src/task/handlers/builds/mod.rs</code>, <code>rust/crates/steam-core/src/task/handlers/playtest.rs</code>, <code>rust/crates/steam-core/src/task/handlers/lobby.rs</code>)</p>
+<p>Der Presence-Listener verarbeitet <code>CMsgClientPersonaState</code>, fragt Friend-Data alle 60 Sekunden in Chunks neu an und schreibt <code>activity.live_player_state</code> sowie <code>voice.deadlock_party_members</code>. (<code>rust/crates/steam-core/src/steam/presence.rs</code>, <code>rust/crates/steam-persistence/src/presence.rs</code>)</p>
+</section>
+<section id="ko-fi">
+<h2>Ko-fi</h2>
+<p><code>steam-bot</code> baut den Router mit <code>KofiWebhookState::from_env()</code> und warnt beim Start, wenn <code>KOFI_VERIFICATION_TOKEN</code> fehlt. (<code>rust/crates/steam-bot/src/main.rs</code>)</p>
+<p><code>POST /kofi/webhook</code> erwartet form-urlencodetes <code>data</code> mit JSON, prüft <code>verification_token</code> constant-time gegen <code>KOFI_VERIFICATION_TOKEN</code> und delegiert danach an <code>handle_kofi_payment()</code>. (<code>rust/crates/steam-web/src/routes/kofi.rs</code>, <code>rust/crates/steam-flows/src/supporter.rs</code>)</p>
+<p>Statusmapping: <code>missing_data_field</code>, <code>invalid_encoding</code>, <code>invalid_json</code> und <code>missing_message</code> liefern 400; <code>invalid_verification_token</code> liefert 401; <code>token_not_found</code> und <code>user_not_found</code> liefern 409; <code>webhook_disabled</code>, <code>guild_unavailable</code> und <code>payment_confirm_failed</code> liefern 503. Unbekannte Gründe werden 500. (<code>rust/crates/steam-web/src/routes/kofi.rs</code>, <code>rust/crates/steam-flows/src/supporter.rs</code>)</p>
+<p>Ein Support-Klick erzeugt ein Pending-Payment mit Token <code>DDL-XXXXXXXX</code>; der Webhook consumed den Token, setzt oder verlängert den Grant für 30 Tage und setzt die Supporter-Rolle defensiv. Der Supporter-Scheduler läuft alle 10 Minuten und entfernt abgelaufene Grants per Broker. (<code>rust/crates/steam-flows/src/betainvite/interactions.rs</code>, <code>rust/crates/steam-flows/src/supporter.rs</code>, <code>rust/crates/steam-persistence/src/supporter.rs</code>)</p>
+<p><code>GET /kofi/health</code> liefert nur <code>{&quot;ok&quot;: true}</code>. (<code>rust/crates/steam-web/src/routes/kofi.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

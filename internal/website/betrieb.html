@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Website Betrieb</title>
+  <meta name="tags" content="website, intern, betrieb">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="Website">
+</head>
+<body>
+<main>
+<h1>Betrieb</h1>
+<section id="build">
+<h2>Build</h2>
+<table>
+<thead>
+<tr>
+<th>Teil</th>
+<th>Build-Befehl</th>
+<th>Ergebnis</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dl-landing</code></td>
+<td><code>npm run build</code></td>
+<td>Vite schreibt <code>dist</code>; <code>scripts.build</code> ist <code>vite build</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-landing/package.json</code>, <code>/home/naniadm/Documents/Website/dl-landing/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-activity</code></td>
+<td><code>npm run build</code></td>
+<td>Vite schreibt <code>dist</code>; die App hängt auf <code>base: &quot;/aktivitaet/&quot;</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-activity/package.json</code>, <code>/home/naniadm/Documents/Website/dl-activity/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-patch</code></td>
+<td><code>npm run build</code></td>
+<td>Vite schreibt <code>dist</code>; die App hängt auf <code>base: &quot;/patch/&quot;</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-patch/package.json</code>, <code>/home/naniadm/Documents/Website/dl-patch/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-tierlist</code></td>
+<td><code>npm run build</code></td>
+<td>Vite schreibt <code>dist</code>; die App hängt auf <code>base: &quot;/builds/&quot;</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-tierlist/package.json</code>, <code>/home/naniadm/Documents/Website/dl-tierlist/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>dl-coaching</code></td>
+<td><code>npm run build</code></td>
+<td><code>tsc &amp;&amp; vite build</code>; die App hängt auf <code>base: &quot;/coaching/&quot;</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-coaching/package.json</code>, <code>/home/naniadm/Documents/Website/dl-coaching/vite.config.ts</code></td>
+</tr>
+<tr>
+<td><code>builds/frontend</code></td>
+<td>(Legacy, nicht deployt)</td>
+<td>Baut zwar auf <code>base: &quot;/builds/&quot;</code>, wird aber nicht ausgeliefert — live <code>/builds/</code> ist <code>dl-tierlist/dist</code>.</td>
+<td><code>/home/naniadm/Documents/Website/builds/frontend/package.json</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>builds/backend-rust</code></td>
+<td><code>cargo build --release</code></td>
+<td>Release-Binary <code>target/release/ddc-website-backend</code>; der Startwrapper erwartet dieses Binary.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/README.md</code>, <code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="deploy-und-prozessstart">
+<h2>Deploy und Prozessstart</h2>
+<p>Caddy liest die produktiven statischen Dateien direkt aus dem Website-Repo. Die Root-Landing <code>/</code> kommt aus <code>deco-elevator-new</code> (kein Vite-Build, statisch); die weiteren Caddy-Roots zeigen auf <code>dl-landing/dist</code> (Landing-Unterseiten), <code>dl-activity/dist</code>, <code>dl-patch/dist</code>, <code>dl-tierlist/dist</code> (live unter <code>/builds/</code>) und <code>dl-coaching/dist</code> (<code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p><code>deadlock-website-backend.service</code> startet im Working Directory <code>/home/naniadm/Documents/Website</code> und ruft <code>scripts/run_builds_backend.sh</code> auf (<code>/home/naniadm/.config/systemd/user/deadlock-website-backend.service</code>).</p>
+<p><code>scripts/run_builds_backend.sh</code> lädt Infisical-Env, setzt OAuth-Callback-URLs für <code>/coaching/api/...</code>, nutzt <code>WEBSITE_BACKEND_IMPL=rust</code> als Default und startet <code>builds/backend-rust/target/release/ddc-website-backend</code> (<code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code>).</p>
+<p>Der Rust-Start bricht ab, wenn das Release-Binary fehlt oder <code>DEADLOCK_CENTRAL_DSN</code> nach dem Infisical-Export nicht gesetzt ist; der Wrapper gibt dabei nur aus, ob die DSN vorhanden ist, nicht den Wert (<code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code>).</p>
+</section>
+<section id="caddy-zusammenspiel">
+<h2>Caddy-Zusammenspiel</h2>
+<table>
+<thead>
+<tr>
+<th>Pfad</th>
+<th>Caddy-Ziel</th>
+<th>Betriebsfolge</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/coaching/api/*</code></td>
+<td><code>127.0.0.1:8772</code></td>
+<td>Caddy entfernt <code>/coaching</code>; das Backend sieht <code>/api/...</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code></td>
+</tr>
+<tr>
+<td><code>/api/public/patch-timeline</code>, <code>/api/public/patch-notes</code></td>
+<td><code>127.0.0.1:8772</code></td>
+<td>Patch-Public-Daten laufen zum Website-Backend, obwohl das Portal unter <code>/patch</code> liegt.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-patch/src/patch.js</code></td>
+</tr>
+<tr>
+<td><code>/aktivitaet/api/*</code>, <code>/aktivitaet/auth/*</code>, <code>/aktivitaet/health</code></td>
+<td><code>127.0.0.1:8768</code></td>
+<td>Caddy entfernt <code>/aktivitaet</code>; der Stats-Service muss <code>/api/*</code>, <code>/auth/*</code> und <code>/health</code> bedienen.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code></td>
+</tr>
+<tr>
+<td><code>/builds/api/*</code>, <code>/builds/auth/*</code></td>
+<td><code>127.0.0.1:8771</code></td>
+<td>Caddy entfernt <code>/builds</code>; der Dienst auf <code>8771</code> bedient Builds-/Auth-Pfade.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code></td>
+</tr>
+<tr>
+<td><code>/api/public/*</code></td>
+<td><code>127.0.0.1:8766</code></td>
+<td>Generische Public-API geht zum Dashboard, außer die Patch-Spezialrouten greifen vorher.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="env-var-namen">
+<h2>Env-Var-Namen</h2>
+<table>
+<thead>
+<tr>
+<th>Gruppe</th>
+<th>Namen</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend-Bind</td>
+<td><code>WEBSITE_BACKEND_HOST</code>, <code>WEBSITE_BACKEND_PORT</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td>Rust-Backend-Start</td>
+<td><code>WEBSITE_BACKEND_IMPL</code>, <code>RUST_BACKEND_BIN</code></td>
+<td><code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+<tr>
+<td>Infisical</td>
+<td><code>INFISICAL_CONFIG_FILE</code>, <code>INFISICAL_EXPORT_SCRIPT</code>, <code>INFISICAL_SERVICE_TOKEN</code>, <code>INFISICAL_RETRY_DELAY</code>, <code>INFISICAL_MAX_ATTEMPTS</code></td>
+<td><code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+<tr>
+<td>Datenbank</td>
+<td><code>DEADLOCK_CENTRAL_DSN</code>, <code>DB_MASTER_KEY_V1</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/db.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td>Sessions</td>
+<td><code>AUTH_COOKIE_NAME</code>, <code>AUTH_PRE_AUTH_COOKIE_NAME</code>, <code>AUTH_SESSION_TTL_SECONDS</code>, <code>AUTH_PRE_AUTH_TTL_SECONDS</code>, <code>AUTH_SESSION_AUDIENCE</code>, <code>AUTH_SESSION_ISSUER</code>, <code>AUTH_COOKIE_DOMAIN</code>, <code>AUTH_DDC_COOKIE_DOMAIN</code>, <code>AUTH_COOKIE_PATH</code>, <code>AUTH_COOKIE_SAMESITE</code>, <code>AUTH_SESSION_SECRET</code>, <code>JWT_SECRET</code>, <code>SESSIONS_ENCRYPTION_KEY</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td>OAuth und Discord</td>
+<td><code>AUTH_PUBLIC_CALLBACK_URL</code>, <code>DISCORD_ROLE_CONNECTION_CALLBACK_URL</code>, <code>DISCORD_API_BASE</code>, <code>DISCORD_OAUTH_AUTHORIZE_BASE</code>, <code>DISCORD_AUTHORIZE_BASE</code>, <code>DISCORD_OAUTH_CLIENT_ID</code>, <code>DISCORD_CLIENT_ID</code>, <code>DISCORD_OAUTH_CLIENT_SECRET</code>, <code>DISCORD_CLIENT_SECRET</code>, <code>DISCORD_APPLICATION_ID</code>, <code>DISCORD_ROLE_CONNECTION_BOT_TOKEN</code>, <code>DISCORD_BOT_TOKEN</code>, <code>DISCORD_TOKEN</code>, <code>BOT_TOKEN</code>, <code>DISCORD_ROLE_CONNECTION_STATE_COOKIE_NAME</code>, <code>DISCORD_ROLE_CONNECTION_SYNC_WORKER_ENABLED</code>, <code>DISCORD_ROLE_CONNECTION_SYNC_INTERVAL_SECONDS</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code>, <code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+<tr>
+<td>Interne APIs</td>
+<td><code>DASHBOARD_INTERNAL_API_BASE</code>, <code>MASTER_BROKER_BASE</code>, <code>MASTER_BROKER_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>WEBSITE_INTERNAL_API_TOKEN</code>, <code>TURNIER_INTERNAL_API_TOKEN</code>, <code>COACHING_BOT_TOKEN</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/auth.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code></td>
+</tr>
+<tr>
+<td>Scrims</td>
+<td><code>SCRIM_GUILD_ID</code>, <code>SCRIM_RESERVE_ROLE_ID</code></td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code></td>
+</tr>
+<tr>
+<td>Activity-Frontend</td>
+<td><code>VITE_API_BASE</code>, <code>VITE_AUTH_BASE</code></td>
+<td><code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fallen">
+<h2>Fallen</h2>
+<p><code>/aktivitaet</code> hat einen Routing-Vertrag: das Frontend baut API- und Auth-URLs aus <code>VITE_API_BASE</code> oder <code>import.meta.env.BASE_URL</code>, hängt danach <code>/api/...</code> oder <code>/auth/...</code> an, und Caddy strippt <code>/aktivitaet</code>; Base-Änderungen müssen deshalb mit Caddy und dem <code>8768</code>-Dienst zusammen geändert werden (<code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p><code>/coaching</code> hat einen Callback-Vertrag: der Startwrapper setzt <code>AUTH_PUBLIC_CALLBACK_URL</code> und <code>DISCORD_ROLE_CONNECTION_CALLBACK_URL</code> auf URLs mit <code>/coaching/api/...</code>, weil Caddy den Prefix entfernt, bevor das Backend die Callback-Route sieht (<code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p><code>dl-patch</code> nutzt absolute <code>/api/public/*</code>-URLs; ein Proxy unter <code>/patch/api</code> hilft diesem Portal nicht, solange <code>dl-patch/src/patch.js</code> unverändert bleibt (<code>/home/naniadm/Documents/Website/dl-patch/src/patch.js</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+</section>
+</main>
+</body>
+</html>

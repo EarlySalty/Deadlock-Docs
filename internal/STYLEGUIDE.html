@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Styleguide für alle Doku in diesem Repo</title>
+  <meta name="tags" content="meta, styleguide">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Docs">
+</head>
+<body>
+<main>
+<h1>Styleguide — verbindlich für jede Datei hier</h1>
+<section id="sprache-zeichen">
+<h2>Sprache &amp; Zeichen</h2>
+<ul>
+<li>Deutsch. Echte Umlaute und Eszett als UTF-8: ä ö ü Ä Ö Ü ß. <strong>Niemals</strong> ae/oe/ue-Ersatz, niemals HTML-Entities (<code>&amp;auml;</code>), niemals Unicode-Escapes (<code>ä</code>).</li>
+<li>Gerade ASCII-Anführungszeichen (&quot;...&quot;) statt typografischer („...&quot;). Bindestrich statt Gedankenstrich-Exoten ist okay; kein Zeichensalat.</li>
+<li>Nach dem Schreiben Pflicht-Check: <code>grep -rn 'Ã\|&amp;auml\|\\u00' &lt;dateien&gt;</code> muss leer sein.</li>
+</ul>
+</section>
+<section id="ton-dev-doku-nicht-ai-prosa">
+<h2>Ton — Dev-Doku, nicht AI-Prosa</h2>
+<p>So schreibt hier ein Entwickler für den nächsten Entwickler:</p>
+<ul>
+<li>Kurze Sätze. Aktiv. Konkret. &quot;Der Bot pollt alle 35 s das Forum&quot; statt &quot;Es findet eine regelmäßige Überprüfung statt&quot;.</li>
+<li><strong>Verboten:</strong> &quot;In diesem Dokument...&quot;, &quot;Zusammenfassend lässt sich sagen&quot;, &quot;Es ist wichtig zu beachten&quot;, &quot;robust&quot;, &quot;nahtlos&quot;, &quot;leistungsstark&quot;, Emojis, Marketing, Füll-Adjektive.</li>
+<li>Keine Bullet-Explosion: Bullets nur für echte Aufzählungen. Zusammenhänge als Fließtext, 2-4 Sätze pro Absatz.</li>
+<li>Mechanismus statt Behauptung: nicht &quot;das System ist sicher&quot;, sondern &quot;der Endpoint bindet nur 127.0.0.1&quot;.</li>
+<li>Zahlen, Pfade, Namen exakt — oder gar nicht.</li>
+</ul>
+</section>
+<section id="wahrheit">
+<h2>Wahrheit</h2>
+<ul>
+<li>Jede Aussage muss aus Code/Config/Schema belegbar sein. Referenz in Klammern dazu: (<code>rust/bin/dl-bot/src/main.rs</code>).</li>
+<li><strong>Rust ist die Wahrheit.</strong> Alle Dienste außer dem Patchnotes-Bot laufen auf Rust; Python ist Legacy in Ablösung. Doku beschreibt den Rust-Pfad als DEN Pfad — nicht &quot;es gibt zwei Backends&quot;. Python-Code höchstens ein kurzer Absatz am Ende (&quot;Legacy: der alte Python-Pfad unter <code>backend/</code> ist abgelöst&quot;), keine Python-Mechanik-Details, keine Py/Rust-Vergleiche pro Absatz.</li>
+<li>Laufzeit-Wahrheit bei systemd: immer die <strong>komplette</strong> Unit inkl. Overrides lesen (<code>systemctl --user cat &lt;svc&gt;</code>), nicht nur die erste <code>ExecStart</code>-Zeile — Overrides ersetzen ExecStart weiter unten.</li>
+<li>Bestehende alte Doku ist Verdachtsmaterial, nicht Quelle: gegen den Code prüfen, Veraltetes weglassen und im Bericht melden.</li>
+<li>Unsicher? Weglassen oder Zeile mit <code>UNSICHER:</code> prefixen — niemals raten.</li>
+<li>HTTP-Status-Codes: Handler <strong>und</strong> Error-Mapping prüfen (<code>error.rs</code>/<code>IntoResponse</code>), nie aus Funktionsnamen oder Kommentaren raten.</li>
+<li>&quot;Die DB ist X&quot;: vorher alle Pfad-Resolver greppen (<code>*_DB</code>, <code>DB_PATH</code>, <code>connect</code>, DSN-Env) — Rust und Legacy können divergieren.</li>
+<li>Keine Meta-Dateien (<code>bericht.md</code>, Dateilisten, Alt-Doku-Funde) im Doku-Baum; Bericht gehört in die Worker-Antwort, nicht ins Repo.</li>
+<li>Secrets: nur Env-Var-/Secret-Namen nennen, niemals Werte. Keine Tokens, keine DSNs mit Credentials.</li>
+</ul>
+</section>
+<section id="form">
+<h2>Form</h2>
+<ul>
+<li>Frontmatter wie überall hier: <code>title</code>, <code>tags</code>, <code>stand</code> (Datum), <code>quelle</code> (Repo/Pfad-Bezug).</li>
+<li><code>title</code> immer spezifisch: &quot;Turniere — Betrieb&quot;, nie generisch &quot;Betrieb&quot; (landet im Suchindex und in Quellenangaben).</li>
+<li>Nach der H1: 2-3 Zeilen Kurzfassung, was dieses Dokument beantwortet. Dann erst Details.</li>
+<li>Zwischenüberschriften (<code>##</code>) alle 3-5 Absätze — keine Prosa-Wand über 15 Absätze.</li>
+<li>Aufzählungen ab ~5 gleichartigen Einträgen (Env-Vars, Tabellen, Endpunkte) als Markdown-Tabelle, nicht als Fließtext-Kette.</li>
+<li>Code-Referenzen: eine Klammer pro Absatz-Ende mit max. 3 Pfaden — nicht nach jedem Satz.</li>
+<li>Dateinamen: kebab-case, deutsch (<code>datenmodell.md</code>, <code>betrieb.md</code>).</li>
+<li><code>internal/</code> darf Technik enthalten (Ports, Tabellen, Pfade). <code>public/</code> niemals — dort gilt zusätzlich: keine internen Zahlen, keine Endpunkte, keine Admin-Wege (siehe README).</li>
+</ul>
+</section>
+</main>
+</body>
+</html>
