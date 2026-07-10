@@ -56,7 +56,7 @@
       <li>Keine externen Skripte, Fonts, CDNs, Analytics oder ausführbares JavaScript.</li>
     </ul>
     <p>Der Wissensdienst indexiert ausschließlich den Text innerhalb von <code>&lt;main&gt;</code>. Metadaten, Navigation, Styles und Quellenpfade werden nicht Bestandteil des Antwortkontexts.</p>
-    <p>Nach geprüfter Inhaltsparität werden die bisherigen Korpus-Markdowns gelöscht und interne Links auf <code>.html</code> umgestellt. Die Git-Historie bleibt erhalten.</p>
+    <p>Interne Seiten werden erst nach geprüfter Sichttext-Parität gelöscht. Öffentliche Seiten werden bewusst korrigiert und erst nach Fakten-, Abdeckungs- und Redaction-Freigabe ersetzt. Danach werden interne Links auf <code>.html</code> umgestellt; die Git-Historie bleibt erhalten.</p>
   </section>
 
   <section id="trennung">
@@ -128,7 +128,7 @@
   <section id="sauberer-stand">
     <h2>Nur geprüfte, committete Inhalte laden</h2>
     <ul>
-      <li>Start und Reload akzeptieren keinen dirty oder ungetrackten Korpus.</li>
+      <li>Produktionsstart und Reload lesen ausschließlich ein validiertes Snapshot-Artefakt, das aus einem committeten Git-Stand exportiert wurde; der Arbeitsbaum ist kein Produktionskorpus.</li>
       <li>Ein fehlgeschlagener Reload ersetzt den aktuell laufenden, zuletzt gültigen Index nicht.</li>
       <li>Die HTML-Migration erfolgt ohne Ausfall über einen vorübergehend kompatiblen Loader; nach erfolgreichem Cutover wird Markdown als Korpusformat entfernt.</li>
       <li>Der automatische Team-Doku-Updater erzeugt ebenfalls kanonisches HTML und löst nur nach erfolgreicher Validierung einen Reload aus.</li>
@@ -152,10 +152,10 @@
     <h2>Parallele Agenten und Cross-Review</h2>
     <p>Jeder Agent erhält höchstens zwei klar abgegrenzte Aufgaben und nur den dafür nötigen Kontext.</p>
     <ol>
-      <li><strong>Parallel:</strong> Claude Opus 4.8 erstellt öffentliche HTML-Texte und migriert den Doku-Korpus; Codex/GPT implementiert Rust-Routing, Parser, Logging und Tests in getrennten Dateibereichen.</li>
+      <li><strong>Parallel:</strong> Claude Opus 4.8 erstellt öffentliche HTML-Texte und migriert den Doku-Korpus; Codex/GPT implementiert Rust-Routing, Parser, Logging, Tests und das sicherheitsrelevante Korpus-Tooling in getrennten Dateibereichen.</li>
       <li><strong>Cross-Review:</strong> Ein frischer Codex-Kritiker prüft jede Claude-Änderung gegen Code und Fakten. Ein frischer Claude-Opus-Kritiker prüft jede Codex-Änderung gegen Anforderungen, Sicherheit und Nutzerverhalten.</li>
       <li><strong>Nacharbeit:</strong> Kritische und wichtige Funde gehen einzeln an den ursprünglichen Implementierer zurück und werden erneut getestet.</li>
-      <li><strong>Final:</strong> Ein frischer Codex-Agent führt ausschließlich den Redaction-Audit der von Opus verfassten HTML-Texte aus; ein frischer Opus-Agent prüft Korrektheit, Tests und Scope der von Codex/GPT implementierten Rust-Änderungen.</li>
+      <li><strong>Final:</strong> Ein frischer Codex-Agent führt ausschließlich den Redaction-Audit der von Opus verfassten HTML-Texte aus; ein frischer Opus-Agent prüft Korrektheit, Tests und Scope der von Codex/GPT implementierten Rust- und Tooling-Änderungen.</li>
       <li><strong>Orchestrator:</strong> Codex liest alle Diffs selbst, prüft Konflikte, führt die Gesamttests aus und verantwortet Merge, Deploy und Live-Beweis.</li>
     </ol>
   </section>
@@ -181,7 +181,7 @@
       <li>BM25 bleibt, bis Evaluation einen Wechsel begründet.</li>
       <li>Alle Wissensseiten in <code>public/</code> und <code>internal/</code> werden HTML und committed.</li>
       <li>Der öffentliche Agent liest ausschließlich <code>public/</code>.</li>
-      <li>Alte Korpus-Markdowns werden nach Paritätsprüfung gelöscht.</li>
+      <li>Alte interne Korpus-Markdowns werden nach Sichttext-Parität gelöscht; öffentliche nach Fakten-, Abdeckungs- und Redaction-Freigabe.</li>
       <li>Autoren und letzte Reviewer sind immer verschiedene Modelle.</li>
     </ul>
   </section>
