@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Support-Agent: HTML-Wissenskorpus und verlässliche Discord-Antworten</title>
+  <meta name="tags" content="deadlock-bots, concierge, support-agent, wissensbasis, html, discord">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="User-Entscheidungen und Ist-Audit vom 2026-07-10">
+</head>
+<body>
+<main>
+  <h1>Support-Agent: HTML-Wissenskorpus und verlässliche Discord-Antworten</h1>
+  <p><strong>Ziel:</strong> Der Concierge beantwortet alle öffentlich sichtbaren Fragen zu den Discord-Servern und Community-Bots korrekt, kurz und nachvollziehbar. Private Daten, Team-Inhalte, interne Mechaniken und operative Werte bleiben ausgeschlossen.</p>
+
+  <section id="ausgangslage">
+    <h2>Ausgangslage</h2>
+    <ul>
+      <li>Der bestehende Wissensdienst beantwortet konkrete Fragen häufig korrekt, breite Bot- und Serverfragen aber instabil.</li>
+      <li>Der laufende Korpus kann uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden.</li>
+      <li>Mehrere öffentliche Seiten sind veraltet, widersprüchlich oder enthalten Details, die nicht in einen kundenerreichbaren Korpus gehören.</li>
+      <li>Der ausgewiesene Server-Fragenkanal, private FAQ-Chats und Direktnachrichten verwenden nicht durchgehend denselben Antwortpfad.</li>
+      <li>Bestehende Tests prüfen Parser und synthetische Antworten, aber keinen vollständigen Satz realistischer Community-Fragen.</li>
+      <li>Fehler und Ablehnungen lassen sich im Betrieb nicht sauber zwischen Retrieval, Modell, Zeitüberschreitung und Transport unterscheiden.</li>
+    </ul>
+  </section>
+
+  <section id="scope">
+    <h2>Scope</h2>
+    <h3>Enthalten</h3>
+    <ul>
+      <li>Öffentlich sichtbare Funktionen, Abläufe, Kanäle, Rollen, Befehle, Fehlerbilder und sichere nächste Schritte.</li>
+      <li>Community-Bot, Steam-Bot, Twitch-Bot, Patchnotes-Bot, Turniere und öffentlich sichtbare Website-Portale.</li>
+      <li>Antworten in Direktnachrichten, privaten FAQ-Chats und dem Server-Fragenkanal über denselben Wissenspfad.</li>
+      <li>Ticket-Antworten im internen Shadow-Kanal bis zur gesonderten Live-Freigabe.</li>
+      <li>Vollständige Migration der Wissensseiten unter <code>public/</code> und <code>internal/</code> auf semantisches HTML.</li>
+    </ul>
+    <h3>Nicht enthalten</h3>
+    <ul>
+      <li>Personenbezogene Live-Auskünfte, private oder moderative Inhalte sowie interne Bot- und Infrastrukturdetails.</li>
+      <li>Öffentlicher Live-Status einzelner Dienste.</li>
+      <li>Automatischer Debug. Eine vorsichtige, read-only und allowlist-basierte Diagnose ist als separates Folgeprojekt vorgemerkt.</li>
+      <li>Freischaltung direkter Ticket-Antworten.</li>
+      <li>Embeddings oder eine Vektordatenbank, solange die Golden-Evaluation keinen belegten Bedarf zeigt.</li>
+    </ul>
+  </section>
+
+  <section id="korpus-format">
+    <h2>Kanonisches Korpusformat</h2>
+    <p>Alle Wissensseiten unter <code>public/</code> und <code>internal/</code> werden committetes, semantisches HTML. <code>README.md</code>, <code>PLAN.md</code>, <code>CHANGELOG.md</code> und technische Entwicklungspläne bleiben Markdown, dienen nur dem Audit und werden nie indexiert. Binäre Quellen und Belegartefakte bleiben unverändert, werden von HTML-Seiten verlinkt und niemals indexiert.</p>
+    <h3>Pflichtstruktur jeder Wissensseite</h3>
+    <ul>
+      <li><code>&lt;html lang="de"&gt;</code>, UTF-8 und genau ein aussagekräftiges <code>&lt;title&gt;</code>.</li>
+      <li>Meta-Angaben <code>tags</code>, <code>stand</code> und <code>quelle</code>.</li>
+      <li>Genau ein <code>&lt;main&gt;</code> mit einem <code>&lt;h1&gt;</code> und semantischen Abschnitten.</li>
+      <li>Stabile, sprechende Anker-IDs für wichtige Zustände und Workflows.</li>
+      <li>Keine externen Skripte, Fonts, CDNs, Analytics oder ausführbares JavaScript.</li>
+    </ul>
+    <p>Der Wissensdienst indexiert ausschließlich den Text innerhalb von <code>&lt;main&gt;</code>. Metadaten, Navigation, Styles und Quellenpfade werden nicht Bestandteil des Antwortkontexts.</p>
+    <p>Nach geprüfter Inhaltsparität werden die bisherigen Korpus-Markdowns gelöscht und interne Links auf <code>.html</code> umgestellt. Die Git-Historie bleibt erhalten.</p>
+  </section>
+
+  <section id="trennung">
+    <h2>Öffentlich und intern strikt trennen</h2>
+    <table>
+      <thead>
+        <tr><th>Bereich</th><th>Inhalt</th><th>Konsument</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>public/</code></td><td>Beobachtbares Verhalten und sichere nächste Schritte für jedes Mitglied</td><td>Öffentlicher Concierge</td></tr>
+        <tr><td><code>internal/</code></td><td>Entwicklung, Betrieb, Architektur und interne Runbooks</td><td>Interne Menschen und spätere getrennte Admin-Werkzeuge</td></tr>
+      </tbody>
+    </table>
+    <p>Der öffentliche Prozess erhält ausschließlich den Pfad zu <code>public/</code>. Interne Seiten werden nicht bloß per Prompt verborgen, sondern fehlen vollständig aus seinem Index.</p>
+  </section>
+
+  <section id="wissensabdeckung">
+    <h2>Wissensabdeckung und Bereinigung</h2>
+    <p>Vor der Migration werden aktuelle READMEs, Changelogs und produktive Codepfade gegeneinander geprüft. Code und Live-Verhalten haben Vorrang vor historischen Changelog-Einträgen.</p>
+    <ul>
+      <li>Eine zentrale Bot- und Serverübersicht beantwortet breite Fragen, ohne zufällige Teilmengen aus verschiedenen Produkten zu mischen.</li>
+      <li>Fehlende oder veraltete Nutzerwege werden für Voice/Ranked, Invite, Concierge, Coaching/Scrims, Steam, Twitch, Turniere, Patchnotes, LFG und Custom Games korrigiert.</li>
+      <li>Widersprüche zwischen Produktübersichten und Detailseiten werden auf eine kanonische Aussage reduziert.</li>
+      <li>Öffentliche Texte enthalten keine internen Schwellen, Intervalle, Bewertungslogik, verdeckten Betriebsarten, Admin-Wege oder private Team-Funktionen.</li>
+      <li>Unklare Live-Funktionen werden vor Dokumentation am Code und, falls nötig, am Live-Zustand verifiziert.</li>
+      <li>Negativwissen beschreibt sicher, welche öffentlich vermuteten Funktionen nicht existieren und welcher echte Weg stattdessen gilt.</li>
+    </ul>
+  </section>
+
+  <section id="antwortfluss">
+    <h2>Einheitlicher Antwortfluss</h2>
+    <ol>
+      <li>Eine Frage kommt aus DM, privatem FAQ-Chat, Server-Fragenkanal oder Ticket-Shadow.</li>
+      <li>Die Eingabe wird als nicht vertrauenswürdig behandelt und nur als Frage ausgewertet.</li>
+      <li>Der öffentliche HTML-Korpus liefert relevante Abschnitte und Quellen.</li>
+      <li>Das Modell darf ausschließlich diese Abschnitte verwenden und liefert strukturiert <code>answerable</code> und <code>answer</code>.</li>
+      <li>Nur eine nichtleere Antwort mit belastbarer öffentlicher Quelle wird ausgeliefert. Im Ticket erscheint auch diese Ausgabe ausschließlich im Shadow-Kanal bis zur gesonderten Live-Freigabe.</li>
+      <li>Ohne belastbare Quelle folgt ein sicherer, oberflächengerechter Verweis an Menschen. Im Ticket bleibt auch dieser Verweis ausschließlich im Shadow-Kanal.</li>
+    </ol>
+    <p>Gameplay-Wissen bleibt über den dafür vorgesehenen Brain-Weg erreichbar, darf aber keine fehlende Server- oder Bot-Antwort erfinden.</p>
+  </section>
+
+  <section id="fehlerverhalten">
+    <h2>Fehlerverhalten und Prompt-Injection</h2>
+    <ul>
+      <li>Nutzeranweisungen können Systemregeln, Quellenwahl, Rollen oder Folgeaktionen nicht verändern.</li>
+      <li>Zeitüberschreitung, Transportfehler, ungültiges Modell-JSON, leerer Kontext und nicht beantwortbare Fragen scheitern geschlossen.</li>
+      <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus.</li>
+      <li>Die öffentliche Antwort enthält keine internen Fehlerdetails, Prompts, Modellnamen oder Quellenpfade.</li>
+    </ul>
+  </section>
+
+  <section id="beobachtbarkeit">
+    <h2>Vollständige Entscheidungsbeobachtung</h2>
+    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Log-Zeile enthält eine gekürzte Eingabe, Urteil, Retrieval-Signal, Trigger-Grund, gewählte Quellen und Fehlerklasse.</p>
+    <table>
+      <thead><tr><th>Urteil</th><th>Bedeutung</th></tr></thead>
+      <tbody>
+        <tr><td>Ja</td><td>Antwort mit öffentlicher Quelle ausgeliefert</td></tr>
+        <tr><td>Nein</td><td>Kein belastbarer öffentlicher Kontext</td></tr>
+        <tr><td>Unsicher</td><td>Kontext vorhanden, aber keine sichere Antwort</td></tr>
+        <tr><td>Timeout</td><td>Eine begrenzte externe oder interne Operation lief aus</td></tr>
+        <tr><td>Fehler</td><td>Transport, Parsing, Korpus oder Modell fehlgeschlagen</td></tr>
+      </tbody>
+    </table>
+    <p>Erfolgreiche und abgelehnte Entscheidungen erscheinen im vorgesehenen Log-Kanal beziehungsweise im Journal. Stille ist kein Beweis für einen erfolgreichen Nicht-Treffer.</p>
+  </section>
+
+  <section id="sauberer-stand">
+    <h2>Nur geprüfte, committete Inhalte laden</h2>
+    <ul>
+      <li>Start und Reload akzeptieren keinen dirty oder ungetrackten Korpus.</li>
+      <li>Ein fehlgeschlagener Reload ersetzt den aktuell laufenden, zuletzt gültigen Index nicht.</li>
+      <li>Die HTML-Migration erfolgt ohne Ausfall über einen vorübergehend kompatiblen Loader; nach erfolgreichem Cutover wird Markdown als Korpusformat entfernt.</li>
+      <li>Der automatische Team-Doku-Updater erzeugt ebenfalls kanonisches HTML und löst nur nach erfolgreicher Validierung einen Reload aus.</li>
+    </ul>
+  </section>
+
+  <section id="qualitaetsvertrag">
+    <h2>Qualitätsvertrag</h2>
+    <ul>
+      <li>Strukturtest: Jede HTML-Seite erfüllt Schema, Pflichtmetadaten, Link- und Trennungsregeln.</li>
+      <li>Redaction-Test: Der öffentliche Korpus enthält keine rekonstruierbaren internen Mechaniken oder sensiblen Kategorien.</li>
+      <li>Golden-Evaluation: Für jede öffentliche Funktion und jeden Workflow existieren mindestens eine reale Frage und eine Paraphrase mit erwarteter Quelle und Kernaussage.</li>
+      <li>Negativ-Evaluation: Private Daten, Team-Inhalte, interne Mechaniken und Prompt-Injection werden vollständig abgewehrt.</li>
+      <li>Rust-Verifikation: Formatter, Tests und Clippy sind grün.</li>
+      <li>Live-Smoke: DM, privater FAQ-Chat und Server-Fragenkanal beantworten repräsentative Fragen korrekt; Ticket-Antworten erscheinen nur im Shadow-Kanal.</li>
+    </ul>
+    <p>Ein Release erfolgt nur, wenn sämtliche kuratierten Golden- und Sicherheitsfälle bestehen und der frische Redaction-Kritiker nichts rekonstruieren kann.</p>
+  </section>
+
+  <section id="agenten-dag">
+    <h2>Parallele Agenten und Cross-Review</h2>
+    <p>Jeder Agent erhält höchstens zwei klar abgegrenzte Aufgaben und nur den dafür nötigen Kontext.</p>
+    <ol>
+      <li><strong>Parallel:</strong> Claude Opus 4.8 erstellt öffentliche HTML-Texte und migriert den Doku-Korpus; Codex/GPT implementiert Rust-Routing, Parser, Logging und Tests in getrennten Dateibereichen.</li>
+      <li><strong>Cross-Review:</strong> Ein frischer Codex-Kritiker prüft jede Claude-Änderung gegen Code und Fakten. Ein frischer Claude-Opus-Kritiker prüft jede Codex-Änderung gegen Anforderungen, Sicherheit und Nutzerverhalten.</li>
+      <li><strong>Nacharbeit:</strong> Kritische und wichtige Funde gehen einzeln an den ursprünglichen Implementierer zurück und werden erneut getestet.</li>
+      <li><strong>Final:</strong> Ein frischer Codex-Agent führt ausschließlich den Redaction-Audit der von Opus verfassten HTML-Texte aus; ein frischer Opus-Agent prüft Korrektheit, Tests und Scope der von Codex/GPT implementierten Rust-Änderungen.</li>
+      <li><strong>Orchestrator:</strong> Codex liest alle Diffs selbst, prüft Konflikte, führt die Gesamttests aus und verantwortet Merge, Deploy und Live-Beweis.</li>
+    </ol>
+  </section>
+
+  <section id="rollout">
+    <h2>Rollout</h2>
+    <ol>
+      <li>HTML-fähigen, abwärtskompatiblen Loader samt Tests deployen.</li>
+      <li>Öffentliche und interne Wissensseiten nach HTML migrieren, inhaltlich korrigieren, validieren und committen.</li>
+      <li>Öffentlichen Korpus neu laden und Golden-/Live-Smokes ausführen.</li>
+      <li>Alte Korpus-Markdowns und den Übergangsparser entfernen.</li>
+      <li>Ticket-Modus im Shadow belassen; Live-Antworten benötigen eine eigene spätere Freigabe.</li>
+    </ol>
+    <p>Jeder betroffene Bot-Deploy wird mit PID-Wechsel, frischer Binary und fehlerfreiem Journal belegt. Nutzerrelevante Änderungen werden nach dem verifizierten Livegang im Changelog und in den vorgesehenen Community-Kanälen kommuniziert.</p>
+  </section>
+
+  <section id="entscheidungen">
+    <h2>Bestätigte Entscheidungen</h2>
+    <ul>
+      <li>Öffentliches Wissen umfasst alles, was ein normales Mitglied sehen oder ausführen darf.</li>
+      <li>DM, privater FAQ-Chat und Server-Fragenkanal antworten direkt; Tickets bleiben Shadow.</li>
+      <li>Live-Status und Auto-Debug sind nicht Teil dieses Vorhabens.</li>
+      <li>BM25 bleibt, bis Evaluation einen Wechsel begründet.</li>
+      <li>Alle Wissensseiten in <code>public/</code> und <code>internal/</code> werden HTML und committed.</li>
+      <li>Der öffentliche Agent liest ausschließlich <code>public/</code>.</li>
+      <li>Alte Korpus-Markdowns werden nach Paritätsprüfung gelöscht.</li>
+      <li>Autoren und letzte Reviewer sind immer verschiedene Modelle.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
