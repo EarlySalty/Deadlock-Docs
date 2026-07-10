@@ -33,6 +33,6 @@ Das Regelwerk-Panel und der Screening-Autostart erzeugen private Onboarding-Thre
 ## Grenzen & häufige Fragen
 - **„Ich habe keinen Invite bekommen"**: Häufigster Grund ist ein „limited" Steam-Account — Steam blockiert Playtest-Invites, wenn auf dem Account noch keine ~5 $ ausgegeben wurden. Das ist eine Valve-Regel, die erst beim Invite-Versuch sichtbar wird; kein Bot und kein Community-Mitglied kann sie umgehen.
 - Nach einem Invite kann es 1–2 Tage dauern, bis die Einladung bei Steam sichtbar ist. Siehst du sie nicht, schau direkt bei Steam unter https://store.steampowered.com/account/playtestinvites nach — viele übersehen genau diese Seite.
-- Ohne Freundescode in deiner Anfrage kann dich niemand einladen — der Bot erinnert dich im Kanal daran.
+- Ohne Freundescode in deiner Anfrage kann dich niemand einladen. Bist du neu auf dem Server, erinnert dich der Bot im Kanal daran; wer schon länger dabei ist, bekommt diesen Hinweis nicht mehr.
 - Es gibt KEINE Onboarding-Option „Invite/Betazugang" und keinen Invite-Befehl — einfach im Kanal fragen.
 - Ein Streamer-Setup-Flow im Onboarding existiert aktuell nicht (nur Hinweise); Streamer-Themen laufen über das Twitch-Dashboard.
