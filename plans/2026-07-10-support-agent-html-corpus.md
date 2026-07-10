@@ -40,12 +40,14 @@
 Task 1 (tooling baseline) -> Task 1A (raw-HTML redaction gate)
 Task 1 -------------------> Task 2 (internal migration; separate)
 Task 1A ------------------> Tasks 3A,3B,4-6 (five isolated public packages, parallel)
-Tasks 3A,3B,4-6 ----------> Task 7 (cross-product integration and broad routing)
-Tasks 1A,2,3A,3B,4-7 + Runtime Task 4 -> Task 8 (corpus-wide gates)
+Tasks 3A,3B,4-6 ----------> progressive reviewed merges -> Task 7 (cross-product integration and broad routing)
+Tasks 1A,2,3A,3B,4-7 + Runtime Task 4 -> Task 8 (corpus-wide gates and ancestry verification)
 Task 8 -------------------> Task 9 (merge/deploy/reload, coordinated with Runtime Task 5)
 ```
 
 Every content package is done only when its matrix rows are checked, its own six-field Eval JSON is schema-valid, HTML/link validation and the normalized full-file raw gate pass, code/live-dependent claims have evidence, the semantic reviewer has ruled out reconstructable thresholds/intervals/formulas/private Admin-/Coach mechanics, and a fresh Codex factual/redaction critic has no Critical or Important finding. Task 8 is done only when all 84 rows and at least 168 cases are present, all six Eval files pass the Rust harness, and both independent final critics approve.
+
+Reviewed child branches are merged progressively into `feature/support-agent-html` immediately after their package review. Task 7 starts only from that integrated branch. The existing `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` worktree remains checked out on this branch, so Runtime Task 4 reads the complete post-Task-7 corpus. Task 8 verifies those merges by ancestry; it does not perform their first integration.
 
 ---
 
@@ -270,6 +272,7 @@ Commit: `docs(public): Discord-Gruppenwerkzeuge migrieren`.
 
 **Files:**
 - Replace all knowledge pages under `public/twitch-bot/` with canonical `.html` counterparts.
+- Create: `public/twitch-bot/chat-befehle.html` from the committed `chat-befehle.md` source imported before package work begins.
 - Create: `evals/public-twitch.json`
 
 **Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-twitch`; one product only.
@@ -351,13 +354,13 @@ Commit: `docs(public): Patchnotes- und Turnierwissen migrieren`.
 
 Commit: `docs(public): Supportwissen produktübergreifend routen`.
 
-### Task 8: Merge partitions and run corpus-wide gates
+### Task 8: Verify integrated partitions and run corpus-wide gates
 
 **Dependencies:** Tasks 1A, 2, 3A, 3B and 4–7 are reviewed; Runtime Task 4 can now consume all six Eval files.
 
 **Worktree:** `/home/naniadm/.worktrees/Deadlock-Docs-support-agent`.
 
-- [ ] **Step 1: Merge every reviewed child branch with `--no-ff`; verify ancestry before any branch/worktree cleanup**
+- [ ] **Step 1: Verify by `git merge-base --is-ancestor` that every reviewed child commit was already merged with `--no-ff`; do not perform the first package merges here, and verify ancestry again before any branch/worktree cleanup**
 - [ ] **Step 2: Assert no `.md` remains below `public/` or `internal/`; confirm the prohibited public control pages have no HTML mirror and the status dump was curated rather than copied**
 - [ ] **Step 3: Run all tooling unittests and validate structure, links, unique IDs, public/internal separation and the complete raw bytes of every public HTML file**
 - [ ] **Step 4: Check all 84 matrix rows and at least 168 unique questions across the six exact six-field Eval files**

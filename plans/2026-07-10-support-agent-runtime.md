@@ -17,7 +17,7 @@
 - No embeddings, vector DB, live-status tooling, auto-debug, ticket live replies, or new user actions.
 - `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row content/evaluation contract; Runtime Golden tests consume its six package Eval files without changing the six-field schema.
 - Public Content Tasks do not start until the Docs raw-HTML gate scans complete files, including `head`, metadata, links, comments and attributes, in raw form plus `html.unescape` + NFKC normalization. Runtime retrieval checks do not replace this gate.
-- The machine gate blocks high-signal Snowflakes, internal/host/code paths, private/loopback URLs, secret material/Env names and concrete provider/prompt/retrieval/Shadow terms; findings never echo matched values. Semantic thresholds/intervals/formulas and private Admin-/Coach mechanics are separate human merge blockers, not broad regex blockers.
+- The machine gate blocks high-signal Snowflakes, internal/host/code paths, private/loopback URLs, secret material/Env names and concrete LLM-/infrastructure-provider, prompt, retrieval and Shadow terms; visible product names such as Discord, Steam, Twitch and Valve remain allowed. Findings never echo matched values. Semantic thresholds/intervals/formulas and private Admin-/Coach mechanics are separate human merge blockers, not broad regex blockers.
 - Public aggregate activity and the member's own authenticated activity/statistics/privacy routes are answerable; another person's private details and private/moderative data are not.
 - Dynamic status, price, date, newest-patch and best-hero/build questions, ticket questions and legitimate support questions containing injection remain answerable routing/boundary cases. They use public sources and never claim live knowledge. Pure injection, requests for private data/internals and requested actions may be non-answerable.
 - Config-dependent DM-Concierge, structured LFG, moderation and Go-Live guidance is conditional and retains a stable public fallback. No LFG internal time windows are exposed.
@@ -228,7 +228,7 @@ Run focused tests, then `cargo test -p dl-community` and clippy. Commit: `fix(co
 - Reads paths from `DL_DOCS_PATH` and `DL_GOLDEN_DIR`; never hardcodes a developer checkout.
 - Produces ignored `golden_live_api`, enabled with `DL_GOLDEN_API_URL`, which sends the same cases to the running `/public/v1/ask` endpoint and validates answerability, returned sources, every case-insensitive `answer_terms` substring, and forbidden answer terms.
 
-**Dependency:** Start this task only after Corpus Tasks 3A, 3B and 4–7 are reviewed and merged into `feature/support-agent-html`, so all six evaluation files and their HTML sources exist. It must not assume old monolithic `public-products.json` or `public-discord.json` input.
+**Dependency:** Start this task only after Corpus Tasks 3A, 3B and 4–7 are reviewed and progressively merged into `feature/support-agent-html`, so all six evaluation files and their HTML sources exist. `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` is the already-existing checkout of exactly that integrated branch and is updated through Task 7 before this test starts. It must not assume old monolithic `public-products.json` or `public-discord.json` input.
 
 - [ ] **Step 1: Add a failing ignored real-corpus test for every package file**
 
@@ -237,6 +237,8 @@ Each evaluation file is a JSON array of objects with exactly the six fields abov
 Add explicit contract fixtures: B01/B02/B03/B05/B06/B14-shaped pure private/internals/action/injection cases are allowed to be non-answerable; service status, current price/date/patch/best hero, ticket and legitimate question+injection cases must be answerable with a public routing source. This validates routing behavior only and must not add a live-status lookup, debug action or ticket reply.
 
 - [ ] **Step 2: Run red against the migrated corpus path**
+
+Before running, verify that `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` is on `feature/support-agent-html`, contains the reviewed Task-7 commit and has all six required Eval files. The environment variables below select this prepared checkout; the runtime task does not create or populate it.
 
 Run:
 
