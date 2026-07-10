@@ -10,7 +10,7 @@ quelle: "Deadlock-Bots/docs/coaching.md"
 Das Server-Coaching ist ein kostenloses Community-Angebot. Du schilderst kurz deinen Rang, deine Ziele und deine Baustellen, und danach meldet sich ein echter Coach aus dem Server bei dir. Es geht hier um Human-Coaching, nicht um ein AI-Coaching.
 
 ## Wie nutze ich das?
-Die Anfrage läuft über die **Website**: Im Kanal <#1494373349944459355> bringt dich der Button zur Coaching-Seite, und auch `/coaching-anfrage` gibt dir den Website-Link. Dort meldest du dich mit Discord an und füllst das Anfrage-Formular aus (Rang, Ziele, Verfügbarkeit und was dich gerade aufhält).
+Die Anfrage läuft über die **Website**: Im Kanal <#1494373349944459355> bringt dich der Button zur Coaching-Seite. Dort meldest du dich mit Discord an und füllst das Anfrage-Formular aus (Rang, Ziele, Verfügbarkeit und was dich gerade aufhält).
 
 Deine Anfrage landet danach automatisch beim Coach-Team im Discord: Sie wird dort mit Claim-Buttons gespiegelt, ein Coach übernimmt sie und meldet sich bei dir. Die Abstimmung läuft im Coaching-Chat auf dem Server — nicht per DM und nicht über Freundschaftsanfragen. Wenn ihr gemeinsam in einer Coaching-Voice seid und die Session endet, bekommst du eine Feedback-Nachricht und für ein paar Tage Zugriff auf den Feedback-Kanal.
 
