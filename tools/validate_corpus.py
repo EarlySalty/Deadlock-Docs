@@ -18,6 +18,7 @@ Repository-Vertrag und meldet jeden Verstoß:
 * Symlinks (dürfen im public-only-Artefakt nicht verbleiben),
 * Markdown-Wissensseiten (nur HTML ist erlaubt),
 * öffentliche Referenzen auf ``internal/``.
+* sensible Rohdaten in vollständigem öffentlichem HTML, auch normalisiert.
 
 Sichere externe Navigation (``<a>``/``<area>`` mit ``http(s)``/``mailto``/
 ``tel``) ist erlaubt; ladende Ressourcen dürfen nur lokal sein. Root-Dateien
@@ -27,6 +28,7 @@ Beweis-Assets (z. B. PDF) sind erlaubt und werden nicht indexiert.
 import html
 import re
 import sys
+import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
@@ -65,6 +67,86 @@ _URL_REMOVE_MAP = {ord("\t"): None, ord("\n"): None, ord("\r"): None}
 _URL_STRIP_CHARS = "".join(chr(c) for c in range(0x21))
 
 _CSS_URL = re.compile(r"url\(\s*(['\"]?)([^'\")]*)\1\s*\)", re.IGNORECASE)
+
+# Öffentliche Rohdaten werden zeilenweise in Original- und normalisierter Sicht
+# geprüft. Kategorien bleiben absichtlich grob: Meldungen dürfen den Fund niemals
+# wiederholen. Zahlen-/Admin-/Coach-Sprache bleibt der menschlichen Prüfung.
+REDACTION_RULES = (
+    (
+        "öffentliche ID",
+        (re.compile(r"(?<![0-9])[0-9]{17,20}(?![0-9])"),),
+    ),
+    (
+        "interner Pfad",
+        tuple(re.compile(pattern, re.IGNORECASE | re.VERBOSE) for pattern in (
+            r"(?<![a-z0-9_-])internal[/\\]",
+            r'''(?:https?://[^\s"'<>]*|(?<![\w.-]))/
+                (?:admin|ops|operator|debug|metrics|health)(?:[/?.#]|$)''',
+            r'''(?:^|[\s"'=(])(?:
+                ~[/\\]|/(?:home|root|etc|var|opt|srv|run|proc|sys|dev|tmp)(?:[/\\]|$)|
+                [A-Z]:\\)''',
+            r'''\b(?:Deadlock-[A-Za-z0-9-]+|Website|TradingBot|Caddy|Backup)
+                [/\\][^\s"'<>]+''',
+            r'''(?<![\w.-])(?:[\w.@+-]+[/\\])*[\w.@+-]+\.
+                (?:rs|py|toml|sql|service|env|md)(?![\w.-])''',
+            r'''(?<![\w.-])(?:\.worktrees|\.local[/\\]share|crates|src|target|support-kb)
+                [/\\]''',
+            r"\b(?:systemctl|journalctl|kubectl)\b",
+        )),
+    ),
+    (
+        "privater Host",
+        tuple(re.compile(pattern, re.IGNORECASE | re.VERBOSE) for pattern in (
+            r'''(?<![\w.-])(?:
+                localhost|0\.0\.0\.0|127(?:\.\d{1,3}){3}|
+                10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|
+                172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}|
+                host\.docker\.internal|[A-Za-z0-9.-]+\.(?:local|internal)
+            )(?::\d{1,5})?(?![\w.-])''',
+            r"(?:\[?::1\]?)(?::\d{1,5})?",
+            r'''\bhttps?://[A-Za-z0-9_-]+(?::\d{1,5})?
+                (?=[/\s"'<>]|$)''',
+        )),
+    ),
+    (
+        "Zugangsdaten",
+        tuple(re.compile(pattern, re.IGNORECASE | re.VERBOSE) for pattern in (
+            r"-----BEGIN\s+(?:(?:RSA|EC|OPENSSH)\s+)?PRIVATE\s+KEY-----",
+            r"\bAKIA[A-Z0-9]{16}\b",
+            r"\bAIza[0-9A-Za-z_-]{35}\b",
+            r"\b(?:github_pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|glpat-[A-Za-z0-9_-]{20,})\b",
+            r"\bxox[baprs]-[A-Za-z0-9-]{10,}\b",
+            r"\bsk_(?:live|test)_[A-Za-z0-9]{12,}\b",
+            r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b",
+            r"\bBearer\s+[A-Za-z0-9._~+/-]{12,}",
+            r"discord(?:app)?\.com/api/webhooks/\d{17,20}/[A-Za-z0-9_-]{20,}",
+            r'''\b(?:https?|postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis)://
+                [^/\s:@]+:[^@\s/]+@''',
+            r"\b(?:postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis)://",
+            r"\b[A-Z][A-Z0-9_]*(?:_TOKEN|_SECRET|_PASSWORD|_PASSWD|_API_KEY|_PRIVATE_KEY)\b",
+            r'''\b(?:api[_-]?key|client[_-]?secret|access[_-]?token|authorization|
+                password|passwd|token|secret)\s*[:=]\s*["']?
+                [A-Za-z0-9_./+=~-]{12,}''',
+        )),
+    ),
+    (
+        "KI-/Betriebsinternum",
+        tuple(re.compile(pattern, re.IGNORECASE | re.VERBOSE) for pattern in (
+            r'''\b(?:OpenAI|Anthropic|Claude|ChatGPT|GPT(?:-[0-9][\w.-]*)?|
+                Gemini|Mistral|Groq|Ollama|DeepSeek|OpenRouter)\b''',
+            r'''\b(?:Amazon\s+Web\s+Services|AWS|Microsoft\s+Azure|Google\s+Cloud|
+                GCP|Cloudflare|Hetzner|DigitalOcean|OVHcloud)\b''',
+            r'''\b(?:prompt(?:s|ing)?|system[- ]?(?:prompt|message)|
+                developer[- ]?(?:prompt|message)|jailbreak)\b''',
+            r"\bignore\s+(?:all\s+|the\s+)?previous\s+instructions\b",
+            r"\bignoriere\s+(?:alle\s+)?vorherigen\s+anweisungen\b",
+            r'''\b(?:LLM|BM25|RAG|embeddings?|retrieval|vektor(?:datenbank|suche)|
+                vector(?:\s+database|\s+search))\b''',
+            r'''\b(?:KI-Anbieter|Modellname|Shadow[- ]Kanal|Ticket[- ]Shadow|
+                Log[- ]Kanal|shadowban|silent[- ]boost|force[- ]approve)\b''',
+        )),
+    ),
+)
 
 
 class PageParser(HTMLParser):
@@ -309,12 +391,40 @@ def _check_local_target(page_path, kdir, value, rel, errors):
         errors.append(f"{rel}: toter relativer Link")
 
 
+def _is_public_dir(root, kdir):
+    """Erkennt ``public/`` sowohl unter dem Repo-Root als auch als Root selbst."""
+    return kdir.name == "public" or "public" in kdir.relative_to(root).parts
+
+
+def _redaction_errors(source, rel):
+    """Prüft jede Rohzeile original und HTML-/Unicode-normalisiert.
+
+    Der Schlüssel aus Zeile und Kategorie dedupliziert identische Funde beider
+    Sichten. In die Meldung gelangt bewusst keinerlei Quelltext.
+    """
+    errors = []
+    seen = set()
+    for line_number, raw_line in enumerate(source.splitlines(), 1):
+        normalized = unicodedata.normalize("NFKC", html.unescape(raw_line))
+        for view in dict.fromkeys((raw_line, normalized)):
+            for category, patterns in REDACTION_RULES:
+                key = (line_number, category)
+                if key not in seen and any(pattern.search(view) for pattern in patterns):
+                    seen.add(key)
+                    errors.append(f"{rel}:{line_number}: Redaction ({category})")
+    return errors
+
+
 def validate_page(page_path, root, kdir, rel):
     errors = []
     try:
         source = page_path.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError) as exc:
-        return [f"{rel}: nicht als UTF-8 lesbar ({exc})"]
+    except (OSError, UnicodeDecodeError):
+        return [f"{rel}: nicht als UTF-8 lesbar"]
+
+    is_public = _is_public_dir(root, kdir)
+    if is_public:
+        errors.extend(_redaction_errors(source, rel))
 
     parser = PageParser()
     parser.feed(source)
@@ -333,7 +443,7 @@ def validate_page(page_path, root, kdir, rel):
     if html_count != 1:
         errors.append(f"{rel}: genau ein <html> erwartet (gefunden {html_count})")
     if parser.html_lang.strip().lower() != "de":
-        errors.append(f'{rel}: <html lang="de"> erwartet (gefunden "{parser.html_lang}")')
+        errors.append(f'{rel}: <html lang="de"> erwartet')
     head_count = parser.tag_counts.get("head", 0)
     if head_count != 1:
         errors.append(f"{rel}: genau ein <head> erwartet (gefunden {head_count})")
@@ -392,10 +502,7 @@ def validate_page(page_path, root, kdir, rel):
     if h1_count == 1 and parser.h1_nodes:
         bad = sorted(_descendant_tags(parser.h1_nodes[0]) - H1_PHRASING)
         if bad:
-            errors.append(
-                f"{rel}: <h1> darf nur Inline-Inhalt enthalten "
-                f"(unerlaubte Nachfahren: {', '.join(bad)})"
-            )
+            errors.append(f"{rel}: <h1> enthält unerlaubte HTML-Nachfahren")
 
     # direkte <section>-Kinder von <main> brauchen eine id und eine <h2>-Überschrift
     # und dürfen nicht leer sein (die Runtime verwirft Sektionen ohne Sichttext)
@@ -414,13 +521,13 @@ def validate_page(page_path, root, kdir, rel):
             dups.append(value)
         seen.add(value)
     if dups:
-        errors.append(f"{rel}: doppelte id(s): {', '.join(sorted(dups))}")
+        errors.append(f"{rel}: doppelte id-Attribute")
 
     reported_dup_attrs = set()
     for dtag, dattr in parser.dup_attrs:
         if (dtag, dattr) not in reported_dup_attrs:
             reported_dup_attrs.add((dtag, dattr))
-            errors.append(f"{rel}: doppeltes Attribut '{dattr}' an <{dtag}>")
+            errors.append(f"{rel}: doppeltes HTML-Attribut")
 
     if parser.scripts:
         errors.append(f"{rel}: <script> ist nicht erlaubt")
@@ -438,19 +545,19 @@ def validate_page(page_path, root, kdir, rel):
         # Analytics sind unnötig. Jedes nichtleere ping-Attribut wird rundheraus
         # abgelehnt – ohne Klassifikation, damit kein Ziel als lokal durchfällt.
         if attr == "ping":
-            errors.append(f"{rel}: ping-Attribut (Telemetrie) nicht erlaubt ({tag})")
+            errors.append(f"{rel}: ping-Attribut (Telemetrie) nicht erlaubt")
             continue
         category, scheme, norm = _classify_url(value)
         # Wertfreie stabile Kategorie: nie den (evtl. sensiblen) URL-/netloc-Wert
-        # spiegeln, nur Fundort (tag/attr) melden.
+        # oder Quellattributnamen spiegeln.
         if category == "invalid":
-            errors.append(f"{rel}: ungültige URL ({tag} {attr})")
+            errors.append(f"{rel}: ungültige URL")
             continue
         if category == "active":
-            errors.append(f"{rel}: aktives Schema nicht erlaubt ({tag} {attr})")
+            errors.append(f"{rel}: aktives URL-Schema nicht erlaubt")
             continue
         if category == "data":
-            errors.append(f"{rel}: data:-URI nicht erlaubt ({tag} {attr})")
+            errors.append(f"{rel}: data:-URI nicht erlaubt")
             continue
         if tag in NAV_TAGS and attr == "href":
             # Sichere externe Navigation ausschließlich über die vier erlaubten
@@ -461,17 +568,17 @@ def validate_page(page_path, root, kdir, rel):
             if scheme in NAV_EXTERNAL_SCHEMES:
                 continue
             if scheme:
-                errors.append(f"{rel}: unerlaubtes Schema in Navigation ({tag} {attr})")
+                errors.append(f"{rel}: unerlaubtes Schema in Navigation")
                 continue
             if category == "external":
-                errors.append(f"{rel}: protokoll-relative Navigation nicht erlaubt ({tag} {attr})")
+                errors.append(f"{rel}: protokoll-relative Navigation nicht erlaubt")
                 continue
             _check_local_target(page_path, kdir, norm, rel, errors)
             continue
         # Ladende Ressource: jedes Scheme (auch protokoll-relativ) ist extern und
         # verboten; nur schemefreie lokale Ziele werden gegen das Dateisystem geprüft.
         if category == "external":
-            errors.append(f"{rel}: externes Asset nicht erlaubt ({tag} {attr})")
+            errors.append(f"{rel}: externes Asset nicht erlaubt")
             continue
         _check_local_target(page_path, kdir, norm, rel, errors)
 
@@ -501,9 +608,9 @@ def validate_page(page_path, root, kdir, rel):
 
     # öffentliche Seiten dürfen internal/ nicht referenzieren
     # (entitäten-dekodiert und case-insensitiv, damit INTERNAL/ oder internal&#47; greifen)
-    if "public" in page_path.relative_to(root).parts:
+    if is_public:
         if "internal/" in html.unescape(source).lower():
-            errors.append(f"{rel}: öffentliche Referenz auf internal/")
+            errors.append(f"{rel}: öffentliche Referenz auf interne Inhalte")
 
     return errors
 

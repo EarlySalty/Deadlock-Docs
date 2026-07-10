@@ -40,6 +40,16 @@ class ValidateCorpusTest(unittest.TestCase):
     def joined(self):
         return "\n".join(self.errors())
 
+    def assert_redaction(self, source, category, rel="public/a.html", hidden=()):
+        write(self.root, rel, source)
+        findings = [error for error in self.errors() if "Redaction" in error]
+        self.assertTrue(
+            any(error.endswith(f"Redaction ({category})") for error in findings),
+            "\n".join(findings),
+        )
+        for value in hidden:
+            self.assertNotIn(value, "\n".join(findings))
+
     def test_accepts_minimal_canonical_page(self):
         write(self.root, "public/discord-server/team.html", CANONICAL)
         self.assertEqual(self.errors(), [])
@@ -126,7 +136,7 @@ class ValidateCorpusTest(unittest.TestCase):
             "<p>Text</p>", '<p><a href="../../internal/geheim.html">x</a></p>'
         )
         write(self.root, "public/a.html", broken)
-        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+        self.assertIn("öffentliche Referenz auf interne Inhalte", self.joined())
 
     def test_rejects_public_reference_to_internal_uppercase(self):
         write(self.root, "internal/geheim.html", CANONICAL)
@@ -134,14 +144,14 @@ class ValidateCorpusTest(unittest.TestCase):
             "<p>Text</p>", '<p><a href="../../INTERNAL/geheim.html">x</a></p>'
         )
         write(self.root, "public/a.html", broken)
-        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+        self.assertIn("öffentliche Referenz auf interne Inhalte", self.joined())
 
     def test_rejects_public_reference_to_internal_entity_encoded(self):
         broken = CANONICAL.replace(
             "<p>Text</p>", "<p>siehe internal&#47;geheim</p>"
         )
         write(self.root, "public/a.html", broken)
-        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+        self.assertIn("öffentliche Referenz auf interne Inhalte", self.joined())
 
     def test_rejects_missing_doctype(self):
         broken = CANONICAL.replace("<!doctype html>\n", "")
@@ -685,6 +695,243 @@ class ValidateCorpusTest(unittest.TestCase):
         page = CANONICAL.replace("<p>Text</p>", "<p>Zeile<br/>Zwei</p>")
         write(self.root, "public/a.html", page)
         self.assertEqual(self.errors(), [])
+
+    # --- Task 1A: vollständiges öffentliches Roh-HTML-Redaction-Gate ---
+
+    def test_redaction_scans_head_meta_comments_attributes_and_main(self):
+        cases = (
+            (
+                "meta",
+                CANONICAL.replace('content="Test"', 'content="12345678901234567"'),
+                "öffentliche ID",
+                "12345678901234567",
+            ),
+            (
+                "head",
+                CANONICAL.replace("<title>Titel</title>", "<title>OpenAI</title>"),
+                "KI-/Betriebsinternum",
+                "OpenAI",
+            ),
+            (
+                "comment",
+                CANONICAL.replace("</head>", "<!-- /home/example/app -->\n</head>"),
+                "interner Pfad",
+                "/home/example/app",
+            ),
+            (
+                "href",
+                CANONICAL.replace(
+                    "<p>Text</p>", '<p><a href="http://knowledge:8899/help">Hilfe</a></p>'
+                ),
+                "privater Host",
+                "knowledge",
+            ),
+            (
+                "data",
+                CANONICAL.replace(
+                    "<p>Text</p>", '<p data-note="TWITCH_API_TOKEN">Text</p>'
+                ),
+                "Zugangsdaten",
+                "TWITCH_API_TOKEN",
+            ),
+            (
+                "main",
+                CANONICAL.replace("<p>Text</p>", "<p>BM25-Retrieval</p>"),
+                "KI-/Betriebsinternum",
+                "BM25",
+            ),
+        )
+        for label, source, category, hidden in cases:
+            with self.subTest(label=label):
+                self.assert_redaction(source, category, hidden=(hidden,))
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_normalizes_entity_and_fullwidth_snowflakes(self):
+        plain = "12345678901234567"
+        encoded = "".join(f"&#{ord(char)};" for char in plain)
+        fullwidth = "１２３４５６７８９０１２３４５６７"
+        for label, value in (("plain", plain), ("entity", encoded), ("fullwidth", fullwidth)):
+            with self.subTest(label=label):
+                source = CANONICAL.replace('content="Test"', f'content="{value}"')
+                write(self.root, "public/a.html", source)
+                findings = [
+                    error for error in self.errors()
+                    if error.endswith("Redaction (öffentliche ID)")
+                ]
+                self.assertEqual(len(findings), 1, findings)
+                self.assertRegex(findings[0], r"^public/a\.html:7: Redaction \(")
+                self.assertNotIn(plain, findings[0])
+                self.assertNotIn(encoded, findings[0])
+                self.assertNotIn(fullwidth, findings[0])
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_value_never_leaks_through_other_contract_errors(self):
+        provider = "OpenAI"
+        public_id = "12345678901234567"
+        page = CANONICAL.replace('lang="de"', f'lang="{provider}"').replace(
+            'id="s1"', f'id="{public_id}"'
+        ).replace(
+            "</main>",
+            f'<section id="{public_id}"><h2>Zwei</h2><p>Text</p></section></main>',
+        )
+        write(self.root, "public/a.html", page)
+        joined = self.joined()
+        self.assertNotIn(provider, joined)
+        self.assertNotIn(public_id, joined)
+        Path(self.root, "public/a.html").unlink()
+
+        cases = (
+            (
+                CANONICAL.replace("<h1>Titel</h1>", "<h1><openai>Titel</openai></h1>"),
+                "openai",
+            ),
+            (
+                CANONICAL.replace(
+                    "<p>Text</p>", '<p openai="eins" openai="zwei">Text</p>'
+                ),
+                "openai",
+            ),
+            (
+                CANONICAL.replace(
+                    "<p>Text</p>",
+                    '<openai href="https://example.com/help">Text</openai>',
+                ),
+                "openai",
+            ),
+            (
+                CANONICAL.replace(
+                    "<p>Text</p>",
+                    '<p twitch_api_token="eins" twitch_api_token="zwei">Text</p>',
+                ),
+                "twitch_api_token",
+            ),
+            (
+                CANONICAL.replace("</head>", "<!-- ../../internal/help -->\n</head>"),
+                "internal/",
+            ),
+        )
+        for source, hidden in cases:
+            write(self.root, "public/a.html", source)
+            self.assertNotIn(hidden, self.joined().lower())
+            Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_blocks_internal_host_and_code_paths(self):
+        values = (
+            "../../internal/geheim.html",
+            "/home/example/project/file",
+            r"C:\\Users\\example\\project",
+            "Deadlock-Bots/src/main.rs",
+            "service.py",
+            ".worktrees/Deadlock-Docs-task",
+            "systemctl restart example",
+        )
+        for index, value in enumerate(values):
+            with self.subTest(index=index):
+                source = CANONICAL.replace("</head>", f'<!-- {value} -->\n</head>')
+                self.assert_redaction(source, "interner Pfad", hidden=(value,))
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_blocks_private_loopback_and_single_label_http_hosts(self):
+        values = (
+            "http://localhost:8080/help",
+            "http://127.0.0.1/help",
+            "http://10.0.0.1/help",
+            "http://172.16.0.1/help",
+            "http://192.168.0.1/help",
+            "http://[::1]:8080/help",
+            "http://host.docker.internal/help",
+            "http://service.local/help",
+            "http://knowledge:8899/help",
+        )
+        for index, value in enumerate(values):
+            with self.subTest(index=index):
+                source = CANONICAL.replace(
+                    "<p>Text</p>", f'<p data-endpoint="{value}">Text</p>'
+                )
+                self.assert_redaction(source, "privater Host", hidden=(value,))
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_blocks_synthetic_secret_material_and_credentials(self):
+        values = (
+            "-----BEGIN PRIVATE KEY-----",
+            "ghp_AAAAAAAAAAAAAAAAAAAA",
+            "sk_live_AAAAAAAAAAAA",
+            "Bearer SYNTHETICVALUE12345",
+            "eyJAAAAAAAAAA.BBBBBBBBBB.CCCCCCCCCC",
+            "TWITCH_API_TOKEN",
+            "access_token=SYNTHETICVALUE12345",
+            "postgres://demo:synthetic@example.invalid/db",
+        )
+        for index, value in enumerate(values):
+            with self.subTest(index=index):
+                source = CANONICAL.replace("</head>", f'<!-- {value} -->\n</head>')
+                self.assert_redaction(source, "Zugangsdaten", hidden=(value,))
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_blocks_provider_prompt_retrieval_and_shadow_controls(self):
+        values = (
+            "OpenAI",
+            "Claude",
+            "GPT-5.5",
+            "Amazon Web Services",
+            "Microsoft Azure",
+            "Hetzner",
+            "system prompt",
+            "developer message",
+            "prompt injection",
+            "jailbreak",
+            "ignore previous instructions",
+            "BM25",
+            "RAG",
+            "embeddings",
+            "vector search",
+            "Ticket-Shadow",
+            "Shadow-Kanal",
+            "Log-Kanal",
+        )
+        for index, value in enumerate(values):
+            with self.subTest(index=index):
+                source = CANONICAL.replace("</head>", f'<!-- {value} -->\n</head>')
+                self.assert_redaction(source, "KI-/Betriebsinternum", hidden=(value,))
+                Path(self.root, "public/a.html").unlink()
+
+    def test_redaction_is_public_only(self):
+        source = CANONICAL.replace("</head>", "<!-- OpenAI BM25 Ticket-Shadow -->\n</head>")
+        write(self.root, "internal/a.html", source)
+        self.assertEqual(self.errors(), [])
+
+    def test_redaction_accepts_safe_public_support_language_and_links(self):
+        page = CANONICAL.replace(
+            'content="Test"',
+            'content="Produktdokumentation und geprüftes Live-Verhalten"',
+        ).replace(
+            "<p>Text</p>",
+            """<p>Discord, Steam, Twitch und Valve: KI-gestützte Antwort.</p>
+            <p>Über Steam anmelden, ohne Passwort-Eingabe beim Bot. Wenn Twitch
+            die Autorisierung als abgelaufen zeigt, OAuth neu verbinden.</p>
+            <p>6 gegen 6; die öffentliche Aufbewahrungsdauer beträgt 30 Tage.
+            Owner, Moderation oder Coach kontaktieren und Einspruch einlegen.
+            Nutze #mitspielersuche.</p>
+            <p><a href="https://www.example.com/hilfe">Website</a>
+            <a href="https://discord.gg/deadlock">Discord-Einladung</a>
+            <a href="https://store.steampowered.com/">Steam</a>
+            <a href="mailto:support@example.com">E-Mail</a>
+            <a href="hilfe.html">Weitere Hilfe</a></p>""",
+        )
+        write(self.root, "public/a.html", page)
+        write(self.root, "public/hilfe.html", CANONICAL)
+        self.assertEqual(self.errors(), [])
+
+    def test_redaction_works_when_public_directory_is_validation_root(self):
+        public = Path(self.root) / "public"
+        write(public, "a.html", CANONICAL.replace("</head>", "<!-- OpenAI -->\n</head>"))
+        findings = validate_corpus.validate_root(public)
+        self.assertTrue(
+            any(error.startswith("a.html:") and error.endswith(
+                "Redaction (KI-/Betriebsinternum)"
+            ) for error in findings),
+            findings,
+        )
 
 
 if __name__ == "__main__":
