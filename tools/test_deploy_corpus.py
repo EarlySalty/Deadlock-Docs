@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -41,6 +42,14 @@ class DeployCorpusTest(unittest.TestCase):
         git(self.repo, "init", "-q")
         git(self.repo, "config", "user.email", "t@example.invalid")
         git(self.repo, "config", "user.name", "Test")
+        # Echte Tool-Kopie ins Temp-Repo: deploy_corpus.sh muss sein eigenes
+        # Repository (SCRIPT_DIR/..) deployen, nicht das Aufruf-CWD.
+        tools = self.repo / "tools"
+        tools.mkdir(parents=True)
+        for name in ("deploy_corpus.sh", "validate_corpus.py"):
+            shutil.copy(TOOLS_DIR / name, tools / name)
+        self.deploy_script = tools / "deploy_corpus.sh"
+        self.deploy_script.chmod(0o755)
 
     def write(self, rel, content):
         path = self.repo / rel
@@ -52,11 +61,11 @@ class DeployCorpusTest(unittest.TestCase):
         git(self.repo, "commit", "-q", "-m", message)
         return git(self.repo, "rev-parse", "HEAD").stdout.strip()
 
-    def deploy(self, ref):
+    def deploy(self, ref, cwd=None):
         env = dict(os.environ, DL_KNOWLEDGE_HOME=str(self.base))
         return subprocess.run(
-            ["bash", str(DEPLOY_SCRIPT), ref],
-            cwd=str(self.repo),
+            ["bash", str(self.deploy_script), ref],
+            cwd=str(cwd or self.repo),
             env=env,
             capture_output=True,
             text=True,
@@ -175,7 +184,7 @@ class DeployCorpusTest(unittest.TestCase):
         env = dict(os.environ, DL_KNOWLEDGE_HOME=str(self.base))
         procs = [
             subprocess.Popen(
-                ["bash", str(DEPLOY_SCRIPT), ref],
+                ["bash", str(self.deploy_script), ref],
                 cwd=str(self.repo),
                 env=env,
                 stdout=subprocess.PIPE,
@@ -193,6 +202,78 @@ class DeployCorpusTest(unittest.TestCase):
         target = self.current_target()
         self.assertIn(target, (sha_a, sha_b))
         self.assertTrue((self.base / "current").resolve().is_dir())
+
+    def test_deploys_script_repo_not_cwd(self):
+        # Deploy muss das Repository des Skripts (SCRIPT_DIR/..) exportieren,
+        # egal aus welchem CWD es aufgerufen wird.
+        self.write("public/x.html", VALID_PAGE.format(h1="FROM-SCRIPT-REPO"))
+        sha = self.commit("script-repo")
+
+        other_tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(other_tmp.cleanup)
+        other = Path(other_tmp.name)
+        git(other, "init", "-q")
+        git(other, "config", "user.email", "o@example.invalid")
+        git(other, "config", "user.name", "Other")
+        (other / "public").mkdir(parents=True)
+        (other / "public" / "x.html").write_text(
+            VALID_PAGE.format(h1="FROM-CWD-REPO"), encoding="utf-8"
+        )
+        git(other, "add", "-A")
+        git(other, "commit", "-q", "-m", "cwd-repo")
+
+        result = self.deploy("HEAD", cwd=other)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        deployed = (self.base / "current" / "public" / "x.html").read_text()
+        self.assertIn("FROM-SCRIPT-REPO", deployed)
+        self.assertNotIn("FROM-CWD-REPO", deployed)
+        self.assertEqual(self.current_target(), sha)
+
+    def test_current_switch_resists_interposed_tmplink(self):
+        # Der current-Link darf nicht über einen nicht reservierten Temp-Namen
+        # angreifbar sein. Ein mktemp-Shim liefert für 'mktemp -u' deterministisch
+        # einen vorbelegten Pfad (Symlink auf ein externes Verzeichnis); der
+        # race-sichere Deploy darf 'mktemp -u' gar nicht mehr nutzen und muss den
+        # Link in einem reservierten privaten Verzeichnis anlegen.
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha = self.commit("A")
+        self.base.mkdir(parents=True, exist_ok=True)
+
+        evil = Path(self._base_tmp.name) / "evil_outside"
+        evil.mkdir()
+        planted = self.base / ".interposed"
+        os.symlink(str(evil), planted)
+
+        real_mktemp = shutil.which("mktemp")
+        self.assertIsNotNone(real_mktemp)
+        shimdir = Path(self._base_tmp.name) / "shim"
+        shimdir.mkdir()
+        shim = shimdir / "mktemp"
+        shim.write_text(
+            "#!/usr/bin/env bash\n"
+            'if [ "$1" = "-u" ]; then printf "%s\\n" "{planted}"; exit 0; fi\n'
+            'exec "{real}" "$@"\n'.format(planted=planted, real=real_mktemp)
+        )
+        shim.chmod(0o755)
+
+        env = dict(
+            os.environ,
+            DL_KNOWLEDGE_HOME=str(self.base),
+            PATH=str(shimdir) + os.pathsep + os.environ["PATH"],
+        )
+        result = subprocess.run(
+            ["bash", str(self.deploy_script), "HEAD"],
+            cwd=str(self.repo),
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        # current zeigt innerhalb von base auf den SHA, nicht auf das externe Ziel
+        self.assertEqual(self.current_target(), sha)
+        self.assertEqual((self.base / "current").resolve(), (self.base / sha).resolve())
+        # kein SHA-Link wurde ins Angreiferverzeichnis geschrieben
+        self.assertEqual(list(evil.iterdir()), [])
 
     def test_failed_deploy_preserves_running_snapshot_no_html(self):
         # gültigen Snapshot A live schalten

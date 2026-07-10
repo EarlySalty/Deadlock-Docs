@@ -104,6 +104,23 @@ class RenderHtmlTest(unittest.TestCase):
         coaches_section = rendered.split(">Coaches<", 1)[1]
         self.assertNotIn("earlysalty", coaches_section)
 
+    def test_no_discord_snowflakes_or_channel_ids(self):
+        rendered = self.render()
+        # keine Kanal-Mentions/Snowflakes im öffentlichen Text
+        self.assertNotIn("<#", rendered)
+        for snowflake in (
+            "1459628609705738539",
+            "1426220702054355077",
+            "1494373349944459355",
+        ):
+            self.assertNotIn(snowflake, rendered)
+        # keine pauschal verfügbare Concierge-DM behaupten
+        self.assertNotIn("in den DMs", rendered)
+        # stattdessen sichtbare, stabile Wege
+        self.assertIn("Coaching-Panel", rendered)
+        self.assertIn("Ticket-Bereich", rendered)
+        self.assertIn("/faq", rendered)
+
     def test_rendered_output_passes_validator(self):
         # lokaler Import: koppelt die Testmodule nicht beim Sammeln
         sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -210,6 +227,8 @@ class MainWiringTest(unittest.TestCase):
             doc.write_text(rendered, encoding="utf-8")
             with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
                 update_team_doc, "render_from_discord", return_value=rendered
+            ), patch.object(
+                update_team_doc, "committed_doc", return_value=rendered
             ), patch.object(update_team_doc, "run") as run_mock, patch.object(
                 update_team_doc, "deploy_corpus"
             ) as deploy_mock, patch.object(
@@ -240,6 +259,9 @@ class MainWiringTest(unittest.TestCase):
             doc.write_text("ALT", encoding="utf-8")
             with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
                 update_team_doc, "render_from_discord", return_value=rendered
+            ), patch.object(
+                # Lauf 1: noch nicht committet; Lauf 2: Commit ist am HEAD
+                update_team_doc, "committed_doc", side_effect=["", rendered]
             ), patch.object(update_team_doc, "run") as run_mock, patch.object(
                 update_team_doc, "deploy_corpus", deploy
             ), patch.object(update_team_doc, "reload_knowledge") as reload_mock:
@@ -263,6 +285,49 @@ class MainWiringTest(unittest.TestCase):
         )
         self.assertTrue(pushed)
         self.assertFalse(committed)
+
+    def test_commit_fail_then_retry_recommits(self):
+        # Lauf 1: write_text/add ok, aber git commit scheitert transient.
+        # Lauf 2: Arbeitsdatei == Render, doch der HEAD kennt den Commit nie ->
+        # der Retry darf nicht in den Unchanged-Zweig fallen und den alten HEAD
+        # deployen, sondern muss erneut committen.
+        rendered = "<!doctype html>NEU"
+        commit_state = {"n": 0}
+
+        def run_side(cmd, *a, **k):
+            if list(cmd[:2]) == ["git", "commit"]:
+                commit_state["n"] += 1
+                if commit_state["n"] == 1:
+                    raise RuntimeError("commit transient kaputt")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            doc = Path(tmp) / "team.html"
+            doc.write_text("ALT", encoding="utf-8")
+            with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
+                update_team_doc, "render_from_discord", return_value=rendered
+            ), patch.object(
+                update_team_doc, "run", side_effect=run_side
+            ) as run_mock, patch.object(
+                update_team_doc, "deploy_corpus"
+            ) as deploy_mock, patch.object(
+                update_team_doc, "reload_knowledge"
+            ) as reload_mock:
+                with self.assertRaises(RuntimeError):
+                    update_team_doc.main([])
+                self.assertEqual(doc.read_text(), rendered, "Doc vor Commit geschrieben")
+                deploy_mock.assert_not_called()
+                reload_mock.assert_not_called()
+
+                rc = update_team_doc.main([])
+
+        self.assertEqual(rc, 0)
+        self.assertEqual(commit_state["n"], 2, "Retry muss erneut committen")
+        deploy_mock.assert_called_once_with("HEAD")
+        reload_mock.assert_called_once()
+        commits = [
+            c for c in run_mock.mock_calls if list(c.args[0][:2]) == ["git", "commit"]
+        ]
+        self.assertEqual(len(commits), 2)
 
 
 if __name__ == "__main__":

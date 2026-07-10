@@ -137,11 +137,6 @@ def render_document(stand, moderators, community_moderators, coaches):
     coach_items.append("    <li><strong>Nani</strong> selbst coacht ebenfalls</li>")
     coach_items = "\n".join(coach_items)
 
-    # Discord-Kanalverweise als Text erhalten, ohne dass sie als Markup gelten
-    ticket = html.escape("<#1459628609705738539>")
-    frage_alle = html.escape("<#1426220702054355077>")
-    coaching_channel = html.escape("<#1494373349944459355>")
-
     return f"""<!doctype html>
 <html lang="de"><head>
   <meta charset="utf-8">
@@ -167,19 +162,19 @@ def render_document(stand, moderators, community_moderators, coaches):
   </ul>
   </section>
   <section id="coaches"><h2>Coaches</h2>
-  <p>Sie geben kostenloses Coaching für alle Ränge (Anmeldung über {coaching_channel} oder die Coaching-Seite der Website):</p>
+  <p>Sie geben kostenloses Coaching für alle Ränge. Anmelden kannst du dich über das Coaching-Panel im Discord oder über die Coaching-Seite auf der Website.</p>
   <ul>
 {coach_items}
   </ul>
   </section>
   <section id="paten"><h2>Paten</h2>
-  <p>Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste; wer die Paten-Rolle hat, kann Neulinge übernehmen. Einen Paten bekommst du über den Bot in den DMs.</p>
+  <p>Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste; wer die Paten-Rolle hat, kann Neulinge übernehmen. Wenn du einen Paten suchst, öffne ein Ticket im Ticket-Bereich, dann vermittelt dich das Team weiter.</p>
   </section>
   <section id="ansprechpartner"><h2>Ansprechpartner</h2>
   <ul>
-    <li>Bei Problemen oder Fragen: Ticket über den Button in {ticket} öffnen.</li>
-    <li>Regelverstöße oder Konflikte: an die Moderatoren wenden (Ticket oder direkt ansprechen).</li>
-    <li>Fragen an alle: {frage_alle}, da liest auch das Team mit.</li>
+    <li>Probleme oder persönliche Anliegen: öffne ein Ticket im Ticket-Bereich, dort meldet sich das Team.</li>
+    <li>Regelverstöße oder Konflikte: wende dich an die Moderatoren – per Ticket oder direkt.</li>
+    <li>Fragen zum Server oder zu den Bots: stell sie im passenden Fragen-Kanal oder nutze den Bot-Befehl <code>/faq</code>.</li>
   </ul>
   </section>
 </main></body></html>
@@ -220,6 +215,27 @@ def run(cmd):
     subprocess.run(cmd, check=True)
 
 
+def committed_doc():
+    """Inhalt von DOC_PATH so, wie er am HEAD committet ist – sonst leer.
+
+    Maßgeblich ist der committete Stand, nicht die Arbeitskopie: Scheitert ein
+    ``git commit`` nach erfolgreichem ``write_text``/``git add``, sieht die
+    Arbeitsdatei bereits wie der neue Render aus. Ein Retry, der nur die
+    Arbeitskopie vergleicht, hielte das fälschlich für "unverändert" und würde
+    den alten HEAD deployen. Der HEAD-Blob deckt genau diesen Fall auf.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "show", f"HEAD:{DOC_PATH.as_posix()}"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (subprocess.CalledProcessError, OSError):
+        return ""
+    return result.stdout
+
+
 def deploy_corpus(ref):
     run([str(DEPLOY_SCRIPT), ref])
 
@@ -243,9 +259,13 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     rendered = render_from_discord()
-    old = DOC_PATH.read_text(encoding="utf-8") if DOC_PATH.exists() else ""
+    # Gegen den committeten HEAD-Stand vergleichen, nicht gegen die Arbeitskopie:
+    # sonst fiele ein Retry nach fehlgeschlagenem Commit fälschlich in den
+    # Unchanged-Zweig und deployte den alten HEAD (uncommitteter Render bliebe
+    # dauerhaft liegen).
+    committed = committed_doc()
     # stand-Meta-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
-    if without_stand_line(old) == without_stand_line(rendered):
+    if without_stand_line(committed) == without_stand_line(rendered):
         # Kein neuer Commit, aber den bestehenden HEAD konvergieren lassen:
         # ein früher fehlgeschlagener Push/Deploy/Reload würde sonst dauerhaft
         # einen alten Snapshot oder nicht neu geladenen Dienst hinterlassen.
@@ -256,10 +276,10 @@ def main(argv=None):
         deploy_corpus("HEAD")
         reload_knowledge()
         return 0
-    patch = diff(old, rendered)
 
     if args.dry_run:
-        print(patch, end="")
+        old = DOC_PATH.read_text(encoding="utf-8") if DOC_PATH.exists() else ""
+        print(diff(old, rendered), end="")
         return 0
 
     DOC_PATH.write_text(rendered, encoding="utf-8")

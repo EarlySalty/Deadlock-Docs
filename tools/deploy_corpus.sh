@@ -14,18 +14,21 @@ set -euo pipefail
 REF="${1:?usage: deploy_corpus.sh <git-ref>}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Deployt wird immer das Repository des Skripts (SCRIPT_DIR/..), unabhängig vom
+# Aufruf-CWD – sonst könnte ein fremdes Repo als Deadlock-Korpus erscheinen.
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 BASE="${DL_KNOWLEDGE_HOME:-$HOME/.local/share/dl-knowledge}"
 
 STAGING=""
-TMPLINK=""
+LINKDIR=""
 cleanup() {
   if [ -n "$STAGING" ]; then rm -rf "$STAGING"; fi
-  if [ -n "$TMPLINK" ]; then rm -f "$TMPLINK"; fi
+  if [ -n "$LINKDIR" ]; then rm -rf "$LINKDIR"; fi
 }
 trap cleanup EXIT
 
 # Vollen SHA auflösen (schlägt bei unbekanntem Ref fehl).
-SHA="$(git rev-parse --verify "${REF}^{commit}")"
+SHA="$(git -C "$REPO_ROOT" rev-parse --verify "${REF}^{commit}")"
 DEST="$BASE/$SHA"
 
 mkdir -p "$BASE"
@@ -35,7 +38,7 @@ if [ ! -d "$DEST" ]; then
   STAGING="$(mktemp -d "$BASE/.staging.XXXXXX")"
 
   # Nur den committeten public/-Baum exportieren; scheitert, wenn public/ fehlt.
-  git archive "$SHA" public | tar -x -C "$STAGING"
+  git -C "$REPO_ROOT" archive "$SHA" public | tar -x -C "$STAGING"
 
   # Ohne öffentliche HTML-Seite gibt es nichts zu deployen.
   html_count="$(find "$STAGING/public" -type f -name '*.html' 2>/dev/null | wc -l)"
@@ -51,12 +54,14 @@ if [ ! -d "$DEST" ]; then
   mv -T "$STAGING" "$DEST" 2>/dev/null || [ -d "$DEST" ]
 fi
 
-# current-Symlink atomar auf den SHA schalten. Eindeutiger Temp-Name pro Lauf
-# verhindert Kollisionen paralleler Deploys; mv -T ersetzt current atomar und
-# löscht dabei nie das Live-Ziel.
-TMPLINK="$(mktemp -u "$BASE/.current.XXXXXX")"
-ln -s "$SHA" "$TMPLINK"
-mv -T "$TMPLINK" "$BASE/current"
-TMPLINK=""
+# current-Symlink atomar auf den SHA schalten. Der Link entsteht in einem per
+# mktemp -d reservierten privaten Verzeichnis (mode 0700) – kein 'mktemp -u',
+# dessen unreservierter Name sonst von einem parallelen Prozess/Symlink belegt
+# werden könnte. mv -T ersetzt current atomar und löscht nie das Live-Ziel.
+LINKDIR="$(mktemp -d "$BASE/.linkdir.XXXXXX")"
+ln -s "$SHA" "$LINKDIR/current"
+mv -T "$LINKDIR/current" "$BASE/current"
+rmdir "$LINKDIR"
+LINKDIR=""
 
 echo "deploy: current -> $SHA"

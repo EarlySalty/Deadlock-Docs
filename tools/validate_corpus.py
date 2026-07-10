@@ -4,10 +4,13 @@
 Prüft jede HTML-Wissensseite unter ``public/`` und ``internal/`` gegen den
 Repository-Vertrag und meldet jeden Verstoß:
 
-* fehlende kanonische Hülle (Doctype, genau ein ``html`` mit ``lang="de"``,
-  genau ein ``head``/``body``, ``<meta charset="utf-8">``),
-* fehlende Metadaten (``title``, ``tags``, ``stand``, ``quelle``),
-* nicht genau ein ``main`` bzw. ``h1``, ``h1`` außerhalb von ``main``,
+* fehlende oder falsch verschachtelte kanonische Hülle (Doctype, genau ein
+  ``html`` mit ``lang="de"``, genau ein ``head``/``body`` direkt unter ``html``,
+  genau ein ``<meta charset="utf-8">``),
+* fehlende oder mehrfache Metadaten (genau ein ``title``, je genau ein
+  ``tags``/``stand``/``quelle`` mit echtem Inhalt),
+* nicht genau ein ``main`` bzw. ``h1``, ``h1`` nicht direkt unter ``main``,
+  direkte ``section`` in ``main`` ohne ``id`` oder ``h2``,
 * doppelte ``id``-Attribute,
 * Skripte, Inline-Event-Handler, Meta-Refresh, aktive/externe Assets,
   ``data:``-URIs, CSS-``@import``/``url()`` sowie ``srcset``/``xlink:href``,
@@ -30,13 +33,20 @@ from urllib.parse import urlparse
 
 REQUIRED_META = ("tags", "stand", "quelle")
 KNOWLEDGE_DIRS = ("public", "internal")
-HTML_SUFFIXES = (".html", ".htm")
+# Runtime liefert ausschließlich .html; .htm gilt als Vertragsverstoß.
+HTML_SUFFIXES = (".html",)
 EMBED_TAGS = {"iframe", "object", "embed"}
 # URL-tragende Attribute; srcset wird gesondert (Liste) behandelt
-URL_ATTRS = ("src", "href", "poster", "data", "xlink:href")
+URL_ATTRS = ("src", "href", "poster", "data", "xlink:href", "action", "formaction", "ping")
 NAV_TAGS = {"a", "area"}
 ACTIVE_SCHEMES = ("javascript", "vbscript")
-NAV_EXTERNAL_SCHEMES = ("http", "https", "ftp", "mailto", "tel")
+# Sichere externe Navigation exakt wie im Docstring: http(s)/mailto/tel (kein ftp).
+NAV_EXTERNAL_SCHEMES = ("http", "https", "mailto", "tel")
+# Void-Elemente werden nie auf den Verschachtelungs-Stack gelegt.
+VOID_ELEMENTS = {
+    "area", "base", "br", "col", "embed", "hr", "img",
+    "input", "link", "meta", "param", "source", "track", "wbr",
+}
 
 _CSS_URL = re.compile(r"url\(\s*(['\"]?)([^'\")]*)\1\s*\)", re.IGNORECASE)
 
@@ -47,6 +57,9 @@ class PageParser(HTMLParser):
         self.tag_counts = {}
         self.ids = []
         self.metas = {}
+        # wie oft ein <meta name="..."> vorkam (Eindeutigkeit der Pflicht-Metas)
+        self.meta_counts = {}
+        self.charset_count = 0
         self.title_parts = []
         self._in_title = False
         self._in_style = False
@@ -57,20 +70,31 @@ class PageParser(HTMLParser):
         self.has_doctype = False
         self.html_lang = ""
         self.charset = ""
-        self._main_depth = 0
-        self.h1_outside_main = False
         # (tag, attr, value) für Asset-/Link-Prüfung
         self.assets = []
         # CSS-Quellen (Style-Blöcke + Inline-style-Attribute)
         self.styles = []
+        # Verschachtelungs-Stack aus Knoten-Dicts für Eltern-/Direktkind-Verträge
+        self._stack = []
+        self.h1_parents = []
+        self.head_parents = []
+        self.body_parents = []
+        # direkte <section>-Kinder von <main> (Knoten, damit Kind-Tags erfasst sind)
+        self.main_sections = []
 
     def handle_decl(self, decl):
         if decl.strip().lower().startswith("doctype html"):
             self.has_doctype = True
 
-    def handle_starttag(self, tag, attrs):
+    def _open(self, tag, attrs, self_closing):
         d = {k: (v if v is not None else "") for k, v in attrs}
         self.tag_counts[tag] = self.tag_counts.get(tag, 0) + 1
+
+        parent = self._stack[-1] if self._stack else None
+        parent_tag = parent["tag"] if parent else None
+        node = {"tag": tag, "id": d.get("id", ""), "child_tags": set()}
+        if parent is not None:
+            parent["child_tags"].add(tag)
 
         if "id" in d and d["id"] != "":
             self.ids.append(d["id"])
@@ -82,17 +106,23 @@ class PageParser(HTMLParser):
             self._in_style = True
         if tag == "html":
             self.html_lang = d.get("lang", "")
-        if tag == "main":
-            self._main_depth += 1
-        if tag == "h1" and self._main_depth <= 0:
-            self.h1_outside_main = True
+        if tag == "h1":
+            self.h1_parents.append(parent_tag)
+        if tag == "head":
+            self.head_parents.append(parent_tag)
+        if tag == "body":
+            self.body_parents.append(parent_tag)
+        if tag == "section" and parent_tag == "main":
+            self.main_sections.append(node)
         if tag == "meta":
             if "charset" in d:
+                self.charset_count += 1
                 self.charset = d.get("charset", "")
             if d.get("http-equiv", "").strip().lower() == "refresh":
                 self.meta_refresh = True
             name = d.get("name")
             if name:
+                self.meta_counts[name] = self.meta_counts.get(name, 0) + 1
                 self.metas[name] = d.get("content", "")
         if tag in EMBED_TAGS:
             self.embeds += 1
@@ -108,16 +138,26 @@ class PageParser(HTMLParser):
             for url in _srcset_urls(d["srcset"]):
                 self.assets.append((tag, "srcset", url))
 
+        if not self_closing and tag not in VOID_ELEMENTS:
+            self._stack.append(node)
+
+    def handle_starttag(self, tag, attrs):
+        self._open(tag, attrs, False)
+
     def handle_startendtag(self, tag, attrs):
-        self.handle_starttag(tag, attrs)
+        self._open(tag, attrs, True)
 
     def handle_endtag(self, tag):
         if tag == "title":
             self._in_title = False
         if tag == "style":
             self._in_style = False
-        if tag == "main" and self._main_depth > 0:
-            self._main_depth -= 1
+        # bis zum passenden offenen Element zurückrollen (tolerant gegen
+        # implizit geschlossene Zwischen-Tags)
+        for i in range(len(self._stack) - 1, -1, -1):
+            if self._stack[i]["tag"] == tag:
+                del self._stack[i:]
+                break
 
     def handle_data(self, data):
         if self._in_title:
@@ -199,15 +239,40 @@ def validate_page(page_path, root, kdir, rel):
     body_count = parser.tag_counts.get("body", 0)
     if body_count != 1:
         errors.append(f"{rel}: genau ein <body> erwartet (gefunden {body_count})")
-    if parser.charset.strip().lower() != "utf-8":
+    # Hülle korrekt verschachtelt: head/body müssen direkt unter <html> liegen
+    if any(p != "html" for p in parser.head_parents):
+        errors.append(f"{rel}: <head> muss direktes Kind von <html> sein")
+    if any(p != "html" for p in parser.body_parents):
+        errors.append(f"{rel}: <body> muss direktes Kind von <html> sein")
+
+    if parser.charset_count == 0:
+        errors.append(f'{rel}: <meta charset="utf-8"> erwartet')
+    elif parser.charset_count > 1:
+        errors.append(f"{rel}: genau ein <meta charset> erwartet (gefunden {parser.charset_count})")
+    elif parser.charset.strip().lower() != "utf-8":
         errors.append(f'{rel}: <meta charset="utf-8"> erwartet')
 
+    title_count = parser.tag_counts.get("title", 0)
     title = "".join(parser.title_parts).strip()
-    if not title:
-        errors.append(f"{rel}: fehlender oder leerer <title>")
+    if title_count == 0:
+        errors.append(f"{rel}: fehlender <title>")
+    elif title_count > 1:
+        errors.append(f"{rel}: genau ein <title> erwartet (gefunden {title_count})")
+    elif not title:
+        errors.append(f"{rel}: leerer <title>")
+
     for name in REQUIRED_META:
-        if not parser.metas.get(name, "").strip():
+        count = parser.meta_counts.get(name, 0)
+        content = parser.metas.get(name, "").strip()
+        if count == 0 or not content:
             errors.append(f"{rel}: fehlendes Metadatum '{name}'")
+        elif count > 1:
+            errors.append(f"{rel}: Metadatum '{name}' mehrfach vorhanden ({count})")
+    # tags müssen mindestens einen echten (nichtleeren) Eintrag enthalten
+    tags_raw = parser.metas.get("tags", "")
+    if parser.meta_counts.get("tags", 0) >= 1 and tags_raw.strip():
+        if not [t for t in tags_raw.split(",") if t.strip()]:
+            errors.append(f"{rel}: Metadatum 'tags' enthält keine gültigen Einträge")
 
     main_count = parser.tag_counts.get("main", 0)
     if main_count != 1:
@@ -215,8 +280,15 @@ def validate_page(page_path, root, kdir, rel):
     h1_count = parser.tag_counts.get("h1", 0)
     if h1_count != 1:
         errors.append(f"{rel}: genau ein <h1> erwartet (gefunden {h1_count})")
-    if parser.h1_outside_main:
-        errors.append(f"{rel}: <h1> muss innerhalb von <main> liegen")
+    if any(p != "main" for p in parser.h1_parents):
+        errors.append(f"{rel}: <h1> muss direktes Kind von <main> sein")
+
+    # direkte <section>-Kinder von <main> brauchen eine id und eine <h2>-Überschrift
+    for node in parser.main_sections:
+        if not node["id"].strip():
+            errors.append(f"{rel}: <section> in <main> braucht eine id")
+        if "h2" not in node["child_tags"]:
+            errors.append(f"{rel}: <section> in <main> braucht eine direkte <h2>-Überschrift")
 
     seen = set()
     dups = []
@@ -272,6 +344,9 @@ def validate_page(page_path, root, kdir, rel):
                 errors.append(f"{rel}: aktive/data-URL in CSS nicht erlaubt: {url}")
             elif _is_external(url):
                 errors.append(f"{rel}: externes Asset in CSS nicht erlaubt: {url}")
+            else:
+                # lokale CSS-URL derselben Root-/Existenzprüfung unterwerfen
+                _check_local_target(page_path, kdir, url, rel, errors)
 
     # öffentliche Seiten dürfen internal/ nicht referenzieren
     # (entitäten-dekodiert und case-insensitiv, damit INTERNAL/ oder internal&#47; greifen)
@@ -305,6 +380,8 @@ def validate_root(root):
                 errors.append(f"{rel}: Markdown-Wissensseite (nur HTML erlaubt)")
             elif suffix in HTML_SUFFIXES:
                 errors.extend(validate_page(path, root, kdir, rel))
+            elif suffix == ".htm":
+                errors.append(f"{rel}: .htm nicht erlaubt – Wissensseiten nur als .html")
             # andere Endungen (PDF/Bilder) sind erlaubte Beweis-Assets
     return errors
 

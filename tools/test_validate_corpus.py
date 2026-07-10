@@ -287,6 +287,108 @@ class ValidateCorpusTest(unittest.TestCase):
         write(self.root, "public/a.html", broken)
         self.assertTrue(self.errors())
 
+    def test_rejects_two_titles(self):
+        broken = CANONICAL.replace(
+            "<title>Titel</title>", "<title>Titel</title><title>Zwei</title>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("title", self.joined().lower())
+
+    def test_rejects_two_charset_metas(self):
+        broken = CANONICAL.replace(
+            '<meta charset="utf-8">', '<meta charset="utf-8"><meta charset="utf-8">'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("charset", self.joined().lower())
+
+    def test_rejects_duplicate_required_meta(self):
+        broken = CANONICAL.replace(
+            '<meta name="tags" content="discord-server, test">',
+            '<meta name="tags" content="discord-server, test">'
+            '<meta name="tags" content="x">',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("tags", self.joined().lower())
+
+    def test_rejects_empty_tags(self):
+        broken = CANONICAL.replace(
+            'content="discord-server, test"', 'content=", ,"'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("tags", self.joined().lower())
+
+    def test_rejects_nested_h1(self):
+        # h1 muss direktes Kind von main sein, nicht bloß irgendwo darin
+        broken = CANONICAL.replace(
+            "<h1>Titel</h1>", "<div><h1>Titel</h1></div>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(
+            any("h1" in e.lower() and "main" in e.lower() for e in self.errors()),
+            self.joined(),
+        )
+
+    def test_rejects_section_without_heading_or_id(self):
+        broken = CANONICAL.replace(
+            '<section id="s1"><h2>Abschnitt</h2><p>Text</p></section>',
+            "<section><p>Text</p></section>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("section", self.joined().lower())
+
+    def test_rejects_misnested_shell(self):
+        # falsch verschachtelte Hülle <body><head> muss auffallen
+        broken = (
+            "<!doctype html>\n"
+            '<html lang="de"><body><head>\n'
+            '  <meta charset="utf-8">\n'
+            "  <title>Titel</title>\n"
+            '  <meta name="tags" content="discord-server, test">\n'
+            '  <meta name="stand" content="2026-07-10">\n'
+            '  <meta name="quelle" content="Test">\n'
+            "</head><main>\n"
+            "  <h1>Titel</h1>\n"
+            '  <section id="s1"><h2>Abschnitt</h2><p>Text</p></section>\n'
+            "</main></body></html>\n"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("head", self.joined().lower())
+
+    def test_rejects_form_action_javascript(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<form action="javascript:alert(1)"><button>x</button></form>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_css_missing_local_target(self):
+        broken = CANONICAL.replace(
+            "</head>", "<style>body{background:url(fehlt.png)}</style></head>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_css_local_path_escape(self):
+        broken = CANONICAL.replace(
+            "</head>",
+            "<style>body{background:url(../../../etc/passwd)}</style></head>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_htm_page(self):
+        write(self.root, "public/a.html", CANONICAL)
+        write(self.root, "public/alt.htm", CANONICAL)
+        self.assertIn("alt.htm", self.joined())
+
+    def test_rejects_ftp_anchor(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="ftp://host/datei">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
     def test_root_level_markdown_is_allowed(self):
         # README/PLAN/CHANGELOG bleiben Markdown und sind keine Wissensseiten
         write(self.root, "public/a.html", CANONICAL)
