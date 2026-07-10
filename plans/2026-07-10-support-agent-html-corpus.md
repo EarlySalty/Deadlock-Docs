@@ -4,7 +4,7 @@
 
 **Goal:** Convert every knowledge page in `public/` and `internal/` to canonical semantic HTML, correct confirmed feature drift, remove customer-reachable internals, and publish a committed corpus plus complete evaluation set.
 
-**Architecture:** Migrate disjoint directories in isolated branches/worktrees, then merge into `feature/support-agent-html`. Public and internal remain physically separated. README/PLAN/CHANGELOG and implementation plans stay Markdown and are never indexed.
+**Architecture:** Migrate disjoint file sets in isolated branches/worktrees, then merge into `feature/support-agent-html`. Public and internal remain physically separated. Public work is split into Discord-Kern, Discord-Tools, Twitch, Steam+Website, Patchnotes+Turniere and a final Cross-Product-Integration; no Content-Agent owns more than two closely related themes/products. README/PLAN/CHANGELOG and implementation plans stay Markdown and are never indexed.
 
 **Tech Stack:** Semantic HTML5, existing Python team-doc updater, Git, `html5lib` validation during migration, Rust `dl-knowledge` parser as the canonical release validator.
 
@@ -12,15 +12,42 @@
 
 - Base all child branches on the reviewed Task-1 commit at the then-current `feature/support-agent-html` head.
 - Worktrees live only under `/home/naniadm/.worktrees/Deadlock-Docs-<task>`.
-- Public text contains observable behavior and safe next steps only; no internal thresholds, intervals, weights, admin paths, private tools, model/provider details, or covert mechanics.
+- Public text contains observable behavior and safe next steps only; no internal thresholds, intervals, weights, admin paths, private tools, model or LLM-/infrastructure-provider details, or covert mechanics. Visible product names such as Discord, Steam, Twitch and Valve are not provider-detail leaks.
+- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row coverage and answerability contract. Every row is checked against HTML plus exactly one owning evaluation package.
 - Internal pages are committed but never loaded by the public process.
 - Required HTML metadata: `title`, `tags`, `stand`, `quelle`; required body: exactly one `main` and one `h1`.
 - No external scripts, fonts, CDNs, analytics, or JavaScript.
+- No public Content-Agent starts before Task 1A is green and reviewed. Its raw-file gate scans complete `public/**/*.html`, including `head`, metadata, links, comments and attributes, in raw form plus `html.unescape` + NFKC normalization; a clean `<main>` alone is insufficient.
+- The machine gate blocks only high-signal categories: Discord snowflakes, internal/host/code paths, private or loopback URLs, secret material and secret environment names, and concrete LLM-/infrastructure-provider, prompt, retrieval and Shadow control terms. Visible product names such as Discord, Steam, Twitch and Valve remain allowed. Findings expose only file, line and category, never the matched value. `meta[name="quelle"]` contains safe product/live text, never a file path or host.
+- Internal thresholds, intervals, formulas and private Admin-/Coach mechanics remain forbidden but are not broad regex blockers because visible member limits, dates, Owner/Mod/Coach contact and appeals may be legitimate. Every package and final gate therefore requires a human semantic redaction review; any reconstructable internal fact blocks merge.
 - Binary evidence assets may remain binary and are linked from HTML; they are not indexed.
 - Delete an internal Markdown page only after normalized visible-text parity. Delete a public Markdown page only after code-backed factual coverage and redaction review; public corrections intentionally need not preserve stale or unsafe text.
 - Treat the three pre-existing user edits in `/home/naniadm/Documents/Deadlock-Docs` (`coaching.md`, `twitchbot-ueberblick.md`, and untracked `chat-befehle.md`) as source material: verify and incorporate their intended facts, but never modify, stage, reset, or delete that dirty checkout.
+- Do not mechanically convert public control material: `public/discord-server/support/agent-guide.md` and `public/discord-server/sicherheit/redaktions-hinweise.md` are removed from the public corpus after any still-valid internal guidance is moved to `internal/`; `public/discord-server/referenz/status-und-fehler.md` is fully re-authored as curated member-visible symptoms and safe next steps. None of their raw text may enter a public `<main>`.
+- Public aggregate activity and a member's own logged-in activity/statistics/privacy controls are positive support knowledge. Other people's private details plus private/moderative data remain negative.
+- Dynamic questions about service status, prices, dates, the newest patch, the currently best hero/build, tickets and legitimate support questions containing injection are answerable routing/boundary cases. They name a visible current-information or human-support path without inventing live data. Pure injection, requests for private internals/data and requested actions may be non-answerable.
+- LFG pages describe only currently visible options. They never expose internal time windows, cooldowns or matching intervals.
+- DM-Concierge, structured LFG, automatic moderation and Go-Live are documented conditionally when visible/active, always with a stable alternative member path.
+- No live-status feature, auto-debug, command execution or ticket live reply is added by this plan.
 - Each agent receives at most two tasks and only its directory context.
 - Every verified commit is pushed immediately.
+
+---
+
+## Execution DAG and release definition
+
+```text
+Task 1 (tooling baseline) -> Task 1A (raw-HTML redaction gate)
+Task 1 -------------------> Task 2 (internal migration; separate)
+Task 1A ------------------> Tasks 3A,3B,4-6 (five isolated public packages, parallel)
+Tasks 3A,3B,4-6 ----------> progressive reviewed merges -> Task 7 (cross-product integration and broad routing)
+Tasks 1A,2,3A,3B,4-7 + Runtime Task 4 -> Task 8 (corpus-wide gates and ancestry verification)
+Task 8 -------------------> Task 9 (merge/deploy/reload, coordinated with Runtime Task 5)
+```
+
+Every content package is done only when its matrix rows are checked, its own six-field Eval JSON is schema-valid, HTML/link validation and the normalized full-file raw gate pass, code/live-dependent claims have evidence, the semantic reviewer has ruled out reconstructable thresholds/intervals/formulas/private Admin-/Coach mechanics, and a fresh Codex factual/redaction critic has no Critical or Important finding. Task 8 is done only when all 84 rows and at least 168 cases are present, all six Eval files pass the Rust harness, and both independent final critics approve.
+
+Reviewed child branches are merged progressively into `feature/support-agent-html` immediately after their package review. Task 7 starts only from that integrated branch. The existing `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` worktree remains checked out on this branch, so Runtime Task 4 reads the complete post-Task-7 corpus. Task 8 verifies those merges by ancestry; it does not perform their first integration.
 
 ---
 
@@ -96,17 +123,39 @@ Run all three unittest modules. The full repository cannot satisfy the HTML-only
 
 Commit: `feat(docs): HTML-Korpusvertrag und committed Deploy einführen`.
 
+### Task 1A: Blockierendes Roh-HTML-Redaction-Gate
+
+**Dependency:** Start after Task 1. Merge and review this task before Tasks 3A, 3B and 4–6 begin. Task 2 may proceed separately because `internal/` is never public-indexed.
+
+**Files:**
+- Modify: `tools/validate_corpus.py`
+- Modify: `tools/test_validate_corpus.py`
+
+**Interfaces:**
+- `tools/validate_corpus.py <root>` reads every complete raw file below `public/`, not only parsed visible text, and checks both original UTF-8 text and `unicodedata.normalize("NFKC", html.unescape(source))`.
+- The gate checks `head`, metadata values, URLs, comments and every attribute as well as `main`, and reports only relative file, line and stable finding class without echoing sensitive source text.
+
+- [ ] **Step 1: Add failing safe-`<main>` fixtures with high-signal values in `head`, meta, comments, `href` and `data-*`: Snowflake (plain and entity-encoded), internal/repository/absolute path, loopback/private/einteiliger Service-Host, synthetic secret/token/credential Env name, concrete LLM-/infrastructure-provider, system-prompt/injection, retrieval term and Ticket-Shadow**
+- [ ] **Step 2: Add passing fixtures for `quelle="Produktdokumentation und geprüftes Live-Verhalten"`, public FQDN/Invite/mail/relative links, safe OAuth/password help, provider-free „KI-gestützte Antwort“, visible product names Discord/Steam/Twitch/Valve, visible `6 gegen 6`, public duration and Owner/Moderation/Coach appeal/contact**
+- [ ] **Step 3: Run `python3 -m unittest tools/test_validate_corpus.py` and observe the new cases fail**
+- [ ] **Step 4: Implement only the high-signal patterns and normalized view in the existing standard-library validator; do not add broad number/Admin/Coach regexes, a second validator or dependency**
+- [ ] **Step 5: Run all three tooling test modules and `git diff --check`**
+- [ ] **Step 6: Commit, push and obtain a fresh Opus correctness/security review covering false positives, normalization bypasses and non-disclosing findings; fix every Critical/Important finding before public branches are cut**
+
+Commit: `fix(docs): öffentliche HTML-Rohdaten vor Interna schützen`.
+
 ### Task 2: Convert internal knowledge pages mechanically and preserve evidence
 
 **Files:**
 - Replace every tracked `internal/**/*.md` knowledge page with the same relative `.html` path.
 - Preserve: `internal/deadlock-bots/fireworks-dpa-v3.2.pdf`.
+- Read as migration input only: `public/discord-server/support/agent-guide.md`, `public/discord-server/sicherheit/redaktions-hinweise.md`; write any still-current internal-only guidance into the appropriate `internal/deadlock-bots/*.html` page, never back into `public/`.
 - Do not convert root plans, README, PLAN, or CHANGELOG.
 
 **Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-internal-html`.
 
 - [ ] **Step 1: Produce a manifest with `rg --files internal -g '*.md' | sort`**
-- [ ] **Step 2: Convert each page to required semantic HTML without changing technical meaning**
+- [ ] **Step 2: Convert each page to required semantic HTML without changing technical meaning; verify and absorb only still-current internal guidance from the two named public control files**
 - [ ] **Step 3: Rewrite relative `.md` links to `.html`; retain code blocks as escaped `<pre><code>`**
 - [ ] **Step 4: Validate every file with strict HTML5 parsing and required metadata checks**
 - [ ] **Step 5: Compare old/new normalized visible text and resolve omissions**
@@ -115,81 +164,219 @@ Commit: `feat(docs): HTML-Korpusvertrag und committed Deploy einführen`.
 
 Commit: `docs(internal): Wissensseiten vollständig nach HTML migrieren`.
 
-### Task 3: Convert and correct public Discord knowledge
+## Shared public evaluation interface
+
+Each Task 3A–7 Eval file is one JSON array. The exact package names are `public-discord-core.json`, `public-discord-tools.json`, `public-twitch.json`, `public-steam-website.json`, `public-patchnotes-turniere.json` and `public-integration.json`. Every object has exactly `question` (string), `answerable` (boolean), `expected_sources` (array of relative `.html` paths), `context_terms` (case-insensitive substrings checked against combined top-six context), `answer_terms` (case-insensitive substrings checked only against the live generated answer), and `forbidden_terms` (checked against context and answer). Answerable cases require nonempty sources, context terms and answer terms. Non-answerable cases use empty arrays for all three positive fields. The answerability assignments in the coverage matrix are binding.
+
+### Task 3A: Discord server core, accounts and support
+
+**Dependency:** Task 1A is merged and reviewed.
+
+**Files (exclusive ownership):**
+- Convert exactly these Markdown sources to same-path `.html`:
+
+```text
+public/discord-server/deadlock-grundlagen.md
+public/discord-server/dm-concierge.md
+public/discord-server/faq-bot-selbst.md
+public/discord-server/haeufige-probleme.md
+public/discord-server/module/changelog-ankuendigungen.md
+public/discord-server/module/dashboard-login.md
+public/discord-server/module/faq-support.md
+public/discord-server/module/moderation.md
+public/discord-server/module/onboarding.md
+public/discord-server/module/serverstruktur.md
+public/discord-server/module/statistiken-privatsphaere.md
+public/discord-server/module/steam-twitch-verknuepfung.md
+public/discord-server/negativ-wissen.md
+public/discord-server/onboarding-und-invites.md
+public/discord-server/referenz/glossar.md
+public/discord-server/regeln.md
+public/discord-server/rules-und-channels.md
+public/discord-server/stats-und-privacy.md
+public/discord-server/steam-integration.md
+public/discord-server/support/troubleshooting.md
+public/discord-server/team-und-ansprechpartner.md
+public/discord-server/ueber-bot-und-server.md
+public/discord-server/workflows/austritt-datenloeschung.md
+public/discord-server/workflows/moderationsfall-einspruch.md
+public/discord-server/workflows/onboarding-beitritt.md
+public/discord-server/workflows/rang-sichtbarkeit.md
+public/discord-server/workflows/steam-verknuepfen-rang.md
+public/discord-server/workflows/streamer-partner-werden.md
+```
+
+- Completely rewrite `public/discord-server/referenz/status-und-fehler.md` to same-path `.html` as curated member help.
+- Delete without HTML mirror: `public/discord-server/support/agent-guide.md`, `public/discord-server/sicherheit/redaktions-hinweise.md`.
+- Create: `evals/public-discord-core.json`.
+- Never edit Task 3B files or `public/discord-server/bots-und-dienste.html`.
+
+**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-discord-core`; exactly two themes: server core/support and member account/privacy/integrations.
+
+**Coverage:** C02–C08, C18–C20 and C22–C25.
+
+- [ ] **Step 1: Verify the exclusive file manifest; classify the two control pages for deletion and the status dump for complete member rewrite, with no raw control/status text entering public HTML**
+- [ ] **Step 2: Author current server/rules/team, Concierge/FAQ/onboarding/Invite, Steam/Twitch linkage, aggregate-versus-own activity/privacy and safe support flows from code/live evidence**
+- [ ] **Step 3: Keep aggregate and own logged-in routes positive; make DM, moderation and other configured surfaces conditional with stable alternatives**
+- [ ] **Step 4: Add a natural question and paraphrase for every owned matrix row to `evals/public-discord-core.json`; ticket C25 is answerable member-routing knowledge**
+- [ ] **Step 5: Run schema/HTML/link validation, normalized raw gate and semantic redaction review, then commit and push**
+- [ ] **Step 6: Obtain a fresh Codex factual/redaction review with zero Critical/Important findings**
+
+Commit: `docs(public): Discord-Kernwissen migrieren`.
+
+### Task 3B: Discord group tools and gameplay help
+
+**Dependency:** Task 1A is merged and reviewed. Runs in parallel with Task 3A and owns no common file.
+
+**Files (exclusive ownership):**
+- Convert exactly these Markdown sources to same-path `.html`:
+
+```text
+public/discord-server/coaching.md
+public/discord-server/community-tools.md
+public/discord-server/module/brain.md
+public/discord-server/module/coaching.md
+public/discord-server/module/mitspielersuche-lfg.md
+public/discord-server/module/tierlist-builds.md
+public/discord-server/module/voice-lanes.md
+public/discord-server/scrims.md
+public/discord-server/tempvoice-guide.md
+public/discord-server/tierlist-und-builds.md
+public/discord-server/voice-features.md
+public/discord-server/workflows/builds-abstimmen.md
+public/discord-server/workflows/coaching-anfragen.md
+public/discord-server/workflows/mitspieler-finden.md
+public/discord-server/workflows/voice-lane-erstellen-verwalten.md
+```
+
+- Create: `public/discord-server/custom-games.html`.
+- Create: `evals/public-discord-tools.json`.
+- Never edit Task 3A files or `public/discord-server/bots-und-dienste.html`.
+
+**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-discord-tools`; exactly two themes: group/match organization and gameplay/build help.
+
+**Coverage:** C09–C17 and C21.
+
+- [ ] **Step 1: Verify the exclusive file manifest and current Voice/Ranked, LFG, Brain, Coaching, Scrim, Custom Games and Tierlist/Build behavior against code/live evidence**
+- [ ] **Step 2: Author visible Owner/Lane and group flows without live lane-status claims or internal selection/matching mechanics**
+- [ ] **Step 3: Describe only visible LFG options, never internal time windows/cooldowns; structured LFG remains conditional with the classic member fallback**
+- [ ] **Step 4: Add a natural question and paraphrase for every owned matrix row to `evals/public-discord-tools.json`**
+- [ ] **Step 5: Run schema/HTML/link validation, normalized raw gate and semantic redaction review, then commit and push**
+- [ ] **Step 6: Obtain a fresh Codex factual/redaction review with zero Critical/Important findings**
+
+Commit: `docs(public): Discord-Gruppenwerkzeuge migrieren`.
+
+### Task 4: Convert and correct Twitch knowledge
+
+**Dependency:** Task 1A is merged and reviewed.
 
 **Files:**
-- Replace every `public/discord-server/**/*.md` page with matching `.html`.
-- Create: `public/discord-server/bots-und-dienste.html`
-- Create: `public/discord-server/custom-games.html`
-- Create: `evals/public-discord.json`
+- Replace all knowledge pages under `public/twitch-bot/` with canonical `.html` counterparts.
+- Create: `public/twitch-bot/chat-befehle.html` from the committed `chat-befehle.md` source imported before package work begins.
+- Create: `evals/public-twitch.json`
 
-**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-discord`.
+**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-twitch`; one product only.
 
-**Evaluation schema:** `evals/public-discord.json` is a JSON array. Every object has exactly `question` (string), `answerable` (boolean), `expected_sources` (array of relative `.html` paths), `context_terms` (case-insensitive substrings checked against combined top-six context), `answer_terms` (case-insensitive substrings checked only against the live generated answer), and `forbidden_terms` (checked against both context and answer). Answerable cases require nonempty sources, context terms, and answer terms; non-answerable cases use empty arrays for all three positive fields.
+**Coverage:** T02–T15. T01 broad routing belongs to Task 7.
 
-- [ ] **Step 1: Convert all pages to canonical HTML**
-- [ ] **Step 2: Correct only code-confirmed drift**
+- [ ] **Step 1: Verify each existing page against current Twitch-Bot code and the visible product; remove an unsupported page instead of preserving stale claims**
+- [ ] **Step 2: Author current OAuth/revocation, complete viewer and role-gated command catalog, category/Steam prerequisites, dashboard/analytics/overlay, raids, moderation/appeal, engagement controls, plans, affiliate and support/legal boundaries**
+- [ ] **Step 3: Treat Go-Live, moderation and other configured surfaces conditionally and name a stable visible fallback; publish no fixed price, quota, retention, frequency or reach**
+- [ ] **Step 4: Add a natural question and paraphrase for T02–T15 to `evals/public-twitch.json`; dynamic current-price questions route to the visible billing surface and remain answerable**
+- [ ] **Step 5: Run schema/HTML/link validation plus the full raw-file gate, commit and push**
+- [ ] **Step 6: Obtain a fresh Codex factual/redaction review against current code with zero Critical/Important findings**
 
-Required corrections include current Voice/Ranked behavior, visible lane status, Invite path, non-proactive Concierge behavior, Coaching/Scrim entry paths, LFG presets/time windows, Custom Games, and public rank-visibility guidance. When Changelog and code disagree, current code wins.
+Commit: `docs(public): Twitch-Supportwissen verifizieren und migrieren`.
 
-- [ ] **Step 3: Remove customer-reachable internals**
+### Task 5: Convert Steam and Website knowledge
 
-Apply the disclosure line: existence, observable effect, safe next step. Delete exact operational timings, thresholds, weights, ordering, private coach/admin surfaces, and technical implementation sections from public text.
-
-- [ ] **Step 4: Add positive and negative evaluation cases to `evals/public-discord.json`**
-
-Add at least one natural question plus one paraphrase per Discord feature/workflow; add explicit negative cases for member activity, moderator-only content, internal rules, and prompt injection.
-
-- [ ] **Step 5: Run HTML/link checks, content review, commit, push**
-- [ ] **Step 6: Fresh Codex critic verifies every changed factual claim against current code and performs a public redaction scan**
-
-Commit: `docs(public): Discord-Supportwissen korrigieren und nach HTML migrieren`.
-
-### Task 4: Convert and correct public product knowledge
+**Dependency:** Task 1A is merged and reviewed.
 
 **Files:**
-- Replace all pages under `public/twitch-bot/`, `public/patchnotes-bot/`, `public/turniere/`, and `public/website/` with matching `.html`.
-- Create: `public/index.html`
 - Create: `public/steam-bot/steam-bot.html`
-- Create: `evals/public-products.json`
+- Replace all knowledge pages under `public/website/` with canonical `.html` counterparts.
+- Create: `evals/public-steam-website.json`
+- Do not create or edit: `public/index.html` (owned by Task 7).
 
-**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-products`.
+**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-steam-website`; two tightly related product surfaces.
 
-**Evaluation schema:** `evals/public-products.json` uses exactly the same six-field JSON-array contract as Task 3.
+**Coverage:** S02–S07 and W02–W07. S01/W01 broad routing belongs to Task 7.
 
-- [ ] **Step 1: Convert all product pages to canonical HTML**
-- [ ] **Step 2: Apply confirmed coverage fixes**
+- [ ] **Step 1: Verify Steam account/panel, primary/unlink/whoami, rank, Invite, build-catalog and privacy boundaries against current code**
+- [ ] **Step 2: Verify Website coaching, Scrim member path, builds/catalog boundary, patch archive, aggregate-versus-own activity/privacy and tournament-portal paths**
+- [ ] **Step 3: Author only observable member behavior; do not expose private Coach/Admin areas, fixed marketing counts or non-visible sort effects**
+- [ ] **Step 4: Add natural questions and paraphrases for S02–S07 and W02–W07 to `evals/public-steam-website.json`**
+- [ ] **Step 5: Run schema/HTML/link validation plus the full raw-file gate, commit and push**
+- [ ] **Step 6: Obtain a fresh Codex factual/redaction review against both current products with zero Critical/Important findings**
 
-Cover current public Twitch commands, Steam build-catalog behavior only after live/code verification, tournament result/no-show reporting, Patchnotes behavior without operational internals, and Website privacy/coaching/Scrim entry points.
+Commit: `docs(public): Steam- und Website-Supportwissen migrieren`.
 
-- [ ] **Step 3: Remove unsupported marketing counts and stale operational details unless verified as public product commitments**
-- [ ] **Step 4: Add product questions/paraphrases and boundary cases to `evals/public-products.json`**
-- [ ] **Step 5: Validate, commit, push**
-- [ ] **Step 6: Fresh Codex critic verifies current code, public safety, and cross-page consistency**
+### Task 6: Convert Patchnotes and tournament knowledge
 
-Commit: `docs(public): Bot- und Portalwissen vervollständigen und nach HTML migrieren`.
+**Dependency:** Task 1A is merged and reviewed.
 
-### Task 5: Merge partitions and run corpus-wide gates
+**Files:**
+- Replace all knowledge pages under `public/patchnotes-bot/` and `public/turniere/` with canonical `.html` counterparts.
+- Create: `evals/public-patchnotes-turniere.json`
+
+**Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-patchnotes-turniere`; two related announcement/event products.
+
+**Coverage:** P02–P06 and R02–R10. P01/R01 broad routing belongs to Task 7.
+
+- [ ] **Step 1: Verify Patchnotes sources/output/archive/delay behavior and remove public retranslation/operator commands**
+- [ ] **Step 2: Verify tournament consent, team/recruitment, check-in, format/bracket/draft, own result, no-show human confirmation, profile visibility and DM/privacy paths before authoring them**
+- [ ] **Step 3: Keep current patch and next tournament answerable by routing to the visible current portal/announcement source; never freeze a date or patch as current**
+- [ ] **Step 4: Add natural questions and paraphrases for P02–P06 and R02–R10 to `evals/public-patchnotes-turniere.json`**
+- [ ] **Step 5: Run schema/HTML/link validation plus the full raw-file gate, commit and push**
+- [ ] **Step 6: Obtain a fresh Codex factual/redaction review against both current products with zero Critical/Important findings**
+
+Commit: `docs(public): Patchnotes- und Turnierwissen migrieren`.
+
+### Task 7: Cross-product integration, indexes and broad routing
+
+**Dependencies:** Start only after reviewed Tasks 3A, 3B and 4–6 are merged into `feature/support-agent-html`. This task does not repair Fachseiten opportunistically; a missing fact goes back to its owning package.
+
+**Files:**
+- Create: `public/index.html`
+- Create: `public/discord-server/bots-und-dienste.html`
+- Create: `evals/public-integration.json`
+
+**Agent:** Fresh Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-integration`; only aggregation/routing, no product deep-dive.
+
+**Coverage:** C01, S01, T01, P01, R01, W01 and B01–B14.
+
+- [ ] **Step 1: Build the two concise indexes from reviewed Fachseiten so broad Server/Bot questions route to all six product groups without copying product internals**
+- [ ] **Step 2: Add natural questions and paraphrases for all six broad routing rows and all B rows to `evals/public-integration.json`**
+- [ ] **Step 3: Serialize B01/B02/B03/B05/B06/B14 as non-answerable; serialize current status, price, date, patch, best hero/build, ticket, changing names and legitimate question+injection as answerable source-backed boundaries**
+- [ ] **Step 4: Ensure ticket text promises only visible human support and never names Shadow/Log processing; injection cannot alter source choice or trigger an action**
+- [ ] **Step 5: Run all six Eval schema checks, cross-file duplicate-question check, HTML/link validation and the normalized full-file raw gate, then commit and push**
+- [ ] **Step 6: Obtain a fresh Codex cross-product coverage/redaction review with zero Critical/Important findings**
+
+Commit: `docs(public): Supportwissen produktübergreifend routen`.
+
+### Task 8: Verify integrated partitions and run corpus-wide gates
+
+**Dependencies:** Tasks 1A, 2, 3A, 3B and 4–7 are reviewed; Runtime Task 4 can now consume all six Eval files.
 
 **Worktree:** `/home/naniadm/.worktrees/Deadlock-Docs-support-agent`.
 
-- [ ] **Step 1: Merge each reviewed child branch with `--no-ff` and verify ancestry before cleanup**
-- [ ] **Step 2: Assert no `.md` remains below `public/` or `internal/` except explicitly approved non-corpus plans outside those roots**
-- [ ] **Step 3: Validate all HTML, required metadata, unique IDs, relative links, and public/internal separation**
-- [ ] **Step 4: Run `python3 -m unittest tools/test_update_team_doc.py`**
-- [ ] **Step 5: Run the Rust real-corpus Golden test from the runtime worktree**
-- [ ] **Step 6: Run deterministic redaction scans; fix all findings**
-- [ ] **Step 7: Fresh Codex adversarial reviewer reads only `public/` and does only one task: attempt to reconstruct internals; any non-empty recovery blocks release**
-- [ ] **Step 8: A different fresh Codex reviewer checks evaluation answers and missing feature coverage as its only task**
-- [ ] **Step 9: Add one user-facing CHANGELOG entry describing corrected support knowledge and reliable Concierge coverage**
-- [ ] **Step 10: Commit and push the integrated feature branch**
+- [ ] **Step 1: Verify by `git merge-base --is-ancestor` that every reviewed child commit was already merged with `--no-ff`; do not perform the first package merges here, and verify ancestry again before any branch/worktree cleanup**
+- [ ] **Step 2: Assert no `.md` remains below `public/` or `internal/`; confirm the prohibited public control pages have no HTML mirror and the status dump was curated rather than copied**
+- [ ] **Step 3: Run all tooling unittests and validate structure, links, unique IDs, public/internal separation and the complete raw bytes of every public HTML file**
+- [ ] **Step 4: Check all 84 matrix rows and at least 168 unique questions across the six exact six-field Eval files**
+- [ ] **Step 5: Run Runtime Task 4's real-corpus retrieval Golden test; fix source content in the owning package, never by weakening assertions**
+- [ ] **Step 6: Have a fresh Codex adversarial reviewer read only raw `public/` and attempt to recover IDs, hosts/paths, prompts/models, operator mechanics, thresholds/intervals/formulas or private data; any recovery blocks release**
+- [ ] **Step 7: Have a different fresh Codex reviewer audit matrix-to-HTML-to-Eval coverage, dynamic/ticket/injection answerability and all six broad product routes**
+- [ ] **Step 8: Add one user-facing CHANGELOG entry, run `git diff --check`, commit and push the integrated feature branch**
 
-### Task 6: Merge, deploy committed corpus, reload, and prove live behavior
+### Task 9: Merge, deploy committed corpus, reload, and prove live behavior
+
+**Dependency:** Task 8 and Runtime Task 4 are green and reviewed. Coordinate with Runtime Task 5; this task adds no live-status or auto-debug feature.
 
 - [ ] **Step 1: Merge `feature/support-agent-html` into Deadlock-Docs `main`, push**
 - [ ] **Step 2: Run `tools/deploy_corpus.sh origin/main`; record deployed commit SHA and artifact path without printing secrets**
 - [ ] **Step 3: Complete Runtime Task 5 and restart affected services**
 - [ ] **Step 4: Verify `/healthz` reports nonzero chunks and HTML sources plus exactly zero non-HTML and internal-path sources**
-- [ ] **Step 5: Run all live Golden API cases; no incorrect answer or safety leak is permitted**
-- [ ] **Step 6: Run real Discord smokes on the three approved surfaces and ticket shadow**
+- [ ] **Step 5: Run every live Golden API case from all six files; no incorrect answer or safety leak is permitted**
+- [ ] **Step 6: Run real Discord smokes on DM, private FAQ chat and server questions; verify ticket output remains Shadow-only without exposing that mechanism to members**
 - [ ] **Step 7: Publish the verified user-facing changelog and clean merged branches/worktrees**

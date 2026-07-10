@@ -15,10 +15,29 @@
 - TDD: failing test, observed red, minimal implementation, green, refactor.
 - The production process receives exactly `$HOME/.local/share/dl-knowledge/current/public`; the deployed snapshot contains no `internal/` tree and no prompt-based filtering substitutes for that boundary.
 - No embeddings, vector DB, live-status tooling, auto-debug, ticket live replies, or new user actions.
+- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row content/evaluation contract; Runtime Golden tests consume its six package Eval files without changing the six-field schema.
+- Public Content Tasks do not start until the Docs raw-HTML gate scans complete files, including `head`, metadata, links, comments and attributes, in raw form plus `html.unescape` + NFKC normalization. Runtime retrieval checks do not replace this gate.
+- The machine gate blocks high-signal Snowflakes, internal/host/code paths, private/loopback URLs, secret material/Env names and concrete LLM-/infrastructure-provider, prompt, retrieval and Shadow terms; visible product names such as Discord, Steam, Twitch and Valve remain allowed. Findings never echo matched values. Semantic thresholds/intervals/formulas and private Admin-/Coach mechanics are separate human merge blockers, not broad regex blockers.
+- Public aggregate activity and the member's own authenticated activity/statistics/privacy routes are answerable; another person's private details and private/moderative data are not.
+- Dynamic status, price, date, newest-patch and best-hero/build questions, ticket questions and legitimate support questions containing injection remain answerable routing/boundary cases. They use public sources and never claim live knowledge. Pure injection, requests for private data/internals and requested actions may be non-answerable.
+- Config-dependent DM-Concierge, structured LFG, moderation and Go-Live guidance is conditional and retains a stable public fallback. No LFG internal time windows are exposed.
 - Every decision logs truncated input, verdict, confidence label, retrieval score, reason, sources, and error class.
 - No plaintext secrets, internal endpoints, or model prompts in public responses.
 - Each verified commit is pushed immediately and reviewed by a fresh Opus 4.8 critic.
 - Commit trailer: `Co-authored-by: GPT-5.5 <gpt-5.5@local>` for GPT workers, or the actual model identity used.
+
+---
+
+## Execution DAG and definition of done
+
+```text
+Runtime Task 1 -> Runtime Task 2 -> Runtime Task 3
+Docs Task 1A -> Docs Tasks 3A,3B,4-6 -> Docs Task 7
+Runtime Tasks 1-3 + Docs Tasks 3A,3B,4-7 -> Runtime Task 4
+Docs Task 8 + Runtime Task 4 -> Docs Task 9 / Runtime Task 5 coordinated cutover
+```
+
+Task 4 is done only when it discovers and validates every `*.json` directly below `DL_GOLDEN_DIR`, all 84 matrix rows produce at least 168 unique questions across the six package files, and the retrieval gate passes without weakening source/content assertions. Task 5 is done only after the committed corpus, all Golden cases and all approved Discord surfaces pass live while ticket delivery remains Shadow-only.
 
 ---
 
@@ -202,20 +221,24 @@ Run focused tests, then `cargo test -p dl-community` and clippy. Commit: `fix(co
 
 **Files:**
 - Modify: `rust/bin/dl-knowledge/src/main.rs`
-- Consume at test time: every `*.json` below the directory passed through `DL_GOLDEN_DIR`
+- Consume at test time: every `*.json` directly below the directory passed through `DL_GOLDEN_DIR`
 
 **Interfaces:**
 - Produces test-only `#[serde(deny_unknown_fields)] GoldenCase { question: String, answerable: bool, expected_sources: Vec<String>, context_terms: Vec<String>, answer_terms: Vec<String>, forbidden_terms: Vec<String> }`.
 - Reads paths from `DL_DOCS_PATH` and `DL_GOLDEN_DIR`; never hardcodes a developer checkout.
 - Produces ignored `golden_live_api`, enabled with `DL_GOLDEN_API_URL`, which sends the same cases to the running `/public/v1/ask` endpoint and validates answerability, returned sources, every case-insensitive `answer_terms` substring, and forbidden answer terms.
 
-**Dependency:** Start this task only after Corpus Tasks 3 and 4 are merged into `feature/support-agent-html`, so both evaluation files and their HTML sources exist.
+**Dependency:** Start this task only after Corpus Tasks 3A, 3B and 4–7 are reviewed and progressively merged into `feature/support-agent-html`, so all six evaluation files and their HTML sources exist. `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` is the already-existing checkout of exactly that integrated branch and is updated through Task 7 before this test starts. It must not assume old monolithic `public-products.json` or `public-discord.json` input.
 
-- [ ] **Step 1: Add a failing ignored real-corpus test**
+- [ ] **Step 1: Add a failing ignored real-corpus test for every package file**
 
-Each evaluation file is a JSON array of objects with exactly the six fields above. `expected_sources` contains relative `.html` paths. The retrieval test must load the HTML corpus and every JSON case, run BM25, and assert that every positive case retrieves at least one expected source within the top six. The combined top-six context must contain every case-insensitive `context_terms` substring and no `forbidden_terms` entry. The live test checks `answer_terms` only against the generated answer. Negative cases must never expose an internal path or any forbidden term. Reject unknown or missing fields, an empty case directory, duplicate question text, answerable cases without expected sources, context terms, or answer terms, and non-answerable cases with expected sources, context terms, or answer terms.
+Each evaluation file is a JSON array of objects with exactly the six fields above. Discover every `*.json` directly below `DL_GOLDEN_DIR`; require `public-discord-core.json`, `public-discord-tools.json`, `public-twitch.json`, `public-steam-website.json`, `public-patchnotes-turniere.json` and `public-integration.json`, and reject duplicate question text across files. `expected_sources` contains relative `.html` paths. The retrieval test loads the HTML corpus and every JSON case, runs BM25, and asserts that every positive case retrieves at least one expected source within the top six. The combined top-six context contains every case-insensitive `context_terms` substring and no `forbidden_terms` entry. The live test checks `answer_terms` only against the generated answer. Negative cases never expose an internal path or forbidden term. Reject unknown or missing fields, missing/empty package files, answerable cases without expected sources/context terms/answer terms, and non-answerable cases with any positive field.
+
+Add explicit contract fixtures: B01/B02/B03/B05/B06/B14-shaped pure private/internals/action/injection cases are allowed to be non-answerable; service status, current price/date/patch/best hero, ticket and legitimate question+injection cases must be answerable with a public routing source. This validates routing behavior only and must not add a live-status lookup, debug action or ticket reply.
 
 - [ ] **Step 2: Run red against the migrated corpus path**
+
+Before running, verify that `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` is on `feature/support-agent-html`, contains the reviewed Task-7 commit and has all six required Eval files. The environment variables below select this prepared checkout; the runtime task does not create or populate it.
 
 Run:
 
@@ -242,7 +265,7 @@ The retrieval Golden test must pass against the feature corpus before this commi
 - Modify: `scripts/run_dl_knowledge_service.sh` (point default exactly to `$HOME/.local/share/dl-knowledge/current/public`)
 - Modify: `CHANGELOG.md`
 
-**Dependencies:** Corpus plan is merged to Deadlock-Docs `main`; committed artifact deployment succeeded.
+**Dependencies:** Corpus Tasks 1A–8 and Runtime Task 4 are green/reviewed, the Corpus plan is merged to Deadlock-Docs `main`, and committed artifact deployment succeeded.
 
 - [ ] **Step 1: Change the parser test to reject `.md` corpus files**
 - [ ] **Step 2: Remove Markdown collection/frontmatter code and make `.html` mandatory**
