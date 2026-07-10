@@ -444,13 +444,16 @@ class ValidateCorpusTest(unittest.TestCase):
         self.assertTrue(self.errors())
 
     def test_rejects_ftp_anchor_even_with_local_decoy(self):
-        # Decoy an genau der Stelle, auf die der frühere lokale Fallback zeigte
+        # Decoy an genau der Stelle, auf die der frühere lokale Fallback zeigte;
+        # der Scheme-Wert darf nicht mehr in die Meldung geleakt werden.
         write(self.root, "public/ftp:/host/datei", "decoy")
         broken = CANONICAL.replace(
             "<p>Text</p>", '<p><a href="ftp://host/datei">x</a></p>'
         )
         write(self.root, "public/a.html", broken)
-        self.assertIn("ftp", self.joined().lower())
+        joined = self.joined()
+        self.assertIn("navigation", joined.lower())
+        self.assertNotIn("ftp", joined.lower())
 
     def test_rejects_file_scheme_asset_even_with_local_decoy(self):
         write(self.root, "public/file:/decoy/x.png", "decoy")
@@ -568,6 +571,101 @@ class ValidateCorpusTest(unittest.TestCase):
         )
         write(self.root, "public/a.html", page)
         write(self.root, "public/b.html", CANONICAL)
+        self.assertEqual(self.errors(), [])
+
+    # --- Task 1: CSS-Backslash-Escapes, ping-Telemetrie, urlparse-Fehler ---
+
+    def test_rejects_css_function_escape(self):
+        # CSS-Escape u\72l(...) ist für den Browser url(...); die Regex sieht kein
+        # literales "url(" und würde das externe Ziel durchlassen. Jeder Backslash
+        # in Style-Blöcken/-Attributen wird als kanonischer Vertrag abgelehnt.
+        broken = CANONICAL.replace(
+            "</head>",
+            "<style>body{background:u\\72l(https://evil.example/bg.png)}</style></head>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("backslash", self.joined().lower())
+
+    def test_rejects_css_escaped_colon_url_with_decoy(self):
+        # url(http\00003a//...) versteckt den Doppelpunkt als CSS-Escape; nach der
+        # Backslash->Slash-Normalisierung sieht der Klassifikator ein lokales Ziel.
+        # Decoy am buggy aufgelösten Pfad darf den Fund nicht verdecken.
+        write(self.root, "public/http/00003a/evil.example/bg.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p style="background:url(http\\00003a//evil.example/bg.png)">x</p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("backslash", self.joined().lower())
+
+    def test_rejects_nonempty_ping_multiple_targets(self):
+        # ping ist eine Whitespace-Liste von Beacon-Zielen; der Browser pingt jedes
+        # einzeln. Der Einzel-String-Klassifikator hält "track https://evil" für
+        # lokal (Decoy existiert) und übersieht den Tracker. Aktive Telemetrie ist
+        # unnötig: jedes nichtleere ping-Attribut wird rundheraus abgelehnt.
+        write(self.root, "public/track https:/evil.example/beacon", "decoy")
+        write(self.root, "public/b.html", CANONICAL)
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><a href="b.html" ping="track https://evil.example/beacon">x</a></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("ping", self.joined().lower())
+
+    def test_rejects_nfkc_invalid_netloc_url(self):
+        # urlparse wirft bei NFKC-invalider netloc (U+2100 -> "a/c") ValueError.
+        # Die Validierung muss eine stabile Kategorie-Meldung liefern, nie werfen
+        # und weder den Wert noch die netloc spiegeln.
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><img src="http://exa℀mple.com/x.png"></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        joined = self.joined()  # darf nicht werfen
+        self.assertTrue(self.errors())
+        self.assertNotIn("℀", joined)
+        self.assertNotIn("mple.com", joined)
+
+    # --- Task 2: strikte kanonische Verschachtelung ---
+
+    def test_rejects_h1_with_unmatched_h2_close(self):
+        # HTML5 schließt <h1> beim </h2> und lässt ein LEERES h1 zurück; der
+        # tolerante Parser hält h1 offen und zählt "Titel" fälschlich als h1-Text.
+        # Fehlerhafte Verschachtelung muss abgelehnt werden.
+        broken = CANONICAL.replace("<h1>Titel</h1>", "<h1></h2>Titel</h1>")
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_misnested_inline(self):
+        # <b><i>x</b></i> ist misnested; tolerantes Reparieren würde es verschlucken
+        broken = CANONICAL.replace(
+            "<p>Text</p>", "<p><b><i>x</b></i></p>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_unclosed_span(self):
+        # <span> ohne schließendes Tag: das folgende </section> schließt es tolerant
+        broken = CANONICAL.replace(
+            "<p>Text</p>", "<p>Text</p><span>offen"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_unclosed_document(self):
+        # Dokument endet mit offenen Elementen (kein </main></body></html>)
+        broken = CANONICAL.replace("</main></body></html>", "")
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    # --- Task 2: vollständige sichere H1-Phrasing-Allowlist ---
+
+    def test_accepts_abbr_in_h1(self):
+        # normales Text-Formatting (abbr) ist erlaubtes Inline-Phrasing im h1
+        page = CANONICAL.replace(
+            "<h1>Titel</h1>",
+            '<h1><abbr title="Deadlock">DL</abbr> Team</h1>',
+        )
+        write(self.root, "public/a.html", page)
         self.assertEqual(self.errors(), [])
 
 

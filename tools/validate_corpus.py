@@ -49,10 +49,14 @@ VOID_ELEMENTS = {
     "area", "base", "br", "col", "embed", "hr", "img",
     "input", "link", "meta", "param", "source", "track", "wbr",
 }
-# HTML5 repariert Block-/Heading-Elemente aus <h1> heraus. Nur diese kanonische,
-# kleine Inline-Phrasing-Allowlist darf als Nachfahre eines <h1> auftreten; alles
-# andere würde die Rust-Runtime umbauen (h1 verliert Text) und wird abgelehnt.
-H1_PHRASING = {"a", "span", "code", "em", "strong", "br"}
+# HTML5 repariert Block-/Heading-Elemente aus <h1> heraus. Nur passives Inline-
+# Text-Formatting darf als Nachfahre eines <h1> auftreten; Block-/Heading-Nachfahren
+# würden die Rust-Runtime umbauen (h1 verliert Text) und werden abgelehnt.
+H1_PHRASING = {
+    "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "del",
+    "dfn", "em", "i", "ins", "kbd", "mark", "q", "rp", "rt", "ruby", "s",
+    "samp", "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr",
+}
 # Browser entfernen Tab/Zeilenumbruch/CR überall aus URLs …
 _URL_REMOVE_MAP = {ord("\t"): None, ord("\n"): None, ord("\r"): None}
 # … und schneiden führende/abschließende C0-Steuerzeichen (0x00–0x1F) samt
@@ -88,6 +92,9 @@ class PageParser(HTMLParser):
         self.styles = []
         # Verschachtelungs-Stack aus Knoten-Dicts für Eltern-/Direktkind-Verträge
         self._stack = []
+        # True, sobald ein schließendes Tag nicht das oberste offene Element
+        # schließt (unmatched/misnested). Kanonische Seiten sind wohl-verschachtelt.
+        self.malformed = False
         self.h1_parents = []
         # h1-Knoten (Sichttext-Prüfung wie in der Runtime)
         self.h1_nodes = []
@@ -181,8 +188,14 @@ class PageParser(HTMLParser):
             self._in_title = False
         if tag == "style":
             self._in_style = False
-        # bis zum passenden offenen Element zurückrollen (tolerant gegen
-        # implizit geschlossene Zwischen-Tags)
+        # Strikte Wohlgeformtheit: das schließende Tag muss das oberste offene
+        # Element schließen. Kanonische Seiten sind explizit wohl-verschachtelt;
+        # tolerantes Reparieren würde Runtime-Abweichungen (z. B. leeres <h1>
+        # nach </h2>) verdecken. Alles andere (unmatched/misnested) ist ein Fund.
+        if not self._stack or self._stack[-1]["tag"] != tag:
+            self.malformed = True
+        # danach dennoch bis zum passenden offenen Element zurückrollen, damit der
+        # Stack für die Eltern-/Direktkind-Prüfungen konsistent bleibt
         for i in range(len(self._stack) - 1, -1, -1):
             if self._stack[i]["tag"] == tag:
                 del self._stack[i:]
@@ -220,11 +233,18 @@ def _browser_normalize(value):
 def _classify_url(value):
     """Klassifiziert eine URL browsernah und liefert (Kategorie, Scheme, normiert).
     Kategorie ist eine von ``active`` (javascript/vbscript), ``data``, ``external``
-    (jedes Scheme oder protokoll-relativ/Netzwerk-Pfad ``//``) oder ``local``
-    (schemefreies relatives Ziel). Zentral, damit gewöhnliche Assets,
-    srcset/imagesrcset und CSS-``url()`` dieselbe Einstufung nutzen."""
+    (jedes Scheme oder protokoll-relativ/Netzwerk-Pfad ``//``), ``local``
+    (schemefreies relatives Ziel) oder ``invalid`` (Parser lehnt die URL ab, z. B.
+    NFKC-invalide netloc). Zentral, damit gewöhnliche Assets, srcset/imagesrcset
+    und CSS-``url()`` dieselbe Einstufung nutzen. Wirft nie und spiegelt den Wert
+    nie in eine Meldung – ``invalid`` ist eine stabile, wertfreie Kategorie."""
     norm = _browser_normalize(value)
-    scheme = urlparse(norm).scheme.lower()
+    try:
+        scheme = urlparse(norm).scheme.lower()
+    except ValueError:
+        # urlparse lehnt manche netlocs ab (NFKC-invalide Zeichen, kaputte
+        # Bracket-Hosts). Fail-closed als eigene Kategorie, ohne Wert/Exception-Text.
+        return "invalid", "", norm
     if scheme in ACTIVE_SCHEMES:
         return "active", scheme, norm
     if scheme == "data" or norm.lower().startswith("data:"):
@@ -292,6 +312,12 @@ def validate_page(page_path, root, kdir, rel):
     parser = PageParser()
     parser.feed(source)
     parser.close()
+
+    # Fehlerhafte Verschachtelung generisch ablehnen: entweder ein schließendes Tag
+    # schloss nicht das oberste offene Element (unmatched/misnested) oder am Ende
+    # blieben Elemente offen (unclosed). Kanonische Seiten sind wohl-verschachtelt.
+    if parser.malformed or parser._stack:
+        errors.append(f"{rel}: fehlerhafte HTML-Verschachtelung nicht erlaubt")
 
     # kanonische Hülle
     if not parser.has_doctype:
@@ -401,9 +427,20 @@ def validate_page(page_path, root, kdir, rel):
     for tag, attr, value in parser.assets:
         if not value.strip():
             continue
+        # ping ist reine Beacon-Telemetrie (Whitespace-Liste von Zielen); aktive
+        # Analytics sind unnötig. Jedes nichtleere ping-Attribut wird rundheraus
+        # abgelehnt – ohne Klassifikation, damit kein Ziel als lokal durchfällt.
+        if attr == "ping":
+            errors.append(f"{rel}: ping-Attribut (Telemetrie) nicht erlaubt ({tag})")
+            continue
         category, scheme, norm = _classify_url(value)
+        # Wertfreie stabile Kategorie: nie den (evtl. sensiblen) URL-/netloc-Wert
+        # spiegeln, nur Fundort (tag/attr) melden.
+        if category == "invalid":
+            errors.append(f"{rel}: ungültige URL ({tag} {attr})")
+            continue
         if category == "active":
-            errors.append(f"{rel}: aktives Schema ({scheme}:) nicht erlaubt ({tag} {attr})")
+            errors.append(f"{rel}: aktives Schema nicht erlaubt ({tag} {attr})")
             continue
         if category == "data":
             errors.append(f"{rel}: data:-URI nicht erlaubt ({tag} {attr})")
@@ -413,10 +450,11 @@ def validate_page(page_path, root, kdir, rel):
             # Schemes. Protokoll-relativ/Netzwerk-Pfad (``//``) navigiert der
             # Browser extern und wird abgelehnt, ebenso jedes andere Scheme
             # (ftp/file/…) – auch wenn zufällig ein lokaler Pfad gleich heißt.
+            # Der Scheme-Wert wird nicht gespiegelt (Leak-Schutz).
             if scheme in NAV_EXTERNAL_SCHEMES:
                 continue
             if scheme:
-                errors.append(f"{rel}: unerlaubtes Schema in Navigation: {scheme}: ({tag} {attr})")
+                errors.append(f"{rel}: unerlaubtes Schema in Navigation ({tag} {attr})")
                 continue
             if category == "external":
                 errors.append(f"{rel}: protokoll-relative Navigation nicht erlaubt ({tag} {attr})")
@@ -432,13 +470,21 @@ def validate_page(page_path, root, kdir, rel):
 
     # CSS aus Style-Blöcken und Inline-style-Attributen prüfen
     for css in parser.styles:
+        # Kanonischer Vertrag: kein Backslash in CSS. CSS-Escapes (u\72l(...),
+        # url(http\00003a//...)) verstecken sonst Funktionsnamen/Doppelpunkte vor
+        # der Regex-Klassifikation und würden extern ladende Ziele durchlassen.
+        if "\\" in css:
+            errors.append(f"{rel}: Backslash-Escape in CSS/Style nicht erlaubt")
+            continue
         if "@import" in css.lower():
             errors.append(f"{rel}: CSS @import nicht erlaubt")
         for match in _CSS_URL.finditer(css):
             if not match.group(2).strip():
                 continue
             category, _css_scheme, norm = _classify_url(match.group(2))
-            if category in ("active", "data"):
+            if category == "invalid":
+                errors.append(f"{rel}: ungültige URL in CSS nicht erlaubt")
+            elif category in ("active", "data"):
                 errors.append(f"{rel}: aktive/data-URL in CSS nicht erlaubt")
             elif category == "external":
                 errors.append(f"{rel}: externes Asset in CSS nicht erlaubt")
