@@ -49,6 +49,16 @@ VOID_ELEMENTS = {
     "area", "base", "br", "col", "embed", "hr", "img",
     "input", "link", "meta", "param", "source", "track", "wbr",
 }
+# HTML5 repariert Block-/Heading-Elemente aus <h1> heraus. Nur diese kanonische,
+# kleine Inline-Phrasing-Allowlist darf als Nachfahre eines <h1> auftreten; alles
+# andere würde die Rust-Runtime umbauen (h1 verliert Text) und wird abgelehnt.
+H1_PHRASING = {"a", "span", "code", "em", "strong", "br"}
+# Browser entfernen Tab/Zeilenumbruch/CR überall aus URLs …
+_URL_REMOVE_MAP = {ord("\t"): None, ord("\n"): None, ord("\r"): None}
+# … und schneiden führende/abschließende C0-Steuerzeichen (0x00–0x1F) samt
+# Leerzeichen ab. str.strip() lässt die meisten C0-Zeichen stehen – deshalb hier
+# explizit der volle Bereich, sonst fällt „\x01//host" fälschlich als lokal durch.
+_URL_STRIP_CHARS = "".join(chr(c) for c in range(0x21))
 
 _CSS_URL = re.compile(r"url\(\s*(['\"]?)([^'\")]*)\1\s*\)", re.IGNORECASE)
 
@@ -196,8 +206,41 @@ def _srcset_urls(value):
     return urls
 
 
-def _scheme(value):
-    return urlparse(value).scheme.lower()
+def _browser_normalize(value):
+    """Bildet die URL-Vorverarbeitung von Browsern für die Klassifikation nach:
+    Tab/Zeilenumbruch/CR werden überall entfernt, führende/abschließende
+    C0-Steuerzeichen und Leerzeichen abgeschnitten und Backslashes wie
+    Vorwärts-Schrägstriche behandelt. So kann keine extern ladende URL über
+    Backslash-, C0- oder eingebettete-Whitespace-Varianten als lokal durchfallen."""
+    v = value.translate(_URL_REMOVE_MAP)
+    v = v.strip(_URL_STRIP_CHARS)
+    return v.replace("\\", "/")
+
+
+def _classify_url(value):
+    """Klassifiziert eine URL browsernah und liefert (Kategorie, Scheme, normiert).
+    Kategorie ist eine von ``active`` (javascript/vbscript), ``data``, ``external``
+    (jedes Scheme oder protokoll-relativ/Netzwerk-Pfad ``//``) oder ``local``
+    (schemefreies relatives Ziel). Zentral, damit gewöhnliche Assets,
+    srcset/imagesrcset und CSS-``url()`` dieselbe Einstufung nutzen."""
+    norm = _browser_normalize(value)
+    scheme = urlparse(norm).scheme.lower()
+    if scheme in ACTIVE_SCHEMES:
+        return "active", scheme, norm
+    if scheme == "data" or norm.lower().startswith("data:"):
+        return "data", scheme, norm
+    if scheme or norm.startswith("//"):
+        return "external", scheme, norm
+    return "local", scheme, norm
+
+
+def _descendant_tags(node):
+    """Alle Tag-Namen im Teilbaum unter ``node`` (ohne den Knoten selbst)."""
+    tags = set()
+    for child in node["children"]:
+        tags.add(child["tag"])
+        tags |= _descendant_tags(child)
+    return tags
 
 
 def _has_visible_text(node):
@@ -231,10 +274,12 @@ def _check_local_target(page_path, kdir, value, rel, errors):
     target = _relative_target(page_path, value)
     if target is None:
         return
+    # Werte (Pfad/Query) nie in die Meldung spiegeln – sie können Tokens/Secrets
+    # tragen; die Datei (rel) genügt zur Lokalisierung.
     if not _within(target, kdir):
-        errors.append(f"{rel}: Pfadflucht, Ziel außerhalb des Korpus-Roots: {value}")
+        errors.append(f"{rel}: Pfadflucht, Ziel außerhalb des Korpus-Roots")
     elif not target.exists():
-        errors.append(f"{rel}: toter relativer Link: {value}")
+        errors.append(f"{rel}: toter relativer Link")
 
 
 def validate_page(page_path, root, kdir, rel):
@@ -308,6 +353,16 @@ def validate_page(page_path, root, kdir, rel):
     # Runtime verlangt nach Sichttext-Normalisierung ein nichtleeres <h1>
     if h1_count == 1 and parser.h1_nodes and not _has_visible_text(parser.h1_nodes[0]):
         errors.append(f"{rel}: <h1> ohne sichtbaren Text")
+    # <h1> darf nur Inline-Phrasing enthalten (a/span/code/em/strong/br). HTML5/
+    # Rust reparieren Block-/Heading-Nachfahren aus dem h1 heraus – der Text
+    # landet dann außerhalb und die Runtime verwirft die dann leere Überschrift.
+    if h1_count == 1 and parser.h1_nodes:
+        bad = sorted(_descendant_tags(parser.h1_nodes[0]) - H1_PHRASING)
+        if bad:
+            errors.append(
+                f"{rel}: <h1> darf nur Inline-Inhalt enthalten "
+                f"(unerlaubte Nachfahren: {', '.join(bad)})"
+            )
 
     # direkte <section>-Kinder von <main> brauchen eine id und eine <h2>-Überschrift
     # und dürfen nicht leer sein (die Runtime verwirft Sektionen ohne Sichttext)
@@ -344,50 +399,52 @@ def validate_page(page_path, root, kdir, rel):
         errors.append(f"{rel}: meta-refresh (aktive Weiterleitung) nicht erlaubt")
 
     for tag, attr, value in parser.assets:
-        v = value.strip()
-        if not v:
+        if not value.strip():
             continue
-        scheme = _scheme(v)
-        if scheme in ACTIVE_SCHEMES:
+        category, scheme, norm = _classify_url(value)
+        if category == "active":
             errors.append(f"{rel}: aktives Schema ({scheme}:) nicht erlaubt ({tag} {attr})")
             continue
-        if scheme == "data" or v.lower().startswith("data:"):
+        if category == "data":
             errors.append(f"{rel}: data:-URI nicht erlaubt ({tag} {attr})")
             continue
         if tag in NAV_TAGS and attr == "href":
-            # sichere externe Navigation: nur die vier erlaubten Schemes oder
-            # protokoll-relativ; jedes andere nichtleere Scheme (ftp/file/…)
-            # wird abgelehnt, auch wenn zufällig ein lokaler Pfad gleich heißt
-            if scheme in NAV_EXTERNAL_SCHEMES or v.startswith("//"):
+            # Sichere externe Navigation ausschließlich über die vier erlaubten
+            # Schemes. Protokoll-relativ/Netzwerk-Pfad (``//``) navigiert der
+            # Browser extern und wird abgelehnt, ebenso jedes andere Scheme
+            # (ftp/file/…) – auch wenn zufällig ein lokaler Pfad gleich heißt.
+            if scheme in NAV_EXTERNAL_SCHEMES:
                 continue
             if scheme:
                 errors.append(f"{rel}: unerlaubtes Schema in Navigation: {scheme}: ({tag} {attr})")
                 continue
-            _check_local_target(page_path, kdir, v, rel, errors)
+            if category == "external":
+                errors.append(f"{rel}: protokoll-relative Navigation nicht erlaubt ({tag} {attr})")
+                continue
+            _check_local_target(page_path, kdir, norm, rel, errors)
             continue
-        # ladende Ressource: jedes nichtleere Scheme (und protokoll-relativ) ist
-        # extern und verboten; nur schemafreie lokale Ziele werden geprüft
-        if scheme or v.startswith("//"):
+        # Ladende Ressource: jedes Scheme (auch protokoll-relativ) ist extern und
+        # verboten; nur schemefreie lokale Ziele werden gegen das Dateisystem geprüft.
+        if category == "external":
             errors.append(f"{rel}: externes Asset nicht erlaubt ({tag} {attr})")
             continue
-        _check_local_target(page_path, kdir, v, rel, errors)
+        _check_local_target(page_path, kdir, norm, rel, errors)
 
     # CSS aus Style-Blöcken und Inline-style-Attributen prüfen
     for css in parser.styles:
         if "@import" in css.lower():
             errors.append(f"{rel}: CSS @import nicht erlaubt")
         for match in _CSS_URL.finditer(css):
-            url = match.group(2).strip()
-            if not url:
+            if not match.group(2).strip():
                 continue
-            scheme = _scheme(url)
-            if scheme in ACTIVE_SCHEMES or scheme == "data" or url.lower().startswith("data:"):
+            category, _css_scheme, norm = _classify_url(match.group(2))
+            if category in ("active", "data"):
                 errors.append(f"{rel}: aktive/data-URL in CSS nicht erlaubt")
-            elif scheme or url.startswith("//"):
+            elif category == "external":
                 errors.append(f"{rel}: externes Asset in CSS nicht erlaubt")
             else:
                 # lokale CSS-URL derselben Root-/Existenzprüfung unterwerfen
-                _check_local_target(page_path, kdir, url, rel, errors)
+                _check_local_target(page_path, kdir, norm, rel, errors)
 
     # öffentliche Seiten dürfen internal/ nicht referenzieren
     # (entitäten-dekodiert und case-insensitiv, damit INTERNAL/ oder internal&#47; greifen)

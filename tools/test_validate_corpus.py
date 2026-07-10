@@ -481,6 +481,95 @@ class ValidateCorpusTest(unittest.TestCase):
         write(self.root, "public/seite.HTML", CANONICAL)
         self.assertIn("seite.HTML", self.joined())
 
+    # --- Browser-nahe URL-Klassifikation: protokoll-relativ/Backslash/C0 ---
+
+    def test_rejects_protocol_relative_navigation(self):
+        # Browser navigiert //host extern; früher fälschlich als sichere
+        # Navigation erlaubt. Nur http/https/mailto/tel bleiben zulässig.
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="//evil.example/x">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_backslash_asset_with_local_decoy(self):
+        # \\evil\x.png normalisiert der Browser zu //evil/x.png (extern); ein
+        # lokaler Decoy an der Backslash-Pfadstelle darf den Fund nicht verdecken
+        write(self.root, r"public/\\evil.example\x.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>", r'<p><img src="\\evil.example\x.png"></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_c0_prefixed_protocol_relative_asset_with_decoy(self):
+        # Browser entfernt führende C0-Steuerzeichen: \x01//evil wird //evil
+        # (extern). Decoy am buggy aufgelösten Pfad darf den Fund nicht verdecken.
+        write(self.root, "public/\x01/evil.example/x.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><img src="\x01//evil.example/x.png"></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_backslash_srcset_with_local_decoy(self):
+        # gleiche Normalisierung muss im srcset-Pfad greifen (keine Kategorie-Drift)
+        write(self.root, r"public/\\evil.example\x.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>", r'<p><img srcset="\\evil.example\x.png 1x"></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_c0_css_url_with_local_decoy(self):
+        # gleiche Normalisierung muss im CSS-url()-Pfad greifen
+        write(self.root, "public/\x01/evil.example/bg.png", "decoy")
+        broken = CANONICAL.replace(
+            "</head>",
+            "<style>body{background:url(\x01//evil.example/bg.png)}</style></head>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_dead_link_error_does_not_leak_query(self):
+        # Fehlermeldungen dürfen keine URL-/Query-Werte (z. B. Tokens) preisgeben
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><a href="missing.png?access_token=CANARY_SECRET">x</a></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        joined = self.joined()
+        self.assertTrue(self.errors())
+        self.assertNotIn("CANARY_SECRET", joined)
+
+    # --- HTML5-Parität: h1 nimmt nur Inline-Phrasing-Inhalt auf ---
+
+    def test_rejects_h1_with_nested_h2(self):
+        # HTML5/Rust repariert <h2> aus <h1> heraus; Python-HTMLParser zählt den
+        # h2-Text fälschlich als h1-Text -> Paritätslücke, muss abgelehnt werden
+        broken = CANONICAL.replace("<h1>Titel</h1>", "<h1><h2>Titel</h2></h1>")
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(any("h1" in e.lower() for e in self.errors()), self.joined())
+
+    def test_rejects_h1_with_block_descendant(self):
+        # auch tiefer verschachtelte Block-Nachfahren werden abgelehnt
+        broken = CANONICAL.replace(
+            "<h1>Titel</h1>", "<h1><span><div>Titel</div></span></h1>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(any("h1" in e.lower() for e in self.errors()), self.joined())
+
+    def test_accepts_inline_phrasing_in_h1(self):
+        # Inline-Phrasing bleibt unterstützt (a/span/code/em/strong/br)
+        page = CANONICAL.replace(
+            "<h1>Titel</h1>",
+            '<h1>Team <span>Deadlock</span> <code>v2</code> <em>neu</em> '
+            '<strong>wow</strong><br><a href="b.html">mehr</a></h1>',
+        )
+        write(self.root, "public/a.html", page)
+        write(self.root, "public/b.html", CANONICAL)
+        self.assertEqual(self.errors(), [])
+
 
 if __name__ == "__main__":
     unittest.main()
