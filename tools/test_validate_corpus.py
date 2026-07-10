@@ -409,6 +409,78 @@ class ValidateCorpusTest(unittest.TestCase):
         write(self.root, "public/a.html", CANONICAL)
         self.assertEqual(validate_corpus.main([self.root]), 0)
 
+    # --- doppelte Attribute (HTML5: erstes gewinnt, Validator-Dict: letztes) ---
+
+    def test_rejects_duplicate_url_attribute(self):
+        # Decoy-Ziel darf die externe Erst-URL nicht verdecken: der HTML5-Baum
+        # lädt src="https://evil...", nur das Duplikat muss den Fund auslösen
+        write(self.root, "public/ok.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><img src="https://evil.example/x.png" src="ok.png"></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("attribut", self.joined().lower())
+
+    def test_rejects_duplicate_meta_attribute(self):
+        # Validator-Dict sähe name="tags"; die Runtime sieht name="wrong"
+        broken = CANONICAL.replace(
+            '<meta name="tags" content="discord-server, test">',
+            '<meta name="wrong" name="tags" content="discord-server, test">',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("attribut", self.joined().lower())
+
+    # --- URL-Scheme-Fläche schließen (imagesrcset, ftp/file trotz Decoy) ---
+
+    def test_rejects_external_imagesrcset(self):
+        write(self.root, "public/ok.png", "decoy")
+        broken = CANONICAL.replace(
+            "</head>",
+            '<link rel="preload" as="image" href="ok.png" '
+            'imagesrcset="https://evil.example/x.png 1x"></head>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_ftp_anchor_even_with_local_decoy(self):
+        # Decoy an genau der Stelle, auf die der frühere lokale Fallback zeigte
+        write(self.root, "public/ftp:/host/datei", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="ftp://host/datei">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("ftp", self.joined().lower())
+
+    def test_rejects_file_scheme_asset_even_with_local_decoy(self):
+        write(self.root, "public/file:/decoy/x.png", "decoy")
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><img src="file://decoy/x.png"></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    # --- Runtime-Vertrag: sichtbarer h1-Text, nichtleere Section, exakte Endung ---
+
+    def test_rejects_whitespace_only_h1(self):
+        broken = CANONICAL.replace("<h1>Titel</h1>", "<h1>   </h1>")
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(any("h1" in e.lower() for e in self.errors()), self.joined())
+
+    def test_rejects_empty_direct_main_section(self):
+        # id und h2 vorhanden, aber ohne sichtbaren Inhalt: Runtime verwirft das
+        broken = CANONICAL.replace(
+            '<section id="s1"><h2>Abschnitt</h2><p>Text</p></section>',
+            '<section id="s1"><h2></h2></section>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("section", self.joined().lower())
+
+    def test_rejects_uppercase_html_suffix(self):
+        # Rust-Collector nimmt nur exakt .html; .HTML würde stumm nicht indexiert
+        write(self.root, "public/seite.HTML", CANONICAL)
+        self.assertIn("seite.HTML", self.joined())
+
 
 if __name__ == "__main__":
     unittest.main()

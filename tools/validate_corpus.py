@@ -36,8 +36,10 @@ KNOWLEDGE_DIRS = ("public", "internal")
 # Runtime liefert ausschließlich .html; .htm gilt als Vertragsverstoß.
 HTML_SUFFIXES = (".html",)
 EMBED_TAGS = {"iframe", "object", "embed"}
-# URL-tragende Attribute; srcset wird gesondert (Liste) behandelt
+# URL-tragende Attribute; srcset/imagesrcset werden gesondert (Liste) behandelt
 URL_ATTRS = ("src", "href", "poster", "data", "xlink:href", "action", "formaction", "ping")
+# responsive Bildquellen (Komma-Liste mit Deskriptoren) – wie <img>, so <link preload>
+SRCSET_ATTRS = ("srcset", "imagesrcset")
 NAV_TAGS = {"a", "area"}
 ACTIVE_SCHEMES = ("javascript", "vbscript")
 # Sichere externe Navigation exakt wie im Docstring: http(s)/mailto/tel (kein ftp).
@@ -77,24 +79,39 @@ class PageParser(HTMLParser):
         # Verschachtelungs-Stack aus Knoten-Dicts für Eltern-/Direktkind-Verträge
         self._stack = []
         self.h1_parents = []
+        # h1-Knoten (Sichttext-Prüfung wie in der Runtime)
+        self.h1_nodes = []
         self.head_parents = []
         self.body_parents = []
         # direkte <section>-Kinder von <main> (Knoten, damit Kind-Tags erfasst sind)
         self.main_sections = []
+        # (tag, attr) je doppeltem Attributnamen pro Element
+        self.dup_attrs = []
 
     def handle_decl(self, decl):
         if decl.strip().lower().startswith("doctype html"):
             self.has_doctype = True
 
     def _open(self, tag, attrs, self_closing):
+        # Doppelte Attributnamen vor der Dict-Bildung erfassen: HTML5 behält das
+        # erste Attribut, ein Dict das letzte – sonst umgehen Duplikate Vertrag
+        # und Runtime. Nur Name+Tag melden, nie den (evtl. sensiblen) Wert.
+        seen_attrs = set()
+        for key, _ in attrs:
+            if key in seen_attrs:
+                self.dup_attrs.append((tag, key))
+            else:
+                seen_attrs.add(key)
         d = {k: (v if v is not None else "") for k, v in attrs}
         self.tag_counts[tag] = self.tag_counts.get(tag, 0) + 1
 
         parent = self._stack[-1] if self._stack else None
         parent_tag = parent["tag"] if parent else None
-        node = {"tag": tag, "id": d.get("id", ""), "child_tags": set()}
+        node = {"tag": tag, "id": d.get("id", ""), "child_tags": set(),
+                "children": [], "text": []}
         if parent is not None:
             parent["child_tags"].add(tag)
+            parent["children"].append(node)
 
         if "id" in d and d["id"] != "":
             self.ids.append(d["id"])
@@ -108,6 +125,7 @@ class PageParser(HTMLParser):
             self.html_lang = d.get("lang", "")
         if tag == "h1":
             self.h1_parents.append(parent_tag)
+            self.h1_nodes.append(node)
         if tag == "head":
             self.head_parents.append(parent_tag)
         if tag == "body":
@@ -134,9 +152,10 @@ class PageParser(HTMLParser):
         for attr in URL_ATTRS:
             if d.get(attr, "") != "":
                 self.assets.append((tag, attr, d[attr]))
-        if d.get("srcset", "") != "":
-            for url in _srcset_urls(d["srcset"]):
-                self.assets.append((tag, "srcset", url))
+        for attr in SRCSET_ATTRS:
+            if d.get(attr, "") != "":
+                for url in _srcset_urls(d[attr]):
+                    self.assets.append((tag, attr, url))
 
         if not self_closing and tag not in VOID_ELEMENTS:
             self._stack.append(node)
@@ -164,6 +183,8 @@ class PageParser(HTMLParser):
             self.title_parts.append(data)
         if self._in_style:
             self.styles.append(data)
+        if self._stack:
+            self._stack[-1]["text"].append(data)
 
 
 def _srcset_urls(value):
@@ -179,10 +200,12 @@ def _scheme(value):
     return urlparse(value).scheme.lower()
 
 
-def _is_external(value):
-    if value.startswith("//"):
+def _has_visible_text(node):
+    """True, sobald irgendein Textknoten im Teilbaum nichtleeren Sichttext hat.
+    Spiegelt die Leerheitsprüfung von ``html_text`` in der Runtime."""
+    if any(part.strip() for part in node["text"]):
         return True
-    return _scheme(value) in ("http", "https", "ftp")
+    return any(_has_visible_text(child) for child in node["children"])
 
 
 def _within(path, root):
@@ -282,13 +305,19 @@ def validate_page(page_path, root, kdir, rel):
         errors.append(f"{rel}: genau ein <h1> erwartet (gefunden {h1_count})")
     if any(p != "main" for p in parser.h1_parents):
         errors.append(f"{rel}: <h1> muss direktes Kind von <main> sein")
+    # Runtime verlangt nach Sichttext-Normalisierung ein nichtleeres <h1>
+    if h1_count == 1 and parser.h1_nodes and not _has_visible_text(parser.h1_nodes[0]):
+        errors.append(f"{rel}: <h1> ohne sichtbaren Text")
 
     # direkte <section>-Kinder von <main> brauchen eine id und eine <h2>-Überschrift
+    # und dürfen nicht leer sein (die Runtime verwirft Sektionen ohne Sichttext)
     for node in parser.main_sections:
         if not node["id"].strip():
             errors.append(f"{rel}: <section> in <main> braucht eine id")
         if "h2" not in node["child_tags"]:
             errors.append(f"{rel}: <section> in <main> braucht eine direkte <h2>-Überschrift")
+        if not _has_visible_text(node):
+            errors.append(f"{rel}: <section> in <main> ohne sichtbaren Inhalt")
 
     seen = set()
     dups = []
@@ -298,6 +327,12 @@ def validate_page(page_path, root, kdir, rel):
         seen.add(value)
     if dups:
         errors.append(f"{rel}: doppelte id(s): {', '.join(sorted(dups))}")
+
+    reported_dup_attrs = set()
+    for dtag, dattr in parser.dup_attrs:
+        if (dtag, dattr) not in reported_dup_attrs:
+            reported_dup_attrs.add((dtag, dattr))
+            errors.append(f"{rel}: doppeltes Attribut '{dattr}' an <{dtag}>")
 
     if parser.scripts:
         errors.append(f"{rel}: <script> ist nicht erlaubt")
@@ -320,14 +355,20 @@ def validate_page(page_path, root, kdir, rel):
             errors.append(f"{rel}: data:-URI nicht erlaubt ({tag} {attr})")
             continue
         if tag in NAV_TAGS and attr == "href":
-            # sichere externe Navigation ist erlaubt
+            # sichere externe Navigation: nur die vier erlaubten Schemes oder
+            # protokoll-relativ; jedes andere nichtleere Scheme (ftp/file/…)
+            # wird abgelehnt, auch wenn zufällig ein lokaler Pfad gleich heißt
             if scheme in NAV_EXTERNAL_SCHEMES or v.startswith("//"):
+                continue
+            if scheme:
+                errors.append(f"{rel}: unerlaubtes Schema in Navigation: {scheme}: ({tag} {attr})")
                 continue
             _check_local_target(page_path, kdir, v, rel, errors)
             continue
-        # ladende Ressource: extern verboten, sonst lokal prüfen
-        if _is_external(v):
-            errors.append(f"{rel}: externes Asset nicht erlaubt: {v}")
+        # ladende Ressource: jedes nichtleere Scheme (und protokoll-relativ) ist
+        # extern und verboten; nur schemafreie lokale Ziele werden geprüft
+        if scheme or v.startswith("//"):
+            errors.append(f"{rel}: externes Asset nicht erlaubt ({tag} {attr})")
             continue
         _check_local_target(page_path, kdir, v, rel, errors)
 
@@ -341,9 +382,9 @@ def validate_page(page_path, root, kdir, rel):
                 continue
             scheme = _scheme(url)
             if scheme in ACTIVE_SCHEMES or scheme == "data" or url.lower().startswith("data:"):
-                errors.append(f"{rel}: aktive/data-URL in CSS nicht erlaubt: {url}")
-            elif _is_external(url):
-                errors.append(f"{rel}: externes Asset in CSS nicht erlaubt: {url}")
+                errors.append(f"{rel}: aktive/data-URL in CSS nicht erlaubt")
+            elif scheme or url.startswith("//"):
+                errors.append(f"{rel}: externes Asset in CSS nicht erlaubt")
             else:
                 # lokale CSS-URL derselben Root-/Existenzprüfung unterwerfen
                 _check_local_target(page_path, kdir, url, rel, errors)
@@ -375,12 +416,20 @@ def validate_root(root):
             if path.is_dir():
                 continue
             rel = path.relative_to(root).as_posix()
-            suffix = path.suffix.lower()
-            if suffix == ".md":
+            raw_suffix = path.suffix
+            low_suffix = raw_suffix.lower()
+            if low_suffix == ".md":
                 errors.append(f"{rel}: Markdown-Wissensseite (nur HTML erlaubt)")
-            elif suffix in HTML_SUFFIXES:
+            elif raw_suffix in HTML_SUFFIXES:
                 errors.extend(validate_page(path, root, kdir, rel))
-            elif suffix == ".htm":
+            elif low_suffix == ".html":
+                # Runtime-Collector nimmt nur exakt .html; .HTML würde stumm
+                # nicht indexiert – als Vertragsverstoß ablehnen
+                errors.append(
+                    f"{rel}: Wissensseiten-Endung muss exakt .html (kleingeschrieben) "
+                    "sein – wird sonst nicht indexiert"
+                )
+            elif low_suffix == ".htm":
                 errors.append(f"{rel}: .htm nicht erlaubt – Wissensseiten nur als .html")
             # andere Endungen (PDF/Bilder) sind erlaubte Beweis-Assets
     return errors
