@@ -12,13 +12,13 @@
 
 - Base all child branches on the reviewed Task-1 commit at the then-current `feature/support-agent-html` head.
 - Worktrees live only under `/home/naniadm/.worktrees/Deadlock-Docs-<task>`.
-- Public text contains observable behavior and safe next steps only; no internal thresholds, intervals, weights, admin paths, private tools, model/provider details, or covert mechanics.
+- Public text contains observable behavior and safe next steps only; no internal thresholds, intervals, weights, admin paths, private tools, model or LLM-/infrastructure-provider details, or covert mechanics. Visible product names such as Discord, Steam, Twitch and Valve are not provider-detail leaks.
 - `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row coverage and answerability contract. Every row is checked against HTML plus exactly one owning evaluation package.
 - Internal pages are committed but never loaded by the public process.
 - Required HTML metadata: `title`, `tags`, `stand`, `quelle`; required body: exactly one `main` and one `h1`.
 - No external scripts, fonts, CDNs, analytics, or JavaScript.
 - No public Content-Agent starts before Task 1A is green and reviewed. Its raw-file gate scans complete `public/**/*.html`, including `head`, metadata, links, comments and attributes, in raw form plus `html.unescape` + NFKC normalization; a clean `<main>` alone is insufficient.
-- The machine gate blocks only high-signal categories: Discord snowflakes, internal/host/code paths, private or loopback URLs, secret material and secret environment names, and concrete provider/prompt/retrieval/Shadow control terms. Findings expose only file, line and category, never the matched value. `meta[name="quelle"]` contains safe product/live text, never a file path or host.
+- The machine gate blocks only high-signal categories: Discord snowflakes, internal/host/code paths, private or loopback URLs, secret material and secret environment names, and concrete LLM-/infrastructure-provider, prompt, retrieval and Shadow control terms. Visible product names such as Discord, Steam, Twitch and Valve remain allowed. Findings expose only file, line and category, never the matched value. `meta[name="quelle"]` contains safe product/live text, never a file path or host.
 - Internal thresholds, intervals, formulas and private Admin-/Coach mechanics remain forbidden but are not broad regex blockers because visible member limits, dates, Owner/Mod/Coach contact and appeals may be legitimate. Every package and final gate therefore requires a human semantic redaction review; any reconstructable internal fact blocks merge.
 - Binary evidence assets may remain binary and are linked from HTML; they are not indexed.
 - Delete an internal Markdown page only after normalized visible-text parity. Delete a public Markdown page only after code-backed factual coverage and redaction review; public corrections intentionally need not preserve stale or unsafe text.
@@ -135,8 +135,8 @@ Commit: `feat(docs): HTML-Korpusvertrag und committed Deploy einführen`.
 - `tools/validate_corpus.py <root>` reads every complete raw file below `public/`, not only parsed visible text, and checks both original UTF-8 text and `unicodedata.normalize("NFKC", html.unescape(source))`.
 - The gate checks `head`, metadata values, URLs, comments and every attribute as well as `main`, and reports only relative file, line and stable finding class without echoing sensitive source text.
 
-- [ ] **Step 1: Add failing safe-`<main>` fixtures with high-signal values in `head`, meta, comments, `href` and `data-*`: Snowflake (plain and entity-encoded), internal/repository/absolute path, loopback/private/einteiliger Service-Host, synthetic secret/token/credential Env name, concrete provider, system-prompt/injection, retrieval term and Ticket-Shadow**
-- [ ] **Step 2: Add passing fixtures for `quelle="Produktdokumentation und geprüftes Live-Verhalten"`, public FQDN/Invite/mail/relative links, safe OAuth/password help, provider-free „KI-gestützte Antwort“, visible `6 gegen 6`, public duration and Owner/Moderation/Coach appeal/contact**
+- [ ] **Step 1: Add failing safe-`<main>` fixtures with high-signal values in `head`, meta, comments, `href` and `data-*`: Snowflake (plain and entity-encoded), internal/repository/absolute path, loopback/private/einteiliger Service-Host, synthetic secret/token/credential Env name, concrete LLM-/infrastructure-provider, system-prompt/injection, retrieval term and Ticket-Shadow**
+- [ ] **Step 2: Add passing fixtures for `quelle="Produktdokumentation und geprüftes Live-Verhalten"`, public FQDN/Invite/mail/relative links, safe OAuth/password help, provider-free „KI-gestützte Antwort“, visible product names Discord/Steam/Twitch/Valve, visible `6 gegen 6`, public duration and Owner/Moderation/Coach appeal/contact**
 - [ ] **Step 3: Run `python3 -m unittest tools/test_validate_corpus.py` and observe the new cases fail**
 - [ ] **Step 4: Implement only the high-signal patterns and normalized view in the existing standard-library validator; do not add broad number/Admin/Coach regexes, a second validator or dependency**
 - [ ] **Step 5: Run all three tooling test modules and `git diff --check`**
