@@ -198,8 +198,10 @@ class MainWiringTest(unittest.TestCase):
         self.assertEqual(len(deploy_calls), 1)
         self.assertEqual(list(deploy_calls[0][1][0]), [str(update_team_doc.DEPLOY_SCRIPT), "HEAD"])
 
-    def test_unchanged_skips_commit_deploy_reload(self):
-        manager = Mock()
+    def test_unchanged_converges_without_new_commit(self):
+        # Unverändertes Dokument darf keinen neuen Commit erzeugen, muss aber den
+        # bestehenden HEAD über Push -> idempotenten Deploy -> Reload konvergieren
+        # lassen (sonst hängt ein nach transientem Fehler alter Snapshot fest).
         rendered = update_team_doc.render_document(
             "2026-07-07", moderators=[], community_moderators=[], coaches=[]
         )
@@ -209,12 +211,58 @@ class MainWiringTest(unittest.TestCase):
             with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
                 update_team_doc, "render_from_discord", return_value=rendered
             ), patch.object(update_team_doc, "run") as run_mock, patch.object(
+                update_team_doc, "deploy_corpus"
+            ) as deploy_mock, patch.object(
                 update_team_doc, "reload_knowledge"
             ) as reload_mock:
                 rc = update_team_doc.main([])
         self.assertEqual(rc, 0)
-        run_mock.assert_not_called()
-        reload_mock.assert_not_called()
+        # kein neuer Commit
+        committed = any(
+            c[0] == "" and "commit" in list(c[1][0]) for c in run_mock.mock_calls
+        )
+        self.assertFalse(committed, "unverändert darf nicht committen")
+        # aber Konvergenz: Push + idempotenter Deploy(HEAD) + Reload
+        pushed = any(
+            c[0] == "" and list(c[1][0]) == ["git", "push"] for c in run_mock.mock_calls
+        )
+        self.assertTrue(pushed, "Push muss zur Konvergenz laufen")
+        deploy_mock.assert_called_once_with("HEAD")
+        reload_mock.assert_called_once()
+
+    def test_fail_then_retry_converges(self):
+        # Lauf 1: Push ok, Deploy scheitert transient -> Reload nie erreicht.
+        # Lauf 2: Dokument unverändert -> muss trotzdem Deploy+Reload nachholen.
+        rendered = "<!doctype html>NEU"
+        deploy = Mock(side_effect=[RuntimeError("deploy transient kaputt"), None])
+        with tempfile.TemporaryDirectory() as tmp:
+            doc = Path(tmp) / "team.html"
+            doc.write_text("ALT", encoding="utf-8")
+            with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
+                update_team_doc, "render_from_discord", return_value=rendered
+            ), patch.object(update_team_doc, "run") as run_mock, patch.object(
+                update_team_doc, "deploy_corpus", deploy
+            ), patch.object(update_team_doc, "reload_knowledge") as reload_mock:
+                with self.assertRaises(RuntimeError):
+                    update_team_doc.main([])
+                self.assertEqual(doc.read_text(), rendered, "Doc vor Deploy geschrieben")
+                reload_mock.assert_not_called()
+
+                run_mock.reset_mock()
+                rc = update_team_doc.main([])
+
+        self.assertEqual(rc, 0)
+        self.assertEqual(deploy.call_count, 2, "Deploy muss im Retry nachgeholt werden")
+        reload_mock.assert_called_once()
+        # Lauf 2 pusht (konvergiert einen ggf. zuvor fehlgeschlagenen Push), committet aber nicht
+        pushed = any(
+            c[0] == "" and list(c[1][0]) == ["git", "push"] for c in run_mock.mock_calls
+        )
+        committed = any(
+            c[0] == "" and "commit" in list(c[1][0]) for c in run_mock.mock_calls
+        )
+        self.assertTrue(pushed)
+        self.assertFalse(committed)
 
 
 if __name__ == "__main__":

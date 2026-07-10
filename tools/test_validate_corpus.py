@@ -119,11 +119,173 @@ class ValidateCorpusTest(unittest.TestCase):
         self.assertIn("x.md", self.joined())
 
     def test_rejects_public_reference_to_internal(self):
+        # gültiges internes Ziel anlegen, damit die Broken-Link-Prüfung NICHT
+        # feuert und wir wirklich die Inhaltsgrenze prüfen
+        write(self.root, "internal/geheim.html", CANONICAL)
         broken = CANONICAL.replace(
             "<p>Text</p>", '<p><a href="../../internal/geheim.html">x</a></p>'
         )
         write(self.root, "public/a.html", broken)
-        self.assertIn("internal", self.joined().lower())
+        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+
+    def test_rejects_public_reference_to_internal_uppercase(self):
+        write(self.root, "internal/geheim.html", CANONICAL)
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="../../INTERNAL/geheim.html">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+
+    def test_rejects_public_reference_to_internal_entity_encoded(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>", "<p>siehe internal&#47;geheim</p>"
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("öffentliche Referenz auf internal/", self.joined())
+
+    def test_rejects_missing_doctype(self):
+        broken = CANONICAL.replace("<!doctype html>\n", "")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("doctype", self.joined().lower())
+
+    def test_rejects_wrong_html_lang(self):
+        broken = CANONICAL.replace('<html lang="de">', '<html lang="en">')
+        write(self.root, "public/a.html", broken)
+        self.assertIn("lang", self.joined().lower())
+
+    def test_rejects_missing_head(self):
+        broken = CANONICAL.replace("<head>", "").replace("</head>", "")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("head", self.joined().lower())
+
+    def test_rejects_missing_body(self):
+        broken = CANONICAL.replace("<body>", "").replace("</body>", "")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("body", self.joined().lower())
+
+    def test_rejects_missing_charset(self):
+        broken = CANONICAL.replace('<meta charset="utf-8">\n', "")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("charset", self.joined().lower())
+
+    def test_rejects_two_main(self):
+        broken = CANONICAL.replace("</main>", "</main><main></main>")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("main", self.joined().lower())
+
+    def test_rejects_two_h1(self):
+        broken = CANONICAL.replace("<h1>Titel</h1>", "<h1>Titel</h1><h1>Zwei</h1>")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("h1", self.joined().lower())
+
+    def test_rejects_h1_outside_main(self):
+        broken = CANONICAL.replace(
+            "<body><main>\n  <h1>Titel</h1>",
+            "<body>\n  <h1>Titel</h1><main>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(any("main" in e.lower() and "h1" in e.lower()
+                            for e in self.errors()), self.joined())
+
+    def test_accepts_external_anchor(self):
+        page = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p>Quelle: <a href="https://example.com/quelle">Beleg</a></p>',
+        )
+        write(self.root, "public/a.html", page)
+        self.assertEqual(self.errors(), [])
+
+    def test_rejects_javascript_anchor(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="javascript:alert(1)">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_data_uri_anchor(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="data:text/html,<b>x</b>">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_data_uri_image(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><img src="data:image/png;base64,AAAA"></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_external_srcset(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><img srcset="https://cdn.example/x.png 1x, y.png 2x"></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_external_xlink_href(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p><svg><use xlink:href="https://evil.example/s.svg#i"/></svg></p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_meta_refresh(self):
+        broken = CANONICAL.replace(
+            "</head>",
+            '<meta http-equiv="refresh" content="0; url=https://evil.example/"></head>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("refresh", self.joined().lower())
+
+    def test_rejects_css_import(self):
+        broken = CANONICAL.replace(
+            "</head>",
+            '<style>@import url("https://evil.example/x.css");</style></head>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertIn("import", self.joined().lower())
+
+    def test_rejects_css_external_url(self):
+        broken = CANONICAL.replace(
+            "</head>",
+            "<style>body{background:url(https://evil.example/bg.png)}</style></head>",
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_inline_style_external_url(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>",
+            '<p style="background:url(https://evil.example/bg.png)">x</p>',
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
+
+    def test_rejects_symlink_page(self):
+        write(self.root, "public/x.html", CANONICAL)
+        (Path(self.root) / "internal").mkdir(parents=True, exist_ok=True)
+        (Path(self.root) / "internal" / "geheim.html").write_text(CANONICAL, encoding="utf-8")
+        link = Path(self.root) / "public" / "evil.html"
+        link.symlink_to("../internal/geheim.html")
+        self.assertIn("symlink", self.joined().lower())
+
+    def test_rejects_dir_symlink(self):
+        write(self.root, "public/x.html", CANONICAL)
+        (Path(self.root) / "internal").mkdir(parents=True, exist_ok=True)
+        link = Path(self.root) / "public" / "sub"
+        link.symlink_to("../internal")
+        self.assertIn("symlink", self.joined().lower())
+
+    def test_rejects_relative_path_escape(self):
+        broken = CANONICAL.replace(
+            "<p>Text</p>", '<p><a href="../../../etc/passwd">x</a></p>'
+        )
+        write(self.root, "public/a.html", broken)
+        self.assertTrue(self.errors())
 
     def test_root_level_markdown_is_allowed(self):
         # README/PLAN/CHANGELOG bleiben Markdown und sind keine Wissensseiten

@@ -246,7 +246,15 @@ def main(argv=None):
     old = DOC_PATH.read_text(encoding="utf-8") if DOC_PATH.exists() else ""
     # stand-Meta-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
     if without_stand_line(old) == without_stand_line(rendered):
-        print("unverändert")
+        # Kein neuer Commit, aber den bestehenden HEAD konvergieren lassen:
+        # ein früher fehlgeschlagener Push/Deploy/Reload würde sonst dauerhaft
+        # einen alten Snapshot oder nicht neu geladenen Dienst hinterlassen.
+        print("unverändert – konvergiere bestehenden HEAD")
+        if args.dry_run:
+            return 0
+        run(["git", "push"])
+        deploy_corpus("HEAD")
+        reload_knowledge()
         return 0
     patch = diff(old, rendered)
 

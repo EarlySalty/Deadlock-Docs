@@ -131,6 +131,102 @@ class DeployCorpusTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertFalse(os.path.lexists(self.base / "current"))
 
+    def test_rejects_committed_file_symlink(self):
+        # committeter HTML-Symlink darf nicht ins public-only-Artefakt gelangen
+        self.write("public/x.html", VALID_PAGE.format(h1="Echt"))
+        os.symlink("../internal/geheim.html", self.repo / "public" / "evil.html")
+        self.commit("mit file-symlink")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_rejects_committed_dir_symlink(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Echt"))
+        os.symlink("../internal", self.repo / "public" / "sub")
+        self.commit("mit dir-symlink")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_same_sha_redeploy_is_idempotent_and_immutable(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        dest = self.base / sha
+        ino1 = dest.stat().st_ino
+
+        result = self.deploy("HEAD")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.current_target(), sha)
+        self.assertTrue(dest.is_dir())
+        # Snapshot bleibt unveränderlich: kein rm+Neuanlage (Inode stabil),
+        # damit current nie auf ein gelöschtes Ziel dangelt
+        self.assertEqual(dest.stat().st_ino, ino1)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+    def test_parallel_deploys_are_race_safe(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.write("public/x.html", VALID_PAGE.format(h1="B"))
+        sha_b = self.commit("B")
+
+        env = dict(os.environ, DL_KNOWLEDGE_HOME=str(self.base))
+        procs = [
+            subprocess.Popen(
+                ["bash", str(DEPLOY_SCRIPT), ref],
+                cwd=str(self.repo),
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            for ref in (sha_a, sha_b)
+        ]
+        results = [(p, p.communicate()) for p in procs]
+        for p, (_out, err) in results:
+            self.assertEqual(p.returncode, 0, err)
+
+        self.assertTrue((self.base / sha_a).is_dir())
+        self.assertTrue((self.base / sha_b).is_dir())
+        target = self.current_target()
+        self.assertIn(target, (sha_a, sha_b))
+        self.assertTrue((self.base / "current").resolve().is_dir())
+
+    def test_failed_deploy_preserves_running_snapshot_no_html(self):
+        # gültigen Snapshot A live schalten
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+
+        # neuer Commit B ohne public-HTML -> Deploy muss scheitern
+        (self.repo / "public" / "x.html").unlink()
+        self.write("public/nur-notiz.md", "# md")
+        self.commit("kein html")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        # A bleibt unverändert live
+        self.assertEqual(self.current_target(), sha_a)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+    def test_failed_deploy_preserves_running_snapshot_invalid_html(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+
+        # neuer Commit B mit invalidem HTML (kein <h1>) -> Validator lehnt ab
+        self.write("public/x.html", VALID_PAGE.format(h1="X").replace("<h1>X</h1>", ""))
+        self.commit("invalid")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
 
 if __name__ == "__main__":
     unittest.main()
