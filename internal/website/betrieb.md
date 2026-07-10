@@ -1,7 +1,7 @@
 ---
 title: "Website Betrieb"
 tags: [website, intern, betrieb]
-stand: 2026-07-07
+stand: 2026-07-10
 quelle: "Website"
 ---
 # Betrieb
@@ -15,12 +15,12 @@ quelle: "Website"
 | `dl-patch` | `npm run build` | Vite schreibt `dist`; die App hängt auf `base: "/patch/"`. | `/home/naniadm/Documents/Website/dl-patch/package.json`, `/home/naniadm/Documents/Website/dl-patch/vite.config.js` |
 | `dl-tierlist` | `npm run build` | Vite schreibt `dist`; die App hängt auf `base: "/builds/"`. | `/home/naniadm/Documents/Website/dl-tierlist/package.json`, `/home/naniadm/Documents/Website/dl-tierlist/vite.config.js` |
 | `dl-coaching` | `npm run build` | `tsc && vite build`; die App hängt auf `base: "/coaching/"`. | `/home/naniadm/Documents/Website/dl-coaching/package.json`, `/home/naniadm/Documents/Website/dl-coaching/vite.config.ts` |
-| `builds/frontend` | `npm run build` | `tsc && vite build`; die App hängt auf `base: "/builds/"`. | `/home/naniadm/Documents/Website/builds/frontend/package.json`, `/home/naniadm/Documents/Website/builds/frontend/vite.config.ts` |
+| `builds/frontend` | (Legacy, nicht deployt) | Baut zwar auf `base: "/builds/"`, wird aber nicht ausgeliefert — live `/builds/` ist `dl-tierlist/dist`. | `/home/naniadm/Documents/Website/builds/frontend/package.json`, `/home/naniadm/Documents/Caddy/conf/Caddyfile` |
 | `builds/backend-rust` | `cargo build --release` | Release-Binary `target/release/ddc-website-backend`; der Startwrapper erwartet dieses Binary. | `/home/naniadm/Documents/Website/builds/backend-rust/README.md`, `/home/naniadm/Documents/Website/scripts/run_builds_backend.sh` |
 
 ## Deploy und Prozessstart
 
-Caddy liest die produktiven statischen Dateien direkt aus den `dist`-Verzeichnissen im Website-Repo; die Caddy-Roots zeigen auf `dl-landing/dist`, `dl-activity/dist`, `dl-patch/dist`, `dl-tierlist/dist` und `dl-coaching/dist` (`/home/naniadm/Documents/Caddy/conf/Caddyfile`).
+Caddy liest die produktiven statischen Dateien direkt aus dem Website-Repo. Die Root-Landing `/` kommt aus `deco-elevator-new` (kein Vite-Build, statisch); die weiteren Caddy-Roots zeigen auf `dl-landing/dist` (Landing-Unterseiten), `dl-activity/dist`, `dl-patch/dist`, `dl-tierlist/dist` (live unter `/builds/`) und `dl-coaching/dist` (`/home/naniadm/Documents/Caddy/conf/Caddyfile`).
 
 `deadlock-website-backend.service` startet im Working Directory `/home/naniadm/Documents/Website` und ruft `scripts/run_builds_backend.sh` auf (`/home/naniadm/.config/systemd/user/deadlock-website-backend.service`).
 

@@ -1,7 +1,7 @@
 ---
 title: "Website Architektur"
 tags: [website, intern, architektur]
-stand: 2026-07-07
+stand: 2026-07-10
 quelle: "Website"
 ---
 # Architektur
@@ -18,12 +18,12 @@ Die Website ist kein einzelnes Frontend; Caddy hängt mehrere Vite-Builds und st
 | `dl-patch` | Vite-App mit `base: "/patch/"`; das Frontend lädt Patchdaten über absolute `/api/public/*`-Pfade. | `/home/naniadm/Documents/Website/dl-patch/vite.config.js`, `/home/naniadm/Documents/Website/dl-patch/src/patch.js` |
 | `dl-tierlist` | Vite-Multi-Page-Build mit `home`, `history` und `admin`, ausgeliefert unter `/builds/`. | `/home/naniadm/Documents/Website/dl-tierlist/vite.config.js` |
 | `dl-coaching` | React/Vite-App unter `/coaching/`; `App.tsx` definiert Routen für Coaches, Anfrage, Dashboard, Coachees, Spieleransicht und Scrims. | `/home/naniadm/Documents/Website/dl-coaching/vite.config.ts`, `/home/naniadm/Documents/Website/dl-coaching/src/App.tsx` |
-| `builds/frontend` | React/Vite-App unter `/builds/`; `App.tsx` enthält Meta-Routen für Heroes, Builds, Tierlists, Patchnotes, History, Admin und Coaching. | `/home/naniadm/Documents/Website/builds/frontend/vite.config.ts`, `/home/naniadm/Documents/Website/builds/frontend/src/App.tsx` |
+| `builds/frontend` | **Legacy / nicht live geroutet.** Ältere React/Vite-App; Caddy liefert `/builds/` in Wirklichkeit aus `dl-tierlist/dist`, nicht von hier. Nur noch dev-preview. | `/home/naniadm/Documents/Website/builds/frontend/vite.config.ts`, `/home/naniadm/Documents/Caddy/conf/Caddyfile` |
 | `dl-brand` | Gemeinsame Navigation und Tokens; `nav.js` baut Links zu Empfang, Mitspieler, Coaching, Aktivität, Patchnotes, Helden, Streamer und Beitreten. | `/home/naniadm/Documents/Website/dl-brand/nav.js`, `/home/naniadm/Documents/Caddy/conf/Caddyfile` |
 
 ## API-Basis im Browser
 
-`dl-coaching` und `builds/frontend` bauen ihre API-Basis aus `import.meta.env.BASE_URL` plus `/api`; bei `base: "/coaching/"` wird daraus `/coaching/api`, bei `base: "/builds/"` wird daraus `/builds/api` (`/home/naniadm/Documents/Website/dl-coaching/src/api/client.ts`, `/home/naniadm/Documents/Website/builds/frontend/src/api/client.ts`).
+`dl-coaching` baut seine API-Basis aus `import.meta.env.BASE_URL` plus `/api`; bei `base: "/coaching/"` wird daraus `/coaching/api` (`/home/naniadm/Documents/Website/dl-coaching/src/api/client.ts`). Die live unter `/builds/` ausgelieferte Tierlist-App (`dl-tierlist`) spricht ihr Backend entsprechend unter `/builds/api` an (`/home/naniadm/Documents/Website/dl-tierlist/src/shared.js`).
 
 `dl-activity` nutzt `VITE_API_BASE` oder die Vite-Base als Prefix und ruft darunter `/api/...` sowie `/auth/...` auf; Caddy entfernt bei `/aktivitaet/api/*` und `/aktivitaet/auth/*` den Prefix, bevor der Stats-Service auf `8768` die Anfrage sieht (`/home/naniadm/Documents/Website/dl-activity/src/activity.js`, `/home/naniadm/Documents/Caddy/conf/Caddyfile`).
 

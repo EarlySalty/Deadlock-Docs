@@ -1,8 +1,8 @@
 ---
 title: "Website-Portale"
 tags: [website, portale, community]
-stand: 2026-07-07
-quelle: "Deadlock-Bots/docs/website-portale.md"
+stand: 2026-07-10
+quelle: "Website/dl-* (Code-Abgleich) + Deadlock-Bots/docs/website-portale.md"
 ---
 # Website-Portale
 
@@ -10,16 +10,16 @@ quelle: "Deadlock-Bots/docs/website-portale.md"
 Die Website ist kein einzelner Monolith, sondern besteht aus mehreren klar getrennten Portalen. Für Nutzer sind vor allem diese Einstiege relevant: die Landing-Website, das Aktivitäts-Portal, das Patch-Notes-Portal, das Tierlist-/Builds-Portal und der Coaching-Bereich (inklusive Scrim-Anmeldung). Jedes Subportal löst einen anderen Teil der Community-Erfahrung ab, vom Einstieg über Statistiken bis zu Meta- und Patch-Inhalten.
 
 ## Landing
-Die Landing-Seite ist die zentrale Startoberfläche der Community. Sie ist als Multi-Page-Frontend aufgebaut und führt auf mehrere Unterseiten weiter, darunter Start, Mitspieler, Coaching, Streamer, Helden-Übersicht, Anfänger-Guide und Survey.
+Die Startseite unter `/` ist die zentrale Einstiegsoberfläche der Community, aufgebaut als „Aufzug" mit Navigation und klaren Discord-CTAs. Von dort geht es auf mehrere Unterseiten: Mitspieler, Helden-Übersicht, Guides, Beitreten und die Austritts-Umfrage. Der Streamer-Bereich, das Turnier-Portal und der Brain-Bereich sind ebenfalls von der Startseite verlinkt, laufen aber als eigene Portale (Details in den jeweiligen Bereichen).
 
 Aus Nutzersicht bietet die Landing vor allem:
 
 - einen klaren Community-Einstieg mit Discord-CTA
 - eine Navigation auf die anderen Portale
 - redaktionelle Seiten wie Guide- und Hero-Übersicht
-- Community-Signale wie Invite- und Serverdaten
+- Live-Community-Signale auf der Mitspieler-Seite
 
-Im Frontend werden dafür Discord-Invite- und Widget-Daten live abgefragt. So können Mitgliederzahlen, Online-Zahlen oder sichtbare Channel-Bereiche eingeblendet werden, ohne dass die Seite manuell gepflegt werden muss.
+Die Mitspieler-Seite zieht ihre Zahlen live aus Discord: die aktuelle Mitglieder- und Online-Zahl sowie ein „Server-Hochhaus", das zeigt, welche Voice-Bereiche gerade besetzt sind. Das aktualisiert sich von selbst, ohne dass jemand die Seite pflegen muss. Ist Discord kurz nicht erreichbar, zeigt die Seite einen Hinweis statt leerer Felder.
 
 ## Activity
 Das Aktivitäts-Portal ist der Statistikbereich. Dort gibt es mehrere Tabs für Voice, Text, Peaks und einen persönlichen Bereich. Ein Teil ist öffentlich sichtbar, der persönliche Bereich hängt am Discord-Login.
@@ -33,7 +33,7 @@ Das Aktivitäts-Portal ist der Statistikbereich. Dort gibt es mehrere Tabs für 
 
 Nach Login kommen persönliche Ansichten dazu: eigene Stats, Voice- und Text-Historie, Heatmap und Co-Player-Ansicht.
 
-Die Oberfläche arbeitet stark mit Diagrammen und aggregierten API-Endpunkten. Für Nutzer heißt das: Man bekommt keine Rohdatenbank, sondern bereits aufbereitete Übersichten, die auf Vergleich, Verlauf und Aktivitätsmuster ausgerichtet sind. (Technisch kommen diese Daten vom eigenen Stats-Service des Bots, nicht vom Website-Backend.)
+Die Oberfläche arbeitet stark mit Diagrammen und aufbereiteten Übersichten. Für Nutzer heißt das: keine Rohdaten, sondern fertige Auswertungen zu Vergleich, Verlauf und Aktivitätsmustern. Die Zahlen stammen aus dem Aktivitäts-Tracking des Bots.
 
 ## Patch Notes
 Das Patch-Portal ist ein lesbarer Patch-Archiv-Bereich. Die Seite lädt Patch-Daten aus einer öffentlichen API und zeigt sie als interaktive Ansicht: Zeitleiste mit Patch-Balken, Übersicht der betroffenen Helden/Items und ein Event-Feed mit Detailansicht.
@@ -55,10 +55,10 @@ Das Tierlist-Portal (unter `/builds/`) ist der Meta-Bereich für Hero-Rankings u
 - Build-Voting
 - Tierlist-Historie
 
-Die Public-Tierlist unterstützt unterschiedliche Buckets wie `all`, `phantom_plus` und `eternus`. Nutzer können zwischen Grid- und Listenansicht wechseln, nach Heroes suchen und einzelne Heroes aufklappen. Im Detailpanel sieht man Build-Beschreibungen, Kernitems, Ability-Order und kann positiv oder negativ voten.
+Die Tierliste lässt sich nach Skill-Bereich filtern (All Skill, Phantom+ oder Eternus). Nutzer können zwischen Grid- und Listenansicht wechseln, nach Helden suchen und einzelne Helden aufklappen. Im Detailpanel sieht man Build-Beschreibungen, Kernitems, Ability-Reihenfolge und kann positiv oder negativ voten.
 
 Zusätzlich gibt es eine History-Seite, auf der Snapshots verschiedener Patches oder Abrufe gegeneinander gestellt werden. Falls das Live-Backend ausfällt, besitzt das Portal einen Static-Fallback mit zuletzt gespeicherten JSON-Daten — die Seite fällt dann nicht komplett aus, sondern zeigt weiterhin einen brauchbaren Stand.
 
 ## Coaching & Scrims
-Der Coaching-Bereich ist ein eigenes Portal mit Discord-Login: Anfrage-Formular für kostenloses Coaching (`/anfrage`), Scrim-Anmeldung und für Coaches eine eigene Plattform mit Warteschlange, Coachee-Details, Zielen/Notizen und Terminen. Details stehen in der Coaching-Doku.
+Der Coaching-Bereich ist ein eigenes Portal unter `/coaching` mit Discord-Login: Anfrage-Formular für kostenloses Coaching (`/coaching/anfrage`), Scrim-Anmeldung und für Coaches eine eigene Plattform mit Warteschlange, Coachee-Details, Zielen/Notizen und Terminen. Details stehen in der Coaching-Doku.
 
