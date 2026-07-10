@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import difflib
+import html
 import json
 import subprocess
 import sys
@@ -9,7 +10,8 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-DOC_PATH = Path("public/discord-server/team-und-ansprechpartner.md")
+DOC_PATH = Path("public/discord-server/team-und-ansprechpartner.html")
+DEPLOY_SCRIPT = Path(__file__).resolve().parent / "deploy_corpus.sh"
 MCP_URL = "http://127.0.0.1:8890/mcp"
 RELOAD_URL = "http://127.0.0.1:8896/internal/reload"
 GUILD_ID = "1289721245281292288"
@@ -117,54 +119,70 @@ def fetch_role_members(client, role_name, role_id):
     return extract_members(response, role_name)
 
 
-def line(member):
-    return f"- **{member['display_name']}** (Discord: `{member['username']}`)"
+def member_item(member, suffix=""):
+    name = html.escape(member["display_name"])
+    username = html.escape(member["username"])
+    return f"    <li><strong>{name}</strong> (Discord: <code>{username}</code>){suffix}</li>"
 
 
 def render_document(stand, moderators, community_moderators, coaches):
-    moderator_lines = "\n".join(line(member) for member in moderators)
-    community_lines = "\n".join(line(member) for member in community_moderators)
-    coach_lines = []
+    moderator_items = "\n".join(member_item(member) for member in moderators)
+    community_items = "\n".join(member_item(member) for member in community_moderators)
+    coach_items = []
     for member in coaches:
         if member["user_id"] == NANI_ID:
             continue
         suffix = ", organisiert auch die Scrims" if member["user_id"] == LEO_ID else ""
-        coach_lines.append(f"{line(member)}{suffix}")
-    coach_lines.append("- **Nani** selbst coacht ebenfalls")
-    coach_lines = "\n".join(coach_lines)
+        coach_items.append(member_item(member, suffix))
+    coach_items.append("    <li><strong>Nani</strong> selbst coacht ebenfalls</li>")
+    coach_items = "\n".join(coach_items)
 
-    return f"""---
-title: "Das Team hinter dem Server (Owner, Mods, Coaches)"
-tags: [discord-server, team, owner, moderatoren, mods, coaches, ansprechpartner, wer]
-stand: {stand}
-quelle: "Discord-Rollen der Deutschen Deadlock Community, automatisch aktualisiert"
----
-# Das Team hinter dem Server
+    # Discord-Kanalverweise als Text erhalten, ohne dass sie als Markup gelten
+    ticket = html.escape("<#1459628609705738539>")
+    frage_alle = html.escape("<#1426220702054355077>")
+    coaching_channel = html.escape("<#1494373349944459355>")
 
-Wer steckt hinter der Deutschen Deadlock Community? Hier die Leute, die den Server vertreten und am Laufen halten. Diese Liste wird automatisch aus den Discord-Rollen aktualisiert.
-
-## Owner und Gründer
-- **Nani** (Discord: `earlysalty`) hat den Server gegründet und betreibt ihn. Er ist auch als **Salty** oder **EarlySalty** bekannt, streamt unter dem Namen EarlySalty auf Twitch und baut die Bots und die Website der Community.
-
-## Moderatoren
-Sie kümmern sich um Regeln, Ordnung und Konflikte:
-{moderator_lines}
-
-## Community-Moderatoren
-Sie unterstützen die Moderation und sind nah an der Community:
-{community_lines}
-
-## Coaches
-Sie geben kostenloses Coaching für alle Ränge (Anmeldung über <#1494373349944459355> oder die Coaching-Seite der Website):
-{coach_lines}
-
-## Paten
-Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste, wer die Paten-Rolle hat, kann Neulinge übernehmen. Einen Paten bekommst du über den Bot in den DMs.
-
-## Wie erreichst du das Team?
-- Bei Problemen oder Fragen: Ticket über den Button in <#1459628609705738539> öffnen.
-- Regelverstöße oder Konflikte: an die Moderatoren wenden (Ticket oder direkt ansprechen).
-- Fragen an alle: <#1426220702054355077>, da liest auch das Team mit.
+    return f"""<!doctype html>
+<html lang="de"><head>
+  <meta charset="utf-8">
+  <title>Team und Ansprechpartner</title>
+  <meta name="tags" content="discord-server, team, support">
+  <meta name="stand" content="{stand}">
+  <meta name="quelle" content="Discord-Rollenabfrage">
+</head><body><main>
+  <h1>Team und Ansprechpartner</h1>
+  <section id="owner"><h2>Owner und Gründer</h2>
+  <p><strong>Nani</strong> (Discord: <code>earlysalty</code>) hat den Server gegründet und betreibt ihn. Er ist auch als <strong>Salty</strong> oder <strong>EarlySalty</strong> bekannt, streamt unter dem Namen EarlySalty auf Twitch und baut die Bots und die Website der Community.</p>
+  </section>
+  <section id="moderatoren"><h2>Moderatoren</h2>
+  <p>Sie kümmern sich um Regeln, Ordnung und Konflikte:</p>
+  <ul>
+{moderator_items}
+  </ul>
+  </section>
+  <section id="community-moderatoren"><h2>Community-Moderatoren</h2>
+  <p>Sie unterstützen die Moderation und sind nah an der Community:</p>
+  <ul>
+{community_items}
+  </ul>
+  </section>
+  <section id="coaches"><h2>Coaches</h2>
+  <p>Sie geben kostenloses Coaching für alle Ränge (Anmeldung über {coaching_channel} oder die Coaching-Seite der Website):</p>
+  <ul>
+{coach_items}
+  </ul>
+  </section>
+  <section id="paten"><h2>Paten</h2>
+  <p>Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste; wer die Paten-Rolle hat, kann Neulinge übernehmen. Einen Paten bekommst du über den Bot in den DMs.</p>
+  </section>
+  <section id="ansprechpartner"><h2>Ansprechpartner</h2>
+  <ul>
+    <li>Bei Problemen oder Fragen: Ticket über den Button in {ticket} öffnen.</li>
+    <li>Regelverstöße oder Konflikte: an die Moderatoren wenden (Ticket oder direkt ansprechen).</li>
+    <li>Fragen an alle: {frage_alle}, da liest auch das Team mit.</li>
+  </ul>
+  </section>
+</main></body></html>
 """
 
 
@@ -181,8 +199,9 @@ def render_from_discord():
 
 
 def without_stand_line(text):
+    # nur die stand-Meta-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
     return "\n".join(
-        line for line in text.splitlines() if not line.startswith("stand: ")
+        line for line in text.splitlines() if 'name="stand"' not in line
     )
 
 
@@ -199,6 +218,10 @@ def diff(old, new):
 
 def run(cmd):
     subprocess.run(cmd, check=True)
+
+
+def deploy_corpus(ref):
+    run([str(DEPLOY_SCRIPT), ref])
 
 
 def reload_knowledge():
@@ -221,7 +244,7 @@ def main(argv=None):
 
     rendered = render_from_discord()
     old = DOC_PATH.read_text(encoding="utf-8") if DOC_PATH.exists() else ""
-    # stand:-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
+    # stand-Meta-Zeile ignorieren, sonst committet der Timer täglich nur das Datum
     if without_stand_line(old) == without_stand_line(rendered):
         print("unverändert")
         return 0
@@ -244,6 +267,8 @@ def main(argv=None):
         ]
     )
     run(["git", "push"])
+    # erst den committeten Korpus deployen, dann den Wissens-Dienst neu laden
+    deploy_corpus("HEAD")
     reload_knowledge()
     return 0
 
