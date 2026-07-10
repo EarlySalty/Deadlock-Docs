@@ -668,6 +668,24 @@ class ValidateCorpusTest(unittest.TestCase):
         write(self.root, "public/a.html", page)
         self.assertEqual(self.errors(), [])
 
+    # --- Task 1 Fix 6: Slash-Selbstschluss nur für Void-Elemente ---
+
+    def test_rejects_nonvoid_self_closing_tag(self):
+        # <style/> ist kein Void-Element: HTML5 ignoriert den Slash und hält
+        # <style> offen (schluckt Folgeinhalt als CSS), Python-HTMLParser
+        # behandelt es als selbstschließend. Diese Paritätslücke muss fail-closed
+        # als fehlerhafte Verschachtelung abgelehnt werden.
+        broken = CANONICAL.replace("</main>", "<style/></main>")
+        write(self.root, "public/a.html", broken)
+        self.assertIn("verschachtelung", self.joined().lower())
+
+    def test_accepts_void_self_closing_tag(self):
+        # kanonischer Void-Selbstschluss <br/> bleibt zulässig – nur Void-Elemente
+        # dürfen den Slash tragen
+        page = CANONICAL.replace("<p>Text</p>", "<p>Zeile<br/>Zwei</p>")
+        write(self.root, "public/a.html", page)
+        self.assertEqual(self.errors(), [])
+
 
 if __name__ == "__main__":
     unittest.main()

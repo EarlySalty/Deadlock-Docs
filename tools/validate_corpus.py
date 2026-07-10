@@ -181,6 +181,13 @@ class PageParser(HTMLParser):
         self._open(tag, attrs, False)
 
     def handle_startendtag(self, tag, attrs):
+        # Slash-Selbstschluss (<tag/>) ist in HTML5 nur für Void-Elemente gültig.
+        # Bei jedem anderen Tag ignoriert der HTML5-Scraper den Slash und hält das
+        # Element offen (schluckt den Folgeinhalt), während Python-HTMLParser es
+        # sofort schließt – eine Paritätslücke. Fail-closed als fehlerhafte
+        # Verschachtelung ablehnen.
+        if tag not in VOID_ELEMENTS:
+            self.malformed = True
         self._open(tag, attrs, True)
 
     def handle_endtag(self, tag):
