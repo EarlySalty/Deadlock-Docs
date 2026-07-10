@@ -69,7 +69,7 @@ Das Gate zaehlt nur das jeweils neueste vollstaendige Review pro Report. Es ist 
 
 ## API-Limits und Fehler
 
-Die Deadlock API dokumentiert Limits endpointabhaengig und meldet Ueberschreitungen als HTTP 429; fuer Demo-Queries ist keine feste oeffentliche Quote belastbar dokumentiert. Der Pilot sendet Jobs seriell, pollt standardmaessig alle 5 Sekunden und hat 900 Sekunden Gesamt-Timeout. Idempotente GETs nutzen den zentralen Retry-/Backoff-Pfad auch fuer 429. Demo-POSTs werden nicht blind wiederholt, weil ein Job trotz verlorener Antwort bereits erstellt sein kann. (`rust/crates/deadlock-brain-core/src/http.rs`, `rust/crates/dbrain-sources/src/deadlock_api.rs`)
+Die Deadlock API dokumentiert Limits endpointabhaengig und meldet Ueberschreitungen als HTTP 429; fuer Demo-Queries ist keine feste oeffentliche Quote belastbar dokumentiert. Der Pilot sendet Jobs seriell, pollt standardmaessig alle 5 Sekunden und hat 900 Sekunden Gesamt-Timeout. Ein Poll-GET hat genau einen inneren HTTP-Versuch; 429, Server- und Transportfehler werden in der asynchronen Poll-Schleife wiederholt. Anfragezeit, Backoff und Poll-Pause sind jeweils auf die verbleibende Gesamtdauer begrenzt. Andere idempotente GETs nutzen weiterhin den zentralen Retry-/Backoff-Pfad. Demo-POSTs werden nicht blind wiederholt, weil ein Job trotz verlorener Antwort bereits erstellt sein kann. (`rust/crates/deadlock-brain-core/src/http.rs`, `rust/crates/dbrain-sources/src/deadlock_api.rs`)
 
 Bei 404 bleibt das Match offen. Bei fehlgeschlagenem oder unvollstaendigem Query-Buendel entsteht kein fertiger Evidenz-Snapshot. Der Game-/Steam-Demo-Fallback bleibt vertagt, bis mehrere API-Reports den fachlichen Evidenz- und Reviewvertrag bestanden haben.
 
