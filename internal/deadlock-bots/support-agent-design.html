@@ -100,11 +100,22 @@
       <li>Ohne belastbare Quelle folgt in den direkten Oberflächen ein sicherer, oberflächengerechter Verweis an Menschen. Aus dem Ticket wird auch dieser Kein-Treffer-Fall nur als Prüfkandidat im internen Log-Kanal sichtbar.</li>
     </ol>
     <p>Auch Gameplay-Fakten kommen nur aus dem deployten öffentlichen Wissenskorpus, belegt aus den gefundenen Abschnitten. Einen Brain-Fallback und freie Modellantworten ohne Korpusquelle gibt es nicht; fehlt dort eine belastbare Antwort, bleibt der Agent beim sicheren Wissenslücken-Verweis. <code>local_conversational_answer</code> ist kein Fallback, sondern ein vorgelagerter Sonderfall für nicht-faktische Konversation.</p>
+    <h3>Oberflächenvertrag</h3>
+    <table>
+      <thead><tr><th>Oberfläche</th><th>Kontext und Speicherung</th><th>Persönliche Controls</th></tr></thead>
+      <tbody>
+        <tr><td>Echte Direktnachricht</td><td>Normaler privater Concierge-Verlauf; bei Opt-out stateless</td><td><code>stopp</code> und Vergessen aktiv; neue Paten-/Steckbrief-Aktionsbuttons erlaubt</td></tr>
+        <tr><td>Privater FAQ-Chat</td><td>Eigener FAQ-Sitzungsverlauf</td><td>Keine Concierge-Text-Controls und keine persönlichen Concierge-Aktionsbuttons</td></tr>
+        <tr><td>Nachweislich eigener privater Concierge-Fallback</td><td>Normaler privater Concierge-Verlauf</td><td>Keine Text-Controls (<code>stopp</code>/Vergessen); persönliche und generische Buttons erst nach Ownership-Prüfung erlaubt</td></tr>
+        <tr><td>Fester öffentlicher Server-/Bot-Fragenkanal</td><td>Strikt stateless: nur die aktuelle Frage, kein Conversation-Insert und niemals DM-/Fallback-History</td><td>Keine persönlichen Aktionsbuttons; vorhandene generische Buttons werden abgewiesen</td></tr>
+        <tr><td>Sonstige Guild-Kanäle</td><td>Keine Concierge-Antwortoberfläche</td><td>Generische Concierge-Buttons werden abgewiesen</td></tr>
+      </tbody>
+    </table>
     <h3>Was in die Retrieval-Anfrage eingeht</h3>
     <ul>
       <li>Im speichernden Gespräch gehen höchstens die <strong>vier vorherigen Nutzerfragen und die aktuelle Frage</strong> in die Retrieval-Anfrage. Der Verlauf schärft ausschließlich die Suche.</li>
       <li>Assistant-Texte gehen nie mit. Frühere Bot-Antworten sind keine Quelle und können sich nicht selbst bestätigen.</li>
-      <li>Stateless — nach dem Datenschutz-Opt-out und überall dort, wo kein Verlauf geführt wird — besteht die Anfrage ausschließlich aus der aktuellen Frage.</li>
+      <li>Stateless — nach dem Datenschutz-Opt-out und überall dort, wo kein Verlauf geführt wird — besteht die Anfrage ausschließlich aus der aktuellen Frage. Der öffentliche Server-/Bot-Fragenkanal ist unabhängig vom User-Zustand immer stateless und liest weder DM- noch Fallback-Verlauf.</li>
     </ul>
   </section>
 
@@ -113,9 +124,10 @@
     <ul>
       <li>Nutzeranweisungen können Systemregeln, Quellenwahl, Rollen oder Folgeaktionen nicht verändern.</li>
       <li>Zeitüberschreitung, Transportfehler, ungültiges Modell-JSON, leerer Kontext und nicht beantwortbare Fragen scheitern geschlossen.</li>
-      <li>Ein unklarer Discord-Transport oder Commit ist kein belegter Rollback. Bekannte, in demselben Ablauf neu angelegte Container dürfen nach einem nachweislich fehlgeschlagenen Folgeschritt gezielt aufgeräumt werden; möglicherweise zugestellte, aber nicht eindeutig identifizierbare Effekte werden nie blind entfernt. Commit-Reconciliation und feste Unsicherheitstexte trennen diese Fälle sichtbar und führen bei unklarem Zustand zum Menschen-Support.</li>
+      <li>Ein unklarer Discord-Transport oder Commit ist kein belegter Rollback. Bekannte, in demselben Ablauf neu angelegte Container dürfen nach einem nachweislich fehlgeschlagenen Folgeschritt gezielt aufgeräumt werden; möglicherweise zugestellte, aber nicht eindeutig identifizierbare Effekte werden nie blind entfernt.</li>
+      <li><strong>No-Retry für wiederholbare Side-Effect-Workflows:</strong> FAQ-Sessionstart, Patenwunsch/-Claim, Steckbrief-Post und proaktiver T0/Kadenz-Versand erhalten bei unsicherem Discord-Zustand einen persistenten Wiederholungsschutz; der jeweilige Anlage- oder Versandversuch wird nicht erneut ausgelöst. Der Marker-Commit wird durch einen frischen Read-back verifiziert. Fehlt die Bestätigung, wird der Marker genau einmal in einem isolierten sicheren Schritt nachgezogen und erneut geprüft. Normale Wissens-, Cooldown- und Unsicherheitshinweis-Antworten besitzen keinen solchen dauerhaften Workflow-Marker; eine normale Frage darf später erneut gestellt oder an den Menschen-Support übergeben werden. Commit-Reconciliation und feste Unsicherheitstexte führen bei weiterhin unklarem Side-Effect-Zustand zum Menschen-Support.</li>
       <li>Beim automatischen FAQ-Ablauf wird nach dem Schließen eine frische Transaktion geöffnet, der User-Privacy-Lock erneut genommen und genau diese geschlossene Session bestätigt. Erst danach darf die Timeout-Nachricht an Discord gehen; ohne diese Bestätigung bleibt sie aus.</li>
-      <li>Ein bereits erfolgreich gespeicherter Patenwunsch ist idempotent. Ein wiederholter Bestätigungsklick gibt denselben Erfolg zurück, ohne einen weiteren internen Post anzulegen.</li>
+      <li>Ein bereits erfolgreich gespeicherter Patenwunsch ist idempotent. Ein wiederholter Bestätigungsklick gibt denselben Erfolg zurück, ohne einen weiteren internen Post anzulegen. Bleibt Request oder Claim bei Discord unklar, verhindert ein persistenter No-Retry-Zustand ebenfalls weitere Posts, Kanäle, Intros und DMs; bekannte Kanäle werden bei unklarer Intro-/DM-Zustellung nicht gelöscht.</li>
       <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus. Er liest ausschließlich den Wissenskorpus, insbesondere keine Twitch- oder Live-Zustände.</li>
       <li>Die öffentliche Antwort enthält keine internen Fehlerdetails, Prompts, Modellnamen oder Quellenpfade.</li>
     </ul>
@@ -198,6 +210,7 @@
     <ul>
       <li>Öffentliches Wissen umfasst alles, was ein normales Mitglied sehen oder ausführen darf.</li>
       <li>DM, privater FAQ-Chat und Server-Fragenkanal antworten direkt; aus Tickets entsteht nur ein Prüfkandidat im internen Log-Kanal.</li>
+      <li>Der feste öffentliche Server-/Bot-Fragenkanal ist current-question-only, speichert keinen persönlichen Concierge-Verlauf und bietet keine persönlichen Controls. Echte DM und nachweislich eigener privater Fallback bleiben getrennte private Oberflächen mit den oben dokumentierten Grenzen.</li>
       <li>Live-Status, Diagnose und Auto-Debug sind kein Teil des Support-Agenten, auch nicht im Ticket. Auto-Debug bleibt ein getrenntes späteres internes Arbeitspaket ohne Nutzerantwort.</li>
       <li>BM25 bleibt, bis Evaluation einen Wechsel begründet.</li>
       <li>Alle Wissensseiten in <code>public/</code> und <code>internal/</code> werden HTML und committed.</li>

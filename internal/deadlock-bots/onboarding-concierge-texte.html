@@ -241,9 +241,15 @@ Gedächtnis. Der Text sagt genau das:</p>
 Gesprächsverlauf mehr an und melde mich nicht mehr von selbst, wenn du mich direkt fragst,
 antworte ich ohne Verlauf. Mit /datenschutz-optin erlaubst du die Speicherung wieder.</p>
 </blockquote>
-<p>Vergessen-Bestätigung. Ausgelöst wird sie nur durch eine der engen Festphrasen des
-<code>forget_intent</code>-Parsers (nach Trim, optionalem „bitte&quot; und Satzzeichen), sicherer
-Auslöser ist „vergiss mich&quot;; freie Umschreibungen lösen bewusst nichts aus.
+<p>Vergessen-Bestätigung. Ausgelöst wird sie nur durch eine direkte Anweisung aus
+der engen Allowlist des <code>forget_intent</code>-Parsers: „vergiss
+mich/das/alles/meine Daten&quot;, „lösch/loesch/lösche/loesche meine Daten&quot;,
+dieselben vier Verben mit „alles&quot;, „Daten löschen/loeschen&quot; oder „meine
+Daten löschen/loeschen&quot;. Groß-/Kleinschreibung, optionale führende
+syntaktisch gültige direkte User-Mentions, ein „bitte&quot; am Anfang oder zwischen
+Phrasentokens und abschließende Satzzeichen werden toleriert; indirekte
+Meta-Fragen, führende geschlossene Zitate, Blockquotes, Rollen-/Kanal-/ungültige
+Mentions und freie Umschreibungen lösen bewusst nichts aus.
 Gelöscht wird nur, was der Concierge zusätzlich gespeichert hat: die
 Gesprächskopie in der Datenbank, das Concierge-Profil, interne
 Concierge-Merker und die Concierge-Anteile der Journey. Was in Discord

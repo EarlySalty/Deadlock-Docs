@@ -66,7 +66,10 @@ Transaktion unter dem User-Privacy-Lock den gespeicherten
 ein belegter Rollback erlaubt das Entfernen des Posts. Ist Zustellung,
 Commit oder Read-back nicht sicher, wird nichts destruktiv gelöscht und
 der User erhält den Unsicherheitstext, der ausdrücklich offenlässt, ob
-ein interner Hinweis existiert.</li>
+ein interner Hinweis existiert. Zusätzlich bleibt
+<code>pate_request_uncertain</code> dauerhaft gesetzt: derselbe Wunsch kann
+nicht erneut posten und liefert bis zur menschlichen Klärung wieder den
+Unsicherheitstext.</li>
 <li><strong>Claim-Commit wird vor Kompensation reconciled.</strong> Meldet der
 Commit einen Fehler, nimmt eine frische Transaktion zuerst dieselben
 beiden sortierten Privacy-Locks und prüft den exakten aktiven Match aus
@@ -77,6 +80,13 @@ irgendein Claim für den User vorhanden, ist der Rollback belegt und
 die Discord-Schritte werden kompensiert. Jeder gemischte, abweichende
 oder nicht prüfbare Zustand bleibt unsicher — dann wird bewusst nichts
 destruktiv gelöscht und der Klicker bekommt den Unsicherheitstext.</li>
+<li><strong>Claim-Zustellunsicherheit sperrt Wiederholungen.</strong> Bleibt schon die
+Kanalanlage unklar, wird der KV-Claim ohne zweiten Discord-Versuch
+persistiert. Ist der Kanal bekannt, aber Intro oder DM bleiben unklar,
+bleiben Kanal, Match und Claim bestehen; ein möglicherweise zugestellter
+DM-Link wird nicht durch Kanal-Cleanup entwertet. Ein zweiter Klick sieht
+den bestehenden Claim und legt weder einen weiteren Kanal noch eine zweite
+Patenschaft an; auch ein zweiter Intro- oder DM-Versuch bleibt aus.</li>
 <li><strong>Match.</strong> Bei Erfolg: Zeile in <code>bot.concierge_patenschaften</code>;
 privaten Textkanal erstellen (bestehender Port
 <code>create_private_channel</code>, Kategorie <code>DL_CONCIERGE_PATE_CATEGORY_ID</code>,
@@ -225,10 +235,13 @@ kompensiert; ein gemischter oder nicht prüfbarer Zustand bleibt
 unangetastet und liefert den Unsicherheitstext.</li>
 <li>Ein zweiter bestätigender Klick bei bereits gespeichertem Patenwunsch
 liefert denselben Erfolgstext und erzeugt keinen zweiten internen Post.</li>
-<li>pate_request=true hängt Buttons an; false nicht. Eine reine
-Wissensfrage über Paten setzt es nicht.</li>
+<li>Unsichere Request-/Claim-Zustellung persistiert einen No-Retry-Marker;
+Wiederholung erzeugt weder zweiten internen Post noch zweiten Patenkanal,
+zweites Intro oder zweite DM.</li>
+<li>Der lokale <code>pate_request</code>-Bool hängt Buttons an; eine reine
+Wissensfrage über Paten setzt ihn nicht.</li>
 <li>record_system_dm legt Profil an und schreibt assistant-Turn.</li>
-<li>Bestehende 88 dl-community-Tests bleiben grün.</li>
+<li>Die vollständige <code>dl-community</code>-Suite bleibt grün.</li>
 </ul>
 </section>
 </main>
