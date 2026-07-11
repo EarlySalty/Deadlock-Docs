@@ -1,0 +1,162 @@
+[
+  {
+    "question": "Wie erstelle ich eine Casual- oder Ranked-Lane?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router", "Casual", "Ranked"],
+    "answer_terms": ["Router", "Lane"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert, wenn ich dem Voice-Router beitrete?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router", "Lane", "Owner"],
+    "answer_terms": ["Lane", "Owner"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was kann ich als Owner meiner Voice-Lane einstellen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tempvoice-guide.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Owner", "umbenennen", "Teilnehmerlimit"],
+    "answer_terms": ["umbenennen", "Limit"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert mit der Lane, wenn der Owner geht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tempvoice-guide.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Ownership", "übernehmen", "automatisch"],
+    "answer_terms": ["Ownership"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Brauche ich für jede Ranked-Lane einen verifizierten Rang?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/voice-lanes.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Ranked-Lanes", "offen", "Rang-Gate"],
+    "answer_terms": ["offen", "Rang-Gate"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Kann der Lane-Owner den Beitritt auf einen Rangbereich begrenzen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/voice-lanes.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Rang-Gate", "verifizierten Rang", "Owner"],
+    "answer_terms": ["Rang-Gate"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Zeigt der Voice-Kanal, ob gerade ein Match läuft?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Lane-Name", "Modus", "Match-Status"],
+    "answer_terms": ["Modus"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Sehe ich Lobbyzeit oder Spielerstatus im Lane-Namen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Lane-Name", "Kanalnamen"],
+    "answer_terms": ["Modus"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie finde ich Mitspieler auf dem Server?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html", "discord-server/module/mitspielersuche-lfg.html", "discord-server/workflows/mitspieler-finden.html"],
+    "context_terms": ["LFG", "Mitspieler finden", "Panel"],
+    "answer_terms": ["LFG"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was mache ich, wenn ich statt eines LFG-Panels nur einen Textkanal sehe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html", "discord-server/module/mitspielersuche-lfg.html", "discord-server/workflows/mitspieler-finden.html"],
+    "context_terms": ["klassische Textsuche", "Panel"],
+    "answer_terms": ["Textsuche"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Kann der Bot mir bei einer Gameplay-Frage helfen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/brain.html", "discord-server/community-tools.html"],
+    "context_terms": ["!brain", "freigeschalteten", "Helden"],
+    "answer_terms": ["!brain"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wofür ist Smartping gedacht und wie benutze ich es?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/brain.html", "discord-server/community-tools.html"],
+    "context_terms": ["Smartping", "Teamwerkzeug"],
+    "answer_terms": ["Teamwerkzeug"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie stelle ich eine Coaching-Anfrage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["/coaching-anfrage", "Coaching-Website"],
+    "answer_terms": ["/coaching-anfrage"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich den Status meiner Coaching-Anfrage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["/coaching-status", "Status"],
+    "answer_terms": ["/coaching-status"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie melde ich mich für Scrims an?",
+    "answerable": true,
+    "expected_sources": ["discord-server/scrims.html"],
+    "context_terms": ["/scrim-signup", "Anmeldebutton"],
+    "answer_terms": ["/scrim-signup"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie komme ich in die private Lobby, wenn mein Steam-Konto nicht verknüpft ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/scrims.html"],
+    "context_terms": ["Join-Code", "private Lobby"],
+    "answer_terms": ["Join-Code"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo organisiere ich ein normales Custom Game?",
+    "answerable": true,
+    "expected_sources": ["discord-server/custom-games.html"],
+    "context_terms": ["Custom-Games-Chat", "Custom Game"],
+    "answer_terms": ["Custom Game"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "In welchem Voice-Bereich treffen wir uns für eigene Lobbys?",
+    "answerable": true,
+    "expected_sources": ["discord-server/custom-games.html"],
+    "context_terms": ["Sammelpunkt", "Voice"],
+    "answer_terms": ["Sammelpunkt"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo finde und bewerte ich Community-Builds?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Build-Seite", "abstimmen", "Stimmzahlen"],
+    "answer_terms": ["Build"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bedeutet die höchste Tier-Stufe, dass dieser Held immer der beste ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["patchabhängig", "Tier-Stufe"],
+    "answer_terms": ["patchabhängig"],
+    "forbidden_terms": []
+  }
+]
