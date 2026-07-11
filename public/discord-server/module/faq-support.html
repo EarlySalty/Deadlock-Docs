@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>FAQ und Concierge-Support</title>
-  <meta name="tags" content="discord-server, faq, concierge, support, modul">
+  <meta name="tags" content="discord-server, faq, concierge, support, modul, datenschutz, opt-out">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
@@ -22,8 +22,17 @@
     <ul>
       <li><em>Frage stellen</em> im Bereich für Server- und Bot-Fragen öffnet einen privaten Chat, den andere gewöhnliche Mitglieder nicht sehen.</li>
       <li><code>/faq</code> öffnet denselben privaten Chat.</li>
-      <li>Eine direkte Bot-DM ist höchstens ein optionaler zusätzlicher Weg, wenn sie sichtbar verfügbar ist — nicht der garantierte Einstieg.</li>
+      <li>Erreicht eine Direktnachricht den Bot, nutzt er darin dasselbe öffentliche Wissen. Weil Discord eine DM nicht garantiert zustellt, bleibt <code>/faq</code> der verlässlichere Einstieg.</li>
     </ul>
+  </section>
+
+  <section id="datenschutz">
+    <h2>Datenschutz im Chat</h2>
+    <p>Ein <code>stopp</code> per Direktnachricht an den Concierge setzt einen globalen Datenschutz-Opt-out. Danach speichert er keinen neuen Gesprächsverlauf mehr und meldet sich nicht mehr von sich aus; direkte Fragen beantwortet er weiterhin, dann aber ohne Verlauf.</p>
+    <p>Im privaten Fragechat über <code>/faq</code> verarbeitet der Concierge <code>stopp</code> nicht — der Opt-out geht dort nur über eine Direktnachricht an ihn oder über <code>/datenschutz</code>.</p>
+    <p>Bereits gespeicherte Daten löscht <code>stopp</code> nicht; dafür nutzt du den getrennten Löschweg über <code>/datenschutz</code>.</p>
+    <p>Solange dieser Opt-out aktiv ist, lässt sich kein neuer speichernder privater Fragechat starten. Ein bereits vorhandener Fragechat beantwortet direkte Fragen weiterhin — ohne neue Speicherung und ohne Gesprächsverlauf. Das gilt auch dann, wenn die gespeicherte Sitzung über den Löschweg entfernt wurde. Ein Chat, der über den Beenden-Button oder nach Zeitablauf geschlossen wurde, bleibt geschlossen und antwortet nicht weiter.</p>
+    <p>Für einen neuen Chat mit Gesprächsverlauf erlaubst du die Speicherung bewusst über <code>/datenschutz-optin</code>; alternativ führt ein Ticket zum menschlichen Support.</p>
   </section>
 
   <section id="zustaende">
@@ -33,12 +42,18 @@
       <tr><td>Antwort erhalten</td><td>Die Frage war aus der Dokumentation sicher beantwortbar.</td><td>Bei Bedarf nachfragen.</td></tr>
       <tr><td>Keine sichere Antwort</td><td>Der Assistent findet nichts Belastbares und rät nicht.</td><td>Konkreter fragen; danach Guides, Community oder den Supportweg nutzen.</td></tr>
       <tr><td>Bereits offener Chat</td><td>Es besteht schon ein privater Fragechat.</td><td>Vorhandenen Chat weiterverwenden oder beenden und neu starten.</td></tr>
+      <tr><td>Chat-Anlage technisch unsicher</td><td>Ein Kanal oder eine aktive Sitzung kann bereits sichtbar sein; der Endzustand ist nicht bestätigt.</td><td>Keinen zweiten Chat starten, sichtbaren Zustand prüfen und ein Ticket öffnen.</td></tr>
+      <tr><td>Antwort technisch unsicher</td><td>Eine automatische Antwort kann bereits sichtbar sein; ihr Zustand ist nicht bestätigt.</td><td>Nicht erneut auslösen und ein Ticket öffnen.</td></tr>
+      <tr><td>Neuer Chat startet nicht wegen Datenschutz-Opt-out</td><td>Ein aktiver Opt-out verhindert einen neuen speichernden Fragechat.</td><td>Für einen neuen Chat mit Verlauf die Speicherung bewusst mit <code>/datenschutz-optin</code> wieder erlauben oder ein Ticket beim Menschen-Support nutzen.</td></tr>
+      <tr><td>Vorhandener Fragechat antwortet trotz Opt-out</td><td>Er beantwortet direkte Fragen ohne neue Speicherung und ohne Verlauf.</td><td>So weiternutzen; für einen Chat mit Verlauf <code>/datenschutz-optin</code> nutzen.</td></tr>
+      <tr><td>Hinweis zum automatischen Ablauf</td><td>Der bisherige Chat ist geschlossen.</td><td>Für weitere Fragen einen neuen Chat öffnen; bei einem widersprüchlichen sichtbaren Zustand ein Ticket nutzen.</td></tr>
     </table>
   </section>
 
   <section id="mensch">
     <h2>Übergabe an einen Menschen</h2>
-    <p>Persönliche, technische oder moderative Fälle sind kein Wissensthema. Dafür führt der sichtbare Menschen-Support weiter. Diese Trennung ist gewollt.</p>
+    <p>Dokumentierte technische Fehlerbilder und den sicheren nächsten Schritt dazu beantwortet der Support-Agent selbst.</p>
+    <p>Persönliche Fälle, nicht dokumentierte technische Einzelfälle, die eine Prüfung brauchen, und Moderationsfälle gehen an den sichtbaren Menschen-Support. Diese Trennung ist gewollt.</p>
   </section>
 </main>
 </body>

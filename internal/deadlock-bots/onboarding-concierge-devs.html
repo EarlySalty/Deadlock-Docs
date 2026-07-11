@@ -50,19 +50,17 @@ auf „stopp&quot;.</li>
 <li><strong>DM zu (Discord 50007):</strong> Fallback privater Textkanal nach dem Muster
 aus <code>faq.rs</code> (Kanal nur User + Bot, Auto-Aufräumen). KV-Claim gegen
 Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>.</li>
-<li><strong>User antwortet frei</strong> → ab jetzt LLM-Gespräch über
-<code>LlmUseCase::BotPate</code> (dl-ai). Start-Modell laut Owner-Entscheid vom
-07.07.: <strong>DeepSeek über Fireworks</strong> (<code>deepseek-v4-flash</code>, Fireworks hat
-laut Owner einen AVV/DPA; Nachweis wird als Launch-Gate abgelegt,
-§10). Provider bleibt per Env umschaltbar (<code>DL_LLM_PROVIDER_BOT_PATE</code>);
-der frühere Entscheid „gpt-5.4-mini&quot; vom 02.07. ist damit überholt. Der System-Prompt
-kommt aus dem Textpaket (Concierge v0.3). Gesprächsprinzip:
-<strong>immer offene Fragen zuerst, geschlossene Fragen und Buttons nur zum
-Präzisieren.</strong></li>
-<li><strong>Stille Intent-Klassifikation</strong> aus dem Gespräch in genau eine von vier
-Kategorien: <code>improve</code> (besser werden), <code>mates</code> (feste Mitspieler),
-<code>learn</code> (Spiel lernen), <code>casual</code> (entspannt zocken). Wird im Profil
-gespeichert, nie dem User als Formular gezeigt.</li>
+<li><strong>User antwortet frei:</strong> Enge nicht-faktische Konversationsfälle
+beantwortet <code>local_conversational_answer</code> mit festen lokalen Texten.
+Jede Faktenfrage läuft ausschließlich über <code>dl-knowledge</code> und den
+öffentlichen HTML-Korpus. Einen freien BotPate-Chat, einen zweiten
+Modellpfad oder eine frei formulierte Modellantwort gibt es nicht.</li>
+<li><strong>Stille Intent-Klassifikation</strong> erfolgt lokal und deterministisch über
+<code>classify_intent</code> in genau eine von vier Kategorien:
+<code>improve</code> (besser werden), <code>mates</code> (feste Mitspieler),
+<code>learn</code> (Spiel lernen), <code>casual</code> (entspannt zocken). Die
+Heuristik wird nur im speichernden Pfad ins Profil geschrieben und nie
+als Formular gezeigt; ein LLM entscheidet diesen Wert nicht.</li>
 </ol>
 </section>
 <section id="3-die-drei-ausgaenge-jede-strecke-endet-richtung-mensch">
@@ -74,8 +72,10 @@ automatisch in eine passende Lane verteilt oder eine erstellt. Ergänzend
 🎯mitspieler-suche (<code>1522769149208821881</code>). Bei <code>learn</code> zusätzlich
 Coaching-Hinweis auf &lt;#1494373349944459355&gt;.</li>
 <li><strong>Fragen:</strong> Antworten über <code>dl-knowledge</code> <code>POST /public/v1/ask</code>
-(BM25 + LLM, fail-closed). Bei Lücke KEIN Raten: Verweis auf
-&lt;#1426220702054355077&gt; (💬frag-die-community) nach dem Lücken-Dreiklang
+(BM25 + LLM, fail-closed). <strong>Einziger Faktenpfad</strong>: kein Brain-Fallback,
+keine freie Modellantwort. Bei Lücke, Fehler oder Timeout KEIN Raten:
+Verweis auf &lt;#1491953161747955853&gt; (Server- und Bot-Fragen, so auch im
+Code) nach dem Lücken-Dreiklang
 aus dem KI-Charakter-Design (nie ratlos, jede Antwort endet mit einer
 Handlung). „Ich find's für dich raus&quot; bleibt verboten (kein Cockpit).</li>
 <li><strong>Umschauen:</strong> Mini-Tour, 6 Stationen (Texte im Textpaket), als eine
@@ -90,6 +90,38 @@ V2-Nachricht mit Sektionen, kein Klick-Marathon:
 Die Tour endet IMMER im Steckbrief-Angebot.</li>
 </ol>
 </li>
+</ul>
+</section>
+<section id="3b-wissens-und-verlaufsvertrag">
+<h2>3b. Wissens- und Verlaufsvertrag (Ist-Stand 2026-07-11)</h2>
+<ul>
+<li><strong>Nur belegte Passagen, nie eine freie Modellantwort.</strong> Das Modell
+formuliert keine Antwort, sondern wählt aus den mitgelieferten Chunks
+belegende Passagen aus (<code>answerable</code> + <code>evidence</code>). Der Dienst
+normalisiert jede Passage, prüft, dass sie <strong>vollständig und exakt</strong> in
+einem der retrievten öffentlichen HTML-Chunks steht, und liefert erst
+dann die zusammengesetzten Passagen aus. Was diese Prüfung nicht
+besteht, wird verworfen und die Frage gilt als nicht beantwortbar.
+Eine frei formulierte Modellantwort erreicht das Mitglied nie.</li>
+<li><strong>Jede Passage ist ein vollständiger Satz</strong> ab Chunk- oder Satzanfang
+bis zum Satzende. Halbe Sätze und isolierte, themenfremde Zeilen sind
+keine Evidence.</li>
+<li><strong>Retrieval-Verlauf:</strong> Im speichernden Gespräch gehen höchstens die
+<strong>vier vorherigen Nutzerfragen plus die aktuelle Frage</strong> in die
+Retrieval-Anfrage. Assistant-Texte gehen nie mit — der Verlauf schärft
+nur die Suche, er ist keine Antwortquelle.</li>
+<li><strong>Stateless:</strong> Nach dem Datenschutz-Opt-out (und überall dort, wo kein
+Verlauf geführt wird) besteht die Retrieval-Anfrage ausschließlich aus
+der aktuellen Frage. Kein Verlauf rein, kein Verlauf raus.</li>
+<li><strong>Vorgelagerte Konversationsfälle:</strong> <code>local_conversational_answer</code>
+beantwortet einen engen, fest verdrahteten Satz nicht-faktischer Fälle
+(Identitätsfrage, Smalltalk, Favoriten, Offtopic, reiner Link) lokal und
+ohne Wissensabfrage. Faktenfragen werden dort nie beantwortet.</li>
+<li><strong>Discord-Seiteneffekte:</strong> Externe Operationen sind zeitlich begrenzt.
+Ein unklarer Transport- oder Commit-Zustand wird nicht destruktiv
+kompensiert, sondern mit einem festen Unsicherheitstext sichtbar gemacht.
+Der Patenwunsch ist nach erfolgreicher Speicherung idempotent: ein
+wiederholter Klick erzeugt keinen zweiten internen Post.</li>
 </ul>
 </section>
 <section id="4-steckbrief">
@@ -174,7 +206,13 @@ erreichbar, antwortet dann aber <strong>stateless</strong>, also direkt und ohne
 gespeichertes Gedächtnis über die Nachricht hinaus. Mit
 <code>/datenschutz-optin</code> erlaubt der User die Speicherung wieder, danach
 baut der Concierge wieder Verlauf und Profil auf.
-„Vergiss mich/das&quot; (Keyword UND natürlichsprachlich) → sofortige Löschung
+Vergessen läuft bewusst <strong>nicht</strong> über freie semantische Erkennung, sondern über einen
+engen Festphrasen-Parser (<code>forget_intent</code>): Nach Trim, einem optionalen führenden
+„bitte&quot; und abschließenden Satzzeichen zählen ausschließlich „vergiss mich&quot;,
+„vergiss das&quot;, „vergiss alles&quot;, „vergiss meine daten&quot;, „lösch/loesch meine daten&quot;,
+„lösch/loesch alles&quot; und „daten löschen/loeschen&quot;. Umschreibungen wie „kannst du bitte
+meine Daten vergessen&quot; lösen <strong>keine</strong> Löschung aus, das ist Absicht und verhindert
+unbeabsichtigtes Löschen. Trifft eine dieser Festphrasen → sofortige Löschung
 <strong>ausschließlich der zusätzlich gespeicherten Concierge-Daten</strong>: Gesprächskopie
 (<code>concierge_conversations</code>), Concierge-Profil (<code>concierge_profiles</code>),
 interne Concierge-Merker und die Concierge-Anteile der Journey. Nicht angefasst
@@ -190,13 +228,23 @@ Textpakets.</li>
 <section id="7-pate-schnittstelle-vollausbau-slice-b">
 <h2>7. Pate (Schnittstelle, Vollausbau = Slice B)</h2>
 <ul>
-<li>Pool = Rolle <code>1524047896297738311</code>. Trigger: User äußert Wunsch, oder
-Angebot im T+2-Nudge. Nur mit Zustimmung, nie ungefragt zugeteilt.</li>
-<li><strong>Slice A baut nur die Übergabe:</strong> Zustimmung wird im Profil vermerkt
-(<code>pate_requested</code>), der Concierge pingt die Paten-Rolle in einem
-Mod-/Paten-Kanal mit dem Steckbrief-Destillat. Das Matching
-(Rang-Nähe, Spielzeiten, Load-Limit 2-3, privater Textkanal mit
-Concierge-Vorstellung) ist Slice B.</li>
+<li>Pool = Rolle <code>1524047896297738311</code>. Trigger: User äußert ausdrücklich
+einen Wunsch, oder Angebot im T+2-Nudge (nur im proaktiven Modus). Nur
+mit Zustimmung, nie ungefragt zugeteilt. Eine bloße <strong>Wissensfrage</strong>
+über Paten öffnet den Workflow nicht.</li>
+<li><strong>Übergabe:</strong> Zustimmung wird im Profil vermerkt
+(<code>pate_requested</code>), der Concierge postet einen Claim-Post mit
+Rollen-Ping, Kurz-Destillat und Übernehmen-Button in den <strong>fest
+erlaubten</strong> Patenkanal. Erfolg wird dem Neuling erst gemeldet, wenn
+dieser Post sicher steht und der Wunsch committet ist.</li>
+<li><strong>Keine automatische Rang- oder Kandidatenempfehlung.</strong> Es wird kein
+passender Pate berechnet oder namentlich vorgeschlagen; es übernimmt
+freiwillig, wer zuerst drückt. Beim Claim greifen Rollen-Prüfung,
+Load-Limit (3 aktive Patenschaften) und ein KV-Claim gegen
+Doppelvergabe. Details in
+<a href="onboarding-concierge-slice-b-c.html">Slice B/C</a>.</li>
+<li><strong>Fail-closed:</strong> Aktiver Opt-out und nicht prüfbarer
+Privatsphäre-Status blocken beide — bei Wunsch wie bei Claim.</li>
 </ul>
 </section>
 <section id="8-optik">

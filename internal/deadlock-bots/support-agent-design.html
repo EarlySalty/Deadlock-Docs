@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Support-Agent: HTML-Wissenskorpus und verlässliche Discord-Antworten</title>
   <meta name="tags" content="deadlock-bots, concierge, support-agent, wissensbasis, html, discord">
-  <meta name="stand" content="2026-07-10">
-  <meta name="quelle" content="User-Entscheidungen und Ist-Audit vom 2026-07-10">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="User-Entscheidungen und Ist-Audit der Runtime vom 2026-07-11">
 </head>
 <body>
 <main>
@@ -14,9 +14,10 @@
 
   <section id="ausgangslage">
     <h2>Ausgangslage</h2>
+    <p>Diese Liste beschreibt den Befund vor dem Cutover. Der heute gültige Ist-Vertrag steht in den folgenden Abschnitten.</p>
     <ul>
-      <li>Der bestehende Wissensdienst beantwortet konkrete Fragen häufig korrekt, breite Bot- und Serverfragen aber instabil.</li>
-      <li>Der laufende Korpus kann uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden.</li>
+      <li>Der bestehende Wissensdienst beantwortete konkrete Fragen häufig korrekt, breite Bot- und Serverfragen aber instabil.</li>
+      <li>Der Korpus konnte uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden. Das ist abgestellt: Die Produktion startet nur noch aus dem deployten, committeten Snapshot.</li>
       <li>Mehrere öffentliche Seiten sind veraltet, widersprüchlich oder enthalten Details, die nicht in einen kundenerreichbaren Korpus gehören.</li>
       <li>Der ausgewiesene Server-Fragenkanal, private FAQ-Chats und Direktnachrichten verwenden nicht durchgehend denselben Antwortpfad.</li>
       <li>Bestehende Tests prüfen Parser und synthetische Antworten, aber keinen vollständigen Satz realistischer Community-Fragen.</li>
@@ -31,15 +32,15 @@
       <li>Öffentlich sichtbare Funktionen, Abläufe, Kanäle, Rollen, Befehle, Fehlerbilder und sichere nächste Schritte.</li>
       <li>Community-Bot, Steam-Bot, Twitch-Bot, Patchnotes-Bot, Turniere und öffentlich sichtbare Website-Portale.</li>
       <li>Antworten in Direktnachrichten, privaten FAQ-Chats und dem Server-Fragenkanal über denselben Wissenspfad.</li>
-      <li>Ticket-Antworten im internen Shadow-Kanal bis zur gesonderten Live-Freigabe.</li>
+      <li>Prüfkandidaten aus Tickets, ausschließlich im fest definierten internen Log-Kanal und ausschließlich für Menschen.</li>
       <li>Vollständige Migration der Wissensseiten unter <code>public/</code> und <code>internal/</code> auf semantisches HTML.</li>
     </ul>
     <h3>Nicht enthalten</h3>
     <ul>
       <li>Personenbezogene Live-Auskünfte, private oder moderative Inhalte sowie interne Bot- und Infrastrukturdetails.</li>
       <li>Öffentlicher Live-Status einzelner Dienste.</li>
-      <li>Automatischer Debug. Eine vorsichtige, read-only und allowlist-basierte Diagnose ist als separates Folgeprojekt vorgemerkt.</li>
-      <li>Freischaltung direkter Ticket-Antworten.</li>
+      <li>Jede Form von Diagnose oder Debug aus einem Ticket heraus, insbesondere Twitch- und Live-Abfragen. Auch eine read-only oder allowlist-basierte Variante ist nicht Teil des Vertrags.</li>
+      <li>Direkte Antworten der Auto-Hilfe im Ticket sowie ein frei konfigurierbarer Shadow-Kanal.</li>
       <li>Embeddings oder eine Vektordatenbank, solange die Golden-Evaluation keinen belegten Bedarf zeigt.</li>
     </ul>
   </section>
@@ -89,14 +90,22 @@
   <section id="antwortfluss">
     <h2>Einheitlicher Antwortfluss</h2>
     <ol>
-      <li>Eine Frage kommt aus DM, privatem FAQ-Chat, Server-Fragenkanal oder Ticket-Shadow.</li>
+      <li>Eine Frage kommt aus DM, privatem FAQ-Chat, Server-Fragenkanal oder der ersten Nachricht eines Tickets.</li>
       <li>Die Eingabe wird als nicht vertrauenswürdig behandelt und nur als Frage ausgewertet.</li>
-      <li>Der öffentliche HTML-Korpus liefert relevante Abschnitte und Quellen.</li>
-      <li>Das Modell darf ausschließlich diese Abschnitte verwenden und liefert strukturiert <code>answerable</code> und <code>answer</code>.</li>
-      <li>Nur eine nichtleere Antwort mit belastbarer öffentlicher Quelle wird ausgeliefert. Im Ticket erscheint auch diese Ausgabe ausschließlich im Shadow-Kanal bis zur gesonderten Live-Freigabe.</li>
-      <li>Ohne belastbare Quelle folgt ein sicherer, oberflächengerechter Verweis an Menschen. Im Ticket bleibt auch dieser Verweis ausschließlich im Shadow-Kanal.</li>
+      <li>Vor dem Wissenspfad prüft <code>local_conversational_answer</code> einen engen, fest verdrahteten Satz nicht-faktischer Konversationsfälle, etwa die direkte Frage nach der Bot-Identität. Trifft ein solcher Fall zu, antwortet der Agent lokal und der Wissenspfad entfällt. Faktenfragen werden hier nie beantwortet.</li>
+      <li>Jede Faktenfrage läuft über den deployten, committeten öffentlichen HTML-Korpus, der relevante Abschnitte und Quellen liefert.</li>
+      <li>Das Modell formuliert keine eigene Antwort. Es wählt aus den gelieferten Abschnitten belegende Passagen aus und gibt strukturiert <code>answerable</code> und <code>evidence</code> zurück.</li>
+      <li>Der Dienst normalisiert jede gewählte Passage und liefert sie nur aus, wenn sie <strong>vollständig und exakt</strong> in einem der retrievten öffentlichen HTML-Chunks steht und mit einem ganzen Satz endet. Was diese Prüfung nicht besteht, wird verworfen und die Frage gilt als nicht beantwortbar. Eine frei formulierte Modellantwort ohne Korpusbeleg wird nie ausgeliefert.</li>
+      <li>Bei Faktenfragen wird in DM, FAQ-Chat und Fragenkanal nur eine nichtleere, belegte Passage ausgeliefert; die eng begrenzten lokalen Konversationsfälle aus <code>local_conversational_answer</code> bleiben davon unberührt. Aus einem Ticket entsteht dagegen nie eine Antwort an das Mitglied, sondern ausschließlich ein Prüfkandidat im internen Log-Kanal.</li>
+      <li>Ohne belastbare Quelle folgt in den direkten Oberflächen ein sicherer, oberflächengerechter Verweis an Menschen. Aus dem Ticket wird auch dieser Kein-Treffer-Fall nur als Prüfkandidat im internen Log-Kanal sichtbar.</li>
     </ol>
-    <p>Gameplay-Wissen bleibt über den dafür vorgesehenen Brain-Weg erreichbar, darf aber keine fehlende Server- oder Bot-Antwort erfinden.</p>
+    <p>Auch Gameplay-Fakten kommen nur aus dem deployten öffentlichen Wissenskorpus, belegt aus den gefundenen Abschnitten. Einen Brain-Fallback und freie Modellantworten ohne Korpusquelle gibt es nicht; fehlt dort eine belastbare Antwort, bleibt der Agent beim sicheren Wissenslücken-Verweis. <code>local_conversational_answer</code> ist kein Fallback, sondern ein vorgelagerter Sonderfall für nicht-faktische Konversation.</p>
+    <h3>Was in die Retrieval-Anfrage eingeht</h3>
+    <ul>
+      <li>Im speichernden Gespräch gehen höchstens die <strong>vier vorherigen Nutzerfragen und die aktuelle Frage</strong> in die Retrieval-Anfrage. Der Verlauf schärft ausschließlich die Suche.</li>
+      <li>Assistant-Texte gehen nie mit. Frühere Bot-Antworten sind keine Quelle und können sich nicht selbst bestätigen.</li>
+      <li>Stateless — nach dem Datenschutz-Opt-out und überall dort, wo kein Verlauf geführt wird — besteht die Anfrage ausschließlich aus der aktuellen Frage.</li>
+    </ul>
   </section>
 
   <section id="fehlerverhalten">
@@ -104,14 +113,24 @@
     <ul>
       <li>Nutzeranweisungen können Systemregeln, Quellenwahl, Rollen oder Folgeaktionen nicht verändern.</li>
       <li>Zeitüberschreitung, Transportfehler, ungültiges Modell-JSON, leerer Kontext und nicht beantwortbare Fragen scheitern geschlossen.</li>
-      <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus.</li>
+      <li>Ein unklarer Discord-Transport oder Commit ist kein belegter Rollback. Möglicherweise bereits zugestellte Nachrichten, Posts oder Kanäle werden dann nicht destruktiv entfernt; der jeweilige Unsicherheitstext macht den Zustand sichtbar und führt zum Menschen-Support.</li>
+      <li>Beim automatischen FAQ-Ablauf wird nach dem Schließen eine frische Transaktion geöffnet, der User-Privacy-Lock erneut genommen und genau diese geschlossene Session bestätigt. Erst danach darf die Timeout-Nachricht an Discord gehen; ohne diese Bestätigung bleibt sie aus.</li>
+      <li>Ein bereits erfolgreich gespeicherter Patenwunsch ist idempotent. Ein wiederholter Bestätigungsklick gibt denselben Erfolg zurück, ohne einen weiteren internen Post anzulegen.</li>
+      <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus. Er liest ausschließlich den Wissenskorpus, insbesondere keine Twitch- oder Live-Zustände.</li>
       <li>Die öffentliche Antwort enthält keine internen Fehlerdetails, Prompts, Modellnamen oder Quellenpfade.</li>
     </ul>
+    <p>Der Interaction-Dispatcher pollt einen noch laufenden Handler parallel zur Discord-Defer-Antwort weiter. Das Defer-HTTP selbst ist auf eine Sekunde begrenzt; ein hängender Discord-Callback kann dadurch keine offene Support- oder Paten-Transaktion samt Privacy-Locks unbegrenzt suspendieren. Initiale Antwort und Follow-up laufen erst nach Abschluss des Handlers, wenn dessen Transaktion nicht mehr offen ist.</p>
+  </section>
+
+  <section id="auto-debug-spaeter">
+    <h2>Auto-Debug ist ein getrenntes späteres Vorhaben</h2>
+    <p>Auto-Debug ist nicht Bestandteil dieses Support-Agenten, nicht implementiert und nicht an FAQ, Concierge oder Ticket-Auto-Hilfe angeschlossen. Nutzertext löst weder direkt noch indirekt einen Debug-Lauf aus.</p>
+    <p>Ein späterer Entwurf bleibt ein eigenes internes Arbeitspaket: Ergebnisse dürfen ausschließlich in einen fest definierten internen Log-Kanal gehen, nie als direkte Nutzerantwort. Verdacht auf Prompt-Injection muss den Lauf blockieren oder mindestens als deutliche interne Warnung sichtbar machen. Diese Leitplanken dokumentieren nur die Abgrenzung; sie sind keine Implementierungsfreigabe.</p>
   </section>
 
   <section id="beobachtbarkeit">
     <h2>Vollständige Entscheidungsbeobachtung</h2>
-    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Log-Zeile enthält eine gekürzte Eingabe, Urteil, Retrieval-Signal, Trigger-Grund, gewählte Quellen und Fehlerklasse.</p>
+    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Log-Zeile enthält keinen Frageinhalt, sondern nur die Zeichenanzahl sowie Urteil, Retrieval-Signal, Trigger-Grund, sichere öffentliche Quellenpfade und Fehlerklasse.</p>
     <table>
       <thead><tr><th>Urteil</th><th>Bedeutung</th></tr></thead>
       <tbody>
@@ -128,9 +147,11 @@
   <section id="sauberer-stand">
     <h2>Nur geprüfte, committete Inhalte laden</h2>
     <ul>
-      <li>Produktionsstart und Reload lesen ausschließlich ein validiertes Snapshot-Artefakt, das aus einem committeten Git-Stand exportiert wurde; der Arbeitsbaum ist kein Produktionskorpus.</li>
+      <li>Produktionsstart und Reload lesen ausschließlich das fest deployte, validierte Snapshot-Artefakt aus einem committeten Git-Stand. Der Arbeitsbaum ist kein Produktionskorpus.</li>
+      <li>Der Korpuspfad ist in der Produktion nicht wählbar: kein CLI-Argument für eine Korpuswurzel, keine Umgebungsvariable wie <code>DL_DOCS_PATH</code>. Ein anderer Baum lässt sich nicht unterschieben.</li>
+      <li>Der Snapshot enthält ausschließlich <code>public/</code>. <code>internal/</code> ist nicht Teil des Artefakts und wird nie indexiert.</li>
       <li>Ein fehlgeschlagener Reload ersetzt den aktuell laufenden, zuletzt gültigen Index nicht.</li>
-      <li>Die HTML-Migration erfolgt ohne Ausfall über einen vorübergehend kompatiblen Loader; nach erfolgreichem Cutover wird Markdown als Korpusformat entfernt.</li>
+      <li>Der Cutover ist vollzogen: Indexiert wird nur HTML, Markdown ist als Korpusformat entfernt, einen Übergangs-Loader gibt es nicht mehr.</li>
       <li>Der automatische Team-Doku-Updater erzeugt ebenfalls kanonisches HTML und löst nur nach erfolgreicher Validierung einen Reload aus.</li>
     </ul>
   </section>
@@ -143,7 +164,7 @@
       <li>Golden-Evaluation: Für jede öffentliche Funktion und jeden Workflow existieren mindestens eine reale Frage und eine Paraphrase mit erwarteter Quelle und Kernaussage.</li>
       <li>Negativ-Evaluation: Private Daten, Team-Inhalte, interne Mechaniken und Prompt-Injection werden vollständig abgewehrt.</li>
       <li>Rust-Verifikation: Formatter, Tests und Clippy sind grün.</li>
-      <li>Live-Smoke: DM, privater FAQ-Chat und Server-Fragenkanal beantworten repräsentative Fragen korrekt; Ticket-Antworten erscheinen nur im Shadow-Kanal.</li>
+      <li>Live-Smoke: DM, privater FAQ-Chat und Server-Fragenkanal beantworten repräsentative Fragen korrekt; aus Tickets entsteht ausschließlich ein Prüfkandidat im internen Log-Kanal.</li>
     </ul>
     <p>Ein Release erfolgt nur, wenn sämtliche kuratierten Golden- und Sicherheitsfälle bestehen und der frische Redaction-Kritiker nichts rekonstruieren kann.</p>
   </section>
@@ -163,11 +184,11 @@
   <section id="rollout">
     <h2>Rollout</h2>
     <ol>
-      <li>HTML-fähigen, abwärtskompatiblen Loader samt Tests deployen.</li>
-      <li>Öffentliche und interne Wissensseiten nach HTML migrieren, inhaltlich korrigieren, validieren und committen.</li>
+      <li>Wissensseiten nach HTML migrieren, inhaltlich korrigieren, validieren und committen.</li>
+      <li>Snapshot aus dem committeten <code>public/</code>-Stand exportieren, validieren und fest deployen.</li>
       <li>Öffentlichen Korpus neu laden und Golden-/Live-Smokes ausführen.</li>
-      <li>Alte Korpus-Markdowns und den Übergangsparser entfernen.</li>
-      <li>Ticket-Modus im Shadow belassen; Live-Antworten benötigen eine eigene spätere Freigabe.</li>
+      <li>Alte Korpus-Markdowns und den Übergangsparser entfernen; nur HTML bleibt indexierbar.</li>
+      <li>Die Ticket-Auto-Hilfe bleibt reiner Prüfkandidaten-Erzeuger. Eine direkte Ticket-Antwort ist kein geplanter Folgeschritt, sondern wäre eine eigene Vertragsänderung.</li>
     </ol>
     <p>Jeder betroffene Bot-Deploy wird mit PID-Wechsel, frischer Binary und fehlerfreiem Journal belegt. Nutzerrelevante Änderungen werden nach dem verifizierten Livegang im Changelog und in den vorgesehenen Community-Kanälen kommuniziert.</p>
   </section>
@@ -176,11 +197,11 @@
     <h2>Bestätigte Entscheidungen</h2>
     <ul>
       <li>Öffentliches Wissen umfasst alles, was ein normales Mitglied sehen oder ausführen darf.</li>
-      <li>DM, privater FAQ-Chat und Server-Fragenkanal antworten direkt; Tickets bleiben Shadow.</li>
-      <li>Live-Status und Auto-Debug sind nicht Teil dieses Vorhabens.</li>
+      <li>DM, privater FAQ-Chat und Server-Fragenkanal antworten direkt; aus Tickets entsteht nur ein Prüfkandidat im internen Log-Kanal.</li>
+      <li>Live-Status, Diagnose und Auto-Debug sind kein Teil des Support-Agenten, auch nicht im Ticket. Auto-Debug bleibt ein getrenntes späteres internes Arbeitspaket ohne Nutzerantwort.</li>
       <li>BM25 bleibt, bis Evaluation einen Wechsel begründet.</li>
       <li>Alle Wissensseiten in <code>public/</code> und <code>internal/</code> werden HTML und committed.</li>
-      <li>Der öffentliche Agent liest ausschließlich <code>public/</code>.</li>
+      <li>Der öffentliche Agent liest ausschließlich den deployten Snapshot aus <code>public/</code>, ohne konfigurierbaren Korpuspfad.</li>
       <li>Alte interne Korpus-Markdowns werden nach Sichttext-Parität gelöscht; öffentliche nach Fakten-, Abdeckungs- und Redaction-Freigabe.</li>
       <li>Autoren und letzte Reviewer sind immer verschiedene Modelle.</li>
     </ul>

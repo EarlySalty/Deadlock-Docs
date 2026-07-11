@@ -5,7 +5,7 @@
   <title>Sichtbare Zustände und was sie bedeuten</title>
   <meta name="tags" content="discord-server, status, fehler, hinweise, selbsthilfe">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
@@ -23,6 +23,11 @@
       <tr><th>Was du siehst</th><th>Was es bedeutet</th><th>Sicherer nächster Schritt</th></tr>
       <tr><td>Keine sichere Antwort im Fragechat</td><td>Zur Frage gibt es keine belastbare Auskunft.</td><td>Konkreter fragen; danach Guides, Community oder den Supportweg nutzen.</td></tr>
       <tr><td>Bereits offener Fragechat</td><td>Es besteht schon ein privater Chat.</td><td>Vorhandenen Chat weiterverwenden oder beenden und neu starten.</td></tr>
+      <tr><td>Chat-Anlage oder Antwort „technisch nicht sicher abgeschlossen“</td><td>Ein Kanal oder eine Antwort kann bereits sichtbar sein; der Endzustand ist nicht bestätigt.</td><td>Nicht erneut auslösen, den sichtbaren Zustand prüfen und mit der Meldung ein Ticket öffnen.</td></tr>
+      <tr><td>Neuer Fragechat startet nicht, Hinweis auf Datenschutz-Opt-out</td><td>Ein aktiver globaler Opt-out verhindert einen neuen speichernden Fragechat.</td><td>Für einen neuen Chat mit Verlauf die Speicherung bewusst mit <code>/datenschutz-optin</code> wieder erlauben oder ein Ticket beim menschlichen Support nutzen.</td></tr>
+      <tr><td>Vorhandener Fragechat antwortet trotz Opt-out weiter</td><td>Er beantwortet direkte Fragen ohne neue Speicherung und ohne Gesprächsverlauf — auch wenn die gespeicherte Sitzung gelöscht wurde.</td><td>So weiternutzen; für einen Chat mit Verlauf <code>/datenschutz-optin</code> nutzen.</td></tr>
+      <tr><td>Beendeter Fragechat antwortet nicht mehr</td><td>Ein über den Button oder nach Zeitablauf geschlossener Chat bleibt geschlossen.</td><td>Einen neuen Fragechat starten; bei aktivem Opt-out vorher <code>/datenschutz-optin</code> nutzen.</td></tr>
+      <tr><td>Hinweis zum automatischen Ablauf des Fragechats</td><td>Der bisherige Chat ist geschlossen.</td><td>Für weitere Fragen einen neuen Chat öffnen; bei einem widersprüchlichen sichtbaren Zustand ein Ticket nutzen.</td></tr>
       <tr><td>Steam-Dienst gerade nicht erreichbar</td><td>Eine Steam-Funktion antwortet vorübergehend nicht.</td><td>Wenige Sekunden warten und die Aktion erneut auslösen.</td></tr>
       <tr><td>„Nur der Owner kann das“</td><td>Es wurde eine Owner-Aktion versucht, ohne Owner der Lane zu sein.</td><td>Den aktuellen Owner handeln lassen oder den sichtbaren Owner-Übernehmen-Weg nutzen.</td></tr>
       <tr><td>„Du bist in keinem Sprachkanal“</td><td>Das Lane-Panel wurde außerhalb einer Lane benutzt.</td><td>Erst einem sichtbaren Lane-Einstieg beitreten, dann das Panel verwenden.</td></tr>
