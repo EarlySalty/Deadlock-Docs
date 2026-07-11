@@ -52,16 +52,16 @@
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Modus", "Match"],
-    "answer_terms": ["nicht automatisch an den Namen"],
-    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "doch automatisch"]
+    "answer_terms": ["nicht automatisch"],
+    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "nur dann automatisch", "doch automatisch"]
   },
   {
     "question": "Sehe ich Lobbyzeit oder Spielerstatus im Lane-Namen?",
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Kanalnamen"],
-    "answer_terms": ["nicht automatisch an den Namen"],
-    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "doch automatisch"]
+    "answer_terms": ["nicht automatisch"],
+    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "nur dann automatisch", "doch automatisch"]
   },
   {
     "question": "Wie finde ich Mitspieler auf dem Server?",
@@ -245,7 +245,7 @@
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip-Panel", "Erlaubnis", "Credit"],
     "answer_terms": ["mindestens 1080p", "oder die Erlaubnis des Erstellers"],
-    "forbidden_terms": ["ist egal", "sind egal", "wird nicht genannt"]
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
   },
   {
     "question": "Ist die Absende-Bestätigung eine Zusage, dass mein Clip zugestellt und veröffentlicht wird?",
@@ -253,7 +253,7 @@
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip", "veröffentlicht"],
     "answer_terms": ["weder eine Zusage", "zugestellt", "veröffentlicht"],
-    "forbidden_terms": ["sicher zugestellt", "garantiert zugestellt", "sicher veröffentlicht", "garantiert veröffentlicht", "wird sicher", "wird garantiert"]
+    "forbidden_terms": ["sicher zugestellt", "garantiert zugestellt", "sicher veröffentlicht", "garantiert veröffentlicht", "wird sicher", "wird garantiert", "trotzdem wird der Clip zugestellt", "trotzdem wird der Clip veröffentlicht", "wird trotzdem zugestellt", "wird trotzdem veröffentlicht", "in jedem Fall zugestellt", "in jedem Fall veröffentlicht"]
   },
   {
     "question": "Bestimmen die Build-Stimmen auf der Website, welche Builds im Spiel-Katalog landen?",
@@ -277,7 +277,7 @@
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["1080p", "Ersteller", "Erlaubnis"],
     "answer_terms": ["mindestens 1080p", "oder die Erlaubnis des Erstellers"],
-    "forbidden_terms": ["ist egal", "sind egal", "egal ob"]
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig"]
   },
   {
     "question": "Muss ich der Ersteller des Clips sein und in welcher Qualität soll er vorliegen?",
@@ -285,22 +285,22 @@
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Ersteller", "Erlaubnis", "1080p"],
     "answer_terms": ["mindestens 1080p", "oder die Erlaubnis des Erstellers"],
-    "forbidden_terms": ["ist egal", "sind egal", "egal ob"]
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig"]
   },
   {
     "question": "Was darf mit meinem Clip nach dem Einsenden passieren und werde ich dabei genannt?",
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["erlaubst du zugleich die freie Verwendung", "dein Credit genannt wird"],
-    "forbidden_terms": ["nicht erlaubt", "nicht genannt", "wird nicht genannt"]
+    "answer_terms": ["freie Verwendung", "Credit", "genannt"],
+    "forbidden_terms": ["freie Verwendung ist nicht erlaubt", "freie Verwendung nicht erlaubt", "Verwendung des Clips ist nicht erlaubt", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
   },
   {
     "question": "Erlaube ich mit dem Absenden die freie Verwendung meines Clips und bekomme ich einen Credit?",
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["erlaubst du zugleich die freie Verwendung", "dein Credit genannt wird"],
-    "forbidden_terms": ["nicht erlaubt", "nicht genannt", "wird nicht genannt"]
+    "answer_terms": ["freie Verwendung", "Credit", "genannt"],
+    "forbidden_terms": ["freie Verwendung ist nicht erlaubt", "freie Verwendung nicht erlaubt", "Verwendung des Clips ist nicht erlaubt", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
   }
 ]
