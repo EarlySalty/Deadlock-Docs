@@ -52,7 +52,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Modus", "Match"],
-    "answer_terms": ["Kanalnamen"],
+    "answer_terms": ["nicht", "automatisch", "Kanalname"],
     "forbidden_terms": []
   },
   {
@@ -60,7 +60,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Kanalnamen"],
-    "answer_terms": ["Kanalnamen"],
+    "answer_terms": ["nicht", "automatisch", "Kanalname"],
     "forbidden_terms": []
   },
   {
@@ -244,15 +244,15 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip-Panel", "Erlaubnis", "Credit"],
-    "answer_terms": ["Clip"],
+    "answer_terms": ["1080p", "Erlaubnis", "Credit"],
     "forbidden_terms": []
   },
   {
-    "question": "Wird mein eingereichter Clip auf jeden Fall veröffentlicht?",
+    "question": "Ist die Absende-Bestätigung eine Zusage, dass mein Clip zugestellt und veröffentlicht wird?",
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip", "veröffentlicht"],
-    "answer_terms": ["Zusage"],
+    "answer_terms": ["nicht", "zugestellt", "veröffentlicht"],
     "forbidden_terms": []
   },
   {
@@ -276,7 +276,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["1080p", "Ersteller", "Erlaubnis"],
-    "answer_terms": ["1080p"],
+    "answer_terms": ["1080p", "Ersteller", "Erlaubnis"],
     "forbidden_terms": []
   },
   {
@@ -284,7 +284,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Ersteller", "Erlaubnis", "1080p"],
-    "answer_terms": ["Ersteller"],
+    "answer_terms": ["1080p", "Ersteller", "Erlaubnis"],
     "forbidden_terms": []
   },
   {
@@ -292,7 +292,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["Credit"],
+    "answer_terms": ["freie Verwendung", "Credit"],
     "forbidden_terms": []
   },
   {
@@ -300,7 +300,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["Credit"],
+    "answer_terms": ["freie Verwendung", "Credit"],
     "forbidden_terms": []
   }
 ]
