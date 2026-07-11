@@ -27,7 +27,7 @@
 
   <section id="statistik-befehle">
     <h2>Zuschauerbefehle: Deadlock-Statistiken</h2>
-    <p>Diese Befehle zeigen Deadlock-Werte des Streamers. Sie brauchen den passenden Streamkontext und eine Steam-Zuordnung des Kanals (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
+    <p>Diese Zuschauerbefehle kannst du als Zuschauer im Chat benutzen; sie zeigen Deadlock-Werte des Streamers. Sie brauchen die passende Deadlock-Streamkategorie und eine Steam-Zuordnung des Kanals (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
     <table>
       <tr><th>Befehl (mit Aliasen)</th><th>Zeigt</th></tr>
       <tr><td><code>!rank</code></td><td>Aktueller Deadlock-Rang.</td></tr>
@@ -45,7 +45,7 @@
   <section id="clip-community">
     <h2>Zuschauerbefehle: Clip und Community</h2>
     <ul>
-      <li><code>!clip</code> · <code>!createclip</code> — erstellt einen Clip aus dem laufenden Stream, sofern die Twitch-Autorisierung des Kanals passt.</li>
+      <li><code>!clip</code> · <code>!createclip</code> — erstellt einen Clip aus dem laufenden Stream. Voraussetzung: Der Kanal ist als Deadlock-Partner registriert, streamt gerade live in der Deadlock-Kategorie und hat eine gültige Twitch-Autorisierung. Ein Titel ist optional (<code>!clip &lt;titel&gt;</code>); ohne Titel setzt der Bot einen Standardtitel. Der Clip kommt als Link in den Chat zurück; ein automatisches Veröffentlichen in sozialen Netzwerken oder ein öffentliches Freigabe-Dashboard gibt es dabei nicht.</li>
       <li><code>!invite</code> — postet den Einladungslink zur Deutschen Deadlock Community.</li>
       <li><code>!discord</code> · <code>!dldc</code> · <code>!dlde</code> — posten ebenfalls den Community-Link.</li>
     </ul>
@@ -57,33 +57,45 @@
     <ul>
       <li><code>!commands</code> — verweist auf die Befehlsübersicht.</li>
       <li><code>!help &lt;thema&gt;</code> — Hilfe zu einem Thema, zum Beispiel <code>!help raid</code>.</li>
-      <li><code>!ping</code> — prüft, ob der Bot antwortet.</li>
+      <li><code>!ping</code> · <code>!health</code> · <code>!status</code> · <code>!bot</code> — prüfen, ob der Bot gerade antwortet.</li>
     </ul>
   </section>
 
   <section id="engagement">
     <h2>Deine eigene Datenschutzwahl</h2>
-    <p>Für Community-Auswertungen kann der Bot erfassen, welche Zuschauer wiederkehren. Diese Wahl triffst du selbst im Chat und sie betrifft nur dich:</p>
+    <p>Der Bot hat eine KI-Engagement-Funktion, mit der er sich gelegentlich selbst am Chat beteiligt. Ob er dich dabei einbezieht, entscheidest du selbst im Chat; die Wahl betrifft nur dich:</p>
     <ul>
-      <li><code>!engagement_ignore_me</code> — nimmt dich aus der Engagement-Erfassung heraus.</li>
-      <li><code>!engagement_remember_me</code> — nimmt dich später wieder auf.</li>
+      <li><code>!engagement_ignore_me</code> — nimmt dich aus der KI-Engagement-Funktion heraus; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein.</li>
+      <li><code>!engagement_remember_me</code> — bezieht dich später wieder ein.</li>
     </ul>
-    <p>Diese beiden Befehle sind unabhängig von der Streamkategorie verfügbar. Details in <a href="faq-community.html">FAQ Community</a>.</p>
+    <p>Das ist ausdrücklich <strong>keine</strong> Löschung deiner Daten und schaltet auch nicht die allgemeine Kanal-Statistik ab – es steuert nur die KI-Engagement-Funktion. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
+  </section>
+
+  <section id="status-befehle">
+    <h2>Status abfragen: für alle im Chat</h2>
+    <p>Diese Befehle sind nicht rollenbeschränkt; jede Person im Chat darf sie ausführen.</p>
+    <ul>
+      <li><code>!raid_status</code> · <code>!raidbot_status</code> — zeigen den Auto-Raid-Status und eine grobe Raid-Statistik.</li>
+      <li><code>!raid_history</code> · <code>!raidbot_history</code> — zeigen die letzten Raid-Versuche.</li>
+      <li><code>!engagement_status</code> — zeigt, ob die KI-Engagement-Funktion im Kanal aktiv ist.</li>
+    </ul>
   </section>
 
   <section id="rollenbefehle">
     <h2>Nur für Broadcaster und Moderation</h2>
-    <p>Die folgenden Befehle stehen ausschließlich dem Kanalinhaber und der Kanal-Moderation zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
+    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
     <ul>
       <li><code>!raid</code> · <code>!traid</code> — startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
-      <li><code>!raid_status</code> — zeigt den Auto-Raid-Status.</li>
-      <li><code>!raid_history</code> — zeigt die letzten Raid-Versuche.</li>
+      <li><code>!title</code> · <code>!titel</code> — schlägt einen Streamtitel vor und kann ihn setzen.</li>
       <li><code>!uban</code> · <code>!unban</code> — nimmt ausschließlich den zuletzt gespeicherten Auto-Ban des Kanals zurück.</li>
+      <li><code>!explain</code> — erklärt, warum der Bot jemanden als Scam eingestuft hat.</li>
       <li><code>!silentban</code> — schaltet nur die Chat-Hinweise zu Auto-Bans um; die Moderation bleibt aktiv.</li>
       <li><code>!silentraid</code> — schaltet nur die Chat-Hinweise zu Raids um.</li>
-      <li><code>!title</code> · <code>!titel</code> — schlägt einen Streamtitel vor und kann ihn setzen.</li>
-      <li><code>!lurkersteuer_off</code> — deaktiviert die Lurker-Erinnerung, wenn der Plan diese Funktion enthält.</li>
-      <li><code>!engagement_status</code> · <code>!engagement_on</code> · <code>!engagement_off</code> — prüfen oder steuern die Engagement-Erfassung für den Kanal.</li>
+      <li><code>!engagement_on</code> · <code>!engagement_off</code> — schalten die KI-Engagement-Funktion für den Kanal ein oder aus. <code>!engagement_on</code> deaktiviert sich automatisch bei Stream-Ende. Das betrifft nur die KI-Engagement-Funktion, nicht die gesamte Erfassung oder Auswertung.</li>
+    </ul>
+    <p>Nur der Broadcaster – nicht die Moderation – kann zusätzlich die Lurker-Erinnerung dauerhaft abschalten:</p>
+    <ul>
+      <li><code>!lurkersteuer_off</code> · <code>!lurkersteuer_aus</code> · <code>!lurker_tax_off</code> — deaktivieren die Lurker-Erinnerung. Die Funktion ist standardmäßig aus, gehört zu bestimmten Plänen und wird im Dashboard ein- und ausgeschaltet; per Chat lässt sie sich nur abschalten (siehe <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>).</li>
     </ul>
     <p>Mehr zu Raids und Moderation stehen in <a href="auto-raid.html">Auto-Raid</a> und <a href="chat-moderation.html">Chat-Moderation</a>.</p>
   </section>

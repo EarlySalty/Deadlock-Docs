@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Auto-Raid</title>
-  <meta name="tags" content="twitch-bot, raid, auto-raid, netzwerk">
+  <meta name="tags" content="twitch-bot, raid, auto-raid, weiterleitung">
   <meta name="stand" content="2026-07-11">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
@@ -21,7 +21,7 @@
   <section id="wie-es-laeuft">
     <h2>Wie der Auto-Raid abläuft</h2>
     <p>Beende deinen Deadlock-Stream regulär. Der Bot prüft aktiven Partnerstatus, aktivierte Raid-Funktion und eine gültige Twitch-Autorisierung und versucht dann den Raid – ohne weiteren Chatbefehl. Gibt es kein geeignetes Ziel oder ist die Autorisierung nicht mehr gültig, findet kein Raid statt. Das ist ein zulässiges Ergebnis.</p>
-    <p>Welcher Kanal ausgewählt und wie priorisiert wird, folgt internen Netzwerkregeln und wird nicht offengelegt.</p>
+    <p>Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter. Den konkreten Zielkanal wählst du nicht selbst; beobachtbar ist nur, ob ein Raid stattgefunden hat oder mangels Ziel ausgeblieben ist.</p>
   </section>
 
   <section id="bedienung">

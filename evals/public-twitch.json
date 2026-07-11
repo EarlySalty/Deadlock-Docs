@@ -60,7 +60,7 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/chat-befehle.html", "twitch-bot/chat-moderation.html"],
     "context_terms": ["Broadcaster", "Moderation"],
-    "answer_terms": ["!raid_status"],
+    "answer_terms": ["!uban"],
     "forbidden_terms": ["!raid_enable"]
   },
   {
@@ -69,7 +69,7 @@
     "expected_sources": ["twitch-bot/chat-befehle.html"],
     "context_terms": ["Moderation", "!title"],
     "answer_terms": ["Broadcaster"],
-    "forbidden_terms": ["!raidbot"]
+    "forbidden_terms": ["!raid_enable"]
   },
   {
     "question": "Wo sehe ich die Auswertung meines Streams?",
@@ -117,7 +117,7 @@
     "expected_sources": ["twitch-bot/discord-golive.html"],
     "context_terms": ["Deadlock-Kategorie", "Partner"],
     "answer_terms": ["Partner"],
-    "forbidden_terms": ["!raidbot"]
+    "forbidden_terms": ["!raid_enable"]
   },
   {
     "question": "Wann kann mein Livestream in der Community angezeigt werden?",
@@ -125,7 +125,7 @@
     "expected_sources": ["twitch-bot/discord-golive.html"],
     "context_terms": ["Community-Discord"],
     "answer_terms": ["Kategorie"],
-    "forbidden_terms": ["!raidbot"]
+    "forbidden_terms": ["!raid_enable"]
   },
   {
     "question": "Wie starte oder prüfe ich einen Raid mit dem Bot?",
@@ -136,12 +136,12 @@
     "forbidden_terms": ["!raid_enable"]
   },
   {
-    "question": "Warum wurde ein anderer Zielkanal gewählt?",
+    "question": "Kann ich den Zielkanal eines Raids selbst festlegen?",
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-raids.html", "twitch-bot/auto-raid.html"],
-    "context_terms": ["Netzwerkregeln"],
-    "answer_terms": ["Netzwerk"],
-    "forbidden_terms": ["!raidbot"]
+    "context_terms": ["passenden", "kein Raid"],
+    "answer_terms": ["Raid"],
+    "forbidden_terms": ["!raid_enable"]
   },
   {
     "question": "Muss ich Auto-Raid erst aktivieren?",
@@ -270,5 +270,69 @@
     "context_terms": ["Befehlskatalog"],
     "answer_terms": ["!rank"],
     "forbidden_terms": ["!twl"]
+  },
+  {
+    "question": "Löscht !engagement_ignore_me meine Daten oder stoppt es die ganze Erfassung?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/faq-community.html", "twitch-bot/chat-befehle.html"],
+    "context_terms": ["KI-Engagement", "keine Löschung"],
+    "answer_terms": ["KI-Engagement"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Kann ich den Bot komplett für mich abschalten oder alle meine Daten löschen lassen?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/faq-community.html", "twitch-bot/faq-support.html"],
+    "context_terms": ["Self-Service", "Datenschutz"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Beobachtet der Bot auch Chats von Kanälen ohne Partnerstatus?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/faq-community.html"],
+    "context_terms": ["Partnerkanälen", "Datensammlung"],
+    "answer_terms": ["Datensammlung"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Warum wird für meinen Stream kein Report erzeugt, obwohl ich Analytics-Zugang habe?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/faq-analytics.html", "twitch-bot/analytics-dashboard.html"],
+    "context_terms": ["Stream-Report", "Freischaltung"],
+    "answer_terms": ["Report"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Wie schalte ich die Lurker-Erinnerung an oder aus?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/twitch-streamer-dashboard.html", "twitch-bot/chat-befehle.html"],
+    "context_terms": ["Dashboard", "!lurkersteuer_off"],
+    "answer_terms": ["Dashboard"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Was brauche ich für !clip und wird der Clip automatisch in sozialen Netzwerken gepostet?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/chat-befehle.html"],
+    "context_terms": ["Partner", "sozialen Netzwerken"],
+    "answer_terms": ["Partner"],
+    "forbidden_terms": ["shadowban"]
+  },
+  {
+    "question": "Startet der Bot automatisch Discords Go Live im Voice-Kanal?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/discord-golive.html"],
+    "context_terms": ["Voice-Kanal", "getrennte Discord-Funktion"],
+    "answer_terms": ["Twitch-zu-Discord"],
+    "forbidden_terms": ["!raid_enable"]
+  },
+  {
+    "question": "Gibt es Aliase wie !raidbot_status oder !health im Chat und wer darf sie nutzen?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/chat-befehle.html"],
+    "context_terms": ["!raidbot_status", "!health"],
+    "answer_terms": ["!raid_status"],
+    "forbidden_terms": ["!raid_enable"]
   }
 ]

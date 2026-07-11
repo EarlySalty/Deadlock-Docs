@@ -22,7 +22,7 @@
     <h2>Welche Hauptaufgaben übernimmt der Bot?</h2>
     <ul>
       <li>Auto-Raid am Stream-Ende (siehe <a href="auto-raid.html">Auto-Raid</a>).</li>
-      <li>Chat-Moderation gegen als Spam erkannte Accounts (siehe <a href="chat-moderation.html">Chat-Moderation</a>).</li>
+      <li>Chatmoderation gegen als Spam erkannte Accounts (siehe <a href="chat-moderation.html">Chat-Moderation</a>).</li>
       <li>Auswertungen zum eigenen Kanal (siehe <a href="analytics-dashboard.html">Analytics-Dashboard</a>).</li>
       <li>Chat-Befehle für Zuschauer, Broadcaster und Moderation (siehe <a href="chat-befehle.html">Chat-Befehle</a>).</li>
       <li>Discord-Anbindung für aktive Partnerkanäle (siehe <a href="discord-golive.html">Discord-Go-Live</a>).</li>
@@ -31,7 +31,12 @@
 
   <section id="moderiert-der-bot">
     <h2>Moderiert der Bot auch meinen Chat?</h2>
-    <p>Ja. In verbundenen Kanälen kann der Bot als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren – unabhängig vom gestreamten Spiel. Die Moderation ist sorgfältig ausgelegt, aber keine Maßnahme ist absolut fehlerfrei. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen; den Weg beschreibt <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
+    <p>Ja. In verbundenen Partnerkanälen kann die Chatmoderation des Bots als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren – unabhängig vom gestreamten Spiel. Die Chatmoderation ist sorgfältig ausgelegt, aber keine Maßnahme ist absolut fehlerfrei. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen; den Weg beschreibt <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
+  </section>
+
+  <section id="warum-rank-nicht">
+    <h2>Warum funktioniert !rank in diesem Stream nicht?</h2>
+    <p>Die Deadlock-Statistikbefehle wie <code>!rank</code> haben zwei Voraussetzungen: Der Kanal muss gerade in der Deadlock-Streamkategorie streamen, und er braucht eine Steam-Zuordnung. Fehlt die Steam-Zuordnung des Kanals oder passt die Streamkategorie nicht, antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen. Die Steam-Zuordnung richtest du über die Discord-Verknüpfung im Dashboard ein; den vollständigen Befehlskatalog führt <a href="chat-befehle.html">Chat-Befehle</a>.</p>
   </section>
 
   <section id="welche-rechte">
