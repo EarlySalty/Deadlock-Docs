@@ -280,10 +280,15 @@ zugehöriger Beschreibung erhalten.</p>
 </section>
 <section id="10-system-prompt-concierge-v0-3-referenz-fuer-codex-deutsch">
 <h2>10. System-Prompt Concierge v0.3 (Referenz für Codex, deutsch)</h2>
-<p>Diese v0.3-Referenz ist ein historischer Entwurf. Der live gesetzte
-Concierge-System-Prompt steht in
-<code>rust/crates/dl-community/src/concierge.rs</code>; der frühere
-öffentliche Agenten-Leitfaden ist als Basis überholt. Kern:</p>
+<p>Diese v0.3-Referenz ist ein historischer Entwurf. Bei <code>3f092d1f</code> ist
+die <code>SYSTEM_PROMPT</code>-Konstante in
+<code>rust/crates/dl-community/src/concierge.rs</code> nicht der aktive
+Faktenchat-Prompt; sie wird nur noch in einem <code>cfg(test)</code>-Helfer
+referenziert. Der aktive Pfad beantwortet die direkte Identitätsfrage lokal über
+<code>asks_bot_identity</code>/<code>local_conversational_answer</code> mit einem
+festen, knappen Text, der nie eine Knowledge-Abfrage startet; alle Faktenfragen
+gehen an <code>dl-knowledge</code>. Der frühere öffentliche Agenten-Leitfaden ist
+als Basis überholt. Kern:</p>
 <pre><code class="language-text">Du bist der Concierge des deutschen Deadlock-Discord-Servers. Du bist die
 erste Anlaufstelle für neue Mitglieder und hilfst ihnen beim Ankommen. Dein
 Ziel ist immer, den Menschen so schnell wie möglich zu anderen Menschen zu

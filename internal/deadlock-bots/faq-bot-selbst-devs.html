@@ -15,7 +15,7 @@
 <h2>Für Devs (knapp)</h2>
 <ul>
 <li>Rust live: <code>dl-community/src/faq.rs</code> — Panel (<code>/faqpanel</code>, idempotentes Panel-Healing), <code>/faq</code>, Button <code>faq_chat:start</code>, Close-Button <code>faq_chat:close:{session}</code>, Ticket-Auto-Helfer (Kategorie-Check, Ausgabe nur in einen gesonderten Shadow-Kanal, fail-closed ohne Shadow, nie direkt ins Ticket)</li>
-<li>Grounding: einziger Wissenspfad über den <code>dl-knowledge</code>-Dienst, kein Markdown-Loader; Verlauf = letzte 10 Nachrichten der Session</li>
+<li>Grounding: einziger Wissenspfad über den <code>dl-knowledge</code>-Dienst; <code>faq.rs</code> lädt selbst keine Dateien. <code>dl-knowledge</code> bevorzugt derzeit HTML atomar (HTML-Modus, sobald die Korpuswurzel HTML enthält) und fällt nur ohne jedes HTML auf einen Markdown-Loader zurück; <code>internal/</code> wird nie indexiert. Reines HTML ohne Fallback und ein ausschließlich committeter Snapshot sind das Cutover-Ziel, nicht der Stand bei <code>3f092d1f</code>. Verlauf = letzte 10 Nachrichten der Session</li>
 <li>Wichtige DB-Tabellen: <code>bot.faq_chat_sessions</code>, <code>bot.faq_chat_messages</code>, Panel-ID im KV (<code>faq_chat:panel</code>)</li>
 <li>Legacy-Details stehen gesammelt in <a href="architektur.html"><code>architektur.html</code></a>.</li>
 </ul>

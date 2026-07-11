@@ -46,7 +46,7 @@
 </section>
 <section id="html-huelle">
 <h2>Kanonische Hülle und Metadaten</h2>
-<p>Jede Wissensseite ist eine <code>.html</code>-Datei mit genau dieser Hülle. Nur Text innerhalb von <code>&lt;main&gt;</code> wird indexiert; Hülle, Metadaten und Quellenpfade nicht.</p>
+<p>Jede Wissensseite ist eine <code>.html</code>-Datei mit genau dieser Hülle. Der Laufzeit-Retrieval-Index (BM25 in <code>dl-knowledge</code>) verkettet je Chunk den <code>title</code> und die <code>tags</code> mit der Abschnittsüberschrift und dem <code>&lt;main&gt;</code>-Text und tokenisiert alles gemeinsam. <code>stand</code>, <code>quelle</code> und die übrige Hülle werden zwar validiert, sind aber kein Chunk-Text und tauchen im Index nicht auf (<code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
 <table>
 <thead><tr><th>Element</th><th>Regel</th></tr></thead>
 <tbody>
@@ -65,10 +65,10 @@
 <section id="html-main">
 <h2>main, h1 und Abschnitte</h2>
 <ul>
-<li>Genau ein <code>&lt;main&gt;</code> pro Seite. Nur sein Text zählt für den Index.</li>
+<li>Genau ein <code>&lt;main&gt;</code> pro Seite. Sein Text bildet den Kern jedes Chunks und wird zusammen mit <code>title</code>, <code>tags</code> und der Abschnittsüberschrift indexiert.</li>
 <li>Genau ein <code>&lt;h1&gt;</code>, als direktes Kind von <code>&lt;main&gt;</code>, mit echtem Inhalt.</li>
 <li>Nach der H1: 2-3 Zeilen Kurzfassung, was diese Seite beantwortet. Dann erst Details.</li>
-<li>Jeder direkte <code>&lt;section&gt;</code> in <code>&lt;main&gt;</code> braucht ein <code>&lt;h2&gt;</code> oder eine <code>id</code>; sprechende, stabile <code>id</code>-Slugs für wichtige Zustände und Workflows.</li>
+<li>Jeder direkte <code>&lt;section&gt;</code> in <code>&lt;main&gt;</code> braucht <strong>beides</strong>: eine eindeutige <code>id</code> <strong>und</strong> eine direkte, nichtleere <code>&lt;h2&gt;</code>, dazu nichtleeren Abschnittsinhalt. Der Validator verlangt beide, nicht eines von beiden (<code>h2</code> oder <code>id</code>). Sprechende, stabile <code>id</code>-Slugs für wichtige Zustände und Workflows.</li>
 <li>Ein Abschnitt je 3-5 Absätze — keine Prosa-Wand über 15 Absätze, keine Bullet-Explosion.</li>
 </ul>
 </section>
