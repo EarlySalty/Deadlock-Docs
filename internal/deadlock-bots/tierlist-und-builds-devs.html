@@ -10,12 +10,12 @@
 <body>
 <main>
 <h1>tierlist-und-builds — Dev-Notizen</h1>
-<p>eingearbeitet in architektur.md</p>
+<p>eingearbeitet in <a href="architektur.html"><code>architektur.html</code></a></p>
 <section id="fuer-devs-knapp">
 <h2>Für Devs (knapp)</h2>
 <ul>
 <li>Rust live: <code>dl-tierlist</code> (Public-API: Heroes/Tierlist/History/Votes + Admin-Routes inkl. Refresh; Settings: 8h-Intervall, min_matches 500, Buckets <code>all</code>/<code>phantom_plus</code>/<code>eternus</code>; Sortierung <code>(sort_order, votes)</code> in <code>data.rs</code>)</li>
-<li>Der Steam-Build-Sync ist in Rust aktiv: <code>steam-core</code> registriert <code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code>, <code>MAINTAIN_BUILD_CATALOG</code> und <code>BUILD_CATALOG_CYCLE</code>; der Catalog-Scheduler plant <code>MAINTAIN_BUILD_CATALOG</code>. Details stehen in <code>internal/deadlock-steam-bot/uebersicht.md</code> und <code>internal/deadlock-steam-bot/task-queue.md</code>. (<code>steam-core/src/task/handlers/builds/</code>, <code>steam-core/src/main.rs</code>)</li>
+<li>Der Steam-Build-Sync ist in Rust aktiv: <code>steam-core</code> registriert <code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code>, <code>MAINTAIN_BUILD_CATALOG</code> und <code>BUILD_CATALOG_CYCLE</code>; der Catalog-Scheduler plant <code>MAINTAIN_BUILD_CATALOG</code>. Details stehen in <code>internal/deadlock-steam-bot/uebersicht.html</code> und <code>internal/deadlock-steam-bot/task-queue.html</code>. (<code>steam-core/src/task/handlers/builds/</code>, <code>steam-core/src/main.rs</code>)</li>
 <li>Wichtige DB-Tabellen: Schema <code>tierlist.*</code> (Settings, Snapshots, Votes, Streamer, Hero-Meta); <code>steam.steam_tasks</code> gehört zum Steam-Schema</li>
 </ul>
 </section>

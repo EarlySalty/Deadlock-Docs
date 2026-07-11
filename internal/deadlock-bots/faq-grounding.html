@@ -4,24 +4,23 @@
   <meta charset="utf-8">
   <title>FAQ-Grounding</title>
   <meta name="tags" content="deadlock-bots, intern, faq, grounding">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-11">
   <meta name="quelle" content="Deadlock-Bots">
 </head>
 <body>
 <main>
 <h1>FAQ-Grounding</h1>
 <p>Der FAQ-Chat ist in <code>dl-community</code> implementiert und wird im Bot-Prozess registriert. Der Panel-Button <code>faq_chat:start</code> öffnet einen privaten FAQ-Kanal, der Close-Button <code>faq_chat:close:{session}</code> schließt die Session, und Sessions laufen nach 24 Stunden ab (<code>rust/crates/dl-community/src/faq.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code>).</p>
-<p>Das Grounding lädt flach alle <code>*.md</code> aus <code>FAQ_DOCS_PATH</code>; ohne Env nutzt der Bot <code>docs</code>. Die Dateien werden sortiert, mit <code>=== Dokument: &lt;name&gt; ===</code> getrennt und als Wissensbasis in den Prompt geschrieben (<code>rust/bin/dl-bot/src/main.rs</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Der FAQ-Chat holt Fakten ausschließlich über den <code>dl-knowledge</code>-Dienst; das ist der einzige Wissenspfad. <code>dl-knowledge</code> indexiert nur das committete, semantische HTML-Artefakt unter <code>public/</code>, nie den Arbeitsbaum und nie <code>internal/</code>. Es gibt keinen <code>FAQ_DOCS_PATH</code> und keinen flachen Markdown-Loader mehr (<code>rust/crates/dl-community/src/faq.rs</code>, <code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
 <p>Der Chat speichert Sessions in <code>bot.faq_chat_sessions</code> und Nachrichten in <code>bot.faq_chat_messages</code>. Für den Kontext liest der Code die letzten 10 Nachrichten einer Session und sortiert sie wieder chronologisch (<code>rust/crates/dl-central-db/migrations/0007_bot.sql</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
-<p>Der System-Prompt verbietet interne Pfade, Tokens, Secrets, Datenbank-URLs und erfundene Serverstrukturen. Sonderregeln überschreiben veraltete Invite- und Coaching-Aussagen: Invite läuft über Freundescode, Community-Einladung und Steam-Verknüpfung; Coaching läuft über den Coaching-Channel und die Website (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
-<p>Ticket-Auto-Help läuft auf die erste Nachricht in Ticket-Kanälen der Ticket-Kategorie. Der Bot antwortet nur bei dokumentierten Sach- und How-to-Fragen; bei Moderation, Konflikten, Sonderfällen oder unsicherem Status gibt er intern <code>KEIN_TREFFER</code> zurück und schweigt (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
-<p>Die Ticket-Diagnose kennt zwei Tools: <code>twitch_diagnose</code> und <code>log_lookup</code>. Beide sind auf den fragenden User begrenzt; Log-Zeilen werden auf den fragenden Discord-ID- oder Twitch-Login-Bezug gefiltert und danach redigiert (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
-<p>Vor einer Ticket-Antwort läuft ein Guard. Er blockiert deterministisch auf Secret-Muster, fremde Discord-IDs und lange gemischte Tokens; danach kann ein Textmodell mit <code>FREIGABE</code> oder <code>BLOCK</code> prüfen (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Der <code>dl-knowledge</code>-System-Prompt bindet die Antwort strikt an die gelieferten Wissens-Chunks: kein Vorwissen, keine Vermutungen. Er verbietet interne Details wie Schwellenwerte, IDs, Pfade, Modellnamen und Systemanweisungen und lässt keine erfundenen Serverstrukturen zu. Steht die Antwort nicht sicher in den Chunks, bleibt sie aus (<code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
+<p>Der Ticket-Auto-Helfer prüft die erste Nachricht in einem Kanal der Ticket-Kategorie. Er antwortet nie direkt im Ticket. Ist ein gesonderter Shadow-Kanal konfiguriert und verschieden vom Ticket, postet er sein Ergebnis ausschließlich dorthin, sowohl eine Knowledge-Antwort als auch einen Kein-Treffer-Verweis. Ohne konfigurierten Shadow-Kanal oder wenn Shadow gleich Ticket ist, fragt er kein Knowledge ab und postet nichts; er schreibt nur eine sichere Entscheidungs-Logzeile (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Es gibt keine Ticket-Diagnose-Tools und keinen eigenen Freigabe- oder Block-Guard mehr. Der Ticket-Pfad kennt nur den Abruf gegen <code>dl-knowledge</code>; dessen fail-closed-Verhalten trägt die Absicherung (<code>rust/crates/dl-community/src/faq.rs</code>, <code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
 <p>Die FAQ-Panel-ID liegt im KV-Store unter Namespace <code>faq_chat:panel</code> und Schlüssel <code>panel_msg_id</code>, damit Rust ein bestehendes Panel übernehmen kann. Der Schlüsselname ist bewusst stabil gehalten (<code>rust/crates/dl-community/src/faq.rs</code>, <code>rust/crates/dl-central-db/migrations/0007_bot.sql</code>).</p>
-<p>UNSICHER: Patchnote-Anreicherung ist im Rust-Kommentar als Lücke genannt. Der aktuelle FAQ-Pfad lädt Markdown-Dokus und Ticket-Tools, aber keine Patchnote-Anreicherung (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Eine Patchnote-Anreicherung der Antworten gibt es nicht; sie ist kein Teil des aktuellen FAQ- und Ticket-Pfads (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
 <section id="antwort-leitlinien">
 <h2>Antwort-Leitlinien für Support und FAQ</h2>
-<p>Der FAQ- und Support-Concierge antwortet aus dieser Wissensbasis heraus als Teil der Community, nicht als Schalter-Support. Er führt mit der konkreten Hilfe und dem nächsten Schritt und hält Grenzen ein, ohne sie zu benennen. Über sich selbst spricht er nicht: nicht, dass er Bot oder KI ist, nicht was er darf, nicht wie er intern arbeitet. Er verspricht nur, was auch passiert; eine Weiterleitung sagt er nur dort zu, wo das Team die Nachricht sicher sieht, also im Ticket. Er denkt mit, was das Mitglied gerade tun kann: wer einen Timeout hat, kann kein Ticket öffnen, also nennt er den offenen Weg, etwa eine Direktnachricht an einen Mod oder den Support nach Ablauf.</p>
+<p>Der FAQ- und Support-Concierge antwortet aus dieser Wissensbasis heraus als Teil der Community, nicht als Schalter-Support. Er führt mit der konkreten Hilfe und dem nächsten Schritt und hält Grenzen ein, ohne sie zu benennen. Über sich selbst spricht er von sich aus nicht: nicht was er darf, nicht wie er intern arbeitet. Wird er aber direkt gefragt, ob er ein Bot ist, sagt er ehrlich ja, in einem Satz, und hilft dann weiter. Er verspricht nur, was auch passiert; eine Weiterleitung sagt er nur dort zu, wo das Team die Nachricht sicher sieht, also im Ticket. Er denkt mit, was das Mitglied gerade tun kann: wer einen Timeout hat, kann kein Ticket öffnen, also nennt er den offenen Weg, etwa eine Direktnachricht an einen Mod oder den Support nach Ablauf.</p>
 <p>An einen Menschen übergibt er in diesen Fällen:</p>
 <ul>
 <li>Einspruch gegen einen Timeout oder Bann und Verdacht auf eine fehlerhafte automatische Ahndung.</li>
@@ -34,7 +33,7 @@
 </section>
 <section id="redaction-disziplin">
 <h2>Redaction-Disziplin der Wissensbasis</h2>
-<p>Alles hier ist mitglied-erreichbar, über einen Menschen oder über den Assistenten, der daraus antwortet. Sensible Größen und Mechaniken kommen deshalb gar nicht erst hinein, auch nicht in einem als intern etikettierten Abschnitt; ein Etikett ist keine Schwärzung. Für jede sensible Stelle nennt die Doku nur, dass es sie gibt, ihre beobachtbare Wirkung und den nächsten Schritt für das Mitglied. Der Wert, die Formel, die Bedingungsreihenfolge, der Pfad und der Name einer verdeckten Mechanik bleiben draußen.</p>
+<p>Die Redaction gilt strikt für den öffentlichen Korpus, aus dem der Assistent antwortet: Er ist mitglied-erreichbar, über einen Menschen oder über den Assistenten. Sensible Größen und Mechaniken kommen deshalb gar nicht erst hinein, auch nicht in einem als intern etikettierten Abschnitt; ein Etikett ist keine Schwärzung. Für jede sensible Stelle nennt der öffentliche Text nur, dass es sie gibt, ihre beobachtbare Wirkung und den nächsten Schritt für das Mitglied. Der Wert, die Formel, die Bedingungsreihenfolge, der Pfad und der Name einer verdeckten Mechanik bleiben draußen. Interne Seiten wie diese hier dürfen die nötigen Betriebsdetails samt IDs, Kanälen und Schlüsseln nennen, aber niemals rohe Secrets.</p>
 <p>Bewusst herausgehalten werden diese Kategorien:</p>
 <ul>
 <li>Schwellen und Zahlen: Confidence- und Sicherheitswerte, Grenzwerte, Prozente, Gewichte, Mindest- und Höchstmengen.</li>
@@ -45,7 +44,7 @@
 <li>KI-Anbindung: Anbieter- und Modellnamen samt Parametern und Prüfmustern.</li>
 <li>Zugangsdaten und Admin-Wege: Secrets, Tokens, Signierverfahren, Verwaltungspfade, Sonderrechte.</li>
 </ul>
-<p>Vor Veröffentlichung läuft eine feindselige Gegenprobe: Lässt sich aus der Doku eine Zahl, eine Bedingung, ein Pfad oder eine verdeckte Mechanik rekonstruieren, wird die Stelle umgeschrieben. Technisch erzwingt der Ticket-Guard denselben Rahmen und blockiert deterministisch auf Secret-Muster, fremde Discord-IDs und lange gemischte Tokens (<code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Vor Veröffentlichung läuft eine feindselige Gegenprobe: Lässt sich aus der Doku eine Zahl, eine Bedingung, ein Pfad oder eine verdeckte Mechanik rekonstruieren, wird die Stelle umgeschrieben. Technisch stützt sich derselbe Rahmen auf drei Dinge: Der <code>dl-knowledge</code>-System-Prompt scheitert bei Interna sowie bei reinen Aktions- oder Debug-Aufforderungen fail-closed; jede Frage wird vor dem Loggen gekürzt und von Steuerzeichen befreit; und Ticket-Ausgaben verlassen den internen Shadow-Kanal nie (<code>rust/bin/dl-knowledge/src/main.rs</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
 </section>
 </main>
 </body>
