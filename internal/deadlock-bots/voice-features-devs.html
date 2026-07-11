@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>voice-features — Dev-Notizen</title>
   <meta name="tags" content="deadlock-bots, technik">
-  <meta name="stand" content="2026-07-07">
-  <meta name="quelle" content="public/discord-server/voice-features.html (Für-Devs-Sektion)">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="public/discord-server/voice-features.html (Für-Devs-Sektion), Ist-Audit rust/crates/dl-voice/src/router.rs 2026-07-11">
 </head>
 <body>
 <main>
@@ -17,6 +17,44 @@
 <li>Rust live: <code>dl-voice/src/tempvoice/</code> (engine + interface: Staging, Buttons, Presets, Tag-Filter, Owner-Claim-Regeln), <code>router.rs</code> (Router-VC, Smart-Routing), <code>adaptive.rs</code> (New-Player-/Off-Topic-/Sortier-Automatik), <code>rank.rs</code> (Anker, Subrang-Fenster ±9, Overwrites), <code>status.rs</code> (Kanalstatus), <code>stats.rs</code> (<code>!vstats</code>, Leaderboards, Admin-Debug), <code>feedback.rs</code> (Feedback-DM + Modal), <code>nudge.rs</code> (Steam-Link-DM), <code>tracker.rs</code> (Sessions, respektiert Privacy-Opt-out)</li>
 <li>Admin: Panel-Post per <code>!tvpanel</code>/<code>!tempvoicepanel</code>/<code>!tvinterface</code></li>
 </ul>
+</section>
+<section id="router-intro-dm-zustellvertrag">
+<h2>Router-Intro-DM — Zustellvertrag</h2>
+<p>Die einmalige Willkommens-DM beim ersten Router-Join
+(<code>maybe_send_intro_dm</code>) darf sich nie doppelt melden und nie einen
+Erfolg behaupten, den sie nicht belegen kann. Der Marker in
+<code>voice.router_intro_dm</code> trägt dafür zwei Bedeutungen:</p>
+<ul>
+<li><strong>Bestätigter Versand.</strong> Gelingt die DM, liefert der Port
+Kanal- und <strong>Message-ID</strong> zurück. Erst dann wird der Marker gesetzt
+und committet.</li>
+<li><strong>Markerfehler vor dem Commit.</strong> Lässt sich der Marker nicht
+schreiben, wird die bereits bestätigte DM nach Freigabe der Transaktion über
+ihre Message-ID entfernt. Gelingt das, bleibt kein Marker zurück und ein
+späterer Versuch darf erneut senden.</li>
+<li><strong>Unklarer Commit.</strong> Meldet der Commit einen Fehler, prüft eine
+frische Transaktion den Marker. Ist er vorhanden, bleibt die DM bestehen;
+ist er sicher abwesend, wird die bestätigte DM entfernt. Bei einem gemischten
+oder nicht prüfbaren Zustand bleibt die DM unangetastet und ein dauerhafter
+Unsicherheitsmarker verhindert einen zweiten automatischen Versand.</li>
+<li><strong>Timeout oder Transportfehler.</strong> Läuft der Versand in die
+Zeitüberschreitung oder meldet der untypisierte Transport einen Fehler,
+ist die Zustellung <em>unbekannt</em> — es gibt keine Message-ID, also lässt sich
+nichts aufräumen. Der Marker wird trotzdem gesetzt und ist dann ein
+<strong>dauerhafter Unsicherheitsmarker</strong>: Er verhindert eine automatische
+Doppel-DM, statt auf gut Glück ein zweites Mal zu senden.</li>
+<li><strong>Cleanupfehler oder Cleanup-Timeout.</strong> Schlägt auch das Entfernen
+der DM fehl oder überschreitet sein hartes Zeitlimit, wird der
+Unsicherheitsmarker in einer eigenen Transaktion nachgezogen
+(<code>persist_intro_uncertain</code>) — mit demselben Ziel, eine Doppel-DM zu
+verhindern.</li>
+<li><strong>Privacy zuerst.</strong> Der ganze Pfad läuft hinter einem Privacy-Lock;
+bei aktivem Opt-out geht keine DM raus, und der Unsicherheitsmarker
+wird für Opt-out-User nicht nachgezogen.</li>
+</ul>
+<p>Kurz: Ein gesetzter Marker heißt „nicht noch einmal senden&quot;, <em>nicht</em>
+notwendigerweise „zugestellt&quot;. Diese Unschärfe ist gewollt und die
+sichere Richtung.</p>
 </section>
 </main>
 </body>

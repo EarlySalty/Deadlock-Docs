@@ -154,7 +154,7 @@
   {
     "question": "Wie fordere ich meine Daten an oder stoppe die persönliche Speicherung?",
     "answerable": true,
-    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/module/statistiken-privatsphaere.html", "discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["datenschutz", "Opt-out"],
     "answer_terms": ["datenschutz"],
     "forbidden_terms": ["shadowban", "systemctl"]

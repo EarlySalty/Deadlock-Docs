@@ -5,12 +5,12 @@
   <title>Aktivität, Statistiken und Datenschutz</title>
   <meta name="tags" content="discord-server, statistiken, aktivitaet, datenschutz, opt-out">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
   <h1>Aktivität, Statistiken und Datenschutz</h1>
-  <p><strong>Kurz:</strong> Öffentlich sind serverweite Auswertungen und Ranglisten. Persönliche Detailansichten brauchen einen Discord-Login. Deine eigenen Daten kannst du über <code>/datenschutz</code> exportieren oder löschen lassen.</p>
+  <p><strong>Kurz:</strong> Öffentlich sind serverweite Auswertungen und Ranglisten. Persönliche Detailansichten brauchen einen Discord-Login. Deine eigenen Daten kannst du über <code>/datenschutz</code> exportieren; eine Löschung setzt zusätzlich einen globalen Opt-out.</p>
 
   <section id="oeffentlich-vs-eigen">
     <h2>Öffentlich sichtbar oder nur nach Login</h2>
@@ -35,7 +35,19 @@
 
   <section id="eigene-daten">
     <h2>Deine eigenen Daten</h2>
-    <p>Mit <code>/datenschutz</code> forderst du einen Export an, lässt gespeicherte personenbezogene Daten löschen oder setzt einen globalen Opt-out für die künftige Speicherung; mit <code>/datenschutz-optin</code> erlaubst du sie wieder. Dieser globale Opt-out hat Vorrang vor einzelnen Erinnerungseinstellungen. Ein notwendiger Opt-out-Vermerk bleibt bestehen, damit die Sperre durchgesetzt werden kann; nicht personenbezogene Aggregate können bestehen bleiben.</p>
+    <p>Mit <code>/datenschutz</code> forderst du einen Export an. Die Löschung entfernt die personenbezogenen Daten, die dieser Ablauf erfasst, und setzt zusätzlich einen globalen Opt-out-Vermerk gegen weitere Speicherung. Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung später wieder.</p>
+    <p>Ehrlich gesagt: Wir sagen dir nicht pauschal zu, dass dieser Opt-out ausnahmslos jede künftige Speicherung in allen Serversystemen verhindert. Was in deinem Fall genau erfasst, gelöscht und gesperrt wird, klärst du über den veröffentlichten Datenschutzweg oder den sichtbaren Menschen-Support — dort bekommst du eine konkrete Auskunft.</p>
+    <p>Der Opt-out-Vermerk selbst bleibt bestehen, damit die Sperre überhaupt durchgesetzt werden kann. Nicht personenbezogene Aggregate können unabhängig davon bestehen bleiben.</p>
+  </section>
+
+  <section id="opt-out-folgen">
+    <h2>Was der Opt-out im Alltag bedeutet</h2>
+    <ul>
+      <li>Schreibst du dem Concierge per Direktnachricht <code>stopp</code>, setzt das denselben globalen Opt-out. Im privaten Fragechat über <code>/faq</code> verarbeitet er <code>stopp</code> nicht.</li>
+      <li>Danach speichert der Concierge keinen neuen Gesprächsverlauf mehr und meldet sich nicht mehr von sich aus. Eine direkte Frage beantwortet er weiterhin — dann ohne Verlauf, also ohne Bezug auf vorher Gesagtes.</li>
+      <li>Bereits gespeicherte Daten löscht <code>stopp</code> nicht; dafür nutzt du den getrennten Löschweg über <code>/datenschutz</code>.</li>
+      <li>Solange der Opt-out aktiv ist, lässt sich kein speichernder privater Fragechat starten. Wege dorthin sind ein bewusster Opt-in über <code>/datenschutz-optin</code> oder ein Ticket beim menschlichen Support.</li>
+    </ul>
   </section>
 
   <section id="rang-sichtbarkeit">

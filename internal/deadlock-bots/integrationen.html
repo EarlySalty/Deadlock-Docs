@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Deadlock-Bots Integrationen</title>
   <meta name="tags" content="deadlock-bots, intern, integrationen">
-  <meta name="stand" content="2026-07-07">
-  <meta name="quelle" content="Deadlock-Bots">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Deadlock-Bots (Ist-Audit Bridges und Ticket-Pfad)">
 </head>
 <body>
 <main>
@@ -23,7 +23,7 @@
 <section id="twitch-bridge">
 <h2>Twitch-Bridge</h2>
 <p><code>TwitchApiClient</code> nutzt <code>TWITCH_INTERNAL_API_TOKEN</code> und baut die Basis aus <code>TWITCH_INTERNAL_API_BASE_URL</code> oder <code>TWITCH_INTERNAL_API_HOST</code> plus <code>TWITCH_INTERNAL_API_PORT</code>, Default <code>127.0.0.1:8776</code>. Nicht-loopback ist nur mit <code>TWITCH_INTERNAL_API_ALLOW_NON_LOOPBACK</code> erlaubt (<code>rust/crates/dl-bridges/src/twitch.rs</code>).</p>
-<p>Die Bridge rehydriert aktive Live-Ankündigungen über <code>GET /internal/twitch/v1/live/active-announcements</code>, trackt Button-Klicks über <code>POST /internal/twitch/v1/live/link-click</code> und nutzt <code>Idempotency-Key</code> bei Klicks. Ticket-FAQ darf Twitch-Diagnose nur für den fragenden User ausführen (<code>rust/crates/dl-bridges/src/twitch.rs</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Die Bridge rehydriert aktive Live-Ankündigungen über <code>GET /internal/twitch/v1/live/active-announcements</code>, trackt Button-Klicks über <code>POST /internal/twitch/v1/live/link-click</code> und nutzt <code>Idempotency-Key</code> bei Klicks. Der FAQ- und Ticket-Pfad nutzt die Bridge nicht: Aus einem Ticket läuft keine Twitch-, Live- oder sonstige Diagnose, auch nicht für den fragenden User. Die Ticket-Auto-Hilfe kennt allein den Abruf gegen <code>dl-knowledge</code> (<code>rust/crates/dl-bridges/src/twitch.rs</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
 <p><code>dl-twitch-invite-sync</code> ruft <code>/internal/twitch/v1/streamer-invites</code>, schreibt <code>bot.twitch_streamer_invites</code> und klassifiziert passende <code>activity.member_events</code> von anderen Buckets nach <code>twitch</code> um. Website-Invite-Codes aus <code>bot.kv_store</code> haben Vorrang vor Twitch (<code>rust/bin/dl-twitch-invite-sync/src/main.rs</code>).</p>
 </section>
 <section id="steam">

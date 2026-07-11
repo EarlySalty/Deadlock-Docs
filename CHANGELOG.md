@@ -1,5 +1,13 @@
 # Changelog
 
+## #5 — Datenschutz-, Paten- und Antwortgrenzen klargezogen
+
+Problem: Die Dokumentation versprach an mehreren Stellen mehr, als tatsächlich passiert, und erklärte technisch unsichere Discord-Zustände nicht eindeutig.
+
+Änderung: Löschung, Opt-out, Patenwunsch, Fragechat und die Grenzen des Assistenten sind jetzt so beschrieben, wie sie sich beobachten lassen, inklusive sicherer nächster Schritte bei unklarer Zustellung.
+
+Aktuelles Verhalten: „stopp" stoppt neue Verlaufsspeicherung im Concierge und ungefragte Kontakte von ihm, löscht aber nichts; „vergiss mich" löscht nur Concierge-Daten und `/datenschutz` bleibt der umfassendere Weg. Unklare Discord-Zustände werden sichtbar als unsicher behandelt, ein bereits erfolgreicher Patenwunsch wird nicht doppelt weitergegeben, und der aktuelle Support-Agent führt weder Auto-Debug noch andere angeforderte Live-Aktionen aus.
+
 ## #4 — Supportwissen für Bots und Server vereinheitlicht
 
 Problem: Fragen zu Discord, Bots und Portalen konnten wegen verstreuter und teils veralteter Inhalte nicht zuverlässig beantwortet werden.

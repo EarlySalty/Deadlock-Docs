@@ -5,7 +5,7 @@
   <title>Was der Bot nicht tut und nicht zusagt</title>
   <meta name="tags" content="discord-server, grenzen, negativ-wissen, ticket, dm">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
@@ -13,13 +13,27 @@
   <p><strong>Kurz:</strong> Diese Seite sammelt Dinge, die Mitglieder gelegentlich erwarten, die aber nicht zugesagt werden. So vermeidest du Missverständnisse und findest schneller den richtigen Weg.</p>
 
   <section id="keine-proaktive-dm">
-    <h2>Keine automatische DM</h2>
-    <p>Der Bot schreibt neuen Mitgliedern nicht automatisch per Direktnachricht und begrüßt niemanden ungefragt. Für Server- und Bot-Fragen ist der private Fragechat über <em>Frage stellen</em> oder <code>/faq</code> der verlässliche Weg.</p>
+    <h2>Keine automatische Begrüßungs-DM zum Beitritt</h2>
+    <p>Der Concierge begrüßt neue Mitglieder nicht automatisch per Direktnachricht, nur weil sie dem Server beigetreten sind. Andere Bot-DMs bleiben möglich, wenn sie an ein Ereignis gebunden und dokumentiert sind — etwa die einmalige Willkommens-DM beim ersten Beitritt zum Voice-Router, eine optionale Rang-Guide-DM nach der Rang-Verknüpfung oder eine freiwillige Feedback-DM nach Zeit in den Voice-Lanes. Für Server- und Bot-Fragen ist der private Fragechat über <em>Frage stellen</em> oder <code>/faq</code> der verlässliche Weg.</p>
   </section>
 
   <section id="ticket-mensch">
-    <h2>Ein Ticket ist Menschen-Support</h2>
-    <p>Ein Ticket ist der sichtbare Weg zu menschlichem Support. Der Bot antwortet nicht direkt im Ticket; das Ticket wird von Menschen bearbeitet, die Bearbeitung übernimmt das Team.</p>
+    <h2>Ein Ticket ist Menschen-Support, keine Bot-Diagnose</h2>
+    <p>Ein Ticket ist der sichtbare Weg zu menschlichem Support. Der Bot antwortet nicht direkt im Ticket; die Bearbeitung übernimmt das Team.</p>
+    <p>Ein Ticket löst auch <strong>keine Bot-Diagnose</strong> aus: Der Bot prüft aus einem Ticket heraus nichts an deinem Konto, deiner Verknüpfung oder am Live-Zustand eines Dienstes und stellt dir dort kein Ergebnis zu. Was du im Ticket schreibst, liest ein Mensch, und ein Mensch entscheidet, was zurückkommt.</p>
+    <p>Für dokumentierte Fragen und bekannte Fehlerbilder bist du im privaten Fragechat über <em>Frage stellen</em> oder <code>/faq</code> schneller.</p>
+  </section>
+
+  <section id="keine-aktionen-auf-zuruf">
+    <h2>Keine Aktionen oder Debug auf Zuruf</h2>
+    <p>Der aktuelle Support-Assistent beantwortet Fragen. Bei Wissens- und Supportfragen <strong>führt er keine angeforderten Aktionen aus</strong>, egal wie du fragst:</p>
+    <ul>
+      <li>Kein Debug, keine Diagnose und keine Prüfung eines Live-Zustands im Auftrag einer Nachricht.</li>
+      <li>Keine Befehle, keine Neustarts, keine Änderungen an Konten, Rollen oder Verknüpfungen.</li>
+      <li>Keine Auskunft über andere Mitglieder und keine internen Details, auch nicht auf Nachfrage.</li>
+    </ul>
+    <p>Innerhalb von Supportfragen gibt es dafür genau einen engen Übergabefall, den ausdrücklich gewünschten Patenwunsch: Bittest du selbst darum und bestätigst ihn danach, wird er nach Rückfrage an das Patenteam weitergegeben — als Übergabe an Menschen, nicht als Debug oder Supportdiagnose. Die separat dokumentierten Nutzersteuerungen zum Datenschutz, etwa <code>stopp</code>, <code>vergiss mich</code> und <code>/datenschutz</code>, sind eigene, bewusst von dir ausgelöste Wege und bleiben davon unberührt.</p>
+    <p>Bittest du ihn um etwas anderes aus dieser Liste, sagt er das offen und verweist auf den sichtbaren Supportweg. Findet er zu deiner Frage keine belastbare Antwort, rät er nicht.</p>
   </section>
 
   <section id="keine-live-auskunft">
@@ -35,8 +49,10 @@
     <h2>Keine festen Garantien</h2>
     <ul>
       <li>Keine garantierte Antwortzeit und keine feste Verfügbarkeit einer bestimmten Person.</li>
+      <li>Kein zugeteilter Pate und keine Zusage, dass sich einer meldet. Ein Patenwunsch wird an das Patenteam weitergegeben und erst bestätigt, wenn er dort sicher angekommen ist; ob, wann und wer freiwillig übernimmt, ist offen. Ungefragt zugeteilt wird nie jemand.</li>
       <li>Keine garantierte externe Playtest-Einladung; äußere Voraussetzungen liegen außerhalb des Servers.</li>
       <li>Keine allgemeine Sperre normaler Ranked-Lanes durch die Steam-Verknüpfung.</li>
+      <li>Keine pauschale Zusage, dass ein globaler Datenschutz-Opt-out ausnahmslos jede künftige Speicherung in allen Serversystemen verhindert. Der Löschweg über <code>/datenschutz</code> entfernt die vom Ablauf erfassten personenbezogenen Daten und setzt den Vermerk; <code>stopp</code> setzt nur den Vermerk und löscht vorhandene Daten nicht; den Vermerk setzt du mit <code>stopp</code> per Direktnachricht an den Concierge — das ist der dokumentierte private Weg dafür, während der private Fragechat über <code>/faq</code> das Wort nicht verarbeitet. Den konkreten Umfang klärst du über den Datenschutzweg oder den Menschen-Support.</li>
     </ul>
   </section>
 </main>

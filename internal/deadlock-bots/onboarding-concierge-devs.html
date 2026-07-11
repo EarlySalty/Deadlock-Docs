@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Onboarding-Concierge — Spec Slice A</title>
   <meta name="tags" content="deadlock-bots, onboarding, concierge">
-  <meta name="stand" content="2026-07-07">
-  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs (Ist-Audit 2026-07-11)">
 </head>
 <body>
 <main>
@@ -38,8 +38,11 @@ Mensch (Kanal, Lane, Steckbrief, Pate).</p>
 <section id="2-trigger-gespraechs-flow">
 <h2>2. Trigger &amp; Gesprächs-Flow</h2>
 <ol>
-<li><strong>T0:</strong> Event <code>NativeOnboardingCompleted</code> (bestehende Onboarding-Brücke)
-→ DM. <strong>T0 ist statisches Template ohne LLM</strong> (Konzept §4.1,
+<li><strong>T0 (nur im proaktiven Modus, standardmäßig aus):</strong> Event
+<code>NativeOnboardingCompleted</code> (bestehende Onboarding-Brücke) → DM.
+Der Handler bricht ohne <code>ConciergeConfig.proactive</code> sofort ab, es geht
+also im Ist-Betrieb <strong>keine ungefragte Begrüßungs-DM</strong> raus (§5).
+<strong>T0 ist statisches Template ohne LLM</strong> (Konzept §4.1,
 Datenminimierung), Text siehe Textpaket. Enthält: Begrüßung, EINE offene
 Frage („erzähl mir, was du hier vorhast&quot;), dezente Buttons als Abkürzung
 (Tour / Mitspieler / später), Transparenz-Satz zum Gedächtnis, Hinweis
@@ -47,19 +50,17 @@ auf „stopp&quot;.</li>
 <li><strong>DM zu (Discord 50007):</strong> Fallback privater Textkanal nach dem Muster
 aus <code>faq.rs</code> (Kanal nur User + Bot, Auto-Aufräumen). KV-Claim gegen
 Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>.</li>
-<li><strong>User antwortet frei</strong> → ab jetzt LLM-Gespräch über
-<code>LlmUseCase::BotPate</code> (dl-ai). Start-Modell laut Owner-Entscheid vom
-07.07.: <strong>DeepSeek über Fireworks</strong> (<code>deepseek-v4-flash</code>, Fireworks hat
-laut Owner einen AVV/DPA; Nachweis wird als Launch-Gate abgelegt,
-§10). Provider bleibt per Env umschaltbar (<code>DL_LLM_PROVIDER_BOT_PATE</code>);
-der frühere Entscheid „gpt-5.4-mini&quot; vom 02.07. ist damit überholt. Der System-Prompt
-kommt aus dem Textpaket (Concierge v0.3). Gesprächsprinzip:
-<strong>immer offene Fragen zuerst, geschlossene Fragen und Buttons nur zum
-Präzisieren.</strong></li>
-<li><strong>Stille Intent-Klassifikation</strong> aus dem Gespräch in genau eine von vier
-Kategorien: <code>improve</code> (besser werden), <code>mates</code> (feste Mitspieler),
-<code>learn</code> (Spiel lernen), <code>casual</code> (entspannt zocken). Wird im Profil
-gespeichert, nie dem User als Formular gezeigt.</li>
+<li><strong>User antwortet frei:</strong> Enge nicht-faktische Konversationsfälle
+beantwortet <code>local_conversational_answer</code> mit festen lokalen Texten.
+Jede Faktenfrage läuft ausschließlich über <code>dl-knowledge</code> und den
+öffentlichen HTML-Korpus. Einen freien BotPate-Chat, einen zweiten
+Modellpfad oder eine frei formulierte Modellantwort gibt es nicht.</li>
+<li><strong>Stille Intent-Klassifikation</strong> erfolgt lokal und deterministisch über
+<code>classify_intent</code> in genau eine von vier Kategorien:
+<code>improve</code> (besser werden), <code>mates</code> (feste Mitspieler),
+<code>learn</code> (Spiel lernen), <code>casual</code> (entspannt zocken). Die
+Heuristik wird nur im speichernden Pfad ins Profil geschrieben und nie
+als Formular gezeigt; ein LLM entscheidet diesen Wert nicht.</li>
 </ol>
 </section>
 <section id="3-die-drei-ausgaenge-jede-strecke-endet-richtung-mensch">
@@ -71,8 +72,10 @@ automatisch in eine passende Lane verteilt oder eine erstellt. Ergänzend
 🎯mitspieler-suche (<code>1522769149208821881</code>). Bei <code>learn</code> zusätzlich
 Coaching-Hinweis auf &lt;#1494373349944459355&gt;.</li>
 <li><strong>Fragen:</strong> Antworten über <code>dl-knowledge</code> <code>POST /public/v1/ask</code>
-(BM25 + LLM, fail-closed). Bei Lücke KEIN Raten: Verweis auf
-&lt;#1426220702054355077&gt; (💬frag-die-community) nach dem Lücken-Dreiklang
+(BM25 + LLM, fail-closed). <strong>Einziger Faktenpfad</strong>: kein Brain-Fallback,
+keine freie Modellantwort. Bei Lücke, Fehler oder Timeout KEIN Raten:
+Verweis auf &lt;#1491953161747955853&gt; (Server- und Bot-Fragen, so auch im
+Code) nach dem Lücken-Dreiklang
 aus dem KI-Charakter-Design (nie ratlos, jede Antwort endet mit einer
 Handlung). „Ich find's für dich raus&quot; bleibt verboten (kein Cockpit).</li>
 <li><strong>Umschauen:</strong> Mini-Tour, 6 Stationen (Texte im Textpaket), als eine
@@ -87,6 +90,41 @@ V2-Nachricht mit Sektionen, kein Klick-Marathon:
 Die Tour endet IMMER im Steckbrief-Angebot.</li>
 </ol>
 </li>
+</ul>
+</section>
+<section id="3b-wissens-und-verlaufsvertrag">
+<h2>3b. Wissens- und Verlaufsvertrag (Ist-Stand 2026-07-11)</h2>
+<ul>
+<li><strong>Nur belegte Passagen, nie eine freie Modellantwort.</strong> Das Modell
+formuliert keine Antwort, sondern wählt aus den mitgelieferten Chunks
+belegende Passagen aus (<code>answerable</code> + <code>evidence</code>). Der Dienst
+normalisiert jede Passage, prüft, dass sie <strong>vollständig und exakt</strong> in
+einem der retrievten öffentlichen HTML-Chunks steht, und liefert erst
+dann die zusammengesetzten Passagen aus. Was diese Prüfung nicht
+besteht, wird verworfen und die Frage gilt als nicht beantwortbar.
+Eine frei formulierte Modellantwort erreicht das Mitglied nie.</li>
+<li><strong>Jede Passage ist ein vollständiger Satz</strong> ab Chunk- oder Satzanfang
+bis zum Satzende. Halbe Sätze und isolierte, themenfremde Zeilen sind
+keine Evidence.</li>
+<li><strong>Retrieval-Verlauf:</strong> Im speichernden Gespräch gehen höchstens die
+<strong>vier vorherigen Nutzerfragen plus die aktuelle Frage</strong> in die
+Retrieval-Anfrage. Assistant-Texte gehen nie mit — der Verlauf schärft
+nur die Suche, er ist keine Antwortquelle.</li>
+<li><strong>Stateless:</strong> Nach dem Datenschutz-Opt-out (und überall dort, wo kein
+Verlauf geführt wird) besteht die Retrieval-Anfrage ausschließlich aus
+der aktuellen Frage. Kein Verlauf rein, kein Verlauf raus.</li>
+<li><strong>Vorgelagerte Konversationsfälle:</strong> <code>local_conversational_answer</code>
+beantwortet einen engen, fest verdrahteten Satz nicht-faktischer Fälle
+(Identitätsfrage, Smalltalk, Favoriten, Offtopic, reiner Link) lokal und
+ohne Wissensabfrage. Faktenfragen werden dort nie beantwortet.</li>
+<li><strong>Discord-Seiteneffekte:</strong> Die gehärteten Antwort-, Paten-, Steckbrief-
+und proaktiven Versandpfade sind zeitlich begrenzt.
+Bekannte, in demselben Ablauf neu angelegte Container können nach einem
+belegten Fehler gezielt aufgeräumt werden. Unklar zugestellte oder nicht
+eindeutig identifizierbare Effekte werden nicht blind gelöscht, sondern nach
+Reconciliation mit einem festen Unsicherheitstext sichtbar gemacht.
+Der Patenwunsch ist nach erfolgreicher Speicherung idempotent: ein
+wiederholter Klick erzeugt keinen zweiten internen Post.</li>
 </ul>
 </section>
 <section id="4-steckbrief">
@@ -111,8 +149,22 @@ Rolle per Config).</li>
 </ul>
 </section>
 <section id="5-kadenz-hart-begrenzt">
-<h2>5. Kadenz (hart begrenzt)</h2>
-<p>Maximal <strong>3 ungefragte Kontakte</strong>, danach nur noch reaktiv:</p>
+<h2>5. Kadenz (optionaler proaktiver Modus, standardmäßig aus)</h2>
+<p><strong>Ist-Vertrag (Stand 2026-07-11):</strong> Die komplette Beitritts-Kadenz unten
+(T0, T+2, T+7 samt Gratulation) gehört zum <strong>optionalen proaktiven
+Modus</strong>. <code>ConciergeConfig.proactive</code> ist <strong>standardmäßig aus</strong>
+(Env-Schalter, Default <code>false</code>); im aktuellen Supportbetrieb ist er nicht
+aktiv. Konkret: der T0-Handler bricht ohne das Flag ab, und der Scheduler
+lädt gar keine fälligen Profile — es startet also <strong>keine Beitritts-Kadenz
+und es geht keine ungefragte DM raus</strong>. Der Concierge beantwortet im
+Ist-Betrieb <strong>reaktiv Faktenfragen</strong>: er meldet sich nur, wenn ihn jemand
+direkt anschreibt, und legt dann auf dem reaktiven Pfad selbst ein Profil an.</p>
+<p>Templates, Kadenz-Regeln und die Datenschutzregeln aus §6 bleiben
+dokumentiert und im Code vorhanden; sie greifen, sobald der proaktive Modus
+eingeschaltet wird. Alles Folgende beschreibt genau diesen eingeschalteten
+Zustand.</p>
+<p>Im proaktiven Modus: maximal <strong>3 ungefragte Kontakte</strong>, danach nur noch
+reaktiv:</p>
 <ol>
 <li><strong>T0</strong> (Join-Tag): Begrüßung wie §2.</li>
 <li><strong>T+2</strong> nur bei Null-Aktivität (nichts geschrieben, kein Voice): ein
@@ -123,8 +175,10 @@ Exit-Reibungs-Erhebung aus Konzept Phase 0/4.</li>
 </ol>
 <p>Zusätzlich einmalig, zählt nicht als Kontakt: <strong>Gratulation</strong> beim ersten
 Erfolgsmoment (erste eigene Nachricht ODER erster Voice-Join), kurz,
-freundlich, ohne Frage und ohne Aufforderung.</p>
-<p>Jede DM an den Concierge wird jederzeit beantwortet (reaktiv, ohne Limit).</p>
+freundlich, ohne Frage und ohne Aufforderung. Auch sie läuft über den
+Kadenz-Scheduler und bleibt damit ohne proaktiven Modus aus.</p>
+<p>Unabhängig vom Modus gilt: Jede DM an den Concierge wird jederzeit
+beantwortet (reaktiv, ohne Limit).</p>
 </section>
 <section id="6-gedaechtnis-datenschutz">
 <h2>6. Gedächtnis &amp; Datenschutz</h2>
@@ -145,23 +199,55 @@ bestehende Retention <code>retention.rs</code>).</li>
 <li><strong>Erasure:</strong> an das bestehende Lösch-System anbinden, Concierge-Daten
 gehören zum Erasure-Umfang.</li>
 <li><strong>Opt-out:</strong> „stopp&quot; als Keyword UND natürlichsprachlich erkannt
-(„lass mich in Ruhe&quot;, „schreib mir nicht mehr&quot;). Wirkung: Status
-<code>opted_out</code>, keine ungefragten DMs mehr, reaktiv bleibt möglich.
-„Vergiss das/mich&quot; → sofortige Löschung von Verlauf + Profil,
-Bestätigung an den User.</li>
+(„lass mich in Ruhe&quot;, „schreib mir nicht mehr&quot;). Wirkung ist kein reiner
+Kontakt-Stopp, sondern der <strong>globale Datenschutz-Opt-out</strong> in
+<code>core.user_privacy</code>, derselbe Schalter wie über <code>/datenschutz</code>: Der
+Concierge schickt keine ungefragten DMs mehr und legt ab diesem
+Moment <strong>keinen neuen Verlauf und kein neues Profil</strong> an. Bereits gespeicherte
+Concierge-Daten werden durch „stopp&quot; nicht gelöscht; dafür bleibt der Löschweg zuständig. Reaktiv bleibt er
+erreichbar, antwortet dann aber <strong>stateless</strong>, also direkt und ohne
+gespeichertes Gedächtnis über die Nachricht hinaus. Mit
+<code>/datenschutz-optin</code> erlaubt der User die Speicherung wieder, danach
+baut der Concierge wieder Verlauf und Profil auf.
+Vergessen läuft bewusst <strong>nicht</strong> über freie semantische Erkennung, sondern über einen
+engen Festphrasen-Parser (<code>forget_intent</code>): Nach Trim, einem optionalen führenden
+„bitte&quot; und abschließenden Satzzeichen zählen ausschließlich „vergiss mich&quot;,
+„vergiss das&quot;, „vergiss alles&quot;, „vergiss meine daten&quot;, „lösch/loesch meine daten&quot;,
+„lösch/loesch alles&quot; und „daten löschen/loeschen&quot;. Umschreibungen wie „kannst du bitte
+meine Daten vergessen&quot; lösen <strong>keine</strong> Löschung aus, das ist Absicht und verhindert
+unbeabsichtigtes Löschen. Trifft eine dieser Festphrasen → sofortige Löschung
+<strong>ausschließlich der zusätzlich gespeicherten Concierge-Daten</strong>: Gesprächskopie
+(<code>concierge_conversations</code>), Concierge-Profil (<code>concierge_profiles</code>),
+interne Concierge-Merker und die Concierge-Anteile der Journey. Nicht angefasst
+wird, was in Discord selbst liegt: bereits gesendete Nachrichten und Kanäle, der
+öffentliche Steckbrief und interne Patenposts bleiben bestehen. Der Vorgang setzt
+zusätzlich den <strong>globalen Datenschutz-Opt-out</strong> in <code>core.user_privacy</code>:
+Direkte Fragen beantwortet der Concierge weiter stateless, gespeichert wird erst
+wieder nach <code>/datenschutz-optin</code>. Bestätigung an den User im Wortlaut des
+Textpakets.</li>
 <li>Transparenz-Satz in T0 (Textpaket), kein verstecktes Gedächtnis.</li>
 </ul>
 </section>
 <section id="7-pate-schnittstelle-vollausbau-slice-b">
 <h2>7. Pate (Schnittstelle, Vollausbau = Slice B)</h2>
 <ul>
-<li>Pool = Rolle <code>1524047896297738311</code>. Trigger: User äußert Wunsch, oder
-Angebot im T+2-Nudge. Nur mit Zustimmung, nie ungefragt zugeteilt.</li>
-<li><strong>Slice A baut nur die Übergabe:</strong> Zustimmung wird im Profil vermerkt
-(<code>pate_requested</code>), der Concierge pingt die Paten-Rolle in einem
-Mod-/Paten-Kanal mit dem Steckbrief-Destillat. Das Matching
-(Rang-Nähe, Spielzeiten, Load-Limit 2-3, privater Textkanal mit
-Concierge-Vorstellung) ist Slice B.</li>
+<li>Pool = Rolle <code>1524047896297738311</code>. Trigger: User äußert ausdrücklich
+einen Wunsch, oder Angebot im T+2-Nudge (nur im proaktiven Modus). Nur
+mit Zustimmung, nie ungefragt zugeteilt. Eine bloße <strong>Wissensfrage</strong>
+über Paten öffnet den Workflow nicht.</li>
+<li><strong>Übergabe:</strong> Zustimmung wird im Profil vermerkt
+(<code>pate_requested</code>), der Concierge postet einen Claim-Post mit
+Rollen-Ping, Kurz-Destillat und Übernehmen-Button in den <strong>fest
+erlaubten</strong> Patenkanal. Erfolg wird dem Neuling erst gemeldet, wenn
+dieser Post sicher steht und der Wunsch committet ist.</li>
+<li><strong>Keine automatische Rang- oder Kandidatenempfehlung.</strong> Es wird kein
+passender Pate berechnet oder namentlich vorgeschlagen; es übernimmt
+freiwillig, wer zuerst drückt. Beim Claim greifen Rollen-Prüfung,
+Load-Limit (3 aktive Patenschaften) und ein KV-Claim gegen
+Doppelvergabe. Details in
+<a href="onboarding-concierge-slice-b-c.html">Slice B/C</a>.</li>
+<li><strong>Fail-closed:</strong> Aktiver Opt-out und nicht prüfbarer
+Privatsphäre-Status blocken beide — bei Wunsch wie bei Claim.</li>
 </ul>
 </section>
 <section id="8-optik">
@@ -201,8 +287,15 @@ user-sichtbaren Texte; fehlt ein Text, <code>&quot;Platzhalter&quot;</code> + Me
 <section id="11-tests-tdd-vertrag-zuerst">
 <h2>11. Tests (TDD, Vertrag zuerst)</h2>
 <ul>
-<li>Kadenz: nie mehr als 3 ungefragte Kontakte; T+2 nur bei Null-Aktivität;
-Gratulation genau einmal; nach <code>opted_out</code> keine ungefragte DM mehr.</li>
+<li>Kadenz (proaktiver Modus): nie mehr als 3 ungefragte Kontakte; T+2 nur bei
+Null-Aktivität; Gratulation genau einmal; nach dem Datenschutz-Opt-out keine
+ungefragte DM mehr. Zusätzlich ist der Default abgesichert: ohne gesetzten
+Env-Schalter ist <code>proactive</code> aus, T0 und Scheduler-Kadenz starten dann
+nicht.</li>
+<li>Opt-out: „stopp&quot; setzt den globalen Datenschutz-Opt-out; danach
+entstehen keine neuen Verlaufs- oder Profilzeilen, eine DM wird trotzdem
+stateless beantwortet, und <code>/datenschutz-optin</code> erlaubt die Speicherung
+wieder.</li>
 <li>Retention: Reaper löscht/anonymisiert exakt nach 90 Tagen Stille;
 Interaktion refresht; Erasure räumt Concierge-Tabellen mit ab.</li>
 <li>Routing: Hilfe/Invite-Steckbrief → frag-die-community, locker →

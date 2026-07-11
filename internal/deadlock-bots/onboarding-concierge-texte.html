@@ -5,7 +5,7 @@
   <title>Onboarding-Concierge — Textpaket (finale User-Texte)</title>
   <meta name="tags" content="deadlock-bots, onboarding, concierge">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs (Ist-Audit 2026-07-11)">
 </head>
 <body>
 <main>
@@ -15,6 +15,9 @@
 Codex textet nicht selbst. Kanal-Erwähnungen als echte <code>&lt;#ID&gt;</code>-Mentions.
 Stilregeln: du, warm, kurz, Punkt und Komma, keine Gedankenstriche,
 höchstens ein <code>:)</code> pro Nachricht, keine AI-Floskeln.</p>
+<p>Diese Seite ist die Text-SSOT und gegen den Ist-Stand der
+<code>concierge.rs</code>-Konstanten abgeglichen. Weicht ein Text im Code ab, gilt
+der Code und diese Seite wird nachgezogen, nicht umgekehrt.</p>
 <section id="1-t0-dm-statisches-template-ohne-llm">
 <h2>1. T0-DM (statisches Template, ohne LLM)</h2>
 <p><strong>V2-Layout:</strong> Gold-Banner oben, darunter Text, darunter drei Buttons.</p>
@@ -24,8 +27,11 @@ ich helf dir beim Ankommen.</p>
 <p>Erzähl mir kurz, was du hier vorhast, dann zeig ich dir den schnellsten
 Weg dahin. Egal ob du Mitspieler suchst, besser werden willst oder dich
 erstmal nur umschauen magst, schreib es mir einfach in deinen Worten.</p>
-<p>Ich merk mir, was wir besprechen, damit ich nicht zweimal frage. Wenn du
-das nicht willst, sag einfach stopp, dann lass ich dich in Ruhe.</p>
+<p>Was du mir schreibst, merke ich mir nur, damit ich im Gespräch nicht bei null anfange.
+Wenn du &quot;stopp&quot; schreibst, setzt das deinen globalen Datenschutz-Opt-out: Ich speichere
+dann keinen neuen Gesprächsverlauf mehr und melde mich nicht mehr von selbst, direkte Fragen
+beantworte ich weiter, nur eben ohne Verlauf. Mit /datenschutz-optin erlaubst du die Speicherung
+später jederzeit wieder.</p>
 </blockquote>
 <p>Buttons: <code>Zeig mir den Server</code> (Tour), <code>Ich will direkt spielen</code>,
 <code>Später</code>.</p>
@@ -40,14 +46,14 @@ Absatz):</p>
 ich bin immer da.</p>
 </blockquote>
 </section>
-<section id="2-tour-eine-v2-nachricht-6-stationen">
-<h2>2. Tour (eine V2-Nachricht, 6 Stationen)</h2>
+<section id="2-tour-eine-v2-nachricht-7-stationen">
+<h2>2. Tour (eine V2-Nachricht, 7 Stationen)</h2>
 <p>Einleitung:</p>
 <blockquote>
 <p>Gern, hier die kleine Roomtour. Das sind die Ecken, die sich am Anfang
 lohnen.</p>
 </blockquote>
-<p>Stationen (je Sektion, mit Kanal-Mention):</p>
+<p>Stationen (je Sektion, jede mit echter Kanal-Mention, auch der Voice-Kanal):</p>
 <ol>
 <li>&lt;#1326973956825284628&gt;
 <blockquote>
@@ -61,11 +67,15 @@ Blick vor der ersten Runde lohnt sich.</p>
 Da ist eigentlich immer wer live.</p>
 </blockquote>
 </li>
+<li>&lt;#1491953161747955853&gt;
+<blockquote>
+<p>Hier fragst du alles über den Server, Bots und mich als Concierge.</p>
+</blockquote>
+</li>
 <li>&lt;#1426220702054355077&gt;
 <blockquote>
-<p>Stell hier alle deine Fragen zu Deadlock, egal wie basic. Und wenn
-du das Spiel noch gar nicht hast, lässt du dich hier ins Game
-inviten.</p>
+<p>Hier stellst du offene Fragen an die Community. Und wenn du das Spiel
+noch gar nicht hast, fragst du hier nett nach einem Invite.</p>
 </blockquote>
 </li>
 <li>&lt;#1494373349944459355&gt;
@@ -80,10 +90,11 @@ deine Coaching-Anfrage, unsere Coaches machen das gern.</p>
 willst.</p>
 </blockquote>
 </li>
-<li>Station Voice (ohne Mention, Name fett):
+<li>&lt;#1513468587195633674&gt; (Voice, als echte Mention, nicht als fetter Name)
 <blockquote>
-<p>Danach joinst du einfach den <strong>Deadlock Router</strong>. Der verteilt dich
-automatisch in eine passende Lane oder macht dir eine eigene auf.</p>
+<p>Danach joinst du einfach diesen Voice-Kanal, den Deadlock Router. Der
+verteilt dich automatisch in eine passende Lane oder macht dir eine
+eigene auf.</p>
 </blockquote>
 </li>
 </ol>
@@ -166,24 +177,36 @@ Leute aus der Community, die Neuen den Einstieg zeigen. Kein Programm,
 kein Termin, einfach ein Mensch, der dir alles zeigt und mit dir die
 ersten Runden dreht. Soll ich dir jemanden an die Seite stellen?</p>
 </blockquote>
-<p>Anlass-Beispiele:</p>
+<p>Anlass: Im Code gibt es genau einen Anlass-Text, den Fallback. Eine
+rang- oder lane-abhängige Anlass-Variante existiert nicht und wird auch
+nicht erzeugt:</p>
 <blockquote>
 <p>Heute Abend ist hier meistens am meisten los, so ab 20 Uhr füllen sich
 die Lanes.</p>
 </blockquote>
-<blockquote>
-<p>Gerade sind ein paar Lanes in deinem Rang-Bereich offen, falls du Lust
-auf eine Runde hast.</p>
-</blockquote>
 <p>Buttons: <code>Ja, gern</code>, <code>Nee, ich komm klar</code>.</p>
-<p><code>Ja, gern</code>-Antwort:</p>
+<p><code>Ja, gern</code>-Antwort. Sie wird <strong>erst dann</strong> gesendet, wenn der interne
+Patenpost sicher sichtbar im Patenkanal steht und der Wunsch dauerhaft
+gespeichert ist. Vorher gibt es keine Erfolgsmeldung, sondern einen der
+Fail-closed-Texte aus §9:</p>
 <blockquote>
-<p>Super, ich geb das an unsere Paten weiter. Es meldet sich bald jemand
-bei dir, versprochen.</p>
+<p>Dein Patenwunsch ist raus und liegt jetzt für das Patenteam sichtbar im internen Patenkanal. Sobald sich freiwillig jemand die Patenschaft schnappt, richten wir für euch beide einen privaten Kanal ein.</p>
 </blockquote>
 <p><code>Nee, ich komm klar</code>-Antwort:</p>
 <blockquote>
 <p>Alles klar. Wenn doch mal was ist, schreib mir einfach.</p>
+</blockquote>
+<p>Denselben Erfolgstext bekommt auch, wer sich im laufenden Gespräch
+ausdrücklich selbst einen Paten wünscht und danach auf <code>Ja, gern</code> drückt.
+Ist der Wunsch bereits erfolgreich gespeichert, liefert ein erneuter Klick
+denselben Text, ohne einen zweiten internen Patenpost zu erzeugen.
+Eine reine <strong>Wissensfrage</strong> über Paten („was ist ein Pate?&quot;) öffnet den
+Paten-Workflow nicht, sondern läuft ganz normal über den Wissensdienst
+(<code>explicit_pate_request</code> ist ein absichtlich enger Aktionsparser).
+Vorschlagstext, wenn ein Wunsch erkannt wurde, aber keine Antwort dazu
+vorliegt:</p>
+<blockquote>
+<p>Klingt, als würde dir ein fester Ansprechpartner guttun. Soll ich einen unserer Paten für dich suchen?</p>
 </blockquote>
 </section>
 <section id="6-t-7-reibungs-feedback">
@@ -209,41 +232,157 @@ den Server für die Nächsten besser.</p>
 </section>
 <section id="8-opt-out-und-vergessen">
 <h2>8. Opt-out und Vergessen</h2>
-<p>Opt-out-Bestätigung (stopp oder sinngemäß):</p>
+<p>Opt-out-Bestätigung (stopp oder sinngemäß). „stopp&quot; ist der globale
+Datenschutz-Opt-out, nicht nur ein Kontakt-Stopp: Der Concierge speichert
+danach keinen neuen Verlauf mehr und antwortet nur noch direkt, ohne
+Gedächtnis. Der Text sagt genau das:</p>
 <blockquote>
-<p>Alles klar, ich meld mich nicht mehr von selbst. Wenn du mich doch mal
-brauchst, schreib mir einfach, ich antworte immer.</p>
+<p>Alles klar, dein globaler Datenschutz-Opt-out ist gesetzt. Ich lege ab jetzt keinen neuen
+Gesprächsverlauf mehr an und melde mich nicht mehr von selbst, wenn du mich direkt fragst,
+antworte ich ohne Verlauf. Mit /datenschutz-optin erlaubst du die Speicherung wieder.</p>
 </blockquote>
-<p>Vergessen-Bestätigung („vergiss das&quot; oder sinngemäß):</p>
+<p>Vergessen-Bestätigung. Ausgelöst wird sie nur durch eine der engen Festphrasen des
+<code>forget_intent</code>-Parsers (nach Trim, optionalem „bitte&quot; und Satzzeichen), sicherer
+Auslöser ist „vergiss mich&quot;; freie Umschreibungen lösen bewusst nichts aus.
+Gelöscht wird nur, was der Concierge zusätzlich gespeichert hat: die
+Gesprächskopie in der Datenbank, das Concierge-Profil, interne
+Concierge-Merker und die Concierge-Anteile der Journey. Was in Discord
+sichtbar liegt (bereits gesendete Nachrichten, Kanäle, ein öffentlicher
+Steckbrief, interne Patenposts), bleibt. Der Vorgang setzt zusätzlich den
+globalen Datenschutz-Opt-out: Direkte Fragen bleiben stateless möglich,
+gespeichert wird erst wieder nach <code>/datenschutz-optin</code>. Der Text
+lautet wörtlich:</p>
 <blockquote>
-<p>Erledigt, ich hab unsere Unterhaltung und alles, was ich mir gemerkt
-hatte, gelöscht. Wenn du nochmal von vorn anfangen willst, schreib mir
-einfach.</p>
+<p>Erledigt: Die zusätzliche Gesprächskopie in meiner Datenbank, dein Concierge-Profil und meine internen Merker zu dir sind gelöscht. Was direkt in Discord liegt – bereits gesendete Nachrichten, Kanäle, ein öffentlicher Steckbrief, interne Patenposts – bleibt davon unberührt. Zusätzlich ist jetzt dein globaler Datenschutz-Opt-out gesetzt: Direkte Fragen beantworte ich weiterhin, aber ohne Verlauf und ohne zu speichern – gespeichert wird erst wieder nach /datenschutz-optin.</p>
+</blockquote>
+<h3>8b. Ehrliche Fehler- und Unsicherheitstexte (fail-closed, wörtlich)</h3>
+<p>Diese Texte laufen immer dann, wenn der Concierge einen Zustand
+<strong>nicht sicher weiß</strong>. Sie versprechen nie einen Erfolg, den es nicht
+belegt gibt, und enden jedes Mal beim Menschen. Ein möglicherweise schon
+zugestellter Discord-Schritt wird in einem unklaren Transport- oder
+Commit-Zustand nicht blind gelöscht.</p>
+<p>Opt-out („stopp&quot;) konnte nicht zuverlässig gespeichert werden:</p>
+<blockquote>
+<p>Dein globales Stopp konnte gerade nicht zuverlässig gespeichert werden, und wir wissen nicht sicher, ob davon schon etwas angekommen ist. Versuch es bitte gleich nochmal. Klappt es weiterhin nicht, meld dich in &lt;#1459628609705738539&gt;, dann kümmert sich ein Mensch darum.</p>
+</blockquote>
+<p>Löschung („vergiss mich&quot;) konnte nicht bestätigt werden:</p>
+<blockquote>
+<p>Wir konnten die Löschung gerade nicht bestätigen. Ob deine Daten noch da sind oder schon weg, lässt sich im Moment nicht sicher sagen. Probier es bitte nochmal, und wenn es dabei bleibt, öffne ein Ticket in &lt;#1459628609705738539&gt;.</p>
+</blockquote>
+<p>Antwort ging raus, aber der Gesprächsstand konnte nicht sicher gespeichert
+werden. Der Concierge behauptet weder, dass die Antwort verlässlich im
+Verlauf steht, noch dass gespeichert wurde:</p>
+<blockquote>
+<p>Die Antwort von eben steht vielleicht noch oben im Verlauf, verlass dich aber nicht drauf. Auf unserer Seite ist beim Speichern etwas schiefgelaufen, der Gesprächsstand ist also nicht sicher abgelegt. Frag später einfach nochmal nach oder mach ein Ticket in &lt;#1459628609705738539&gt; auf.</p>
+</blockquote>
+<p>Steckbrief technisch nicht sicher verarbeitet:</p>
+<blockquote>
+<p>Der Steckbrief konnte technisch nicht sicher verarbeitet und gespeichert werden. Versuch es später nochmal oder öffne ein Ticket in &lt;#1459628609705738539&gt;.</p>
+</blockquote>
+<p>Steckbrief nicht sicher abgeschlossen und möglicherweise trotzdem schon
+öffentlich sichtbar:</p>
+<blockquote>
+<p>Der Steckbrief wurde technisch nicht sicher abgeschlossen und kann bereits öffentlich sichtbar sein. Auch eine erneute automatische Einplanung kann ich gerade nicht sicher ausschließen. Klick bitte nicht nochmal auf Posten, prüf den Zielkanal und öffne ein Ticket in &lt;#1459628609705738539&gt;.</p>
+</blockquote>
+<p>Opt-out aktiv, deshalb kein Steckbrief-Entwurf:</p>
+<blockquote>
+<p>Dein globaler Datenschutz-Opt-out ist aktiv. Deshalb verwende ich keinen bisherigen Verlauf und speichere keinen Steckbrief-Entwurf. Du kannst dich selbst direkt vorstellen oder mit `/datenschutz-optin` die Speicherung wieder erlauben.</p>
 </blockquote>
 </section>
-<section id="9-paten-ping-intern-in-den-paten-mod-kanal">
-<h2>9. Paten-Ping (intern, in den Paten-/Mod-Kanal)</h2>
+<section id="9-paten-ping-intern-in-den-paten-kanal">
+<h2>9. Paten-Claim-Post (intern, in den festen Patenkanal)</h2>
+<p>Der Post geht ausschließlich in den fest erlaubten Patenkanal
+(<code>PATE_REQUEST_CHANNEL_ID</code>). Zeigt die Konfiguration auf einen anderen
+Kanal, wird gar nichts gepostet und der User bekommt den Fehlertext.
+Der Post enthält Rollen-Ping, Kurz-Destillat und den Übernehmen-Button.
+Eine automatische Rang- oder Kandidatenempfehlung gibt es <strong>nicht</strong>:
+Übernommen wird freiwillig, wer zuerst drückt.</p>
 <blockquote>
-<p>Neuer Neuling sucht einen Paten: {user_mention}
-{kurz_destillat}
-Wer übernimmt? Kurz hier melden, dann stelle ich euch vor.</p>
+<p>&lt;@&amp;1524047896297738311&gt; Ein Neuling hätte gern einen Paten an seiner Seite: {user_mention}
+{digest}
+Wer Zeit und Lust hat, drückt auf Übernehmen.</p>
 </blockquote>
-<p><code>{kurz_destillat}</code> = 1 bis 2 Zeilen aus dem Profil (Intent, Rang falls
-verknüpft, Spielzeiten falls bekannt). Keine Gesprächszitate.</p>
+<p>Button-Label: <code>Ich übernehme</code>.</p>
+<p><code>{digest}</code> = bis zu 3 Zeilen aus dem Profil (Intent, Rang falls verknüpft,
+Spielzeiten falls bekannt). Keine Gesprächszitate. Ohne Profilwissen:</p>
+<blockquote>
+<p>Noch nichts Näheres bekannt, am besten einfach direkt anschreiben.</p>
+</blockquote>
+<h3>9a. Fail-closed-Texte im Paten-Weg (wörtlich)</h3>
+<p>Beide Privatsphäre-Zustände sind fail-closed: Ein aktiver Opt-out
+blockt, und ein <strong>nicht prüfbarer</strong> Status blockt ebenfalls. Im Zweifel
+passiert nichts und niemand bekommt eine Erfolgsmeldung.</p>
+<p>Patenwunsch, Opt-out aktiv:</p>
+<blockquote>
+<p>Für dich ist der globale Datenschutz-Opt-out aktiv, deshalb dürfen wir deine Angaben gerade nicht speichern und intern an deinen Paten weitergeben, ohne das läuft keine Patenschaft. Mit `/datenschutz-optin` erlaubst du genau diese notwendige Speicherung wieder, sonst mach über &lt;#1459628609705738539&gt; ein Ticket auf und ein Mensch schaut mit dir drauf.</p>
+</blockquote>
+<p>Patenwunsch, Status nicht sicher prüfbar oder Post nicht abgesetzt:</p>
+<blockquote>
+<p>Wir konnten deinen Privatsphäre-Status gerade nicht sicher prüfen und speichern, deshalb haben wir nichts intern weitergegeben und keine Patenschaft gestartet. Probier es später nochmal, und wenn es weiter klemmt, mach über &lt;#1459628609705738539&gt; ein Ticket auf, dann schaut ein Mensch drauf.</p>
+</blockquote>
+<p>Patenwunsch, Zustellung oder Commit blieb unklar und der möglicherweise
+sichtbare interne Post wird deshalb nicht destruktiv zurückgenommen:</p>
+<blockquote>
+<p>Die sichere Anlage ist technisch fehlgeschlagen, und der interne Hinweis konnte möglicherweise nicht vollständig zurückgenommen werden. Eine Patenschaft ist nicht zuverlässig gestartet; bitte öffne ein Ticket in &lt;#1459628609705738539&gt;, damit ein Mensch den Zustand prüft.</p>
+</blockquote>
+<p>Claim (ephemeral), Klicker ohne Paten-Rolle:</p>
+<blockquote>
+<p>Der Knopf ist für unsere Paten reserviert. Wenn du selbst Pate werden willst, meld dich bei den Mods, wir freuen uns über jeden.</p>
+</blockquote>
+<p>Claim (ephemeral), schon vergeben:</p>
+<blockquote>
+<p>Da war jemand schneller, die Patenschaft ist schon vergeben. Danke dir fürs Draufdrücken.</p>
+</blockquote>
+<p>Claim (ephemeral), Load-Limit von drei aktiven Patenschaften erreicht:</p>
+<blockquote>
+<p>Du begleitest gerade schon drei Neulinge, das reicht erstmal. Lass diesmal jemand anderem den Vortritt und danke, dass du so aktiv bist.</p>
+</blockquote>
+<p>Claim (ephemeral), Datenschutz einer beteiligten Person blockt:</p>
+<blockquote>
+<p>Diese Patenschaft lässt sich gerade nicht anlegen, weil die Datenschutzeinstellungen einer beteiligten Person das verhindern. Bitte umgeh das nicht auf eigene Faust, wenn du Klärungsbedarf hast, mach ein Support-Ticket in &lt;#1459628609705738539&gt; auf.</p>
+</blockquote>
+<p>Claim (ephemeral), Prüfung oder Anlage technisch fehlgeschlagen:</p>
+<blockquote>
+<p>Die sichere Prüfung und Anlage ist technisch fehlgeschlagen, deshalb wurde hier nichts gestartet. Versuch es später nochmal, sonst gib uns über &lt;#1459628609705738539&gt; per Ticket Bescheid.</p>
+</blockquote>
+<p>Claim (ephemeral), bereits angelegte Discord-Schritte nicht sicher
+zurückgenommen:</p>
+<blockquote>
+<p>Die sichere Anlage ist technisch fehlgeschlagen, und bereits angelegte Discord-Schritte konnten möglicherweise nicht vollständig zurückgenommen werden. Bitte öffne ein Ticket in &lt;#1459628609705738539&gt;, damit ein Mensch den Zustand prüft.</p>
+</blockquote>
+<h3>9c. Texte nach erfolgreichem Match</h3>
+<p>Intro im neuen privaten Kanal:</p>
+<blockquote>
+<p>Willkommen ihr beiden. {user_mention}, darf ich vorstellen: {pate_mention} kennt unseren Server und das Spiel und ist ab jetzt dein direkter Draht.</p>
+<p>Kurz zu {user_mention}:
+{digest}</p>
+<p>Der Kanal hier gehört euch. Macht doch direkt mal eine Runde zusammen aus. Ich zieh mich zurück, wenn ihr mich braucht, bin ich per DM da.</p>
+</blockquote>
+<p>DM an den Neuling: <code>Gute Nachrichten: {pate_name} übernimmt deine Patenschaft. Ich hab euch einen eigenen Kanal eingerichtet: {channel_mention}. Schau rein, ihr könnt direkt loslegen.</code></p>
+<p>Reply auf den Claim-Post: <code>Erledigt, {pate_mention} übernimmt. Danke dir!</code></p>
 </section>
 <section id="9b-ergaenzungstexte-nachtrag-nach-review-final">
 <h2>9b. Ergänzungstexte (Nachtrag nach Review, final)</h2>
-<p>Wissens-Lücke und LLM-Ausfall (eine Antwort für beides):</p>
+<p>Wissens-Lücke, Knowledge-Fehler und Knowledge-Timeout (eine Antwort für
+alle drei; jede Nicht-Antwort des Wissensdienstes landet hier, es gibt
+keinen zweiten Faktenpfad). Verwiesen wird auf den Server- und
+Bot-Fragenkanal:</p>
 <blockquote>
 <p>Da will ich dir nichts Falsches erzählen. Stell die Frage am besten in
-&lt;#1426220702054355077&gt;, da antwortet dir ein echter Mensch.</p>
+&lt;#1491953161747955853&gt;, da antwortet dir ein echter Mensch.</p>
 </blockquote>
-<p>„Ich will direkt spielen&quot;-Button:</p>
+<p>„Ich will direkt spielen&quot;-Button (Router als echte Mention):</p>
 <blockquote>
 <p>Läuft. Stell dir in &lt;#1513468476365209670&gt; kurz dein Preset ein, also
-was und wie du spielen willst. Danach joinst du den Deadlock Router,
-der packt dich automatisch in eine passende Lane oder macht dir eine
-eigene auf. Viel Spaß, und wenn was hakt, schreib mir :)</p>
+was und wie du spielen willst. Danach joinst du &lt;#1513468587195633674&gt;,
+den Deadlock Router, der packt dich automatisch in eine passende Lane
+oder macht dir eine eigene auf. Viel Spaß, und wenn was hakt, schreib
+mir :)</p>
+</blockquote>
+<p>Direkte Identitätsfrage („bist du ein Bot?&quot;), lokal beantwortet, ohne
+Wissensabfrage:</p>
+<blockquote>
+<p>Ja, ich bin ein Bot, der Concierge hier auf dem Server. Sag mir einfach, worum es geht, dann helfe ich dir weiter.</p>
 </blockquote>
 <p>Steckbrief-Modal: Titel <code>Deine Vorstellung</code>, Feld-Label <code>Dein Text</code>,
 Platzhalter im Feld <code>Schreib es einfach so, wie du redest.</code></p>

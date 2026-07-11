@@ -3,29 +3,67 @@
 <head>
   <meta charset="utf-8">
   <title>Direktnachricht an den Concierge</title>
-  <meta name="tags" content="discord-server, concierge, dm, direktnachricht, faq">
+  <meta name="tags" content="discord-server, concierge, dm, direktnachricht, faq, datenschutz, opt-out, vergiss mich, loeschung">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
   <h1>Direktnachricht an den Concierge</h1>
-  <p><strong>Kurz:</strong> Eine direkte Bot-DM ist höchstens ein optionaler zusätzlicher Weg, wenn sie sichtbar verfügbar ist. Der belastbare Weg für Server- und Bot-Fragen bleibt der private Fragechat über <em>Frage stellen</em> oder <code>/faq</code>. Der Bot schreibt dir nicht ungefragt und begrüßt dich nicht automatisch per DM.</p>
+  <p><strong>Kurz:</strong> Erreicht eine Direktnachricht den Bot, beantwortet er sie aus demselben öffentlichen Wissen wie im Fragechat auf dem Server. Verlässlicher ist trotzdem <code>/faq</code>, weil eine DM nicht garantiert zugestellt wird. Der Concierge begrüßt dich nicht automatisch per DM, nur weil du dem Server beigetreten bist.</p>
 
   <section id="verlaesslicher-weg">
     <h2>Der verlässliche Weg</h2>
-    <p>Öffne für Fragen zum Server, zu Kanälen, Rollen und Bots einen privaten Fragechat über <em>Frage stellen</em> im Bereich für Server- und Bot-Fragen oder mit <code>/faq</code>. Dieser Weg ist der vorgesehene, belastbare Einstieg auf dem Server; eine direkte Bot-DM ist es nicht.</p>
+    <p>Öffne für Fragen zum Server, zu Kanälen, Rollen und Bots einen privaten Fragechat über <em>Frage stellen</em> im Bereich für Server- und Bot-Fragen oder mit <code>/faq</code>. Dieser Weg ist der vorgesehene Einstieg auf dem Server und kommt zuverlässiger an als eine DM.</p>
   </section>
 
   <section id="dm-optional">
-    <h2>Wenn eine DM sichtbar angeboten wird</h2>
-    <p>Ist eine direkte DM-Oberfläche gerade sichtbar verfügbar, kannst du sie zusätzlich nutzen. Sie ist aber kein garantierter Kanal: Sie kann fehlen, und Discord-Einstellungen können DMs blockieren. Verlässt du dich nicht darauf, nutze den privaten Fragechat auf dem Server.</p>
+    <h2>Wenn eine DM den Bot erreicht</h2>
+    <p>Erreicht deine Direktnachricht den Bot, antwortet er darin aus demselben öffentlichen Wissen, das er auch im privaten Fragechat auf dem Server nutzt. Inhaltlich bekommst du also nichts anderes.</p>
+    <p>Trotzdem ist die DM kein garantierter Kanal: Ob sie ankommt, hängt an deinen Discord-Privatsphäre-Einstellungen und an der Zustellung durch Discord. Genau deshalb bleibt <code>/faq</code> beziehungsweise <em>Frage stellen</em> auf dem Server der verlässlichere Einstieg.</p>
+  </section>
+
+  <section id="paten">
+    <h2>Wenn du nach einem Paten fragst</h2>
+    <p>Ein Pate ist ein Mensch aus der Community, der Neuen den Einstieg zeigt. <strong>Wissensfragen über Paten</strong> — was das ist, wie das läuft — beantwortet der Concierge wie jede andere Frage aus der Dokumentation. Damit passiert nichts weiter.</p>
+    <p>Erst wenn du dir ausdrücklich selbst einen Paten <strong>wünschst</strong>, bietet er dir an, den Wunsch weiterzugeben, und fragt vorher nach. Weitergeben kann er ihn nur, wenn kein globaler Datenschutz-Opt-out aktiv ist — mit aktivem Opt-out (siehe <code>stopp</code>) geht kein Patenwunsch raus. Zugeteilt wird dir nie jemand ungefragt.</p>
+    <p>Bestätigt wird dein Wunsch erst, wenn er sicher beim Patenteam angekommen ist. Bestätigst du denselben bereits erfolgreichen Wunsch erneut, bleibt es bei diesem einen Wunsch und er wird nicht doppelt weitergegeben.</p>
+    <p>Ist die Zustellung technisch unsicher, sagt der Concierge dir das offen und verweist auf den Menschen-Support. Löse den Wunsch dann nicht erneut aus, denn die Weitergabe kann bereits erfolgt sein. Übernimmt später jemand freiwillig die Patenschaft, bekommst du einen eigenen privaten Kanal mit dieser Person.</p>
+    <p><strong>Nicht zugesagt wird:</strong> dass sich überhaupt jemand meldet, wie schnell das passiert oder wer es ist. Das Übernehmen ist freiwillig.</p>
+  </section>
+
+  <section id="stopp-und-datenschutz">
+    <h2>Mit <code>stopp</code> Ruhe geben lassen</h2>
+    <p>Schreibst du dem Concierge <code>stopp</code>, setzt das einen globalen Datenschutz-Opt-out. Ab dann gilt:</p>
+    <ul>
+      <li>Er speichert keinen neuen Gesprächsverlauf mehr.</li>
+      <li>Er meldet sich nicht mehr von sich aus bei dir.</li>
+      <li>Stellst du ihm direkt eine Frage, antwortet er weiterhin — dann ohne Verlauf, also ohne Bezug auf vorher Gesagtes.</li>
+      <li>Ein speichernder privater Fragechat lässt sich nicht mehr starten, solange der Opt-out aktiv ist. Wege dorthin sind ein bewusster Opt-in über <code>/datenschutz-optin</code> oder ein Ticket beim menschlichen Support.</li>
+      <li>Ein Patenwunsch wird nicht mehr weitergegeben, solange der Opt-out aktiv ist. Willst du trotzdem einen Paten, brauchst du vorher einen Opt-in über <code>/datenschutz-optin</code> oder den menschlichen Support.</li>
+    </ul>
+    <p>Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung jederzeit wieder.</p>
+    <p><code>stopp</code> stoppt neue Verlaufsspeicherung im Concierge und ungefragte Kontakte von ihm, löscht aber nichts von dem, was schon gespeichert ist. Zum Löschen gibt es zwei unterschiedliche Wege: <code>/datenschutz</code> ist der Weg für einen Export deiner Daten beziehungsweise für die umfassendere Datenschutz-Löschung; schreibst du dem Concierge „vergiss mich&quot;, löscht er nur die Concierge-Daten, die im nächsten Abschnitt abgegrenzt sind.</p>
+  </section>
+
+  <section id="vergiss-mich">
+    <h2>Mit „vergiss mich&quot; die Concierge-Daten löschen lassen</h2>
+    <p>Schreib dem Concierge genau <code>vergiss mich</code>. Umschreibungen wie „kannst du bitte meine Daten vergessen&quot; lösen die Löschung nicht aus, das ist Absicht, damit nichts versehentlich gelöscht wird. Bleib deshalb beim exakten Wortlaut, dann löscht er genau das, was er zusätzlich über dich gespeichert hat:</p>
+    <ul>
+      <li>deinen gespeicherten Concierge-Gesprächsverlauf,</li>
+      <li>dein Concierge-Profil,</li>
+      <li>seine gespeicherten Concierge-Statusangaben zu dir,</li>
+      <li>deine Concierge-Anteile am Onboarding-Verlauf.</li>
+    </ul>
+    <p>Nicht gelöscht wird, was direkt in Discord liegt: bereits gesendete Nachrichten und Kanäle, ein öffentlicher Steckbrief und bereits an das Patenteam übermittelte Inhalte bleiben davon unberührt.</p>
+    <p>Der Vorgang setzt zusätzlich deinen globalen Datenschutz-Opt-out. Direkte Fragen beantwortet der Concierge weiterhin, dann aber ohne Verlauf und ohne zu speichern. Gespeichert wird erst wieder, wenn du <code>/datenschutz-optin</code> nutzt.</p>
   </section>
 
   <section id="keine-proaktive-dm">
-    <h2>Keine ungefragte Kontaktaufnahme</h2>
+    <h2>Keine automatische Begrüßungs-DM zum Beitritt</h2>
     <ul>
-      <li>Der Bot schreibt neuen Mitgliedern nicht automatisch eine Begrüßungs-DM.</li>
+      <li>Der Concierge schreibt dir keine Begrüßungs-DM, nur weil du dem Server beigetreten bist.</li>
+      <li>Andere Bot-DMs hängen an einem Ereignis und sind dokumentiert: die einmalige Willkommens-DM beim ersten Beitritt zum Voice-Router, eine optionale Rang-Guide-DM nach der Rang-Verknüpfung oder eine freiwillige Feedback-DM, nachdem du Zeit in den Voice-Lanes verbracht hast.</li>
       <li>Bleibt eine erwartete DM aus, warte nicht darauf — nutze den belegten Serverweg oder den passenden Panel- beziehungsweise Website-Einstieg.</li>
       <li>Möchtest du DMs vom Server erhalten, erlaube sie in deinen Discord-Privatsphäre-Einstellungen.</li>
     </ul>

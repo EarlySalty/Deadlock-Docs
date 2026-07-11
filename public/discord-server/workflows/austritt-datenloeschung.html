@@ -5,7 +5,7 @@
   <title>Austritt und Datenlöschung</title>
   <meta name="tags" content="discord-server, austritt, datenschutz, loeschung, opt-out, workflow">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
 <main>
@@ -14,8 +14,19 @@
 
   <section id="daten-loeschen">
     <h2>Daten anfordern oder löschen</h2>
-    <p>Mit <code>/datenschutz</code> forderst du einen Export deiner gespeicherten personenbezogenen Daten an, lässt sie löschen oder setzt einen globalen Opt-out für die künftige Speicherung. Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung später wieder. Dieser globale Opt-out hat Vorrang vor einzelnen Erinnerungseinstellungen.</p>
-    <p>Ein notwendiger Opt-out-Vermerk bleibt bestehen, damit die Sperre durchgesetzt werden kann. Nicht personenbezogene Aggregate können unabhängig davon bestehen bleiben.</p>
+    <p>Mit <code>/datenschutz</code> forderst du einen Export an. Die Löschung entfernt die personenbezogenen Daten, die dieser Ablauf erfasst, und setzt zusätzlich einen globalen Opt-out-Vermerk gegen weitere Speicherung. Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung später wieder. Der Opt-out hat Vorrang vor einzelnen Erinnerungseinstellungen.</p>
+    <p>Was wir dir bewusst nicht pauschal zusagen: dass dieser Opt-out ausnahmslos jede künftige Speicherung in allen Serversystemen unterbindet. Willst du für deinen Fall konkret wissen, was erfasst, gelöscht und gesperrt wird, klärst du das über den veröffentlichten Datenschutzweg oder den sichtbaren Menschen-Support.</p>
+    <p>Der Opt-out-Vermerk selbst bleibt bestehen, damit die Sperre durchgesetzt werden kann. Nicht personenbezogene Aggregate können unabhängig davon bestehen bleiben.</p>
+  </section>
+
+  <section id="opt-out-folgen">
+    <h2>Was sich mit dem Opt-out ändert</h2>
+    <ul>
+      <li>Ein <code>stopp</code> per Direktnachricht an den Concierge setzt denselben globalen Opt-out — du musst dafür nicht extra <code>/datenschutz</code> aufrufen. Im privaten Fragechat über <code>/faq</code> verarbeitet er <code>stopp</code> dagegen nicht.</li>
+      <li>Der Concierge speichert danach keinen neuen Gesprächsverlauf mehr und meldet sich nicht mehr von sich aus. Fragst du ihn direkt etwas, antwortet er weiterhin, nur eben ohne Verlauf.</li>
+      <li>Vorhandene Daten löscht <code>stopp</code> nicht; Export und Löschung bleiben der getrennte Weg über <code>/datenschutz</code>.</li>
+      <li>Ein speichernder privater Fragechat lässt sich nicht starten, solange der Opt-out aktiv ist. Wege dorthin: bewusster Opt-in über <code>/datenschutz-optin</code> oder ein Ticket beim menschlichen Support.</li>
+    </ul>
   </section>
 
   <section id="austritts-dm">

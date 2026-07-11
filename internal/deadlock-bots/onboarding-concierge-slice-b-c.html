@@ -4,65 +4,97 @@
   <meta charset="utf-8">
   <title>Onboarding-Concierge — Spec Slice B (Paten-Matching) + Slice C (eine DM-Stimme)</title>
   <meta name="tags" content="deadlock-bots, onboarding, concierge, paten">
-  <meta name="stand" content="2026-07-07">
-  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs, rust/crates/dl-voice/src/nudge.rs, rust/crates/dl-voice/src/feedback.rs">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs, rust/crates/dl-voice/src/nudge.rs, rust/crates/dl-voice/src/feedback.rs (Ist-Audit 2026-07-11)">
 </head>
 <body>
 <main>
 <h1>Slice B — Paten-Matching, Slice C — eine DM-Stimme</h1>
-<p>Verbindliche Umsetzungs-Spec. Alle user-sichtbaren Texte stehen in §T und
-werden EXAKT übernommen (keine Umformulierung). Basis-Design aus dem
-grillme vom 07.07.: Pate ist immer ein Mensch aus der Rolle
-1524047896297738311, der Concierge vermittelt und zieht sich zurück.</p>
+<p>Verbindliche Umsetzungs-Spec, gegen den Ist-Stand nachgezogen. Alle
+user-sichtbaren Texte stehen in der
+<a href="onboarding-concierge-texte.html">Text-SSOT</a> und werden EXAKT übernommen
+(keine Umformulierung). Basis-Design aus dem grillme vom 07.07.: Pate ist
+immer ein Mensch aus der Rolle 1524047896297738311, der Concierge vermittelt
+und zieht sich zurück.</p>
 <section id="slice-b-flow">
-<h2>Slice B — Flow</h2>
-<p>Heutiger Stand (Slice A): Klick auf „Ja, gern&quot; (<code>concierge:pate:yes</code>) →
-<code>request_pate</code> postet einen Rollen-Ping als Text in <code>pater_channel_id</code>.
-Kein Claim, kein Kanal, kein Match.</p>
-<p>Neu:</p>
+<h2>Slice B — Flow (Ist-Stand)</h2>
 <ol>
-<li><strong>Claim-Post statt Roh-Ping.</strong> <code>request_pate</code> postet in
-<code>DL_CONCIERGE_PATE_CHANNEL_ID</code> (Kanal existiert: 1524083665838276860,
-#paten-zentrale) eine V2-Nachricht (Gold-Container wie alle
-Concierge-Posts): Rollen-Ping <code>&lt;@&amp;1524047896297738311&gt;</code> +
-Kurz-Digest des Neulings (<code>short_digest</code>, existiert) +
-Rang-Empfehlung + Button „Ich übernehme&quot;
-(<code>custom_id: concierge:pate:claim:&lt;user_id&gt;</code>). Texte §T1.</li>
-<li><strong>Rang-Empfehlung.</strong> Kandidaten = Member der Paten-Rolle. Dafür
-bekommt der <code>ConciergePort</code> eine neue Methode
-<code>role_member_ids(guild_id, role_id) -&gt; Result&lt;Vec&lt;u64&gt;, String&gt;</code>;
-Implementierung im dl-bot-Glue über den bestehenden Adapter/REST
-(Member-Liste holen, nach Rolle filtern; es gibt bereits
-<code>role_members</code> im dl-broker-Port als Vorbild). Score = Abstand der
-Rang-Indizes: Rang je User aus <code>core.steam_links.deadlock_rank_name</code>
-(Query wie <code>has_linked_rank</code>, <code>ORDER BY primary_account DESC, deadlock_rank_updated_at DESC LIMIT 1</code>), Index über <code>RANK_ORDER</code> aus
-<code>dl-stats</code> (Crate-Dependency nur, wenn kein Zyklus entsteht; sonst
-SQL + lokale Konstante mit Kommentar auf die Quelle). Paten mit ≥3
-aktiven Patenschaften fliegen aus der Empfehlung. Ohne Rang-Daten
-oder ohne Kandidaten: Fallback-Zeile §T1b, kein Fehler.</li>
-<li><strong>Claim.</strong> Handler prüft in dieser Reihenfolge: Klicker hat die
-Paten-Rolle (Member-Roles aus der Interaction) → sonst §T2a
-ephemeral. KV-Claim <code>claim_once(&quot;concierge:pate_claim&quot;, user_id)</code>
-gegen Doppelvergabe → verloren heißt §T2b ephemeral. Load-Limit:
-Klicker hat &lt;3 aktive Patenschaften → sonst §T2c ephemeral (und der
-KV-Claim wird NICHT verbraucht bzw. wieder freigegeben, damit ein
-anderer Pate noch übernehmen kann; wenn claim_once das nicht kann,
-Reihenfolge tauschen: Limit vor Claim prüfen).</li>
+<li><strong>Claim-Post.</strong> <code>request_pate</code> postet eine V2-Nachricht
+(Gold-Container wie alle Concierge-Posts): Rollen-Ping
+<code>&lt;@&amp;1524047896297738311&gt;</code> + Kurz-Digest des Neulings
+(<code>short_digest</code>) + feste Schlusszeile + Button „Ich übernehme&quot;
+(<code>custom_id: concierge:pate:claim:&lt;user_id&gt;</code>).
+<strong>Zielkanal ist fest:</strong> gepostet wird nur, wenn die konfigurierte
+<code>pater_channel_id</code> exakt dem erlaubten Patenkanal
+(<code>PATE_REQUEST_CHANNEL_ID</code> = 1524083665838276860) entspricht. Jede
+andere Konfiguration führt dazu, dass gar nichts gepostet wird und der
+User den Fehlertext bekommt.</li>
+<li><strong>Keine Rang- oder Kandidatenempfehlung.</strong> Die früher geplante
+automatische Empfehlung eines passenden Paten über Rang-Indizes ist
+<strong>nicht umgesetzt und kein Teil des Vertrags</strong>. Es gibt keinen
+<code>role_member_ids</code>-Port, keinen Score und keine Kandidatenliste. Der
+Post nennt niemanden namentlich; die früher als Fallback gedachte
+Zeile ist heute die einzige Schlusszeile: <code>Wer Zeit und Lust hat, drückt auf Übernehmen.</code>
+Übernommen wird ausschließlich freiwillig, wer zuerst drückt.</li>
+<li><strong>Claim-Guard.</strong> Der Claim wird nur angenommen, wenn er aus der
+Main-Guild <em>und</em> aus dem fest erlaubten Patenkanal kommt; alles
+andere wird kommentarlos verworfen. Danach prüft der Handler: Klicker
+hat die Paten-Rolle → sonst §T2a ephemeral. Zusätzlich muss im
+Concierge-Profil noch derselbe aktuelle Patenwunsch
+(<code>pate_requested = TRUE</code>) bestehen. Ein alter interner Post wird
+dadurch nach „vergiss mich&quot; und einem späteren Opt-in nicht wieder
+wirksam. Load-Limit von 3 aktiven
+Patenschaften → sonst §T2c ephemeral, wobei der KV-Claim nicht
+verbraucht wird und ein anderer Pate noch übernehmen kann. KV-Claim
+<code>claim_once(&quot;concierge:pate_claim&quot;, user_id)</code> gegen
+Doppelvergabe → verloren heißt §T2b ephemeral.</li>
+<li><strong>Beide Privatsphäre-Status sind fail-closed.</strong> Sowohl beim
+Patenwunsch als auch beim Claim gilt: ein aktiver Opt-out blockt, und
+ein <strong>nicht prüfbarer</strong> Status blockt genauso. Im Zweifel wird nichts
+intern weitergegeben, nichts angelegt und keine Erfolgsmeldung
+gesendet, sondern auf Ticket verwiesen.</li>
+<li><strong>Bestätigt wird erst der belegte Zustand.</strong> Der Erfolgstext für den
+Patenwunsch geht erst raus, wenn der interne Post sicher abgesetzt und
+der gespeicherte Wunsch bestätigt ist. Ein wiederholter Klick auf
+<code>Ja, gern</code> liest den bereits gesetzten Wunsch unter demselben
+Privacy-Lock und gibt denselben Erfolgstext zurück, ohne einen zweiten
+internen Post zu erzeugen.</li>
+<li><strong>Patenwunsch-Commit wird vor Kompensation reconciled.</strong> Meldet der
+Commit nach dem internen Post einen Fehler, prüft eine frische
+Transaktion unter dem User-Privacy-Lock den gespeicherten
+<code>pate_requested</code>-Zustand. Ein belegter Commit führt zum Erfolg; nur
+ein belegter Rollback erlaubt das Entfernen des Posts. Ist Zustellung,
+Commit oder Read-back nicht sicher, wird nichts destruktiv gelöscht und
+der User erhält den Unsicherheitstext, der ausdrücklich offenlässt, ob
+ein interner Hinweis existiert.</li>
+<li><strong>Claim-Commit wird vor Kompensation reconciled.</strong> Meldet der
+Commit einen Fehler, nimmt eine frische Transaktion zuerst dieselben
+beiden sortierten Privacy-Locks und prüft den exakten aktiven Match aus
+User, Pate, Guild und Kanal sowie den exakten KV-Claim. Sind beide
+belegt, gilt der Match als committet und läuft inklusive Journey-Event
+den normalen Erfolgsweg; sind weder irgendein aktiver Match noch
+irgendein Claim für den User vorhanden, ist der Rollback belegt und
+die Discord-Schritte werden kompensiert. Jeder gemischte, abweichende
+oder nicht prüfbare Zustand bleibt unsicher — dann wird bewusst nichts
+destruktiv gelöscht und der Klicker bekommt den Unsicherheitstext.</li>
 <li><strong>Match.</strong> Bei Erfolg: Zeile in <code>bot.concierge_patenschaften</code>;
 privaten Textkanal erstellen (bestehender Port
 <code>create_private_channel</code>, Kategorie <code>DL_CONCIERGE_PATE_CATEGORY_ID</code>,
-Default 1465839366634209361, Fallback <code>fallback_category_id</code>), Name
-<code>pate-&lt;username-slug&gt;</code>; der Kanal braucht zusätzlich ein Overwrite
+sonst feste Standardkategorie 1465839366634209361), Name
+<code>pate-&lt;discord-user-id&gt;</code>; der Kanal braucht zusätzlich ein Overwrite
 für den Paten (View/Send/History) — wenn <code>create_private_channel</code>
 nur einen User kann, Port-Methode um <code>extra_user_id: Option&lt;u64&gt;</code>
 erweitern. Dann: Intro-Post §T3 im neuen Kanal (V2), DM §T4 an den
 Neuling, Bestätigung als Reply auf den Claim-Post §T5, Journey-Event
 <code>pate_matched</code>.</li>
-<li><strong>„Auf Wunsch&quot;.</strong> LLM-Antwortvertrag (JSON in <code>llm_answer</code>) um Feld
-<code>&quot;pate_request&quot;: bool</code> erweitern; System-Prompt-Ergänzung §T6. Wenn
-true: an die normale Antwort die bestehenden Ja/Nein-Buttons
-(<code>concierge:pate:yes/no</code>) hängen; ist die Antwort leer, stattdessen
-Text §T6b mit denselben Buttons.</li>
+<li><strong>„Auf Wunsch&quot;.</strong> Der lokale Parser
+<code>explicit_pate_request</code> erkennt ausschließlich einen engen,
+ausdrücklichen eigenen Patenwunsch. Dann erscheint der feste Text §T6b
+mit den bestehenden Ja/Nein-Buttons
+(<code>concierge:pate:yes/no</code>). Ein Modell-Ausgabefeld oder eine
+Modellentscheidung für <code>pate_request</code> gibt es nicht; der interne Bool
+wird ausschließlich aus diesem lokalen Parser gesetzt. Reine Wissensfragen über Paten
+bleiben normale <code>dl-knowledge</code>-Fragen.</li>
 <li><strong>DB-Migration</strong> <code>2026070712_concierge_patenschaften.sql</code>:
 <ul>
 <li><code>bot.concierge_patenschaften</code> (<code>id BIGSERIAL PK</code>, <code>user_id BIGINT NOT NULL</code>, <code>pate_id BIGINT NOT NULL</code>, <code>guild_id BIGINT NOT NULL</code>,
@@ -106,16 +138,20 @@ Concierge-Wissen, die Verknüpfung lebt ausschließlich im Glue.</li>
 </section>
 <section id="t-finale-texte-exakt-uebernehmen">
 <h2>§T — Finale Texte (exakt übernehmen)</h2>
-<p>T1 Claim-Post (Content über dem Button; <code>{user_mention}</code>, <code>{digest}</code>,
-<code>{candidate_mention}</code> ersetzen):</p>
+<p>T1 Claim-Post (Content über dem Button; <code>{user_mention}</code> und
+<code>{digest}</code> ersetzen). Die Schlusszeile ist fest, es gibt keine
+Empfehlungs-Variante und keinen <code>{candidate_mention}</code>:</p>
 <blockquote>
 <p>&lt;@&amp;1524047896297738311&gt; Ein Neuling hätte gern einen Paten an seiner Seite: {user_mention}
 {digest}
-Vom Rang her würde {candidate_mention} am besten passen. Übernehmen darf, wer zuerst drückt.</p>
+Wer Zeit und Lust hat, drückt auf Übernehmen.</p>
 </blockquote>
-<p>T1b Fallback-Schlusszeile (statt der Rang-Zeile, wenn keine Empfehlung
-möglich): <code>Wer Zeit und Lust hat, drückt auf Übernehmen.</code></p>
 <p>T1-Button-Label: <code>Ich übernehme</code></p>
+<p>T1c Erfolgstext an den Neuling, erst nach sicher sichtbarem internem
+Eingang: <code>Dein Patenwunsch ist raus und liegt jetzt für das Patenteam sichtbar im internen Patenkanal. Sobald sich freiwillig jemand die Patenschaft schnappt, richten wir für euch beide einen privaten Kanal ein.</code></p>
+<p>T1d Fail-closed- und Unsicherheitstexte für Wunsch und Claim stehen
+vollständig und wörtlich in §9a der
+<a href="onboarding-concierge-texte.html">Text-SSOT</a>.</p>
 <p>T2a (ephemeral, Klicker ohne Paten-Rolle): <code>Der Knopf ist für unsere Paten reserviert. Wenn du selbst Pate werden willst, meld dich bei den Mods, wir freuen uns über jeden.</code></p>
 <p>T2b (ephemeral, schon vergeben): <code>Da war jemand schneller, die Patenschaft ist schon vergeben. Danke dir fürs Draufdrücken.</code></p>
 <p>T2c (ephemeral, Load-Limit): <code>Du begleitest gerade schon drei Neulinge, das reicht erstmal. Lass diesmal jemand anderem den Vortritt und danke, dass du so aktiv bist.</code></p>
@@ -130,11 +166,16 @@ möglich): <code>Wer Zeit und Lust hat, drückt auf Übernehmen.</code></p>
 <p>T4 Match-DM an den Neuling (<code>{pate_name}</code>, <code>{channel_mention}</code>):
 <code>Gute Nachrichten: {pate_name} übernimmt deine Patenschaft. Ich hab euch einen eigenen Kanal eingerichtet: {channel_mention}. Schau rein, ihr könnt direkt loslegen.</code></p>
 <p>T5 Reply auf den Claim-Post (<code>{pate_mention}</code>): <code>Erledigt, {pate_mention} übernimmt. Danke dir!</code></p>
-<p>T6 System-Prompt-Ergänzung (als zusätzliche Regel-Zeile an den
-bestehenden SYSTEM_PROMPT anhängen, JSON-Vertrag entsprechend um das
-Feld ergänzen): <code>Wenn der User sich einen Paten, Mentor oder eine feste Bezugsperson wünscht, setze &quot;pate_request&quot;: true. Setze es nicht, wenn er nur wissen will, was ein Pate ist.</code></p>
-<p>T6b (Antwort, wenn pate_request true und reply leer):
-<code>Klingt, als würde dir ein fester Ansprechpartner guttun. Soll ich einen unserer Paten für dich suchen?</code></p>
+<p>T6 Wunsch-Erkennung. Der Paten-Wunsch wird <strong>nicht</strong> vom Modell
+entschieden, sondern lokal von <code>explicit_pate_request</code> — einem
+absichtlich engen Aktionsparser, der nur einen eigenen Wunsch mit direktem
+Ziel akzeptiert („ich suche/brauche/möchte/will … einen Paten&quot;). Eine
+reine <strong>Wissensfrage</strong> darüber, was ein Pate ist, öffnet den Workflow
+nicht, sondern läuft als normale Wissensfrage über <code>dl-knowledge</code>.
+Verneinte Wünsche fallen ebenfalls in den Wissenspfad.</p>
+<p>T6b (Antwort, wenn ein Wunsch erkannt wurde):
+<code>Klingt, als würde dir ein fester Ansprechpartner guttun. Soll ich einen unserer Paten für dich suchen?</code>
+Daran hängen die Ja/Nein-Buttons.</p>
 <p>T7 Steam-Nudge:</p>
 <ul>
 <li>Titel: <code>Dein Rang gehört auf den Server</code></li>
@@ -172,11 +213,20 @@ Spieler&quot; für die privaten Paten-Kanäle), Fallback bleibt
 <ul>
 <li>Claim-Reihenfolge: ohne Rolle T2a; zweiter Klick T2b; Pate mit 3
 aktiven Patenschaften T2c und die Patenschaft bleibt vergebbar.</li>
+<li>Claim-Guard: Klick außerhalb der Main-Guild oder außerhalb des fest
+erlaubten Patenkanals wird verworfen.</li>
 <li>Match legt genau eine aktive Patenschaft pro User an (Unique-Index),
 Journey <code>pate_matched</code> wird emittiert.</li>
-<li>Rang-Empfehlung: nächster Rang-Index gewinnt; Pate am Limit wird
-übersprungen; ohne Daten T1b.</li>
-<li>pate_request=true hängt Buttons an; false nicht.</li>
+<li>Privatsphäre fail-closed in beiden Richtungen: aktiver Opt-out blockt,
+und ein nicht prüfbarer Status blockt ebenfalls — kein Post, keine
+Anlage, keine Erfolgsmeldung.</li>
+<li>Patenwunsch-Reconciliation: belegter Commit bestätigt, belegter Rollback
+kompensiert; ein gemischter oder nicht prüfbarer Zustand bleibt
+unangetastet und liefert den Unsicherheitstext.</li>
+<li>Ein zweiter bestätigender Klick bei bereits gespeichertem Patenwunsch
+liefert denselben Erfolgstext und erzeugt keinen zweiten internen Post.</li>
+<li>pate_request=true hängt Buttons an; false nicht. Eine reine
+Wissensfrage über Paten setzt es nicht.</li>
 <li>record_system_dm legt Profil an und schreibt assistant-Turn.</li>
 <li>Bestehende 88 dl-community-Tests bleiben grün.</li>
 </ul>
