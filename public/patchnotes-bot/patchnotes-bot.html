@@ -27,9 +27,9 @@
 
   <section id="quellen-ausgabe">
     <h2>Quellen, Übersetzung und Discord-Ausgabe</h2>
-    <p>Der Bot beobachtet die offiziellen Deadlock-Veröffentlichungen im Deadlock-Forum und in den Steam-News und wählt daraus die jeweils neueste passende Quelle. Verweist ein Forumsbeitrag im Kern nur auf die Steam-Ausgabe, holt der Bot den eigentlichen Inhalt nach, damit nicht bloß eine Vorschau erscheint.</p>
-    <p>Aus dem gefundenen Original erstellt der Bot eine ins Deutsche übersetzte, für Discord aufbereitete Fassung und veröffentlicht sie im dafür vorgesehenen Patchnotes-Bereich des Servers. Der Bot merkt sich bereits verarbeitete Inhalte, damit derselbe Patch nicht doppelt ausgespielt wird.</p>
-    <p>Wichtig für Erwartungen: Eine unmittelbare oder lückenlose Veröffentlichung jedes Beitrags ist nicht zugesichert. Der Bot versucht, die echte Patchquelle zu treffen, kann sich aber nicht auf jede externe Änderung verlassen.</p>
+    <p>Der Patchnotes-Bot stützt sich ausschließlich auf die offiziellen Deadlock-Veröffentlichungen: die Beiträge im Deadlock-Forum und die Steam-News. Andere Quellen fließen nicht ein.</p>
+    <p>Aus einer offiziellen Veröffentlichung entsteht eine ins Deutsche übersetzte, für Discord aufbereitete Fassung, die im dafür vorgesehenen Patchnotes-Bereich des Servers erscheint. Die Übersetzung ist eine Lesefassung für Discord; maßgeblich bleibt die offizielle Originalveröffentlichung.</p>
+    <p>Wichtig für Erwartungen: Eine unmittelbare oder lückenlose Veröffentlichung jedes Beitrags ist nicht zugesichert. Bleibt eine Ausgabe aus oder erscheint sie später, hilft der Blick in die offizielle Originalquelle und in das Patch-Archiv der Website weiter.</p>
   </section>
 
   <section id="archiv">
@@ -52,20 +52,20 @@
 
   <section id="neuuebersetzung">
     <h2>Neuübersetzung anfordern</h2>
-    <p>Für Mitglieder gibt es keinen öffentlichen Befehl, mit dem sich ein Patch erneut übersetzen lässt. Ein solcher Weg wird bewusst nicht beworben.</p>
-    <p>Wirkt eine Ausgabe falsch oder fehlt sie, ist der richtige Schritt der sichtbare Support-Weg der Community. Von dort kann das Anliegen weitergegeben werden.</p>
+    <p>Für Mitglieder gibt es keinen öffentlichen Befehl, mit dem sich ein Patch erneut übersetzen lässt.</p>
+    <p>Wirkt eine Ausgabe falsch oder fehlt sie, ist der richtige Schritt der sichtbare Support-Weg der Community. Von dort wird das Anliegen an die Menschen im Team weitergegeben.</p>
   </section>
 
   <section id="prozent-lesehilfe">
     <h2>Prozent-Lesehilfe bei Wertänderungen</h2>
-    <p>Erkennt der Bot in einer Zeile eine eindeutige Zahlenänderung der Form „von X auf Y“, kann er dahinter zusätzlich eine selbst berechnete Prozentangabe in Klammern ergänzen — je nachdem, ob der Wert steigt oder fällt mit Plus- oder Minuszeichen. Das ist eine reine Lesehilfe und kein Teil des offiziellen Originaltextes.</p>
-    <p>Diese Ergänzung erscheint nur bei klar erkannten Zahlenpaaren und kann fehlen. Bleibt sie aus, ist der Patchtext trotzdem vollständig; es fehlt lediglich die zusätzliche Prozent-Einordnung.</p>
+    <p>Steht in einer Zeile eine Zahlenänderung der Form „von X auf Y“, kann der Bot dahinter zusätzlich die prozentuale Veränderung als selbst berechnete Prozentangabe in Klammern setzen, mit Plus- oder Minuszeichen, je nachdem ob der Wert steigt oder fällt. Das ist eine reine Lesehilfe und kein Teil des offiziellen Originaltextes; maßgeblich bleibt immer die offizielle Originalquelle.</p>
+    <p>Diese Prozentangabe ist rein rechnerisch: Der Bot prüft dabei weder die Einheit noch den Zusammenhang der Zahlen, und sie erscheint nur bei erkannten Zahlenänderungen, nicht bei jeder Wertzeile. Fehlt sie, wird der Patchtext unverändert angezeigt; es fehlt dann nur die zusätzliche Prozent-Einordnung, nicht der eigentliche Inhalt.</p>
   </section>
 
   <section id="emoji-darstellung">
     <h2>Emoji-Darstellung</h2>
-    <p>In der aufbereiteten Discord-Ausgabe können bekannte Helden, Gegenstände und Fähigkeiten mit passenden Emojis markiert werden, damit die Abschnitte leichter zu überfliegen sind.</p>
-    <p>Fehlt für einen Namen eine hinterlegte Emoji-Zuordnung, bleibt der Text unverändert stehen. Die Bedeutung ändert sich durch eine Emoji-Markierung nie, und dass ein bestimmtes Emoji erscheint, ist nicht zugesichert.</p>
+    <p>In der aufbereiteten Discord-Ausgabe können bekannte Helden, Gegenstände und Fähigkeiten zusätzlich mit passenden Emojis markiert werden, damit sich die Abschnitte leichter überfliegen lassen. Diese erweiterte Darstellung ist optional und kann deaktiviert sein.</p>
+    <p>Ist die Emoji-Darstellung deaktiviert oder fehlt für einen Namen eine passende Zuordnung, bleibt der Text unverändert stehen. Die Bedeutung ändert sich durch ein Emoji nie, und dass ein bestimmtes Emoji erscheint, ist nicht zugesichert.</p>
   </section>
 
   <section id="grenzen">

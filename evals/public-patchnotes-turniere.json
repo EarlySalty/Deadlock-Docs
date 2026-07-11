@@ -2,281 +2,652 @@
   {
     "question": "Woher nimmt der Bot die Patchnotes?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Forum", "Steam"],
-    "answer_terms": ["Forum"],
-    "forbidden_terms": ["Prompt"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Forum",
+      "Steam"
+    ],
+    "answer_terms": [
+      "Forum",
+      "Steam"
+    ],
+    "forbidden_terms": [
+      "Prompt",
+      "Quellenauswahl"
+    ]
   },
   {
     "question": "Wie kommen offizielle Deadlock-Änderungen übersetzt auf Discord?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["übersetzt", "Discord"],
-    "answer_terms": ["Discord"],
-    "forbidden_terms": ["Prompt"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "übersetzt",
+      "Discord"
+    ],
+    "answer_terms": [
+      "übersetzt",
+      "Discord"
+    ],
+    "forbidden_terms": [
+      "Prompt",
+      "Dedupe"
+    ]
   },
   {
     "question": "Kann ich alte Patchnotes durchsuchen?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Archiv", "Patch-Portal"],
-    "answer_terms": ["Archiv"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Archiv",
+      "Patch-Portal"
+    ],
+    "answer_terms": [
+      "Archiv",
+      "Portal"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo filtere ich Patches nach Helden oder Gegenständen?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Filter", "Helden"],
-    "answer_terms": ["Filter"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Filter",
+      "Helden"
+    ],
+    "answer_terms": [
+      "Filter",
+      "Portal"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Warum ist ein neuer Patch noch nicht auf Discord?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Archiv", "Originalquelle"],
-    "answer_terms": ["Archiv"],
-    "forbidden_terms": ["Sekunden"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Archiv",
+      "Originalquelle"
+    ],
+    "answer_terms": [
+      "Archiv",
+      "Originalquelle"
+    ],
+    "forbidden_terms": [
+      "Wartefrist"
+    ]
   },
   {
     "question": "Was kann ich tun, wenn eine Übersetzung fehlt oder verspätet ist?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Originalquelle", "Support"],
-    "answer_terms": ["Support"],
-    "forbidden_terms": ["Sekunden"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Originalquelle",
+      "Support"
+    ],
+    "answer_terms": [
+      "Support",
+      "Originalquelle"
+    ],
+    "forbidden_terms": [
+      "Wartefrist"
+    ]
   },
   {
     "question": "Was ist der neueste Deadlock-Patch?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Patch-Portal", "Ankündigungen"],
-    "answer_terms": ["Portal"],
-    "forbidden_terms": ["Sekunden"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Patch-Portal",
+      "Ankündigungen"
+    ],
+    "answer_terms": [
+      "Portal",
+      "Ankündigungen"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo sehe ich die aktuellsten Patchnotes?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Portal", "Ankündigungen"],
-    "answer_terms": ["Portal"],
-    "forbidden_terms": ["Sekunden"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Portal",
+      "Ankündigungen"
+    ],
+    "answer_terms": [
+      "Portal",
+      "Ankündigungen"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Kann ich den Bot zwingen, einen Patch neu zu übersetzen?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Befehl", "Support"],
-    "answer_terms": ["Support"],
-    "forbidden_terms": ["!tpatch"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Befehl",
+      "Support"
+    ],
+    "answer_terms": [
+      "Support",
+      "Befehl"
+    ],
+    "forbidden_terms": [
+      "!tpatch",
+      "!ppatch"
+    ]
   },
   {
     "question": "Welchen öffentlichen Befehl nutze ich für eine erneute Übersetzung?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Befehl", "Support"],
-    "answer_terms": ["Support"],
-    "forbidden_terms": ["!tpatch"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Befehl",
+      "Support"
+    ],
+    "answer_terms": [
+      "Support",
+      "Befehl"
+    ],
+    "forbidden_terms": [
+      "!tpatch",
+      "!ppatch"
+    ]
   },
   {
     "question": "Warum steht hinter manchen Patch-Werten eine Prozentangabe in Klammern?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Prozent", "Lesehilfe"],
-    "answer_terms": ["Lesehilfe"],
-    "forbidden_terms": ["Formel"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Prozent",
+      "Lesehilfe",
+      "Original"
+    ],
+    "answer_terms": [
+      "Lesehilfe",
+      "Original"
+    ],
+    "forbidden_terms": [
+      "Rechenformel",
+      "Regex"
+    ]
   },
   {
     "question": "Rechnet der Bot bei Zahlenänderungen die prozentuale Veränderung aus?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Prozent", "Lesehilfe"],
-    "answer_terms": ["Prozent"],
-    "forbidden_terms": ["Formel"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Prozent",
+      "Lesehilfe",
+      "Original"
+    ],
+    "answer_terms": [
+      "Prozent",
+      "Lesehilfe"
+    ],
+    "forbidden_terms": [
+      "Rechenformel",
+      "Regex"
+    ]
   },
   {
     "question": "Warum stehen bei manchen Helden und Items Emojis in den Patchnotes?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Emoji", "Helden"],
-    "answer_terms": ["Emoji"],
-    "forbidden_terms": ["Mapping"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Emoji",
+      "Helden",
+      "optional"
+    ],
+    "answer_terms": [
+      "Emoji",
+      "optional"
+    ],
+    "forbidden_terms": [
+      "Mapping",
+      "Blacklist"
+    ]
   },
   {
     "question": "Was bedeutet es, wenn bei einem Namen kein Emoji erscheint?",
     "answerable": true,
-    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Emoji", "Zuordnung"],
-    "answer_terms": ["Text"],
-    "forbidden_terms": ["Mapping"]
+    "expected_sources": [
+      "patchnotes-bot/patchnotes-bot.html"
+    ],
+    "context_terms": [
+      "Emoji",
+      "Zuordnung",
+      "optional"
+    ],
+    "answer_terms": [
+      "Text",
+      "unverändert"
+    ],
+    "forbidden_terms": [
+      "Mapping",
+      "Blacklist"
+    ]
   },
   {
     "question": "Wie melde ich mich zu einem Turnier an und welche Einwilligung brauche ich?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Einwilligung", "Anmeldung"],
-    "answer_terms": ["Einwilligung"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Einwilligung",
+      "Anmeldung"
+    ],
+    "answer_terms": [
+      "Einwilligung",
+      "Portal"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Kann ich meine Turniereinwilligung während einer laufenden Teilnahme zurückziehen?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Einwilligung", "Teilnahme"],
-    "answer_terms": ["Einwilligung"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Einwilligung",
+      "Teilnahme"
+    ],
+    "answer_terms": [
+      "Einwilligung",
+      "Datenschutzkontakt"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wie gründe oder finde ich ein Team für das Turnier?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Team", "Teamliste"],
-    "answer_terms": ["Team"],
-    "forbidden_terms": ["Admin-Bereich"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Team",
+      "Teamliste"
+    ],
+    "answer_terms": [
+      "Team",
+      "Portal"
+    ],
+    "forbidden_terms": [
+      "Operatorbefehl"
+    ]
   },
   {
     "question": "Wo verwalte ich Einladungen zu meinem Turnierteam?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Einladung", "Rekrutierungsstatus"],
-    "answer_terms": ["Einladung"],
-    "forbidden_terms": ["Admin-Bereich"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Einladung",
+      "Rekrutierungsstatus"
+    ],
+    "answer_terms": [
+      "Einladung",
+      "Turnierseite"
+    ],
+    "forbidden_terms": [
+      "Operatorbefehl"
+    ]
   },
   {
     "question": "Wie checke ich für mein Turnier ein?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Check-in", "Appell"],
-    "answer_terms": ["Check-in"],
-    "forbidden_terms": ["Kulanzzeit"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Check-in",
+      "Appell bestätigen",
+      "Bereit gemeldet"
+    ],
+    "answer_terms": [
+      "Check-in",
+      "Appell"
+    ],
+    "forbidden_terms": [
+      "Kulanzzeit",
+      "Countdown"
+    ]
   },
   {
     "question": "Was mache ich, wenn mein Check-in nicht bestätigt wird?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Check-in", "Turnierteam"],
-    "answer_terms": ["Turnierteam"],
-    "forbidden_terms": ["Kulanzzeit"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Check-in",
+      "Turnierteam",
+      "Bereit gemeldet"
+    ],
+    "answer_terms": [
+      "Turnierteam",
+      "Check-in"
+    ],
+    "forbidden_terms": [
+      "Kulanzzeit",
+      "Countdown"
+    ]
   },
   {
     "question": "Wo sehe ich Turnierformat und Bracket?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Bracket", "Elimination"],
-    "answer_terms": ["Bracket"],
-    "forbidden_terms": ["Seeding"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Bracket",
+      "Elimination"
+    ],
+    "answer_terms": [
+      "Bracket",
+      "Format"
+    ],
+    "forbidden_terms": [
+      "Seeding",
+      "Setzliste"
+    ]
   },
   {
     "question": "Wie läuft der Draft für mein Match aus Sicht meines Teams?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Draft", "Turnierleitung"],
-    "answer_terms": ["Turnierleitung"],
-    "forbidden_terms": ["Seeding"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Draft",
+      "Turnierleitung"
+    ],
+    "answer_terms": [
+      "Turnierleitung",
+      "Draft"
+    ],
+    "forbidden_terms": [
+      "Seeding",
+      "Setzliste"
+    ]
   },
   {
     "question": "Wie melde ich das Ergebnis meines Matches?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Kapitän", "Gewinner"],
-    "answer_terms": ["Gewinner"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Kapitän",
+      "Gewinner"
+    ],
+    "answer_terms": [
+      "Kapitän",
+      "Gewinner"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Warum ist meine Ergebnismeldung noch nicht endgültig im Bracket?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Turnierteam", "Bracket"],
-    "answer_terms": ["Turnierteam"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Turnierteam",
+      "Bracket"
+    ],
+    "answer_terms": [
+      "Turnierteam",
+      "Bestätigung"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Was mache ich, wenn der Gegner nicht erscheint?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Walkover", "Turnierteam"],
-    "answer_terms": ["Turnierteam"],
-    "forbidden_terms": ["Kulanzzeit"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Walkover",
+      "Turnierteam"
+    ],
+    "answer_terms": [
+      "Turnierteam",
+      "Walkover"
+    ],
+    "forbidden_terms": [
+      "Kulanzzeit",
+      "Auto-Walkover"
+    ]
   },
   {
     "question": "Gibt es nach meiner No-show-Meldung sofort einen Walkover?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Walkover", "Bestätigung"],
-    "answer_terms": ["Bestätigung"],
-    "forbidden_terms": ["Kulanzzeit"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Walkover",
+      "Bestätigung"
+    ],
+    "answer_terms": [
+      "Bestätigung",
+      "Turnierteam"
+    ],
+    "forbidden_terms": [
+      "Kulanzzeit",
+      "Auto-Walkover"
+    ]
   },
   {
     "question": "Welche Angaben aus meinem Turnierprofil sind öffentlich?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Rangliste", "Profil"],
-    "answer_terms": ["Rangliste"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Rangliste",
+      "Profil"
+    ],
+    "answer_terms": [
+      "Rangliste",
+      "Profil"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo ändere ich die Sichtbarkeit meiner Turnierdaten oder Rangliste?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Sichtbarkeit", "Kontakt"],
-    "answer_terms": ["Kontakt"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Sichtbarkeit",
+      "Kontakt"
+    ],
+    "answer_terms": [
+      "Kontakt",
+      "Sichtbarkeit"
+    ],
+    "forbidden_terms": [
+      "Privatmodus"
+    ]
   },
   {
     "question": "Wie ändere ich, welche Turnier-DMs ich bekomme?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Benachrichtigungskategorien", "Konto"],
-    "answer_terms": ["Kategorien"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Benachrichtigungskategorien",
+      "Konto"
+    ],
+    "answer_terms": [
+      "Kategorien",
+      "Konto"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo frage ich Auskunft oder Löschung meiner Turnierdaten an?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Datenschutzkontakt", "Löschung"],
-    "answer_terms": ["Datenschutzkontakt"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Datenschutzkontakt",
+      "Löschung"
+    ],
+    "answer_terms": [
+      "Datenschutzkontakt",
+      "Löschung"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wann ist das nächste Turnier?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Ankündigungen", "Portal"],
-    "answer_terms": ["Portal"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Ankündigungen",
+      "Portal"
+    ],
+    "answer_terms": [
+      "Portal",
+      "Ankündigungen"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo finde ich den aktuell gültigen Zeitplan?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Ankündigungen", "Portal"],
-    "answer_terms": ["Portal"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Ankündigungen",
+      "Portal",
+      "Zeitplan"
+    ],
+    "answer_terms": [
+      "Portal",
+      "Zeitplan"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Wo finde ich abgeschlossene oder vergangene Turniere?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Chroniken", "Archiv"],
-    "answer_terms": ["Chroniken"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Chroniken",
+      "Archiv"
+    ],
+    "answer_terms": [
+      "Chroniken",
+      "Archiv"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Kann ich das Bracket und die Ergebnisse eines beendeten Turniers noch einsehen?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Bracket", "Ergebnisprotokoll"],
-    "answer_terms": ["Bracket"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Bracket",
+      "Ergebnisprotokoll"
+    ],
+    "answer_terms": [
+      "Bracket",
+      "Ergebnisprotokoll"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   },
   {
     "question": "Zeigt ein Spielerprofil vergangene Teilnahmen und Siege?",
     "answerable": true,
-    "expected_sources": ["turniere/turniere.html"],
-    "context_terms": ["Spielerprofil", "Historie"],
-    "answer_terms": ["Historie"],
-    "forbidden_terms": ["Datenbank"]
+    "expected_sources": [
+      "turniere/turniere.html"
+    ],
+    "context_terms": [
+      "Spielerprofil",
+      "Historie"
+    ],
+    "answer_terms": [
+      "Historie",
+      "Siege"
+    ],
+    "forbidden_terms": [
+      "Datenbanktabelle"
+    ]
   }
 ]
