@@ -85,7 +85,8 @@ REDACTION_RULES = (
             r'''(?:^|[\s"'=(])(?:
                 ~[/\\]|/(?:home|root|etc|var|opt|srv|run|proc|sys|dev|tmp)(?:[/\\]|$)|
                 [A-Z]:\\)''',
-            r'''\b(?:Deadlock-[A-Za-z0-9-]+|(?-i:Website)|TradingBot|Caddy|Backup)
+            r'''\b(?!(?-i:website[/\\]website-portale\.html)(?=[?#\s"'<>]|$))
+                (?:Deadlock-[A-Za-z0-9-]+|Website|TradingBot|Caddy|Backup)
                 [/\\][^\s"'<>]+''',
             r'''(?<![\w.-])(?:[\w.@+-]+[/\\])*[\w.@+-]+\.
                 (?:rs|py|toml|sql|service|env|md)(?![\w.-])''',

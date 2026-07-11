@@ -64,7 +64,8 @@ class ValidateCorpusTest(unittest.TestCase):
     def test_accepts_relative_link_to_public_website_product(self):
         write(self.root, "public/index.html", CANONICAL.replace(
             "<p>Text</p>",
-            '<p>Text <a href="website/website-portale.html">Website</a></p>',
+            '<p>Text <a href="website/website-portale.html">Website</a> '
+            '<a href="website/website-portale.html?src=index#s1">Portal</a></p>',
         ))
         write(self.root, "public/website/website-portale.html", CANONICAL)
         self.assertEqual(self.errors(), [])
@@ -830,6 +831,7 @@ class ValidateCorpusTest(unittest.TestCase):
             r"C:\\Users\\example\\project",
             "Deadlock-Bots/src/main.rs",
             "Website/dl-landing/index.html",
+            "website/dl-coaching/App.tsx",
             "service.py",
             ".worktrees/Deadlock-Docs-task",
             "systemctl restart example",
