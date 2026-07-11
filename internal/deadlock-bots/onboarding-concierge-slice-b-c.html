@@ -80,8 +80,8 @@ destruktiv gelöscht und der Klicker bekommt den Unsicherheitstext.</li>
 <li><strong>Match.</strong> Bei Erfolg: Zeile in <code>bot.concierge_patenschaften</code>;
 privaten Textkanal erstellen (bestehender Port
 <code>create_private_channel</code>, Kategorie <code>DL_CONCIERGE_PATE_CATEGORY_ID</code>,
-Default 1465839366634209361, Fallback <code>fallback_category_id</code>), Name
-<code>pate-&lt;username-slug&gt;</code>; der Kanal braucht zusätzlich ein Overwrite
+sonst feste Standardkategorie 1465839366634209361), Name
+<code>pate-&lt;discord-user-id&gt;</code>; der Kanal braucht zusätzlich ein Overwrite
 für den Paten (View/Send/History) — wenn <code>create_private_channel</code>
 nur einen User kann, Port-Methode um <code>extra_user_id: Option&lt;u64&gt;</code>
 erweitern. Dann: Intro-Post §T3 im neuen Kanal (V2), DM §T4 an den
@@ -91,8 +91,9 @@ Neuling, Bestätigung als Reply auf den Claim-Post §T5, Journey-Event
 <code>explicit_pate_request</code> erkennt ausschließlich einen engen,
 ausdrücklichen eigenen Patenwunsch. Dann erscheint der feste Text §T6b
 mit den bestehenden Ja/Nein-Buttons
-(<code>concierge:pate:yes/no</code>). Ein Modellfeld
-<code>pate_request</code> gibt es nicht; reine Wissensfragen über Paten
+(<code>concierge:pate:yes/no</code>). Ein Modell-Ausgabefeld oder eine
+Modellentscheidung für <code>pate_request</code> gibt es nicht; der interne Bool
+wird ausschließlich aus diesem lokalen Parser gesetzt. Reine Wissensfragen über Paten
 bleiben normale <code>dl-knowledge</code>-Fragen.</li>
 <li><strong>DB-Migration</strong> <code>2026070712_concierge_patenschaften.sql</code>:
 <ul>

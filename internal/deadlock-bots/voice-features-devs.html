@@ -28,10 +28,15 @@ Erfolg behaupten, den sie nicht belegen kann. Der Marker in
 <li><strong>Bestätigter Versand.</strong> Gelingt die DM, liefert der Port
 Kanal- und <strong>Message-ID</strong> zurück. Erst dann wird der Marker gesetzt
 und committet.</li>
-<li><strong>Markerfehler oder Commitfehler.</strong> Lässt sich der Marker nicht
-schreiben oder nicht committen, wird die bereits zugestellte DM über
-ihre Message-ID wieder <strong>entfernt</strong>. Danach ist der Zustand sauber:
-keine DM, kein Marker, ein späterer Versuch darf erneut senden.</li>
+<li><strong>Markerfehler vor dem Commit.</strong> Lässt sich der Marker nicht
+schreiben, wird die bereits bestätigte DM nach Freigabe der Transaktion über
+ihre Message-ID entfernt. Gelingt das, bleibt kein Marker zurück und ein
+späterer Versuch darf erneut senden.</li>
+<li><strong>Unklarer Commit.</strong> Meldet der Commit einen Fehler, prüft eine
+frische Transaktion den Marker. Ist er vorhanden, bleibt die DM bestehen;
+ist er sicher abwesend, wird die bestätigte DM entfernt. Bei einem gemischten
+oder nicht prüfbaren Zustand bleibt die DM unangetastet und ein dauerhafter
+Unsicherheitsmarker verhindert einen zweiten automatischen Versand.</li>
 <li><strong>Timeout oder Transportfehler.</strong> Läuft der Versand in die
 Zeitüberschreitung oder meldet der untypisierte Transport einen Fehler,
 ist die Zustellung <em>unbekannt</em> — es gibt keine Message-ID, also lässt sich

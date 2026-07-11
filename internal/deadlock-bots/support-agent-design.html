@@ -113,7 +113,7 @@
     <ul>
       <li>Nutzeranweisungen können Systemregeln, Quellenwahl, Rollen oder Folgeaktionen nicht verändern.</li>
       <li>Zeitüberschreitung, Transportfehler, ungültiges Modell-JSON, leerer Kontext und nicht beantwortbare Fragen scheitern geschlossen.</li>
-      <li>Ein unklarer Discord-Transport oder Commit ist kein belegter Rollback. Möglicherweise bereits zugestellte Nachrichten, Posts oder Kanäle werden dann nicht destruktiv entfernt; der jeweilige Unsicherheitstext macht den Zustand sichtbar und führt zum Menschen-Support.</li>
+      <li>Ein unklarer Discord-Transport oder Commit ist kein belegter Rollback. Bekannte, in demselben Ablauf neu angelegte Container dürfen nach einem nachweislich fehlgeschlagenen Folgeschritt gezielt aufgeräumt werden; möglicherweise zugestellte, aber nicht eindeutig identifizierbare Effekte werden nie blind entfernt. Commit-Reconciliation und feste Unsicherheitstexte trennen diese Fälle sichtbar und führen bei unklarem Zustand zum Menschen-Support.</li>
       <li>Beim automatischen FAQ-Ablauf wird nach dem Schließen eine frische Transaktion geöffnet, der User-Privacy-Lock erneut genommen und genau diese geschlossene Session bestätigt. Erst danach darf die Timeout-Nachricht an Discord gehen; ohne diese Bestätigung bleibt sie aus.</li>
       <li>Ein bereits erfolgreich gespeicherter Patenwunsch ist idempotent. Ein wiederholter Bestätigungsklick gibt denselben Erfolg zurück, ohne einen weiteren internen Post anzulegen.</li>
       <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus. Er liest ausschließlich den Wissenskorpus, insbesondere keine Twitch- oder Live-Zustände.</li>
@@ -151,7 +151,7 @@
       <li>Der Korpuspfad ist in der Produktion nicht wählbar: kein CLI-Argument für eine Korpuswurzel, keine Umgebungsvariable wie <code>DL_DOCS_PATH</code>. Ein anderer Baum lässt sich nicht unterschieben.</li>
       <li>Der Snapshot enthält ausschließlich <code>public/</code>. <code>internal/</code> ist nicht Teil des Artefakts und wird nie indexiert.</li>
       <li>Ein fehlgeschlagener Reload ersetzt den aktuell laufenden, zuletzt gültigen Index nicht.</li>
-      <li>Der Cutover ist vollzogen: Indexiert wird nur HTML, Markdown ist als Korpusformat entfernt, einen Übergangs-Loader gibt es nicht mehr.</li>
+      <li>Der Produktionsvertrag ist vollständig auf HTML umgestellt: Start und Reload verwerfen jeden Snapshot mit Nicht-HTML-Quellen. Der generische Parser enthält noch einen isolierten Markdown-Kompatibilitätspfad, dessen Ergebnis die Produktionsgrenze nicht passieren kann.</li>
       <li>Der automatische Team-Doku-Updater erzeugt ebenfalls kanonisches HTML und löst nur nach erfolgreicher Validierung einen Reload aus.</li>
     </ul>
   </section>
