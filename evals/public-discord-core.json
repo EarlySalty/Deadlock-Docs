@@ -172,8 +172,8 @@
     "answerable": true,
     "expected_sources": ["discord-server/workflows/streamer-partner-werden.html", "discord-server/module/steam-twitch-verknuepfung.html"],
     "context_terms": ["Streamer-Bereich", "Live-Ankündigungen"],
-    "answer_terms": ["Twitch-Live-Ankündigungen", "sichtbar aktiv", "Voraussetzungen", "Hinweis", "nicht garantiert"],
-    "forbidden_terms": ["nicht nur wenn", "muss nicht sichtbar aktiv", "müssen nicht sichtbar aktiv", "auch ohne sichtbare Aktivierung", "Voraussetzungen müssen nicht erfüllt", "Voraussetzungen sind egal", "Voraussetzungen egal", "Voraussetzungen erfüllt sind, ist egal", "kann immer erscheinen", "kann ein Hinweis immer erscheinen", "Hinweis erscheint immer", "Hinweis wird immer erscheinen", "erscheint immer ein Hinweis", "wird immer zugestellt", "wird der Hinweis stets zugestellt", "shadowban", "systemctl"]
+    "answer_terms": ["Live-Ankündigungen", "aktiv", "Voraussetzungen", "garantiert"],
+    "forbidden_terms": ["nicht nur wenn die Twitch-Live-Ankündigungen sichtbar aktiv sind und die sichtbaren Voraussetzungen erfüllt sind", "muss nicht sichtbar aktiv sein", "müssen nicht sichtbar aktiv sein", "müssen auf dem Server nicht sichtbar aktiv sein", "auch ohne sichtbare Aktivierung", "Voraussetzungen müssen nicht erfüllt sein", "Voraussetzungen müssen nicht vollständig erfüllt sein", "Voraussetzungen sind egal", "Voraussetzungen egal", "Voraussetzungen erfüllt sind, ist egal", "kann immer erscheinen", "kann ein Hinweis immer erscheinen", "Hinweis erscheint immer", "Hinweis wird immer erscheinen", "erscheint immer ein Hinweis", "erscheint stets", "Hinweis erscheint garantiert", "garantiert ein Hinweis", "wird immer zugestellt", "wird stets zugestellt", "wird der Hinweis stets zugestellt", "Zustellung ist garantiert", "Zustellung wird garantiert", "wird garantiert zugestellt", "shadowban", "systemctl"]
   },
   {
     "question": "Wo sehe ich Änderungen an den Community-Bots?",
