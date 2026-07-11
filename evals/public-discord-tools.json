@@ -1,0 +1,306 @@
+[
+  {
+    "question": "Wie erstelle ich eine Casual- oder Ranked-Lane?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router", "Casual", "Ranked"],
+    "answer_terms": ["Router", "Lane"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert, wenn ich dem Voice-Router beitrete?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router", "Lane", "Owner"],
+    "answer_terms": ["Lane", "Owner"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was kann ich als Owner meiner Voice-Lane einstellen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tempvoice-guide.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Owner", "umbenennen", "Teilnehmerlimit"],
+    "answer_terms": ["umbenennen", "Limit"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert mit der Lane, wenn der Owner geht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tempvoice-guide.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Ownership", "übernehmen", "automatisch"],
+    "answer_terms": ["Ownership"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Brauche ich für jede Ranked-Lane einen verifizierten Rang?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/voice-lanes.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Ranked-Lanes", "offen", "Rang-Gate"],
+    "answer_terms": ["offen", "Rang-Gate"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Kann der Lane-Owner den Beitritt auf einen Rangbereich begrenzen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/voice-lanes.html", "discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Rang-Gate", "verifizierten Rang", "Owner"],
+    "answer_terms": ["Rang-Gate"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Zeigt der Voice-Kanal, ob gerade ein Match läuft?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Lane-Name", "Modus", "Match"],
+    "answer_terms": ["Name", "nicht"],
+    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "nur dann automatisch", "doch automatisch", "passt er sich automatisch an", "passt sich automatisch an", "Name passt sich automatisch an", "Lane-Name passt sich automatisch an", "Kanalname passt sich automatisch an", "aktualisiert den Lane-Namen automatisch", "aktualisiert den Kanalnamen automatisch", "aktualisiert den Lane-Namen verlässlich", "aktualisiert den Kanalnamen verlässlich", "Lane-Namen automatisch aktualisiert", "Kanalnamen automatisch aktualisiert", "bei jedem Match automatisch aktualisiert", "sobald ein Match läuft automatisch angepasst"]
+  },
+  {
+    "question": "Sehe ich Lobbyzeit oder Spielerstatus im Lane-Namen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Lane-Name", "Kanalnamen"],
+    "answer_terms": ["Name", "nicht"],
+    "forbidden_terms": ["meistens aber automatisch", "sondern automatisch", "nur dann automatisch", "doch automatisch", "passt er sich automatisch an", "passt sich automatisch an", "Name passt sich automatisch an", "Lane-Name passt sich automatisch an", "Kanalname passt sich automatisch an", "aktualisiert den Lane-Namen automatisch", "aktualisiert den Kanalnamen automatisch", "aktualisiert den Lane-Namen verlässlich", "aktualisiert den Kanalnamen verlässlich", "Lane-Namen automatisch aktualisiert", "Kanalnamen automatisch aktualisiert", "bei jedem Match automatisch aktualisiert", "sobald ein Match läuft automatisch angepasst"]
+  },
+  {
+    "question": "Wie finde ich Mitspieler auf dem Server?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html", "discord-server/module/mitspielersuche-lfg.html", "discord-server/workflows/mitspieler-finden.html"],
+    "context_terms": ["LFG", "Mitspieler finden", "Panel"],
+    "answer_terms": ["LFG"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was mache ich, wenn ich statt eines LFG-Panels nur einen Textkanal sehe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html", "discord-server/module/mitspielersuche-lfg.html", "discord-server/workflows/mitspieler-finden.html"],
+    "context_terms": ["klassische Textsuche", "Panel"],
+    "answer_terms": ["Textsuche"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Kann der Bot mir bei einer Gameplay-Frage helfen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/brain.html", "discord-server/community-tools.html"],
+    "context_terms": ["!brain", "freigeschalteten", "Helden"],
+    "answer_terms": ["!brain"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wofür ist Smartping gedacht und wie benutze ich es?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/brain.html", "discord-server/community-tools.html"],
+    "context_terms": ["Smartping", "Teamwerkzeug"],
+    "answer_terms": ["Teamwerkzeug"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie stelle ich eine Coaching-Anfrage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["/coaching-anfrage", "Coaching-Website"],
+    "answer_terms": ["/coaching-anfrage"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich den Status meiner Coaching-Anfrage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["/coaching-status", "Status"],
+    "answer_terms": ["/coaching-status"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie melde ich mich für Scrims an?",
+    "answerable": true,
+    "expected_sources": ["discord-server/scrims.html"],
+    "context_terms": ["/scrim-signup", "Anmeldebutton"],
+    "answer_terms": ["/scrim-signup"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie komme ich in die private Lobby, wenn mein Steam-Konto nicht verknüpft ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/scrims.html"],
+    "context_terms": ["Join-Code", "private Lobby"],
+    "answer_terms": ["Join-Code"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo organisiere ich ein normales Custom Game?",
+    "answerable": true,
+    "expected_sources": ["discord-server/custom-games.html"],
+    "context_terms": ["Custom-Games-Chat", "Custom Game"],
+    "answer_terms": ["Custom Game"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "In welchem Voice-Bereich treffen wir uns für eigene Lobbys?",
+    "answerable": true,
+    "expected_sources": ["discord-server/custom-games.html"],
+    "context_terms": ["Sammelpunkt", "Voice"],
+    "answer_terms": ["Sammelpunkt"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo finde und bewerte ich Community-Builds?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Build-Seite", "abstimmen", "Stimmzahlen"],
+    "answer_terms": ["Build-Seite"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bedeutet die höchste Tier-Stufe, dass dieser Held immer der beste ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["patchabhängig", "Tier-Stufe"],
+    "answer_terms": ["patchabhängig"],
+    "forbidden_terms": ["jederzeit"]
+  },
+  {
+    "question": "Was passiert, wenn ich zum ersten Mal dem Voice-Router beitrete und noch keinen Standard gespeichert habe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Willkommens-DM", "Fertig", "Standard"],
+    "answer_terms": ["Fertig"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bekomme ich sofort eine eigene Lane, sobald ich den Router betrete?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Standard", "Fertig"],
+    "answer_terms": ["Fertig"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Ich habe beim ersten Router-Beitritt keine DM bekommen — wie stelle ich trotzdem meinen Modus ein?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Router-Panel", "Voreinstellungen"],
+    "answer_terms": ["Panel"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was mache ich, wenn mich die Willkommens-DM des Routers nicht erreicht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Willkommens-DM", "Panel"],
+    "answer_terms": ["Panel"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Warum schickt mir der Bot nach dem Voice eine Feedback-Nachricht und muss ich antworten?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Feedback-DM", "optional"],
+    "answer_terms": ["optional"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Ist das Voice-Feedback des Bots Pflicht und was, wenn das Feedback-Fenster schon zu ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["freiwillig", "Feedback-Hub"],
+    "answer_terms": ["Feedback-Hub"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert, nachdem ich meine Coaching-Anfrage abgeschickt habe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["Coaching-Rolle", "Coach", "Mein Coaching"],
+    "answer_terms": ["Coaching-Rolle"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich, welcher Coach meine Anfrage übernommen hat und wann der Termin ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["Mein Coaching", "Termine"],
+    "answer_terms": ["Mein Coaching"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie gebe ich anonymes Feedback zum Server?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Feedback-Hub", "anonym"],
+    "answer_terms": ["anonym"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bleibt mein Feedback im Feedback-Hub wirklich anonym und kommt es garantiert an?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["anonym", "garantierte Zustellung"],
+    "answer_terms": ["anonym"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie reiche ich einen Gameplay-Clip ein?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Clip-Panel", "Erlaubnis", "Credit"],
+    "answer_terms": ["du"],
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
+  },
+  {
+    "question": "Ist die Absende-Bestätigung eine Zusage, dass mein Clip zugestellt und veröffentlicht wird?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Clip", "veröffentlicht"],
+    "answer_terms": ["stell", "veröffentlich"],
+    "forbidden_terms": ["wird sicher zugestellt", "wird garantiert zugestellt", "wird definitiv zugestellt", "wird aber sicher zugestellt", "wird aber garantiert zugestellt", "wird aber definitiv zugestellt", "wird verlässlich zugestellt", "wird sicher veröffentlicht", "wird garantiert veröffentlicht", "wird definitiv veröffentlicht", "wird aber sicher veröffentlicht", "wird aber garantiert veröffentlicht", "wird aber definitiv veröffentlicht", "wird verlässlich veröffentlicht", "wird der Clip aber definitiv", "trotzdem wird der Clip zugestellt", "trotzdem wird der Clip veröffentlicht", "wird trotzdem zugestellt", "wird trotzdem veröffentlicht", "wird der Clip in jedem Fall zugestellt", "wird der Clip in jedem Fall veröffentlicht", "Clip wird in jedem Fall zugestellt", "Clip wird in jedem Fall veröffentlicht", "wird auf jeden Fall zugestellt", "wird auf jeden Fall veröffentlicht"]
+  },
+  {
+    "question": "Bestimmen die Build-Stimmen auf der Website, welche Builds im Spiel-Katalog landen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Stimmen", "Build-Katalog", "Steam-Bot"],
+    "answer_terms": ["Steam-Bot"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wer pflegt den im Spiel veröffentlichten Build-Katalog?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Build-Katalog", "Steam-Bot"],
+    "answer_terms": ["Steam-Bot"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Welche Voraussetzungen muss mein Gameplay-Clip erfüllen, damit ich ihn einreichen darf?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["1080p", "Ersteller", "Erlaubnis"],
+    "answer_terms": ["du"],
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht"]
+  },
+  {
+    "question": "Muss ich der Ersteller des Clips sein und in welcher Qualität soll er vorliegen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Ersteller", "Erlaubnis", "1080p"],
+    "answer_terms": ["du"],
+    "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht"]
+  },
+  {
+    "question": "Was darf mit meinem Clip nach dem Einsenden passieren und werde ich dabei genannt?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["freie Verwendung", "Credit"],
+    "answer_terms": ["Clip", "frei"],
+    "forbidden_terms": ["keine freie Verwendung", "keine freie Nutzung", "freie Verwendung ist nicht erlaubt", "freie Verwendung nicht erlaubt", "Verwendung des Clips ist nicht erlaubt", "nicht zur freien Nutzung freigegeben", "nicht zur freien Verwendung freigegeben", "Clip wird nicht frei genutzt", "Clip wird nicht frei verwendet", "Clip ist nicht frei nutzbar", "Clip ist nicht frei verwendbar", "Clip darf nicht frei genutzt", "Clip darf nicht frei verwendet", "Clip nicht frei nutzen", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit kann genannt werden", "Credit ist optional", "Credit ist freiwillig", "Credit-Nennung ist optional", "Credit-Nennung ist freiwillig", "Namensnennung ist optional", "Namensnennung optional", "Nennung des Namens ist optional", "Nennung deines Namens ist optional", "Nennung des Anzeigenamens ist optional", "Nennung des Credits ist freiwillig", "Anzeigename kann genannt werden", "Anzeigename ist optional", "Anzeigename ist freiwillig", "Nennung des Anzeigenamens ist freiwillig", "Name genannt wird, ist freiwillig", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
+  },
+  {
+    "question": "Erlaube ich mit dem Absenden die freie Verwendung meines Clips und bekomme ich einen Credit?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["freie Verwendung", "Credit"],
+    "answer_terms": ["Clip", "frei"],
+    "forbidden_terms": ["keine freie Verwendung", "keine freie Nutzung", "freie Verwendung ist nicht erlaubt", "freie Verwendung nicht erlaubt", "Verwendung des Clips ist nicht erlaubt", "nicht zur freien Nutzung freigegeben", "nicht zur freien Verwendung freigegeben", "Clip wird nicht frei genutzt", "Clip wird nicht frei verwendet", "Clip ist nicht frei nutzbar", "Clip ist nicht frei verwendbar", "Clip darf nicht frei genutzt", "Clip darf nicht frei verwendet", "Clip nicht frei nutzen", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit kann genannt werden", "Credit ist optional", "Credit ist freiwillig", "Credit-Nennung ist optional", "Credit-Nennung ist freiwillig", "Namensnennung ist optional", "Namensnennung optional", "Nennung des Namens ist optional", "Nennung deines Namens ist optional", "Nennung des Anzeigenamens ist optional", "Nennung des Credits ist freiwillig", "Anzeigename kann genannt werden", "Anzeigename ist optional", "Anzeigename ist freiwillig", "Nennung des Anzeigenamens ist freiwillig", "Name genannt wird, ist freiwillig", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
+  }
+]
