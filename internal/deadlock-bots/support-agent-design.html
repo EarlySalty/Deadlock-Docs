@@ -55,7 +55,7 @@
       <li>Stabile, sprechende Anker-IDs für wichtige Zustände und Workflows.</li>
       <li>Keine externen Skripte, Fonts, CDNs, Analytics oder ausführbares JavaScript.</li>
     </ul>
-    <p>Der Wissensdienst indexiert ausschließlich den Text innerhalb von <code>&lt;main&gt;</code>. Metadaten, Navigation, Styles und Quellenpfade werden nicht Bestandteil des Antwortkontexts.</p>
+    <p>Der Wissensdienst indexiert Titel, Tags und die einzelnen <code>&lt;section&gt;</code>-Blöcke einer Seite; ein Abschnitt wird nur erfasst, wenn er eine <code>id</code> und ein direktes <code>&lt;h2&gt;</code> trägt. In den Modellkontext gehen Titel, relativer Pfad, Abschnittsüberschrift und Abschnittstext ein. Navigation, Styles und nicht ausgezeichnete Fragmente bleiben außen vor.</p>
     <p>Interne Seiten werden erst nach geprüfter Sichttext-Parität gelöscht. Öffentliche Seiten werden bewusst korrigiert und erst nach Fakten-, Abdeckungs- und Redaction-Freigabe ersetzt. Danach werden interne Links auf <code>.html</code> umgestellt; die Git-Historie bleibt erhalten.</p>
   </section>
 

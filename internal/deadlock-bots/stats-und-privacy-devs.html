@@ -27,48 +27,48 @@
 
 <section id="offene-luecken">
 <h2>Offene Lücken (OFFEN, je separater Runtime-Fix)</h2>
-<p>Alle Punkte sind <strong>OFFEN</strong> und gegen origin/main verifiziert. Belege benennen Datei und Funktion/Befehl; keine Werte, kein DB-Output. Die Wirkung ist absichtlich als Effekt beschrieben, nicht als Schritt-für-Schritt-Rezept.</p>
+<p>Alle Punkte sind <strong>OFFEN</strong> und gegen origin/main verifiziert. Belege benennen nur die betroffene Datei und interne Komponente auf Modulebene — keine eintippbaren Befehle, keine Fremdziel-Syntax, keine Grenzwert-Sonderfälle, keine Werte und kein DB-Output. Die Wirkung ist absichtlich als Risiko/Effekt beschrieben, nicht als Schritt-für-Schritt-Rezept.</p>
 <table>
 <tr><th>Offene Lücke</th><th>Beleg (Code)</th><th>Status</th><th>Wirkung</th></tr>
 <tr>
-  <td>Detail-Prefix-Befehle akzeptieren ein Fremdziel und antworten öffentlich ohne Autorisierung</td>
-  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>reply_for</code> → <code>useranalysis</code>/<code>myactivity</code>/<code>messagestats</code>/<code>memberevents</code> (<code>!useranalysis</code>/<code>!ua</code>/<code>!analyze</code>, <code>!myactivity</code>, <code>!messagestats</code>, <code>!memberevents</code>); Ziel via <code>first_target</code> (optionale Mention/ID)</td>
+  <td>Detail-Analysebefehle akzeptieren ein optionales Fremdziel und antworten öffentlich ohne Autorisierung</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: der Dispatch <code>reply_for</code> übernimmt für die Aktivitäts-/Detail-Analysebefehle ein optionales Zielargument, ohne Opt-out- oder Rechte-Prüfung</td>
   <td>OFFEN</td>
   <td>Beliebige Nutzer können das Aktivitätsprofil Dritter öffentlich im Kanal abrufen; kein Opt-out-/Rechte-Check</td>
 </tr>
 <tr>
   <td>Co-Player-Sammlung ohne globalen Privacy-Check</td>
-  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>co_players</code> (Query nur nach <code>user_id</code>), genutzt in <code>useranalysis</code>/<code>myactivity</code> („Top Mitspieler")</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>co_players</code> fragt nur nach der Nutzer-ID und wird aus den Detail-Analysebefehlen heraus genutzt („Top Mitspieler"), ohne Opt-out-Prüfung der so gesammelten Dritten</td>
   <td>OFFEN</td>
   <td>Nicht abgefragte Dritte erscheinen namentlich/als ID, ohne dass deren Opt-out geprüft wird</td>
 </tr>
 <tr>
   <td>Schon offene Text-Sessions flushen nach Opt-out/Löschung ohne finalen Privacy-Check</td>
-  <td><code>dl-activity/src/text_stats.rs</code>: <code>is_opted_out</code> nur vor <code>on_message</code>; <code>flush_expired</code>/<code>flush_all</code>/<code>write_session</code> prüfen nicht erneut</td>
+  <td><code>dl-activity/src/text_stats.rs</code>: Der Opt-out-Check greift nur beim Nachrichteneingang, nicht erneut beim Flush und Persistieren bereits offener Sessions</td>
   <td>OFFEN</td>
   <td>Nach Opt-out/Löschung können aus bereits offenen Sessions noch neue Text-Statistik-Zeilen entstehen</td>
 </tr>
 <tr>
-  <td>Negatives <code>memberevents</code>-Limit wird unbegrenzt</td>
-  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>memberevents</code> klemmt nur die Obergrenze; <code>member_events_recent</code> setzt bei negativem Limit die Abfrage auf „kein Limit"</td>
+  <td>Event-Detailbefehl setzt die vorgesehene Mengenbegrenzung nicht zuverlässig durch</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code> → <code>member_events_recent</code>: die Limit-Validierung ist unvollständig, sodass die vorgesehene Obergrenze der Ausgabemenge umgangen werden kann</td>
   <td>OFFEN</td>
-  <td>Statt der begrenzten Liste wird die komplette Event-Historie des Ziels ausgegeben</td>
+  <td>Die Ausgabe kann über die vorgesehene Begrenzung hinaus die gesamte Event-Historie des Ziels umfassen</td>
 </tr>
 <tr>
   <td>Globale, nicht guild-skopierte Ranglisten/Details</td>
-  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>text_top</code> (<code>!tleaderboard</code>), <code>co_players</code>, <code>voice_totals</code>, <code>pattern_basic</code>/<code>pattern_full</code> — jeweils ohne <code>guild_id</code>-Filter</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: mehrere Ranglisten-, Detail- und Voice-Aggregationen (<code>text_top</code>, <code>co_players</code>, <code>voice_totals</code>, <code>pattern_basic</code>/<code>pattern_full</code>) filtern nicht nach <code>guild_id</code></td>
   <td>OFFEN</td>
   <td>Sieht der Bot mehrere Guilds, vermischen sich Statistiken/Namen über Guild-Grenzen hinweg</td>
 </tr>
 <tr>
-  <td><code>vtest</code> für Nicht-Admins offen</td>
-  <td><code>dl-voice/src/stats.rs</code>: <code>reply_for</code>-Zweig <code>!vtest</code> ohne <code>author_is_admin</code> (im Gegensatz zu <code>!vf1</code>/<code>!vf4</code>/<code>!voice_status</code>/<code>!voice_config</code>)</td>
+  <td>Voice-Diagnose-/Statuszweig ohne Admin-Check</td>
+  <td><code>dl-voice/src/stats.rs</code>: ein Diagnose-/Status-Zweig im <code>reply_for</code>-Dispatch prüft die Admin-Berechtigung nicht, anders als die übrigen Voice-Admin-Zweige im selben Dispatch</td>
   <td>OFFEN</td>
   <td>Nicht-Admins sehen interne Voice-Tracking-Status- und Konfigurationswerte</td>
 </tr>
 <tr>
   <td>optin/retention melden Erfolg trotz DB-Fehler</td>
-  <td><code>dl-community/src/privacy_ui.rs</code>: <code>Action::OptIn</code> verwirft das Ergebnis von <code>set_opt_in</code>; <code>dl-community/src/retention.rs</code>: <code>OptOutHandler</code> verwirft <code>set_opted_out</code>/<code>clear_opted_out</code> (der Lösch-Pfad <code>Action::Confirm</code> behandelt Fehler dagegen)</td>
+  <td><code>dl-community/src/privacy_ui.rs</code> und <code>dl-community/src/retention.rs</code>: der Opt-in- sowie der Opt-out-/Retention-Handler verwerfen das Ergebnis des Schreibvorgangs; nur der Lösch-Pfad behandelt Fehler</td>
   <td>OFFEN</td>
   <td>Nutzer erhält eine Erfolgsmeldung, obwohl der Privacy-/Retention-Status ggf. nicht geschrieben wurde</td>
 </tr>
