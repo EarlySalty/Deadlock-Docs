@@ -76,7 +76,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/negativ-wissen.html", "discord-server/dm-concierge.html"],
     "context_terms": ["automatisch", "DM"],
-    "answer_terms": ["automatisch"],
+    "answer_terms": ["nicht automatisch"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -172,7 +172,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/workflows/streamer-partner-werden.html", "discord-server/module/steam-twitch-verknuepfung.html"],
     "context_terms": ["Streamer-Bereich", "Live-Ankündigungen"],
-    "answer_terms": ["Streamer"],
+    "answer_terms": ["kann", "nicht garantiert"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -212,7 +212,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/support/troubleshooting.html", "discord-server/negativ-wissen.html"],
     "context_terms": ["Ticket", "Team"],
-    "answer_terms": ["nicht", "Team"],
+    "answer_terms": ["antwortet nicht direkt", "Team"],
     "forbidden_terms": ["Shadow", "Log-Kanal"]
   },
   {
@@ -220,7 +220,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/negativ-wissen.html", "discord-server/support/troubleshooting.html"],
     "context_terms": ["Ticket", "menschlichem Support"],
-    "answer_terms": ["Ticket"],
+    "answer_terms": ["menschlich", "Team"],
     "forbidden_terms": ["Shadow", "Log-Kanal"]
   },
   {
@@ -236,7 +236,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/module/statistiken-privatsphaere.html"],
     "context_terms": ["eigenen Werte", "menschlichen Support"],
-    "answer_terms": ["eigene", "nicht"],
+    "answer_terms": ["keine fremden", "eigen"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -252,7 +252,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["retention-optout", "vermissen"],
-    "answer_terms": ["retention"],
+    "answer_terms": ["/retention-optout"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -260,7 +260,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["retention-optout", "Vorrang"],
-    "answer_terms": ["retention-optout", "Vorrang"],
+    "answer_terms": ["/retention-optout", "Vorrang"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -300,7 +300,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/onboarding-und-invites.html", "discord-server/steam-integration.html"],
     "context_terms": ["nicht garantiert", "Freundescode"],
-    "answer_terms": ["nicht", "garantiert"],
+    "answer_terms": ["nicht garantiert"],
     "forbidden_terms": ["/invite", "/betainvite"]
   }
 ]
