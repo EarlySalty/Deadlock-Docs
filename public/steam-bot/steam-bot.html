@@ -13,7 +13,7 @@
 <p><strong>Überblick.</strong> Der Steam-Bot verbindet dein Steam-Konto mit der Community. Über ihn verknüpfst du dein Konto, verwaltest deine Verknüpfungen selbst, prüfst deinen Deadlock-Rang, fragst die Playtest-Einladung an und findest den veröffentlichten Build-Katalog. Alle Schritte laufen über sichtbare Befehle oder das sichtbare Panel — nutze immer den bei dir sichtbaren Einstieg.</p>
 
 <section id="verknuepfen">
-<h2>Steam verbinden — ohne Passwort beim Bot</h2>
+<h2>Steam-Account verbinden — ohne Passwort beim Bot</h2>
 <p>Starte die Verknüpfung über das sichtbare Steam-Panel oder mit <code>/account_verknüpfen</code>. Der Bot leitet dich zur offiziellen Steam-Anmeldung weiter: Du meldest dich direkt bei Steam an und gibst dem Bot dabei <strong>kein Steam-Passwort</strong>. Für die Zuordnung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet.</p>
 </section>
 
@@ -30,12 +30,12 @@
 
 <section id="freundschaft">
 <h2>Steam-Freundschaft annehmen</h2>
-<p>Nach dem Verknüpfen entsteht eine Steam-Freundschaft mit dem Community-Steam-Konto — der Bot nimmt deine Anfrage an bzw. sendet dir eine. Nimm diese Freundschaft an, denn einzelne Funktionen wie die Playtest-Einladung setzen eine bestehende Steam-Freundschaft voraus. Ist ein Schritt noch offen, etwa weil die Freundschaft noch nicht bestätigt ist, wird er später erneut aufgenommen; du musst deine Verknüpfung dafür normalerweise nicht wiederholen.</p>
+<p>Nach dem Verknüpfen entsteht eine Steam-Freundschaft mit dem Community-Steam-Konto — der Bot nimmt deine Anfrage an bzw. sendet dir eine. Nimm diese Freundschaft an, denn einzelne Funktionen wie die Playtest-Einladung setzen eine bestehende Steam-Freundschaft voraus. Ist ein Schritt noch offen, etwa weil die Freundschaft noch nicht bestätigt ist, hol ihn nach: Bestätige die Freundschaft und starte den betroffenen Vorgang danach erneut über den sichtbaren Weg; deine bestehende Verknüpfung musst du dafür normalerweise nicht wiederholen.</p>
 </section>
 
 <section id="rang">
-<h2>Rang prüfen und Community-Rolle</h2>
-<p>Deinen verknüpften Deadlock-Rang fragst du mit <code>/steam_rank</code> oder <code>/checkrank</code> ab. Rang- und Rollenabgleich beziehen sich immer auf deine eigene Verknüpfung. Eine Steam-Verknüpfung kann für den Rangabgleich und einzelne Zusatzfunktionen nötig sein, sperrt normale Ranked-Lanes aber nicht pauschal.</p>
+<h2>Deadlock-Rang prüfen und Community-Rolle</h2>
+<p>Deinen eigenen verknüpften Deadlock-Rang fragst du mit <code>/steam_rank</code> oder <code>/checkrank</code> ab: Nutze den Befehl ohne weitere Zielangabe, dann bezieht er sich auf deine eigene Verknüpfung. Rang- und Rollenabgleich betreffen ausschließlich dein eigenes verknüpftes Konto; fremde Rangwerte anderer Mitglieder ruft der Support-Assistent nicht ab und erklärt dafür auch keinen Weg. Eine Steam-Verknüpfung kann für den Rangabgleich und einzelne Zusatzfunktionen nötig sein, sperrt normale Ranked-Lanes aber nicht pauschal.</p>
 <p>Fehlt deine Rang-Rolle noch, kann sie bei einer späteren Prüfung ergänzt werden, sobald Verknüpfung, Steam-Freundschaft und ein lesbarer Rang gültig sind.</p>
 </section>
 
@@ -51,12 +51,12 @@
 
 <section id="bestand">
 <h2>Bestand deiner Verknüpfung</h2>
-<p>Deine Verknüpfung bleibt bestehen, auch wenn der Dienst neu startet: Noch offene Aktionen laufen danach weiter, und wiederholtes Neuverknüpfen ist normalerweise nicht nötig. Eine frisch angelegte Verknüpfung wird nicht sofort entfernt, nur weil du eine Weile nicht im Voice aktiv bist. Sollte deine Verknüpfung später einmal fehlen oder inaktiv sein, verknüpfst du dein Konto über den sichtbaren Weg einfach neu; kommst du damit nicht weiter, hilft der Community-Support.</p>
+<p>Garantiert ist: Eine gespeicherte Verknüpfung überlebt einen Dienstneustart — sie ist nicht weg, nur weil der Dienst zwischendurch neu startet, und wiederholtes Neuverknüpfen ist dafür normalerweise nicht nötig. Hattest du noch offene Aktionen laufen, als der Dienst neu startete, geht deine gespeicherte Verknüpfung dadurch nicht verloren; dass ein einzelner offener Vorgang danach von allein weiterläuft, ist damit aber nicht zugesagt. Fehlt anschließend ein Ergebnis oder ist ein Vorgang fehlgeschlagen, ist der nächste Schritt sichtbar: Starte ihn einfach erneut über den vorgesehenen Weg oder wende dich an den Community-Support. Eine frisch angelegte Verknüpfung wird nicht sofort entfernt, nur weil du eine Weile nicht im Voice aktiv bist. Sollte deine Verknüpfung später einmal fehlen oder inaktiv sein, verknüpfst du dein Konto über den sichtbaren Weg einfach neu.</p>
 </section>
 
 <section id="daten">
 <h2>Steam-Daten und Löschung</h2>
-<p>Für die Steam-Verknüpfung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet. Deine eigenen Verknüpfungen kannst du jederzeit selbst mit <code>/steam unlink</code> entfernen. Für Auskunft oder eine über das Entfernen der Verknüpfung hinausgehende Löschung wende dich an den veröffentlichten Datenschutzkontakt der Community.</p>
+<p>Für die Steam-Verknüpfung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet. Deine eigenen Verknüpfungen kannst du jederzeit selbst mit <code>/steam unlink</code> entfernen. Willst du mehr als nur die Verknüpfung löschen lassen — also über das Entfernen der Verknüpfung hinaus weitere Daten löschen —, wende dich für diese Auskunft und Löschung an den veröffentlichten Datenschutzkontakt der Community.</p>
 </section>
 </main>
 </body>
