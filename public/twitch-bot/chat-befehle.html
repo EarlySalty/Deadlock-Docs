@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Twitch-Chat-Befehle</title>
+  <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; text-align: left; vertical-align: top; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Twitch-Chat-Befehle</h1>
+  <p><strong>Kurz gesagt.</strong> Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog samt Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
+
+  <section id="hinweis-hilfelinks">
+    <h2>Warum die Befehle hier vollständig stehen</h2>
+    <p>Der Bot kennt zwar <code>!commands</code> und <code>!help</code>, die auf eine Befehlsübersicht verweisen. Diese verlinkte Hilfeseite ist aktuell nicht zuverlässig erreichbar. Verlass dich deshalb auf die Liste hier auf dieser Seite; sie ist der verlässliche Weg zu den Befehlen.</p>
+  </section>
+
+  <section id="statistik-befehle">
+    <h2>Zuschauerbefehle: Deadlock-Statistiken</h2>
+    <p>Diese Befehle zeigen Deadlock-Werte des Streamers. Sie brauchen den passenden Streamkontext und eine Steam-Zuordnung des Kanals (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
+    <table>
+      <tr><th>Befehl (mit Aliasen)</th><th>Zeigt</th></tr>
+      <tr><td><code>!rank</code></td><td>Aktueller Deadlock-Rang.</td></tr>
+      <tr><td><code>!wins</code></td><td>Karriere-Siege.</td></tr>
+      <tr><td><code>!winrate</code></td><td>Siegquote über die jüngsten gewerteten Spiele.</td></tr>
+      <tr><td><code>!mmr</code> · <code>!climb</code></td><td>Rang samt Trend der letzten Zeit.</td></tr>
+      <tr><td><code>!live</code></td><td>Ob gerade ein laufendes Deadlock-Match aktiv ist.</td></tr>
+      <tr><td><code>!lastmatch</code> · <code>!last</code></td><td>Das letzte Match.</td></tr>
+      <tr><td><code>!streak</code></td><td>Aktuelle Sieges- oder Pechsträhne.</td></tr>
+      <tr><td><code>!mostplayed</code> · <code>!main</code></td><td>Meistgespielter Held der jüngsten Spiele.</td></tr>
+    </table>
+    <p>Fehlt die Steam-Zuordnung, antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen.</p>
+  </section>
+
+  <section id="clip-community">
+    <h2>Zuschauerbefehle: Clip und Community</h2>
+    <ul>
+      <li><code>!clip</code> · <code>!createclip</code> — erstellt einen Clip aus dem laufenden Stream, sofern die Twitch-Autorisierung des Kanals passt.</li>
+      <li><code>!invite</code> — postet den Einladungslink zur Deutschen Deadlock Community.</li>
+      <li><code>!discord</code> · <code>!dldc</code> · <code>!dlde</code> — posten ebenfalls den Community-Link.</li>
+    </ul>
+  </section>
+
+  <section id="hilfe-befehle">
+    <h2>Immer verfügbar: Hilfe</h2>
+    <p>Diese Befehle funktionieren unabhängig von der gestreamten Kategorie.</p>
+    <ul>
+      <li><code>!commands</code> — verweist auf die Befehlsübersicht.</li>
+      <li><code>!help &lt;thema&gt;</code> — Hilfe zu einem Thema, zum Beispiel <code>!help raid</code>.</li>
+      <li><code>!ping</code> — prüft, ob der Bot antwortet.</li>
+    </ul>
+  </section>
+
+  <section id="engagement">
+    <h2>Deine eigene Datenschutzwahl</h2>
+    <p>Für Community-Auswertungen kann der Bot erfassen, welche Zuschauer wiederkehren. Diese Wahl triffst du selbst im Chat und sie betrifft nur dich:</p>
+    <ul>
+      <li><code>!engagement_ignore_me</code> — nimmt dich aus der Engagement-Erfassung heraus.</li>
+      <li><code>!engagement_remember_me</code> — nimmt dich später wieder auf.</li>
+    </ul>
+    <p>Diese beiden Befehle sind unabhängig von der Streamkategorie verfügbar. Details in <a href="faq-community.html">FAQ Community</a>.</p>
+  </section>
+
+  <section id="rollenbefehle">
+    <h2>Nur für Broadcaster und Moderation</h2>
+    <p>Die folgenden Befehle stehen ausschließlich dem Kanalinhaber und der Kanal-Moderation zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
+    <ul>
+      <li><code>!raid</code> · <code>!traid</code> — startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
+      <li><code>!raid_status</code> — zeigt den Auto-Raid-Status.</li>
+      <li><code>!raid_history</code> — zeigt die letzten Raid-Versuche.</li>
+      <li><code>!uban</code> · <code>!unban</code> — nimmt ausschließlich den zuletzt gespeicherten Auto-Ban des Kanals zurück.</li>
+      <li><code>!silentban</code> — schaltet nur die Chat-Hinweise zu Auto-Bans um; die Moderation bleibt aktiv.</li>
+      <li><code>!silentraid</code> — schaltet nur die Chat-Hinweise zu Raids um.</li>
+      <li><code>!title</code> · <code>!titel</code> — schlägt einen Streamtitel vor und kann ihn setzen.</li>
+      <li><code>!lurkersteuer_off</code> — deaktiviert die Lurker-Erinnerung, wenn der Plan diese Funktion enthält.</li>
+      <li><code>!engagement_status</code> · <code>!engagement_on</code> · <code>!engagement_off</code> — prüfen oder steuern die Engagement-Erfassung für den Kanal.</li>
+    </ul>
+    <p>Mehr zu Raids und Moderation stehen in <a href="auto-raid.html">Auto-Raid</a> und <a href="chat-moderation.html">Chat-Moderation</a>.</p>
+  </section>
+
+  <section id="voraussetzungen">
+    <h2>Voraussetzungen im Überblick</h2>
+    <ul>
+      <li>Statistik-, Clip- und Community-Befehle können die passende Deadlock-Streamkategorie verlangen.</li>
+      <li>Persönliche Statistikantworten brauchen zusätzlich die nötige Steam-Zuordnung des Kanals.</li>
+      <li>Hilfe, Verbindungsprüfung und die eigene Datenschutzwahl bleiben unabhängig von der Kategorie verfügbar.</li>
+    </ul>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was der Bot nicht ist</h2>
+    <p>Der Twitch-Bot ist kein frei konfigurierbarer Chat-Bot für eigene Fun-Commands oder Filterlisten. Auto-Raid ist ohne eigenen Aktivierungsbefehl aktiv; du musst nichts freischalten. Das meiste wird im Dashboard eingestellt oder läuft automatisch im Hintergrund.</p>
+    <nav><a href="einrichtung.html">Einrichtung</a><a href="twitchbot-ueberblick.html">Überblick</a><a href="faq-support.html">Hilfe und Rechtstexte</a></nav>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>FAQ Raids</title>
+  <meta name="tags" content="twitch-bot, faq, raids, netzwerk">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>FAQ Raids</h1>
+  <p><strong>Kurz gesagt.</strong> Der Auto-Raid leitet am Stream-Ende deine Zuschauer an einen passenden Deadlock-Kanal weiter. Manuelle Raids, Status und Historie sind rollenbegrenzt.</p>
+
+  <section id="raid-starten-oder-pruefen">
+    <h2>Wie starte oder prüfe ich einen Raid?</h2>
+    <p>Der Auto-Raid läuft ohne Zutun am Ende eines Deadlock-Streams, wenn Partnerstatus, aktivierte Raid-Funktion und gültige Autorisierung passen. Zusätzlich können Broadcaster und Moderation manuell arbeiten:</p>
+    <ul>
+      <li><code>!raid</code> bzw. <code>!traid</code> – manueller Raid zu einem passenden Kanal.</li>
+      <li><code>!raid_status</code> – aktueller Auto-Raid-Status.</li>
+      <li><code>!raid_history</code> – die letzten Raid-Versuche.</li>
+    </ul>
+    <p>Den Ablauf beschreibt <a href="auto-raid.html">Auto-Raid</a>.</p>
+  </section>
+
+  <section id="warum-anderes-ziel">
+    <h2>Warum wurde ein anderer Zielkanal gewählt?</h2>
+    <p>Die Zielauswahl folgt internen Netzwerkregeln, die wir bewusst nicht offenlegen. Wichtig zu wissen: Gibt es kein geeignetes, live streamendes Ziel, findet kein Raid statt – das ist normal und kein Fehler.</p>
+  </section>
+
+  <section id="kein-raid">
+    <h2>Es hat kein Raid stattgefunden – was tun?</h2>
+    <p>Prüfe, ob du in der Deadlock-Kategorie gestreamt hast, ob deine Twitch-Autorisierung noch gültig ist und ob überhaupt ein passender Partner live war. Zeigt das Dashboard eine abgelaufene Autorisierung, verbinde erneut. Bleibt das Problem bestehen, wende dich an den Support (siehe <a href="faq-support.html">FAQ Support</a>).</p>
+    <nav><a href="auto-raid.html">Auto-Raid</a><a href="chat-befehle.html">Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>

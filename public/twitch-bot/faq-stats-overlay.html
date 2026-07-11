@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Stats und Stream-Overlay</title>
+  <meta name="tags" content="twitch-bot, stats, overlay, obs">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Stats und Stream-Overlay</h1>
+  <p><strong>Kurz gesagt.</strong> Deine Deadlock-Werte gibt es als Chat-Befehle und als einblendbares OBS-Overlay. Beides braucht einen über den Discord verknüpften Steam-Account.</p>
+
+  <section id="statistik-befehle">
+    <h2>Statistik-Befehle im Chat</h2>
+    <p>Sobald der Steam-Account des Kanals verknüpft ist, kennt der Bot unter anderem <code>!rank</code>, <code>!wins</code>, <code>!winrate</code>, <code>!mmr</code> (auch <code>!climb</code>), <code>!live</code>, <code>!lastmatch</code> (auch <code>!last</code>), <code>!streak</code> und <code>!mostplayed</code> (auch <code>!main</code>). Den vollständigen Katalog samt Aliasen führt <a href="chat-befehle.html">Chat-Befehle</a>. Winrate, Serie und Lieblingsheld beziehen sich auf ein Fenster der jüngsten gewerteten Spiele.</p>
+  </section>
+
+  <section id="steam-voraussetzung">
+    <h2>Was brauche ich für die Statistiken?</h2>
+    <p>Einen über den Discord verknüpften Steam-Account. Die Verknüpfung richtest du im Verwaltungs-Dashboard im Einrichtungs-Assistenten ein. Die Steam-Anmeldung läuft ohne Passwort-Eingabe beim Bot. Ohne Verknüpfung antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen.</p>
+  </section>
+
+  <section id="overlay-einrichten">
+    <h2>Stream-Overlay einrichten (OBS)</h2>
+    <p>Im Dashboard gibt es einen Overlay-Baukasten für ein Deadlock-Overlay:</p>
+    <ol>
+      <li>Öffne im Dashboard unter „Verwaltung“ den Overlay-Baukasten (alternativ die Overlay-Seite unter <code>/twitch/overlay</code>).</li>
+      <li>Wähle Stil, Layout, Spielmodus und die anzuzeigenden Module (z. B. Rang, Match-Verlauf, Tagesbilanz, Live-Match).</li>
+      <li>Klicke auf „URL kopieren“.</li>
+      <li>Füge in OBS eine Browser-Quelle hinzu und trage die URL ein.</li>
+    </ol>
+    <p>Voraussetzung für Spiel- und Rangdaten ist ein zugeordneter Steam-Account. Die fertige OBS-URL ist ein öffentlicher Render-Link – behandle ihn nicht als vertraulich. Einzelne Module können mangels Daten leer bleiben; eine feste Aktualisierungsfrequenz oder lückenlose Live-Erkennung sagen wir nicht zu.</p>
+  </section>
+
+  <section id="keine-daten">
+    <h2>Im Overlay erscheinen keine Daten</h2>
+    <p>Prüfe die Steam-Zuordnung über die Discord-Verknüpfung und ob die Datenquelle erreichbar ist. Bei fehlender Zuordnung oder nicht erreichbarer Quelle kann das Overlay leer bzw. nicht verfügbar sein. Werte ohne Daten werden ausgeblendet. Bleibt es leer, wende dich an den Support.</p>
+    <nav><a href="chat-befehle.html">Befehle</a><a href="twitch-streamer-dashboard.html">Dashboard</a></nav>
+  </section>
+</main>
+</body>
+</html>
