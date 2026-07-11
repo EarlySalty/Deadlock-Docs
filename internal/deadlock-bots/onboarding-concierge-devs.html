@@ -5,7 +5,7 @@
   <title>Onboarding-Concierge — Spec Slice A</title>
   <meta name="tags" content="deadlock-bots, onboarding, concierge">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs (Ist-Audit 2026-07-11)">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs, Stand b069b5c8 plus Folgefix auf feature/support-agent-runtime (Ist-Audit 2026-07-11)">
 </head>
 <body>
 <main>
@@ -50,10 +50,12 @@ auf „stopp&quot;.</li>
 <li><strong>DM zu (Discord 50007):</strong> Fallback privater Textkanal nach dem Muster
 aus <code>faq.rs</code> (Kanal nur User + Bot, Auto-Aufräumen). KV-Claim gegen
 Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>. Nur ein nachweislich dem
-User zugeordneter Fallback darf normale private Concierge-Antworten und bereits
-vorhandene generische sowie neue persönliche Paten-/Steckbrief-Buttons annehmen.
-Die Ownership und private Kanalkonfiguration werden dafür bei jeder Nutzung frisch
-bestätigt; Text-Controls bleiben trotzdem echter DM vorbehalten.</li>
+User zugeordneter Fallback darf normale private Concierge-Antworten liefern und Klicks
+auf bereits vorhandene persönliche wie generische Buttons annehmen. Die Ownership und
+private Kanalkonfiguration werden dafür bei jeder Nutzung frisch bestätigt.
+<strong>Neue</strong> persönliche Paten-/Steckbrief-Buttons entstehen dort nicht: Der
+Antwortpfad hängt sie nur in echter DM an. Text-Controls bleiben ebenfalls echter DM
+vorbehalten.</li>
 <li><strong>User antwortet frei:</strong> Enge nicht-faktische Konversationsfälle
 beantwortet <code>local_conversational_answer</code> mit festen lokalen Texten.
 Jede Faktenfrage läuft ausschließlich über <code>dl-knowledge</code> und den
@@ -110,10 +112,12 @@ Eine frei formulierte Modellantwort erreicht das Mitglied nie.</li>
 <li><strong>Jede Passage ist ein vollständiger Satz</strong> ab Chunk- oder Satzanfang
 bis zum Satzende. Halbe Sätze und isolierte, themenfremde Zeilen sind
 keine Evidence.</li>
-<li><strong>Retrieval-Verlauf:</strong> Im speichernden Gespräch gehen höchstens die
-<strong>vier vorherigen Nutzerfragen plus die aktuelle Frage</strong> in die
-Retrieval-Anfrage. Assistant-Texte gehen nie mit — der Verlauf schärft
-nur die Suche, er ist keine Antwortquelle.</li>
+<li><strong>Verlauf im Fragetext:</strong> Im speichernden Gespräch bilden höchstens die
+<strong>vier vorherigen Nutzerfragen plus die aktuelle Frage</strong> zusammen den
+Fragetext an <code>dl-knowledge</code>. Dieser kombinierte Text steuert
+Retrieval, Grounding-Termprüfung und Frageeingabe gleichermaßen.
+Assistant-Texte gehen nie mit, und der Verlauf ist keine Antwortquelle:
+Belege sind ausschließlich die gefundenen öffentlichen HTML-Chunks.</li>
 <li><strong>Stateless:</strong> Nach dem Datenschutz-Opt-out (und überall dort, wo kein
 Verlauf geführt wird) besteht die Retrieval-Anfrage ausschließlich aus
 der aktuellen Frage. Kein Verlauf rein, kein Verlauf raus.</li>
@@ -122,11 +126,23 @@ current-question-only. Er schreibt keine persönliche Conversation-Zeile, lädt
 keinen DM- oder Fallback-Verlauf und hängt weder Paten- noch
 Steckbrief-Aktionsbuttons an. <code>stopp</code> und Vergessensphrasen laufen dort
 nur als normale Wissensfrage, nie als Control.</li>
-<li><strong>Oberflächengrenze:</strong> Persönliche Aktionsbuttons entstehen nur in
-einer echten DM oder im frisch verifizierten eigenen privaten Concierge-Fallback.
-Generische Buttons werden außerhalb der DM ebenfalls nur nach dieser sicheren Zuordnung akzeptiert;
-im öffentlichen Fragenkanal und in allen anderen Guild-Kanälen werden sie
-abgewiesen. <code>stopp</code> und Vergessen bleiben auf jedem Guild-Kanal inaktiv.</li>
+<li><strong>Oberflächengrenze:</strong> <strong>Neue</strong> persönliche Aktionsbuttons hängt der
+Concierge ausschließlich an DM-Antworten an. Im frisch verifizierten eigenen privaten
+Concierge-Fallback <strong>verarbeitet</strong> die Runtime zwar vorhandene Klicks (nach
+bestandener Ownership-Prüfung), eine freie Textantwort erzeugt dort aber keine neuen
+persönlichen Aktionsbuttons. Generische Buttons werden außerhalb der DM ebenfalls nur
+nach dieser sicheren Zuordnung akzeptiert; im öffentlichen Fragenkanal und in allen
+anderen Guild-Kanälen werden sie abgewiesen. <code>stopp</code> und Vergessen bleiben auf
+jedem Guild-Kanal inaktiv.</li>
+<li><strong>Explizite Ausnahme von der Guild-Sperre:</strong> der Paten-Claim-Button im
+internen Patenkanal. Er umgeht die Ownership-Prüfung bewusst, weil er kein persönlicher
+Control des Neulings ist, sondern die Übernahme durch einen Paten — und ist dafür an
+eigene harte Bedingungen gebunden: Haupt-Guild, genau der feste Patenkanal und die
+Paten-Rolle beim Klickenden. Passt Guild oder Kanal nicht, fällt der Klick <strong>still
+durch</strong> (leere Antwort, kein sichtbarer Hinweis). Am richtigen Ort ohne Paten-Rolle
+gibt es dagegen eine <strong>ephemere Ablehnung</strong>; ebenso antworten die nachgelagerten
+fachlichen Checks (Privacy-Status, <code>pate_requested</code>, Load-Limit, Doppelvergabe,
+technische Fehler) mit ephemeren Texten.</li>
 <li><strong>Vorgelagerte Konversationsfälle:</strong> <code>local_conversational_answer</code>
 beantwortet einen engen, fest verdrahteten Satz nicht-faktischer Fälle
 (Identitätsfrage, Smalltalk, Favoriten, Offtopic, reiner Link) lokal und
@@ -148,7 +164,11 @@ wiederholter Klick erzeugt keinen zweiten internen Post. Bleibt Request,
 Kanalanlage, Intro oder DM in einem unklaren Transportzustand, wird zusätzlich
 ein persistenter No-Retry-Zustand gespeichert; bekannte Patenkanäle bleiben
 dabei erhalten und ein zweiter Klick erzeugt weder einen weiteren Kanal noch
-einen weiteren DM-Versuch.</li>
+einen weiteren DM-Versuch. Der sichtbare Paten-Unsicherheitstext verweist den
+Nutzer dabei <strong>nur auf das Ticket</strong>; ein ausdrückliches „nicht erneut
+klicken&quot; steht darin nicht — das sagt allein der Steckbrief-Unsicherheitstext.
+Dass ein Retry unterbleiben soll, ist eine Empfehlung dieser Doku und wird
+runtime-seitig durch den No-Retry-Zustand erzwungen, nicht durch den Wortlaut.</li>
 </ul>
 </section>
 <section id="4-steckbrief">
@@ -234,15 +254,26 @@ gespeichertes Gedächtnis über die Nachricht hinaus. Mit
 <code>/datenschutz-optin</code> erlaubt der User die Speicherung wieder, danach
 baut der Concierge wieder Verlauf und Profil auf.
 Auch Vergessen ist ausschließlich in einer echten DM ein Control und läuft bewusst <strong>nicht</strong> über freie semantische Erkennung, sondern über einen
-engen Festphrasen-Parser (<code>forget_intent</code>): Groß-/Kleinschreibung, optionale
-führende syntaktisch gültige direkte User-Mentions, ein „bitte&quot; am Anfang oder
-zwischen Phrasentokens und abschließende Satzzeichen werden toleriert. Die feste
-Allowlist umfasst „vergiss mich/das/alles/meine Daten&quot;,
-„lösch/loesch/lösche/loesche meine Daten&quot;, dieselben vier Verben mit „alles&quot; sowie
-„Daten löschen/loeschen&quot; und „meine Daten löschen/loeschen&quot;. Indirekte Fragen,
-führende geschlossene Zitate, Blockquotes, Rollen-/Kanal-/ungültige Mentions und
+engen Festphrasen-Parser (<code>forget_intent</code>): Toleriert werden
+Groß-/Kleinschreibung, optionale führende syntaktisch gültige direkte
+User-Mentions, abschließende und eingestreute Satzzeichen sowie <strong>„bitte&quot; als
+einziges Höflichkeitswort</strong> — dieses aber an beliebiger Stelle, also vorangestellt,
+zwischen den Phrasentokens oder am Ende. Jedes andere Zusatzwort bricht die
+Erkennung, auch ein gesprächiges Präfix wie „Nein,&quot;, „Danke,&quot; oder „Jetzt,&quot;: Aus
+„Danke, vergiss das&quot; wird <strong>keine</strong> Löschung. Die feste Allowlist umfasst
+„vergiss mich/das/alles&quot;, „vergiss meine Daten&quot;, „vergiss alle meine Daten&quot;;
+„lösch/loesch/lösche/loesche&quot; jeweils mit „alles&quot;, „meine Daten&quot; oder „alle meine
+Daten&quot;; sowie „Daten löschen/loeschen&quot;, „meine Daten löschen/loeschen&quot; und „alle
+meine Daten löschen/loeschen&quot;. Indirekte Fragen,
+führende geschlossene Zitate, Rollen-/Kanal-/ungültige Mentions und
 Umschreibungen wie „kannst du bitte meine Daten vergessen&quot; lösen <strong>keine</strong>
-Löschung aus; das verhindert unbeabsichtigtes Löschen. Trifft
+Löschung aus; das verhindert unbeabsichtigtes Löschen. Discord-Blockquotes wirken
+zeilenweise (<code>strip_blockquotes</code>): Eine vollständig zitierte Löschphrase
+(<code>&gt; vergiss mich</code>) löst nichts aus, und ein <code>&gt;&gt;&gt;</code>-Mehrzeilenzitat
+schluckt zusätzlich alle Folgezeilen, also auch eine unzitierte Löschzeile darunter.
+Einzelne <code>&gt;</code>-Zeilen werden dagegen nur übersprungen: Steht die explizite
+Löschdirektive danach separat unzitiert und für sich allein, wird sie normal erkannt und
+löscht. Trifft
 eine dieser direkten Festphrasen → sofortige Löschung
 <strong>ausschließlich der zusätzlich gespeicherten Concierge-Daten</strong>: Gesprächskopie
 (<code>concierge_conversations</code>), Concierge-Profil (<code>concierge_profiles</code>),

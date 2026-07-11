@@ -5,12 +5,12 @@
   <title>stats-und-privacy — Dev-Notizen</title>
   <meta name="tags" content="deadlock-bots, technik, privacy">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion) + Code-Audit gegen origin/main (dl-activity, dl-community, dl-voice)">
+  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion) + Code-Audit gegen origin/main (dl-activity, dl-community, dl-voice, dl-central-db) für die klassischen Lücken + branchübergreifendes Integrationsrisiko aus Deadlock-Bots 78358b35 (Erasure-Löschpfad, Branch feature/support-agent-runtime, zum Stand dieser Seite nicht auf origin/main) kombiniert mit dem Schreibpfad-Audit Deadlock-Steam-Bot (steam-persistence) für die Steam-Writer-Zeile">
 </head>
 <body>
 <main>
 <h1>stats-und-privacy — Dev-Notizen: offene Statistik- und Privacy-Lücken</h1>
-<p><strong>Zusammenfassung.</strong> Ehrliche Ist-Notiz für Devs. Die Architektur-Übersicht bleibt erhalten. Eine frühere Blankett-Aussage („Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben") war irreführend und ist unten korrigiert. Darunter stehen offene Autorisierungs- und Privacy-Lücken, die ein Code-Audit gegen origin/main belegt hat; jede braucht einen separaten, autorisierten Runtime-Fix und ist <strong>nicht</strong> Teil des Support-Agent-Cutovers. Eingearbeitet in <a href="datenmodell.html"><code>datenmodell.html</code></a>.</p>
+<p><strong>Zusammenfassung.</strong> Ehrliche Ist-Notiz für Devs. Die Architektur-Übersicht bleibt erhalten. Eine frühere Blankett-Aussage („Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben") war irreführend und ist unten korrigiert. Zusätzlich ist der Löschpfad für das nutzerbezogene Steam-Event-Log festgehalten — als noch nicht deployter Branch-Stand, dessen <strong>Gesamtvertrag offen bleibt</strong>, weil der Steam-seitige Schreiber ihn nicht mitträgt. Darunter stehen offene Autorisierungs- und Privacy-Lücken; jede braucht einen separaten, autorisierten Runtime-Fix und ist <strong>nicht</strong> Teil des Support-Agent-Cutovers. Die Punkte haben dabei <strong>zwei verschiedene Quellen</strong>: Die klassischen Lücken in <code>dl-activity</code>, <code>dl-voice</code> und <code>dl-community</code> sind Ist-Befunde eines Code-Audits gegen <code>origin/main</code> und dort direkt nachprüfbar. Die Zeile zum Steam-Event-Writer ist das ausdrücklich <strong>nicht</strong>: Sie beschreibt ein repo- und branchübergreifendes <strong>Integrationsrisiko</strong> zwischen dem Erasure-Löschpfad aus Deadlock-Bots <code>78358b35</code> (Branch <code>feature/support-agent-runtime</code>, zum Stand dieser Seite nicht auf <code>origin/main</code>) und dem Schreibpfad im Deadlock-Steam-Bot.</p>
 
 <section id="architektur-knapp">
 <h2>Architektur (knapp, unverändert gültig)</h2>
@@ -25,9 +25,30 @@
 <p>Die bisherige Formulierung suggerierte, die gesamte Voice-/Steam-/Statistik-Fläche respektiere das Opt-out beim Schreiben. Belegt ist nur: Der Voice-Tracker prüft das Opt-out an seinen Tracking-Eintrittspunkten, und der Steam-Leave-Cleanup räumt beim Verlassen auf. Für die übrige Statistik- und Detail-Fläche (Prefix-Lesebefehle, Co-Player-Anzeige, Text-Session-Flush) gilt das nachweislich nicht. Die pauschale Zusage ist daher falsch und durch die untenstehenden Einzelbefunde ersetzt.</p>
 </section>
 
+<section id="steam-event-log-erasure">
+<h2>Steam-Event-Log: Export, Erasure und Migration (Löschpfad neu, Gesamtvertrag OFFEN)</h2>
+<p><strong>Versionsstand.</strong> Der hier beschriebene Löschpfad stammt aus Deadlock-Bots <code>78358b35</code> und liegt auf dem Branch <code>feature/support-agent-runtime</code>; zum Stand dieser Seite ist er <strong>nicht</strong> auf <code>origin/main</code> und damit nicht deployt. Er wird erst mit Merge und Deploy dieses Branchstands wirksam. Solange das nicht passiert ist, beschreibt dieser Abschnitt einen Branch-Vertrag, keinen Live-Zustand — und die daraus abgeleitete Steam-Writer-Zeile in der Tabelle unten ist entsprechend ein Integrationsrisiko, kein <code>origin/main</code>-Ist-Befund.</p>
+<p><code>steam.bot_event_log</code> ist nutzerbezogen. Export und Erasure erfassen die Einträge sowohl direkt über <code>discord_id</code> als auch über die mit diesem Discord-Nutzer verknüpften <code>steam_id</code>-Konten.</p>
+<ul>
+<li>Erfüllt dieselbe Zeile beide Zuordnungen, kann sie im Export unter beiden Identitätswegen erscheinen; beim Löschlauf wird sie nur einmal gezählt und entfernt.</li>
+<li>Der <code>steam_id</code>-Index wird durch eine additive Migration ergänzt. Die bestehende alte Migration bleibt unverändert und damit checksum-stabil.</li>
+</ul>
+<p><strong>Der Gesamtvertrag bleibt trotzdem OFFEN.</strong> Der Löschlauf schließt nur die Lücke auf der Löschseite. Der Steam-seitige Schreiber des Event-Logs nimmt <strong>weder die Tombstone-Prüfung noch den gemeinsamen Lock</strong> des Löschpfads: Er schreibt bedingungslos und weiß nichts vom Opt-out-/Lösch-Tombstone und nichts von der Privacy-Sperre, unter der die Erasure läuft. Daraus folgen drei ungelöste Effekte, die ein eigener autorisierter Runtime-Fix adressieren muss (eigene Zeile in der Tabelle unten):</p>
+<ul>
+<li><strong>DELETE/INSERT-Race:</strong> Löschlauf und gleichzeitiger Event-Schreibvorgang koordinieren sich nicht; ein parallel entstehender Eintrag kann den Löschlauf überleben.</li>
+<li><strong>Wiederentstehung nach Erasure:</strong> Nach abgeschlossener Löschung erzeugen weitere Steam-Ereignisse desselben Nutzers erneut nutzerbezogene Zeilen — der Tombstone hält den Schreiber nicht auf.</li>
+<li><strong>steam-only Wiederentstehung:</strong> Zeilen, die nur die Steam-Zuordnung tragen, sind nach Wegfall der Verknüpfung über den Discord-Weg nicht mehr auffindbar und damit auch von einem späteren Löschlauf nicht mehr erreichbar.</li>
+</ul>
+</section>
+
 <section id="offene-luecken">
 <h2>Offene Lücken (OFFEN, je separater Runtime-Fix)</h2>
-<p>Alle Punkte sind <strong>OFFEN</strong> und gegen origin/main verifiziert. Belege benennen nur die betroffene Datei und interne Komponente auf Modulebene — keine eintippbaren Befehle, keine Fremdziel-Syntax, keine Grenzwert-Sonderfälle, keine Werte und kein DB-Output. Die Wirkung ist absichtlich als Risiko/Effekt beschrieben, nicht als Schritt-für-Schritt-Rezept.</p>
+<p>Alle Punkte sind <strong>OFFEN</strong>. Für die Quelle gilt zweierlei, und die Tabelle vermischt beides bewusst nicht:</p>
+<ul>
+<li><strong>Ist-Befunde gegen <code>origin/main</code>:</strong> alle Zeilen zu <code>dl-activity</code>, <code>dl-voice</code> und <code>dl-community</code>. Sie beschreiben das Verhalten des gemergten, deployten Codes und sind gegen <code>origin/main</code> verifiziert.</li>
+<li><strong>Branchübergreifendes Integrationsrisiko:</strong> allein die Zeile „Steam-Event-Writer kennt weder Lösch-Tombstone noch Privacy-Lock". Sie ist <strong>kein</strong> <code>origin/main</code>-Ist-Befund, sondern ergibt sich erst aus der Kombination des Erasure-Löschpfads aus Deadlock-Bots <code>78358b35</code> (Branch <code>feature/support-agent-runtime</code>, zum Stand dieser Seite nicht auf <code>origin/main</code>) mit dem Schreibpfad im Deadlock-Steam-Bot. Die beschriebenen Effekte treten in dieser Form erst auf, wenn dieser Branchstand gemergt und deployt ist; der Steam-seitige Schreiber trägt den Vertrag auch dann nicht mit, solange er nicht selbst angefasst wird. Sie ist in der Status-Spalte entsprechend gekennzeichnet.</li>
+</ul>
+<p>Belege benennen nur die betroffene Datei und interne Komponente auf Modulebene — keine eintippbaren Befehle, keine Fremdziel-Syntax, keine Grenzwert-Sonderfälle, keine Werte und kein DB-Output. Die Wirkung ist absichtlich als Risiko/Effekt beschrieben, nicht als Schritt-für-Schritt-Rezept.</p>
 <table>
 <tr><th>Offene Lücke</th><th>Beleg (Code)</th><th>Status</th><th>Wirkung</th></tr>
 <tr>
@@ -67,6 +88,12 @@
   <td>Nicht-Admins sehen interne Voice-Tracking-Status- und Konfigurationswerte</td>
 </tr>
 <tr>
+  <td>Steam-Event-Writer kennt weder Lösch-Tombstone noch Privacy-Lock</td>
+  <td><code>Deadlock-Steam-Bot: steam-persistence/src/bot_event_log.rs</code> (Schreibpfad des nutzerbezogenen Event-Logs) gegen <code>dl-community/src/privacy.rs</code> (Erasure) im Stand Deadlock-Bots <code>78358b35</code>: der Schreiber prüft den Opt-out-/Lösch-Tombstone nicht und nimmt nicht den Privacy-Lock, unter dem die Erasure-Transaktion läuft</td>
+  <td>OFFEN — <strong>kein <code>origin/main</code>-Ist-Befund</strong>, sondern branch- und repoübergreifendes Integrationsrisiko: Erasure-Löschpfad aus <code>78358b35</code> (<code>feature/support-agent-runtime</code>, zum Stand dieser Seite nicht auf <code>origin/main</code>) plus Steam-Bot-Writer</td>
+  <td>Löschlauf und Schreibvorgang laufen unkoordiniert: ein parallel entstehender Eintrag überlebt die Löschung, und nach abgeschlossener Erasure entstehen aus weiteren Steam-Ereignissen erneut nutzerbezogene Zeilen. Zeilen mit ausschließlich Steam-Zuordnung sind nach Wegfall der Verknüpfung über den Discord-Weg nicht mehr erreichbar</td>
+</tr>
+<tr>
   <td>optin/retention melden Erfolg trotz DB-Fehler</td>
   <td><code>dl-community/src/privacy_ui.rs</code> und <code>dl-community/src/retention.rs</code>: der Opt-in- sowie der Opt-out-/Retention-Handler verwerfen das Ergebnis des Schreibvorgangs; nur der Lösch-Pfad behandelt Fehler</td>
   <td>OFFEN</td>
@@ -87,7 +114,7 @@
 
 <section id="einordnung">
 <h2>Einordnung</h2>
-<p>Dies sind Audit-Befunde gegen origin/main, die je einen separaten, <strong>autorisierten Runtime-Fix</strong> im Bot-Code erfordern. Sie sind <strong>nicht</strong> Teil des Support-Agent-Cutovers und ändern die Doku-Migration nicht. Bis zum Fix bleibt der Status OFFEN; diese Seite beschreibt nur den Ist-Zustand ehrlich, ohne Exploit-Rezept, Rohdaten oder Werte.</p>
+<p>Dies sind Audit-Befunde, die je einen separaten, <strong>autorisierten Runtime-Fix</strong> im Bot-Code erfordern: die klassischen Punkte als Ist-Befunde gegen <code>origin/main</code>, die Steam-Writer-Zeile als branch- und repoübergreifendes Integrationsrisiko aus <code>78358b35</code> plus Steam-Bot-Writer. Sie sind <strong>nicht</strong> Teil des Support-Agent-Cutovers und ändern die Doku-Migration nicht. Bis zum Fix bleibt der Status OFFEN; diese Seite beschreibt nur den Ist-Zustand ehrlich, ohne Exploit-Rezept, Rohdaten oder Werte.</p>
 </section>
 </main>
 </body>

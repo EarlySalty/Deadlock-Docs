@@ -25,9 +25,9 @@
 
   <section id="oberflaechen-und-aktionen">
     <h2>Persönliche Aktionen bleiben in privaten Concierge-Bereichen</h2>
-    <p>Persönliche Schaltflächen für einen Patenwunsch oder einen Steckbrief zeigt der Concierge nur in einer echten Direktnachricht oder in dem nachweislich für dich angelegten privaten Concierge-Ersatzkanal. Ausschließlich in der echten Direktnachricht verarbeitet er auch <code>stopp</code> und die unten genannten Löschsätze als persönliche Steuerung.</p>
+    <p>Neue persönliche Schaltflächen für einen Patenwunsch oder einen Steckbrief bietet der Concierge nur in einer echten Direktnachricht an. Ausschließlich dort verarbeitet er auch <code>stopp</code> und die unten genannten Löschsätze als persönliche Steuerung.</p>
     <p>Im öffentlichen Server- und Bot-Fragenkanal beantwortet er ausschließlich die aktuelle Nachricht, speichert keinen persönlichen Gesprächsverlauf und verwendet keinen Kontext aus Direktnachrichten oder privaten Kanälen. Persönliche Aktionsschaltflächen werden dort nicht angeboten; bereits vorhandene allgemeine Concierge-Schaltflächen werden dort abgewiesen.</p>
-    <p>Hat der Concierge nachweislich für dich einen eigenen privaten Ersatzkanal angelegt, kann er dort normale private Antworten mit Gesprächsbezug geben und persönliche oder allgemeine Concierge-Schaltflächen nach der sicheren Zuordnung zu dir verarbeiten. Die Text-Steuerung über <code>stopp</code> oder Löschsätze bleibt trotzdem der echten Direktnachricht vorbehalten.</p>
+    <p>Hat der Concierge nachweislich für dich einen eigenen privaten Ersatzkanal angelegt, kann er dort normale private Antworten mit Gesprächsbezug geben und Klicks auf bereits vorhandene persönliche oder allgemeine Concierge-Schaltflächen nach der sicheren Zuordnung zu dir verarbeiten. Neue persönliche Schaltflächen entstehen dort aber nicht: Auf eine freie Textantwort hängt er in diesem Kanal keine Paten- oder Steckbrief-Schaltflächen. Die Text-Steuerung über <code>stopp</code> oder Löschsätze bleibt ebenfalls der echten Direktnachricht vorbehalten.</p>
   </section>
 
   <section id="paten">
@@ -35,7 +35,7 @@
     <p>Ein Pate ist ein Mensch aus der Community, der Neuen den Einstieg zeigt. <strong>Wissensfragen über Paten</strong> — was das ist, wie das läuft — beantwortet der Concierge wie jede andere Frage aus der Dokumentation. Damit passiert nichts weiter.</p>
     <p>Erst wenn du dir ausdrücklich selbst einen Paten <strong>wünschst</strong>, bietet er dir an, den Wunsch weiterzugeben, und fragt vorher nach. Weitergeben kann er ihn nur, wenn kein globaler Datenschutz-Opt-out aktiv ist — mit aktivem Opt-out (siehe <code>stopp</code>) geht kein Patenwunsch raus. Zugeteilt wird dir nie jemand ungefragt.</p>
     <p>Bestätigt wird dein Wunsch erst, wenn er sicher beim Patenteam angekommen ist. Bestätigst du denselben bereits erfolgreichen Wunsch erneut, bleibt es bei diesem einen Wunsch und er wird nicht doppelt weitergegeben.</p>
-    <p>Ist die Zustellung technisch unsicher, sagt der Concierge dir das offen und verweist auf den Menschen-Support. Löse den Wunsch dann nicht erneut aus, denn die Weitergabe kann bereits erfolgt sein. Übernimmt später jemand freiwillig die Patenschaft, bekommst du einen eigenen privaten Kanal mit dieser Person.</p>
+    <p>Ist die Zustellung technisch unsicher, sagt der Concierge dir das offen und bittet dich, ein Ticket beim Menschen-Support zu öffnen. Löse den Wunsch von dir aus nicht noch einmal aus: Die Weitergabe kann bereits erfolgt sein, und der Support klärt den Zustand. Übernimmt später jemand freiwillig die Patenschaft, bekommst du einen eigenen privaten Kanal mit dieser Person.</p>
     <p><strong>Nicht zugesagt wird:</strong> dass sich überhaupt jemand meldet, wie schnell das passiert oder wer es ist. Das Übernehmen ist freiwillig.</p>
   </section>
 
@@ -55,13 +55,14 @@
 
   <section id="vergiss-mich">
     <h2>Concierge-Daten mit einem eindeutigen Satz löschen lassen</h2>
-    <p>Schreib dem Concierge eine der folgenden direkten Anweisungen:</p>
+    <p>Schreib dem Concierge genau einen dieser Löschsätze — und sonst nichts:</p>
     <ul>
-      <li><code>vergiss mich</code>, <code>vergiss das</code>, <code>vergiss alles</code> oder <code>vergiss meine Daten</code>,</li>
-      <li>eines der Wörter <code>lösch</code>, <code>loesch</code>, <code>lösche</code> oder <code>loesche</code>, jeweils gefolgt von <code>meine Daten</code> oder <code>alles</code>,</li>
-      <li><code>Daten löschen</code>, <code>Daten loeschen</code>, <code>meine Daten löschen</code> oder <code>meine Daten loeschen</code>.</li>
+      <li><code>vergiss mich</code>, <code>vergiss das</code>, <code>vergiss alles</code>, <code>vergiss meine Daten</code> oder <code>vergiss alle meine Daten</code>,</li>
+      <li>eines der Wörter <code>lösch</code>, <code>loesch</code>, <code>lösche</code> oder <code>loesche</code>, jeweils gefolgt von <code>alles</code>, <code>meine Daten</code> oder <code>alle meine Daten</code>,</li>
+      <li><code>Daten löschen</code>, <code>meine Daten löschen</code> oder <code>alle meine Daten löschen</code> — die Schreibweise <code>loeschen</code> ohne Umlaut zählt genauso.</li>
     </ul>
-    <p>Groß- und Kleinschreibung spielen dabei keine Rolle. Ein höfliches <code>bitte</code> darf am Anfang oder zwischen den Wörtern der Anweisung stehen; führende direkte User-Erwähnungen wie <code>@Name</code> sind ebenfalls erlaubt. Schreib den Satz trotzdem als eigene direkte Anweisung: Rollen- oder Kanal-Erwähnungen, ungültige Erwähnungen, Fragen über den Wortlaut, Zitate, Blockquotes und freie Umschreibungen wie „kannst du bitte meine Daten vergessen?&quot; lösen bewusst keine Löschung aus, damit nichts versehentlich gelöscht wird.</p>
+    <p>Groß- und Kleinschreibung sowie Satzzeichen spielen dabei keine Rolle. Ein höfliches <code>bitte</code> darf an beliebiger Stelle im Satz stehen, und eine führende direkte User-Erwähnung wie <code>@Name</code> ist erlaubt. Sonst muss der Löschsatz aber für sich stehen: Kommt unzitiert noch etwas anderes dazu — ein Thema, ein Zusatz, eine Frage über den Wortlaut, ein abgeschlossenes Zitat am Anfang oder eine freie Umschreibung wie „kannst du bitte meine Daten vergessen?&quot; —, behandelt der Concierge die Nachricht als normale Frage und löscht nichts. Auch Rollen- und Kanal-Erwähnungen sowie ungültige Erwähnungen lösen keine Löschung aus. Das ist Absicht, damit nichts versehentlich gelöscht wird.</p>
+    <p>Zitierter Text ist für ihn kein Befehl: Ein Löschsatz, der komplett als Blockquote steht (<code>&gt; vergiss mich</code>), löscht nichts. Ein mehrzeiliges Zitat mit <code>&gt;&gt;&gt;</code> schluckt zusätzlich alles, was in derselben Nachricht danach kommt — auch eine unzitierte Löschzeile. Einzelne mit <code>&gt;</code> zitierte Zeilen überliest der Concierge dagegen nur: Steht die Löschanweisung danach unzitiert und für sich allein in der Nachricht, erkennt er sie ganz normal und löscht.</p>
     <p>Nach der erkannten direkten Anweisung löscht der Concierge genau das, was er zusätzlich über dich gespeichert hat:</p>
     <ul>
       <li>deinen gespeicherten Concierge-Gesprächsverlauf,</li>
