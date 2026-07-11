@@ -51,17 +51,17 @@
     "question": "Zeigt der Voice-Kanal, ob gerade ein Match läuft?",
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
-    "context_terms": ["Lane-Name", "Modus", "Match-Status"],
-    "answer_terms": ["Modus"],
-    "forbidden_terms": []
+    "context_terms": ["Lane-Name", "Modus", "Match"],
+    "answer_terms": ["Modus", "höchstens"],
+    "forbidden_terms": ["Timer", "Countdown"]
   },
   {
     "question": "Sehe ich Lobbyzeit oder Spielerstatus im Lane-Namen?",
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Kanalnamen"],
-    "answer_terms": ["Modus"],
-    "forbidden_terms": []
+    "answer_terms": ["Modus", "höchstens"],
+    "forbidden_terms": ["Timer", "Countdown"]
   },
   {
     "question": "Wie finde ich Mitspieler auf dem Server?",
@@ -148,7 +148,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
     "context_terms": ["Build-Seite", "abstimmen", "Stimmzahlen"],
-    "answer_terms": ["Build"],
+    "answer_terms": ["Build-Seite"],
     "forbidden_terms": []
   },
   {
@@ -157,6 +157,118 @@
     "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
     "context_terms": ["patchabhängig", "Tier-Stufe"],
     "answer_terms": ["patchabhängig"],
+    "forbidden_terms": ["jederzeit"]
+  },
+  {
+    "question": "Was passiert, wenn ich zum ersten Mal dem Voice-Router beitrete und noch keinen Standard gespeichert habe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Willkommens-DM", "Fertig", "Standard"],
+    "answer_terms": ["Fertig"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bekomme ich sofort eine eigene Lane, sobald ich den Router betrete?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html", "discord-server/module/voice-lanes.html"],
+    "context_terms": ["Standard", "Fertig"],
+    "answer_terms": ["Fertig"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Ich habe beim ersten Router-Beitritt keine DM bekommen — wie stelle ich trotzdem meinen Modus ein?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Router-Panel", "Voreinstellungen"],
+    "answer_terms": ["Panel"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was mache ich, wenn mich die Willkommens-DM des Routers nicht erreicht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Willkommens-DM", "Panel"],
+    "answer_terms": ["Panel"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Warum schickt mir der Bot nach dem Voice eine Feedback-Nachricht und muss ich antworten?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["Feedback-DM", "optional"],
+    "answer_terms": ["optional"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Ist das Voice-Feedback des Bots Pflicht und was, wenn das Feedback-Fenster schon zu ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html"],
+    "context_terms": ["freiwillig", "Feedback-Hub"],
+    "answer_terms": ["Feedback-Hub"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was passiert, nachdem ich meine Coaching-Anfrage abgeschickt habe?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["Coaching-Rolle", "Coach", "Mein Coaching"],
+    "answer_terms": ["Coaching-Rolle"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich, welcher Coach meine Anfrage übernommen hat und wann der Termin ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/coaching.html", "discord-server/workflows/coaching-anfragen.html"],
+    "context_terms": ["Mein Coaching", "Termine"],
+    "answer_terms": ["Mein Coaching"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie gebe ich anonymes Feedback zum Server?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Feedback-Hub", "anonym"],
+    "answer_terms": ["anonym"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bleibt mein Feedback im Feedback-Hub wirklich anonym und kommt es garantiert an?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["anonym", "garantierte Zustellung"],
+    "answer_terms": ["anonym"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie reiche ich einen Gameplay-Clip ein?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Clip-Panel", "Erlaubnis", "Credit"],
+    "answer_terms": ["Clip"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wird mein eingereichter Clip auf jeden Fall veröffentlicht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html"],
+    "context_terms": ["Clip", "veröffentlicht"],
+    "answer_terms": ["Zusage"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Bestimmen die Build-Stimmen auf der Website, welche Builds im Spiel-Katalog landen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Stimmen", "Build-Katalog", "Steam-Bot"],
+    "answer_terms": ["Steam-Bot"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wer pflegt den im Spiel veröffentlichten Build-Katalog?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
+    "context_terms": ["Build-Katalog", "Steam-Bot"],
+    "answer_terms": ["Steam-Bot"],
     "forbidden_terms": []
   }
 ]
