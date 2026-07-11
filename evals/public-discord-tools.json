@@ -52,7 +52,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Modus", "Match"],
-    "answer_terms": ["nicht", "automatisch", "Kanalname"],
+    "answer_terms": ["nicht automatisch", "Kanalname"],
     "forbidden_terms": []
   },
   {
@@ -60,7 +60,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/voice-features.html"],
     "context_terms": ["Lane-Name", "Kanalnamen"],
-    "answer_terms": ["nicht", "automatisch", "Kanalname"],
+    "answer_terms": ["nicht automatisch", "Kanalname"],
     "forbidden_terms": []
   },
   {
@@ -252,7 +252,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip", "veröffentlicht"],
-    "answer_terms": ["nicht", "zugestellt", "veröffentlicht"],
+    "answer_terms": ["keine Zusage", "zugestellt", "veröffentlicht"],
     "forbidden_terms": []
   },
   {
@@ -276,7 +276,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["1080p", "Ersteller", "Erlaubnis"],
-    "answer_terms": ["1080p", "Ersteller", "Erlaubnis"],
+    "answer_terms": ["mindestens 1080p", "oder die Erlaubnis"],
     "forbidden_terms": []
   },
   {
@@ -284,7 +284,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Ersteller", "Erlaubnis", "1080p"],
-    "answer_terms": ["1080p", "Ersteller", "Erlaubnis"],
+    "answer_terms": ["mindestens 1080p", "oder die Erlaubnis"],
     "forbidden_terms": []
   },
   {
@@ -292,7 +292,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["freie Verwendung", "Credit"],
+    "answer_terms": ["die freie Verwendung", "dein Credit"],
     "forbidden_terms": []
   },
   {
@@ -300,7 +300,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["freie Verwendung", "Credit"],
-    "answer_terms": ["freie Verwendung", "Credit"],
+    "answer_terms": ["die freie Verwendung", "dein Credit"],
     "forbidden_terms": []
   }
 ]
