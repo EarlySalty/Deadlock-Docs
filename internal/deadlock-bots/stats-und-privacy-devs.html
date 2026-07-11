@@ -5,12 +5,12 @@
   <title>stats-und-privacy — Dev-Notizen</title>
   <meta name="tags" content="deadlock-bots, technik, privacy">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion) + Code-Audit gegen origin/main (dl-activity, dl-community, dl-voice)">
+  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion) + Code-Audit gegen origin/main (dl-activity, dl-community, dl-voice, dl-central-db) + Steam-Event-Privacy-Vertrag aus Deadlock-Bots 78358b35">
 </head>
 <body>
 <main>
 <h1>stats-und-privacy — Dev-Notizen: offene Statistik- und Privacy-Lücken</h1>
-<p><strong>Zusammenfassung.</strong> Ehrliche Ist-Notiz für Devs. Die Architektur-Übersicht bleibt erhalten. Eine frühere Blankett-Aussage („Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben") war irreführend und ist unten korrigiert. Darunter stehen offene Autorisierungs- und Privacy-Lücken, die ein Code-Audit gegen origin/main belegt hat; jede braucht einen separaten, autorisierten Runtime-Fix und ist <strong>nicht</strong> Teil des Support-Agent-Cutovers. Eingearbeitet in <a href="datenmodell.html"><code>datenmodell.html</code></a>.</p>
+<p><strong>Zusammenfassung.</strong> Ehrliche Ist-Notiz für Devs. Die Architektur-Übersicht bleibt erhalten. Eine frühere Blankett-Aussage („Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben") war irreführend und ist unten korrigiert. Zusätzlich ist der Export- und Erasure-Vertrag für das nutzerbezogene Steam-Event-Log festgehalten. Darunter stehen offene Autorisierungs- und Privacy-Lücken, die ein Code-Audit gegen origin/main belegt hat; jede braucht einen separaten, autorisierten Runtime-Fix und ist <strong>nicht</strong> Teil des Support-Agent-Cutovers. Eingearbeitet in <a href="datenmodell.html"><code>datenmodell.html</code></a>.</p>
 
 <section id="architektur-knapp">
 <h2>Architektur (knapp, unverändert gültig)</h2>
@@ -23,6 +23,15 @@
 <section id="korrektur-blankett">
 <h2>Korrektur der Blankett-Aussage</h2>
 <p>Die bisherige Formulierung suggerierte, die gesamte Voice-/Steam-/Statistik-Fläche respektiere das Opt-out beim Schreiben. Belegt ist nur: Der Voice-Tracker prüft das Opt-out an seinen Tracking-Eintrittspunkten, und der Steam-Leave-Cleanup räumt beim Verlassen auf. Für die übrige Statistik- und Detail-Fläche (Prefix-Lesebefehle, Co-Player-Anzeige, Text-Session-Flush) gilt das nachweislich nicht. Die pauschale Zusage ist daher falsch und durch die untenstehenden Einzelbefunde ersetzt.</p>
+</section>
+
+<section id="steam-event-log-erasure">
+<h2>Steam-Event-Log: Export, Erasure und Migration</h2>
+<p><code>steam.bot_event_log</code> ist nutzerbezogen. Export und Erasure erfassen die Einträge sowohl direkt über <code>discord_id</code> als auch über die mit diesem Discord-Nutzer verknüpften <code>steam_id</code>-Konten.</p>
+<ul>
+<li>Erfüllt dieselbe Zeile beide Zuordnungen, kann sie im Export unter beiden Identitätswegen erscheinen; beim Löschlauf wird sie nur einmal gezählt und entfernt.</li>
+<li>Der <code>steam_id</code>-Index wird durch eine additive Migration ergänzt. Die bestehende alte Migration bleibt unverändert und damit checksum-stabil.</li>
+</ul>
 </section>
 
 <section id="offene-luecken">

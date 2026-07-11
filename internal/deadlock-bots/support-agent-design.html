@@ -117,6 +117,12 @@
       <li>Assistant-Texte gehen nie mit. Frühere Bot-Antworten sind keine Quelle und können sich nicht selbst bestätigen.</li>
       <li>Stateless — nach dem Datenschutz-Opt-out und überall dort, wo kein Verlauf geführt wird — besteht die Anfrage ausschließlich aus der aktuellen Frage. Der öffentliche Server-/Bot-Fragenkanal ist unabhängig vom User-Zustand immer stateless und liest weder DM- noch Fallback-Verlauf.</li>
     </ul>
+    <h3>Query-Aliase und Grounding</h3>
+    <ul>
+      <li>Query-Aliase erweitern ausschließlich die Suche im Retrieval. Sie ersetzen weder die Rohfrage noch werden sie zu einem Routing-Vertrag.</li>
+      <li>Das Grounding prüft einen gefundenen Beleg gegen die aktuelle Rohfrage und zusätzlich gegen eine eng kanonisierte Vergleichsform, die nur kompakte Bot-Aliase vereinheitlicht. Die breitere Retrieval-Erweiterung geht nicht in diese Prüfung ein.</li>
+      <li>Eine ausdrückliche Twitch-Frage zu <code>!rank</code> behält deshalb ihren Twitch-Kontext; der Begriff <code>rank</code> routet sie nicht zum Steam-Bot um.</li>
+    </ul>
   </section>
 
   <section id="fehlerverhalten">
@@ -142,7 +148,7 @@
 
   <section id="beobachtbarkeit">
     <h2>Vollständige Entscheidungsbeobachtung</h2>
-    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Log-Zeile enthält keinen Frageinhalt, sondern nur die Zeichenanzahl sowie Urteil, Retrieval-Signal, Trigger-Grund, sichere öffentliche Quellenpfade und Fehlerklasse.</p>
+    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Entscheidungslogs enthalten absichtlich keinen Rohfragentext, sondern <code>question_chars</code> sowie Urteil, Confidence, Score, Grund, sichere öffentliche Quellen und Fehlerklasse. Journald kann einzelne personenbezogene Log-Inhalte nicht verlässlich nachträglich löschen; deshalb gelangt der Frageinhalt gar nicht erst dorthin.</p>
     <table>
       <thead><tr><th>Urteil</th><th>Bedeutung</th></tr></thead>
       <tbody>
@@ -173,7 +179,7 @@
     <ul>
       <li>Strukturtest: Jede HTML-Seite erfüllt Schema, Pflichtmetadaten, Link- und Trennungsregeln.</li>
       <li>Redaction-Test: Der öffentliche Korpus enthält keine rekonstruierbaren internen Mechaniken oder sensiblen Kategorien.</li>
-      <li>Golden-Evaluation: Für jede öffentliche Funktion und jeden Workflow existieren mindestens eine reale Frage und eine Paraphrase mit erwarteter Quelle und Kernaussage.</li>
+      <li>Golden-Evaluation: Für jede öffentliche Funktion und jeden Workflow existieren mindestens eine reale Frage und eine Paraphrase mit erwarteter Quelle und Kernaussage. Die feste Suite macht denselben Fall jederzeit reproduzierbar und grenzt Fehler in Routing, Retrieval und Grounding gegeneinander ab.</li>
       <li>Negativ-Evaluation: Private Daten, Team-Inhalte, interne Mechaniken und Prompt-Injection werden vollständig abgewehrt.</li>
       <li>Rust-Verifikation: Formatter, Tests und Clippy sind grün.</li>
       <li>Live-Smoke: DM, privater FAQ-Chat und Server-Fragenkanal beantworten repräsentative Fragen korrekt; aus Tickets entsteht ausschließlich ein Prüfkandidat im internen Log-Kanal.</li>
