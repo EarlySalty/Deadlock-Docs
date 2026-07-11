@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Aktivität, Statistiken und Datenschutz</title>
+  <meta name="tags" content="discord-server, statistiken, aktivitaet, datenschutz, opt-out">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+</head>
+<body>
+<main>
+  <h1>Aktivität, Statistiken und Datenschutz</h1>
+  <p><strong>Kurz:</strong> Öffentlich sind serverweite Auswertungen und Ranglisten. Persönliche Detailansichten brauchen einen Discord-Login. Deine eigenen Daten kannst du über <code>/datenschutz</code> exportieren oder löschen lassen.</p>
+
+  <section id="oeffentlich-vs-eigen">
+    <h2>Öffentlich sichtbar oder nur nach Login</h2>
+    <ul>
+      <li>Öffentlich: serverweite Auswertungen sowie Voice-, Text- und Ranglisten.</li>
+      <li>Nur nach Discord-Login: persönliche Ansichten wie deine eigene Historie und Mitspieler.</li>
+    </ul>
+    <p>Öffentlich sichtbar sind serverweite Auswertungen und Ranglisten; deine eigenen persönlichen Ansichten sind nur nach Discord-Login sichtbar. Der Support-Assistent gibt keine fremden persönlichen Detailwerte aus. Zeigt dir eine sichtbare Ansicht unerwartet fremde persönliche Daten, probiere nichts weiter aus, teile sie nicht und wende dich an den menschlichen Support.</p>
+  </section>
+
+  <section id="befehle">
+    <h2>Eigene Aktivität und öffentliche Ranglisten</h2>
+    <p>Deine eigene Aktivität rufst du im Discord ohne Zielangabe ab: <code>!myactivity</code> für deine Aktivität, <code>!messagestats</code> für deine Textstatistik und <code>!vstats</code> für deine Voice-Statistik. Ohne Zielangabe liefern sie deine eigenen Werte. Zeigt ein sichtbarer Befehl unerwartet Daten einer anderen Person, probiere nichts weiter aus, teile die Anzeige nicht und melde dich beim menschlichen Support.</p>
+    <p>Öffentlich und serverweit sind die Ranglisten <code>!tleaderboard</code> und <code>!vleaderboard</code>. Als öffentliche Ranglisten können sie öffentliche Namen und einzelne Ranglistenwerte zeigen, aber keine privaten Detailprofile.</p>
+  </section>
+
+  <section id="erinnerungen">
+    <h2>„Wir vermissen dich“-Erinnerungen steuern</h2>
+    <p>Die optionalen „Wir vermissen dich“-Erinnerungen steuerst du getrennt mit <code>/retention-optout</code> und <code>/retention-optin</code>. Sie betreffen ausschließlich diese Erinnerungen und sind unabhängig vom allgemeinen Datenschutzweg.</p>
+    <p>Ein globaler Datenschutz-Opt-out über <code>/datenschutz</code> hat Vorrang: Er kann solche Erinnerungen ohnehin unterbinden.</p>
+  </section>
+
+  <section id="eigene-daten">
+    <h2>Deine eigenen Daten</h2>
+    <p>Mit <code>/datenschutz</code> forderst du einen Export an, lässt gespeicherte personenbezogene Daten löschen oder setzt einen globalen Opt-out für die künftige Speicherung; mit <code>/datenschutz-optin</code> erlaubst du sie wieder. Dieser globale Opt-out hat Vorrang vor einzelnen Erinnerungseinstellungen. Ein notwendiger Opt-out-Vermerk bleibt bestehen, damit die Sperre durchgesetzt werden kann; nicht personenbezogene Aggregate können bestehen bleiben.</p>
+  </section>
+
+  <section id="rang-sichtbarkeit">
+    <h2>Rangverlauf getrennt geregelt</h2>
+    <p>Die Sichtbarkeit deines Rangverlaufs ist davon getrennt und für andere zunächst privat. Nach Discord-Login auf der Aktivitätsseite wählst du, ob er privat bleibt, nur aktuellen Mitgliedern oder öffentlich angezeigt wird.</p>
+  </section>
+</main>
+</body>
+</html>
