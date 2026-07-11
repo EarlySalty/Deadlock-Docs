@@ -1,0 +1,226 @@
+[
+  {
+    "question": "Wo finde ich den richtigen Bereich für meine Frage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/serverstruktur.html", "discord-server/rules-und-channels.html"],
+    "context_terms": ["Willkommen", "Navigation"],
+    "answer_terms": ["Willkommen"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Welcher Kanal oder welche Rolle ist für mein Anliegen gedacht?",
+    "answerable": true,
+    "expected_sources": ["discord-server/rules-und-channels.html", "discord-server/module/serverstruktur.html"],
+    "context_terms": ["Willkommen", "Rollen"],
+    "answer_terms": ["Rollen"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wie melde ich einen Regelverstoß?",
+    "answerable": true,
+    "expected_sources": ["discord-server/regeln.html", "discord-server/workflows/moderationsfall-einspruch.html"],
+    "context_terms": ["Moderationsteam", "Supportweg"],
+    "answer_terms": ["Team"],
+    "forbidden_terms": ["shadowban", "force-approve"]
+  },
+  {
+    "question": "An wen wende ich mich, wenn ich eine Moderationsentscheidung für falsch halte?",
+    "answerable": true,
+    "expected_sources": ["discord-server/workflows/moderationsfall-einspruch.html", "discord-server/regeln.html"],
+    "context_terms": ["Einspruch", "Team"],
+    "answer_terms": ["Team"],
+    "forbidden_terms": ["shadowban", "force-approve"]
+  },
+  {
+    "question": "Wie erreiche ich das Community-Team?",
+    "answerable": true,
+    "expected_sources": ["discord-server/team-und-ansprechpartner.html"],
+    "context_terms": ["Community-Team", "Willkommen"],
+    "answer_terms": ["Community-Team"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wer hilft mir bei einem Serverproblem?",
+    "answerable": true,
+    "expected_sources": ["discord-server/team-und-ansprechpartner.html"],
+    "context_terms": ["Support", "Willkommen"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wo kann ich dem Bot eine Frage zum Server stellen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/faq-bot-selbst.html", "discord-server/module/faq-support.html"],
+    "context_terms": ["Frage stellen", "faq"],
+    "answer_terms": ["faq"],
+    "forbidden_terms": ["prompt", "retrieval"]
+  },
+  {
+    "question": "Wie öffne ich einen privaten FAQ-Chat?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/faq-support.html", "discord-server/faq-bot-selbst.html"],
+    "context_terms": ["privaten Chat", "faq"],
+    "answer_terms": ["faq"],
+    "forbidden_terms": ["prompt", "retrieval"]
+  },
+  {
+    "question": "Kann ich dem Concierge einfach per DM schreiben?",
+    "answerable": true,
+    "expected_sources": ["discord-server/dm-concierge.html", "discord-server/negativ-wissen.html"],
+    "context_terms": ["DM", "faq"],
+    "answer_terms": ["faq"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Schreibt mir der Bot nach dem Beitritt automatisch?",
+    "answerable": true,
+    "expected_sources": ["discord-server/negativ-wissen.html", "discord-server/dm-concierge.html"],
+    "context_terms": ["automatisch", "DM"],
+    "answer_terms": ["automatisch"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie starte ich nach dem Serverbeitritt?",
+    "answerable": true,
+    "expected_sources": ["discord-server/onboarding-und-invites.html", "discord-server/module/onboarding.html", "discord-server/workflows/onboarding-beitritt.html"],
+    "context_terms": ["Onboarding", "Interessen"],
+    "answer_terms": ["Onboarding"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wo wähle ich beim Einstieg meine Interessen und Rollen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/onboarding.html", "discord-server/workflows/onboarding-beitritt.html"],
+    "context_terms": ["Interessen", "Kanäle"],
+    "answer_terms": ["Interessen"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wie bekomme ich eine Einladung zum Deadlock-Playtest?",
+    "answerable": true,
+    "expected_sources": ["discord-server/onboarding-und-invites.html", "discord-server/steam-integration.html"],
+    "context_terms": ["Freundescode", "Einladung"],
+    "answer_terms": ["Freundescode"],
+    "forbidden_terms": ["/invite", "/betainvite"]
+  },
+  {
+    "question": "Wo frage ich nach einem Invite und was muss ich angeben?",
+    "answerable": true,
+    "expected_sources": ["discord-server/steam-integration.html", "discord-server/onboarding-und-invites.html"],
+    "context_terms": ["Freundescode", "Invite"],
+    "answer_terms": ["Freundescode"],
+    "forbidden_terms": ["/invite", "/betainvite"]
+  },
+  {
+    "question": "Wie verknüpfe ich Steam mit Discord?",
+    "answerable": true,
+    "expected_sources": ["discord-server/steam-integration.html", "discord-server/workflows/steam-verknuepfen-rang.html"],
+    "context_terms": ["account_verknüpfen", "Freundescode"],
+    "answer_terms": ["Steam"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Welche Steam-Verwaltung kann ich selbst im Server erledigen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/steam-integration.html"],
+    "context_terms": ["steam links", "unlink"],
+    "answer_terms": ["Steam"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wer kann meinen Rangverlauf sehen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/workflows/rang-sichtbarkeit.html", "discord-server/module/statistiken-privatsphaere.html"],
+    "context_terms": ["Rangverlauf", "privat"],
+    "answer_terms": ["privat"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wo ändere ich die Sichtbarkeit meiner Ranghistorie?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/statistiken-privatsphaere.html", "discord-server/workflows/rang-sichtbarkeit.html"],
+    "context_terms": ["Sichtbarkeit", "Login"],
+    "answer_terms": ["Sichtbarkeit"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Welche Statistiken kann ich öffentlich sehen und welche nur nach Login?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html"],
+    "context_terms": ["Login", "serverweite"],
+    "answer_terms": ["Login"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie fordere ich meine Daten an oder stoppe die persönliche Speicherung?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
+    "context_terms": ["datenschutz", "Opt-out"],
+    "answer_terms": ["datenschutz"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie verknüpfe ich meinen Twitch-Kanal mit der Community?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/steam-twitch-verknuepfung.html", "discord-server/workflows/streamer-partner-werden.html"],
+    "context_terms": ["streamer", "Twitch"],
+    "answer_terms": ["Twitch"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie erscheinen meine Live-Hinweise auf dem Discord?",
+    "answerable": true,
+    "expected_sources": ["discord-server/workflows/streamer-partner-werden.html", "discord-server/module/steam-twitch-verknuepfung.html"],
+    "context_terms": ["Streamer-Bereich", "Live-Ankündigungen"],
+    "answer_terms": ["Streamer"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wo sehe ich Änderungen an den Community-Bots?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/changelog-ankuendigungen.html"],
+    "context_terms": ["Dev-Updates", "Ankündigungen"],
+    "answer_terms": ["Dev-Updates"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "In welchem Bereich finde ich neue Patch- oder Bot-Hinweise?",
+    "answerable": true,
+    "expected_sources": ["discord-server/module/changelog-ankuendigungen.html"],
+    "context_terms": ["Patchnotes", "Dev-Updates"],
+    "answer_terms": ["Patchnotes"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Der Button reagiert nicht – was kann ich selbst prüfen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/haeufige-probleme.html", "discord-server/referenz/status-und-fehler.html"],
+    "context_terms": ["erneut", "Supportweg"],
+    "answer_terms": ["erneut"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Wohin gehe ich, wenn ein Bot-Schritt weiterhin fehlschlägt?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html", "discord-server/haeufige-probleme.html"],
+    "context_terms": ["Supportweg", "faq"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["systemctl", "shadowban"]
+  },
+  {
+    "question": "Antwortet der Support-Bot direkt in meinem Ticket?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html", "discord-server/negativ-wissen.html"],
+    "context_terms": ["Ticket", "Team"],
+    "answer_terms": ["Ticket"],
+    "forbidden_terms": ["Shadow", "Log-Kanal"]
+  },
+  {
+    "question": "Was passiert, wenn ich mit meinem Anliegen ein Ticket öffne?",
+    "answerable": true,
+    "expected_sources": ["discord-server/negativ-wissen.html", "discord-server/support/troubleshooting.html"],
+    "context_terms": ["Ticket", "menschlichem Support"],
+    "answer_terms": ["Ticket"],
+    "forbidden_terms": ["Shadow", "Log-Kanal"]
+  }
+]

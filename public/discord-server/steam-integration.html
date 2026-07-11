@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Steam-Verknüpfung, Rang und Playtest-Invite</title>
+  <meta name="tags" content="discord-server, steam, verknuepfung, rang, freundescode, invite">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+</head>
+<body>
+<main>
+  <h1>Steam-Verknüpfung, Rang und Playtest-Invite</h1>
+  <p><strong>Kurz:</strong> Die Verknüpfung startest du über <em>Steam verknüpfen</em> im Steam-Panel oder mit <code>/account_verknüpfen</code>. Die Anmeldung läuft über Steam; der Bot erhält dabei kein Steam-Passwort. Danach hinterlegst du deinen eigenen Freundescode und nimmst die Freundschaftsanfrage an, damit Verifizierung und Rang-Abgleich funktionieren.</p>
+
+  <section id="verknuepfen">
+    <h2>Steam verknüpfen</h2>
+    <ol>
+      <li><em>Steam verknüpfen</em> im Steam-Panel öffnen oder <code>/account_verknüpfen</code> ausführen.</li>
+      <li>Über Steam anmelden — die offizielle Steam-Anmeldung gibt dem Bot kein Passwort.</li>
+      <li>Deinen eigenen Steam-Freundescode hinterlegen und die Freundschaftsanfrage des Bots annehmen.</li>
+    </ol>
+    <p>Erst mit angenommener Freundschaft kann der In-Game-Rang erkannt und als Rang-Rolle gepflegt werden.</p>
+  </section>
+
+  <section id="konten-verwalten">
+    <h2>Konten selbst verwalten</h2>
+    <table>
+      <tr><th>Befehl</th><th>Was er tut</th></tr>
+      <tr><td><code>/steam links</code></td><td>Zeigt deine verknüpften Konten.</td></tr>
+      <tr><td><code>/steam setprimary</code></td><td>Wählt deinen Primäraccount.</td></tr>
+      <tr><td><code>/steam unlink</code></td><td>Entfernt eine Verknüpfung.</td></tr>
+    </table>
+    <p>Mehrere eigene Verknüpfungen werden unterstützt.</p>
+  </section>
+
+  <section id="rang-und-lanes">
+    <h2>Rang und Ranked-Lanes</h2>
+    <p>Der verifizierte Steam-Account liefert deinen Deadlock-Rang als Server-Rolle. Ein verifizierter Rang ist für einzelne Zusatzfunktionen relevant, etwa ein optionales Rang-Gate oder die strukturierte Ranked-Mitspielersuche. Normale Ranked-Voice-Lanes sind grundsätzlich offen und werden durch die Verknüpfung nicht pauschal gesperrt.</p>
+  </section>
+
+  <section id="playtest-invite">
+    <h2>Playtest-Einladung mit Freundescode</h2>
+    <p>Für eine Deadlock-Playtest-Einladung nutzt du den aktuell sichtbaren Invite-Weg oder fragst im offenen Invite-Bereich und gibst deinen eigenen Steam-Freundescode an. Eine Einladung ist nicht garantiert, und Steams eigene Regeln können sehr frische Konten ausschließen.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was nicht passiert</h2>
+    <ul>
+      <li>Die Steam-Verknüpfung zeigt keinen Live-Match-Status im Namen eines Voice-Kanals.</li>
+      <li>Keine festen externen Invite-Bedingungen oder Erfolgsgarantien.</li>
+      <li>Meldet eine Steam-Funktion, dass der Dienst gerade nicht erreichbar ist, kurz warten und die Aktion erneut auslösen.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
