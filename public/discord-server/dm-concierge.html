@@ -23,6 +23,13 @@
     <p>Trotzdem ist die DM kein garantierter Kanal: Ob sie ankommt, hängt an deinen Discord-Privatsphäre-Einstellungen und an der Zustellung durch Discord. Genau deshalb bleibt <code>/faq</code> beziehungsweise <em>Frage stellen</em> auf dem Server der verlässlichere Einstieg.</p>
   </section>
 
+  <section id="oberflaechen-und-aktionen">
+    <h2>Persönliche Aktionen bleiben in privaten Concierge-Bereichen</h2>
+    <p>Persönliche Schaltflächen für einen Patenwunsch oder einen Steckbrief zeigt der Concierge nur in einer echten Direktnachricht oder in dem nachweislich für dich angelegten privaten Concierge-Ersatzkanal. Ausschließlich in der echten Direktnachricht verarbeitet er auch <code>stopp</code> und die unten genannten Löschsätze als persönliche Steuerung.</p>
+    <p>Im öffentlichen Server- und Bot-Fragenkanal beantwortet er ausschließlich die aktuelle Nachricht, speichert keinen persönlichen Gesprächsverlauf und verwendet keinen Kontext aus Direktnachrichten oder privaten Kanälen. Persönliche Aktionsschaltflächen werden dort nicht angeboten; bereits vorhandene allgemeine Concierge-Schaltflächen werden dort abgewiesen.</p>
+    <p>Hat der Concierge nachweislich für dich einen eigenen privaten Ersatzkanal angelegt, kann er dort normale private Antworten mit Gesprächsbezug geben und persönliche oder allgemeine Concierge-Schaltflächen nach der sicheren Zuordnung zu dir verarbeiten. Die Text-Steuerung über <code>stopp</code> oder Löschsätze bleibt trotzdem der echten Direktnachricht vorbehalten.</p>
+  </section>
+
   <section id="paten">
     <h2>Wenn du nach einem Paten fragst</h2>
     <p>Ein Pate ist ein Mensch aus der Community, der Neuen den Einstieg zeigt. <strong>Wissensfragen über Paten</strong> — was das ist, wie das läuft — beantwortet der Concierge wie jede andere Frage aus der Dokumentation. Damit passiert nichts weiter.</p>
@@ -43,12 +50,19 @@
       <li>Ein Patenwunsch wird nicht mehr weitergegeben, solange der Opt-out aktiv ist. Willst du trotzdem einen Paten, brauchst du vorher einen Opt-in über <code>/datenschutz-optin</code> oder den menschlichen Support.</li>
     </ul>
     <p>Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung jederzeit wieder.</p>
-    <p><code>stopp</code> stoppt neue Verlaufsspeicherung im Concierge und ungefragte Kontakte von ihm, löscht aber nichts von dem, was schon gespeichert ist. Zum Löschen gibt es zwei unterschiedliche Wege: <code>/datenschutz</code> ist der Weg für einen Export deiner Daten beziehungsweise für die umfassendere Datenschutz-Löschung; schreibst du dem Concierge „vergiss mich&quot;, löscht er nur die Concierge-Daten, die im nächsten Abschnitt abgegrenzt sind.</p>
+    <p><code>stopp</code> stoppt neue Verlaufsspeicherung im Concierge und ungefragte Kontakte von ihm, löscht aber nichts von dem, was schon gespeichert ist. Zum Löschen gibt es zwei unterschiedliche Wege: <code>/datenschutz</code> ist der Weg für einen Export deiner Daten beziehungsweise für die umfassendere Datenschutz-Löschung; schreibst du dem Concierge einen eindeutigen Löschsatz aus dem nächsten Abschnitt, löscht er nur die dort abgegrenzten Concierge-Daten.</p>
   </section>
 
   <section id="vergiss-mich">
-    <h2>Mit „vergiss mich&quot; die Concierge-Daten löschen lassen</h2>
-    <p>Schreib dem Concierge genau <code>vergiss mich</code>. Umschreibungen wie „kannst du bitte meine Daten vergessen&quot; lösen die Löschung nicht aus, das ist Absicht, damit nichts versehentlich gelöscht wird. Bleib deshalb beim exakten Wortlaut, dann löscht er genau das, was er zusätzlich über dich gespeichert hat:</p>
+    <h2>Concierge-Daten mit einem eindeutigen Satz löschen lassen</h2>
+    <p>Schreib dem Concierge eine der folgenden direkten Anweisungen:</p>
+    <ul>
+      <li><code>vergiss mich</code>, <code>vergiss das</code>, <code>vergiss alles</code> oder <code>vergiss meine Daten</code>,</li>
+      <li>eines der Wörter <code>lösch</code>, <code>loesch</code>, <code>lösche</code> oder <code>loesche</code>, jeweils gefolgt von <code>meine Daten</code> oder <code>alles</code>,</li>
+      <li><code>Daten löschen</code>, <code>Daten loeschen</code>, <code>meine Daten löschen</code> oder <code>meine Daten loeschen</code>.</li>
+    </ul>
+    <p>Groß- und Kleinschreibung spielen dabei keine Rolle. Ein höfliches <code>bitte</code> darf am Anfang oder zwischen den Wörtern der Anweisung stehen; führende direkte User-Erwähnungen wie <code>@Name</code> sind ebenfalls erlaubt. Schreib den Satz trotzdem als eigene direkte Anweisung: Rollen- oder Kanal-Erwähnungen, ungültige Erwähnungen, Fragen über den Wortlaut, Zitate, Blockquotes und freie Umschreibungen wie „kannst du bitte meine Daten vergessen?&quot; lösen bewusst keine Löschung aus, damit nichts versehentlich gelöscht wird.</p>
+    <p>Nach der erkannten direkten Anweisung löscht der Concierge genau das, was er zusätzlich über dich gespeichert hat:</p>
     <ul>
       <li>deinen gespeicherten Concierge-Gesprächsverlauf,</li>
       <li>dein Concierge-Profil,</li>
@@ -57,6 +71,7 @@
     </ul>
     <p>Nicht gelöscht wird, was direkt in Discord liegt: bereits gesendete Nachrichten und Kanäle, ein öffentlicher Steckbrief und bereits an das Patenteam übermittelte Inhalte bleiben davon unberührt.</p>
     <p>Der Vorgang setzt zusätzlich deinen globalen Datenschutz-Opt-out. Direkte Fragen beantwortet der Concierge weiterhin, dann aber ohne Verlauf und ohne zu speichern. Gespeichert wird erst wieder, wenn du <code>/datenschutz-optin</code> nutzt.</p>
+    <p>Verlass dich erst auf die Löschung, wenn der Concierge sie eindeutig bestätigt. Meldet er einen unsicheren Zustand, probier die direkte Anweisung einmal erneut; bleibt es dabei, nutze den von ihm genannten Menschen-Support.</p>
   </section>
 
   <section id="keine-proaktive-dm">

@@ -10,7 +10,7 @@
 <body>
 <main>
   <h1>Fragen an den Concierge und FAQ-Chat</h1>
-  <p><strong>Kurz:</strong> Für Fragen zum Server, zu Kanälen, Rollen und Bots öffnest du über <em>Frage stellen</em> im Bereich für Server- und Bot-Fragen einen privaten Chat. Denselben privaten Chat startet <code>/faq</code>. Kann der Assistent nicht sicher helfen oder geht es um einen Support- oder Moderationsfall, übernimmt ein Mensch über den sichtbaren Supportweg.</p>
+  <p><strong>Kurz:</strong> Fragen zum Server, zu Kanälen, Rollen und Bots stellst du im fest ausgewiesenen öffentlichen Fragenkanal oder in einem privaten Chat über <em>Frage stellen</em> beziehungsweise <code>/faq</code>. Im öffentlichen Kanal steht jede Frage für sich; der private Chat kann den Verlauf innerhalb seiner Sitzung berücksichtigen. Kann der Assistent nicht sicher helfen oder geht es um einen Support- oder Moderationsfall, übernimmt ein Mensch über den sichtbaren Supportweg.</p>
 
   <section id="chat-oeffnen">
     <h2>Privaten Fragechat öffnen</h2>
@@ -21,16 +21,27 @@
     <p>Es entsteht ein privater Chat, den andere gewöhnliche Mitglieder nicht sehen. Dort stellst du deine Frage zum Server in eigenen Worten.</p>
   </section>
 
+  <section id="oeffentlicher-fragenkanal">
+    <h2>Frage im öffentlichen Server- und Bot-Fragenkanal</h2>
+    <p>Dort beantwortet der Concierge immer nur die aktuelle Nachricht. Er speichert in diesem Kanal keinen persönlichen Gesprächsverlauf und übernimmt keinen Kontext aus deinen Direktnachrichten oder privaten Concierge-Kanälen. Bezüge wie „und dort?&quot; brauchen deshalb den Gegenstand noch einmal in derselben Nachricht.</p>
+    <p>Persönliche Paten- oder Steckbrief-Aktionen bietet er dort nicht an. Auch bereits sichtbare allgemeine Concierge-Schaltflächen führen im öffentlichen Fragenkanal keine persönliche Aktion aus.</p>
+  </section>
+
+  <section id="privater-concierge-fallback">
+    <h2>Vom Concierge angelegter privater Ersatzkanal</h2>
+    <p>Konnte dich der Concierge nicht per Direktnachricht erreichen und hat er nachweislich für dich einen eigenen privaten Ersatzkanal angelegt, kann er dort normale private Antworten mit Gesprächsbezug geben. Persönliche oder allgemeine Concierge-Schaltflächen können dort nach der sicheren Zuordnung des Kanals zu dir funktionieren. Die Text-Steuerung über <code>stopp</code> oder Löschsätze bleibt der echten Direktnachricht vorbehalten.</p>
+  </section>
+
   <section id="was-du-erwarten-kannst">
     <h2>Was du erwarten kannst</h2>
     <p>Der Assistent beantwortet Fragen aus der dokumentierten, öffentlich sichtbaren Server- und Bot-Nutzung. Findet er keine sichere Antwort, sagt er das offen, statt zu raten. Formuliere die Frage dann konkreter oder wechsle in den passenden Community- oder Guide-Bereich.</p>
-    <p>Meldet er einen technisch unsicheren Zustand, kann ein Kanal oder eine Antwort bereits sichtbar sein. Starte die Aktion dann nicht erneut, sondern nutze den in der Meldung genannten Menschen-Support.</p>
+    <p>Wird die <strong>Anlage eines privaten Chats</strong> als technisch unsicher gemeldet, kann bereits ein Kanal oder eine aktive Sitzung bestehen. Starte dann keinen zweiten Chat, sondern prüfe den sichtbaren Zustand und nutze den genannten Menschen-Support. Ist dagegen nur die Verarbeitung einer normalen Antwort unsicher, kann bereits eine Antwort sichtbar sein; du kannst die Frage später erneut stellen oder direkt ein Ticket öffnen.</p>
   </section>
 
   <section id="datenschutz-stopp">
-    <h2>Verlauf abschalten mit <code>stopp</code></h2>
+    <h2>Persönliche Text-Steuerung nur per Direktnachricht</h2>
     <p>Schreibst du dem Concierge <strong>per Direktnachricht</strong> <code>stopp</code>, setzt das einen globalen Datenschutz-Opt-out: Er speichert danach keinen neuen Gesprächsverlauf mehr und meldet sich nicht mehr von sich aus. Fragst du ihn direkt etwas, antwortet er weiterhin — dann ohne Verlauf, also ohne Bezug auf vorher Gesagtes.</p>
-    <p>Im privaten Fragechat über <code>/faq</code> verarbeitet der Concierge <code>stopp</code> nicht; dort bleibt das Wort eine normale Nachricht. Für den Opt-out schreibst du es also per Direktnachricht.</p>
+    <p>Im privaten Fragechat über <code>/faq</code>, im öffentlichen Fragenkanal und in einem privaten Ersatzkanal verarbeitet der Concierge weder <code>stopp</code> noch seine engen Löschsätze als persönliche Steuerung; dort bleiben sie normale Fragen. Für den Opt-out oder das Löschen seiner Concierge-Daten schreibst du ihm deshalb eine echte Direktnachricht.</p>
     <p>Was schon gespeichert ist, bleibt von <code>stopp</code> unberührt; für Export oder Löschung nutzt du <code>/datenschutz</code>.</p>
     <p>Solange der Opt-out aktiv ist, lässt sich kein neuer speichernder privater Fragechat starten. Ein bereits vorhandener Fragechat beantwortet direkte Fragen weiterhin — ohne neue Speicherung und ohne Gesprächsverlauf, also ohne Bezug auf vorher Gesagtes. Das gilt auch dann, wenn die gespeicherte Sitzung über den Löschweg entfernt wurde. Ein Chat, den du über <em>Chat beenden</em> geschlossen hast oder der nach Zeitablauf geschlossen wurde, bleibt geschlossen und antwortet nicht weiter.</p>
     <p>Für einen neuen Chat mit Gesprächsverlauf erlaubst du die Speicherung bewusst über <code>/datenschutz-optin</code>; sonst führt der Weg über ein Ticket zum menschlichen Support.</p>
@@ -49,7 +60,7 @@
       <tr><td>Es gibt bereits einen aktiven Fragechat</td><td>Den verlinkten Chat weiterverwenden oder dort <em>Chat beenden</em> nutzen; danach bei Bedarf neu starten.</td></tr>
       <tr><td>Der Chat ließ sich nicht erstellen</td><td>Einmal erneut versuchen; bleibt es dabei, den sichtbaren Supportweg nutzen.</td></tr>
       <tr><td>Die Chat-Anlage wurde als technisch unsicher gemeldet</td><td>Möglicherweise ist bereits ein Kanal oder eine aktive Sitzung sichtbar. Keinen zweiten Chat starten; den sichtbaren Zustand prüfen und ein Ticket öffnen.</td></tr>
-      <tr><td>Die Verarbeitung einer Antwort wurde als technisch unsicher gemeldet</td><td>Eine automatische Antwort kann bereits sichtbar sein, ihr Zustand ist aber nicht bestätigt. Nicht erneut auslösen; ein Ticket öffnen.</td></tr>
+      <tr><td>Die Verarbeitung einer Antwort wurde als technisch unsicher gemeldet</td><td>Eine automatische Antwort kann bereits sichtbar sein, ihr Zustand ist aber nicht bestätigt. Die Frage später erneut stellen oder ein Ticket öffnen.</td></tr>
       <tr><td>Ein neuer Chat startet nicht, weil ein Datenschutz-Opt-out aktiv ist</td><td>Für einen neuen Chat mit Verlauf die Speicherung bewusst mit <code>/datenschutz-optin</code> wieder erlauben — oder ein Ticket beim menschlichen Support nutzen.</td></tr>
       <tr><td>Ein noch vorhandener Fragechat antwortet trotz Opt-out</td><td>Das ist erwartet: Er antwortet ohne neue Speicherung und ohne Verlauf. Für einen Chat mit Verlauf ist <code>/datenschutz-optin</code> nötig.</td></tr>
       <tr><td>Der Chat zeigt den Hinweis zum automatischen Ablauf</td><td>Der bisherige Chat ist geschlossen. Für weitere Fragen einen neuen Chat öffnen; bei einem widersprüchlichen sichtbaren Zustand ein Ticket nutzen.</td></tr>

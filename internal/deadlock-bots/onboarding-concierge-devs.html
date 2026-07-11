@@ -49,7 +49,11 @@ Frage („erzähl mir, was du hier vorhast&quot;), dezente Buttons als Abkürzun
 auf „stopp&quot;.</li>
 <li><strong>DM zu (Discord 50007):</strong> Fallback privater Textkanal nach dem Muster
 aus <code>faq.rs</code> (Kanal nur User + Bot, Auto-Aufräumen). KV-Claim gegen
-Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>.</li>
+Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>. Nur ein nachweislich dem
+User zugeordneter Fallback darf normale private Concierge-Antworten und bereits
+vorhandene generische sowie neue persönliche Paten-/Steckbrief-Buttons annehmen.
+Die Ownership und private Kanalkonfiguration werden dafür bei jeder Nutzung frisch
+bestätigt; Text-Controls bleiben trotzdem echter DM vorbehalten.</li>
 <li><strong>User antwortet frei:</strong> Enge nicht-faktische Konversationsfälle
 beantwortet <code>local_conversational_answer</code> mit festen lokalen Texten.
 Jede Faktenfrage läuft ausschließlich über <code>dl-knowledge</code> und den
@@ -113,6 +117,16 @@ nur die Suche, er ist keine Antwortquelle.</li>
 <li><strong>Stateless:</strong> Nach dem Datenschutz-Opt-out (und überall dort, wo kein
 Verlauf geführt wird) besteht die Retrieval-Anfrage ausschließlich aus
 der aktuellen Frage. Kein Verlauf rein, kein Verlauf raus.</li>
+<li><strong>Öffentlicher Server-/Bot-Fragenkanal:</strong> Dieser feste Kanal ist immer
+current-question-only. Er schreibt keine persönliche Conversation-Zeile, lädt
+keinen DM- oder Fallback-Verlauf und hängt weder Paten- noch
+Steckbrief-Aktionsbuttons an. <code>stopp</code> und Vergessensphrasen laufen dort
+nur als normale Wissensfrage, nie als Control.</li>
+<li><strong>Oberflächengrenze:</strong> Persönliche Aktionsbuttons entstehen nur in
+einer echten DM oder im frisch verifizierten eigenen privaten Concierge-Fallback.
+Generische Buttons werden außerhalb der DM ebenfalls nur nach dieser sicheren Zuordnung akzeptiert;
+im öffentlichen Fragenkanal und in allen anderen Guild-Kanälen werden sie
+abgewiesen. <code>stopp</code> und Vergessen bleiben auf jedem Guild-Kanal inaktiv.</li>
 <li><strong>Vorgelagerte Konversationsfälle:</strong> <code>local_conversational_answer</code>
 beantwortet einen engen, fest verdrahteten Satz nicht-faktischer Fälle
 (Identitätsfrage, Smalltalk, Favoriten, Offtopic, reiner Link) lokal und
@@ -122,9 +136,19 @@ und proaktiven Versandpfade sind zeitlich begrenzt.
 Bekannte, in demselben Ablauf neu angelegte Container können nach einem
 belegten Fehler gezielt aufgeräumt werden. Unklar zugestellte oder nicht
 eindeutig identifizierbare Effekte werden nicht blind gelöscht, sondern nach
-Reconciliation mit einem festen Unsicherheitstext sichtbar gemacht.
+Reconciliation mit einem festen Unsicherheitstext sichtbar gemacht. Die wiederholbaren
+Side-Effect-Workflows FAQ-Sessionstart, Patenwunsch/-Claim, Steckbrief-Post und
+proaktiver T0/Kadenz-Versand erhalten einen persistenten No-Retry-Marker;
+sein Commit wird per frischem Read-back verifiziert. Fehlt die Bestätigung,
+wird der Marker genau einmal isoliert nachgezogen und erneut geprüft, ohne den
+jeweiligen Anlage- oder Versandversuch zu wiederholen. Normale Wissens-, Cooldown-
+und Unsicherheitshinweis-Antworten besitzen keinen solchen dauerhaften Marker.
 Der Patenwunsch ist nach erfolgreicher Speicherung idempotent: ein
-wiederholter Klick erzeugt keinen zweiten internen Post.</li>
+wiederholter Klick erzeugt keinen zweiten internen Post. Bleibt Request,
+Kanalanlage, Intro oder DM in einem unklaren Transportzustand, wird zusätzlich
+ein persistenter No-Retry-Zustand gespeichert; bekannte Patenkanäle bleiben
+dabei erhalten und ein zweiter Klick erzeugt weder einen weiteren Kanal noch
+einen weiteren DM-Versuch.</li>
 </ul>
 </section>
 <section id="4-steckbrief">
@@ -198,7 +222,7 @@ Verlauf löschen, Profil löschen oder anonymisieren (Reaper-Job, Muster
 bestehende Retention <code>retention.rs</code>).</li>
 <li><strong>Erasure:</strong> an das bestehende Lösch-System anbinden, Concierge-Daten
 gehören zum Erasure-Umfang.</li>
-<li><strong>Opt-out:</strong> „stopp&quot; als Keyword UND natürlichsprachlich erkannt
+<li><strong>Opt-out:</strong> Ausschließlich in einer echten DM wird „stopp&quot; als Keyword UND natürlichsprachlich erkannt
 („lass mich in Ruhe&quot;, „schreib mir nicht mehr&quot;). Wirkung ist kein reiner
 Kontakt-Stopp, sondern der <strong>globale Datenschutz-Opt-out</strong> in
 <code>core.user_privacy</code>, derselbe Schalter wie über <code>/datenschutz</code>: Der
@@ -209,13 +233,17 @@ erreichbar, antwortet dann aber <strong>stateless</strong>, also direkt und ohne
 gespeichertes Gedächtnis über die Nachricht hinaus. Mit
 <code>/datenschutz-optin</code> erlaubt der User die Speicherung wieder, danach
 baut der Concierge wieder Verlauf und Profil auf.
-Vergessen läuft bewusst <strong>nicht</strong> über freie semantische Erkennung, sondern über einen
-engen Festphrasen-Parser (<code>forget_intent</code>): Nach Trim, einem optionalen führenden
-„bitte&quot; und abschließenden Satzzeichen zählen ausschließlich „vergiss mich&quot;,
-„vergiss das&quot;, „vergiss alles&quot;, „vergiss meine daten&quot;, „lösch/loesch meine daten&quot;,
-„lösch/loesch alles&quot; und „daten löschen/loeschen&quot;. Umschreibungen wie „kannst du bitte
-meine Daten vergessen&quot; lösen <strong>keine</strong> Löschung aus, das ist Absicht und verhindert
-unbeabsichtigtes Löschen. Trifft eine dieser Festphrasen → sofortige Löschung
+Auch Vergessen ist ausschließlich in einer echten DM ein Control und läuft bewusst <strong>nicht</strong> über freie semantische Erkennung, sondern über einen
+engen Festphrasen-Parser (<code>forget_intent</code>): Groß-/Kleinschreibung, optionale
+führende syntaktisch gültige direkte User-Mentions, ein „bitte&quot; am Anfang oder
+zwischen Phrasentokens und abschließende Satzzeichen werden toleriert. Die feste
+Allowlist umfasst „vergiss mich/das/alles/meine Daten&quot;,
+„lösch/loesch/lösche/loesche meine Daten&quot;, dieselben vier Verben mit „alles&quot; sowie
+„Daten löschen/loeschen&quot; und „meine Daten löschen/loeschen&quot;. Indirekte Fragen,
+führende geschlossene Zitate, Blockquotes, Rollen-/Kanal-/ungültige Mentions und
+Umschreibungen wie „kannst du bitte meine Daten vergessen&quot; lösen <strong>keine</strong>
+Löschung aus; das verhindert unbeabsichtigtes Löschen. Trifft
+eine dieser direkten Festphrasen → sofortige Löschung
 <strong>ausschließlich der zusätzlich gespeicherten Concierge-Daten</strong>: Gesprächskopie
 (<code>concierge_conversations</code>), Concierge-Profil (<code>concierge_profiles</code>),
 interne Concierge-Merker und die Concierge-Anteile der Journey. Nicht angefasst
@@ -296,6 +324,10 @@ nicht.</li>
 entstehen keine neuen Verlaufs- oder Profilzeilen, eine DM wird trotzdem
 stateless beantwortet, und <code>/datenschutz-optin</code> erlaubt die Speicherung
 wieder.</li>
+<li>Oberflächen: Der öffentliche Fragenkanal nutzt nur die aktuelle Frage und
+speichert nichts Persönliches. Text-Controls greifen nur in echter DM; persönliche
+und generische Guild-Buttons laufen ausschließlich im frisch verifizierten eigenen
+privaten Fallback.</li>
 <li>Retention: Reaper löscht/anonymisiert exakt nach 90 Tagen Stille;
 Interaktion refresht; Erasure räumt Concierge-Tabellen mit ab.</li>
 <li>Routing: Hilfe/Invite-Steckbrief → frag-die-community, locker →
