@@ -212,7 +212,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/support/troubleshooting.html", "discord-server/negativ-wissen.html"],
     "context_terms": ["Ticket", "Team"],
-    "answer_terms": ["Ticket", "Team"],
+    "answer_terms": ["nicht", "Team"],
     "forbidden_terms": ["Shadow", "Log-Kanal"]
   },
   {
@@ -236,7 +236,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/module/statistiken-privatsphaere.html"],
     "context_terms": ["eigenen Werte", "menschlichen Support"],
-    "answer_terms": ["eigene"],
+    "answer_terms": ["eigene", "nicht"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -260,7 +260,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["retention-optout", "Vorrang"],
-    "answer_terms": ["retention"],
+    "answer_terms": ["retention-optout", "Vorrang"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -268,7 +268,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["freiwillig", "ignorieren"],
-    "answer_terms": ["freiwillig"],
+    "answer_terms": ["freiwillig", "ignorieren"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -276,7 +276,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/workflows/austritt-datenloeschung.html"],
     "context_terms": ["freiwillig", "Grund"],
-    "answer_terms": ["freiwillig"],
+    "answer_terms": ["freiwillig", "ignorieren"],
     "forbidden_terms": ["abbestellen", "shadowban"]
   },
   {
@@ -284,7 +284,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/ueber-bot-und-server.html"],
     "context_terms": ["Boost", "Ko-fi"],
-    "answer_terms": ["Boost"],
+    "answer_terms": ["Boost", "Ko-fi"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
@@ -300,7 +300,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/onboarding-und-invites.html", "discord-server/steam-integration.html"],
     "context_terms": ["nicht garantiert", "Freundescode"],
-    "answer_terms": ["garantiert"],
+    "answer_terms": ["nicht", "garantiert"],
     "forbidden_terms": ["/invite", "/betainvite"]
   }
 ]
