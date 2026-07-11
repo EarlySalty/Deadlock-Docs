@@ -24,11 +24,19 @@
     "forbidden_terms": []
   },
   {
-    "question": "Wie sehe oder entferne ich meine eigene aktive Steam-Zuordnung?",
+    "question": "Wie sehe oder entferne ich meine verknüpften Steam-Konten?",
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
-    "context_terms": ["whoami", "unlink"],
+    "context_terms": ["links", "unlink"],
     "answer_terms": ["entfern"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie finde ich SteamID und Persona-Namen zu einem Steam-Profil-Link?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["whoami", "persona"],
+    "answer_terms": ["steamid"],
     "forbidden_terms": []
   },
   {
