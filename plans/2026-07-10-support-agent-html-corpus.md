@@ -302,7 +302,7 @@ Commit: `docs(public): Twitch-Supportwissen verifizieren und migrieren`.
 
 **Coverage:** S02–S07 and W02–W07. S01/W01 broad routing belongs to Task 7.
 
-- [ ] **Step 1: Verify Steam account/panel, primary/unlink/whoami, rank, Invite, build-catalog and privacy boundaries against current code**
+- [ ] **Step 1: Verify Steam account/panel, primary/unlink/whoami, stored-linkage persistence across service restart and open-action continuation, rank, Invite, build-catalog and privacy boundaries against current code**
 - [ ] **Step 2: Verify Website coaching, Scrim member path, builds/catalog boundary, patch archive, aggregate-versus-own activity/privacy and tournament-portal paths**
 - [ ] **Step 3: Author only observable member behavior; do not expose private Coach/Admin areas, fixed marketing counts or non-visible sort effects**
 - [ ] **Step 4: Add natural questions and paraphrases for S02–S07 and W02–W07 to `evals/public-steam-website.json`**
