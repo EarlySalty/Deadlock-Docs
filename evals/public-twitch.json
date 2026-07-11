@@ -69,7 +69,7 @@
     "expected_sources": ["twitch-bot/chat-befehle.html"],
     "context_terms": ["!title", "reine Anzeigen"],
     "answer_terms": ["!title", "Status", "Historie"],
-    "forbidden_terms": ["!raid_enable", "Bot setzt den Streamtitel", "!title ändert deinen Streamtitel.", "Status wird geändert", "Historie wird geändert", "Status und Historie kannst du ebenfalls ändern"]
+    "forbidden_terms": ["!raid_enable", "Bot setzt den Streamtitel", "!title ändert deinen Streamtitel.", "!title ändert deinen Streamtitel;", "!title ändert deinen Streamtitel,", "Status wird geändert", "Historie wird geändert", "Status und Historie kannst du ebenfalls ändern"]
   },
   {
     "question": "Wo sehe ich die Auswertung meines Streams?",
