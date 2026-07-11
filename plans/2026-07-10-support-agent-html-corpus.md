@@ -13,7 +13,7 @@
 - Base all child branches on the reviewed Task-1 commit at the then-current `feature/support-agent-html` head.
 - Worktrees live only under `/home/naniadm/.worktrees/Deadlock-Docs-<task>`.
 - Public text contains observable behavior and safe next steps only; no internal thresholds, intervals, weights, admin paths, private tools, model or LLM-/infrastructure-provider details, or covert mechanics. Visible product names such as Discord, Steam, Twitch and Valve are not provider-detail leaks.
-- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row coverage and answerability contract. Every row is checked against HTML plus exactly one owning evaluation package.
+- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 88-row coverage and answerability contract. Every row is checked against HTML plus exactly one owning evaluation package.
 - Internal pages are committed but never loaded by the public process.
 - Required HTML metadata: `title`, `tags`, `stand`, `quelle`; required body: exactly one `main` and one `h1`.
 - No external scripts, fonts, CDNs, analytics, or JavaScript.
@@ -45,7 +45,7 @@ Tasks 1A,2,3A,3B,4-7 + Runtime Task 4 -> Task 8 (corpus-wide gates and ancestry 
 Task 8 -------------------> Task 9 (merge/deploy/reload, coordinated with Runtime Task 5)
 ```
 
-Every content package is done only when its matrix rows are checked, its own six-field Eval JSON is schema-valid, HTML/link validation and the normalized full-file raw gate pass, code/live-dependent claims have evidence, the semantic reviewer has ruled out reconstructable thresholds/intervals/formulas/private Admin-/Coach mechanics, and a fresh Codex factual/redaction critic has no Critical or Important finding. Task 8 is done only when all 84 rows and at least 168 cases are present, all six Eval files pass the Rust harness, and both independent final critics approve.
+Every content package is done only when its matrix rows are checked, its own six-field Eval JSON is schema-valid, HTML/link validation and the normalized full-file raw gate pass, code/live-dependent claims have evidence, the semantic reviewer has ruled out reconstructable thresholds/intervals/formulas/private Admin-/Coach mechanics, and a fresh Codex factual/redaction critic has no Critical or Important finding. Task 8 is done only when all 88 rows and at least 176 cases are present, all six Eval files pass the Rust harness, and both independent final critics approve.
 
 Reviewed child branches are merged progressively into `feature/support-agent-html` immediately after their package review. Task 7 starts only from that integrated branch. The existing `/home/naniadm/.worktrees/Deadlock-Docs-support-agent` worktree remains checked out on this branch, so Runtime Task 4 reads the complete post-Task-7 corpus. Task 8 verifies those merges by ancestry; it does not perform their first integration.
 
@@ -213,7 +213,7 @@ public/discord-server/workflows/streamer-partner-werden.md
 
 **Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-discord-core`; exactly two themes: server core/support and member account/privacy/integrations.
 
-**Coverage:** C02–C08, C18–C20 and C22–C25.
+**Coverage:** C02–C08, C18–C20, C22–C25 and C28–C29 (16 Themen / mindestens 32 Fälle).
 
 - [ ] **Step 1: Verify the exclusive file manifest; classify the two control pages for deletion and the status dump for complete member rewrite, with no raw control/status text entering public HTML**
 - [ ] **Step 2: Author current server/rules/team, Concierge/FAQ/onboarding/Invite, Steam/Twitch linkage, aggregate-versus-own activity/privacy and safe support flows from code/live evidence**
@@ -255,7 +255,7 @@ public/discord-server/workflows/voice-lane-erstellen-verwalten.md
 
 **Agent:** Claude Opus 4.8, isolated worktree `Deadlock-Docs-public-discord-tools`; exactly two themes: group/match organization and gameplay/build help.
 
-**Coverage:** C09–C17 and C21.
+**Coverage:** C09–C17, C21 and C26–C27 (12 Themen / mindestens 24 Fälle).
 
 - [ ] **Step 1: Verify the exclusive file manifest and current Voice/Ranked, LFG, Brain, Coaching, Scrim, Custom Games and Tierlist/Build behavior against code/live evidence**
 - [ ] **Step 2: Author visible Owner/Lane and group flows without live lane-status claims or internal selection/matching mechanics**
@@ -363,7 +363,7 @@ Commit: `docs(public): Supportwissen produktübergreifend routen`.
 - [ ] **Step 1: Verify by `git merge-base --is-ancestor` that every reviewed child commit was already merged with `--no-ff`; do not perform the first package merges here, and verify ancestry again before any branch/worktree cleanup**
 - [ ] **Step 2: Assert no `.md` remains below `public/` or `internal/`; confirm the prohibited public control pages have no HTML mirror and the status dump was curated rather than copied**
 - [ ] **Step 3: Run all tooling unittests and validate structure, links, unique IDs, public/internal separation and the complete raw bytes of every public HTML file**
-- [ ] **Step 4: Check all 84 matrix rows and at least 168 unique questions across the six exact six-field Eval files**
+- [ ] **Step 4: Check all 88 matrix rows and at least 176 unique questions across the six exact six-field Eval files**
 - [ ] **Step 5: Run Runtime Task 4's real-corpus retrieval Golden test; fix source content in the owning package, never by weakening assertions**
 - [ ] **Step 6: Have a fresh Codex adversarial reviewer read only raw `public/` and attempt to recover IDs, hosts/paths, prompts/models, operator mechanics, thresholds/intervals/formulas or private data; any recovery blocks release**
 - [ ] **Step 7: Have a different fresh Codex reviewer audit matrix-to-HTML-to-Eval coverage, dynamic/ticket/injection answerability and all six broad product routes**
