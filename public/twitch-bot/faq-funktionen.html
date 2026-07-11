@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>FAQ Funktionen</title>
+  <meta name="tags" content="twitch-bot, faq, funktionen, rechte">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>FAQ Funktionen</h1>
+  <p><strong>Kurz gesagt.</strong> Der Bot leitet am Stream-Ende Zuschauer weiter, kann Spam-Accounts moderieren, wertet den eigenen Kanal aus und bindet die Community an. Vieles läuft automatisch im Hintergrund.</p>
+
+  <section id="hauptaufgaben">
+    <h2>Welche Hauptaufgaben übernimmt der Bot?</h2>
+    <ul>
+      <li>Auto-Raid am Stream-Ende (siehe <a href="auto-raid.html">Auto-Raid</a>).</li>
+      <li>Chatmoderation gegen als Spam erkannte Accounts (siehe <a href="chat-moderation.html">Chat-Moderation</a>).</li>
+      <li>Auswertungen zum eigenen Kanal (siehe <a href="analytics-dashboard.html">Analytics-Dashboard</a>).</li>
+      <li>Chat-Befehle für Zuschauer, Broadcaster und Moderation (siehe <a href="chat-befehle.html">Chat-Befehle</a>).</li>
+      <li>Discord-Anbindung für aktive Partnerkanäle (siehe <a href="discord-golive.html">Discord-Go-Live</a>).</li>
+    </ul>
+  </section>
+
+  <section id="moderiert-der-bot">
+    <h2>Moderiert der Bot auch meinen Chat?</h2>
+    <p>Ja. In verbundenen Partnerkanälen kann die Chatmoderation des Bots als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren – unabhängig vom gestreamten Spiel. Die Chatmoderation ist sorgfältig ausgelegt, aber keine Maßnahme ist absolut fehlerfrei. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen; den Weg beschreibt <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
+  </section>
+
+  <section id="warum-rank-nicht">
+    <h2>Warum funktioniert !rank in diesem Stream nicht?</h2>
+    <p>Die Deadlock-Statistikbefehle wie <code>!rank</code> haben zwei Voraussetzungen: Der Kanal muss gerade in der Deadlock-Streamkategorie streamen, und er braucht eine Steam-Zuordnung. Die beiden Fälle sehen unterschiedlich aus. Läuft der Stream nicht in der Deadlock-Kategorie, greift <code>!rank</code> gar nicht und der Bot antwortet nicht darauf; dein nächster Schritt ist dann, in der Deadlock-Kategorie zu streamen. Streamst du in Deadlock, fehlt aber die Steam-Zuordnung des Kanals, antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen; dein nächster Schritt ist dann, die Steam-Zuordnung über die Discord-Verknüpfung im Dashboard einzurichten. Den vollständigen Befehlskatalog führt <a href="chat-befehle.html">Chat-Befehle</a>.</p>
+  </section>
+
+  <section id="welche-rechte">
+    <h2>Welche Rechte braucht der Bot?</h2>
+    <p>Der Bot meldet sich per Twitch OAuth an; du autorisierst über dein Twitch-Konto, ohne ein zusätzliches Passwort zu geben. Damit Löschen, Ban oder Unban tatsächlich ausgeführt werden können, braucht der Bot die dafür nötigen Twitch-Rechte im Kanal. Du kannst die Verbindung jederzeit in deinen Twitch-Einstellungen widerrufen (siehe <a href="einrichtung.html">Einrichtung</a>).</p>
+    <nav><a href="chat-befehle.html">Befehle</a><a href="faq-einstieg.html">Einstieg</a></nav>
+  </section>
+</main>
+</body>
+</html>

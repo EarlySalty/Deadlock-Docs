@@ -1,0 +1,337 @@
+import os
+import shutil
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+
+TOOLS_DIR = Path(__file__).resolve().parent
+DEPLOY_SCRIPT = TOOLS_DIR / "deploy_corpus.sh"
+
+VALID_PAGE = """<!doctype html>
+<html lang="de"><head>
+  <meta charset="utf-8">
+  <title>Titel</title>
+  <meta name="tags" content="discord-server, test">
+  <meta name="stand" content="2026-07-10">
+  <meta name="quelle" content="Test">
+</head><body><main>
+  <h1>{h1}</h1>
+  <section id="s1"><h2>Abschnitt</h2><p>Text</p></section>
+</main></body></html>
+"""
+
+
+def git(repo, *args):
+    return subprocess.run(
+        ["git", "-C", str(repo), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+
+class DeployCorpusTest(unittest.TestCase):
+    def setUp(self):
+        self._repo_tmp = tempfile.TemporaryDirectory()
+        self._base_tmp = tempfile.TemporaryDirectory()
+        self.repo = Path(self._repo_tmp.name)
+        self.base = Path(self._base_tmp.name) / "dl-knowledge"
+        self.addCleanup(self._repo_tmp.cleanup)
+        self.addCleanup(self._base_tmp.cleanup)
+        git(self.repo, "init", "-q")
+        git(self.repo, "config", "user.email", "t@example.invalid")
+        git(self.repo, "config", "user.name", "Test")
+        # Echte Tool-Kopie ins Temp-Repo: deploy_corpus.sh muss sein eigenes
+        # Repository (SCRIPT_DIR/..) deployen, nicht das Aufruf-CWD.
+        tools = self.repo / "tools"
+        tools.mkdir(parents=True)
+        for name in ("deploy_corpus.sh", "validate_corpus.py"):
+            shutil.copy(TOOLS_DIR / name, tools / name)
+        self.deploy_script = tools / "deploy_corpus.sh"
+        self.deploy_script.chmod(0o755)
+
+    def write(self, rel, content):
+        path = self.repo / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+
+    def commit(self, message):
+        git(self.repo, "add", "-A")
+        git(self.repo, "commit", "-q", "-m", message)
+        return git(self.repo, "rev-parse", "HEAD").stdout.strip()
+
+    def deploy(self, ref, cwd=None):
+        env = dict(os.environ, DL_KNOWLEDGE_HOME=str(self.base))
+        return subprocess.run(
+            ["bash", str(self.deploy_script), ref],
+            cwd=str(cwd or self.repo),
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+
+    def current_target(self):
+        return os.readlink(self.base / "current")
+
+    def test_reads_committed_commit_not_dirty_worktree(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        sha = self.commit("v1")
+        # Arbeitskopie schmutzig machen, ohne zu committen
+        self.write("public/x.html", VALID_PAGE.format(h1="DIRTY-UNCOMMITTED"))
+
+        result = self.deploy("HEAD")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+        deployed = (self.base / "current" / "public" / "x.html").read_text()
+        self.assertIn("Committed", deployed)
+        self.assertNotIn("DIRTY-UNCOMMITTED", deployed)
+        self.assertEqual(self.current_target(), sha)
+
+    def test_never_exports_internal(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Pub"))
+        self.write("internal/geheim.html", VALID_PAGE.format(h1="Intern"))
+        self.commit("mit internal")
+
+        result = self.deploy("HEAD")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.base / "current" / "public" / "x.html").exists())
+        self.assertFalse((self.base / "current" / "internal").exists())
+
+    def test_retains_older_snapshot(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+
+        self.write("public/x.html", VALID_PAGE.format(h1="B"))
+        sha_b = self.commit("B")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+
+        self.assertTrue((self.base / sha_a).is_dir(), "alter Snapshot fehlt")
+        self.assertTrue((self.base / sha_b).is_dir())
+        self.assertEqual(self.current_target(), sha_b)
+
+    def test_updates_current_to_requested_sha(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.write("public/x.html", VALID_PAGE.format(h1="B"))
+        self.commit("B")
+
+        # gezielt den aelteren Commit deployen
+        result = self.deploy(sha_a)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.current_target(), sha_a)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+    def test_refuses_commit_without_public_html(self):
+        self.write("public/nur-notiz.md", "# markdown")
+        self.commit("kein html")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_refuses_invalid_public_html(self):
+        # Seite ohne <h1> -> Validator lehnt ab -> current bleibt aus
+        self.write("public/x.html", VALID_PAGE.format(h1="X").replace("<h1>X</h1>", ""))
+        self.commit("invalid")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_rejects_committed_file_symlink(self):
+        # committeter HTML-Symlink darf nicht ins public-only-Artefakt gelangen
+        self.write("public/x.html", VALID_PAGE.format(h1="Echt"))
+        os.symlink("../internal/geheim.html", self.repo / "public" / "evil.html")
+        self.commit("mit file-symlink")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_rejects_committed_dir_symlink(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Echt"))
+        os.symlink("../internal", self.repo / "public" / "sub")
+        self.commit("mit dir-symlink")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+
+    def test_same_sha_redeploy_is_idempotent_and_immutable(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        dest = self.base / sha
+        ino1 = dest.stat().st_ino
+
+        result = self.deploy("HEAD")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.current_target(), sha)
+        self.assertTrue(dest.is_dir())
+        # Snapshot bleibt unveränderlich: kein rm+Neuanlage (Inode stabil),
+        # damit current nie auf ein gelöschtes Ziel dangelt
+        self.assertEqual(dest.stat().st_ino, ino1)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+    def test_rejects_preexisting_sha_directory_not_equal_to_committed_public(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        sha = self.commit("A")
+
+        # Ein vorab angelegtes SHA-Verzeichnis darf nicht allein wegen seines
+        # Namens als vertrauenswuerdiger Snapshot gelten. Beide Seiten sind
+        # einzeln valides HTML; trotzdem ist der Baum weder public-only noch
+        # identisch mit dem committeten Export.
+        forged = self.base / sha
+        (forged / "public").mkdir(parents=True)
+        (forged / "public" / "x.html").write_text(
+            VALID_PAGE.format(h1="Forged"), encoding="utf-8"
+        )
+        (forged / "internal").mkdir()
+        (forged / "internal" / "geheim.html").write_text(
+            VALID_PAGE.format(h1="Intern"), encoding="utf-8"
+        )
+
+        result = self.deploy("HEAD")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+        self.assertIn("Forged", (forged / "public" / "x.html").read_text())
+
+    def test_parallel_deploys_are_race_safe(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.write("public/x.html", VALID_PAGE.format(h1="B"))
+        sha_b = self.commit("B")
+
+        env = dict(os.environ, DL_KNOWLEDGE_HOME=str(self.base))
+        procs = [
+            subprocess.Popen(
+                ["bash", str(self.deploy_script), ref],
+                cwd=str(self.repo),
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            for ref in (sha_a, sha_b)
+        ]
+        results = [(p, p.communicate()) for p in procs]
+        for p, (_out, err) in results:
+            self.assertEqual(p.returncode, 0, err)
+
+        self.assertTrue((self.base / sha_a).is_dir())
+        self.assertTrue((self.base / sha_b).is_dir())
+        target = self.current_target()
+        self.assertIn(target, (sha_a, sha_b))
+        self.assertTrue((self.base / "current").resolve().is_dir())
+
+    def test_deploys_script_repo_not_cwd(self):
+        # Deploy muss das Repository des Skripts (SCRIPT_DIR/..) exportieren,
+        # egal aus welchem CWD es aufgerufen wird.
+        self.write("public/x.html", VALID_PAGE.format(h1="FROM-SCRIPT-REPO"))
+        sha = self.commit("script-repo")
+
+        other_tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(other_tmp.cleanup)
+        other = Path(other_tmp.name)
+        git(other, "init", "-q")
+        git(other, "config", "user.email", "o@example.invalid")
+        git(other, "config", "user.name", "Other")
+        (other / "public").mkdir(parents=True)
+        (other / "public" / "x.html").write_text(
+            VALID_PAGE.format(h1="FROM-CWD-REPO"), encoding="utf-8"
+        )
+        git(other, "add", "-A")
+        git(other, "commit", "-q", "-m", "cwd-repo")
+
+        result = self.deploy("HEAD", cwd=other)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        deployed = (self.base / "current" / "public" / "x.html").read_text()
+        self.assertIn("FROM-SCRIPT-REPO", deployed)
+        self.assertNotIn("FROM-CWD-REPO", deployed)
+        self.assertEqual(self.current_target(), sha)
+
+    def test_current_switch_resists_interposed_tmplink(self):
+        # Der current-Link darf nicht über einen nicht reservierten Temp-Namen
+        # angreifbar sein. Ein mktemp-Shim liefert für 'mktemp -u' deterministisch
+        # einen vorbelegten Pfad (Symlink auf ein externes Verzeichnis); der
+        # race-sichere Deploy darf 'mktemp -u' gar nicht mehr nutzen und muss den
+        # Link in einem reservierten privaten Verzeichnis anlegen.
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha = self.commit("A")
+        self.base.mkdir(parents=True, exist_ok=True)
+
+        evil = Path(self._base_tmp.name) / "evil_outside"
+        evil.mkdir()
+        planted = self.base / ".interposed"
+        os.symlink(str(evil), planted)
+
+        real_mktemp = shutil.which("mktemp")
+        self.assertIsNotNone(real_mktemp)
+        shimdir = Path(self._base_tmp.name) / "shim"
+        shimdir.mkdir()
+        shim = shimdir / "mktemp"
+        shim.write_text(
+            "#!/usr/bin/env bash\n"
+            'if [ "$1" = "-u" ]; then printf "%s\\n" "{planted}"; exit 0; fi\n'
+            'exec "{real}" "$@"\n'.format(planted=planted, real=real_mktemp)
+        )
+        shim.chmod(0o755)
+
+        env = dict(
+            os.environ,
+            DL_KNOWLEDGE_HOME=str(self.base),
+            PATH=str(shimdir) + os.pathsep + os.environ["PATH"],
+        )
+        result = subprocess.run(
+            ["bash", str(self.deploy_script), "HEAD"],
+            cwd=str(self.repo),
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        # current zeigt innerhalb von base auf den SHA, nicht auf das externe Ziel
+        self.assertEqual(self.current_target(), sha)
+        self.assertEqual((self.base / "current").resolve(), (self.base / sha).resolve())
+        # kein SHA-Link wurde ins Angreiferverzeichnis geschrieben
+        self.assertEqual(list(evil.iterdir()), [])
+
+    def test_failed_deploy_preserves_running_snapshot_no_html(self):
+        # gültigen Snapshot A live schalten
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+
+        # neuer Commit B ohne public-HTML -> Deploy muss scheitern
+        (self.repo / "public" / "x.html").unlink()
+        self.write("public/nur-notiz.md", "# md")
+        self.commit("kein html")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        # A bleibt unverändert live
+        self.assertEqual(self.current_target(), sha_a)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+    def test_failed_deploy_preserves_running_snapshot_invalid_html(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="A"))
+        sha_a = self.commit("A")
+        self.assertEqual(self.deploy("HEAD").returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+
+        # neuer Commit B mit invalidem HTML (kein <h1>) -> Validator lehnt ab
+        self.write("public/x.html", VALID_PAGE.format(h1="X").replace("<h1>X</h1>", ""))
+        self.commit("invalid")
+
+        result = self.deploy("HEAD")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.current_target(), sha_a)
+        self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
+
+
+if __name__ == "__main__":
+    unittest.main()

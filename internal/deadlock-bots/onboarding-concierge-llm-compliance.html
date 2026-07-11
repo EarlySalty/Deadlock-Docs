@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Onboarding-Concierge — LLM-Compliance Fireworks/DeepSeek</title>
+  <meta name="tags" content="deadlock-bots, onboarding, concierge">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs">
+</head>
+<body>
+<main>
+<h1>LLM-Compliance-Nachweis: Fireworks (DeepSeek) für die Concierge-DM-Persona</h1>
+<p>Anforderung aus Konzept §5.6: Prozessor mit DPA + No-Training-Zusage
+(Discord-Policy-konform), dokumentiert. Stand 2026-07-07.</p>
+<section id="belege-quelle-https-docs-fireworks-ai-guides-security-compliance-data-security">
+<h2>Belege (Quelle: https://docs.fireworks.ai/guides/security_compliance/data_security)</h2>
+<ul>
+<li><strong>Zero Data Retention:</strong> „Fireworks does not log or store prompt or
+generation data for open models, without explicit user opt-in.&quot;
+Damit keine Speicherung und kein Training auf User-DM-Inhalten.
+Detail-Policy: https://docs.fireworks.ai/guides/security_compliance/data_handling</li>
+<li><strong>Verschlüsselung:</strong> TLS 1.2+ in Transit, AES-256 at Rest.</li>
+<li><strong>Löschbarkeit:</strong> Kundendaten aus aktiven Workflows permanent löschbar
+mit auditierbarer Bestätigung.</li>
+<li><strong>Access Logging / Workload Isolation:</strong> dokumentiert auf derselben Seite.</li>
+<li><strong>Trust Center</strong> (Audit-Reports, Vertragsdokumente):
+https://trust.fireworks.ai/</li>
+</ul>
+</section>
+<section id="detail-belege-zdr-policy-stand-2026-07-07">
+<h2>Detail-Belege (ZDR-Policy, Stand 2026-07-07)</h2>
+<ul>
+<li>ZDR ist Default: Prompt- und Antwortdaten existieren nur im flüchtigen
+Speicher für die Dauer des Requests (bei Prompt-Caching einige Minuten
+KV-Cache im RAM), keine persistente Speicherung, kein Logging ohne
+explizites Opt-in.</li>
+<li><strong>Ausnahme Response API:</strong> Bei <code>store=True</code> (dort Default) werden
+Konversationen 30 Tage gespeichert. <strong>Leitplanke für uns:</strong> Der
+Concierge nutzt ausschließlich <code>chat/completions</code>
+(<code>OpenAiChatProvider</code>/Fireworks in <code>dl-ai/src/chat_provider.rs</code>),
+NICHT die Response API. Sollte je auf die Response API gewechselt
+werden, ist <code>store=False</code> Pflicht.</li>
+<li>Zertifizierungen: ISO 27001, ISO 27701 (Privacy), ISO 42001
+(AI-Management), SOC 2 Type II; Controls auf GDPR/CCPA gemappt.
+Zertifikats-PDFs im Trust Center abrufbar.</li>
+</ul>
+</section>
+<section id="bewertung">
+<h2>Bewertung</h2>
+<p>Die No-Training-Zusage ist damit öffentlich dokumentiert und erfüllt den
+Kern von §5.6. DeepSeek läuft als offenes Modell auf Fireworks-Infrastruktur
+in den USA, es gilt derselbe Transfer-Rahmen wie bei OpenAI/Anthropic
+(DPF/SCC dokumentieren).</p>
+</section>
+<section id="dpa-nachweis-erledigt-2026-07-07">
+<h2>DPA-Nachweis (ERLEDIGT 2026-07-07)</h2>
+<ul>
+<li>Kopie liegt hier: <a href="fireworks-dpa-v3.2.pdf"><code>fireworks-dpa-v3.2.pdf</code></a> (8 Seiten, Quelle:
+https://fireworks.ai/dpa — Direktlink zur jeweils aktuellen PDF).</li>
+<li>Das DPA ist laut eigenem Wortlaut Bestandteil des Agreements für jeden
+Business-Kunden der Services (&quot;forms part of and is incorporated into
+the agreement&quot;), eine separate Unterschrift ist nicht nötig.</li>
+<li>Enthält GDPR-Begriffe, Subprozessoren-Regelung und Standard Contractual
+Clauses (Transfer-Rahmen USA).</li>
+<li>Damit ist Launch-Gate 1 aus der Spec (§10) erfüllt.</li>
+</ul>
+<p>Optionaler Beifang aus dem Trust Center (nicht Gate-relevant): Transfer
+Impact Assessment, ISO-/SOC-2-Reports.</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Architektur</title>
+  <meta name="tags" content="internal, deadlock-turniere, architektur">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Architektur</h1>
+<p>Der Dienst ist Rust-first: systemd startet den Rust-Launcher, der <code>turnier-bot</code> exec't. <code>turnier-bot</code> ist die Composition-Root für Config, zentrale Postgres-DB, AppState, Scheduler und axum-API. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>, <code>scripts/run_turniere_backend_rust.sh</code>, <code>rust/crates/turnier-bot/src/main.rs</code>)</p>
+<section id="live-pfad">
+<h2>Live-Pfad</h2>
+<p>Die wirksame User-Unit muss komplett gelesen werden: die Basisdatei enthält eine frühere <code>ExecStart</code>-Zeile, aber das Drop-in <code>30-rust-cutover.conf</code> leert <code>ExecStart</code> und setzt den Start auf <code>scripts/run_turniere_backend_rust.sh</code>. Damit ist der belegte Live-Pfad am 2026-07-07 der Rust-Launcher. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
+<p>Der Launcher lädt lokale Config und Infisical-Werte, verlangt <code>INFISICAL_SERVICE_TOKEN</code> und <code>DEADLOCK_CENTRAL_DSN</code> und startet dann <code>rust/target/release/turnier-bot</code>. Der Launcher schreibt keine Secrets aus und beendet sich vor dem Start, wenn die zentrale DSN fehlt. (<code>scripts/run_turniere_backend_rust.sh</code>)</p>
+<p><code>turnier-bot</code> initialisiert Tracing, lädt <code>Config::from_env()</code>, ruft <code>ensure_dirs()</code>, öffnet <code>turnier_db::connect_central()</code>, baut <code>AppState::build()</code>, erzeugt <code>Scheduler::new()</code> und merged <code>build_router(state)</code>. Danach startet es den Scheduler per <code>tokio::spawn(start_scheduler(...))</code> und serviert axum über einen <code>TcpListener</code>. (<code>rust/crates/turnier-bot/src/main.rs</code>)</p>
+</section>
+<section id="crates">
+<h2>Crates</h2>
+<p>Der Workspace hängt alle Crates unter <code>rust/crates/*</code> ein. Die fachliche Aufteilung liegt in <code>turnier-api</code>, <code>turnier-auth</code>, <code>turnier-automatik</code>, <code>turnier-config</code>, <code>turnier-core</code>, <code>turnier-db</code>, <code>turnier-discord</code>, <code>turnier-draft</code>, <code>turnier-engine</code>, <code>turnier-match</code>, <code>turnier-scheduler</code> und <code>turnier-steam</code>. (<code>rust/Cargo.toml</code>, <code>rust/crates/turnier-bot/Cargo.toml</code>)</p>
+<p><code>turnier-config</code> löst Env und Secret-Dateien auf und hält die zur Laufzeit verwendeten Werte. <code>DEADLOCK_CENTRAL_DSN</code> wird nicht in <code>Config</code> gespeichert, sondern von <code>turnier_db::connect_central()</code> direkt gelesen. (<code>rust/crates/turnier-config/src/lib.rs</code>, <code>rust/crates/turnier-db/src/pool.rs</code>)</p>
+<p><code>turnier-api</code> hält den axum-Router und den <code>AppState</code>. Der State bündelt Pool, Config, RBAC, OAuth, MatchManager, RankResolver und DiscordNotifier; diese Handles werden pro Request billig geklont. (<code>rust/crates/turnier-api/src/app.rs</code>, <code>rust/crates/turnier-api/src/state.rs</code>)</p>
+</section>
+<section id="request-und-job-flow">
+<h2>Request- und Job-Flow</h2>
+<p>Die API merged öffentliche Turnier- und Team-Routen, Admin-Routen, Operations, Consent/Profile, Leaderboard, Draft, Auth, Account und optional Test-Modus. Der Host-Guard prüft den <code>Host</code>-Header gegen <code>Config::allowed_hosts()</code>, CORS erlaubt den lokalen Vite-Origin und die konfigurierte Frontend-URL. (<code>rust/crates/turnier-api/src/app.rs</code>, <code>rust/crates/turnier-config/src/lib.rs</code>)</p>
+<p>Auth läuft über delegierten Discord-OAuth beim Deadlock-Bots-Service. <code>/auth/discord/login</code> holt eine Authorize-URL, <code>/auth/discord/complete</code> löst <code>state_id</code> ein, legt eine opake Session in <code>turnier.sessions</code> an und setzt <code>session_token</code>; Requests lesen zuerst <code>Authorization: Bearer</code>, danach das Cookie. (<code>rust/crates/turnier-api/src/auth.rs</code>, <code>rust/crates/turnier-auth/src/oauth.rs</code>, <code>rust/crates/turnier-api/src/extract.rs</code>)</p>
+<p>Der Scheduler lebt im selben Prozess. Er läuft einmal sofort und danach alle 60 Sekunden; pro Tick laufen Phasenwechsel, Registrierungs-Reminder, Start-Reminder und Match-Reminder jeweils fehlertolerant. (<code>rust/crates/turnier-bot/src/main.rs</code>, <code>rust/crates/turnier-scheduler/src/loop_runner.rs</code>)</p>
+<p>Der MatchManager orchestriert Bracket- und Group-Matches. Er schreibt Fachdaten in <code>turnier.*</code>, nutzt die Steam-Bridge nur für <code>steam_tasks</code>, erstellt Discord-Match-Channels über den Broker und behandelt Discord-Fehler best-effort. (<code>rust/crates/turnier-match/src/lib.rs</code>, <code>rust/crates/turnier-match/src/repo.rs</code>, <code>rust/crates/turnier-discord/src/notifier.rs</code>)</p>
+<p>Legacy: der alte Python-Pfad unter <code>backend/</code> ist abgelöst, Code liegt noch im Repo. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>, <code>scripts/run_turniere_backend_rust.sh</code>)</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>coaching — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/coaching.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>coaching — Dev-Notizen</h1>
+<p>eingearbeitet in <a href="integrationen.html"><code>integrationen.html</code></a></p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: <code>dl-community/src/coaching_requests.rs</code> (Spiegelung, Claim/Release/Abort, Status, Survey, Sperren), <code>coaching.rs</code> (Coach-Rollen-Sync + Notification-Polling)</li>
+<li>Website: <code>builds/backend-rust/src/routes/coaching.rs</code> + <code>platform.rs</code> (Coach-Plattform), Frontend <code>dl-coaching/</code> (Anfrage-Seite <code>/anfrage</code>, Scrim-Anmeldung)</li>
+<li>Wichtige DB-Tabellen: Coaching-Anfragen/Sessions/Sperren zentral in Postgres; Anfragen entstehen auf der Website, nicht mehr im Discord-Modal</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

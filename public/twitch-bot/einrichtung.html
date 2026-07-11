@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Einrichtung und Twitch-OAuth</title>
+  <meta name="tags" content="twitch-bot, einrichtung, oauth, widerruf">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Einrichtung und Twitch-OAuth</h1>
+  <p><strong>Kurz gesagt.</strong> Du verbindest deinen Kanal über das Streamer-Onboarding mit Twitch. Die Verbindung nutzt Twitch OAuth und lässt sich jederzeit wieder widerrufen.</p>
+
+  <section id="so-verbindest-du-deinen-kanal">
+    <h2>So verbindest du deinen Kanal</h2>
+    <ol>
+      <li>Öffne das Streamer-Onboarding unter <code>/streamer/onboarding/</code>.</li>
+      <li>Klicke auf „Bot für deinen Kanal aktivieren“ bzw. „Kanal verbinden“.</li>
+      <li>Autorisiere bei Twitch mit dem Twitch-Konto des vorgesehenen Kanals und bestätige die angezeigten Berechtigungen.</li>
+      <li>Warte die Erfolgsseite ab. Danach kannst du das Dashboard bzw. den Onboarding-Assistenten öffnen.</li>
+      <li>Discord und Steam verbindest du nur dort, wo die jeweilige Zusatzfunktion sie verlangt.</li>
+    </ol>
+    <p>Die Erfolgsseite bestätigt, dass die Autorisierung gespeichert wurde. Ein Teil der Einrichtung läuft danach im Hintergrund; eine feste Fertigstellungszeit gibt es nicht.</p>
+  </section>
+
+  <section id="sichere-verbindung">
+    <h2>Wie sicher ist die Verbindung?</h2>
+    <p>Der Dashboard-Zugang verwendet Twitch OAuth. Du autorisierst über dein Twitch-Konto, ohne dem Bot ein zusätzliches Passwort zu geben. Der Bot heißt im Chat <code>deutschedeadlockcommunity</code>; jede Nachricht ist klar an diesem Absender erkennbar.</p>
+  </section>
+
+  <section id="zugriff-widerrufen">
+    <h2>Zugriff widerrufen</h2>
+    <p>Du kannst die Autorisierung jederzeit in deinen Twitch-Einstellungen entfernen: Twitch → Einstellungen → Verbindungen → die Autorisierung der Deutschen Deadlock Community entfernen. Nach dem Widerruf werden die betroffenen Bot-Funktionen deaktiviert.</p>
+    <p>Die Verbindungen verwaltest du bei Twitch unter <a href="https://www.twitch.tv/settings/connections">twitch.tv/settings/connections</a>.</p>
+  </section>
+
+  <section id="wenn-etwas-hakt">
+    <h2>Wenn beim Verbinden etwas hakt</h2>
+    <p>Hast du versehentlich das falsche Twitch-Konto verwendet oder ist die Autorisierung fehlgeschlagen, starte den Vorgang mit dem richtigen Kanal neu. Zeigt das Dashboard fehlende Berechtigungen oder eine abgelaufene Autorisierung, verbinde über den angebotenen Weg erneut. Details zu Dashboard und Verwaltung in <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</p>
+    <nav><a href="faq-einstieg.html">FAQ Einstieg</a><a href="chat-befehle.html">Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>

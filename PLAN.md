@@ -1,25 +1,41 @@
-# Plan: Deadlock-Docs + FAQ-Bot (Stand 2026-07-07)
+# Plan: Deadlock-Supportwissen
 
-Ziel: Ein Wissens-SSOT für alles + FAQ-Bot, der Community-Fragen automatisch beantwortet.
+Stand: 2026-07-11
+
+## Ziel
+
+Ein gemeinsamer Support-Agent beantwortet öffentlich belegte Fragen zu Community und Discord, Steam-Bot, Twitch-Bot, Patchnotes, Turnieren und Website-Portalen. Private Daten, nicht öffentliche Arbeitsbereiche und technische Betriebsdetails bleiben außerhalb seiner Wissensquelle.
+
+## Aktueller Stand
+
+- Alle Wissensseiten unter `public/` und `internal/` sind semantisches HTML; Root-Dokumente und Entwicklungspläne bleiben Markdown und werden nie indexiert.
+- Öffentliche und interne Inhalte sind physisch getrennt. Das Laufzeit-Artefakt enthält ausschließlich den committeten `public/`-Baum als validierten Snapshot unter `current`.
+- Der Support-Agent verwendet keinen internen Index; ein Admin-Wissenszugang ist nicht Teil dieses Releases.
+- Der gebaute Antwortweg deckt Direktnachrichten, private FAQ-Chats und Serverfragen ab. Bei fehlender oder unsicherer Beleglage verweist er an den Menschen-Support.
+- Tickets bleiben menschlicher Support. Eine Kandidatenantwort wird nur im internen Prüfbereich gezeigt und nie direkt in das Ticket geschrieben.
+- Sechs Eval-Pakete prüfen 224 eindeutige Goldenfragen über alle sechs Produktgruppen, einschließlich dynamischer Fragen, Datenschutzgrenzen und Prompt-Injection.
 
 ## Entscheidungen
 
-- Zielgruppen: öffentlicher Community-FAQ-Bot **und** interner Admin-Wissensmodus, strikt getrennt.
-- SSOT per Migration: Wissen zieht hierher um, alte Orte werden Verweise. Auch Dev-Doku (P3).
-- Dienst `dl-knowledge`: eigener Prozess, Binary im Deadlock-Bots-Workspace (nutzt `dl-ai`/FireworksClient, DeepSeek v4 Flash).
-- Retrieval: BM25/Volltext in-memory, Chunks nach Überschriften. Keine Embeddings in V1.
-- Zwei physisch getrennte Indizes (public/internal); Public-Endpoint kennt internal nicht. Internal nur loopback + X-Internal-Token.
-- Discord: Auto-Antwort in Support-Foren-Threads **nur** bei Confidence (answerable=true), sonst Schweigen. Shadow-Mode (Log-Kanal-Review) vor Live.
-- Anti-Drift: Pflichtschritt im Standardablauf + Hook-Erinnerung + Doku-Pfad in Worker-Aufträgen (P3).
+- Öffentliches Wissen beschreibt nur sichtbares Verhalten, Zugangsgrenzen und sichere nächste Schritte. `internal/` wird nicht durch Antwortregeln verborgen, sondern fehlt vollständig im Laufzeit-Artefakt.
+- Aktuelle Preise, Termine, Patches, Empfehlungen und Dienstverfügbarkeit werden nicht erfunden. Die Antwort führt zur jeweils sichtbaren aktuellen Oberfläche oder zum Menschen-Support.
+- Eine Nutzerfrage löst keine Live-Status-Abfrage, keinen Auto-Debug, keinen Neustart, keine Befehlsausführung und keine andere Aktion aus.
+- Der öffentliche Fragenpfad verwendet ausschließlich das geprüfte Supportwissen; andere Wissenssysteme ersetzen keine fehlende Server- oder Bot-Quelle.
+- Der laufende Snapshot stammt immer aus einem Commit. Ein fehlgeschlagener Export oder Reload ersetzt den zuletzt gültigen Stand nicht.
 
-## Ausgeschlossene Repos
+## Abgeschlossen
 
-TradingBot, Deadlock-Brain und AI-Assistant/AI-Coach sind rein interne Projekte: **keine Doku in diesem Repo, weder public noch internal.** Erwähnungen sichtbarer Discord-Features (z. B. `!brain`-Befehl in der Server-Doku) sind davon unberührt.
+- Öffentliche und interne Wissensseiten auf den gemeinsamen HTML-Vertrag umgestellt.
+- Öffentliche Inhalte redigiert, Produktgrenzen korrigiert und breite Navigation für alle sechs Produktgruppen ergänzt.
+- Committeten `public/`-Export mit versionierten Snapshots und atomarem `current`-Wechsel abgesichert.
+- Antwortwege und Sicherheitsgrenzen mit 224 realistischen Fragen und ihren erwarteten Quellen geprüft.
+- Direkte Ticket-Antworten ausgeschlossen und Unsicherheit auf menschliche Prüfung geroutet.
 
-## Phasen
+## Release-Gate
 
-- **P1 (läuft):** Repo + User-Wissen migrieren. Quellen: Deadlock-Bots/docs (User-Dateien), docs/support-kb (30 HTML → Markdown, Original gelöscht — kein Konsument), Deadlock-Twitch-Bot/rust/knowledge/bot (kopiert). Redaction-Audit über public/ (LEAK-Funde → „Für Devs"-Sektionen nach internal/ abgespalten).
-  **Wichtig:** dl-bot lädt `Deadlock-Bots/docs/*.md` zur Laufzeit als FAQ-Grounding (`load_docs`), tb-knowledge lädt `rust/knowledge/`. Beide Originale bleiben bis zur Umstellung; bis dahin Änderungen zuerst hier, dann spiegeln.
-- **P2:** dl-knowledge-Dienst + Public-API (`POST /ask` → `{answerable, answer, sources}`) + Discord-Shadow-Mode → Live. Dabei `load_docs`-Grounding auf das Deadlock-Docs-Checkout umstellen und die gespiegelten Originale in Deadlock-Bots/docs löschen.
-- **P3:** Dev-Doku aller Repos → internal/, Internal-Index + Admin-Endpoint, Anti-Drift-Hook + CLAUDE.md-Regel.
-- **P4:** Website-FAQ + Twitch In-App vom selben Endpoint; tb-knowledge auf Deadlock-Docs umstellen; Originale löschen.
+Vor einer Freigabe müssen Korpus-Validator, vollständige Golden-Evaluation, Redaction-Review und die Live-Smokes für Direktnachricht, privaten FAQ-Chat, Serverfragen und Ticket-Trennung grün sein. Der Live-Zustand muss den committeten Snapshot verwenden und darf keine internen oder nicht-HTML-Quellen enthalten.
+
+## Später
+
+- Website-FAQ und Twitch-In-App können denselben öffentlichen Antwortdienst als weitere Konsumenten nutzen.
+- Auto-Debug bleibt ein eigenes Folgeprojekt. Falls er später gebaut wird, arbeitet er nur lesend und über eine feste Freigabeliste, warnt deutlich bei möglicher Prompt-Injection und schreibt ausschließlich in einen internen Log- oder Prüfkanal; er erzeugt nie eine direkte Nutzerantwort.

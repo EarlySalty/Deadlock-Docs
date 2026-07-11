@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Twitch-Clips und Social Media</title>
+  <meta name="tags" content="twitch-bot, clips, social, media">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots/docs/twitch-clips-und-social.md">
+</head>
+<body>
+<main>
+<p>eingearbeitet in <a href="integrationen.html"><code>integrationen.html</code></a></p>
+<h1>Twitch-Clips und Social Media</h1>
+<section id="worum-geht-es">
+<h2>Worum geht es?</h2>
+<p>Der Twitch-Bot hat eine Social-Media-Pipeline für Clips: sammeln, aufbereiten, vor dem Posten prüfen, auf Plattformen verteilen und später wieder aus dem lokalen Speicher entfernen. Gedacht als Brücke zwischen Twitch-Momenten und TikTok, YouTube Shorts oder Instagram Reels.</p>
+<p><strong>Wichtig vorab: Die Pipeline ist gebaut, aber aktuell größtenteils nicht scharf geschaltet.</strong> Der automatische Clip-Fetch ist per Konfiguration deaktiviert, und Upload/Analytics laufen nur mit hinterlegten Plattform-Zugängen. Als Streamer merkst du von diesem System heute im Normalfall nichts — es postet nichts automatisch.</p>
+</section>
+<section id="wie-ist-die-pipeline-gedacht-wenn-aktiv">
+<h2>Wie ist die Pipeline gedacht (wenn aktiv)?</h2>
+<ol>
+<li>Der Bot durchsucht aktive Partnerkanäle regelmäßig (6-Stunden-Takt) nach neuen Twitch-Clips und zieht pro Streamer bis zu 20 Stück. Kandidaten sind nur aktive Partner (nicht de-partnert, nicht archiviert).</li>
+<li>Neue Clips landen als <code>pending</code> im System.</li>
+<li>Ein Enrichment-Schritt baut Titel, Beschreibungen und Hashtags pro Plattform (LLM-gestützt). Eine automatische Transkription ist derzeit bewusst abgeschaltet — Transkript-Felder bleiben leer und werden übersprungen.</li>
+<li>Vor dem Upload steht ein Approval-Schritt: Clips gehen nicht blind live, Plattformen können einzeln freigegeben, übersprungen oder verworfen werden. Die Freigabe läuft über den Admin-Bereich (<code>/social-media-admin</code> im Dashboard); ein DM-Freigabe-Flow existiert im aktuellen System nicht.</li>
+<li>Erst nach Freigabe wandert der Clip in die Upload-Queue; nach dem Upload sammelt das System Performance-Daten.</li>
+</ol>
+</section>
+<section id="upload-und-plattformen">
+<h2>Upload und Plattformen</h2>
+<p>Gebaut ist die Pipeline für TikTok, YouTube und Instagram. Praktische Einschränkung: Instagram braucht eine öffentlich erreichbare Video-URL — lokale Dateien lehnt der Uploader ab, ein Zwischen-Hosting dafür gibt es noch nicht. TikTok/YouTube laden direkt hoch. Manuelle Uploads (Datei statt Twitch-Clip) kennt die Pipeline ebenfalls.</p>
+</section>
+<section id="retention-wie-lange-bleibt-ein-clip-im-system">
+<h2>Retention: wie lange bleibt ein Clip im System?</h2>
+<p>Die lokale Clip-Retention ist konkret: 14 Tage ab Erstellung. Der Retention-Worker räumt Clips weg, wenn sie auf allen aktiven Plattformen veröffentlicht oder bewusst verworfen wurden — erst die lokale Datei, dann der Datenbankeintrag. Das System ist keine Dauerablage, sondern eine Upload-Pipeline mit begrenzter Zwischenhaltung.</p>
+</section>
+<section id="analytics-was-kommt-nach-dem-upload">
+<h2>Analytics: was kommt nach dem Upload?</h2>
+<p>Nach veröffentlichten Clips sammelt der Bot Leistungsdaten nach (Views, Likes, Kommentare, Shares, je nach Plattform mehr) — in Buckets für <code>24h</code>, <code>7d</code> und <code>30d</code>, daraus entstehen Wochen- und Monatsreports.</p>
+</section>
+<section id="grenzen-und-wichtige-hinweise">
+<h2>Grenzen und wichtige Hinweise</h2>
+<ul>
+<li><strong>Aktueller Status: inaktiv bis zur Freischaltung.</strong> Clip-Fetch hängt an einem Aktivierungs-Schalter, Upload/Analytics an hinterlegten Plattform-Secrets. Ohne beides passiert nichts Automatisches.</li>
+<li>Der Social-Media-Bereich ist admin-only (<code>/social-media-admin</code>), kein Streamer-Self-Service.</li>
+<li>Freigabe ist ein echter Stopper: ohne Approval kein Upload.</li>
+<li>Retention nach 14 Tagen betrifft die lokale Zwischenhaltung, nicht die bereits geposteten Plattform-Inhalte.</li>
+<li>Analytics kommen zeitversetzt, nicht sofort im Moment des Uploads.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

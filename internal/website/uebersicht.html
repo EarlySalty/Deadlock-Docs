@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Website Übersicht</title>
+  <meta name="tags" content="website, intern, übersicht">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Website">
+</head>
+<body>
+<main>
+<h1>Übersicht</h1>
+<p>Die öffentliche Domain wird aus statischen Roots und lokalen Reverse-Proxys zusammengesetzt; die Zuordnung steht in Caddy, die Frontend-Basen stehen in den Vite-Konfigurationen (<code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/*/vite.config.*</code>).</p>
+<section id="portale">
+<h2>Portale</h2>
+<table>
+<thead>
+<tr>
+<th>Pfad</th>
+<th>Code/Root</th>
+<th>Mechanismus</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td><code>deco-elevator-new</code></td>
+<td>Caddy matcht nur <code>/</code> und liefert <code>deco-elevator-new/index.html</code>; Assets für diese Landing kommen über <code>/new/*</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/deco-elevator-new/index.html</code></td>
+</tr>
+<tr>
+<td><code>/new/*</code></td>
+<td><code>deco-elevator-new</code></td>
+<td>Caddy strippt <code>/new</code> und sucht <code>{path}</code>, <code>{path}/index.html</code>, dann <code>/index.html</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code></td>
+</tr>
+<tr>
+<td><code>/mitspieler/*</code>, <code>/survey/*</code>, <code>/guides/*</code>, <code>/helden/*</code>, <code>/beitreten/*</code></td>
+<td><code>dl-landing/dist</code></td>
+<td>Caddy matcht diese Pfade in <code>@landing</code>; Vite baut mehrere HTML-Einstiege mit <code>rollupOptions.input</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-landing/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>/patch/*</code></td>
+<td><code>dl-patch/dist</code></td>
+<td>Caddy strippt <code>/patch</code>, liefert Assets direkt und fällt sonst auf <code>/index.html</code> zurück; das Portal ruft <code>/api/public/patch-timeline</code> und <code>/api/public/patch-notes</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-patch/src/patch.js</code></td>
+</tr>
+<tr>
+<td><code>/aktivitaet/*</code></td>
+<td><code>dl-activity/dist</code></td>
+<td>Caddy liefert statische Dateien aus <code>dl-activity/dist</code>; <code>/aktivitaet/api/*</code>, <code>/aktivitaet/auth/*</code> und <code>/aktivitaet/health</code> gehen nach <code>127.0.0.1:8768</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-activity/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>/builds/*</code></td>
+<td><code>dl-tierlist/dist</code></td>
+<td>Caddy liefert <code>dl-tierlist/dist</code>; <code>/builds/api/*</code> und <code>/builds/auth/*</code> gehen nach <code>127.0.0.1:8771</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-tierlist/vite.config.js</code></td>
+</tr>
+<tr>
+<td><code>/coaching/*</code></td>
+<td><code>dl-coaching/dist</code></td>
+<td>Caddy liefert <code>dl-coaching/dist</code>; <code>/coaching/api/*</code> geht nach <code>127.0.0.1:8772</code> und Caddy entfernt vorher <code>/coaching</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-coaching/vite.config.ts</code></td>
+</tr>
+<tr>
+<td><code>/brand/*</code></td>
+<td><code>dl-brand</code></td>
+<td>Caddy strippt <code>/brand</code> und liefert gemeinsame Brand-Dateien; <code>dl-brand/nav.js</code> enthält die sichtbaren Portal-Links.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/dl-brand/nav.js</code></td>
+</tr>
+<tr>
+<td><code>/turnier/*</code></td>
+<td><code>Deadlock-Turniere</code></td>
+<td>Caddy liefert das Turnier-Frontend aus einem anderen Repo und proxyt <code>/turnier/api/*</code> sowie <code>/turnier/auth/*</code> nach <code>127.0.0.1:8900</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="binaries-und-dienste">
+<h2>Binaries und Dienste</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Rolle</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ddc-website-backend</code></td>
+<td>Rust-Binary für Website-Backend, Meta-API, Coaching-Plattform, Auth, Scrims und Patch-Public-Endpunkte.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/Cargo.toml</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-website-backend.service</code></td>
+<td>systemd-User-Service für <code>scripts/run_builds_backend.sh</code>; der Wrapper startet standardmäßig das Rust-Binary.</td>
+<td><code>/home/naniadm/.config/systemd/user/deadlock-website-backend.service</code>, <code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code></td>
+</tr>
+<tr>
+<td><code>deadlock-web-rust.service</code></td>
+<td>systemd-User-Service für Dashboard <code>8766</code>, Stats <code>8768</code> und Tierlist <code>8771</code> aus <code>Deadlock-Bots</code>.</td>
+<td><code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code></td>
+</tr>
+<tr>
+<td><code>deadlock-turniere.service</code></td>
+<td>systemd-User-Service für das externe Turnier-Backend.</td>
+<td><code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code></td>
+</tr>
+<tr>
+<td><code>run_dl_bot_service.sh</code></td>
+<td>Der aktive Rust-Bot-Wrapper setzt <code>WEBSITE_API_BASE</code> standardmäßig auf das lokale Website-Backend unter <code>127.0.0.1:8772/api</code>.</td>
+<td><code>/home/naniadm/Documents/Deadlock-Bots/scripts/run_dl_bot_service.sh</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ports">
+<h2>Ports</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Port</th>
+<th>Nutzung</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right"><code>8772</code></td>
+<td>lokales Website-Backend für <code>/coaching/api/*</code> und Patch-Public-API; Default kommt aus <code>WEBSITE_BACKEND_PORT</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td style="text-align:right"><code>8768</code></td>
+<td>Activity-/Stats-Service hinter <code>/aktivitaet/api/*</code>, <code>/aktivitaet/auth/*</code> und <code>/aktivitaet/health</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code></td>
+</tr>
+<tr>
+<td style="text-align:right"><code>8771</code></td>
+<td>Builds-/Tierlist-Backend hinter <code>/builds/api/*</code> und <code>/builds/auth/*</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code></td>
+</tr>
+<tr>
+<td style="text-align:right"><code>8766</code></td>
+<td>Dashboard/Auth-Broker für zentrale Callbacks und generisches <code>/api/public/*</code> außerhalb der Patch-Spezialrouten.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+<tr>
+<td style="text-align:right"><code>8900</code></td>
+<td>externes Turnier-Backend für <code>/turnier/api/*</code> und <code>/turnier/auth/*</code>.</td>
+<td><code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code></td>
+</tr>
+<tr>
+<td style="text-align:right"><code>5173</code>, <code>5174</code>, <code>5175</code>, <code>3000</code>, <code>3001</code></td>
+<td>lokale Vite-Dev-Ports für <code>dl-landing</code>, <code>dl-tierlist</code>, <code>dl-activity</code>, <code>builds/frontend</code> und <code>dl-coaching</code>.</td>
+<td><code>/home/naniadm/Documents/Website/dl-landing/vite.config.js</code>, <code>/home/naniadm/Documents/Website/dl-tierlist/vite.config.js</code>, <code>/home/naniadm/Documents/Website/dl-activity/vite.config.js</code>, <code>/home/naniadm/Documents/Website/builds/frontend/vite.config.ts</code>, <code>/home/naniadm/Documents/Website/dl-coaching/vite.config.ts</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</main>
+</body>
+</html>

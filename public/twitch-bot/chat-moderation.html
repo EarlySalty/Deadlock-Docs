@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Chat-Moderation und Einspruch</title>
+  <meta name="tags" content="twitch-bot, moderation, chatmoderation, einspruch, unban">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Chat-Moderation und Einspruch</h1>
+  <p><strong>Kurz gesagt.</strong> Die Chatmoderation des Bots kann in registrierten Partnerkanälen als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen – durch Broadcaster oder Moderation.</p>
+
+  <section id="was-die-moderation-macht">
+    <h2>Was die Chatmoderation macht</h2>
+    <p>Sobald ein Kanal als Partner verbunden ist, kann die Chatmoderation Nachrichten entfernen, die der Bot als Spam einstuft, und den zugehörigen Account moderieren. Das läuft unabhängig vom gerade gestreamten Spiel. Der Bot braucht dafür die nötigen Twitch-Rechte im Kanal.</p>
+    <p>Wir beschreiben hier bewusst keine Erkennungssignale oder Schwellen. Die Chatmoderation ist sorgfältig ausgelegt, aber keine Maßnahme ist absolut fehlerfrei – deshalb gibt es einen Weg, einen falschen Treffer zurückzunehmen.</p>
+  </section>
+
+  <section id="einspruch">
+    <h2>Wie kann ich eine Maßnahme prüfen lassen?</h2>
+    <p>Wenn ein legitimer Account versehentlich vom letzten Auto-Ban betroffen ist, wende dich an den Broadcaster oder die Moderation des Kanals. Diese können den Treffer mit <code>!unban</code> bzw. <code>!uban</code> zurücknehmen.</p>
+    <ol>
+      <li>Betroffene:r meldet den Fall an Broadcaster oder Moderation des Kanals.</li>
+      <li>Broadcaster oder Mod prüft, ob es der zuletzt gespeicherte Auto-Ban des Kanals war.</li>
+      <li>Broadcaster oder Mod führt <code>!unban</code> bzw. <code>!uban</code> aus.</li>
+      <li>Bei fehlendem Eintrag, Fehlschlag oder wiederkehrendem Problem an den menschlichen Community-Support eskalieren.</li>
+    </ol>
+    <p>Wichtig: <code>!unban</code> zielt nur auf den zuletzt gespeicherten Auto-Ban, nicht auf eine beliebige Person oder jede beliebige Moderationsentscheidung. Ein eigener Zuschauer-Einspruchsbutton ist nicht belegt; der Weg führt über das Kanalteam. <code>!silentban</code> ändert nur die Chat-Benachrichtigung und schaltet die Moderation nicht ab.</p>
+    <p>Broadcaster und Moderation können mit <code>!explain</code> nachlesen, warum der Bot jemanden als Scam eingestuft hat. Das ist eine Erklärung des letzten Falls, keine Freigabe: Zum Zurücknehmen dient weiterhin <code>!unban</code> bzw. <code>!uban</code>.</p>
+    <nav><a href="chat-befehle.html">Befehle</a><a href="faq-support.html">Support</a></nav>
+  </section>
+</main>
+</body>
+</html>

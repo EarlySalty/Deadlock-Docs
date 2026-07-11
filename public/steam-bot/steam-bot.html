@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Steam-Bot</title>
+  <meta name="tags" content="steam-bot, steam, verknüpfung, rang, builds, playtest">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+</head>
+<body>
+<main>
+<h1>Steam-Bot</h1>
+<p><strong>Überblick.</strong> Der Steam-Bot verbindet dein Steam-Konto mit der Community. Über ihn verknüpfst du dein Konto, verwaltest deine Verknüpfungen selbst, prüfst deinen Deadlock-Rang, fragst die Playtest-Einladung an und findest den veröffentlichten Build-Katalog. Alle Schritte laufen über sichtbare Befehle oder das sichtbare Panel — nutze immer den bei dir sichtbaren Einstieg.</p>
+
+<section id="verknuepfen">
+<h2>Steam-Account verbinden — ohne Passwort beim Bot</h2>
+<p>Starte die Verknüpfung über das sichtbare Steam-Panel oder mit <code>/account_verknüpfen</code>. Der Bot leitet dich zur offiziellen Steam-Anmeldung weiter: Du meldest dich direkt bei Steam an und gibst dem Bot dabei <strong>kein Steam-Passwort</strong>. Für die Zuordnung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet.</p>
+</section>
+
+<section id="konten">
+<h2>Eigene Verknüpfungen verwalten</h2>
+<p>Du kannst mehrere eigene Steam-Konten verknüpfen und selbst verwalten. Die Verwaltung betrifft immer nur deine eigenen Verknüpfungen:</p>
+<ul>
+<li>deine verknüpften Konten ansehen (primäres zuerst, mit Verifiziert-Haken): <code>/steam links</code></li>
+<li>ein bereits verknüpftes Konto als primär festlegen: <code>/steam setprimary</code></li>
+<li>eine eigene Verknüpfung entfernen: <code>/steam unlink</code></li>
+</ul>
+<p><code>/steam whoami</code> ist dagegen ein reiner Nachschlage-Befehl: Du gibst eine Steam-Referenz an — SteamID, Vanity-Name oder Profil-Link — und der Bot löst sie zu Persona-Name und SteamID64 auf. Das zeigt weder deine eigene Verknüpfung noch belegt es einen Besitz; welche Konten mit dir verknüpft sind, siehst du über <code>/steam links</code>.</p>
+</section>
+
+<section id="freundschaft">
+<h2>Steam-Freundschaft annehmen</h2>
+<p>Nach dem Verknüpfen entsteht eine Steam-Freundschaft mit dem Community-Steam-Konto — der Bot nimmt deine Anfrage an bzw. sendet dir eine. Nimm diese Freundschaft an, denn einzelne Funktionen wie die Playtest-Einladung setzen eine bestehende Steam-Freundschaft voraus. Ist ein Schritt noch offen, etwa weil die Freundschaft noch nicht bestätigt ist, hol ihn nach: Bestätige die Freundschaft und starte den betroffenen Vorgang danach erneut über den sichtbaren Weg; deine bestehende Verknüpfung musst du dafür normalerweise nicht wiederholen.</p>
+</section>
+
+<section id="rang">
+<h2>Deadlock-Rang prüfen und Community-Rolle</h2>
+<p>Deinen eigenen verknüpften Deadlock-Rang fragst du mit <code>/steam_rank</code> oder <code>/checkrank</code> ab: Ohne weitere Zielangabe beziehen sich beide Befehle auf deine eigene gespeicherte Verknüpfung. Für ein ausdrückliches Fremdziel sind die dafür vorgesehenen Befehle offen — <code>/steam_rank</code> akzeptiert wahlweise ein angegebenes Steam-Ziel, und <code>/checkrank</code> lässt sich auf einen anderen Discord-User anwenden, dessen Community-Rolle dabei abgeglichen wird. Der Support-Assistent selbst gibt oder bestätigt jedoch keine fremden Rang- oder Rollendetails und ruft solche Werte für dich nicht ab. Eine Steam-Verknüpfung kann für den Rangabgleich und einzelne Zusatzfunktionen nötig sein, sperrt normale Ranked-Lanes aber nicht pauschal.</p>
+<p>Fehlt deine Rang-Rolle noch, kann sie bei einer späteren Prüfung ergänzt werden, sobald Verknüpfung, Steam-Freundschaft und ein lesbarer Rang gültig sind.</p>
+</section>
+
+<section id="invite">
+<h2>Playtest-Einladung anfragen</h2>
+<p>Die Deadlock-Spieltest-Einladung fragst du über den in der Community aktuell sichtbaren Einladungsweg an. Der Weg prüft, ob dein Steam-Konto verknüpft ist und ob die angezeigten Voraussetzungen — etwa eine angenommene Steam-Freundschaft — erfüllt sind; gib dort deinen eigenen Steam-Freundescode an, wenn er verlangt wird. Meldet der Dialog noch eine offene Voraussetzung, erledige zuerst den genannten Schritt (Verknüpfung prüfen, Steam-Freundschaft annehmen) und starte danach erneut. Auch wenn ein Versand bestätigt wird, lässt sich der externe Erfolg der Einladung nicht garantieren.</p>
+</section>
+
+<section id="builds">
+<h2>Build-Katalog und Website</h2>
+<p>Die Website hilft beim Finden und Bewerten von Builds. Der tatsächlich im Spiel veröffentlichte Deadlock-Build-Katalog wird vom Steam-Bot gepflegt: Von der Community kuratierte Builds werden in den Katalog gespiegelt, Änderungen an einer Quelle übernommen und nicht mehr freigegebene Einträge entfernt. Maßgeblich für den Spielclient ist der veröffentlichte Katalogstand. Eine bestimmte Sortierreihenfolge durch Website-Stimmen wird nicht zugesagt.</p>
+</section>
+
+<section id="bestand">
+<h2>Verknüpfung prüfen</h2>
+<p>Prüfe im sichtbaren Steam-Weg, ob deine Verknüpfung noch angezeigt wird. Fehlt nach einer Aktion ein Ergebnis, starte den vorgesehenen Vorgang erneut oder wende dich an den Community-Support. Eine frisch angelegte Verknüpfung wird nicht allein wegen einer Weile ohne Voice-Aktivität entfernt. Fehlt sie später oder wird sie als inaktiv angezeigt, verknüpfst du dein Konto über den sichtbaren Weg neu.</p>
+</section>
+
+<section id="daten">
+<h2>Steam-Daten und Löschung</h2>
+<p>Für die Steam-Verknüpfung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet. Deine eigenen Verknüpfungen kannst du jederzeit selbst mit <code>/steam unlink</code> entfernen. Willst du mehr als nur die Verknüpfung löschen lassen — also über das Entfernen der Verknüpfung hinaus weitere Daten löschen —, wende dich für diese Auskunft und Löschung an den veröffentlichten Datenschutzkontakt der Community.</p>
+</section>
+</main>
+</body>
+</html>

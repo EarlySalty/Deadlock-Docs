@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>FAQ Community und Engagement</title>
+  <meta name="tags" content="twitch-bot, community, discord, engagement">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>FAQ Community und Engagement</h1>
+  <p><strong>Kurz gesagt.</strong> Der Bot verbindet deinen Kanal mit dem Community-Discord und lässt dich im Chat selbst entscheiden, ob dich seine automatischen KI-Chat-Reaktionen einbeziehen. Die allgemeine Erfassung oder deine Wiederkehr schaltet das nicht ab.</p>
+
+  <section id="community-discord">
+    <h2>Wie hängt der Bot mit dem Community-Discord zusammen?</h2>
+    <p>Zuschauer erhalten über <code>!invite</code> bzw. <code>!discord</code> den Einladungslink zur Deutschen Deadlock Community. Für aktive Partnerkanäle kann beim Live-Gehen in der Deadlock-Kategorie ein Hinweis im Community-Discord erscheinen – die Details und Grenzen stehen in <a href="discord-golive.html">Discord-Go-Live</a>.</p>
+  </section>
+
+  <section id="engagement-abwahl">
+    <h2>Wie stoppe ich die Engagement-Erfassung für mich?</h2>
+    <p>Der Bot hat eine KI-Engagement-Funktion, mit der er sich gelegentlich selbst am Chat beteiligt. Willst du dabei nicht berücksichtigt werden, nutze im Chat <code>!engagement_ignore_me</code>; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein. Diese Wahl betrifft nur dich.</p>
+    <p>Wichtig: Das ist <strong>keine Löschung</strong> deiner Daten und schaltet nicht die allgemeine Kanal-Statistik oder Auswertung ab – <code>!engagement_ignore_me</code> steuert ausschließlich die KI-Engagement-Funktion. Genauso schaltet die Kanal-Einstellung <code>!engagement_off</code> nur die KI-Engagement-Funktion aus, nicht die gesamte Erfassung.</p>
+  </section>
+
+  <section id="engagement-wieder-an">
+    <h2>Wie aktiviere ich meine eigene Berücksichtigung später wieder?</h2>
+    <p>Mit <code>!engagement_remember_me</code> lässt du dich später wieder von der KI-Engagement-Funktion berücksichtigen. Beide Befehle sind unabhängig von der Streamkategorie verfügbar. Den Kanalstatus kann jede Person im Chat mit <code>!engagement_status</code> abfragen; ein- oder ausschalten dürfen die KI-Engagement-Funktion für den Kanal Broadcaster, Kanalmods und berechtigte Super-Mods über <code>!engagement_on</code> bzw. <code>!engagement_off</code>. Daten anderer Personen gibt der Bot dabei nicht aus.</p>
+  </section>
+
+  <section id="voller-widerruf">
+    <h2>Kann ich die Erfassung und den Bot komplett für mich abschalten?</h2>
+    <p>Für einen vollständigen Widerruf oder eine Löschung deiner Daten gibt es keinen belegten Self-Service-Schalter im Chat. <code>!engagement_ignore_me</code> deckt nur die KI-Engagement-Funktion ab. Für Auskunft, Korrektur, Löschung oder einen vollständigen Widerspruch nutze den veröffentlichten Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Als Streamer kannst du außerdem die Twitch-Autorisierung des Bots jederzeit widerrufen; danach sind die betroffenen Bot-Funktionen deaktiviert.</p>
+  </section>
+
+  <section id="nicht-partner">
+    <h2>Beobachtet der Bot auch Chats von Kanälen ohne Partnerstatus?</h2>
+    <p>Außerhalb aktiver Partnerkanäle kann der Bot öffentliche Chats höchstens zur Datensammlung passiv beobachten. Dort moderiert er nicht, wirbt nicht und reagiert nicht auf Befehle. Moderation, Community-Hinweise und Befehlsantworten laufen ausschließlich in registrierten Partnerkanälen.</p>
+    <nav><a href="chat-befehle.html">Befehle</a><a href="faq-werbung.html">Werbung</a></nav>
+  </section>
+</main>
+</body>
+</html>

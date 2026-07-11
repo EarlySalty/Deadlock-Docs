@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Steam-Bot Task-Queue</title>
+  <meta name="tags" content="internal, steam, queue">
+  <meta name="stand" content="2026-07-08">
+  <meta name="quelle" content="Deadlock-Steam-Bot">
+</head>
+<body>
+<main>
+<h1>Task-Queue</h1>
+<p><code>steam-core</code> bedient <code>steam.steam_tasks</code> alle 500 ms. Der Runner bereinigt stale <code>RUNNING</code>-Tasks, verwirft stale sensitive oder unbekannte <code>PENDING</code>-Tasks und claimt danach neue Tasks pro Lane. (<code>rust/crates/steam-core/src/task/runner.rs</code>, <code>rust/crates/steam-persistence/src/tasks.rs</code>)</p>
+<p>Ein Task-Erfolg wird als <code>status='DONE'</code> mit <code>result={&quot;ok&quot;:true,&quot;data&quot;:...}</code> gespeichert. Ein Fehler wird als <code>status='FAILED'</code> mit <code>result={&quot;ok&quot;:false,&quot;error&quot;:...}</code> gespeichert. (<code>rust/crates/steam-core/src/task/runner.rs</code>)</p>
+<p>Der Runner claimt atomar per <code>FOR UPDATE SKIP LOCKED</code>. Dadurch können mehrere Worker dieselbe Zeile nicht gleichzeitig übernehmen. (<code>rust/crates/steam-persistence/src/tasks.rs</code>)</p>
+<section id="lanes">
+<h2>Lanes</h2>
+<table>
+<thead>
+<tr>
+<th>Lane</th>
+<th style="text-align:right">Parallelität</th>
+<th>Task-Typen</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>interactive_reads</code></td>
+<td style="text-align:right">2</td>
+<td><code>AUTH_STATUS</code>, <code>AUTH_GET_FRIENDS_LIST</code>, <code>AUTH_CHECK_FRIENDSHIP</code></td>
+<td><code>rust/crates/steam-core/src/task/lanes.rs</code></td>
+</tr>
+<tr>
+<td><code>profile_card</code></td>
+<td style="text-align:right">1</td>
+<td><code>GC_GET_PROFILE_CARD</code>, <code>GC_GET_ACCOUNT_STATS</code>, <code>GC_GET_MATCH_HISTORY</code></td>
+<td><code>rust/crates/steam-core/src/task/lanes.rs</code></td>
+</tr>
+<tr>
+<td><code>control</code></td>
+<td style="text-align:right">1</td>
+<td><code>AUTH_LOGIN</code>, <code>AUTH_GUARD_CODE</code>, <code>AUTH_LOGOUT</code>, <code>AUTH_REFRESH_GAME_VERSION</code>, <code>AUTH_SEND_FRIEND_REQUEST</code>, <code>AUTH_REMOVE_FRIEND</code>, <code>AUTH_SEND_PLAYTEST_INVITE</code></td>
+<td><code>rust/crates/steam-core/src/task/lanes.rs</code></td>
+</tr>
+<tr>
+<td><code>lobby</code></td>
+<td style="text-align:right">1</td>
+<td><code>GC_CREATE_CUSTOM_LOBBY</code>, <code>GC_LOBBY_SET_CONVAR</code>, <code>GC_LOBBY_APPLY_CONVARS</code>, <code>GC_LOBBY_INVITE_PLAYER</code>, <code>GC_LOBBY_SET_SPECTATOR</code>, <code>GC_LOBBY_READY</code>, <code>GC_LOBBY_START_MATCH</code>, <code>GC_LOBBY_LEAVE</code>, <code>GC_GET_MATCH_RESULT</code></td>
+<td><code>rust/crates/steam-core/src/task/lanes.rs</code></td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td style="text-align:right">1</td>
+<td><code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code>, <code>DISCOVER_WATCHED_BUILDS</code>, <code>DISCOVER_BUILDS_VIA_HEROES</code>, <code>MAINTAIN_BUILD_CATALOG</code>, <code>BUILD_CATALOG_CYCLE</code>, <code>GC_SEARCH_BUILDS</code></td>
+<td><code>rust/crates/steam-core/src/task/lanes.rs</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>profile_card</code> bleibt bewusst auf Parallelität 1, weil Profilkarten-, Account-Stats- und Match-History-Antworten aus dem GC nicht sauber genug mit parallelen Requests korrelierbar sind. (<code>rust/crates/steam-core/src/task/lanes.rs</code>, <code>rust/crates/steam-core/src/task/runner.rs</code>)</p>
+</section>
+<section id="registry">
+<h2>Registry</h2>
+<p><code>default_registry()</code> registriert Handler für Status, Auth, Friends, GC-Reads, Lobby, Playtest-Invite und Build-Katalog. Aktive Build-Handler sind <code>BUILD_PUBLISH</code>, <code>BUILD_DELETE</code>, <code>MAINTAIN_BUILD_CATALOG</code> und <code>BUILD_CATALOG_CYCLE</code>; <code>DISCOVER_WATCHED_BUILDS</code> und <code>DISCOVER_BUILDS_VIA_HEROES</code> sind registrierte Legacy-Stubs und schließen mit <code>legacy=true</code>, <code>skipped=true</code> ab. Wenn ein Task-Typ keine Registrierung hat, finalisiert der Runner ihn als <code>unsupported_task_type</code>. (<code>rust/crates/steam-core/src/task/mod.rs</code>, <code>rust/crates/steam-core/src/task/handlers/builds/discovery.rs</code>, <code>rust/crates/steam-core/src/task/runner.rs</code>)</p>
+<p><code>TaskContext</code> trägt GC-Verbindung, Steam-Verbindung, Friends-State, Party-Cache und optional DB-Handle zu jedem Handler. (<code>rust/crates/steam-core/src/task/handler.rs</code>)</p>
+</section>
+<section id="http-ipc">
+<h2>HTTP-IPC</h2>
+<p><code>POST /tasks</code> schreibt neue Tasks in <code>steam.steam_tasks</code>. Der Request nutzt <code>type</code> und optional <code>payload</code>; der Handler gibt nur die neue ID zurück. (<code>rust/crates/steam-core/src/api/mod.rs</code>)</p>
+<p><code>GET /tasks/{id}</code> liest <code>status</code>, <code>result</code> und <code>error</code>. Das Ergebnis wird von Flow-Code gepollt, bis <code>DONE</code>, <code>FAILED</code> oder Timeout erreicht ist. (<code>rust/crates/steam-core/src/api/mod.rs</code>, <code>rust/crates/steam-flows/src/shared.rs</code>)</p>
+<p><code>/health</code> ist immer offen. <code>POST /tasks</code>, <code>GET /tasks/{id}</code>, <code>/status</code> und <code>/friends</code> sind nur geschützt, wenn <code>STEAM_CORE_API_TOKEN</code> gesetzt ist; sonst bleiben sie im Loopback-/Dev-Modus offen. Bei falschem oder fehlendem Header antwortet die API mit <code>ungültiges oder fehlendes X-Internal-Token</code>. (<code>rust/crates/steam-core/src/api/mod.rs</code>)</p>
+<p><code>steam-flows</code> pollt Task-Status alle 500 ms und unterscheidet <code>Settled</code> von <code>Timeout</code>; ein Timeout lässt den Task in der Queue weiterlaufen. (<code>rust/crates/steam-flows/src/shared.rs</code>)</p>
+</section>
+<section id="wartung">
+<h2>Wartung</h2>
+<p>Stale <code>RUNNING</code>-Tasks werden nach 600 Sekunden auf <code>FAILED</code> gesetzt. (<code>rust/crates/steam-core/src/task/runner.rs</code>)</p>
+<p>Sensitive <code>PENDING</code>-Tasks mit Payload werden nach 120 Sekunden auf <code>FAILED</code> gesetzt und verlieren den Payload. Der Fehlertext lautet <code>Task stale: sensitiver Payload ohne Abholung verworfen</code>. Unbekannte <code>PENDING</code>-Task-Typen werden ebenfalls <code>FAILED</code> mit <code>Task stale: unbekannter Task-Typ wurde nicht verarbeitet</code>. (<code>rust/crates/steam-core/src/task/runner.rs</code>, <code>rust/crates/steam-persistence/src/tasks.rs</code>)</p>
+<p><code>STEAM_TASKS_MAX_ROWS</code> steuert die Prune-Obergrenze; ohne Variable behält <code>prune()</code> höchstens 1000 Zeilen und löscht nur terminale Tasks. (<code>rust/crates/steam-persistence/src/tasks.rs</code>)</p>
+<p>Der Catalog-Maintenance-Scheduler plant <code>MAINTAIN_BUILD_CATALOG</code> erstmals nach 30 Sekunden und danach alle <code>CATALOG_MAINTENANCE_INTERVAL_MS</code> ein, wenn kein offener Catalog-Task existiert. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-persistence/src/builds.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

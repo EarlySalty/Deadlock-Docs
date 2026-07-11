@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Scam Guard</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, scam-guard">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Scam Guard</h1>
+<section id="laufzeit">
+<h2>Laufzeit</h2>
+<ul>
+<li>Conversation Scam Guard hängt in der Chat-Pipeline nach Globalban und vor Spam-Autoban. (rust/crates/tb-chat/src/pipeline.rs)</li>
+<li>Der Guard bewertet Gesprächsverläufe mit einem MiniMax-basierten Judge und kennt die Modi <code>auto_ban</code>, <code>timeout</code> und <code>alert_only</code>. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
+<li>Defaultwerte sind aktiv, Modus <code>auto_ban</code>, Schwelle <code>0.90</code>, Vorschlagsgrenze <code>0.70</code> und Timeout <code>600</code> Sekunden. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
+<li>Der Guard bewertet Einzel-Pitches sofort und sonst erst, wenn ein Gespräch mindestens drei substanzielle Nachrichten enthält. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
+</ul>
+</section>
+<section id="daten">
+<h2>Daten</h2>
+<ul>
+<li><code>twitch_scam_guard_settings</code> hält Einstellungen pro Channel. (rust/migrations/20260618010000_conversation_scam_guard.sql)</li>
+<li><code>twitch_scam_guard_verdicts</code> hält Urteil, Confidence, Kategorie, Begründung, Transcript-Snapshot, Aktion und Zeitstempel. (rust/migrations/20260618010000_conversation_scam_guard.sql)</li>
+</ul>
+</section>
+<section id="dashboard">
+<h2>Dashboard</h2>
+<ul>
+<li>Partner lesen und ändern die eigenen Einstellungen über <code>/twitch/api/v2/streamer/scam-guard/settings</code>; Admins können einen <code>streamer</code>-Parameter setzen. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_settings.rs; rust/crates/tb-dashboard-api/src/lib.rs)</li>
+<li>Der Settings-Handler akzeptiert nur <code>auto_ban</code>, <code>timeout</code> und <code>alert_only</code> und validiert <code>0 &lt;= suggestion_floor &lt;= threshold &lt;= 1</code>. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_settings.rs)</li>
+<li>Die Queue zeigt eigene Verdicts mit <code>action_taken</code> in <code>suggested</code>, <code>banned</code> oder <code>timed_out</code> und liefert Details channelgebunden aus. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_queue.rs)</li>
+<li>Enforce und Revoke laufen im Dashboard als Proxy zur internen API. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_enforce.rs)</li>
+</ul>
+</section>
+<section id="interne-api">
+<h2>Interne API</h2>
+<ul>
+<li>Interne Scam-Guard-Routen liegen unter <code>/internal/twitch/v1/scam-guard/enforce</code> und <code>/internal/twitch/v1/scam-guard/revoke</code>. (rust/crates/tb-internal-api/src/lib.rs; rust/crates/tb-internal-api/src/handlers/scam_guard.rs)</li>
+<li>Die internen Handler verlangen privilegierte interne Authentifizierung und geben ohne passenden Port einen Service-Fehler zurück. (rust/crates/tb-internal-api/src/handlers/scam_guard.rs)</li>
+<li><code>tb-bot</code> baut den Enforce-Port nur aus dem aktiven Chat-API-Port. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/scam_enforce_impl.rs)</li>
+<li>UNSICHER: Wenn <code>TB_CHAT_ENABLED=0</code> ist, ist Enforce wahrscheinlich nicht verfügbar, weil dann kein Chat-API-Port in <code>build_scam_enforce_port</code> eingeht. (rust/bin/tb-bot/src/chat_wiring.rs; rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/scam_enforce_impl.rs)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

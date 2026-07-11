@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Turniere — Übersicht</title>
+  <meta name="tags" content="internal, deadlock-turniere, übersicht">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Turniere">
+</head>
+<body>
+<main>
+<h1>Turniere — Übersicht</h1>
+<p>Der Live-Dienst <code>deadlock-turniere.service</code> läuft über das Rust-Binary <code>rust/target/release/turnier-bot</code>. Die Fachdaten liegen in der zentralen Postgres-DB aus <code>DEADLOCK_CENTRAL_DSN</code> und werden im Schema <code>turnier.*</code> gelesen und geschrieben. API, Scheduler, Match-Flow, Discord, Steam-Bridge und Automatik kommen aus <code>rust/crates/*</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>, <code>scripts/run_turniere_backend_rust.sh</code>, <code>rust/crates/turnier-db/src/pool.rs</code>)</p>
+<section id="laufzeit">
+<h2>Laufzeit</h2>
+<p>Die komplette User-Unit ersetzt die ursprüngliche <code>ExecStart</code>-Zeile im Drop-in <code>30-rust-cutover.conf</code>: erst <code>ExecStart=</code> leeren, dann <code>scripts/run_turniere_backend_rust.sh</code> starten. Der Drop-in liegt unter der User-Unit und ist damit der wirksame Startpfad für <code>deadlock-turniere.service</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
+<p>Der Rust-Launcher lädt die lokale Turniere-Config, optional die Infisical-Config und bei systemd-Credentials die Datei <code>infisical-token</code>. Danach exportiert er Secrets über den Infisical-Helfer, verlangt <code>DEADLOCK_CENTRAL_DSN</code>, setzt <code>DISCORD_BOT_TOKEN</code> aus <code>DISCORD_TOKEN</code> nach und exec't <code>rust/target/release/turnier-bot</code>. (<code>scripts/run_turniere_backend_rust.sh</code>)</p>
+<p><code>turnier-bot</code> lädt <code>Config</code>, legt das Avatar-Verzeichnis an, öffnet den zentralen Pool, baut <code>AppState</code>, erzeugt den Scheduler und merged den axum-Router. Ohne <code>--check</code> bindet es auf <code>BACKEND_HOST:BACKEND_PORT</code>; mit <code>--check</code> baut es State, Scheduler und Router und beendet sich ohne Listener. (<code>rust/crates/turnier-bot/src/main.rs</code>, <code>rust/crates/turnier-config/src/lib.rs</code>)</p>
+</section>
+<section id="aufbau">
+<h2>Aufbau</h2>
+<p>Der Rust-Code ist ein Cargo-Workspace mit <code>members = [&quot;crates/*&quot;]</code>. Das Binary-Paket heißt <code>turnier-bot</code>; sein Manifest hängt die Crates <code>turnier-config</code>, <code>turnier-db</code>, <code>turnier-discord</code>, <code>turnier-match</code>, <code>turnier-scheduler</code> und <code>turnier-api</code> an die Composition-Root. (<code>rust/Cargo.toml</code>, <code>rust/crates/turnier-bot/Cargo.toml</code>)</p>
+<p><code>AppState</code> hält den Postgres-Pool, Config, Rollen-Sets, OAuth-Client, MatchManager, RankResolver und DiscordNotifier. Beim Start öffnet er die Steam-Bridge optional; fehlt die Bridge-DB, läuft der Dienst weiter und Steam-Tasks sind deaktiviert. (<code>rust/crates/turnier-api/src/state.rs</code>, <code>rust/crates/turnier-match/src/steam_bridge.rs</code>)</p>
+<p>Der HTTP-Router liefert direkt <code>/api/health</code> und <code>/api/me</code> und merged Auth, Account, Public, Admin, Operations, Consent, Leaderboard, Draft und Test-Modus. CORS kommt aus <code>Config::cors_allowed_origins()</code>, der Host-Guard aus <code>Config::allowed_hosts()</code>. (<code>rust/crates/turnier-api/src/app.rs</code>, <code>rust/crates/turnier-config/src/lib.rs</code>)</p>
+</section>
+<section id="daten-und-effekte">
+<h2>Daten und Effekte</h2>
+<p><code>turnier_db::connect_central()</code> baut den Pool aus <code>DEADLOCK_CENTRAL_DSN</code>. Produktive Migrationen laufen nicht im Turnier-Dienst; <code>run_migrations()</code> ist absichtlich ein No-op und verweist auf zentrale Migrationen. (<code>rust/crates/turnier-db/src/pool.rs</code>)</p>
+<p>Rust-SQL nutzt voll qualifizierte Tabellen im Schema <code>turnier</code>, zum Beispiel <code>turnier.tournaments</code>, <code>turnier.bracket_matches</code>, <code>turnier.group_matches</code>, <code>turnier.sessions</code>, <code>turnier.rank_cache</code> und <code>turnier.tournament_presets</code>. (<code>rust/crates/turnier-match/src/repo.rs</code>, <code>rust/crates/turnier-auth/src/session.rs</code>, <code>rust/crates/turnier-automatik/src/presets.rs</code>)</p>
+<p>Discord läuft über den Master-Broker mit <code>X-Internal-Token</code>. Steam-Lobbys laufen über die externe SQLite-Queue <code>steam_tasks</code> in <code>STEAM_BRIDGE_DB_PATH</code>; diese Queue gehört dem Steam-Worker, nicht der Turnier-Fachdatenbank. (<code>rust/crates/turnier-discord/src/broker.rs</code>, <code>rust/crates/turnier-match/src/steam_bridge.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

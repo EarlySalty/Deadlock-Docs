@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot Betrieb</title>
+  <meta name="tags" content="internal, patchnotes-bot, betrieb">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock--Patchnotes-Bot">
+</head>
+<body>
+<main>
+<h1>Patchnotes-Bot Betrieb</h1>
+<p>Start und Neustart laufen über den User-Service <code>deadlock-patchnotes.service</code>. Die Unit startet <code>/usr/bin/bash -lc '/home/naniadm/Documents/Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh'</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
+<pre><code class="language-bash">systemctl --user start deadlock-patchnotes.service
+systemctl --user restart deadlock-patchnotes.service
+systemctl --user status deadlock-patchnotes.service
+</code></pre>
+<p>Die Unit setzt <code>Restart=always</code>, <code>RestartSec=5</code>, <code>TimeoutStopSec=20</code> und <code>KillMode=mixed</code>. Ein Prozess-Crash wird damit von systemd neu gestartet. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
+<p>Der Wrapper nimmt zuerst <code>$DEADLOCK_HOME/.venv/bin/python</code>, wenn diese Datei ausführbar ist, sonst <code>python3</code>. Danach führt er im Bot-Repo <code>main.py</code> aus. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Der Wrapper hält eine exklusive <code>flock</code> auf <code>PATCHNOTES_LOCK_FILE</code>; ohne Lock beendet er den Start mit Hinweis auf den laufenden Bot. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+<section id="env-variablen">
+<h2>Env-Variablen</h2>
+<p>Start und Secrets lesen <code>INFISICAL_CONFIG_FILE</code>, <code>PATCHNOTES_ENV_FILE</code>, <code>CREDENTIALS_DIRECTORY</code>, <code>INFISICAL_SERVICE_TOKEN</code>, <code>DEADLOCK_HOME</code>, <code>PYTHON_BIN</code>, <code>INFISICAL_RETRY_DELAY</code>, <code>INFISICAL_MAX_ATTEMPTS</code> und <code>PATCHNOTES_LOCK_FILE</code>. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Discord und DB nutzen <code>DEADLOCK_CENTRAL_DSN</code>, <code>DISCORD_TOKEN_PATCHNOTES</code>, <code>PATCHNOTES_BOT_TOKEN</code>, <code>BOT_TOKEN</code>, <code>PATCH_CHANNEL_ID</code> und <code>PATCH_LOGS_CHANNEL_ID</code>. (<code>scripts/run_patchnotes_bot.sh</code>, <code>main.py</code>, <code>patchnotes_db.py</code>)</p>
+<p>Polling und Steam nutzen <code>CHECK_INTERVAL_SECONDS</code>, <code>PATCH_STEAM_NEWS_TRIGGER_ENABLED</code>, <code>PATCH_STEAM_NEWS_TRIGGER_INTERVAL_SECONDS</code>, <code>PATCH_STEAM_VERSION_BURST_ENABLED</code>, <code>PATCH_STEAM_VERSION_TRIGGER_FILE</code>, <code>PATCH_STEAM_VERSION_TRIGGER_CHECK_SECONDS</code>, <code>PATCH_STEAM_VERSION_BURST_DURATION_SECONDS</code>, <code>PATCH_STEAM_VERSION_BURST_INTERVAL_SECONDS</code>, <code>PATCH_SIGNAL_HISTORY_FILE</code>, <code>PATCH_SIGNAL_HISTORY_MAX_ENTRIES</code>, <code>PATCH_MAX_AUTO_POST_AGE_DAYS</code> und <code>PATCH_MAX_CATCHUP_POSTS</code>. (<code>main.py</code>)</p>
+<p>Ausgabe und Formatierung nutzen <code>PATCH_OUTPUT_DIR</code>, <code>BOT_DRY_RUN</code>, <code>PATCH_CHUNK_LIMIT</code>, <code>PATCH_TIMING_LEVEL</code>, <code>PATCH_SCAN_VERBOSE</code>, <code>PATCH_EMBED_V2</code>, <code>PATCH_AUTO_INCLUDE_PING</code>, <code>PATCH_FORCE_POST_LATEST_ON_START</code>, <code>PATCH_TRANSLATE_SPLIT_THRESHOLD</code> und <code>PATCH_TRANSLATE_CHUNK_TARGET</code>. (<code>main.py</code>)</p>
+<p>Prepared-Patch nutzt <code>PATCH_PREPARED_FILE</code>, <code>PATCH_PREPARED_POST_ON_START</code>, <code>PATCH_PREPARED_INCLUDE_PING</code>, <code>PATCH_PREPARED_TRANSLATE</code>, <code>PATCH_PREPARED_USE_LOGS_CHANNEL</code> und <code>PATCH_PREPARED_ONLY_MODE</code>. Das One-shot-Skript setzt zusätzlich <code>PATCH_FILE</code>, <code>PATCH_TARGET</code>, <code>PATCH_PING</code> und <code>PATCH_TRANSLATE</code>. (<code>main.py</code>, <code>scripts/run_prepared_patch_once.sh</code>)</p>
+<p>KI und Brain-Sync nutzen <code>PERPLEXITY_API_KEY</code>, <code>PERPLEXITY_MODEL</code>, <code>PERPLEXITY_MAX_TOKENS</code>, <code>BRAIN_PATCHNOTES_SYNC_ENABLED</code> und <code>BRAIN_PATCHNOTES_SYNC_SERVICE</code>. (<code>perplexity_requests.py</code>, <code>main.py</code>)</p>
+</section>
+<section id="fallen">
+<h2>Fallen</h2>
+<p><code>main.py</code> hat keinen eigenen Default für <code>PATCH_CHANNEL_ID</code>; der Wrapper setzt den Default. Ein direkter Start von <code>main.py</code> ohne <code>PATCH_CHANNEL_ID</code> scheitert beim <code>int(os.getenv(&quot;PATCH_CHANNEL_ID&quot;))</code>. (<code>main.py</code>, <code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Der Wrapper akzeptiert nicht einfach ein vorhandenes <code>BOT_TOKEN</code>. Er bildet den Token aus <code>DISCORD_TOKEN_PATCHNOTES</code> oder <code>PATCHNOTES_BOT_TOKEN</code> und überschreibt ein abweichendes <code>BOT_TOKEN</code>. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p><code>DEADLOCK_CENTRAL_DSN</code> ist Pflicht. Der Wrapper beendet ohne DSN, und der DB-Layer wirft ohne DSN <code>CentralDBError</code>. (<code>scripts/run_patchnotes_bot.sh</code>, <code>patchnotes_db.py</code>)</p>
+<p><code>DEADLOCK_DB_PATH</code> und <code>DEADLOCK_DB_DIR</code> werden im Wrapper entfernt. Alte SQLite-Umgebung hat im Runtime-Pfad keine Wirkung. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Wenn <code>PATCH_OUTPUT_DIR</code> gesetzt ist und <code>BOT_DRY_RUN</code> fehlt, setzt <code>main.py</code> <code>BOT_DRY_RUN=True</code>; der <code>__main__</code>-Block startet den Discord-Client dann nicht. Für Datei-Ausgabe mit laufendem Client muss <code>BOT_DRY_RUN</code> ausdrücklich anders gesetzt werden. (<code>main.py</code>)</p>
+<p><code>PATCH_PREPARED_ONLY_MODE</code> schließt den Client nach <code>maybe_post_prepared_patch_once()</code>. Der normale Scan-Loop startet in diesem Modus nicht. (<code>main.py</code>)</p>
+<p>Ein unerwarteter Fehler in <code>_scan_loop()</code> wird geloggt und erneut geworfen. Innerhalb desselben Prozesses baut <code>main.py</code> keinen neuen Scan-Task; die Prozessaufsicht kommt aus <code>Restart=always</code>. (<code>main.py</code>, <code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
+</section>
+</main>
+</body>
+</html>

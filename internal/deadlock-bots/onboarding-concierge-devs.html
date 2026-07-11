@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Onboarding-Concierge — Spec Slice A</title>
+  <meta name="tags" content="deadlock-bots, onboarding, concierge">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs">
+</head>
+<body>
+<main>
+<h1>Concierge (Onboarding 2.0) — Spec Slice A</h1>
+<p>Ergebnis der grillme-Session 2026-07-07 (Owner + Claude). Baut auf
+<code>docs/onboarding-redesign/2026-07-02-konzept.md</code> (§4.1 Bot-Pate, §4.2 Paten,
+§5.6 Compliance-Gate) und <code>2026-07-02-ki-charakter-design.md</code> auf.
+Wo dieses Dokument abweicht, gilt dieses Dokument.</p>
+<section id="0-begriffsklaerung">
+<h2>0. Begriffsklärung</h2>
+<p>Der „Bot-Pate&quot; aus dem Konzept heißt jetzt <strong>Concierge</strong>. Kein Eigenname,
+per Du, Hotel-Flair als Tonfarbe (Anspielung auf den Doorman, keine
+Valve-Kopie, kein Lore-Wesen). Der <strong>Pate ist immer ein Mensch</strong>
+(Rolle <code>1524047896297738311</code>), der Concierge ist der Bot. Charakter-Regeln
+aus dem KI-Charakter-Design gelten unverändert (dünne Persona, dicker Ton,
+keine Mensch-Simulation, Wärme über Zusagen und ASCII-<code>:)</code>).</p>
+</section>
+<section id="1-ziel-messung">
+<h2>1. Ziel &amp; Messung</h2>
+<p>Erstkontakt so schnell wie möglich nach Join (Minuten bis wenige Stunden):
+User schreibt eine eigene Nachricht in einem öffentlichen Kanal ODER joint
+einen Voice. Integration (mitspielen) ist Folge davon. Der Concierge ist
+Trichter zu Menschen, kein Aufenthaltsraum: jede Strecke endet Richtung
+Mensch (Kanal, Lane, Steckbrief, Pate).</p>
+<p>Funnel-Events (an bestehendes Journey/Insights-System):
+<code>concierge_t0_sent</code>, <code>concierge_reply</code>, <code>concierge_tour_done</code>,
+<code>steckbrief_posted</code>, <code>first_message</code>, <code>first_voice</code>, <code>nudge_sent</code>,
+<code>pate_offered</code>, <code>opted_out</code>, <code>congrats_sent</code>.</p>
+</section>
+<section id="2-trigger-gespraechs-flow">
+<h2>2. Trigger &amp; Gesprächs-Flow</h2>
+<ol>
+<li><strong>T0:</strong> Event <code>NativeOnboardingCompleted</code> (bestehende Onboarding-Brücke)
+→ DM. <strong>T0 ist statisches Template ohne LLM</strong> (Konzept §4.1,
+Datenminimierung), Text siehe Textpaket. Enthält: Begrüßung, EINE offene
+Frage („erzähl mir, was du hier vorhast&quot;), dezente Buttons als Abkürzung
+(Tour / Mitspieler / später), Transparenz-Satz zum Gedächtnis, Hinweis
+auf „stopp&quot;.</li>
+<li><strong>DM zu (Discord 50007):</strong> Fallback privater Textkanal nach dem Muster
+aus <code>faq.rs</code> (Kanal nur User + Bot, Auto-Aufräumen). KV-Claim gegen
+Doppel-Erstellung wie in <code>onboarding_bridge.rs</code>.</li>
+<li><strong>User antwortet frei</strong> → ab jetzt LLM-Gespräch über
+<code>LlmUseCase::BotPate</code> (dl-ai). Start-Modell laut Owner-Entscheid vom
+07.07.: <strong>DeepSeek über Fireworks</strong> (<code>deepseek-v4-flash</code>, Fireworks hat
+laut Owner einen AVV/DPA; Nachweis wird als Launch-Gate abgelegt,
+§10). Provider bleibt per Env umschaltbar (<code>DL_LLM_PROVIDER_BOT_PATE</code>);
+der frühere Entscheid „gpt-5.4-mini&quot; vom 02.07. ist damit überholt. Der System-Prompt
+kommt aus dem Textpaket (Concierge v0.3). Gesprächsprinzip:
+<strong>immer offene Fragen zuerst, geschlossene Fragen und Buttons nur zum
+Präzisieren.</strong></li>
+<li><strong>Stille Intent-Klassifikation</strong> aus dem Gespräch in genau eine von vier
+Kategorien: <code>improve</code> (besser werden), <code>mates</code> (feste Mitspieler),
+<code>learn</code> (Spiel lernen), <code>casual</code> (entspannt zocken). Wird im Profil
+gespeichert, nie dem User als Formular gezeigt.</li>
+</ol>
+</section>
+<section id="3-die-drei-ausgaenge-jede-strecke-endet-richtung-mensch">
+<h2>3. Die drei Ausgänge (jede Strecke endet Richtung Mensch)</h2>
+<ul>
+<li><strong>Spielen:</strong> Preset in &lt;#1513468476365209670&gt; (📖sprachkanal-verwalten)
+erklären, dann Voice <strong>Deadlock Router</strong> (<code>1513468587195633674</code>), der
+automatisch in eine passende Lane verteilt oder eine erstellt. Ergänzend
+🎯mitspieler-suche (<code>1522769149208821881</code>). Bei <code>learn</code> zusätzlich
+Coaching-Hinweis auf &lt;#1494373349944459355&gt;.</li>
+<li><strong>Fragen:</strong> Antworten über <code>dl-knowledge</code> <code>POST /public/v1/ask</code>
+(BM25 + LLM, fail-closed). Bei Lücke KEIN Raten: Verweis auf
+&lt;#1426220702054355077&gt; (💬frag-die-community) nach dem Lücken-Dreiklang
+aus dem KI-Charakter-Design (nie ratlos, jede Antwort endet mit einer
+Handlung). „Ich find's für dich raus&quot; bleibt verboten (kein Cockpit).</li>
+<li><strong>Umschauen:</strong> Mini-Tour, 6 Stationen (Texte im Textpaket), als eine
+V2-Nachricht mit Sektionen, kein Klick-Marathon:
+<ol>
+<li>&lt;#1326973956825284628&gt; 📝patchnotes</li>
+<li>&lt;#1304169815505637458&gt; 🎥deadlock-streamer (hallo sagen, lurken)</li>
+<li>&lt;#1426220702054355077&gt; 💬frag-die-community (Fragen, Game-Invite)</li>
+<li>&lt;#1494373349944459355&gt; 🛠️ich-brauch-einen-coach</li>
+<li>&lt;#1513468476365209670&gt; 📖sprachkanal-verwalten (Preset)</li>
+<li>Voice „Deadlock Router&quot; (verteilt in Lanes)
+Die Tour endet IMMER im Steckbrief-Angebot.</li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="4-steckbrief">
+<h2>4. Steckbrief</h2>
+<ul>
+<li>Spieler-Sicht, keine Persona-Vorstellung: Rang, Modus, Ziele, konkrete
+Aufforderung („wer hat Bock, mit mir zu spielen oder mir zu helfen?&quot;).</li>
+<li>Der Concierge entwirft ihn <strong>in Ich-Form</strong> als Gedankenbrücke aus
+Gespräch + Rang (Rang-Verknüpfung, falls vorhanden) + Intent. Der User
+passt an oder verwirft; nichts wird ohne explizite Freigabe gepostet.</li>
+<li>Preview in der DM mit Buttons: Posten / Anpassen / Lieber nicht.
+„Anpassen&quot; = Modal mit dem Entwurf als editierbarem Text.</li>
+<li><strong>Routing:</strong> sucht der Steckbrief aktiv Hilfe oder einen Game-Invite →
+&lt;#1426220702054355077&gt;; lockere Vorstellung → &lt;#1289721245281292291&gt;
+(🌐allgemein). Der Concierge sagt dem User, wohin der Post geht.</li>
+<li><strong>Nie ins Leere:</strong> Post nur, wenn der Server gerade aktiv ist
+(Presence-/Aktivitätssignal, Schwelle konfigurierbar). Sonst hält der
+Concierge den Post zurück und postet später, mit kurzer Info an den User.</li>
+<li>Nach dem Post: Concierge reagiert selbst als Erster (Emoji-Reaktion +
+ein kurzer Reply, Text im Textpaket), dezenter Mod-Ping (konfigurierbar,
+Rolle per Config).</li>
+</ul>
+</section>
+<section id="5-kadenz-hart-begrenzt">
+<h2>5. Kadenz (hart begrenzt)</h2>
+<p>Maximal <strong>3 ungefragte Kontakte</strong>, danach nur noch reaktiv:</p>
+<ol>
+<li><strong>T0</strong> (Join-Tag): Begrüßung wie §2.</li>
+<li><strong>T+2</strong> nur bei Null-Aktivität (nichts geschrieben, kein Voice): ein
+einladender Nudge mit konkretem Anlass (z. B. aktive Lanes im
+Rang-Bereich), hier hängt das <strong>Paten-Angebot</strong> dran (§7).</li>
+<li><strong>T+7</strong> Reibungs-Feedback („war was verwirrend?&quot;), übernimmt die
+Exit-Reibungs-Erhebung aus Konzept Phase 0/4.</li>
+</ol>
+<p>Zusätzlich einmalig, zählt nicht als Kontakt: <strong>Gratulation</strong> beim ersten
+Erfolgsmoment (erste eigene Nachricht ODER erster Voice-Join), kurz,
+freundlich, ohne Frage und ohne Aufforderung.</p>
+<p>Jede DM an den Concierge wird jederzeit beantwortet (reaktiv, ohne Limit).</p>
+</section>
+<section id="6-gedaechtnis-datenschutz">
+<h2>6. Gedächtnis &amp; Datenschutz</h2>
+<p>Zwei Schichten in Postgres:</p>
+<ul>
+<li><code>concierge_conversations</code>: Roh-Verlauf (Runden wörtlich), damit das LLM
+nahtlos weiterchatten kann.</li>
+<li><code>concierge_profiles</code>: Destillat wie bei einem Support-Agenten: Intent,
+Rang, Spielzeiten, Funnel-Status, was schon versucht wurde
+(Steckbrief ja/nein, Tour ja/nein, Pate angeboten/gewünscht).</li>
+</ul>
+<p>Regeln:</p>
+<ul>
+<li><strong>Retention 90 Tage rollierend ab letzter Konversation</strong> für BEIDE
+Schichten. Jede Interaktion refresht die Uhr. Nach 90 Tagen Stille:
+Verlauf löschen, Profil löschen oder anonymisieren (Reaper-Job, Muster
+bestehende Retention <code>retention.rs</code>).</li>
+<li><strong>Erasure:</strong> an das bestehende Lösch-System anbinden, Concierge-Daten
+gehören zum Erasure-Umfang.</li>
+<li><strong>Opt-out:</strong> „stopp&quot; als Keyword UND natürlichsprachlich erkannt
+(„lass mich in Ruhe&quot;, „schreib mir nicht mehr&quot;). Wirkung: Status
+<code>opted_out</code>, keine ungefragten DMs mehr, reaktiv bleibt möglich.
+„Vergiss das/mich&quot; → sofortige Löschung von Verlauf + Profil,
+Bestätigung an den User.</li>
+<li>Transparenz-Satz in T0 (Textpaket), kein verstecktes Gedächtnis.</li>
+</ul>
+</section>
+<section id="7-pate-schnittstelle-vollausbau-slice-b">
+<h2>7. Pate (Schnittstelle, Vollausbau = Slice B)</h2>
+<ul>
+<li>Pool = Rolle <code>1524047896297738311</code>. Trigger: User äußert Wunsch, oder
+Angebot im T+2-Nudge. Nur mit Zustimmung, nie ungefragt zugeteilt.</li>
+<li><strong>Slice A baut nur die Übergabe:</strong> Zustimmung wird im Profil vermerkt
+(<code>pate_requested</code>), der Concierge pingt die Paten-Rolle in einem
+Mod-/Paten-Kanal mit dem Steckbrief-Destillat. Das Matching
+(Rang-Nähe, Spielzeiten, Load-Limit 2-3, privater Textkanal mit
+Concierge-Vorstellung) ist Slice B.</li>
+</ul>
+</section>
+<section id="8-optik">
+<h2>8. Optik</h2>
+<p>ALLE Concierge-Nachrichten als <strong>Components V2</strong> (Muster LFG-Panel /
+Twitch-Embeds): Gold <code>0xC8A86B</code>, <code>dl_*</code>-Emojis, Grafiken (Header-Banner)
+aus dem Brand-Asset-Fundus. Professionell und schick ist Teil des Konzepts,
+kein Nice-to-have. Assets liefert Claude, Codex bindet nur ein.</p>
+</section>
+<section id="9-nicht-ziele-slice-a">
+<h2>9. Nicht-Ziele Slice A</h2>
+<ul>
+<li>Kein Umbau/Abriss des bestehenden FAQ-Chats (bleibt parallel).</li>
+<li>Keine Persona-Übernahme der Alt-DM-Streams (Steam-Nudge, Voice-Feedback,
+LFG-Watch) — das ist Slice C (erst Persona/Ton, dann gemeinsames
+Gedächtnis).</li>
+<li>Kein Paten-Matching-Automat (Slice B).</li>
+<li>Kein Cockpit, kein „ich find's für dich raus&quot;.</li>
+<li>Bestandsuser werden nicht angeschrieben; sie erreichen den Concierge,
+indem sie ihm eine DM schreiben.</li>
+</ul>
+</section>
+<section id="10-launch-gates-vor-aktivierung-fuer-echte-neue-joins">
+<h2>10. Launch-Gates (vor Aktivierung für echte neue Joins)</h2>
+<ol>
+<li><strong>ERFÜLLT (07.07.):</strong> Fireworks-DPA als Nachweis abgelegt
+(<a href="fireworks-dpa-v3.2.pdf"><code>fireworks-dpa-v3.2.pdf</code></a> in diesem Ordner, Quelle
+https://fireworks.ai/dpa). §5.6-Anforderung „Prozessor mit DPA +
+No-Training-Zusage&quot; damit belegt. Seit 07.07. läuft der Concierge im
+Open-Modus (leere Allowlist = alle User), der Testmodus über die
+Allowlist bleibt als Option erhalten.</li>
+<li>Texte final von Claude reviewt (Codex schreibt KEINE finalen
+user-sichtbaren Texte; fehlt ein Text, <code>&quot;Platzhalter&quot;</code> + Meldung).</li>
+<li>Vertragstests grün (§11).</li>
+</ol>
+</section>
+<section id="11-tests-tdd-vertrag-zuerst">
+<h2>11. Tests (TDD, Vertrag zuerst)</h2>
+<ul>
+<li>Kadenz: nie mehr als 3 ungefragte Kontakte; T+2 nur bei Null-Aktivität;
+Gratulation genau einmal; nach <code>opted_out</code> keine ungefragte DM mehr.</li>
+<li>Retention: Reaper löscht/anonymisiert exakt nach 90 Tagen Stille;
+Interaktion refresht; Erasure räumt Concierge-Tabellen mit ab.</li>
+<li>Routing: Hilfe/Invite-Steckbrief → frag-die-community, locker →
+allgemein; Presence-Gate hält Posts zurück.</li>
+<li>50007: Fallback-Kanal wird genau einmal erstellt (Claim).</li>
+<li>Lücken-Verhalten: dl-knowledge fail-closed → Verweis-Antwort, nie Raten
+(Fixture-Test gegen den Prompt-Vertrag, soweit deterministisch testbar).</li>
+</ul>
+</section>
+<section id="12-umsetzung">
+<h2>12. Umsetzung</h2>
+<p>Implementierung durch Codex-Worker auf diesem Branch
+(<code>feature/onboarding-concierge</code>), Review + finale Texte + Verifikation
+durch Claude, Merge → Deploy → Live-Beweis nach Standardablauf.
+Wissensdoku nach Abschluss in Deadlock-Docs (<code>internal/deadlock-bots/</code>).</p>
+</section>
+</main>
+</body>
+</html>

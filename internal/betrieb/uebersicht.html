@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Cross-System-Betrieb - Übersicht</title>
+  <meta name="tags" content="internal, betrieb, systemd">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="systemd-User-Units, Deadlock-Repos, Caddy">
+</head>
+<body>
+<main>
+<h1>Cross-System-Betrieb - Übersicht</h1>
+<p>Welche Deadlock-Dienste systemd startet, wo ihr Code liegt und welche lokalen Ports sie belegen.
+Die Tabelle beschreibt den Rust-Zielpfad; Legacy-Python steht nur dort, wo der Service noch als Fallback existiert.
+Ausgeschlossene Repos und Dienste stehen nicht in der Landkarte.</p>
+<section id="dienst-landkarte">
+<h2>Dienst-Landkarte</h2>
+<table>
+<thead>
+<tr>
+<th>systemd-User-Service</th>
+<th>Repo</th>
+<th>Startpfad</th>
+<th>Binary oder Prozess</th>
+<th>Lokale Ports</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deadlock-bot-rust.service</code></td>
+<td><code>Deadlock-Bots</code></td>
+<td><code>scripts/run_dl_bot_service.sh</code></td>
+<td><code>rust/target/release/dl-bot</code></td>
+<td><code>8770</code> Master-Broker, <code>8899</code> Changelog, <code>8901</code> Server-Sync, <code>8890</code> MCP</td>
+<td><code>systemctl --user cat deadlock-bot-rust.service</code>; <code>Deadlock-Bots/scripts/run_dl_bot_service.sh</code>; <code>Deadlock-Bots/rust/bin/dl-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-web-rust.service</code></td>
+<td><code>Deadlock-Bots</code></td>
+<td><code>scripts/run_dl_web_service.sh</code></td>
+<td><code>rust/target/release/dl-web</code></td>
+<td><code>8766</code> Dashboard, <code>8768</code> Aktivität, <code>8771</code> Builds/Tierlist</td>
+<td><code>systemctl --user cat deadlock-web-rust.service</code>; <code>Deadlock-Bots/scripts/run_dl_web_service.sh</code>; <code>Deadlock-Bots/rust/bin/dl-web/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>dl-knowledge.service</code></td>
+<td><code>Deadlock-Bots</code></td>
+<td><code>scripts/run_dl_knowledge_service.sh</code></td>
+<td><code>rust/target/release/dl-knowledge</code></td>
+<td><code>8896</code> FAQ-Wissensdienst</td>
+<td><code>systemctl --user cat dl-knowledge.service</code>; <code>Deadlock-Bots/scripts/run_dl_knowledge_service.sh</code>; <code>Deadlock-Bots/rust/bin/dl-knowledge/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-twitch-invite-sync.service</code></td>
+<td><code>Deadlock-Bots</code></td>
+<td><code>scripts/run_twitch_invite_sync.sh</code></td>
+<td><code>rust/target/release/dl-twitch-invite-sync</code></td>
+<td>kein Listener; nutzt <code>127.0.0.1:8776</code> als Upstream</td>
+<td><code>systemctl --user cat deadlock-twitch-invite-sync.service</code>; <code>Deadlock-Bots/scripts/run_twitch_invite_sync.sh</code></td>
+</tr>
+<tr>
+<td><code>dl-repostats.service</code></td>
+<td><code>Deadlock-Bots</code></td>
+<td>direkte Unit</td>
+<td><code>rust/target/release/dl-repostats</code></td>
+<td>kein Listener; schreibt <code>data/repo_activity.json</code></td>
+<td><code>systemctl --user cat dl-repostats.service</code>; <code>Deadlock-Bots/rust/Cargo.toml</code></td>
+</tr>
+<tr>
+<td><code>steam-core.service</code></td>
+<td><code>Deadlock-Steam-Bot</code></td>
+<td><code>rust/deploy/run-steam-core.sh</code></td>
+<td><code>rust/target/release/steam-core</code></td>
+<td><code>8782</code> Steam-Core-API</td>
+<td><code>systemctl --user cat steam-core.service</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-core.sh</code>; <code>Deadlock-Steam-Bot/rust/crates/steam-core/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>steam-bot.service</code></td>
+<td><code>Deadlock-Steam-Bot</code></td>
+<td><code>rust/deploy/run-steam-bot.sh</code></td>
+<td><code>rust/target/release/steam-bot</code></td>
+<td><code>8783</code> Steam-Link/API</td>
+<td><code>systemctl --user cat steam-bot.service</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-bot.sh</code>; <code>Deadlock-Steam-Bot/rust/crates/steam-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-twitch-bot-rust.service</code></td>
+<td><code>Deadlock-Twitch-Bot</code></td>
+<td><code>rust/scripts/run_tb_bot_service.sh</code></td>
+<td><code>rust/target/release/tb-bot</code></td>
+<td><code>8776</code> interne API, <code>8786</code> EventSub-Webhook</td>
+<td><code>systemctl --user cat deadlock-twitch-bot-rust.service</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_bot_service.sh</code>; <code>Deadlock-Twitch-Bot/rust/bin/tb-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-twitch-dashboard-rust.service</code></td>
+<td><code>Deadlock-Twitch-Bot</code></td>
+<td><code>rust/scripts/run_tb_dashboard_service.sh</code></td>
+<td><code>rust/target/release/tb-dashboard</code></td>
+<td><code>8769</code> Dashboard/API/Legal</td>
+<td><code>systemctl --user cat deadlock-twitch-dashboard-rust.service</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_dashboard_service.sh</code>; <code>Deadlock-Twitch-Bot/rust/bin/tb-dashboard/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-twitch-stream-coaching-watch.service</code></td>
+<td><code>Deadlock-Twitch-Bot</code></td>
+<td><code>scripts/run_stream_coaching_watch.sh</code></td>
+<td>Script-Prozess</td>
+<td>kein dokumentierter HTTP-Listener</td>
+<td><code>systemctl --user cat deadlock-twitch-stream-coaching-watch.service</code>; <code>Deadlock-Twitch-Bot/scripts/run_stream_coaching_watch.sh</code></td>
+</tr>
+<tr>
+<td><code>deadlock-turniere.service</code></td>
+<td><code>Deadlock-Turniere</code></td>
+<td><code>scripts/run_turniere_backend_rust.sh</code></td>
+<td><code>rust/target/release/turnier-bot</code></td>
+<td><code>8900</code> Turnier-API</td>
+<td><code>systemctl --user cat deadlock-turniere.service</code>; <code>Deadlock-Turniere/scripts/run_turniere_backend_rust.sh</code>; <code>Deadlock-Turniere/rust/crates/turnier-bot/src/main.rs</code></td>
+</tr>
+<tr>
+<td><code>deadlock-patchnotes.service</code></td>
+<td><code>Deadlock--Patchnotes-Bot</code></td>
+<td><code>scripts/run_patchnotes_bot.sh</code></td>
+<td><code>main.py</code></td>
+<td>kein eigener öffentlicher Port</td>
+<td><code>systemctl --user cat deadlock-patchnotes.service</code>; <code>Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh</code></td>
+</tr>
+<tr>
+<td><code>deadlock-website-backend.service</code></td>
+<td><code>Website</code></td>
+<td><code>scripts/run_builds_backend.sh</code></td>
+<td><code>builds/backend-rust/target/release/ddc-website-backend</code></td>
+<td><code>8772</code> Website-/Coaching-/Patch-API</td>
+<td><code>systemctl --user cat deadlock-website-backend.service</code>; <code>Website/scripts/run_builds_backend.sh</code>; <code>Website/builds/backend-rust/src/config.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="legacy-fallbacks">
+<h2>Legacy-Fallbacks</h2>
+<p><code>deadlock-bot.service</code>, <code>deadlock-twitch-bot.service</code> und <code>deadlock-twitch-dashboard.service</code> sind Python-Legacy-Units. Sie werden hier nicht als Zielpfad beschrieben: Die Rust-Units und Caddy-Routen belegen die aktuelle Betriebsrichtung, Patchnotes bleibt die bekannte Ausnahme mit Python-Prozess. (<code>systemctl --user cat deadlock-bot.service</code>; <code>systemctl --user cat deadlock-twitch-bot.service</code>; <code>systemctl --user cat deadlock-twitch-dashboard.service</code>)</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>FAQ Raids</title>
+  <meta name="tags" content="twitch-bot, faq, raids, weiterleitung">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>FAQ Raids</h1>
+  <p><strong>Kurz gesagt.</strong> Der Auto-Raid leitet am Stream-Ende deine Zuschauer an einen passenden Deadlock-Kanal weiter. Nur der manuelle Raid ist rollenbegrenzt; Status und Historie darf jede Person im Chat lesen, und sie sind reine Anzeigen ohne Statusänderung.</p>
+
+  <section id="raid-starten-oder-pruefen">
+    <h2>Wie starte oder prüfe ich einen Raid?</h2>
+    <p>Der Auto-Raid läuft ohne Zutun am Ende eines Deadlock-Streams, wenn Partnerstatus, aktivierte Raid-Funktion und gültige Autorisierung passen. Zusätzlich können Broadcaster und Moderation manuell arbeiten:</p>
+    <ul>
+      <li><code>!raid</code> bzw. <code>!traid</code> – manueller Raid zu einem passenden Kanal (nur Broadcaster oder Moderation).</li>
+      <li><code>!raid_status</code> · <code>!raidbot_status</code> – aktueller Auto-Raid-Status; jeder im Chat darf ihn abfragen.</li>
+      <li><code>!raid_history</code> · <code>!raidbot_history</code> – die letzten Raid-Versuche; ebenfalls für alle abfragbar.</li>
+    </ul>
+    <p>Den Ablauf beschreibt <a href="auto-raid.html">Auto-Raid</a>.</p>
+  </section>
+
+  <section id="zielkanal-nicht-waehlbar">
+    <h2>Kann ich den Zielkanal des Raids selbst festlegen?</h2>
+    <p>Nein. Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter; den konkreten Zielkanal wählst du nicht selbst. Beobachtbar ist nur das Ergebnis: Gibt es kein geeignetes, live streamendes Ziel, findet kein Raid statt – das ist normal und kein Fehler. Über <code>!raid_status</code> und <code>!raid_history</code> siehst du Status und die letzten Versuche.</p>
+  </section>
+
+  <section id="kein-raid">
+    <h2>Es hat kein Raid stattgefunden – was tun?</h2>
+    <p>Prüfe, ob du in der Deadlock-Kategorie gestreamt hast, ob deine Twitch-Autorisierung noch gültig ist und ob überhaupt ein passender Partner live war. Zeigt das Dashboard eine abgelaufene Autorisierung, verbinde erneut. Bleibt das Problem bestehen, wende dich an den Support (siehe <a href="faq-support.html">FAQ Support</a>).</p>
+    <nav><a href="auto-raid.html">Auto-Raid</a><a href="chat-befehle.html">Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>

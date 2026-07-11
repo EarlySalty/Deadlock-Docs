@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Moderation und Scam-Guard</title>
+  <meta name="tags" content="deadlock-bots, intern, moderation, scam">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots">
+</head>
+<body>
+<main>
+<h1>Moderation und Scam-Guard</h1>
+<p>Moderation besteht aus Content-Analyse, Verifikation, Verhaltensdetektor, Action-Policy und Case-Store. <code>dl-bot</code> verdrahtet Textanalyse, Bildanalyse und Verifikation, baut daraus <code>ModerationSystem</code> und registriert Review-Buttons mit Prefix <code>aimod:</code> (<code>rust/bin/dl-bot/src/main.rs</code>, <code>rust/crates/dl-moderation/src/lib.rs</code>, <code>rust/crates/dl-moderation/src/moderation_system.rs</code>).</p>
+<p>Der Scanner läuft nur bei <code>AI_MODERATOR_ENABLE=1</code>. Auto-Vollzug hängt an <code>MODERATION_ENFORCE</code>, danach <code>MOD_ENFORCE</code>, danach <code>SECURITY_GUARD_ENFORCE</code>; ohne explizit wahre Variable läuft die Policy im Shadow-Modus (<code>rust/bin/dl-bot/src/main.rs</code>, <code>rust/crates/dl-moderation/src/moderation_system.rs</code>).</p>
+<p>Content-Analyse nutzt Text und optional Vision. Text nutzt den Fireworks-Default aus <code>dl-ai</code>, Bildanalyse den OpenAI-Default; die Analyse wählt die schwerere Kategorie aus Text und Bild (<code>rust/crates/dl-ai/src/lib.rs</code>, <code>rust/crates/dl-moderation/src/content_analyzer.rs</code>).</p>
+<p>High-Damage-Kategorien können bei bestätigter Verifikation und ausreichender Confidence automatisch Timeout auslösen. Account-Takeover-Signale können automatisch Timeout oder Bann auslösen; andere Verhaltenssignale brauchen Content-Bestätigung oder werden als Proposal behandelt (<code>rust/crates/dl-moderation/src/action_policy.rs</code>, <code>rust/crates/dl-moderation/src/behavior_detector.rs</code>).</p>
+<p>Der Verhaltensdetektor arbeitet ohne LLM. Er erkennt Account-Takeover, Burst-Rate, junge Accounts mit Burst, Bildverteilung über mehrere Kanäle, fremde Invites und Scam-Keywords wie <code>telegram</code>, <code>100k</code>, <code>usdt</code>, <code>profit</code>, <code>promo code</code> und <code>earning $</code> (<code>rust/crates/dl-moderation/src/behavior_detector.rs</code>).</p>
+<p>Staff wird fail-closed behandelt: Wenn der Staff-Status nicht bekannt ist, scannt der Bot die Nachricht nicht. Bekannte Staff-, Admin- oder <code>manage_messages</code>-Autoren werden ebenfalls übersprungen (<code>rust/crates/dl-moderation/src/moderation_system.rs</code>).</p>
+<p>Ein Case muss zuerst in <code>moderation.ai_moderation_cases</code> persistieren. Erst danach löscht der Bot Nachrichten, setzt Timeout oder Bann, spiegelt Evidence-Bilder und postet den Review-Case in den Moderationskanal (<code>rust/crates/dl-moderation/src/store.rs</code>, <code>rust/crates/dl-moderation/src/moderation_system.rs</code>).</p>
+<p>Review-Buttons können Cases akzeptieren, bannen, verwerfen, Timeout aufheben oder Bann aufheben. Diese Pfade lesen den Case aus der DB, prüfen, ob er schon behandelt ist, führen die Discord-Aktion aus und schreiben das Ergebnis zurück (<code>rust/crates/dl-moderation/src/moderation_system.rs</code>, <code>rust/crates/dl-moderation/src/store.rs</code>).</p>
+<p>Moderationsinhalte werden nach 90 Tagen anonymisiert oder geleert. Der Privacy-Retention-Worker läuft alle 24 Stunden und bearbeitet <code>moderation.ai_moderation_cases</code>, <code>moderation.ai_moderation_ragebait_hits</code> und <code>moderation.security_guard_incidents</code> (<code>rust/crates/dl-community/src/privacy.rs</code>).</p>
+</main>
+</body>
+</html>

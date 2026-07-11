@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Website Integrationen</title>
+  <meta name="tags" content="website, intern, integrationen">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Website">
+</head>
+<body>
+<main>
+<h1>Integrationen</h1>
+<section id="bot-apis">
+<h2>Bot-APIs</h2>
+<p>Interne Bot-Endpunkte im Website-Backend akzeptieren <code>X-Internal-Token</code> oder <code>X-Bot-Token</code>; der Vergleich nutzt <code>constant_time_eq</code> gegen <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>MASTER_BROKER_TOKEN</code> oder <code>COACHING_BOT_TOKEN</code> (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>).</p>
+<p>Der Rust-Bot-Client baut <code>WEBSITE_API_BASE</code>, Default <code>https://deutsche-deadlock-community.de/api</code>, und sendet beide Header bei <code>POST /coaching/platform/sync</code>, <code>POST /coaching/platform/coaches/sync</code>, <code>GET /coaching/platform/notifications/due</code> und <code>POST /coaching/platform/notifications/ack</code> (<code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-community/src/coaching.rs</code>).</p>
+<p>Der aktive Rust-Bot-Wrapper setzt <code>WEBSITE_API_BASE=http://127.0.0.1:8772/api</code>, wenn die Variable nicht schon gesetzt ist; damit laufen Bot-Calls lokal gegen das Website-Backend statt über die öffentliche Domain (<code>/home/naniadm/Documents/Deadlock-Bots/scripts/run_dl_bot_service.sh</code>).</p>
+<p>Auth im Website-Backend delegiert Discord-Login-Daten an <code>DASHBOARD_INTERNAL_API_BASE</code>, Default <code>http://127.0.0.1:8766</code>, und sendet <code>X-Internal-Token</code> mit einem Token aus <code>WEBSITE_INTERNAL_API_TOKEN</code>, <code>TURNIER_INTERNAL_API_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code> oder <code>TWITCH_INTERNAL_API_TOKEN</code> (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/auth.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/config.rs</code>).</p>
+<p>Der Coaching-No-Show-Check ruft <code>{DASHBOARD_INTERNAL_API_BASE}/internal/coaching/v1/no-show-ban</code> auf und nutzt <code>TURNIER_INTERNAL_API_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>TWITCH_INTERNAL_API_TOKEN</code> oder <code>MASTER_BROKER_TOKEN</code> (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>).</p>
+</section>
+<section id="coaching-flow">
+<h2>Coaching-Flow</h2>
+<p><code>dl-coaching</code> routet <code>/anfrage</code> auf <code>CoachingRequestPage</code>, <code>/dashboard</code> auf <code>CoachDashboardPage</code>, <code>/overview</code> auf <code>CoachOverviewPage</code>, <code>/coachees/:id</code> auf <code>CoacheeDetailPage</code>, <code>/me</code> auf <code>MyCoachingPage</code> und Scrim-Seiten unter <code>/scrims</code> (<code>/home/naniadm/Documents/Website/dl-coaching/src/App.tsx</code>).</p>
+<p>Der Coaching-API-Client postet neue Website-Anfragen an <code>/coaching/requests</code>, liest Coaches über <code>/coaching/coaches</code>, lädt Plattform-Queue über <code>/coaching/platform/queue</code> und verwaltet Ziele, Meilensteine, Notizen und Termine über <code>/coaching/platform/*</code> (<code>/home/naniadm/Documents/Website/dl-coaching/src/api/client.ts</code>).</p>
+<p><code>POST /api/coaching/requests</code> schreibt <code>coaching.requests</code>, prüft vorher den No-Show-Ban über die interne Dashboard-API und speichert optionale Website- und Bot-IDs für idempotentes Matching (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>).</p>
+<p><code>POST /api/coaching/platform/sync</code> ist der Bot-Spiegel-Endpunkt; er verlangt Bot-Token, verlangt <code>website_request_id</code>, <code>bot_request_id</code> oder <code>request_uid</code>, upsertet <code>coaching.coachees</code>, aktualisiert oder erstellt <code>coaching.requests</code> und kann Sessions in <code>coaching.sessions</code> mitschreiben (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>).</p>
+<p><code>GET /api/coaching/platform/notifications/due</code> liefert Termin-Events und <code>request_created</code>-Events; <code>POST /api/coaching/platform/notifications/ack</code> setzt <code>notify_*_at</code> auf Terminen oder <code>notify_discord_at</code> auf Requests (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>).</p>
+</section>
+<section id="discord-linked-role">
+<h2>Discord Linked Role</h2>
+<p>Linked-Role-Login und Callback hängen unter <code>/api/auth/discord/linked-role/*</code>; Caddy macht daraus öffentlich <code>/coaching/api/auth/discord/linked-role/*</code> und der Startwrapper setzt die öffentliche Callback-URL entsprechend (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/app.rs</code>, <code>/home/naniadm/Documents/Website/scripts/run_builds_backend.sh</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p>Discord-Role-Tokens liegen in <code>core.discord_role_connection_tokens</code>; der Sync-State liegt in <code>core.discord_role_connection_sync_state</code> und wird per Migration angelegt (<code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070330_discord_role_connections.sql</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/linked_role.rs</code>).</p>
+</section>
+<section id="turnier-portal">
+<h2>Turnier-Portal</h2>
+<p>Das Website-Repo verlinkt <code>/turnier/</code> in Navigation und Sitemap, aber die aktive Auslieferung kommt laut Caddy aus <code>/home/naniadm/Documents/Deadlock-Turniere/frontend/dist</code> und nicht aus dem Website-Repo (<code>/home/naniadm/Documents/Website/dl-brand/nav.js</code>, <code>/home/naniadm/Documents/Website/scripts/build-sitemap.mjs</code>, <code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>).</p>
+<p>Caddy proxyt <code>/turnier/api/*</code> und <code>/turnier/auth/*</code> nach <code>127.0.0.1:8900</code>; <code>deadlock-turniere.service</code> arbeitet im Verzeichnis <code>/home/naniadm/Documents/Deadlock-Turniere</code> (<code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>).</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Auto-Raid</title>
+  <meta name="tags" content="twitch-bot, raid, auto-raid, weiterleitung">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Auto-Raid</h1>
+  <p><strong>Kurz gesagt.</strong> Endet der Deadlock-Stream eines aktiven, autorisierten Partners und ist Auto-Raid aktiv, versucht der Bot, deine Zuschauer an einen passenden, live streamenden Deadlock-Kanal weiterzuleiten. Ein Raid ohne geeignetes Ziel bleibt aus.</p>
+
+  <section id="wie-es-laeuft">
+    <h2>Wie der Auto-Raid abläuft</h2>
+    <p>Beende deinen Deadlock-Stream regulär. Der Bot prüft aktiven Partnerstatus, aktivierte Raid-Funktion und eine gültige Twitch-Autorisierung und versucht dann den Raid – ohne weiteren Chatbefehl. Gibt es kein geeignetes Ziel oder ist die Autorisierung nicht mehr gültig, findet kein Raid statt. Das ist ein zulässiges Ergebnis.</p>
+    <p>Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter. Den konkreten Zielkanal wählst du nicht selbst; beobachtbar ist nur, ob ein Raid stattgefunden hat oder mangels Ziel ausgeblieben ist.</p>
+  </section>
+
+  <section id="bedienung">
+    <h2>Bedienung und Status</h2>
+    <ul>
+      <li>Status prüfen: <code>!raid_status</code>.</li>
+      <li>Letzte Versuche ansehen: <code>!raid_history</code>.</li>
+      <li>Manueller Versuch: <code>!raid</code> bzw. <code>!traid</code> – nur durch Broadcaster oder Moderation.</li>
+    </ul>
+    <p>Verlangt der Bot eine neue Autorisierung, durchlaufe den sichtbaren Autorisierungsweg erneut (siehe <a href="einrichtung.html">Einrichtung</a>). Ein manueller Raid ersetzt kein geeignetes Ziel und keine gültige Autorisierung.</p>
+    <nav><a href="faq-raids.html">FAQ Raids</a><a href="chat-befehle.html">Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>

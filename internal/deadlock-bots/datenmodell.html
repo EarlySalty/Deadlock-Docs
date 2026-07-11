@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock-Bots Datenmodell</title>
+  <meta name="tags" content="deadlock-bots, intern, postgres, datenmodell">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots">
+</head>
+<body>
+<main>
+<h1>Datenmodell</h1>
+<p>Die zentrale Datenbank ist Postgres. Alle Rust-Binaries, die zentrale Daten brauchen, lesen genau <code>DEADLOCK_CENTRAL_DSN</code> über <code>dl_central_db::dsn_from_env</code>; es gibt keinen Fallback auf <code>DATABASE_URL</code> (<code>rust/crates/dl-central-db/src/pool.rs</code>, <code>rust/bin/dl-central-migrate/src/main.rs</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
+<section id="schemata">
+<h2>Schemata</h2>
+<table>
+<thead>
+<tr>
+<th>Schema</th>
+<th>Inhalt</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core</code></td>
+<td>Nutzer, Steam-Links, Privacy, Tags und Discord-Role-Connection-Tokens.</td>
+<td><code>rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql</code>, <code>rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070330_discord_role_connections.sql</code></td>
+</tr>
+<tr>
+<td><code>steam</code></td>
+<td>Beta-Invite-Flows, Friend-Requests, Steam-Links, Rank-History, Rich-Presence und Steam-Tasks.</td>
+<td><code>rust/crates/dl-central-db/migrations/0003_steam.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070311_steam_rank_history_account_scope.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching</code></td>
+<td>Coaching-Anfragen, Coaches, Sessions, Surveys, Reviews, Termine und Ziele.</td>
+<td><code>rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>scrim</code></td>
+<td>Scrim-Teilnehmer, Teams, Team-Members und Matches.</td>
+<td><code>rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070230_scrim_management.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070620_scrim_match_orchestrator.sql</code></td>
+</tr>
+<tr>
+<td><code>voice</code></td>
+<td>Voice-Stats, TempVoice, Router-Prefs, Rank-Anker, Rename-Queue und LFG-Posts.</td>
+<td><code>rust/crates/dl-central-db/migrations/0005_voice.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070320_lfg_posts.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070335_lfg_post_ids.sql</code></td>
+</tr>
+<tr>
+<td><code>tierlist</code></td>
+<td>Heroes, Builds, Snapshots, Votes, Streamer und Meta-Importe.</td>
+<td><code>rust/crates/dl-central-db/migrations/0006_tierlist.sql</code></td>
+</tr>
+<tr>
+<td><code>bot</code></td>
+<td>FAQ-Sessions, KV-Store, Reaction-Roles, OAuth-States, Notifications, Invite-Caches und Twitch-Streamer-Invites.</td>
+<td><code>rust/crates/dl-central-db/migrations/0007_bot.sql</code></td>
+</tr>
+<tr>
+<td><code>clips</code></td>
+<td>Clip-Einsendungen, Fenster, Contests, Fetch-Historie und Templates.</td>
+<td><code>rust/crates/dl-central-db/migrations/0008_clips.sql</code></td>
+</tr>
+<tr>
+<td><code>turnier</code></td>
+<td>Turnierdaten, Teams, Matches, Sessions, Reminders, Profile und Audit-Log.</td>
+<td><code>rust/crates/dl-central-db/migrations/0009_turnier.sql</code></td>
+</tr>
+<tr>
+<td><code>activity</code></td>
+<td>Member-Events, Message-/Voice-Aktivität, Journey, Presence, Interactions, Insights und Directory.</td>
+<td><code>rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070220_journey_ingestion_analytics.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070610_server_insights_backend.sql</code></td>
+</tr>
+<tr>
+<td><code>moderation</code></td>
+<td>AI-Moderation-Cases, Ragebait-Hits und Security-Guard-Incidents.</td>
+<td><code>rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070250_moderation_unified_behavior_cases.sql</code></td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td>Meta-Announcements und Meta-Reports.</td>
+<td><code>rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code></td>
+</tr>
+<tr>
+<td><code>patchnotes</code></td>
+<td>Changelog-Posts, Deadlock-Changelogs und Meta-Patchnotes.</td>
+<td><code>rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code>, <code>rust/crates/dl-central-db/migrations/0014_patchnotes_identity_sequences.sql</code></td>
+</tr>
+<tr>
+<td><code>brain</code></td>
+<td>Source-Runs, Dokumente, Entities, Patch-Events, Forum-Claims, Knowledge-Events und Insights.</td>
+<td><code>rust/crates/dl-central-db/migrations/0012_brain_knowledge_timeline.sql</code>, <code>rust/crates/dl-central-db/migrations/0013_brain_insight_records.sql</code></td>
+</tr>
+<tr>
+<td><code>server_config</code></td>
+<td>Server-as-Code-Sollzustand, Live-Snapshots, Diffs, Apply-Runs, Drift, Adoption und Rollback-Exports.</td>
+<td><code>rust/crates/dl-central-db/migrations/2026070210_server_config_schema.sql</code>, <code>rust/crates/dl-central-db/migrations/2026070240_server_sync_rollback_exports.sql</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="invarianten">
+<h2>Invarianten</h2>
+<p><code>core.steam_links</code> hat den Primärschlüssel <code>(discord_id, steam_id)</code>, einen eindeutigen Owner pro <code>steam_id64</code> und seit Migration <code>0015</code> höchstens einen primären Steam-Link pro Discord-User. Privacy-Deletes greifen zusätzlich Steam-Seitentabellen ab (<code>rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql</code>, <code>rust/crates/dl-central-db/migrations/0015_steam_links_one_primary.sql</code>, <code>rust/crates/dl-community/src/privacy.rs</code>).</p>
+<p><code>core.user_privacy.user_id</code> ist Primärschlüssel. Journey-Metadaten prüfen vor Inserts auf <code>opted_out</code>, und der Privacy-Erasure-Pfad löscht oder anonymisiert Aktivitäts-, Voice-, Coaching-, KV- und Steam-Daten (<code>rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql</code>, <code>rust/crates/dl-activity/src/journey.rs</code>, <code>rust/crates/dl-community/src/privacy.rs</code>).</p>
+<p>FAQ-Daten hängen an <code>bot.faq_chat_sessions.session_id</code>. <code>bot.faq_chat_messages.session_id</code> referenziert die Session mit <code>ON DELETE CASCADE</code>; der Code liest nur die letzten 10 Nachrichten als Gesprächskontext (<code>rust/crates/dl-central-db/migrations/0007_bot.sql</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p>Voice-State nutzt zusammengesetzte Schlüssel für konfliktarme Zustände: <code>voice.deadlock_party_members</code> nutzt <code>(party_id, steam_id)</code>, <code>voice.deadlock_subrank_roles</code> nutzt <code>(guild_id, rank_value, subrank)</code>, und <code>voice.tempvoice_interface</code> schützt <code>(guild_id, message_id)</code> plus eindeutige <code>lane_id</code> (<code>rust/crates/dl-central-db/migrations/0005_voice.sql</code>, <code>rust/crates/dl-voice/src/lib.rs</code>).</p>
+<p><code>tierlist.deadlock_heroes</code> ist eindeutig nach <code>hero_id</code> und <code>name</code>, <code>tierlist.deadlock_hero_builds</code> nach <code>(hero_id, build_id)</code>, und <code>tierlist.tierlist_snapshots</code> nach <code>(bucket, fetched_at)</code>. Votes hängen am <code>build_id</code> als Primärschlüssel (<code>rust/crates/dl-central-db/migrations/0006_tierlist.sql</code>, <code>rust/crates/dl-tierlist/src/lib.rs</code>).</p>
+<p>Moderations-Cases werden nur weiterverarbeitet, wenn der Insert in <code>moderation.ai_moderation_cases</code> gelingt. Auto-Aktionen aktualisieren danach <code>action</code>; Review-Buttons schreiben Moderator, Zeitpunkt und Ergebnis zurück (<code>rust/crates/dl-moderation/src/store.rs</code>, <code>rust/crates/dl-moderation/src/moderation_system.rs</code>).</p>
+<p>Journey-Rohdaten halten Nutzerbezug maximal 180 Tage und werden danach in Tagesaggregate verdichtet. Message-Inhalte werden im Journey-Pfad nicht persistiert; gespeichert werden Metadaten wie wer, wo, wann, Länge, Anhang und Reply (<code>rust/crates/dl-activity/src/journey.rs</code>).</p>
+<p>Server-Insights trennen Live-Daten und Importdaten. <code>activity.insights_imports</code> ist eindeutig nach <code>(guild_id, import_kind, period_start, dimension)</code>, während <code>activity.presence_daily_seen</code> nach <code>(guild_id, user_id, day)</code> dedupliziert (<code>rust/crates/dl-central-db/migrations/2026070610_server_insights_backend.sql</code>, <code>rust/crates/dl-dashboard/src/insights.rs</code>).</p>
+<p>Server-as-Code trennt gewünschte Objekte und Live-Snapshots. Snapshot-Kindtabellen referenzieren <code>server_config.live_snapshots</code> mit <code>ON DELETE CASCADE</code>, und <code>apply_runs.status</code> ist auf <code>planned</code>, <code>running</code>, <code>applied</code>, <code>dry_run</code>, <code>failed</code> oder <code>hash_mismatch</code> begrenzt (<code>rust/crates/dl-central-db/migrations/2026070210_server_config_schema.sql</code>, <code>rust/crates/dl-server-as-code/src/lib.rs</code>).</p>
+</section>
+</main>
+</body>
+</html>
