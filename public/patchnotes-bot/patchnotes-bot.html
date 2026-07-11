@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot</title>
+  <meta name="tags" content="patchnotes-bot, patchnotes, deadlock, discord, archiv">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+</head>
+<body>
+<main>
+  <h1>Patchnotes-Bot</h1>
+  <p><strong>Kurz gesagt.</strong> Der Patchnotes-Bot bringt offizielle Deadlock-Patchnotes übersetzt und für Discord aufbereitet in die Community. Zum Nachschlagen älterer Patches gibt es zusätzlich ein durchsuchbares Archiv auf der Community-Website. Diese Seite erklärt das beobachtbare Verhalten und sichere nächste Schritte; sie ist selbst kein Patch-Archiv.</p>
+
+  <nav aria-label="Auf dieser Seite">
+    <ul>
+      <li><a href="#quellen-ausgabe">Quellen, Übersetzung und Discord-Ausgabe</a></li>
+      <li><a href="#archiv">Archiv, Suche und Filter</a></li>
+      <li><a href="#verzoegerung">Verzögerung und fehlende Ausgabe</a></li>
+      <li><a href="#neuester-patch">Neuester Patch</a></li>
+      <li><a href="#neuuebersetzung">Neuübersetzung anfordern</a></li>
+      <li><a href="#prozent-lesehilfe">Prozent-Lesehilfe bei Wertänderungen</a></li>
+      <li><a href="#emoji-darstellung">Emoji-Darstellung</a></li>
+      <li><a href="#grenzen">Häufige Grenzen</a></li>
+    </ul>
+  </nav>
+
+  <section id="quellen-ausgabe">
+    <h2>Quellen, Übersetzung und Discord-Ausgabe</h2>
+    <p>Der Bot beobachtet die offiziellen Deadlock-Veröffentlichungen im Deadlock-Forum und in den Steam-News und wählt daraus die jeweils neueste passende Quelle. Verweist ein Forumsbeitrag im Kern nur auf die Steam-Ausgabe, holt der Bot den eigentlichen Inhalt nach, damit nicht bloß eine Vorschau erscheint.</p>
+    <p>Aus dem gefundenen Original erstellt der Bot eine ins Deutsche übersetzte, für Discord aufbereitete Fassung und veröffentlicht sie im dafür vorgesehenen Patchnotes-Bereich des Servers. Der Bot merkt sich bereits verarbeitete Inhalte, damit derselbe Patch nicht doppelt ausgespielt wird.</p>
+    <p>Wichtig für Erwartungen: Eine unmittelbare oder lückenlose Veröffentlichung jedes Beitrags ist nicht zugesichert. Der Bot versucht, die echte Patchquelle zu treffen, kann sich aber nicht auf jede externe Änderung verlassen.</p>
+  </section>
+
+  <section id="archiv">
+    <h2>Archiv, Suche und Filter</h2>
+    <p>Zum Nachschlagen und Durchsuchen älterer Patchnotes dient das Patch-Portal auf der Community-Website. Je nach verfügbarer Datenlage bietet es eine Suche, Filter nach betroffenen Helden oder Gegenständen, eine Detailansicht und einen Verweis auf die Originalquelle.</p>
+    <p>Stehen strukturierte Daten einmal nur eingeschränkt bereit, fällt das Portal auf eine einfachere Archivansicht zurück. Die Inhalte bleiben erreichbar; nur die Darstellung ist dann schlichter.</p>
+  </section>
+
+  <section id="verzoegerung">
+    <h2>Verzögerung und fehlende Ausgabe</h2>
+    <p>Externe Änderungen an einer Quelle oder ein ungeeigneter Beitrag können dazu führen, dass eine Discord-Ausgabe später erscheint oder zunächst ausbleibt, obwohl der Bot weiterläuft.</p>
+    <p>Fehlt eine Übersetzung oder wirkt sie verspätet, sind die sicheren nächsten Schritte: im Patch-Archiv der Website nachsehen, die verlinkte Originalquelle prüfen und bei anhaltendem Problem den sichtbaren Support-Weg der Community nutzen. Es ist kein Zeitpunkt zu erfinden, zu dem ein bestimmter Patch erscheinen muss.</p>
+  </section>
+
+  <section id="neuester-patch">
+    <h2>Neuester Patch</h2>
+    <p>Welcher Patch gerade der aktuellste ist, ändert sich laufend. Eine gespeicherte Momentaufnahme darf deshalb nicht als dauerhaft aktuell ausgegeben werden.</p>
+    <p>Den neuesten Stand zeigen die aktuellen Community-Ankündigungen und das Patch-Portal auf der Website. Für die Frage „Was ist der neueste Patch?“ führt der verlässliche Weg dorthin, statt eine feste Antwort festzuschreiben.</p>
+  </section>
+
+  <section id="neuuebersetzung">
+    <h2>Neuübersetzung anfordern</h2>
+    <p>Für Mitglieder gibt es keinen öffentlichen Befehl, mit dem sich ein Patch erneut übersetzen lässt. Ein solcher Weg wird bewusst nicht beworben.</p>
+    <p>Wirkt eine Ausgabe falsch oder fehlt sie, ist der richtige Schritt der sichtbare Support-Weg der Community. Von dort kann das Anliegen weitergegeben werden.</p>
+  </section>
+
+  <section id="prozent-lesehilfe">
+    <h2>Prozent-Lesehilfe bei Wertänderungen</h2>
+    <p>Erkennt der Bot in einer Zeile eine eindeutige Zahlenänderung der Form „von X auf Y“, kann er dahinter zusätzlich eine selbst berechnete Prozentangabe in Klammern ergänzen — je nachdem, ob der Wert steigt oder fällt mit Plus- oder Minuszeichen. Das ist eine reine Lesehilfe und kein Teil des offiziellen Originaltextes.</p>
+    <p>Diese Ergänzung erscheint nur bei klar erkannten Zahlenpaaren und kann fehlen. Bleibt sie aus, ist der Patchtext trotzdem vollständig; es fehlt lediglich die zusätzliche Prozent-Einordnung.</p>
+  </section>
+
+  <section id="emoji-darstellung">
+    <h2>Emoji-Darstellung</h2>
+    <p>In der aufbereiteten Discord-Ausgabe können bekannte Helden, Gegenstände und Fähigkeiten mit passenden Emojis markiert werden, damit die Abschnitte leichter zu überfliegen sind.</p>
+    <p>Fehlt für einen Namen eine hinterlegte Emoji-Zuordnung, bleibt der Text unverändert stehen. Die Bedeutung ändert sich durch eine Emoji-Markierung nie, und dass ein bestimmtes Emoji erscheint, ist nicht zugesichert.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Häufige Grenzen</h2>
+    <ul>
+      <li>Der Bot erklärt keine Patchinhalte aus sich heraus; er bereitet nur erkannte offizielle Changelog-Quellen auf.</li>
+      <li>Eine unmittelbare und lückenlose Zustellung jedes Patches ist nicht zugesichert; bei Bedarf helfen Archiv und Originalquelle weiter.</li>
+      <li>Für den Patchnotes-Abruf gibt es kein persönliches Nutzerkonto und keinen produkteigenen Löschweg; allgemeine Datenschutzanliegen gehen an den veröffentlichten Kontakt der Community.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
