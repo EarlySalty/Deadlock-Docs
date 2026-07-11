@@ -1,0 +1,250 @@
+[
+  {
+    "question": "Wie verbinde ich meinen Steam-Account?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["steam-anmeldung", "panel"],
+    "answer_terms": ["steam", "anmeld"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Muss ich dem Bot mein Steam-Passwort geben?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["kein steam-passwort"],
+    "answer_terms": ["passwort"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Kann ich mehrere Steam-Konten verknüpfen und eines als primär setzen?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["primär", "setprimary"],
+    "answer_terms": ["primär"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie sehe oder entferne ich meine verknüpften Steam-Konten?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["links", "unlink"],
+    "answer_terms": ["entfern"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie finde ich SteamID und Persona-Namen zu einem Steam-Profil-Link?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["whoami", "persona"],
+    "answer_terms": ["steamid"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie prüfe ich meinen Deadlock-Rang über den Bot?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["checkrank", "rang"],
+    "answer_terms": ["rang"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Warum wurde mein Rang noch nicht meiner Community-Zuordnung hinzugefügt?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["späteren prüfung", "verknüpfung"],
+    "answer_terms": ["rang"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie starte ich die Deadlock-Spieltest-Einladung?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["einladungsweg", "voraussetzung"],
+    "answer_terms": ["einladung"],
+    "forbidden_terms": ["/betainvite"]
+  },
+  {
+    "question": "Was kann ich tun, wenn der Invite-Dialog noch eine Voraussetzung meldet?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["voraussetzung", "freundschaft"],
+    "answer_terms": ["voraussetzung"],
+    "forbidden_terms": ["/betainvite"]
+  },
+  {
+    "question": "Kommen die Community-Builds auch im Spiel an?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html", "website/website-portale.html"],
+    "context_terms": ["build-katalog", "spielclient"],
+    "answer_terms": ["katalog"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was ist der Unterschied zwischen Build-Website und Spielkatalog?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html", "website/website-portale.html"],
+    "context_terms": ["website", "katalog"],
+    "answer_terms": ["katalog"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Welche Daten braucht die Steam-Verknüpfung?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["kennung", "rangdaten"],
+    "answer_terms": ["daten"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie lasse ich mehr als nur die Verknüpfung löschen?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["datenschutzkontakt"],
+    "answer_terms": ["datenschutz"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich Coaches und stelle eine Anfrage?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["coaches", "anfrage"],
+    "answer_terms": ["coach"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Muss ich mich für eine Coaching-Anfrage mit Discord anmelden?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["discord", "anmeld"],
+    "answer_terms": ["discord"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo melde ich mich auf der Website für Scrims an?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["scrim", "anmeld"],
+    "answer_terms": ["scrim"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo finde ich nach der Anmeldung mein Scrim-Team und meine Verfügbarkeit?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["mein scrim-team", "verfügbarkeit"],
+    "answer_terms": ["team"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was zeigt eine Build-Karte auf der Website?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html", "steam-bot/steam-bot.html"],
+    "context_terms": ["autor", "bewertung"],
+    "answer_terms": ["build"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Verändert meine Website-Stimme direkt die Reihenfolge im Spielkatalog?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html", "steam-bot/steam-bot.html"],
+    "context_terms": ["stimme", "spielkatalog"],
+    "answer_terms": ["nicht"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wie suche ich im Patch-Archiv?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["patch-portal", "durchsuchbar"],
+    "answer_terms": ["such"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Warum sehe ich manchmal nur eine einfachere Patch-Ansicht?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["einfachere archivansicht"],
+    "answer_terms": ["ansicht"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was kann jeder im Aktivitätsportal sehen?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["öffentlich", "ranglisten"],
+    "answer_terms": ["öffentlich"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo sehe ich meine privaten Details und ändere die Rangsichtbarkeit?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["discord-anmeldung", "sichtbarkeit"],
+    "answer_terms": ["sichtbarkeit"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Was kann ich im Turnierportal selbst erledigen?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["turnierportal", "kapitän"],
+    "answer_terms": ["turnier"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo melde ich ein Ergebnis oder einen nicht erschienenen Gegner?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["ergebnis", "turnierteam"],
+    "answer_terms": ["ergebnis"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Nach dem Verknüpfen kam eine Steam-Freundschaftsanfrage – muss ich die annehmen?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["freundschaft", "annehmen"],
+    "answer_terms": ["freundschaft"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Ich hatte eine offene Steam-Aktion und dann wurde der Bot neu gestartet – ist meine Verknüpfung jetzt weg?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["neu startet", "offene aktionen"],
+    "answer_terms": ["verknüpfung"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Meine Rang-Rolle fehlt noch – kommt sie bei einer späteren Prüfung zurück?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["rang-rolle", "späteren prüfung"],
+    "answer_terms": ["rang"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wird meine frische Steam-Verknüpfung entfernt, wenn ich eine Weile nicht im Voice aktiv bin?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["voice", "entfernt"],
+    "answer_terms": ["nicht"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Welche weiteren Community-Seiten gibt es – etwa für Helden, Anfänger oder Streamer?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["helden", "streamer"],
+    "answer_terms": ["helden"],
+    "forbidden_terms": []
+  },
+  {
+    "question": "Wo finde ich auf der Website den Weg zur Mitspielersuche?",
+    "answerable": true,
+    "expected_sources": ["website/website-portale.html"],
+    "context_terms": ["mitspieler", "lfg"],
+    "answer_terms": ["mitspieler"],
+    "forbidden_terms": []
+  }
+]
