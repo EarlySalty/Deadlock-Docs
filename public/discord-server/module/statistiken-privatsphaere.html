@@ -19,12 +19,18 @@
 
   <section id="aggregate-vs-eigen">
     <h2>Öffentliche Aggregate und eigene Ansichten</h2>
-    <p>Serverweite Auswertungen und Ranglisten sind öffentlich. Persönliche Detailansichten wie eigene Historien und Mitspieler benötigen einen Discord-Login. Fremde persönliche Details werden nicht herausgegeben.</p>
+    <p>Serverweite Auswertungen und Ranglisten sind öffentlich. Persönliche Detailansichten wie eigene Historien und Mitspieler benötigen einen Discord-Login. Deine eigene Aktivität rufst du mit <code>!myactivity</code>, <code>!messagestats</code> und <code>!vstats</code> ohne Zusatzangaben ab; sie zeigen immer nur deine eigenen Werte.</p>
+    <p>Fremde persönliche Details gibt der Server nicht heraus: Der Support-Assistent ruft keine andere Person ab und legt sie nicht offen. Siehst du unerwartet fremde persönliche Daten, wende dich an den menschlichen Support.</p>
+  </section>
+
+  <section id="erinnerungen">
+    <h2>„Wir vermissen dich“-Erinnerungen</h2>
+    <p>Diese optionalen Erinnerungen steuerst du getrennt mit <code>/retention-optout</code> und <code>/retention-optin</code>; sie betreffen nur diese Erinnerungen. Ein globaler Datenschutz-Opt-out über <code>/datenschutz</code> hat Vorrang.</p>
   </section>
 
   <section id="eigene-daten">
     <h2>Deine Daten steuern</h2>
-    <p>Über <code>/datenschutz</code> forderst du einen Export an oder lässt personenbezogene Daten löschen. Die Löschung setzt ein Opt-out; <code>/datenschutz-optin</code> erlaubt die Speicherung wieder. Ein Opt-out-Vermerk bleibt bestehen, damit die Sperre wirkt.</p>
+    <p>Über <code>/datenschutz</code> forderst du einen Export an, lässt personenbezogene Daten löschen oder setzt einen globalen Opt-out für die künftige Speicherung; <code>/datenschutz-optin</code> erlaubt die Speicherung wieder. Dieser globale Opt-out hat Vorrang vor einzelnen Erinnerungseinstellungen. Ein Opt-out-Vermerk bleibt bestehen, damit die Sperre wirkt.</p>
   </section>
 </main>
 </body>

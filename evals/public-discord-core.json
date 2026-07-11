@@ -212,7 +212,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/support/troubleshooting.html", "discord-server/negativ-wissen.html"],
     "context_terms": ["Ticket", "Team"],
-    "answer_terms": ["Ticket"],
+    "answer_terms": ["Ticket", "Team"],
     "forbidden_terms": ["Shadow", "Log-Kanal"]
   },
   {
@@ -222,5 +222,85 @@
     "context_terms": ["Ticket", "menschlichem Support"],
     "answer_terms": ["Ticket"],
     "forbidden_terms": ["Shadow", "Log-Kanal"]
+  },
+  {
+    "question": "Wie sehe ich meine eigene Aktivität im Discord?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/module/statistiken-privatsphaere.html"],
+    "context_terms": ["myactivity", "eigene"],
+    "answer_terms": ["Aktivität"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Kann ich die Aktivität oder Statistik einer anderen Person abrufen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/module/statistiken-privatsphaere.html"],
+    "context_terms": ["eigenen Werte", "menschlichen Support"],
+    "answer_terms": ["eigene"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Welche öffentlichen Ranglisten gibt es im Discord?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html"],
+    "context_terms": ["tleaderboard", "vleaderboard"],
+    "answer_terms": ["Rangliste"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie stelle ich die „Wir vermissen dich“-Erinnerungen ab?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
+    "context_terms": ["retention-optout", "vermissen"],
+    "answer_terms": ["retention"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Kann ich Inaktivitäts-Erinnerungen getrennt vom Datenschutz-Opt-out steuern?",
+    "answerable": true,
+    "expected_sources": ["discord-server/stats-und-privacy.html", "discord-server/workflows/austritt-datenloeschung.html"],
+    "context_terms": ["retention-optout", "Vorrang"],
+    "answer_terms": ["retention"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Bekomme ich nach dem Verlassen des Servers eine Rückmeldung oder Umfrage?",
+    "answerable": true,
+    "expected_sources": ["discord-server/workflows/austritt-datenloeschung.html"],
+    "context_terms": ["freiwillig", "ignorieren"],
+    "answer_terms": ["freiwillig"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Muss ich die Austritts-Rückmeldung beantworten?",
+    "answerable": true,
+    "expected_sources": ["discord-server/workflows/austritt-datenloeschung.html"],
+    "context_terms": ["freiwillig", "Grund"],
+    "answer_terms": ["freiwillig"],
+    "forbidden_terms": ["abbestellen", "shadowban"]
+  },
+  {
+    "question": "Wie kann ich den Server finanziell unterstützen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/ueber-bot-und-server.html"],
+    "context_terms": ["Boost", "Ko-fi"],
+    "answer_terms": ["Boost"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Wie bekomme ich die Supporter-Rolle auf dem Server?",
+    "answerable": true,
+    "expected_sources": ["discord-server/ueber-bot-und-server.html"],
+    "context_terms": ["Supporter-Rolle", "Ticket"],
+    "answer_terms": ["Supporter"],
+    "forbidden_terms": ["shadowban", "systemctl"]
+  },
+  {
+    "question": "Ist eine Playtest-Einladung garantiert?",
+    "answerable": true,
+    "expected_sources": ["discord-server/onboarding-und-invites.html", "discord-server/steam-integration.html"],
+    "context_terms": ["nicht garantiert", "Freundescode"],
+    "answer_terms": ["garantiert"],
+    "forbidden_terms": ["/invite", "/betainvite"]
   }
 ]
