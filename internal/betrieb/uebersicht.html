@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Cross-System-Betrieb - Übersicht</title>
   <meta name="tags" content="internal, betrieb, systemd">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-11">
   <meta name="quelle" content="systemd-User-Units, Deadlock-Repos, Caddy">
 </head>
 <body>
@@ -49,7 +49,10 @@ Ausgeschlossene Repos und Dienste stehen nicht in der Landkarte.</p>
 <td><code>scripts/run_dl_knowledge_service.sh</code></td>
 <td><code>rust/target/release/dl-knowledge</code></td>
 <td><code>8896</code> FAQ-Wissensdienst</td>
-<td><code>systemctl --user cat dl-knowledge.service</code>; <code>Deadlock-Bots/scripts/run_dl_knowledge_service.sh</code>; <code>Deadlock-Bots/rust/bin/dl-knowledge/src/main.rs</code></td>
+<td><code>systemctl --user cat dl-knowledge.service</code>; <code>Deadlock-Bots/scripts/run_dl_knowledge_service.sh</code>; <code>Deadlock-Bots/rust/bin/dl-knowledge/src/main.rs</code>.
+Diese Belege zeigen Existenz und Pfadnamen des Dienstes, nicht seine Revision und nicht den gehärteten Loader- und Snapshot-Vertrag.
+Die gehärtete Fassung mit Direct-Exec, ausschließlich <code>public/</code> und HTML-only ist der Release- und Deploy-Vertrag des Support-Agent-Rollouts (<code>internal/deadlock-bots/support-agent-design.html</code>, Abschnitt „Nur geprüfte, committete Inhalte laden“).
+Welcher Stand tatsächlich läuft, belegt allein die deployte Revision samt Health-Zustand (<code>internal/betrieb/deploy.html</code>, Abschnitt „Live-Beweis“).</td>
 </tr>
 <tr>
 <td><code>deadlock-twitch-invite-sync.service</code></td>
