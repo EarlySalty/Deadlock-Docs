@@ -172,7 +172,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/workflows/streamer-partner-werden.html", "discord-server/module/steam-twitch-verknuepfung.html"],
     "context_terms": ["Streamer-Bereich", "Live-Ankündigungen"],
-    "answer_terms": ["sichtbar aktiv", "kann", "Zustellung und Reichweite sind nicht garantiert"],
+    "answer_terms": ["nur wenn", "sichtbar aktiv", "Voraussetzungen erfüllt sind, kann", "Zustellung und Reichweite sind nicht garantiert"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {
