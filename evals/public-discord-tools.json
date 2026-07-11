@@ -88,11 +88,11 @@
     "forbidden_terms": []
   },
   {
-    "question": "Wofür ist Smartping gedacht und wie benutze ich es?",
+    "question": "Was mache ich, wenn !brain keine sichere Antwort auf meine Gameplay-Frage liefert?",
     "answerable": true,
     "expected_sources": ["discord-server/module/brain.html", "discord-server/community-tools.html"],
-    "context_terms": ["Smartping", "Teamwerkzeug"],
-    "answer_terms": ["Teamwerkzeug"],
+    "context_terms": ["keine sichere Antwort", "konkreter", "Guide"],
+    "answer_terms": ["konkreter", "Guide"],
     "forbidden_terms": []
   },
   {
@@ -236,15 +236,15 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["anonym", "garantierte Zustellung"],
-    "answer_terms": ["anonym"],
-    "forbidden_terms": []
+    "answer_terms": ["anonym", "keine garantierte Zustellung"],
+    "forbidden_terms": ["kommt garantiert an", "wird garantiert zugestellt", "Zustellung ist garantiert", "kommt sicher an", "garantierte Zustellung ist zugesagt"]
   },
   {
     "question": "Wie reiche ich einen Gameplay-Clip ein?",
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Clip-Panel", "Erlaubnis", "Credit"],
-    "answer_terms": ["du"],
+    "answer_terms": ["Clip-Panel", "Ersteller", "1080p", "Credit"],
     "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
   },
   {
@@ -260,8 +260,8 @@
     "answerable": true,
     "expected_sources": ["discord-server/tierlist-und-builds.html", "discord-server/workflows/builds-abstimmen.html"],
     "context_terms": ["Stimmen", "Build-Katalog", "Steam-Bot"],
-    "answer_terms": ["Steam-Bot"],
-    "forbidden_terms": []
+    "answer_terms": ["nicht", "Build-Katalog", "Steam-Bot"],
+    "forbidden_terms": ["Stimmen bestimmen den Build-Katalog", "Stimmen entscheiden über die Aufnahme", "Website-Stimmen wählen die Builds", "Stimmen legen den Spiel-Katalog fest", "Build-Stimmen bestimmen die Sortierung im Spiel"]
   },
   {
     "question": "Wer pflegt den im Spiel veröffentlichten Build-Katalog?",
@@ -276,7 +276,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["1080p", "Ersteller", "Erlaubnis"],
-    "answer_terms": ["du"],
+    "answer_terms": ["Ersteller", "Erlaubnis", "1080p"],
     "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht"]
   },
   {
@@ -284,7 +284,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/community-tools.html"],
     "context_terms": ["Ersteller", "Erlaubnis", "1080p"],
-    "answer_terms": ["du"],
+    "answer_terms": ["Ersteller", "Erlaubnis", "1080p"],
     "forbidden_terms": ["1080p nicht nötig", "1080p ist nicht nötig", "1080p sind nicht nötig", "1080p ist optional", "Full HD ist optional", "Full HD ist nicht Pflicht", "Full HD ist keine Pflicht", "genügt entweder Full HD oder", "entweder Full HD oder", "Full HD oder du holst die Freigabe", "Full HD oder die Freigabe", "Full HD oder eine Freigabe", "Full HD oder du holst die Zustimmung", "Full HD oder die Zustimmung", "Full HD oder eine Zustimmung", "entweder mindestens 1080p oder die Erlaubnis", "mindestens 1080p oder die Erlaubnis des Erstellers reicht", "1080p oder die Erlaubnis reicht", "1080p oder du bist", "Full-HD-Qualität oder die Rechte", "Auflösung oder Erlaubnis reicht", "Qualität oder Erlaubnis reicht"]
   },
   {

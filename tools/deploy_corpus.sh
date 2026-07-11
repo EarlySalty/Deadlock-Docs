@@ -33,25 +33,46 @@ DEST="$BASE/$SHA"
 
 mkdir -p "$BASE"
 
-# Snapshot nur bauen, wenn er noch nicht existiert (unveränderlich).
-if [ ! -d "$DEST" ]; then
-  STAGING="$(mktemp -d "$BASE/.staging.XXXXXX")"
+# Den Soll-Snapshot bei jedem Deploy frisch aus Git erzeugen. Auch ein bereits
+# vorhandenes SHA-Verzeichnis ist erst vertrauenswürdig, wenn es erneut den
+# Korpusvertrag erfüllt und baumgleich mit genau diesem Commit ist.
+STAGING="$(mktemp -d "$BASE/.staging.XXXXXX")"
 
-  # Nur den committeten public/-Baum exportieren; scheitert, wenn public/ fehlt.
-  git -C "$REPO_ROOT" archive "$SHA" public | tar -x -C "$STAGING"
+# Nur den committeten public/-Baum exportieren; scheitert, wenn public/ fehlt.
+git -C "$REPO_ROOT" archive "$SHA" public | tar -x -C "$STAGING"
 
-  # Ohne öffentliche HTML-Seite gibt es nichts zu deployen.
-  html_count="$(find "$STAGING/public" -type f -name '*.html' 2>/dev/null | wc -l)"
-  if [ "$html_count" -eq 0 ]; then
-    echo "deploy: kein öffentliches HTML in $SHA" >&2
-    exit 1
+# Ohne öffentliche HTML-Seite gibt es nichts zu deployen.
+html_count="$(find "$STAGING/public" -type f -name '*.html' 2>/dev/null | wc -l)"
+if [ "$html_count" -eq 0 ]; then
+  echo "deploy: kein öffentliches HTML in $SHA" >&2
+  exit 1
+fi
+
+# Soll-Export prüfen, bevor irgendein current-Link verändert wird.
+python3 "$SCRIPT_DIR/validate_corpus.py" "$STAGING"
+
+verify_existing_snapshot() {
+  if [ -L "$DEST" ] || [ ! -d "$DEST" ]; then
+    echo "deploy: vorhandenes Snapshot-Ziel ist kein echtes Verzeichnis: $SHA" >&2
+    return 1
   fi
+  python3 "$SCRIPT_DIR/validate_corpus.py" "$DEST" >/dev/null
+  if ! diff -qr --no-dereference "$STAGING" "$DEST" >/dev/null; then
+    echo "deploy: vorhandener Snapshot stimmt nicht mit Commit $SHA überein" >&2
+    return 1
+  fi
+}
 
-  # Snapshot gegen den Korpusvertrag prüfen, bevor er live geht.
-  python3 "$SCRIPT_DIR/validate_corpus.py" "$STAGING"
-
-  # Atomar veröffentlichen; bei parallelem Sieger dessen Snapshot behalten.
-  mv -T "$STAGING" "$DEST" 2>/dev/null || [ -d "$DEST" ]
+if [ -e "$DEST" ] || [ -L "$DEST" ]; then
+  verify_existing_snapshot
+elif mv -T "$STAGING" "$DEST" 2>/dev/null; then
+  # Staging ist jetzt der unveränderliche SHA-Snapshot; Cleanup darf ihn nicht
+  # mehr als temporäres Verzeichnis behandeln.
+  STAGING=""
+else
+  # Ein paralleler Deploy derselben SHA kann den Zielnamen gewonnen haben.
+  # Nur dessen vollständig geprüften, identischen Snapshot übernehmen.
+  verify_existing_snapshot
 fi
 
 # current-Symlink atomar auf den SHA schalten. Der Link entsteht in einem per

@@ -12,8 +12,8 @@
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
     "context_terms": ["kein steam-passwort"],
-    "answer_terms": ["passwort"],
-    "forbidden_terms": []
+    "answer_terms": ["kein Steam-Passwort", "direkt bei Steam"],
+    "forbidden_terms": ["gib dem Bot dein Passwort", "Passwort an den Bot geben", "Bot braucht dein Steam-Passwort", "musst dem Bot dein Passwort geben", "Steam-Passwort beim Bot eingeben"]
   },
   {
     "question": "Kann ich mehrere Steam-Konten verknüpfen und eines als primär setzen?",
@@ -148,8 +148,8 @@
     "answerable": true,
     "expected_sources": ["website/website-portale.html", "steam-bot/steam-bot.html"],
     "context_terms": ["stimme", "spielkatalog"],
-    "answer_terms": ["nicht"],
-    "forbidden_terms": []
+    "answer_terms": ["nicht", "Spielkatalog", "Steam-Bot"],
+    "forbidden_terms": ["Stimme verändert direkt", "Stimme bestimmt die Reihenfolge", "Stimmen bestimmen die Reihenfolge", "Website-Stimmen sortieren den Spielkatalog", "Stimme entscheidet über die Sortierung"]
   },
   {
     "question": "Wie suche ich im Patch-Archiv?",
@@ -204,16 +204,16 @@
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
     "context_terms": ["freundschaft", "annehmen"],
-    "answer_terms": ["freundschaft"],
-    "forbidden_terms": []
+    "answer_terms": ["Freundschaft", "annehmen", "Playtest-Einladung"],
+    "forbidden_terms": ["musst du nicht annehmen", "Freundschaft nicht annehmen", "kannst die Freundschaft ablehnen", "Freundschaft ist nicht nötig", "Freundschaft spielt keine Rolle"]
   },
   {
     "question": "Ich hatte eine offene Steam-Aktion und dann wurde der Bot neu gestartet – ist meine Verknüpfung jetzt weg?",
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
-    "context_terms": ["neu startet", "offene aktionen"],
-    "answer_terms": ["verknüpfung"],
-    "forbidden_terms": []
+    "context_terms": ["Verknüpfung prüfen", "Vorgang erneut"],
+    "answer_terms": ["Verknüpfung", "prüf", "erneut"],
+    "forbidden_terms": ["Dienstneustart", "Neustart garantiert", "überlebt den Neustart", "offene Aktion läuft weiter", "Vorgang läuft von allein weiter", "In-flight", "Resume-Semantik"]
   },
   {
     "question": "Meine Rang-Rolle fehlt noch – kommt sie bei einer späteren Prüfung zurück?",
@@ -228,8 +228,8 @@
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
     "context_terms": ["voice", "entfernt"],
-    "answer_terms": ["nicht"],
-    "forbidden_terms": []
+    "answer_terms": ["nicht allein", "Voice-Aktivität"],
+    "forbidden_terms": ["wegen Voice-Inaktivität entfernt", "Voice-Inaktivität löscht", "wird automatisch entfernt", "wird nach einer Weile entfernt", "Verknüpfung läuft ohne Voice ab"]
   },
   {
     "question": "Welche weiteren Community-Seiten gibt es – etwa für Helden, Anfänger oder Streamer?",

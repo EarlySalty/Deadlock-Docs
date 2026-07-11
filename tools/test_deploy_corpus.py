@@ -175,6 +175,30 @@ class DeployCorpusTest(unittest.TestCase):
         self.assertEqual(dest.stat().st_ino, ino1)
         self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
 
+    def test_rejects_preexisting_sha_directory_not_equal_to_committed_public(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        sha = self.commit("A")
+
+        # Ein vorab angelegtes SHA-Verzeichnis darf nicht allein wegen seines
+        # Namens als vertrauenswuerdiger Snapshot gelten. Beide Seiten sind
+        # einzeln valides HTML; trotzdem ist der Baum weder public-only noch
+        # identisch mit dem committeten Export.
+        forged = self.base / sha
+        (forged / "public").mkdir(parents=True)
+        (forged / "public" / "x.html").write_text(
+            VALID_PAGE.format(h1="Forged"), encoding="utf-8"
+        )
+        (forged / "internal").mkdir()
+        (forged / "internal" / "geheim.html").write_text(
+            VALID_PAGE.format(h1="Intern"), encoding="utf-8"
+        )
+
+        result = self.deploy("HEAD")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(os.path.lexists(self.base / "current"))
+        self.assertIn("Forged", (forged / "public" / "x.html").read_text())
+
     def test_parallel_deploys_are_race_safe(self):
         self.write("public/x.html", VALID_PAGE.format(h1="A"))
         sha_a = self.commit("A")

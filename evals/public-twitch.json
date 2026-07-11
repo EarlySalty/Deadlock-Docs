@@ -269,7 +269,7 @@
     "expected_sources": ["twitch-bot/chat-befehle.html", "twitch-bot/faq-support.html"],
     "context_terms": ["Befehlskatalog"],
     "answer_terms": ["!rank"],
-    "forbidden_terms": ["!twl"]
+    "forbidden_terms": ["!twl", "Hilfeseite ist kaputt", "Hilfeseite ist nicht erreichbar", "nicht zuverlässig erreichbar"]
   },
   {
     "question": "Löscht !engagement_ignore_me meine Daten oder stoppt es die ganze Erfassung?",
@@ -299,9 +299,9 @@
     "question": "Warum wird für meinen Stream kein Report erzeugt, obwohl ich Analytics-Zugang habe?",
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-analytics.html", "twitch-bot/analytics-dashboard.html"],
-    "context_terms": ["Stream-Report", "Freischaltung"],
-    "answer_terms": ["Report", "Freischaltung", "Analytics"],
-    "forbidden_terms": ["shadowban", "Report selbst aktivieren", "Reports selbst aktivieren", "im Dashboard selbst aktivieren", "Analytics genügt für den Report", "erteilt die Freischaltung automatisch", "Analytics reicht aus", "Analytics-Zugang reicht aus"]
+    "context_terms": ["Stream-Report", "Planseite", "Support"],
+    "answer_terms": ["Report", "Planseite", "Support"],
+    "forbidden_terms": ["shadowban", "Freischaltung", "Betreiberseite", "Betreiber-Freischalter", "separate interne Freigabe", "Plan-Gate", "Report selbst aktivieren", "Reports selbst aktivieren", "im Dashboard selbst aktivieren", "Analytics genügt für den Report", "erteilt die Freischaltung automatisch", "Analytics reicht aus", "Analytics-Zugang reicht aus"]
   },
   {
     "question": "Wie schalte ich die Lurker-Erinnerung an oder aus?",
