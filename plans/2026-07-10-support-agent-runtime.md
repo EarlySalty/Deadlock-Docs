@@ -15,7 +15,7 @@
 - TDD: failing test, observed red, minimal implementation, green, refactor.
 - The production process receives exactly `$HOME/.local/share/dl-knowledge/current/public`; the deployed snapshot contains no `internal/` tree and no prompt-based filtering substitutes for that boundary.
 - No embeddings, vector DB, live-status tooling, auto-debug, ticket live replies, or new user actions.
-- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 84-row content/evaluation contract; Runtime Golden tests consume its six package Eval files without changing the six-field schema.
+- `plans/2026-07-10-support-agent-coverage-matrix.md` is the mandatory 88-row content/evaluation contract; Runtime Golden tests consume its six package Eval files without changing the six-field schema.
 - Public Content Tasks do not start until the Docs raw-HTML gate scans complete files, including `head`, metadata, links, comments and attributes, in raw form plus `html.unescape` + NFKC normalization. Runtime retrieval checks do not replace this gate.
 - The machine gate blocks high-signal Snowflakes, internal/host/code paths, private/loopback URLs, secret material/Env names and concrete LLM-/infrastructure-provider, prompt, retrieval and Shadow terms; visible product names such as Discord, Steam, Twitch and Valve remain allowed. Findings never echo matched values. Semantic thresholds/intervals/formulas and private Admin-/Coach mechanics are separate human merge blockers, not broad regex blockers.
 - Public aggregate activity and the member's own authenticated activity/statistics/privacy routes are answerable; another person's private details and private/moderative data are not.
@@ -37,7 +37,7 @@ Runtime Tasks 1-3 + Docs Tasks 3A,3B,4-7 -> Runtime Task 4
 Docs Task 8 + Runtime Task 4 -> Docs Task 9 / Runtime Task 5 coordinated cutover
 ```
 
-Task 4 is done only when it discovers and validates every `*.json` directly below `DL_GOLDEN_DIR`, all 84 matrix rows produce at least 168 unique questions across the six package files, and the retrieval gate passes without weakening source/content assertions. Task 5 is done only after the committed corpus, all Golden cases and all approved Discord surfaces pass live while ticket delivery remains Shadow-only.
+Task 4 is done only when it discovers and validates every `*.json` directly below `DL_GOLDEN_DIR`, all 88 matrix rows produce at least 176 unique questions across exactly six package files, and the retrieval gate passes without weakening source/content assertions. Task 5 is done only after the committed corpus, all Golden cases and all approved Discord surfaces pass live while ticket delivery remains Shadow-only.
 
 ---
 
