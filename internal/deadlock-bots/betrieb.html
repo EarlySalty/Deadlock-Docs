@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock-Bots Betrieb</title>
   <meta name="tags" content="deadlock-bots, intern, betrieb">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-11">
   <meta name="quelle" content="Deadlock-Bots">
 </head>
 <body>
@@ -15,6 +15,7 @@
 <h2>Startpfade</h2>
 <p><code>scripts/run_dl_bot_service.sh</code> lädt nicht-geheime Infisical-Verbindungsparameter aus <code>$HOME/.config/deadlock-bots/infisical.conf</code>, liest den Bootstrap-Token aus systemd-Credentials und injiziert Secrets über <code>scripts/export_infisical_env.py</code>. Danach setzt es unter anderem <code>DL_BOT_GATEWAY</code>, <code>DL_ENABLE_PRESENCE_INTENT</code>, <code>DL_BOT_COMMAND_SYNC</code>, <code>WEBSITE_API_BASE</code>, <code>AI_MODERATOR_ENABLE</code>, <code>MODERATION_ENFORCE</code>, LFG-Forum-Variablen und startet <code>rust/target/release/dl-bot</code> (<code>scripts/run_dl_bot_service.sh</code>).</p>
 <p><code>scripts/run_dl_web_service.sh</code> nutzt denselben Infisical-Ladepfad und startet <code>rust/target/release/dl-web</code>. Der Code bindet Dashboard, Public-Stats und Tierlist; er bindet keinen Turnier-Server (<code>scripts/run_dl_web_service.sh</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
+<p><code>scripts/run_dl_knowledge_service.sh</code> startet <code>dl-knowledge</code> ausschließlich mit dem committeten und deployten <code>public/</code>-Snapshot; ein Arbeitsbaum wird nicht zum Laufzeitkorpus. Der Wrapper verwendet den dedizierten Direct-Exec-Loader <code>scripts/export_knowledge_infisical_env.py --exec</code> und nicht den generischen Shell-Exporter. Der bestehende Bot-/Web-Ladepfad über <code>scripts/export_infisical_env.py</code> bleibt davon unangetastet (<code>scripts/run_dl_knowledge_service.sh</code>, <code>scripts/export_knowledge_infisical_env.py</code>, <code>Deadlock-Docs/tools/deploy_corpus.sh</code>).</p>
 <p><code>scripts/run_twitch_invite_sync.sh</code> lädt Infisical, setzt <code>TWITCH_BOT_API_BASE</code> auf <code>http://127.0.0.1:8776</code> und startet <code>rust/target/release/dl-twitch-invite-sync</code>. Das Binary braucht zusätzlich <code>TWITCH_INTERNAL_API_TOKEN</code> und <code>DEADLOCK_CENTRAL_DSN</code> (<code>scripts/run_twitch_invite_sync.sh</code>, <code>rust/bin/dl-twitch-invite-sync/src/main.rs</code>, <code>rust/crates/dl-central-db/src/pool.rs</code>).</p>
 <p><code>deadlock-twitch-invite-sync.timer</code> startet alle 15 Minuten den Oneshot-Service <code>deadlock-twitch-invite-sync.service</code>. Der Service nutzt WorkingDirectory <code>/home/naniadm/Documents/Deadlock-Bots</code>, lädt Infisical und startet <code>rust/target/release/dl-twitch-invite-sync</code> (<code>/home/naniadm/.config/systemd/user/deadlock-twitch-invite-sync.timer</code>, <code>/home/naniadm/.config/systemd/user/deadlock-twitch-invite-sync.service</code>, <code>scripts/run_twitch_invite_sync.sh</code>).</p>
 <p><code>dl-repostats.timer</code> startet <code>dl-repostats.service</code> 3 Minuten nach Boot und danach alle 2 Stunden. Die Live-Unit führt direkt <code>rust/target/release/dl-repostats</code> im WorkingDirectory <code>/home/naniadm/Documents/Deadlock-Bots</code> aus (<code>/home/naniadm/.config/systemd/user/dl-repostats.timer</code>, <code>/home/naniadm/.config/systemd/user/dl-repostats.service</code>).</p>
