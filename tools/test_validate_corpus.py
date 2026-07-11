@@ -61,6 +61,14 @@ class ValidateCorpusTest(unittest.TestCase):
         write(self.root, "public/b.html", CANONICAL)
         self.assertEqual(self.errors(), [])
 
+    def test_accepts_relative_link_to_public_website_product(self):
+        write(self.root, "public/index.html", CANONICAL.replace(
+            "<p>Text</p>",
+            '<p>Text <a href="website/website-portale.html">Website</a></p>',
+        ))
+        write(self.root, "public/website/website-portale.html", CANONICAL)
+        self.assertEqual(self.errors(), [])
+
     def test_rejects_missing_metadata(self):
         broken = CANONICAL.replace(
             '<meta name="quelle" content="Test">', ""
@@ -821,6 +829,7 @@ class ValidateCorpusTest(unittest.TestCase):
             "/home/example/project/file",
             r"C:\\Users\\example\\project",
             "Deadlock-Bots/src/main.rs",
+            "Website/dl-landing/index.html",
             "service.py",
             ".worktrees/Deadlock-Docs-task",
             "systemctl restart example",
