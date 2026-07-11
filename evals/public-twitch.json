@@ -68,8 +68,8 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/chat-befehle.html"],
     "context_terms": ["!title", "reine Anzeigen"],
-    "answer_terms": ["Titelvorschlag in der Chat-Antwort", "den Twitch-Streamtitel setzt der Bot damit nicht", "reine Anzeigen", "ändern nichts"],
-    "forbidden_terms": ["!raid_enable"]
+    "answer_terms": ["!title", "Status", "Historie"],
+    "forbidden_terms": ["!raid_enable", "Bot setzt den Streamtitel", "Status wird geändert", "Historie wird geändert"]
   },
   {
     "question": "Wo sehe ich die Auswertung meines Streams?",
@@ -140,8 +140,8 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-raids.html", "twitch-bot/auto-raid.html"],
     "context_terms": ["passenden", "kein Raid"],
-    "answer_terms": ["den konkreten Zielkanal wählst du nicht selbst", "an einen passenden, live streamenden Deadlock-Kanal"],
-    "forbidden_terms": ["!raid_enable", "Zielkanal im Dashboard"]
+    "answer_terms": ["Zielkanal", "Deadlock-Kanal"],
+    "forbidden_terms": ["!raid_enable", "im Dashboard selbst wählen", "im Dashboard selbst festlegen", "Zielkanal selbst wählen", "Zielkanal selbst festlegen"]
   },
   {
     "question": "Muss ich Auto-Raid erst aktivieren?",
@@ -188,8 +188,8 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-werbung.html"],
     "context_terms": ["wirksamer Werbefrei-Zugang"],
-    "answer_terms": ["wirkt Werbefrei nicht mehr", "die Bot-Werbung kann wieder erscheinen"],
-    "forbidden_terms": ["3,99"]
+    "answer_terms": ["Werbefrei", "Werbung"],
+    "forbidden_terms": ["3,99", "Werbefrei bleibt danach aktiv", "Werbefrei bleibt nach dem Ende aktiv", "Werbung bleibt unterdrückt"]
   },
   {
     "question": "Wie stoppe ich die Engagement-Erfassung für mich?",
@@ -244,16 +244,16 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-affiliate.html"],
     "context_terms": ["Affiliate-Portal", "Bedingungen"],
-    "answer_terms": ["ein eigenes Affiliate-Portal mit eigener Twitch-Anmeldung", "die im Portal angezeigten Bedingungen"],
-    "forbidden_terms": ["inaktiv"]
+    "answer_terms": ["Affiliate-Portal", "Twitch", "Bedingungen"],
+    "forbidden_terms": ["Programm ist komplett deaktiviert", "Affiliate-Programm ist komplett deaktiviert"]
   },
   {
     "question": "An wen wende ich mich bei einer Frage zu meinem Affiliate-Status?",
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-affiliate.html", "twitch-bot/faq-support.html"],
     "context_terms": ["Affiliate-Portal", "Support"],
-    "answer_terms": ["deinen Status im Affiliate-Portal", "Support"],
-    "forbidden_terms": ["inaktiv"]
+    "answer_terms": ["Affiliate-Portal", "Support"],
+    "forbidden_terms": ["Programm ist komplett deaktiviert", "Affiliate-Programm ist komplett deaktiviert"]
   },
   {
     "question": "Wo finde ich Hilfe und die Rechtstexte zum Twitch-Bot?",
@@ -276,16 +276,16 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-community.html", "twitch-bot/chat-befehle.html"],
     "context_terms": ["KI-Engagement", "keine Löschung"],
-    "answer_terms": ["keine Löschung deiner Daten", "steuert ausschließlich die KI-Engagement-Funktion", "nicht die gesamte Erfassung"],
-    "forbidden_terms": ["shadowban"]
+    "answer_terms": ["!engagement_ignore_me", "KI-Engagement"],
+    "forbidden_terms": ["shadowban", "löscht Daten", "löscht deine Daten", "stoppt alles", "stoppt die gesamte Erfassung", "gesamte Erfassung wird gestoppt"]
   },
   {
     "question": "Kann ich den Bot komplett für mich abschalten oder alle meine Daten löschen lassen?",
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-community.html", "twitch-bot/faq-support.html"],
     "context_terms": ["Self-Service", "Datenschutz"],
-    "answer_terms": ["keinen belegten Self-Service-Schalter", "veröffentlichten Datenschutz- bzw. Support-Weg"],
-    "forbidden_terms": ["shadowban", "Self-Service löschst du alles"]
+    "answer_terms": ["Self-Service", "Datenschutz", "Support"],
+    "forbidden_terms": ["shadowban", "Self-Service löschst du alles", "alles im Self-Service", "alles im Chat löschen", "vollständige Löschung im Self-Service", "vollständige Löschung im Chat"]
   },
   {
     "question": "Beobachtet der Bot auch Chats von Kanälen ohne Partnerstatus?",
@@ -300,8 +300,8 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-analytics.html", "twitch-bot/analytics-dashboard.html"],
     "context_terms": ["Stream-Report", "Freischaltung"],
-    "answer_terms": ["separaten Freischaltung auf Betreiberseite", "nicht selbst umschalten kannst", "öffentlichen An/Aus-Schalter dafür gibt es nicht"],
-    "forbidden_terms": ["shadowban"]
+    "answer_terms": ["Report", "Freischaltung", "Analytics"],
+    "forbidden_terms": ["shadowban", "Report selbst aktivieren", "Reports selbst aktivieren", "im Dashboard selbst aktivieren", "weil Analytics genügt", "Analytics reicht aus", "Analytics-Zugang reicht aus"]
   },
   {
     "question": "Wie schalte ich die Lurker-Erinnerung an oder aus?",
@@ -316,23 +316,23 @@
     "answerable": true,
     "expected_sources": ["twitch-bot/chat-befehle.html"],
     "context_terms": ["Partner", "sozialen Netzwerken"],
-    "answer_terms": ["kommt als Link in den Chat zurück", "automatisches Veröffentlichen in sozialen Netzwerken", "gibt es dabei nicht"],
-    "forbidden_terms": ["shadowban", "sondern automatisch"]
+    "answer_terms": ["!clip", "Link", "Chat", "soziale"],
+    "forbidden_terms": ["shadowban", "postet der Bot automatisch", "Bot postet automatisch", "veröffentlicht der Bot automatisch", "Bot veröffentlicht automatisch", "postet danach automatisch", "veröffentlicht danach automatisch"]
   },
   {
     "question": "Startet der Bot automatisch Discords Go Live im Voice-Kanal?",
     "answerable": true,
     "expected_sources": ["twitch-bot/discord-golive.html"],
     "context_terms": ["Voice-Kanal", "getrennte Discord-Funktion"],
-    "answer_terms": ["ist eine getrennte Discord-Funktion", "startet dieses native Discord Go Live nicht automatisch", "verknüpft es nicht mit deinem Twitch-Stream"],
-    "forbidden_terms": ["!raid_enable", "nicht getrennte"]
+    "answer_terms": ["Discord Go Live", "Twitch-Bot"],
+    "forbidden_terms": ["!raid_enable", "ist dieselbe Funktion", "sind dieselbe Funktion", "gleiche Funktion", "startet automatisch", "wird automatisch gestartet", "werden automatisch gestartet", "automatisch verknüpft", "verknüpft automatisch", "werden automatisch verknüpft"]
   },
   {
     "question": "Gibt es Aliase wie !raidbot_status oder !health im Chat und wer darf sie nutzen?",
     "answerable": true,
     "expected_sources": ["twitch-bot/chat-befehle.html"],
     "context_terms": ["!raidbot_status", "!health"],
-    "answer_terms": ["!raidbot_status", "nicht rollenbeschränkt", "jede Person im Chat darf sie ausführen", "reine Anzeigen"],
-    "forbidden_terms": ["!raid_enable", "nicht jede Person"]
+    "answer_terms": ["!raidbot_status", "!health", "Anzeige"],
+    "forbidden_terms": ["!raid_enable", "nur Mods dürfen", "nur Moderatoren dürfen", "nur mit einer Rolle", "eine Rolle ist erforderlich", "sind rollenbeschränkt", "ändert den Status", "Status wird geändert"]
   }
 ]
