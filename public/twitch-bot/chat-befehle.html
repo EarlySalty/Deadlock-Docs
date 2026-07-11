@@ -45,7 +45,7 @@
   <section id="clip-community">
     <h2>Zuschauerbefehle: Clip und Community</h2>
     <ul>
-      <li><code>!clip</code> · <code>!createclip</code> — erstellt einen Clip aus dem laufenden Stream. Voraussetzung: Der Kanal ist als Deadlock-Partner registriert, streamt gerade live in der Deadlock-Kategorie und hat eine gültige Twitch-Autorisierung. Ein Titel ist optional (<code>!clip &lt;titel&gt;</code>); ohne Titel setzt der Bot einen Standardtitel. Der Clip kommt als Link in den Chat zurück; ein automatisches Veröffentlichen in sozialen Netzwerken oder ein öffentliches Freigabe-Dashboard gibt es dabei nicht.</li>
+      <li><code>!clip</code> · <code>!createclip</code> — erstellt einen Clip aus dem laufenden Stream. Voraussetzung: Der Kanal ist als Deadlock-Partner registriert, streamt gerade live in der Deadlock-Kategorie und hat eine gültige Twitch-Autorisierung. Titel und Länge des Clips bestimmt Twitch. Ein Text hinter <code>!clip &lt;text&gt;</code> ist optional und erscheint höchstens als Bezeichnung in der Chat-Antwort; der Bot setzt damit weder diesen noch einen Standardtitel am Twitch-Clip. Der Clip kommt als Link in den Chat zurück; ein automatisches Veröffentlichen in sozialen Netzwerken oder ein öffentliches Freigabe-Dashboard gibt es dabei nicht.</li>
       <li><code>!invite</code> — postet den Einladungslink zur Deutschen Deadlock Community.</li>
       <li><code>!discord</code> · <code>!dldc</code> · <code>!dlde</code> — posten ebenfalls den Community-Link.</li>
     </ul>
@@ -73,24 +73,27 @@
 
   <section id="status-befehle">
     <h2>Status abfragen: für alle im Chat</h2>
-    <p>Diese Befehle sind nicht rollenbeschränkt; jede Person im Chat darf sie ausführen.</p>
+    <p>Diese Befehle sind nicht rollenbeschränkt; jede Person im Chat darf sie ausführen. Sie sind reine Anzeigen: Sie lesen einen Zustand aus und ändern nichts.</p>
     <ul>
-      <li><code>!raid_status</code> · <code>!raidbot_status</code> — zeigen den Auto-Raid-Status und eine grobe Raid-Statistik.</li>
-      <li><code>!raid_history</code> · <code>!raidbot_history</code> — zeigen die letzten Raid-Versuche.</li>
+      <li><code>!raid_status</code> · <code>!raidbot_status</code> — zeigen den Auto-Raid-Status und eine grobe Raid-Statistik; sie setzen oder ändern keinen Status.</li>
+      <li><code>!raid_history</code> · <code>!raidbot_history</code> — zeigen die letzten Raid-Versuche; ebenfalls nur lesend.</li>
       <li><code>!engagement_status</code> — zeigt, ob die KI-Engagement-Funktion im Kanal aktiv ist.</li>
     </ul>
   </section>
 
   <section id="rollenbefehle">
-    <h2>Nur für Broadcaster und Moderation</h2>
+    <h2>Steuerbefehle: Broadcaster, Moderation und Super-Mods</h2>
     <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
     <ul>
       <li><code>!raid</code> · <code>!traid</code> — startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
-      <li><code>!title</code> · <code>!titel</code> — schlägt einen Streamtitel vor und kann ihn setzen.</li>
+      <li><code>!title</code> · <code>!titel</code> — liefert einen Titelvorschlag in der Chat-Antwort; den Twitch-Streamtitel setzt der Bot damit nicht.</li>
       <li><code>!uban</code> · <code>!unban</code> — nimmt ausschließlich den zuletzt gespeicherten Auto-Ban des Kanals zurück.</li>
       <li><code>!explain</code> — erklärt, warum der Bot jemanden als Scam eingestuft hat.</li>
       <li><code>!silentban</code> — schaltet nur die Chat-Hinweise zu Auto-Bans um; die Moderation bleibt aktiv.</li>
       <li><code>!silentraid</code> — schaltet nur die Chat-Hinweise zu Raids um.</li>
+    </ul>
+    <p>Die KI-Engagement-Funktion für den Kanal dürfen zusätzlich zum Broadcaster und den Kanalmods auch berechtigte Super-Mods umschalten:</p>
+    <ul>
       <li><code>!engagement_on</code> · <code>!engagement_off</code> — schalten die KI-Engagement-Funktion für den Kanal ein oder aus. <code>!engagement_on</code> deaktiviert sich automatisch bei Stream-Ende. Das betrifft nur die KI-Engagement-Funktion, nicht die gesamte Erfassung oder Auswertung.</li>
     </ul>
     <p>Nur der Broadcaster – nicht die Moderation – kann zusätzlich die Lurker-Erinnerung dauerhaft abschalten:</p>
