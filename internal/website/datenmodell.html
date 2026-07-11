@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Website Datenmodell</title>
+  <meta name="tags" content="website, intern, datenmodell">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Website">
+</head>
+<body>
+<main>
+<h1>Datenmodell</h1>
+<p>Das Rust-Backend liest die Datenbank-URL über <code>dl_central_db::dsn_from_env()</code> und verlangt <code>DEADLOCK_CENTRAL_DSN</code>; <code>db::init</code> führt im Website-Repo nur <code>SELECT 1</code> aus und legt keine Tabellen an (<code>/home/naniadm/Documents/Website/builds/backend-rust/src/db.rs</code>).</p>
+<p>Die Tabellenquelle liegt im per Cargo eingebundenen lokalen Crate <code>../../../Deadlock-Bots/rust/crates/dl-central-db</code>; die Website-Cargo-Datei referenziert diesen Pfad direkt (<code>/home/naniadm/Documents/Website/builds/backend-rust/Cargo.toml</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations</code>).</p>
+<section id="core-und-auth">
+<h2>Core und Auth</h2>
+<table>
+<thead>
+<tr>
+<th>Tabelle</th>
+<th>Nutzung im Website-Code</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core.meta_users</code></td>
+<td>Auth legt Nutzer nach Discord-Login an oder aktualisiert sie; Admin-Routen lesen Nutzer und ändern Rollen.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/auth.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql</code></td>
+</tr>
+<tr>
+<td><code>core.discord_role_connection_tokens</code></td>
+<td>Linked-Role-OAuth speichert verschlüsselte Discord-Tokens pro Discord-ID.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/linked_role.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070330_discord_role_connections.sql</code></td>
+</tr>
+<tr>
+<td><code>core.discord_role_connection_sync_state</code></td>
+<td>Der interne Sync-Endpunkt und der Worker arbeiten mit Pending-State für Role-Connection-Sync.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/linked_role.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070330_discord_role_connections.sql</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="coaching">
+<h2>Coaching</h2>
+<table>
+<thead>
+<tr>
+<th>Tabelle</th>
+<th>Nutzung im Website-Code</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coaching.requests</code></td>
+<td>Öffentliche Anfragen, Bot-Spiegelung, Queue und Discord-Benachrichtigung nutzen dieselbe Request-Tabelle.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching.coaches</code></td>
+<td>Coach-Liste, Profile, Dashboard, Coach-Sync und Berechtigungsprüfung lesen oder schreiben Coaches.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code></td>
+</tr>
+<tr>
+<td><code>coaching.coach_applications</code></td>
+<td>Bewerbungen werden erstellt und per Admin-Review auf Status gesetzt.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching.sessions</code></td>
+<td>Matching, Session-Ende, Bot-Sync, Dashboard und Spieleransicht lesen oder schreiben Sessions.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code></td>
+</tr>
+<tr>
+<td><code>coaching.surveys</code> und <code>coaching.coach_reviews</code></td>
+<td>Survey-Abschluss schreibt Feedback, aktualisiert Coach-Rating und erzeugt Reviews.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/coaching.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching.coachees</code></td>
+<td>Plattform-Views, Bot-Sync, Termine, Ziele und Spieleransicht hängen am Coachee-Datensatz.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching.appointments</code></td>
+<td>Terminliste, Terminänderung, Reminder und Ack schreiben Status- und Notify-Spalten.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>coaching.goals</code>, <code>coaching.milestones</code>, <code>coaching.session_notes</code></td>
+<td>Coach- und Spieleransicht speichern Ziele, Meilensteine und Notizen pro Coachee.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/platform.rs</code>, <code>/home/naniadm/Documents/Website/dl-coaching/src/api/client.ts</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scrims">
+<h2>Scrims</h2>
+<table>
+<thead>
+<tr>
+<th>Tabelle</th>
+<th>Nutzung im Website-Code</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scrim.participants</code></td>
+<td>Signup, eigene Verfügbarkeit, Pool, Statuswechsel, Coach-Notizen und Discord-Rollensync hängen am Participant.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070230_scrim_management.sql</code></td>
+</tr>
+<tr>
+<td><code>scrim.teams</code></td>
+<td>Coach-Teams werden gelistet, erstellt und im Board gelesen.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>scrim.team_members</code></td>
+<td>Teamzuweisung, Captain-/Bench-Status und Board-Mitglieder laufen über diese Join-Tabelle.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0004_coaching_scrim.sql</code></td>
+</tr>
+<tr>
+<td><code>scrim.matches</code></td>
+<td>Spieleransicht liest das nächste Match; spätere Orchestrator-Felder liegen als additive Spalten auf derselben Tabelle.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/scrim.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/2026070620_scrim_match_orchestrator.sql</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="meta-builds-und-patchnotes">
+<h2>Meta, Builds und Patchnotes</h2>
+<table>
+<thead>
+<tr>
+<th>Tabelle</th>
+<th>Nutzung im Website-Code</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tierlist.meta_heroes</code></td>
+<td>Hero-Liste und Hero-Admin schreiben Name, Tier, Rolle, Bild, Abilities und Stats.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0006_tierlist.sql</code></td>
+</tr>
+<tr>
+<td><code>tierlist.meta_builds</code></td>
+<td>Builds werden gelistet, erstellt, geändert, gelöscht, bewertet und gemeldet.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0006_tierlist.sql</code></td>
+</tr>
+<tr>
+<td><code>tierlist.meta_items</code></td>
+<td>Item-Routen lesen Items nach Name oder ID.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0006_tierlist.sql</code></td>
+</tr>
+<tr>
+<td><code>tierlist.meta_tier_lists</code>, <code>tierlist.meta_votes</code>, <code>tierlist.meta_tier_history</code></td>
+<td>Tierlisten, Forks, Votes und History hängen an diesen Tabellen.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0006_tierlist.sql</code></td>
+</tr>
+<tr>
+<td><code>content.meta_reports</code>, <code>content.meta_announcements</code></td>
+<td>Admin-Reports und Ankündigungen nutzen das <code>content</code>-Schema.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code></td>
+</tr>
+<tr>
+<td><code>patchnotes.changelog_posts</code>, <code>patchnotes.meta_patch_notes</code></td>
+<td>Patch-Public-Endpunkte und Patchnotes-Meta lesen Changelog- und Meta-Patchdaten.</td>
+<td><code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/public.rs</code>, <code>/home/naniadm/Documents/Website/builds/backend-rust/src/routes/meta.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0010_activity_moderation_content_patchnotes.sql</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="nicht-im-website-datenmodell">
+<h2>Nicht im Website-Datenmodell</h2>
+<p><code>/aktivitaet</code> nutzt das Website-Frontend <code>dl-activity</code>, aber die produktive API liegt laut Caddy hinter <code>127.0.0.1:8768</code> und laut systemd-Beschreibung im separaten <code>deadlock-web-rust.service</code>; das zugehörige API-Schema liegt nicht im Website-Repo (<code>/home/naniadm/Documents/Caddy/conf/Caddyfile</code>, <code>/home/naniadm/.config/systemd/user/deadlock-web-rust.service</code>, <code>/home/naniadm/Documents/Website/dl-activity/src/activity.js</code>).</p>
+</section>
+</main>
+</body>
+</html>

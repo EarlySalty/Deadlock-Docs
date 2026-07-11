@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>stats-und-privacy — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik, privacy">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="public/discord-server/stats-und-privacy.html (Für-Devs-Sektion) + Code-Audit gegen origin/main (dl-activity, dl-community, dl-voice)">
+</head>
+<body>
+<main>
+<h1>stats-und-privacy — Dev-Notizen: offene Statistik- und Privacy-Lücken</h1>
+<p><strong>Zusammenfassung.</strong> Ehrliche Ist-Notiz für Devs. Die Architektur-Übersicht bleibt erhalten. Eine frühere Blankett-Aussage („Voice- und Steam-Systeme respektieren das Privacy-Opt-out beim Schreiben") war irreführend und ist unten korrigiert. Darunter stehen offene Autorisierungs- und Privacy-Lücken, die ein Code-Audit gegen origin/main belegt hat; jede braucht einen separaten, autorisierten Runtime-Fix und ist <strong>nicht</strong> Teil des Support-Agent-Cutovers. Eingearbeitet in <a href="datenmodell.html"><code>datenmodell.html</code></a>.</p>
+
+<section id="architektur-knapp">
+<h2>Architektur (knapp, unverändert gültig)</h2>
+<ul>
+<li>Rust live: Public-Stats-Service <code>dl-stats</code> (Web-API inkl. <code>/api/public/me/*</code> + Discord-OAuth), Prefix-Stats in <code>dl-activity/src/stats_cmd.rs</code> + <code>text_stats.rs</code>, Privacy in <code>dl-community/src/privacy_ui.rs</code> + <code>privacy.rs</code> (Export mit Schwärzung, Erasure inkl. Turnier-Scope, Opt-out-Tombstone <code>core.user_privacy</code>), Retention in <code>dl-community/src/retention.rs</code></li>
+<li>Der Voice-Tracker gated das Tracking beim Session-Eintritt am Opt-out (<code>dl-voice/src/tracker.rs</code>), und der Steam-Leave-Cleanup entfernt beim Verlassen. Opt-out und Autorisierung greifen jedoch <strong>nicht durchgängig</strong> über die gesamte Statistik-Fläche — Text-Session-Flush sowie die Lese-/Detailbefehle bleiben ungeprüft (siehe offene Lücken).</li>
+</ul>
+</section>
+
+<section id="korrektur-blankett">
+<h2>Korrektur der Blankett-Aussage</h2>
+<p>Die bisherige Formulierung suggerierte, die gesamte Voice-/Steam-/Statistik-Fläche respektiere das Opt-out beim Schreiben. Belegt ist nur: Der Voice-Tracker prüft das Opt-out an seinen Tracking-Eintrittspunkten, und der Steam-Leave-Cleanup räumt beim Verlassen auf. Für die übrige Statistik- und Detail-Fläche (Prefix-Lesebefehle, Co-Player-Anzeige, Text-Session-Flush) gilt das nachweislich nicht. Die pauschale Zusage ist daher falsch und durch die untenstehenden Einzelbefunde ersetzt.</p>
+</section>
+
+<section id="offene-luecken">
+<h2>Offene Lücken (OFFEN, je separater Runtime-Fix)</h2>
+<p>Alle Punkte sind <strong>OFFEN</strong> und gegen origin/main verifiziert. Belege benennen nur die betroffene Datei und interne Komponente auf Modulebene — keine eintippbaren Befehle, keine Fremdziel-Syntax, keine Grenzwert-Sonderfälle, keine Werte und kein DB-Output. Die Wirkung ist absichtlich als Risiko/Effekt beschrieben, nicht als Schritt-für-Schritt-Rezept.</p>
+<table>
+<tr><th>Offene Lücke</th><th>Beleg (Code)</th><th>Status</th><th>Wirkung</th></tr>
+<tr>
+  <td>Detail-Analysebefehle akzeptieren ein optionales Fremdziel und antworten öffentlich ohne Autorisierung</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: der Dispatch <code>reply_for</code> übernimmt für die Aktivitäts-/Detail-Analysebefehle ein optionales Zielargument, ohne Opt-out- oder Rechte-Prüfung</td>
+  <td>OFFEN</td>
+  <td>Beliebige Nutzer können das Aktivitätsprofil Dritter öffentlich im Kanal abrufen; kein Opt-out-/Rechte-Check</td>
+</tr>
+<tr>
+  <td>Co-Player-Sammlung ohne globalen Privacy-Check</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: <code>co_players</code> fragt nur nach der Nutzer-ID und wird aus den Detail-Analysebefehlen heraus genutzt („Top Mitspieler"), ohne Opt-out-Prüfung der so gesammelten Dritten</td>
+  <td>OFFEN</td>
+  <td>Nicht abgefragte Dritte erscheinen namentlich/als ID, ohne dass deren Opt-out geprüft wird</td>
+</tr>
+<tr>
+  <td>Schon offene Text-Sessions flushen nach Opt-out/Löschung ohne finalen Privacy-Check</td>
+  <td><code>dl-activity/src/text_stats.rs</code>: Der Opt-out-Check greift nur beim Nachrichteneingang, nicht erneut beim Flush und Persistieren bereits offener Sessions</td>
+  <td>OFFEN</td>
+  <td>Nach Opt-out/Löschung können aus bereits offenen Sessions noch neue Text-Statistik-Zeilen entstehen</td>
+</tr>
+<tr>
+  <td>Event-Detailbefehl setzt die vorgesehene Mengenbegrenzung nicht zuverlässig durch</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code> → <code>member_events_recent</code>: die Limit-Validierung ist unvollständig, sodass die vorgesehene Obergrenze der Ausgabemenge umgangen werden kann</td>
+  <td>OFFEN</td>
+  <td>Die Ausgabe kann über die vorgesehene Begrenzung hinaus die gesamte Event-Historie des Ziels umfassen</td>
+</tr>
+<tr>
+  <td>Globale, nicht guild-skopierte Ranglisten/Details</td>
+  <td><code>dl-activity/src/stats_cmd.rs</code>: mehrere Ranglisten-, Detail- und Voice-Aggregationen (<code>text_top</code>, <code>co_players</code>, <code>voice_totals</code>, <code>pattern_basic</code>/<code>pattern_full</code>) filtern nicht nach <code>guild_id</code></td>
+  <td>OFFEN</td>
+  <td>Sieht der Bot mehrere Guilds, vermischen sich Statistiken/Namen über Guild-Grenzen hinweg</td>
+</tr>
+<tr>
+  <td>Voice-Diagnose-/Statuszweig ohne Admin-Check</td>
+  <td><code>dl-voice/src/stats.rs</code>: ein Diagnose-/Status-Zweig im <code>reply_for</code>-Dispatch prüft die Admin-Berechtigung nicht, anders als die übrigen Voice-Admin-Zweige im selben Dispatch</td>
+  <td>OFFEN</td>
+  <td>Nicht-Admins sehen interne Voice-Tracking-Status- und Konfigurationswerte</td>
+</tr>
+<tr>
+  <td>optin/retention melden Erfolg trotz DB-Fehler</td>
+  <td><code>dl-community/src/privacy_ui.rs</code> und <code>dl-community/src/retention.rs</code>: der Opt-in- sowie der Opt-out-/Retention-Handler verwerfen das Ergebnis des Schreibvorgangs; nur der Lösch-Pfad behandelt Fehler</td>
+  <td>OFFEN</td>
+  <td>Nutzer erhält eine Erfolgsmeldung, obwohl der Privacy-/Retention-Status ggf. nicht geschrieben wurde</td>
+</tr>
+</table>
+</section>
+
+<section id="support-agent-policy">
+<h2>Sichere öffentliche Politik (Support-Agent)</h2>
+<p>Diese Befunde sind interne Dev-Notizen. Für die öffentliche Antwortfläche gilt unabhängig davon:</p>
+<ul>
+<li>Der Support-Agent nennt <strong>niemals</strong> Details, Statistiken oder Anwesenheit einer anderen Person und <strong>niemals</strong> die Ziel-/Fremdabfrage-Syntax dieser Befehle.</li>
+<li>Der öffentliche Korpus deckt ausschließlich eigene Zusammenfassungen (Selbstabfrage) sowie aggregierte/anonyme Werte ab.</li>
+<li>Fremdziel-Lesepfade sind weder Retrieval- noch Antwortziel; bei Fragen nach fremden Nutzerdaten verweist der Agent auf Selbstabfrage bzw. den Datenschutzweg.</li>
+</ul>
+</section>
+
+<section id="einordnung">
+<h2>Einordnung</h2>
+<p>Dies sind Audit-Befunde gegen origin/main, die je einen separaten, <strong>autorisierten Runtime-Fix</strong> im Bot-Code erfordern. Sie sind <strong>nicht</strong> Teil des Support-Agent-Cutovers und ändern die Doku-Migration nicht. Bis zum Fix bleibt der Status OFFEN; diese Seite beschreibt nur den Ist-Zustand ehrlich, ohne Exploit-Rezept, Rohdaten oder Werte.</p>
+</section>
+</main>
+</body>
+</html>

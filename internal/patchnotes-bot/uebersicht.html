@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot Übersicht</title>
+  <meta name="tags" content="internal, patchnotes-bot, übersicht">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock--Patchnotes-Bot">
+</head>
+<body>
+<main>
+<h1>Patchnotes-Bot Übersicht</h1>
+<p>Der Patchnotes-Bot ist ein Python-Discord-Client. <code>requirements.txt</code> pinnt <code>discord.py==2.7.1</code>, <code>main.py</code> baut <code>PatchnotesClient</code>, lädt <code>BOT_TOKEN</code> und startet <code>client.run(token)</code> am Prozessende. (<code>requirements.txt</code>, <code>main.py</code>)</p>
+<p>Der User-Service heißt <code>deadlock-patchnotes.service</code>. Die Unit nutzt <code>/home/naniadm/Documents/Deadlock--Patchnotes-Bot</code> als <code>WorkingDirectory</code>, startet <code>scripts/run_patchnotes_bot.sh</code> und hat <code>Restart=always</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
+<p>Der Wrapper lädt Infisical, übernimmt ein systemd-Credential namens <code>infisical-token</code>, fordert <code>DEADLOCK_CENTRAL_DSN</code> und setzt <code>BOT_TOKEN</code> aus <code>DISCORD_TOKEN_PATCHNOTES</code> oder <code>PATCHNOTES_BOT_TOKEN</code>. (<code>scripts/run_patchnotes_bot.sh</code>, <code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service.d/20-creds.conf</code>)</p>
+<p>Der Bot scannt Forum und Steam. Das Forum ist <code>https://forums.playdeadlock.com/forums/changelog.10/</code>, Steam ist <code>https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/</code> für App <code>1422450</code> und Feed <code>steam_community_announcements</code>. (<code>changelog_latest_fetcher.py</code>)</p>
+<p><code>check_latest()</code> holt Steam und Forum, verwirft Steam-Einträge ohne Patch-Score, sortiert nach Zeitstempel und bevorzugt bei gleicher Zeit das Forum. (<code>changelog_latest_fetcher.py</code>)</p>
+<p><code>changelog_content_fetcher.process()</code> lädt die Zielseite, versucht zuerst einen Steam-Event-Store zu parsen und fällt danach auf Forum-HTML zurück. Ein Forumspost mit kurzem Steam-Link-Preview oder Text <code>steam news</code> wird als Steam-Announcement nachgeladen. (<code>changelog_content_fetcher.py</code>)</p>
+<p>Der normale Scan läuft beim Ready-Event sofort an und danach im internen Loop. Das Standardintervall ist <code>35</code> Sekunden; Steam-News-Signal und Steam-Version-Burst können den nächsten Scan per Wakeup vorziehen. (<code>main.py</code>)</p>
+<p>Bei einem neuen Patch lädt <code>update_patch()</code> den Rohtext, prüft Dedup-Status, lässt den Text übersetzen, speichert in Postgres, startet den Brain-Sync und sendet danach Discord-Nachrichten. (<code>main.py</code>, <code>patchnotes_db.py</code>, <code>perplexity_requests.py</code>)</p>
+</main>
+</body>
+</html>

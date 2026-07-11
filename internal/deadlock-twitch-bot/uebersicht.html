@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Überblick</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, übersicht">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Überblick</h1>
+<section id="dienste">
+<h2>Dienste</h2>
+<ul>
+<li><code>deadlock-twitch-bot-rust.service</code> startet <code>rust/scripts/run_tb_bot_service.sh</code> im Repo-Root und führt danach <code>rust/target/release/tb-bot</code> aus. (/home/naniadm/.config/systemd/user/deadlock-twitch-bot-rust.service; rust/scripts/run_tb_bot_service.sh)</li>
+<li><code>tb-bot</code> bindet die interne API auf <code>127.0.0.1</code> und nutzt Port <code>8776</code>, wenn <code>PORT</code> nicht gesetzt ist. (rust/bin/tb-bot/src/main.rs; rust/crates/tb-config/src/lib.rs)</li>
+<li><code>deadlock-twitch-dashboard-rust.service</code> startet <code>rust/scripts/run_tb_dashboard_service.sh</code> und führt danach <code>rust/target/release/tb-dashboard</code> aus. (/home/naniadm/.config/systemd/user/deadlock-twitch-dashboard-rust.service; rust/scripts/run_tb_dashboard_service.sh)</li>
+<li>Das Dashboard-Skript setzt <code>DASHBOARD_PORT=8769</code>, obwohl der Code ohne Env-Wert auf <code>8765</code> fällt. (rust/scripts/run_tb_dashboard_service.sh; rust/bin/tb-dashboard/src/main.rs)</li>
+</ul>
+</section>
+<section id="hauptpfade">
+<h2>Hauptpfade</h2>
+<ul>
+<li>EventSub erreicht den Rust-Bot über <code>/twitch/eventsub/callback</code>; der Receiver prüft die Twitch-HMAC-Signatur vor der Verarbeitung. (rust/crates/tb-monitoring/src/webhook_receiver.rs)</li>
+<li>Die interne API liegt unter <code>/internal/twitch/v1</code> und verlangt <code>X-Internal-Token</code> plus Loopback-Zugriff. (rust/crates/tb-internal-api/src/lib.rs)</li>
+<li>Das Dashboard liefert <code>/analyse</code>, <code>/twitch/dashboard</code>, <code>/twitch/verwaltung</code>, <code>/twitch/pricing</code> und Assets unter <code>/twitch/dashboard-v2/*</code>. (rust/crates/tb-dashboard-api/src/lib.rs; rust/crates/tb-dashboard-api/src/handlers/spa.rs)</li>
+<li>Die öffentliche Website liegt unter <code>/streamer</code>; <code>/website</code> leitet auf <code>/streamer</code> um. (rust/crates/tb-dashboard-api/src/handlers/website.rs)</li>
+</ul>
+</section>
+<section id="zustaendigkeiten">
+<h2>Zuständigkeiten</h2>
+<ul>
+<li><code>tb-bot</code> baut Helix, EventSub, Monitoring, Chat, Raid, Knowledge, Social-Media, Analytics und die interne API zusammen. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/Cargo.toml)</li>
+<li><code>tb-dashboard</code> baut die Dashboard-API, Auth-Flüsse, Affiliate-Flüsse, Billing, Legal-Seiten, Website-Auslieferung und die SPA-Auslieferung zusammen. (rust/bin/tb-dashboard/src/main.rs; rust/bin/tb-dashboard/Cargo.toml; rust/crates/tb-dashboard-api/src/lib.rs)</li>
+<li>Beide Rust-Dienste nutzen PostgreSQL über <code>TWITCH_ANALYTICS_DSN</code>; die Pool-Konfiguration kommt aus <code>tb-config</code> und <code>tb-db</code>. (rust/crates/tb-config/src/lib.rs; rust/crates/tb-db/src/pool.rs)</li>
+<li>Das Dashboard führt die eingebetteten Rust-Migrationen beim Start aus, wenn <code>TB_DB_MIGRATE</code> nicht deaktiviert ist. (rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-db/src/migrate.rs)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

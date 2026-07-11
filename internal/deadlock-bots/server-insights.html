@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Server-Einblicke (Admin-Dashboard)</title>
+  <meta name="tags" content="discord-server, insights, einblicke, admin, dashboard">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots/docs/server_insights.md">
+</head>
+<body>
+<main>
+<p>eingearbeitet in <a href="datenmodell.html"><code>datenmodell.html</code></a></p>
+<h1>Server-Einblicke (Admin-Dashboard)</h1>
+<p>Eigene Nachbildung der Discord-Server-Insights auf Basis unserer Bot-Daten.
+Seite: <code>GET /insights</code> im dl-web-Dashboard (gleiche Discord-OAuth-Session wie <code>/admin</code>),
+statisches Frontend <code>service/static/insights.html</code>, Daten über <code>/api/insights/*</code>.</p>
+<section id="datenpfade">
+<h2>Datenpfade</h2>
+<p>Zwei bewusst getrennte Welten:</p>
+<table>
+<thead>
+<tr>
+<th>Pfad</th>
+<th>Quelle</th>
+<th>Historie</th>
+<th>genutzt von</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Journey/Ingestion</td>
+<td><code>activity.message_metadata_events</code>, <code>voice_metadata_events</code>, <code>interaction_events</code>, <code>presence_daily_seen</code>, <code>journey_user_state</code> + Tagesaggregate</td>
+<td>ab 2026-07 (180-Tage-Rohdaten, danach anonyme Aggregate)</td>
+<td>alle <code>/api/insights/*</code></td>
+</tr>
+<tr>
+<td>Legacy-Sessions</td>
+<td><code>activity.voice_session_log</code>, <code>activity.message_activity</code></td>
+<td>seit Tracking-Beginn, mit Punkten/Peak/Kanalnamen</td>
+<td><code>/api/voice-history</code>, <code>/api/server-stats</code> (unverändert)</td>
+</tr>
+</tbody>
+</table>
+<p>Ältere Zeiträume für Insights kommen über den CSV-Import (unten), nicht aus dem Legacy-Pfad.</p>
+</section>
+<section id="neue-bausteine">
+<h2>Neue Bausteine</h2>
+<ul>
+<li><strong>Presence-Tracking</strong> (<code>DL_ENABLE_PRESENCE_INTENT=1</code>, Default aus): fordert den
+privilegierten <code>GUILD_PRESENCES</code>-Intent an (Portal-Schalter muss an sein, sonst
+verbindet das Gateway nicht!) und schreibt pro User+Tag eine Zeile
+<code>activity.presence_daily_seen</code> („Besucher&quot;-Näherung). Verdichtung nach 180 Tagen
+in <code>presence_daily_aggregates</code>, Löschpfad in <code>dl-community/privacy.rs</code> erweitert.</li>
+<li><strong>Vanity-Attribution</strong> (<code>dl-bot/src/vanity.rs</code>): pollt minütlich
+<code>GET /guilds/{id}/vanity-url</code>; Snapshots nur bei Änderung
+(<code>activity.vanity_uses_snapshots</code>, Purge nach 90 Tagen). Bei uses-Anstieg werden
+rückwirkend bis zu <code>delta</code> unattribuierte Joins im Fenster (letzter Snapshot −90 s
+Kulanz bis jetzt) auf Bucket <code>vanity</code> umgeschrieben. Näherung mit bis zu
+Poll-Intervall Latenz.</li>
+<li><strong>Member-Directory-Sweep</strong> (<code>dl-bot/src/vanity.rs</code>): täglich (und beim Start)
+REST-Pagination über alle Guild-Members → <code>activity.guild_member_directory</code>
+(joined_at, Kontoalter aus Snowflake, present-Flag). Liefert exakte
+Mitgliedsdauer-Verteilung und den Anker für den Mitglieder-Gesamtverlauf.</li>
+<li><strong>CSV-Import</strong> (<code>POST /api/insights/import?guild_id=…</code>): frisst die
+„CSV exportieren&quot;-Dateien aus dem Discord-Portal, erkennt den Export-Typ an der
+Header-Signatur (Registry in <code>insights.rs::detect_import</code>, bei unbekannten Headern
+kommt HTTP 400 mit den gefundenen Spalten zurück → Registry erweitern) und
+upsertet idempotent in <code>activity.insights_imports</code>. Live- und Import-Daten werden
+in den API-Antworten strikt getrennt (<code>live</code> vs. <code>imported</code>).</li>
+</ul>
+</section>
+<section id="endpunkte">
+<h2>Endpunkte</h2>
+<p>Alle hinter <code>guard_read</code>, Parameter <code>interval=weekly|daily</code>, <code>from</code>, <code>to</code> (Default:
+letzte 8 Wochen), optional <code>guild_id</code>:</p>
+<p><code>/api/insights/overview</code> (Kennzahlen-Kacheln + Vorperioden-Vergleich) ·
+<code>/growth</code> (Joins nach Quelle, Leaves nach Mitgliedsdauer, Mitgliederverlauf) ·
+<code>/activation</code> (Interaktion am Beitrittstag) · <code>/retention</code> (Woche-1-Bindung:
+Kohorte = Beitrittswoche Mo–So UTC, gebunden = Aktivität in W+1, nur abgeschlossene
+Kohorten) · <code>/engagement</code> (Besucher/Beiträger ≥3 Nachrichten oder Voice, Nachrichten,
+Sprachminuten) · <code>/audience</code> (Mitgliedsdauer, Kontoalter der Neuzugänge) ·
+<code>/top-invites</code> (28 Tage) · <code>POST /import</code> (guard_mutate + CSRF).</p>
+</section>
+<section id="betrieb">
+<h2>Betrieb</h2>
+<ul>
+<li>Migration <code>2026070610_server_insights_backend.sql</code> (additiv) via dl-central-migrate.</li>
+<li>Bot-Service braucht <code>DL_ENABLE_PRESENCE_INTENT=1</code> für Besucher-Zahlen.</li>
+<li>Monatliche Routine: Portal → alle CSVs exportieren → auf <code>/insights</code> in die
+Dropzone werfen.</li>
+<li>Grenzen: Länder/Geräte/Referrer liefert die API nicht (nur via CSV-Import);
+Besucher ist eine Presence-Näherung, nicht Discords Kanal-View-Definition;
+Retention-Rohdaten reichen 180 Tage zurück.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>

@@ -55,7 +55,7 @@
       <li>Stabile, sprechende Anker-IDs für wichtige Zustände und Workflows.</li>
       <li>Keine externen Skripte, Fonts, CDNs, Analytics oder ausführbares JavaScript.</li>
     </ul>
-    <p>Der Wissensdienst indexiert ausschließlich den Text innerhalb von <code>&lt;main&gt;</code>. Metadaten, Navigation, Styles und Quellenpfade werden nicht Bestandteil des Antwortkontexts.</p>
+    <p>Die Runtime zerlegt jede Seite in Chunks: einen Intro-Chunk aus <code>&lt;h1&gt;</code> und den direkten <code>&lt;p&gt;</code>-Kindern von <code>&lt;main&gt;</code>, dazu je direktem <code>&lt;section&gt;</code>-Block einen Chunk mit dessen sichtbarem Text. Der Suchindex tokenisiert je Chunk Titel, Abschnittsüberschrift, Tags und Chunk-Text. Der Runtime-Parser erfasst einen Abschnitt schon bei einer nichtleeren <code>&lt;h2&gt;</code> oder ersatzweise einer nichtleeren <code>id</code>; der freigegebene Korpusvertrag verlangt strenger beides — eindeutige <code>id</code> und direktes <code>&lt;h2&gt;</code>. In den Modellkontext gehen Titel, relativer Pfad, Abschnittsüberschrift und Abschnittstext ein, nicht aber Tags, Stand oder Quelle. Navigation, Styles und nicht ausgezeichnete Fragmente bleiben außen vor.</p>
     <p>Interne Seiten werden erst nach geprüfter Sichttext-Parität gelöscht. Öffentliche Seiten werden bewusst korrigiert und erst nach Fakten-, Abdeckungs- und Redaction-Freigabe ersetzt. Danach werden interne Links auf <code>.html</code> umgestellt; die Git-Historie bleibt erhalten.</p>
   </section>
 

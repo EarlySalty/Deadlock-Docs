@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot Integrationen</title>
+  <meta name="tags" content="internal, patchnotes-bot, integrationen">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock--Patchnotes-Bot">
+</head>
+<body>
+<main>
+<h1>Patchnotes-Bot Integrationen</h1>
+<section id="discord">
+<h2>Discord</h2>
+<p>Der Patch-Channel kommt aus <code>PATCH_CHANNEL_ID</code>. Der Wrapper setzt als Default <code>1326973956825284628</code>, und <code>main.py</code> löst diesen Channel über Cache oder <code>fetch_channel()</code> auf. (<code>scripts/run_patchnotes_bot.sh</code>, <code>main.py</code>)</p>
+<p>Der Logs-Channel kommt aus <code>PATCH_LOGS_CHANNEL_ID</code>. Der Wrapper setzt als Default <code>1374364800817303632</code>, und <code>main.py</code> nutzt ihn für Logs-Nachrichten und optional für Prepared-Patches. (<code>scripts/run_patchnotes_bot.sh</code>, <code>main.py</code>)</p>
+<p>Der Bot aktiviert <code>message_content</code> und <code>guilds</code> in den Discord-Intents. Ohne <code>message_content</code> kann <code>on_message()</code> die Team-Befehle nicht lesen. (<code>main.py</code>)</p>
+<p><code>patch_response()</code> sendet Text in Chunks unter <code>PATCH_CHUNK_LIMIT</code>. Wenn <code>PATCH_EMBED_V2</code> aktiv ist, versucht der Bot Components V2; Renderfehler fallen auf Text zurück. (<code>main.py</code>, <code>patch_view.py</code>)</p>
+<p>Der Rollen-Ping steht als <code>ROLE_PING</code> in <code>perplexity_requests.py</code>. <code>patch_response()</code> hängt ihn als eigene Nachricht an, wenn <code>include_ping=True</code> ist. (<code>perplexity_requests.py</code>, <code>main.py</code>)</p>
+</section>
+<section id="team-befehle">
+<h2>Team-Befehle</h2>
+<p><code>!tpatch</code> triggert die Neuübersetzung des zuletzt gespeicherten Patches ohne Ping. <code>_get_retranslate_mode()</code> gibt dafür <code>False</code> zurück. (<code>main.py</code>)</p>
+<p><code>!ppatch</code> triggert dieselbe Neuübersetzung mit Ping. <code>_get_retranslate_mode()</code> gibt dafür <code>True</code> zurück. (<code>main.py</code>)</p>
+<p>Beide Befehle haben einen Cooldown von <code>60</code> Sekunden pro Channel. <code>on_message()</code> speichert den letzten Zeitpunkt in <code>_retranslate_cooldowns</code>. (<code>main.py</code>)</p>
+<p>Die Retranslation lädt den neuesten DB-Eintrag, fällt bei fehlendem Rohtext auf erneutes Content-Fetching über die URL zurück, übersetzt neu und schreibt den Datensatz wieder. (<code>main.py</code>, <code>patchnotes_db.py</code>, <code>changelog_content_fetcher.py</code>)</p>
+</section>
+<section id="brain-wissens-sync">
+<h2>Brain-Wissens-Sync</h2>
+<p>Nach jedem erfolgreichen <code>upsert_changelog()</code> ruft <code>save_changelog_to_db()</code> <code>trigger_brain_patchnotes_sync(url)</code> auf. Der Sync-Start liegt damit nach dem DB-Schreiben und vor dem Discord-Versand in <code>update_patch()</code>. (<code>main.py</code>, <code>patchnotes_db.py</code>)</p>
+<p>Der Sync ist per <code>BRAIN_PATCHNOTES_SYNC_ENABLED</code> abschaltbar. Der Servicename kommt aus <code>BRAIN_PATCHNOTES_SYNC_SERVICE</code> und fällt auf <code>deadlock-brain-patchnotes-sync.service</code> zurück. (<code>main.py</code>)</p>
+<p>Der Bot startet den Sync mit <code>systemctl --user start &lt;service&gt;</code>. Fehler beim Start werden geloggt und nicht in den Patchpost zurückgeworfen. (<code>main.py</code>)</p>
+<p><code>deadlock-brain-patchnotes-sync.service</code> ist ein <code>oneshot</code>-Service. Die Unit setzt <code>DEADLOCK_BRAIN_ROOT=/home/naniadm/Documents/Deadlock-Brain</code>, <code>LOAD_INFISICAL=1</code> und startet <code>/home/naniadm/.local/bin/deadlock-brain-patchnotes-sync.sh</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-brain-patchnotes-sync.service</code>)</p>
+<p>Das Brain-Sync-Skript vergleicht zuerst die neueste <code>patchnotes.changelog_posts</code>-ID mit <code>brain.entity_snapshots</code>. Bei neuen Patchnotes zieht es Deadlock-Daten, Assets, Patchnotes, Parser- und Enrichment-Schritte und schreibt einen Qualitätsbericht nach <code>data/last_patchnotes_sync_quality.json</code>. (<code>/home/naniadm/.local/bin/deadlock-brain-patchnotes-sync.sh</code>)</p>
+</section>
+</main>
+</body>
+</html>

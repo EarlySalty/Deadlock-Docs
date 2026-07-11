@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock-Bots Integrationen</title>
+  <meta name="tags" content="deadlock-bots, intern, integrationen">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="Deadlock-Bots">
+</head>
+<body>
+<main>
+<h1>Integrationen</h1>
+<section id="master-broker">
+<h2>Master-Broker</h2>
+<p>Der Master-Broker bietet <code>/internal/master/v1/*</code> als localhost-IPC für Discord-Aktionen. Routen decken Rollen, Member, Channel-Info, Name-Resolution, Guild-Stats, Nachrichten, Channels, Rollen, Voice-Move, Invite und DM ab (<code>rust/crates/dl-broker/src/lib.rs</code>).</p>
+<p>Der Broker verlangt <code>X-Internal-Token</code>, erzeugt oder übernimmt <code>X-Request-Id</code> und nutzt <code>X-Idempotency-Key</code> für idempotente Schreibaufrufe. Allowlisten für Channel, Guild und Rollen kommen aus <code>MASTER_BROKER_ALLOWED_*</code>-Env-Namen und Alias-Namen (<code>rust/crates/dl-broker/src/lib.rs</code>).</p>
+</section>
+<section id="mcp">
+<h2>MCP</h2>
+<p>Der integrierte MCP-Connector läuft im <code>dl-bot</code>-Prozess auf <code>/mcp</code> und <code>/healthz</code>, default <code>127.0.0.1:8890</code>. Er nutzt den Bot-Token aus dem laufenden Prozess, optional <code>MCP_CONNECTOR_TOKEN</code>, und schreibt große Exporte nach <code>MCP_EXPORT_DIR</code> (<code>rust/bin/dl-bot/src/mcp.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code>).</p>
+<p>Das Standalone-Binary <code>dl-mcp</code> bietet dieselben HTTP-Pfade, nutzt aber eigene Env-Namen mit <code>DL_MCP_*</code> und akzeptiert <code>DISCORD_TOKEN</code> oder <code>BOT_TOKEN</code>. Es ruft Discord REST v10 direkt und kennt Tools wie <code>server_overview</code>, <code>list_channels</code>, <code>read_messages</code>, <code>list_threads</code>, <code>export_category</code>, <code>send_message</code>, <code>search_members</code> und <code>api_call</code> (<code>rust/bin/dl-mcp/src/main.rs</code>).</p>
+</section>
+<section id="twitch-bridge">
+<h2>Twitch-Bridge</h2>
+<p><code>TwitchApiClient</code> nutzt <code>TWITCH_INTERNAL_API_TOKEN</code> und baut die Basis aus <code>TWITCH_INTERNAL_API_BASE_URL</code> oder <code>TWITCH_INTERNAL_API_HOST</code> plus <code>TWITCH_INTERNAL_API_PORT</code>, Default <code>127.0.0.1:8776</code>. Nicht-loopback ist nur mit <code>TWITCH_INTERNAL_API_ALLOW_NON_LOOPBACK</code> erlaubt (<code>rust/crates/dl-bridges/src/twitch.rs</code>).</p>
+<p>Die Bridge rehydriert aktive Live-Ankündigungen über <code>GET /internal/twitch/v1/live/active-announcements</code>, trackt Button-Klicks über <code>POST /internal/twitch/v1/live/link-click</code> und nutzt <code>Idempotency-Key</code> bei Klicks. Ticket-FAQ darf Twitch-Diagnose nur für den fragenden User ausführen (<code>rust/crates/dl-bridges/src/twitch.rs</code>, <code>rust/crates/dl-community/src/faq.rs</code>).</p>
+<p><code>dl-twitch-invite-sync</code> ruft <code>/internal/twitch/v1/streamer-invites</code>, schreibt <code>bot.twitch_streamer_invites</code> und klassifiziert passende <code>activity.member_events</code> von anderen Buckets nach <code>twitch</code> um. Website-Invite-Codes aus <code>bot.kv_store</code> haben Vorrang vor Twitch (<code>rust/bin/dl-twitch-invite-sync/src/main.rs</code>).</p>
+</section>
+<section id="steam">
+<h2>Steam</h2>
+<p><code>SteamBotClient</code> sendet Discord-Ereignisse an <code>POST {STEAM_BOT_API_URL}/events/discord</code>, Default <code>http://127.0.0.1:8783</code>. Der Token kommt aus <code>TWITCH_INTERNAL_API_TOKEN</code>, danach <code>MASTER_BROKER_TOKEN</code>, danach <code>MAIN_BOT_INTERNAL_TOKEN</code> (<code>rust/crates/dl-bridges/src/steam.rs</code>).</p>
+<p>Die lokale Steam-Bridge enthält keine Steam-Business-Logik. Sie rendert Antworten des Steam-Bots als Discord-Antwort und öffnet nur das Freundescode-Modal lokal; Panel-Custom-IDs und Beta-Invite-Panel werden im Bridge-Code registriert (<code>rust/crates/dl-bridges/src/steam.rs</code>, <code>rust/bin/dl-bot/src/main.rs</code>).</p>
+</section>
+<section id="website-apis">
+<h2>Website-APIs</h2>
+<p>Der Coaching-Website-Client nutzt <code>TWITCH_INTERNAL_API_TOKEN</code>, danach <code>MASTER_BROKER_TOKEN</code>, danach <code>COACHING_BOT_TOKEN</code>. Die Basis ist <code>WEBSITE_API_BASE</code>, im Bot-Wrapper default <code>http://127.0.0.1:8772/api</code>; der Code-Default wäre die öffentliche <code>/api</code>-URL (<code>rust/crates/dl-community/src/coaching.rs</code>, <code>scripts/run_dl_bot_service.sh</code>).</p>
+<p>Der Client schreibt Coaching-Snapshots nach <code>POST /coaching/platform/sync</code>, Coach-Roster nach <code>POST /coaching/platform/coaches/sync</code>, liest fällige Benachrichtigungen über <code>GET /coaching/platform/notifications/due</code> und bestätigt sie über <code>POST /coaching/platform/notifications/ack</code> (<code>rust/crates/dl-community/src/coaching.rs</code>).</p>
+<p>Public-Stats und Tierlist delegieren Auth an das Dashboard über <code>DashboardClient</code>. Dieser ruft unter anderem <code>/internal/v1/discord/initiate</code>, <code>/internal/v1/discord/consume-result</code> und <code>/internal/twitch/v1/discord/validate-session</code> am Dashboard auf (<code>rust/crates/dl-webcore/src/dashboard.rs</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
+</section>
+<section id="clips">
+<h2>Clips</h2>
+<p>Der belegte Rust-Pfad für Clips ist die Discord-Einsendung: Button <code>clip_submit_btn_v1</code>, Modal, URL-Prüfung, 60-Sekunden-Cooldown, Wochenfenster Sonntag 00:00 bis Samstag 23:00 Europe/Berlin und ein TXT-Dump an den Kurator nach Ablauf. Die Persistenz liegt in <code>clips.clip_submissions</code>, <code>clips.clip_windows</code> und <code>clips.clip_window_submissions</code> (<code>rust/crates/dl-community/src/clips.rs</code>, <code>rust/crates/dl-central-db/migrations/0008_clips.sql</code>).</p>
+</section>
+<section id="discord-rest">
+<h2>Discord-REST</h2>
+<p><code>dl-bot</code> nutzt Discord über <code>dl-discord</code> und direkte REST-Clients für Server-Sync, Vanity-Attribution, Member-Directory und MCP. Vanity pollt <code>/guilds/{id}/vanity-url</code>, Member-Directory paginiert Guild-Members und MCP ruft Pfade relativ zu <code>/api/v10</code> auf (<code>rust/bin/dl-bot/src/vanity.rs</code>, <code>rust/bin/dl-bot/src/mcp.rs</code>, <code>rust/bin/dl-mcp/src/main.rs</code>, <code>rust/bin/dl-bot/src/serversync.rs</code>).</p>
+</section>
+</main>
+</body>
+</html>

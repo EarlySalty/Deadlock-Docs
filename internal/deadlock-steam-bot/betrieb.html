@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Steam-Bot Betrieb</title>
+  <meta name="tags" content="internal, steam, betrieb">
+  <meta name="stand" content="2026-07-08">
+  <meta name="quelle" content="Deadlock-Steam-Bot">
+</head>
+<body>
+<main>
+<h1>Betrieb</h1>
+<section id="build">
+<h2>Build</h2>
+<p>Die Release-Binaries heißen <code>steam-core</code> und <code>steam-bot</code>. Beide liegen nach dem Build unter <code>rust/target/release/</code>, weil die Wrapper genau diese Pfade prüfen. (<code>rust/crates/steam-core/Cargo.toml</code>, <code>rust/crates/steam-bot/Cargo.toml</code>, <code>rust/deploy/run-steam-core.sh</code>, <code>rust/deploy/run-steam-bot.sh</code>)</p>
+<p>Der minimale Build-Befehl ist:</p>
+<pre><code class="language-bash">cargo build --manifest-path rust/Cargo.toml --release -p steam-core -p steam-bot
+</code></pre>
+<p>Der Workspace nutzt Rust stable mit <code>rustfmt</code> und <code>clippy</code>. (<code>rust/rust-toolchain.toml</code>, <code>rust/Cargo.toml</code>)</p>
+</section>
+<section id="deploy-und-restart">
+<h2>Deploy und Restart</h2>
+<p>Die systemd-User-Units heißen <code>steam-core.service</code> und <code>steam-bot.service</code>. <code>steam-bot.service</code> hat <code>After=network-online.target steam-core.service</code> und startet den Wrapper <code>run-steam-bot.sh</code>. Beide Live-Units liegen unter <code>/home/naniadm/.config/systemd/user/</code> und haben Drop-ins für <code>LoadCredential</code>; <code>steam-core</code> hat zusätzlich <code>STEAM_PRESENCE_ENABLED=1</code>, <code>steam-bot</code> Friend-Limit-Reservierung (<code>/home/naniadm/.config/systemd/user/steam-core.service</code>, <code>/home/naniadm/.config/systemd/user/steam-bot.service</code>, <code>/home/naniadm/.config/systemd/user/steam-core.service.d/30-presence.conf</code>, <code>/home/naniadm/.config/systemd/user/steam-bot.service.d/phase0-friend-limit.conf</code>).</p>
+<p>Der sichere Restart läuft zuerst über Core, dann Bot:</p>
+<pre><code class="language-bash">systemctl --user restart steam-core.service
+systemctl --user restart steam-bot.service
+</code></pre>
+<p><code>steam-bot</code> wartet im Wrapper auf <code>STEAM_CORE_WAIT_URL</code> und nutzt <code>STEAM_CORE_WAIT_MAX</code> als Obergrenze; danach startet er auch ohne erfolgreiche Core-Readiness und verlässt sich auf eigene Retries. (<code>rust/deploy/run-steam-bot.sh</code>)</p>
+<p>Die Drop-ins <code>steam-core.service.d/20-creds.conf</code> und <code>steam-bot.service.d/20-creds.conf</code> reichen <code>infisical-token</code> über <code>LoadCredential</code> in <code>$CREDENTIALS_DIRECTORY</code>. <code>steam-core.service.d/30-presence.conf</code> setzt <code>STEAM_PRESENCE_ENABLED=1</code>. (<code>rust/deploy/dropins/steam-core.service.d/20-creds.conf</code>, <code>rust/deploy/dropins/steam-bot.service.d/20-creds.conf</code>, <code>rust/deploy/dropins/steam-core.service.d/30-presence.conf</code>, <code>rust/deploy/dropins/README.md</code>)</p>
+</section>
+<section id="logs">
+<h2>Logs</h2>
+<p>Beide Binaries initialisieren <code>tracing_subscriber::fmt()</code> und schreiben über stdout/stderr in den systemd-User-Journalpfad. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/deploy/steam-core.service</code>, <code>rust/deploy/steam-bot.service</code>)</p>
+<p>Die Live-Logs kommen aus dem User-Journal:</p>
+<pre><code class="language-bash">journalctl --user -u steam-core.service -f
+journalctl --user -u steam-bot.service -f
+</code></pre>
+</section>
+<section id="env-variablen">
+<h2>Env-Variablen</h2>
+<p>Core-Start: <code>DEADLOCK_CENTRAL_DSN</code>, <code>STEAM_CORE_API_ADDR</code>, <code>RUST_LOG</code>, <code>STEAM_CORE_API_TOKEN</code>, <code>STEAM_BOT_USERNAME</code>, <code>STEAM_LOGIN</code>, <code>STEAM_BOT_PASSWORD</code>, <code>STEAM_PASSWORD</code>, <code>STEAM_TOTP_SECRET</code>, <code>STEAM_REFRESH_TOKEN</code>, <code>STEAM_DATA_DIR</code>. (<code>rust/crates/steam-core/src/config.rs</code>, <code>rust/crates/steam-core/src/main.rs</code>, <code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/src/pool.rs</code>)</p>
+<p>Core-Betrieb: <code>STEAM_PRESENCE_ENABLED</code>, <code>CATALOG_MAINTENANCE_INTERVAL_MS</code>, <code>STEAM_COMMAND_POLL_MS</code>, <code>STEAM_TASKS_MAX_ROWS</code>, <code>STEAM_TOKEN_REFRESH_LEAD_DAYS</code>, <code>STEAM_TOKEN_AUTO_REFRESH</code>, <code>STEAM_TOKEN_UPDATER_SCRIPT</code>. (<code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-core/src/command_loop.rs</code>, <code>rust/crates/steam-persistence/src/tasks.rs</code>, <code>rust/crates/steam-core/src/token_refresh.rs</code>, <code>rust/crates/steam-core/src/steam/token_sync.rs</code>)</p>
+<p>Steam-Guard-Mailpfad: <code>STEAM_GUARD_EMAIL</code>, <code>STEAM_EMAIL_ACCOUNT_PASSWORD</code>, <code>STEAM_GUARD_IMAP_SERVER</code>, <code>STEAM_GUARD_IMAP_PORT</code>, <code>STEAM_GUARD_MAX_EMAIL_AGE</code>, <code>STEAM_GUARD_POLL_INTERVAL</code>. (<code>rust/crates/steam-core/src/steam/email_guard.rs</code>)</p>
+<p>Bot-Start und Core-Client: <code>STEAM_BOT_API_ADDR</code>, <code>STEAM_BOT_DISCORD</code>, <code>RUST_LOG</code>, <code>STEAM_CORE_URL</code>, <code>STEAM_CORE_API_TOKEN</code>. (<code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-flows/src/shared.rs</code>)</p>
+<p>Discord-Broker: <code>STEAM_BROKER_URL</code>, <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>STEAM_INTERNAL_API_TOKEN</code>, <code>INTERNAL_API_TOKEN</code>. (<code>rust/crates/steam-discord/src/broker.rs</code>, <code>rust/crates/steam-web/src/routes/events.rs</code>)</p>
+<p>Link/OAuth: <code>PUBLIC_BASE_URL</code>, <code>STEAM_LINK_PUBLIC_BASE_URL</code>, <code>STEAM_RETURN_PATH</code>, <code>DISCORD_OAUTH_REDIRECT</code>, <code>DISCORD_OAUTH_INTERNAL_API_BASE_URL</code>, <code>TURNIER_INTERNAL_API_TOKEN</code>, <code>MASTER_BROKER_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>STEAM_API_KEY</code>, <code>STEAM_FIELD_CRYPTO_KEY</code>, <code>FRIEND_CODE_LINKING_ENABLED</code>, <code>STEAM_LOGIN_LAUNCH_TTL_SEC</code>, <code>STEAM_TRUST_X_FORWARDED_FOR</code>. Die Discord-OAuth-Delegation nutzt default <code>http://127.0.0.1:8766</code>, postet auf <code>/internal/v1/discord/initiate</code> und <code>/internal/v1/discord/consume-result</code>, setzt <code>X-Internal-Token</code> und hat 20 Sekunden Request-Timeout. (<code>rust/crates/steam-flows/src/link.rs</code>, <code>rust/crates/steam-flows/src/field_crypto.rs</code>, <code>rust/crates/steam-web/src/routes/link.rs</code>)</p>
+<p>Guild, Rollen und Scheduler: <code>STEAM_GUILD_ID</code>, <code>STEAM_VERIFIED_ROLE_ID</code>, <code>STEAM_FRIEND_SYNC_INTERVAL_HOURS</code>, <code>STEAM_POLL_MIN_INTERVAL_SEC</code>, <code>STEAM_UNFOLLOW_MISS_THRESHOLD</code>, <code>STEAM_POLL_BATCH_SIZE</code>, <code>STEAM_FRIEND_REQUEST_RECONCILE_INTERVAL_SEC</code>, <code>STEAM_FRIEND_REQUEST_RECONCILE_BATCH_SIZE</code>, <code>AUTO_SYNC_INTERVAL_MINUTES</code>, <code>STEAM_FRIEND_LIMIT</code>, <code>STEAM_FRIEND_RESERVE</code>, <code>STEAM_INACTIVE_PURGE_DAYS</code>. (<code>rust/crates/steam-flows/src/friend_sync.rs</code>, <code>rust/crates/steam-flows/src/rank.rs</code>, <code>rust/crates/steam-flows/src/purge.rs</code>, <code>rust/crates/steam-flows/src/leave_cleanup.rs</code>)</p>
+<p>Beta-Invite und Ko-fi: <code>STEAM_BOT_FRIEND_CODE</code>, <code>BETA_INVITE_COMMUNITY_DISPATCH_INTERVAL_SECONDS</code>, <code>BETA_INVITE_COMMUNITY_DISPATCH_MAX_RETRYABLE_FAILURES</code>, <code>BETA_INVITE_COMMUNITY_DISPATCH_MIN_SECONDS</code>, <code>BETA_INVITE_COMMUNITY_DISPATCH_MAX_SECONDS</code>, <code>MAIN_GUILD_ID</code>, <code>KOFI_VERIFICATION_TOKEN</code>. <code>STEAM_BOT_FRIEND_CODE</code> fällt auf <code>820142646</code> zurück. <code>FRIEND_CODE_LINKING_ENABLED</code> schaltet bei <code>0</code>, <code>false</code>, <code>off</code> oder <code>no</code> die Freundescode-Eingabe ab. (<code>rust/crates/steam-flows/src/betainvite.rs</code>, <code>rust/crates/steam-flows/src/link.rs</code>, <code>rust/crates/steam-web/src/routes/kofi.rs</code>)</p>
+<p>Wrapper: <code>INFISICAL_CONFIG_FILE</code>, <code>INFISICAL_EXPORT_SCRIPT</code>, <code>STEAM_CORE_BIN</code>, <code>STEAM_BOT_BIN</code>, <code>INFISICAL_SERVICE_TOKEN</code>, <code>CREDENTIALS_DIRECTORY</code>, <code>INFISICAL_RETRY_DELAY</code>, <code>INFISICAL_MAX_ATTEMPTS</code>, <code>STEAM_CORE_WAIT_URL</code>, <code>STEAM_CORE_WAIT_MAX</code>. (<code>rust/deploy/run-steam-core.sh</code>, <code>rust/deploy/run-steam-bot.sh</code>)</p>
+</section>
+<section id="runbook-werte">
+<h2>Runbook-Werte</h2>
+<table>
+<thead>
+<tr>
+<th>Bereich</th>
+<th>Wert</th>
+<th>Beleg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beta-Invite-Dispatcher</td>
+<td>default 60 Sekunden, Minimum 15 Sekunden; Community-Delay default 900 bis 7200 Sekunden; Invite-Task-Wait 100 Sekunden.</td>
+<td><code>rust/crates/steam-flows/src/betainvite.rs</code></td>
+</tr>
+<tr>
+<td>Beta-Invite-Friendship-Poll</td>
+<td>Loop alle 15 Sekunden; Auto-Check alle 120 Sekunden, maximal 5 Versuche.</td>
+<td><code>rust/crates/steam-flows/src/betainvite.rs</code></td>
+</tr>
+<tr>
+<td>Friend-Request-Reconcile</td>
+<td>default alle 60 Sekunden, Batch default 100, Clamp 1 bis 500.</td>
+<td><code>rust/crates/steam-flows/src/friend_sync.rs</code></td>
+</tr>
+<tr>
+<td>Rank-Sync</td>
+<td>default alle 60 Minuten; Profilkarten-Timeout 45 Sekunden.</td>
+<td><code>rust/crates/steam-flows/src/rank.rs</code></td>
+</tr>
+<tr>
+<td>Presence</td>
+<td>nur mit <code>STEAM_PRESENCE_ENABLED</code>; Request alle 60 Sekunden, Chunk 50, Chunk-Delay 250 ms, Party-Member-Max-Age 600 Sekunden.</td>
+<td><code>rust/crates/steam-core/src/steam/presence.rs</code></td>
+</tr>
+<tr>
+<td>Ko-fi-Supporter-Revoke</td>
+<td>Rolle gilt 30 Tage; Scheduler läuft alle 10 Minuten und entfernt abgelaufene Grants.</td>
+<td><code>rust/crates/steam-flows/src/supporter.rs</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fallen">
+<h2>Fallen</h2>
+<p>Falle: Alte Deploy-Vorlagen und Betriebsnotizen können noch <code>DEADLOCK_DB_PATH</code> nennen, aber die gelesenen Live-Units setzen diesen Wert nicht. Der aktuelle Rust-Code liest die zentrale Postgres-DSN <code>DEADLOCK_CENTRAL_DSN</code>; SQLite-Anweisungen zeigen daher nicht auf den produktiven Pfad (<code>/home/naniadm/.config/systemd/user/steam-core.service</code>, <code>/home/naniadm/.config/systemd/user/steam-bot.service</code>, <code>rust/crates/steam-core/src/main.rs</code>, <code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-persistence/src/lib.rs</code>).</p>
+<p>Falle: Der Primary-Race ist nur geschlossen, wenn Migration <code>0015_steam_links_one_primary.sql</code> gelaufen ist und der Codepfad <code>upsert_link()</code> genutzt wird. Die Migration legt <code>uq_steam_links_one_primary</code> an, und <code>upsert_link()</code> nimmt zusätzlich einen Advisory-Lock pro User. (<code>/home/naniadm/Documents/Deadlock-Bots/rust/crates/dl-central-db/migrations/0015_steam_links_one_primary.sql</code>, <code>rust/crates/steam-persistence/src/links.rs</code>)</p>
+<p>Falle: Wenn <code>STEAM_CORE_API_TOKEN</code> fehlt, lässt <code>steam-core</code> alle geschützten Endpunkte außer <code>/health</code> im Loopback-Modus ohne Token durch. (<code>rust/crates/steam-core/src/api/mod.rs</code>)</p>
+<p>Falle: Wenn <code>TWITCH_INTERNAL_API_TOKEN</code>, <code>STEAM_INTERNAL_API_TOKEN</code> und <code>INTERNAL_API_TOKEN</code> fehlen, läuft <code>/events/discord</code> im Dev-Modus ohne Auth. Der Token wird beim ersten Request geladen und prozessweit gecacht. (<code>rust/crates/steam-web/src/routes/events.rs</code>)</p>
+<p>Falle: Wenn <code>KOFI_VERIFICATION_TOKEN</code> fehlt, antwortet <code>/kofi/webhook</code> mit 503 und verarbeitet keine Zahlungen. (<code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-web/src/routes/kofi.rs</code>)</p>
+<p>Falle: <code>steam-bot/src/main.rs</code> kommentiert beim Ticket-Cleanup noch &quot;48 h Inaktivität&quot;. Die aktive Konstante ist <code>TICKET_IDLE_TTL_SECS = 12 * 60 * 60</code>, also 12 Stunden; der Loop schläft 5 Minuten. (<code>rust/crates/steam-bot/src/main.rs</code>, <code>rust/crates/steam-flows/src/betainvite.rs</code>)</p>
+<p>Falle: Der Token-Auto-Refresh-Pfad ruft bei <code>STEAM_TOKEN_AUTO_REFRESH</code> und vorhandenem Passwort <code>std::process::exit(0)</code> auf. Die Unit nutzt <code>Restart=on-failure</code>; Exit 0 löst dort keinen on-failure-Neustart aus. (<code>rust/crates/steam-core/src/token_refresh.rs</code>, <code>rust/deploy/steam-core.service</code>)</p>
+<p>Falle: <code>STEAM_BOT_DISCORD=noop</code> ersetzt den Broker durch <code>NoopDiscord</code>; Discord-Seiteneffekte werden dann nicht beim Master-Bot ausgeführt. (<code>rust/crates/steam-bot/src/main.rs</code>)</p>
+</section>
+</main>
+</body>
+</html>

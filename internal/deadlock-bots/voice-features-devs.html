@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>voice-features — Dev-Notizen</title>
+  <meta name="tags" content="deadlock-bots, technik">
+  <meta name="stand" content="2026-07-07">
+  <meta name="quelle" content="public/discord-server/voice-features.html (Für-Devs-Sektion)">
+</head>
+<body>
+<main>
+<h1>voice-features — Dev-Notizen</h1>
+<p>eingearbeitet in <a href="architektur.html"><code>architektur.html</code></a></p>
+<section id="fuer-devs-knapp">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Rust live: <code>dl-voice/src/tempvoice/</code> (engine + interface: Staging, Buttons, Presets, Tag-Filter, Owner-Claim-Regeln), <code>router.rs</code> (Router-VC, Smart-Routing), <code>adaptive.rs</code> (New-Player-/Off-Topic-/Sortier-Automatik), <code>rank.rs</code> (Anker, Subrang-Fenster ±9, Overwrites), <code>status.rs</code> (Kanalstatus), <code>stats.rs</code> (<code>!vstats</code>, Leaderboards, Admin-Debug), <code>feedback.rs</code> (Feedback-DM + Modal), <code>nudge.rs</code> (Steam-Link-DM), <code>tracker.rs</code> (Sessions, respektiert Privacy-Opt-out)</li>
+<li>Admin: Panel-Post per <code>!tvpanel</code>/<code>!tempvoicepanel</code>/<code>!tvinterface</code></li>
+</ul>
+</section>
+</main>
+</body>
+</html>

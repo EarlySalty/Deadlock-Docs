@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>HTML-Wissensvertrag und Styleguide für dieses Repo</title>
+  <meta name="tags" content="meta, styleguide, html-vertrag">
+  <meta name="stand" content="2026-07-11">
+  <meta name="quelle" content="Deadlock-Docs, tools/validate_corpus.py">
+</head>
+<body>
+<main>
+<h1>HTML-Wissensvertrag und Styleguide — verbindlich für jede Seite hier</h1>
+<p>Diese Seite legt fest, wie jede Wissensseite in diesem Repo aussieht: committetes, semantisches HTML mit fester Hülle. Sprache, Ton und Wahrheitspflicht gelten für den Inhalt, der HTML-Vertrag für die Struktur. <code>tools/validate_corpus.py</code> erzwingt den Strukturteil maschinell; ein Verstoß bricht die Validierung.</p>
+<section id="sprache-zeichen">
+<h2>Sprache &amp; Zeichen</h2>
+<ul>
+<li>Deutsch. Echte Umlaute und Eszett als UTF-8: ä ö ü Ä Ö Ü ß. <strong>Niemals</strong> ae/oe/ue-Ersatz, niemals HTML-Entities (<code>&amp;auml;</code>), niemals Unicode-Escapes (<code>ä</code>).</li>
+<li>Gerade ASCII-Anführungszeichen (&quot;...&quot;) statt typografischer („...&quot;). Bindestrich statt Gedankenstrich-Exoten ist okay; kein Zeichensalat.</li>
+<li>Nach dem Schreiben Pflicht-Check: <code>grep -rn 'Ã\|&amp;auml\|\\u00' &lt;dateien&gt;</code> muss leer sein.</li>
+</ul>
+</section>
+<section id="ton-dev-doku-nicht-ai-prosa">
+<h2>Ton — Dev-Doku, nicht AI-Prosa</h2>
+<p>So schreibt hier ein Entwickler für den nächsten Entwickler:</p>
+<ul>
+<li>Kurze Sätze. Aktiv. Konkret. &quot;Der Bot pollt alle 35 s das Forum&quot; statt &quot;Es findet eine regelmäßige Überprüfung statt&quot;.</li>
+<li><strong>Verboten:</strong> &quot;In diesem Dokument...&quot;, &quot;Zusammenfassend lässt sich sagen&quot;, &quot;Es ist wichtig zu beachten&quot;, &quot;robust&quot;, &quot;nahtlos&quot;, &quot;leistungsstark&quot;, Emojis, Marketing, Füll-Adjektive.</li>
+<li>Keine Bullet-Explosion: Bullets nur für echte Aufzählungen. Zusammenhänge als Fließtext, 2-4 Sätze pro Absatz.</li>
+<li>Mechanismus statt Behauptung: nicht &quot;das System ist sicher&quot;, sondern &quot;der Endpoint bindet nur 127.0.0.1&quot;.</li>
+<li>Zahlen, Pfade, Namen exakt — oder gar nicht.</li>
+</ul>
+</section>
+<section id="wahrheit">
+<h2>Wahrheit</h2>
+<ul>
+<li>Jede Aussage muss aus Code/Config/Schema belegbar sein. Referenz in Klammern dazu: (<code>rust/bin/dl-bot/src/main.rs</code>).</li>
+<li><strong>Rust ist die Wahrheit.</strong> Alle Dienste außer dem Patchnotes-Bot laufen auf Rust; Python ist Legacy in Ablösung. Doku beschreibt den Rust-Pfad als DEN Pfad — nicht &quot;es gibt zwei Backends&quot;. Python-Code höchstens ein kurzer Absatz am Ende (&quot;Legacy: der alte Python-Pfad unter <code>backend/</code> ist abgelöst&quot;), keine Python-Mechanik-Details, keine Py/Rust-Vergleiche pro Absatz.</li>
+<li>Laufzeit-Wahrheit bei systemd: immer die <strong>komplette</strong> Unit inkl. Overrides lesen (<code>systemctl --user cat &lt;svc&gt;</code>), nicht nur die erste <code>ExecStart</code>-Zeile — Overrides ersetzen ExecStart weiter unten.</li>
+<li>Bestehende alte Doku ist Verdachtsmaterial, nicht Quelle: gegen den Code prüfen, Veraltetes weglassen und im Bericht melden.</li>
+<li>Unsicher? Weglassen oder Zeile mit <code>UNSICHER:</code> prefixen — niemals raten.</li>
+<li>HTTP-Status-Codes: Handler <strong>und</strong> Error-Mapping prüfen (<code>error.rs</code>/<code>IntoResponse</code>), nie aus Funktionsnamen oder Kommentaren raten.</li>
+<li>&quot;Die DB ist X&quot;: vorher alle Pfad-Resolver greppen (<code>*_DB</code>, <code>DB_PATH</code>, <code>connect</code>, DSN-Env) — Rust und Legacy können divergieren.</li>
+<li>Keine Meta-Dateien (Berichte, Dateilisten, Alt-Doku-Funde) im Doku-Baum; ein Bericht gehört in die Worker-Antwort, nicht ins Repo.</li>
+<li>Secrets: nur Env-Var-/Secret-Namen nennen, niemals Werte. Keine Tokens, keine DSNs mit Credentials.</li>
+</ul>
+</section>
+<section id="html-huelle">
+<h2>Kanonische Hülle und Metadaten</h2>
+<p>Jede Wissensseite ist eine <code>.html</code>-Datei mit genau dieser Hülle. Der Laufzeit-Retrieval-Index (BM25 in <code>dl-knowledge</code>) tokenisiert je Chunk vier Bestandteile gemeinsam: <code>title</code>, die Abschnittsüberschrift, die <code>tags</code> und den Chunk-Text. Der Chunk-Text ist nicht der gesamte <code>&lt;main&gt;</code>-Text, sondern je Chunk verschieden (siehe den Abschnitt zu <code>&lt;main&gt;</code> weiter unten). <code>stand</code>, <code>quelle</code> und die übrige Hülle werden zwar validiert, sind aber kein Chunk-Text und tauchen im Index nicht auf. In den Modellkontext gehen nur <code>title</code>, der relative Pfad, die Abschnittsüberschrift und der Chunk-Text ein, nicht <code>tags</code>, <code>stand</code> oder <code>quelle</code> (<code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
+<table>
+<thead><tr><th>Element</th><th>Regel</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;!doctype html&gt;</code></td><td>Erste Zeile, immer.</td></tr>
+<tr><td><code>&lt;html lang="de"&gt;</code></td><td>Genau ein <code>html</code>, immer mit <code>lang="de"</code>.</td></tr>
+<tr><td><code>&lt;head&gt;</code> / <code>&lt;body&gt;</code></td><td>Je genau einer, direkt unter <code>html</code>.</td></tr>
+<tr><td><code>&lt;meta charset="utf-8"&gt;</code></td><td>Genau einer, erstes Element im <code>head</code>.</td></tr>
+<tr><td><code>&lt;title&gt;</code></td><td>Genau einer, spezifisch: &quot;Turniere — Betrieb&quot;, nie generisch &quot;Betrieb&quot; (landet in Suchindex und Quellenangaben).</td></tr>
+<tr><td><code>&lt;meta name="tags"&gt;</code></td><td>Genau einer, kommagetrennte Schlagworte mit echtem Inhalt.</td></tr>
+<tr><td><code>&lt;meta name="stand"&gt;</code></td><td>Genau einer, Datum der letzten Prüfung gegen die Quelle.</td></tr>
+<tr><td><code>&lt;meta name="quelle"&gt;</code></td><td>Genau einer, Repo- oder Pfad-Bezug der Belege.</td></tr>
+</tbody>
+</table>
+<p>Kein <code>&lt;script&gt;</code>, keine Inline-Event-Handler, kein Meta-Refresh, keine externen oder ladenden Assets, keine <code>data:</code>-URIs, kein CSS-<code>@import</code>/<code>url()</code>, kein <code>srcset</code>/<code>xlink:href</code>. Keine Symlinks. IDs sind eindeutig.</p>
+</section>
+<section id="html-main">
+<h2>main, h1 und Abschnitte</h2>
+<p>Die Runtime zerlegt jede Seite in Chunks und indexiert nur diese. Pro Seite entsteht genau ein <strong>Intro-Chunk</strong>: seine Überschrift ist die <code>&lt;h1&gt;</code>, sein Text ist die <code>&lt;h1&gt;</code> plus die direkten <code>&lt;p&gt;</code>-Kinder von <code>&lt;main&gt;</code>. Zusätzlich entsteht je direktem <code>&lt;section&gt;</code> ein <strong>Section-Chunk</strong>, dessen Text der sichtbare Text genau dieses Abschnitts ist. Der gesamte <code>&lt;main&gt;</code>-Text ist also nicht der Text jedes Chunks — jeder Chunk trägt nur seinen eigenen Ausschnitt. Navigation, Styles und alles außerhalb dieser Intro- und Section-Blöcke werden nicht indexiert.</p>
+<ul>
+<li>Genau ein <code>&lt;main&gt;</code> pro Seite.</li>
+<li>Genau ein <code>&lt;h1&gt;</code>, als direktes Kind von <code>&lt;main&gt;</code>, mit echtem Inhalt. Die <code>&lt;h1&gt;</code> und die direkten <code>&lt;p&gt;</code> darunter bilden den Intro-Chunk.</li>
+<li>Nach der H1: 2-3 Zeilen Kurzfassung, was diese Seite beantwortet — diese Absätze landen als direkte <code>&lt;p&gt;</code>-Kinder im Intro-Chunk. Dann erst Details.</li>
+<li>Jeder direkte <code>&lt;section&gt;</code> in <code>&lt;main&gt;</code> braucht im freigegebenen Korpus <strong>beides</strong>: eine eindeutige <code>id</code> <strong>und</strong> eine direkte, nichtleere <code>&lt;h2&gt;</code>, dazu nichtleeren Abschnittsinhalt. Der Validator verlangt beide, nicht eines von beiden. Der Runtime-Parser ist toleranter — er erfasst einen Abschnitt schon bei einer nichtleeren <code>&lt;h2&gt;</code> irgendwo im Abschnitt oder ersatzweise bei einer nichtleeren <code>id</code> —, trotzdem liefern Autoren immer beides. Sprechende, stabile <code>id</code>-Slugs für wichtige Zustände und Workflows.</li>
+<li>Ein Abschnitt je 3-5 Absätze — keine Prosa-Wand über 15 Absätze, keine Bullet-Explosion.</li>
+</ul>
+</section>
+<section id="html-tabellen-code-links">
+<h2>Tabellen, Code-Referenzen und Links</h2>
+<ul>
+<li>Aufzählungen ab etwa 5 gleichartigen Einträgen (Env-Vars, Endpunkte, Zustände) als <code>&lt;table&gt;</code> mit <code>&lt;thead&gt;</code>/<code>&lt;tbody&gt;</code>, nicht als Fließtext-Kette.</li>
+<li>Belegpfade in <code>&lt;code&gt;</code>: eine Klammer pro Absatz-Ende mit höchstens drei Pfaden, nicht nach jedem Satz. HTML-Sonderzeichen in Beispielen escapen (<code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code>).</li>
+<li>Verweise auf andere Wissensseiten sind relative <code>.html</code>-Links, deren Ziel existiert; nie <code>.md</code> auf eine konvertierte Seite. Ladende Ressourcen bleiben lokal.</li>
+<li>Sichere externe Navigation (<code>&lt;a&gt;</code> mit <code>http(s)</code>, <code>mailto</code>, <code>tel</code>) ist erlaubt. Binäre Belege (z. B. PDF) werden lokal verlinkt und nie indexiert.</li>
+<li>Dateinamen: kebab-case, deutsch, Endung <code>.html</code> (<code>datenmodell.html</code>, <code>betrieb.html</code>).</li>
+<li><code>internal/</code> darf Technik enthalten (Ports, Tabellen, Pfade, IDs, Kanäle, Schlüssel), aber nie rohe Secrets. <code>public/</code> niemals Technik: keine internen Zahlen, keine Endpunkte, keine Admin-Wege. <code>public/</code> verweist nie auf <code>internal/</code>.</li>
+</ul>
+</section>
+<section id="markdown-ausnahmen">
+<h2>Markdown-Ausnahmen</h2>
+<p>Wissensseiten sind immer HTML. Markdown bleibt ausschließlich für Repo-Steuerdateien im Root, die nur dem Audit dienen und nie indexiert werden:</p>
+<ul>
+<li><code>README.md</code></li>
+<li><code>PLAN.md</code></li>
+<li><code>CHANGELOG.md</code></li>
+<li>technische Entwicklungspläne unter <code>plans/</code></li>
+</ul>
+<p>Verweise auf echten Code-Repo-Pfad oder auf diese Root-Ausnahmen dürfen <code>.md</code> nennen. Jede andere <code>.md</code>-Nennung im Doku-Baum ist ein Verstoß.</p>
+</section>
+</main>
+</body>
+</html>
