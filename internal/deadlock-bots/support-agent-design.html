@@ -5,7 +5,7 @@
   <title>Support-Agent: HTML-Wissenskorpus und verlässliche Discord-Antworten</title>
   <meta name="tags" content="deadlock-bots, concierge, support-agent, wissensbasis, html, discord">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="User-Entscheidungen und Ist-Audit der Runtime vom 2026-07-11">
+  <meta name="quelle" content="User-Entscheidungen und Ist-Audit der Runtime vom 2026-07-11 (Deadlock-Bots b069b5c8 plus Folgefix auf feature/support-agent-runtime; dl-knowledge grounded_response)">
 </head>
 <body>
 <main>
@@ -14,10 +14,10 @@
 
   <section id="ausgangslage">
     <h2>Ausgangslage</h2>
-    <p>Diese Liste beschreibt den Befund vor dem Cutover. Der heute gültige Ist-Vertrag steht in den folgenden Abschnitten.</p>
+    <p>Diese Liste beschreibt den Befund vor dem Cutover. Die folgenden Abschnitte beschreiben den verbindlichen Release-/Deploy-Vertrag des Support-Agent-Rollouts, nicht den bereits erreichten Produktionszustand.</p>
     <ul>
       <li>Der bestehende Wissensdienst beantwortete konkrete Fragen häufig korrekt, breite Bot- und Serverfragen aber instabil.</li>
-      <li>Der Korpus konnte uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden. Das ist abgestellt: Die Produktion startet nur noch aus dem deployten, committeten Snapshot.</li>
+      <li>Der Korpus konnte uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden. Der Rollout-Vertrag schließt das aus: Ab erfolgreichem Rollout startet die Produktion nur noch aus dem deployten, committeten Snapshot.</li>
       <li>Mehrere öffentliche Seiten sind veraltet, widersprüchlich oder enthalten Details, die nicht in einen kundenerreichbaren Korpus gehören.</li>
       <li>Der ausgewiesene Server-Fragenkanal, private FAQ-Chats und Direktnachrichten verwenden nicht durchgehend denselben Antwortpfad.</li>
       <li>Bestehende Tests prüfen Parser und synthetische Antworten, aber keinen vollständigen Satz realistischer Community-Fragen.</li>
@@ -106,21 +106,23 @@
       <tbody>
         <tr><td>Echte Direktnachricht</td><td>Normaler privater Concierge-Verlauf; bei Opt-out stateless</td><td><code>stopp</code> und Vergessen aktiv; neue Paten-/Steckbrief-Aktionsbuttons erlaubt</td></tr>
         <tr><td>Privater FAQ-Chat</td><td>Eigener FAQ-Sitzungsverlauf</td><td>Keine Concierge-Text-Controls und keine persönlichen Concierge-Aktionsbuttons</td></tr>
-        <tr><td>Nachweislich eigener privater Concierge-Fallback</td><td>Normaler privater Concierge-Verlauf</td><td>Keine Text-Controls (<code>stopp</code>/Vergessen); persönliche und generische Buttons erst nach Ownership-Prüfung erlaubt</td></tr>
+        <tr><td>Nachweislich eigener privater Concierge-Fallback</td><td>Normaler privater Concierge-Verlauf</td><td>Keine Text-Controls (<code>stopp</code>/Vergessen); vorhandene Klicks werden nach Ownership-Prüfung verarbeitet, eine freie Textantwort erzeugt hier aber <strong>keine neuen</strong> persönlichen Aktionsbuttons</td></tr>
         <tr><td>Fester öffentlicher Server-/Bot-Fragenkanal</td><td>Strikt stateless: nur die aktuelle Frage, kein Conversation-Insert und niemals DM-/Fallback-History</td><td>Keine persönlichen Aktionsbuttons; vorhandene generische Buttons werden abgewiesen</td></tr>
         <tr><td>Sonstige Guild-Kanäle</td><td>Keine Concierge-Antwortoberfläche</td><td>Generische Concierge-Buttons werden abgewiesen</td></tr>
+        <tr><td>Interner Patenkanal (Claim-Post)</td><td>Kein persönlicher Verlauf; interner Übergabepfad</td><td><strong>Einzige Ausnahme</strong> von der Guild-Sperre: der Paten-Claim-Button umgeht die Ownership-Prüfung, weil er kein persönlicher Control des Neulings ist, und ist stattdessen an Haupt-Guild, festen Patenkanal und Paten-Rolle gebunden</td></tr>
       </tbody>
     </table>
     <h3>Was in die Retrieval-Anfrage eingeht</h3>
     <ul>
-      <li>Im speichernden Gespräch gehen höchstens die <strong>vier vorherigen Nutzerfragen und die aktuelle Frage</strong> in die Retrieval-Anfrage. Der Verlauf schärft ausschließlich die Suche.</li>
+      <li>Im speichernden Gespräch bilden höchstens die <strong>vier vorherigen Nutzerfragen und die aktuelle Frage</strong> zusammen den Fragetext an den Wissensdienst. Dieser kombinierte Text wirkt nicht nur auf die Suche: Er geht ebenso in die Grounding-Termprüfung und in die Frageeingabe des Modells.</li>
+      <li>Der Verlauf ist trotzdem kein Beleg. Faktenbelege sind ausschließlich die gefundenen öffentlichen HTML-Chunks; aus früheren Fragen allein entsteht keine Antwort.</li>
       <li>Assistant-Texte gehen nie mit. Frühere Bot-Antworten sind keine Quelle und können sich nicht selbst bestätigen.</li>
       <li>Stateless — nach dem Datenschutz-Opt-out und überall dort, wo kein Verlauf geführt wird — besteht die Anfrage ausschließlich aus der aktuellen Frage. Der öffentliche Server-/Bot-Fragenkanal ist unabhängig vom User-Zustand immer stateless und liest weder DM- noch Fallback-Verlauf.</li>
     </ul>
     <h3>Query-Aliase und Grounding</h3>
     <ul>
-      <li>Query-Aliase erweitern ausschließlich die Suche im Retrieval. Sie ersetzen weder die Rohfrage noch werden sie zu einem Routing-Vertrag.</li>
-      <li>Das Grounding prüft einen gefundenen Beleg gegen die aktuelle Rohfrage und zusätzlich gegen eine eng kanonisierte Vergleichsform, die nur kompakte Bot-Aliase vereinheitlicht. Die breitere Retrieval-Erweiterung geht nicht in diese Prüfung ein.</li>
+      <li>Query-Aliase erweitern ausschließlich die Suche im Retrieval. Sie ersetzen den gestellten Fragetext nicht und werden nicht zu einem Routing-Vertrag.</li>
+      <li>Das Grounding prüft einen gefundenen Beleg <strong>gegen denselben gestellten Fragetext</strong> — im speichernden Gespräch also gegen die kombinierte Frage aus Verlauf und aktueller Frage, stateless gegen die aktuelle Frage allein. Für den Termvergleich werden lediglich kompakte Bot-Aliase — zusammengeschriebene Bot-Namen — in ihre Wortbestandteile zerlegt, und zwar auf Frage-, Passagen- und Chunk-Seite gleichermaßen. Es gibt <strong>keine</strong> zweite, separate Prüfung gegen eine andere Vergleichsform, und die breitere Retrieval-Erweiterung geht nicht in diese Prüfung ein.</li>
       <li>Eine ausdrückliche Twitch-Frage zu <code>!rank</code> behält deshalb ihren Twitch-Kontext; der Begriff <code>rank</code> routet sie nicht zum Steam-Bot um.</li>
     </ul>
   </section>
@@ -134,6 +136,7 @@
       <li><strong>No-Retry für wiederholbare Side-Effect-Workflows:</strong> FAQ-Sessionstart, Patenwunsch/-Claim, Steckbrief-Post und proaktiver T0/Kadenz-Versand erhalten bei unsicherem Discord-Zustand einen persistenten Wiederholungsschutz; der jeweilige Anlage- oder Versandversuch wird nicht erneut ausgelöst. Der Marker-Commit wird durch einen frischen Read-back verifiziert. Fehlt die Bestätigung, wird der Marker genau einmal in einem isolierten sicheren Schritt nachgezogen und erneut geprüft. Normale Wissens-, Cooldown- und Unsicherheitshinweis-Antworten besitzen keinen solchen dauerhaften Workflow-Marker; eine normale Frage darf später erneut gestellt oder an den Menschen-Support übergeben werden. Commit-Reconciliation und feste Unsicherheitstexte führen bei weiterhin unklarem Side-Effect-Zustand zum Menschen-Support.</li>
       <li>Beim automatischen FAQ-Ablauf wird nach dem Schließen eine frische Transaktion geöffnet, der User-Privacy-Lock erneut genommen und genau diese geschlossene Session bestätigt. Erst danach darf die Timeout-Nachricht an Discord gehen; ohne diese Bestätigung bleibt sie aus.</li>
       <li>Ein bereits erfolgreich gespeicherter Patenwunsch ist idempotent. Ein wiederholter Bestätigungsklick gibt denselben Erfolg zurück, ohne einen weiteren internen Post anzulegen. Bleibt Request oder Claim bei Discord unklar, verhindert ein persistenter No-Retry-Zustand ebenfalls weitere Posts, Kanäle, Intros und DMs; bekannte Kanäle werden bei unklarer Intro-/DM-Zustellung nicht gelöscht.</li>
+      <li>Der sichtbare Paten-Unsicherheitstext verweist ausschließlich auf das Ticket und enthält <strong>keine</strong> ausdrückliche Aufforderung, nicht erneut zu klicken; nur der Steckbrief-Unsicherheitstext sagt das wörtlich. Unabhängig vom Wortlaut gilt: kein Retry im unsicheren Zustand, sondern menschliche Klärung — durchgesetzt wird das ohnehin durch den No-Retry-Zustand, nicht durch den Text.</li>
       <li>Der Support-Agent führt keine Befehle, Diagnosen, Neustarts, Deployments oder Änderungen aufgrund einer Nutzerfrage aus. Er liest ausschließlich den Wissenskorpus, insbesondere keine Twitch- oder Live-Zustände.</li>
       <li>Die öffentliche Antwort enthält keine internen Fehlerdetails, Prompts, Modellnamen oder Quellenpfade.</li>
     </ul>
@@ -164,12 +167,13 @@
 
   <section id="sauberer-stand">
     <h2>Nur geprüfte, committete Inhalte laden</h2>
+    <p>Dieser Abschnitt ist der verbindliche Release-/Deploy-Vertrag des Support-Agent-Rollouts, kein Bericht über eine bereits laufende Produktion. Ab erfolgreichem Rollout gelten die folgenden Punkte; welcher Stand tatsächlich läuft, belegt allein die deployte Revision des Dienstes samt Health-Zustand.</p>
     <ul>
       <li>Produktionsstart und Reload lesen ausschließlich das fest deployte, validierte Snapshot-Artefakt aus einem committeten Git-Stand. Der Arbeitsbaum ist kein Produktionskorpus.</li>
       <li>Der Korpuspfad ist in der Produktion nicht wählbar: kein CLI-Argument für eine Korpuswurzel, keine Umgebungsvariable wie <code>DL_DOCS_PATH</code>. Ein anderer Baum lässt sich nicht unterschieben.</li>
       <li>Der Snapshot enthält ausschließlich <code>public/</code>. <code>internal/</code> ist nicht Teil des Artefakts und wird nie indexiert.</li>
       <li>Ein fehlgeschlagener Reload ersetzt den aktuell laufenden, zuletzt gültigen Index nicht.</li>
-      <li>Der Produktionsvertrag ist vollständig auf HTML umgestellt: Start und Reload verwerfen jeden Snapshot mit Nicht-HTML-Quellen. Der generische Parser enthält noch einen isolierten Markdown-Kompatibilitätspfad, dessen Ergebnis die Produktionsgrenze nicht passieren kann.</li>
+      <li>Der Produktionsvertrag ist HTML-only: Start und Reload verwerfen jeden Snapshot mit Nicht-HTML-Quellen. Der generische Parser enthält noch einen isolierten Markdown-Kompatibilitätspfad, dessen Ergebnis die Produktionsgrenze nicht passieren kann.</li>
       <li>Der automatische Team-Doku-Updater erzeugt ebenfalls kanonisches HTML und löst nur nach erfolgreicher Validierung einen Reload aus.</li>
     </ul>
   </section>

@@ -5,7 +5,7 @@
   <title>Onboarding-Concierge — Textpaket (finale User-Texte)</title>
   <meta name="tags" content="deadlock-bots, onboarding, concierge">
   <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs (Ist-Audit 2026-07-11)">
+  <meta name="quelle" content="Deadlock-Bots rust/crates/dl-community/src/concierge.rs, Stand b069b5c8 plus Folgefix auf feature/support-agent-runtime (Ist-Audit 2026-07-11)">
 </head>
 <body>
 <main>
@@ -242,14 +242,23 @@ Gesprächsverlauf mehr an und melde mich nicht mehr von selbst, wenn du mich dir
 antworte ich ohne Verlauf. Mit /datenschutz-optin erlaubst du die Speicherung wieder.</p>
 </blockquote>
 <p>Vergessen-Bestätigung. Ausgelöst wird sie nur durch eine direkte Anweisung aus
-der engen Allowlist des <code>forget_intent</code>-Parsers: „vergiss
-mich/das/alles/meine Daten&quot;, „lösch/loesch/lösche/loesche meine Daten&quot;,
-dieselben vier Verben mit „alles&quot;, „Daten löschen/loeschen&quot; oder „meine
-Daten löschen/loeschen&quot;. Groß-/Kleinschreibung, optionale führende
-syntaktisch gültige direkte User-Mentions, ein „bitte&quot; am Anfang oder zwischen
-Phrasentokens und abschließende Satzzeichen werden toleriert; indirekte
-Meta-Fragen, führende geschlossene Zitate, Blockquotes, Rollen-/Kanal-/ungültige
-Mentions und freie Umschreibungen lösen bewusst nichts aus.
+der engen Allowlist des <code>forget_intent</code>-Parsers: „vergiss mich/das/alles&quot;,
+„vergiss meine Daten&quot;, „vergiss alle meine Daten&quot;;
+„lösch/loesch/lösche/loesche&quot; jeweils mit „alles&quot;, „meine Daten&quot; oder „alle meine
+Daten&quot;; „Daten löschen/loeschen&quot;, „meine Daten löschen/loeschen&quot; oder „alle meine
+Daten löschen/loeschen&quot;. Toleriert werden Groß-/Kleinschreibung, optionale führende
+syntaktisch gültige direkte User-Mentions, abschließende und eingestreute Satzzeichen
+sowie „bitte&quot; als <strong>einziges</strong> Höflichkeitswort, dieses aber an beliebiger
+Stelle (vorangestellt, zwischen den Phrasentokens oder am Ende). Jedes andere
+Zusatzwort bricht die Erkennung: „Nein, vergiss das&quot;, „Danke, vergiss das&quot; oder
+„Jetzt, vergiss das&quot; löschen nichts. Ebenso wenig lösen indirekte
+Meta-Fragen, führende geschlossene Zitate, Rollen-/Kanal-/ungültige
+Mentions und freie Umschreibungen etwas aus. Discord-Blockquotes wirken zeilenweise:
+Eine komplett zitierte Löschphrase (<code>&gt; vergiss mich</code>) löst nichts aus, und ein
+<code>&gt;&gt;&gt;</code>-Mehrzeilenzitat schluckt zusätzlich alles Folgende, auch eine
+unzitierte Löschzeile darunter. Einzelne <code>&gt;</code>-Zeilen werden dagegen nur
+übersprungen: Eine danach separat unzitierte, für sich stehende Löschdirektive wird normal
+erkannt und löscht.
 Gelöscht wird nur, was der Concierge zusätzlich gespeichert hat: die
 Gesprächskopie in der Datenbank, das Concierge-Profil, interne
 Concierge-Merker und die Concierge-Anteile der Journey. Was in Discord
@@ -356,6 +365,15 @@ zurückgenommen:</p>
 <blockquote>
 <p>Die sichere Anlage ist technisch fehlgeschlagen, und bereits angelegte Discord-Schritte konnten möglicherweise nicht vollständig zurückgenommen werden. Bitte öffne ein Ticket in &lt;#1459628609705738539&gt;, damit ein Mensch den Zustand prüft.</p>
 </blockquote>
+<p><strong>Lesart der beiden Paten-Unsicherheitstexte.</strong> Sie verweisen den Nutzer
+ausschließlich auf das Ticket. Anders als der Steckbrief-Unsicherheitstext
+(„Klick bitte nicht nochmal auf Posten&quot;) enthalten sie <strong>keine</strong> ausdrückliche
+Aufforderung, nicht erneut zu klicken — diese Formulierung darf ihnen nicht
+zugeschrieben werden. Unabhängig vom Wortlaut gilt die Empfehlung dieser Doku:
+im unsicheren Zustand nicht erneut auslösen, sondern die menschliche Klärung im
+Ticket abwarten. Technisch deckt der persistente No-Retry-Zustand das ohnehin ab;
+ein zweiter Klick erzeugt weder Post, Kanal, Intro noch DM, sondern liefert wieder
+denselben Unsicherheitstext.</p>
 <h3>9c. Texte nach erfolgreichem Match</h3>
 <p>Intro im neuen privaten Kanal:</p>
 <blockquote>
@@ -425,15 +443,12 @@ zugehöriger Beschreibung erhalten.</p>
 </section>
 <section id="10-system-prompt-concierge-v0-3-referenz-fuer-codex-deutsch">
 <h2>10. System-Prompt Concierge v0.3 (Referenz für Codex, deutsch)</h2>
-<p>Diese v0.3-Referenz ist ein historischer Entwurf. Bei <code>3f092d1f</code> ist
-die <code>SYSTEM_PROMPT</code>-Konstante in
-<code>rust/crates/dl-community/src/concierge.rs</code> nicht der aktive
-Faktenchat-Prompt; sie wird nur noch in einem <code>cfg(test)</code>-Helfer
-referenziert. Der aktive Pfad beantwortet die direkte Identitätsfrage lokal über
+<p>Diese v0.3-Referenz ist ein historischer Entwurf und nicht aktiv. Der aktive
+Faktenprompt lebt in <code>dl-knowledge</code>; dorthin gehen alle Faktenfragen.
+Der Concierge-Pfad beantwortet lediglich die direkte Identitätsfrage lokal über
 <code>asks_bot_identity</code>/<code>local_conversational_answer</code> mit einem
-festen, knappen Text, der nie eine Knowledge-Abfrage startet; alle Faktenfragen
-gehen an <code>dl-knowledge</code>. Der frühere öffentliche Agenten-Leitfaden ist
-als Basis überholt. Kern:</p>
+festen, knappen Text, der nie eine Knowledge-Abfrage startet. Der frühere
+öffentliche Agenten-Leitfaden ist als Basis überholt. Kern:</p>
 <pre><code class="language-text">Du bist der Concierge des deutschen Deadlock-Discord-Servers. Du bist die
 erste Anlaufstelle für neue Mitglieder und hilfst ihnen beim Ankommen. Dein
 Ziel ist immer, den Menschen so schnell wie möglich zu anderen Menschen zu
