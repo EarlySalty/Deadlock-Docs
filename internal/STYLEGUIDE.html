@@ -46,7 +46,7 @@
 </section>
 <section id="html-huelle">
 <h2>Kanonische Hülle und Metadaten</h2>
-<p>Jede Wissensseite ist eine <code>.html</code>-Datei mit genau dieser Hülle. Der Laufzeit-Retrieval-Index (BM25 in <code>dl-knowledge</code>) verkettet je Chunk den <code>title</code> und die <code>tags</code> mit der Abschnittsüberschrift und dem <code>&lt;main&gt;</code>-Text und tokenisiert alles gemeinsam. <code>stand</code>, <code>quelle</code> und die übrige Hülle werden zwar validiert, sind aber kein Chunk-Text und tauchen im Index nicht auf (<code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
+<p>Jede Wissensseite ist eine <code>.html</code>-Datei mit genau dieser Hülle. Der Laufzeit-Retrieval-Index (BM25 in <code>dl-knowledge</code>) tokenisiert je Chunk vier Bestandteile gemeinsam: <code>title</code>, die Abschnittsüberschrift, die <code>tags</code> und den Chunk-Text. Der Chunk-Text ist nicht der gesamte <code>&lt;main&gt;</code>-Text, sondern je Chunk verschieden (siehe den Abschnitt zu <code>&lt;main&gt;</code> weiter unten). <code>stand</code>, <code>quelle</code> und die übrige Hülle werden zwar validiert, sind aber kein Chunk-Text und tauchen im Index nicht auf. In den Modellkontext gehen nur <code>title</code>, der relative Pfad, die Abschnittsüberschrift und der Chunk-Text ein, nicht <code>tags</code>, <code>stand</code> oder <code>quelle</code> (<code>rust/bin/dl-knowledge/src/main.rs</code>).</p>
 <table>
 <thead><tr><th>Element</th><th>Regel</th></tr></thead>
 <tbody>
@@ -64,11 +64,12 @@
 </section>
 <section id="html-main">
 <h2>main, h1 und Abschnitte</h2>
+<p>Die Runtime zerlegt jede Seite in Chunks und indexiert nur diese. Pro Seite entsteht genau ein <strong>Intro-Chunk</strong>: seine Überschrift ist die <code>&lt;h1&gt;</code>, sein Text ist die <code>&lt;h1&gt;</code> plus die direkten <code>&lt;p&gt;</code>-Kinder von <code>&lt;main&gt;</code>. Zusätzlich entsteht je direktem <code>&lt;section&gt;</code> ein <strong>Section-Chunk</strong>, dessen Text der sichtbare Text genau dieses Abschnitts ist. Der gesamte <code>&lt;main&gt;</code>-Text ist also nicht der Text jedes Chunks — jeder Chunk trägt nur seinen eigenen Ausschnitt. Navigation, Styles und alles außerhalb dieser Intro- und Section-Blöcke werden nicht indexiert.</p>
 <ul>
-<li>Genau ein <code>&lt;main&gt;</code> pro Seite. Sein Text bildet den Kern jedes Chunks und wird zusammen mit <code>title</code>, <code>tags</code> und der Abschnittsüberschrift indexiert.</li>
-<li>Genau ein <code>&lt;h1&gt;</code>, als direktes Kind von <code>&lt;main&gt;</code>, mit echtem Inhalt.</li>
-<li>Nach der H1: 2-3 Zeilen Kurzfassung, was diese Seite beantwortet. Dann erst Details.</li>
-<li>Jeder direkte <code>&lt;section&gt;</code> in <code>&lt;main&gt;</code> braucht <strong>beides</strong>: eine eindeutige <code>id</code> <strong>und</strong> eine direkte, nichtleere <code>&lt;h2&gt;</code>, dazu nichtleeren Abschnittsinhalt. Der Validator verlangt beide, nicht eines von beiden (<code>h2</code> oder <code>id</code>). Sprechende, stabile <code>id</code>-Slugs für wichtige Zustände und Workflows.</li>
+<li>Genau ein <code>&lt;main&gt;</code> pro Seite.</li>
+<li>Genau ein <code>&lt;h1&gt;</code>, als direktes Kind von <code>&lt;main&gt;</code>, mit echtem Inhalt. Die <code>&lt;h1&gt;</code> und die direkten <code>&lt;p&gt;</code> darunter bilden den Intro-Chunk.</li>
+<li>Nach der H1: 2-3 Zeilen Kurzfassung, was diese Seite beantwortet — diese Absätze landen als direkte <code>&lt;p&gt;</code>-Kinder im Intro-Chunk. Dann erst Details.</li>
+<li>Jeder direkte <code>&lt;section&gt;</code> in <code>&lt;main&gt;</code> braucht im freigegebenen Korpus <strong>beides</strong>: eine eindeutige <code>id</code> <strong>und</strong> eine direkte, nichtleere <code>&lt;h2&gt;</code>, dazu nichtleeren Abschnittsinhalt. Der Validator verlangt beide, nicht eines von beiden. Der Runtime-Parser ist toleranter — er erfasst einen Abschnitt schon bei einer nichtleeren <code>&lt;h2&gt;</code> irgendwo im Abschnitt oder ersatzweise bei einer nichtleeren <code>id</code> —, trotzdem liefern Autoren immer beides. Sprechende, stabile <code>id</code>-Slugs für wichtige Zustände und Workflows.</li>
 <li>Ein Abschnitt je 3-5 Absätze — keine Prosa-Wand über 15 Absätze, keine Bullet-Explosion.</li>
 </ul>
 </section>
