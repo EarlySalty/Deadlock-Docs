@@ -1,5 +1,13 @@
 # Changelog
 
+## #23 — Build-Stimmen klar vom Spielkatalog getrennt
+
+Problem: Überschneidende Erklärungen zu Website-Stimmen und Spielkatalog konnten gemeinsam das Antwortlimit überschreiten.
+
+Änderung: Die vier direkten Erklärungen sind kürzer, ohne Abstimmung und Katalogpflege gleichzusetzen.
+
+Aktuelles Verhalten: Der Support-Agent kann kompakt erklären, dass Stimmen ein Website-Signal sind und der Steam-Bot den getrennten Spielkatalog pflegt.
+
 ## #22 — Router-DM bleibt vollständig beantwortbar
 
 Problem: Mehrere passende Erklärungen zur Willkommens-DM konnten gemeinsam das Antwortlimit überschreiten.
