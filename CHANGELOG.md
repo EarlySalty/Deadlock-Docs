@@ -1,5 +1,13 @@
 # Changelog
 
+## #15 — Mehrere Steam-Konten und Primärkonto gemeinsam erklärt
+
+Problem: Die Hinweise zu mehreren Steam-Konten und zum Primärkonto standen in getrennten Antwortblöcken und konnten deshalb gemeinsam abgelehnt werden.
+
+Änderung: Absatz und Verwaltungsliste nennen jetzt jeweils das Verknüpfen mehrerer eigener Konten sowie den Weg zum Primärkonto.
+
+Aktuelles Verhalten: Der Support-Agent kann direkt erklären, dass mehrere eigene Steam-Konten möglich sind und dass du eines davon mit <code>/steam setprimary</code> als primär festlegst.
+
 ## #14 — Supportantworten bleiben eigenständig
 
 Problem: Einige richtige Antworten waren nur zusammen mit Überschriften oder Nachbarabsätzen eindeutig und konnten deshalb abgelehnt werden.
