@@ -1,5 +1,13 @@
 # Changelog
 
+## #19 — Twitch-Antworten vollständig belegt
+
+Problem: Mehrere Twitch-Antworten hatten die nötigen Belege über Nachbarabschnitte verteilt.
+
+Änderung: OAuth und Widerruf, Zuschauerbefehle und Aliase, Statusanzeigen, Kündigung, Affiliate, Analytics-Report und Discord-Go-Live stehen jetzt jeweils vollständig in der relevanten Passage.
+
+Aktuelles Verhalten: Der Support-Agent kann diese geprüften Twitch-Fragen aus festen öffentlichen Passagen beantworten.
+
 ## #18 — Patch- und Turnierantworten vollständig belegt
 
 Problem: Patch- und Turnierantworten lagen über Nachbarpassagen verteilt.
