@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Support-Agent: HTML-Wissenskorpus und verlässliche Discord-Antworten</title>
   <meta name="tags" content="deadlock-bots, concierge, support-agent, wissensbasis, html, discord">
-  <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="User-Entscheidungen und Ist-Audit der Runtime vom 2026-07-11 (Deadlock-Bots b069b5c8 plus Folgefix auf feature/support-agent-runtime; dl-knowledge grounded_response)">
+  <meta name="stand" content="2026-07-12">
+  <meta name="quelle" content="User-Entscheidungen und Ist-Audit von Deadlock-Bots 3bc8ca8a (dl-knowledge, faq.rs, concierge.rs)">
 </head>
 <body>
 <main>
@@ -14,10 +14,10 @@
 
   <section id="ausgangslage">
     <h2>Ausgangslage</h2>
-    <p>Diese Liste beschreibt den Befund vor dem Cutover. Die folgenden Abschnitte beschreiben den verbindlichen Release-/Deploy-Vertrag des Support-Agent-Rollouts, nicht den bereits erreichten Produktionszustand.</p>
+    <p>Diese Liste beschreibt den Befund vor dem Cutover. Die folgenden Abschnitte dokumentieren den aktuellen Runtime- und Release-Vertrag.</p>
     <ul>
       <li>Der bestehende Wissensdienst beantwortete konkrete Fragen häufig korrekt, breite Bot- und Serverfragen aber instabil.</li>
-      <li>Der Korpus konnte uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden. Der Rollout-Vertrag schließt das aus: Ab erfolgreichem Rollout startet die Produktion nur noch aus dem deployten, committeten Snapshot.</li>
+      <li>Der Korpus konnte uncommittete und ungetrackte Dateien aus dem Arbeitsbaum laden. Der aktuelle Vertrag schließt das aus: Die Produktion startet nur aus dem deployten, committeten Snapshot.</li>
       <li>Mehrere öffentliche Seiten sind veraltet, widersprüchlich oder enthalten Details, die nicht in einen kundenerreichbaren Korpus gehören.</li>
       <li>Der ausgewiesene Server-Fragenkanal, private FAQ-Chats und Direktnachrichten verwenden nicht durchgehend denselben Antwortpfad.</li>
       <li>Bestehende Tests prüfen Parser und synthetische Antworten, aber keinen vollständigen Satz realistischer Community-Fragen.</li>
@@ -94,12 +94,13 @@
       <li>Die Eingabe wird als nicht vertrauenswürdig behandelt und nur als Frage ausgewertet.</li>
       <li>Vor dem Wissenspfad prüft <code>local_conversational_answer</code> einen engen, fest verdrahteten Satz nicht-faktischer Konversationsfälle, etwa die direkte Frage nach der Bot-Identität. Trifft ein solcher Fall zu, antwortet der Agent lokal und der Wissenspfad entfällt. Faktenfragen werden hier nie beantwortet.</li>
       <li>Jede Faktenfrage läuft über den deployten, committeten öffentlichen HTML-Korpus, der relevante Abschnitte und Quellen liefert.</li>
-      <li>Das Modell formuliert keine eigene Antwort. Es wählt aus den gelieferten Abschnitten belegende Passagen aus und gibt strukturiert <code>answerable</code> und <code>evidence</code> zurück.</li>
-      <li>Der Dienst normalisiert jede gewählte Passage und liefert sie nur aus, wenn sie <strong>vollständig und exakt</strong> in einem der retrievten öffentlichen HTML-Chunks steht und mit einem ganzen Satz endet. Was diese Prüfung nicht besteht, wird verworfen und die Frage gilt als nicht beantwortbar. Eine frei formulierte Modellantwort ohne Korpusbeleg wird nie ausgeliefert.</li>
+      <li>Ein lokaler Relevanzfilter entfernt Kandidaten, die die Frage nicht tragen. Nur wenn danach Kandidaten verbleiben, folgt genau ein Modellaufruf mit sieben Sekunden Zeitgrenze und deaktiviertem Reasoning.</li>
+      <li>Das Modell formuliert keine eigene Antwort. Es darf in einem strikten JSON-Objekt ausschließlich <code>candidate_ids</code> auswählen; freie Antworttexte und Zusatzfelder machen die Ausgabe ungültig.</li>
+      <li>Der Dienst löst die gewählten IDs serverseitig auf und rendert ausschließlich die zugehörigen gespeicherten öffentlichen Passagen. Unbekannte, doppelte, nicht relevante oder anderweitig ungültige Auswahlen scheitern geschlossen.</li>
       <li>Bei Faktenfragen wird in DM, FAQ-Chat und Fragenkanal nur eine nichtleere, belegte Passage ausgeliefert; die eng begrenzten lokalen Konversationsfälle aus <code>local_conversational_answer</code> bleiben davon unberührt. Aus einem Ticket entsteht dagegen nie eine Antwort an das Mitglied, sondern ausschließlich ein Prüfkandidat im internen Log-Kanal.</li>
       <li>Ohne belastbare Quelle folgt in den direkten Oberflächen ein sicherer, oberflächengerechter Verweis an Menschen. Aus dem Ticket wird auch dieser Kein-Treffer-Fall nur als Prüfkandidat im internen Log-Kanal sichtbar.</li>
     </ol>
-    <p>Auch Gameplay-Fakten kommen nur aus dem deployten öffentlichen Wissenskorpus, belegt aus den gefundenen Abschnitten. Einen Brain-Fallback und freie Modellantworten ohne Korpusquelle gibt es nicht; fehlt dort eine belastbare Antwort, bleibt der Agent beim sicheren Wissenslücken-Verweis. <code>local_conversational_answer</code> ist kein Fallback, sondern ein vorgelagerter Sonderfall für nicht-faktische Konversation.</p>
+    <p>Auch Gameplay-Fakten kommen nur aus dem deployten öffentlichen Wissenskorpus, belegt aus den gefundenen Abschnitten. Brain bleibt ein separater, ausdrücklich aufgerufener Pfad und ist weder FAQ- noch Concierge-Fallback; fehlt im Wissenskorpus eine belastbare Antwort, bleibt der Agent beim sicheren Wissenslücken-Verweis. <code>local_conversational_answer</code> ist kein Fallback, sondern ein vorgelagerter Sonderfall für nicht-faktische Konversation.</p>
     <h3>Oberflächenvertrag</h3>
     <table>
       <thead><tr><th>Oberfläche</th><th>Kontext und Speicherung</th><th>Persönliche Controls</th></tr></thead>
@@ -151,7 +152,7 @@
 
   <section id="beobachtbarkeit">
     <h2>Vollständige Entscheidungsbeobachtung</h2>
-    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. Die Entscheidungslogs enthalten absichtlich keinen Rohfragentext, sondern <code>question_chars</code> sowie Urteil, Confidence, Score, Grund, sichere öffentliche Quellen und Fehlerklasse. Journald kann einzelne personenbezogene Log-Inhalte nicht verlässlich nachträglich löschen; deshalb gelangt der Frageinhalt gar nicht erst dorthin.</p>
+    <p>Jede Entscheidung wird sichtbar gemacht, nicht nur erfolgreiche Treffer. <code>dl-knowledge</code> protokolliert Urteil, Confidence, Retrieval-Score, Grund, Kandidaten-, Auswahl- und Antwortlänge sowie Fehlerklasse; Rohfragentext und Quellen stehen nicht im Entscheidungslog. Journald kann einzelne personenbezogene Log-Inhalte nicht verlässlich nachträglich löschen; deshalb gelangt der Frageinhalt gar nicht erst dorthin.</p>
     <table>
       <thead><tr><th>Urteil</th><th>Bedeutung</th></tr></thead>
       <tbody>
@@ -167,7 +168,7 @@
 
   <section id="sauberer-stand">
     <h2>Nur geprüfte, committete Inhalte laden</h2>
-    <p>Dieser Abschnitt ist der verbindliche Release-/Deploy-Vertrag des Support-Agent-Rollouts, kein Bericht über eine bereits laufende Produktion. Ab erfolgreichem Rollout gelten die folgenden Punkte; welcher Stand tatsächlich läuft, belegt allein die deployte Revision des Dienstes samt Health-Zustand.</p>
+    <p>Dieser Abschnitt beschreibt den aktuell ausgerollten Release-/Deploy-Vertrag. Welcher Stand tatsächlich läuft, belegt die deployte Revision des Dienstes samt Health-Zustand.</p>
     <ul>
       <li>Produktionsstart und Reload lesen ausschließlich das fest deployte, validierte Snapshot-Artefakt aus einem committeten Git-Stand. Der Arbeitsbaum ist kein Produktionskorpus.</li>
       <li>Der Korpuspfad ist in der Produktion nicht wählbar: kein CLI-Argument für eine Korpuswurzel, keine Umgebungsvariable wie <code>DL_DOCS_PATH</code>. Ein anderer Baum lässt sich nicht unterschieben.</li>
@@ -183,7 +184,7 @@
     <ul>
       <li>Strukturtest: Jede HTML-Seite erfüllt Schema, Pflichtmetadaten, Link- und Trennungsregeln.</li>
       <li>Redaction-Test: Der öffentliche Korpus enthält keine rekonstruierbaren internen Mechaniken oder sensiblen Kategorien.</li>
-      <li>Golden-Evaluation: Für jede öffentliche Funktion und jeden Workflow existieren mindestens eine reale Frage und eine Paraphrase mit erwarteter Quelle und Kernaussage. Die feste Suite macht denselben Fall jederzeit reproduzierbar und grenzt Fehler in Routing, Retrieval und Grounding gegeneinander ab.</li>
+      <li>Golden-Evaluation: Die Suite umfasst exakt 224 Fälle in sechs fest benannten JSON-Paketen. Sie prüft erwartete Quellen, Kontext- und Antwortbegriffe sowie Negativfälle und grenzt Fehler in Routing, Retrieval und Grounding gegeneinander ab.</li>
       <li>Negativ-Evaluation: Private Daten, Team-Inhalte, interne Mechaniken und Prompt-Injection werden vollständig abgewehrt.</li>
       <li>Rust-Verifikation: Formatter, Tests und Clippy sind grün.</li>
       <li>Live-Smoke: DM, privater FAQ-Chat und Server-Fragenkanal beantworten repräsentative Fragen korrekt; aus Tickets entsteht ausschließlich ein Prüfkandidat im internen Log-Kanal.</li>
