@@ -122,7 +122,7 @@
   {
     "question": "Welche Steam-Verwaltung kann ich selbst im Server erledigen?",
     "answerable": true,
-    "expected_sources": ["discord-server/steam-integration.html"],
+    "expected_sources": ["discord-server/steam-integration.html", "steam-bot/steam-bot.html"],
     "context_terms": ["steam links", "unlink"],
     "answer_terms": ["Steam"],
     "forbidden_terms": ["systemctl", "shadowban"]
