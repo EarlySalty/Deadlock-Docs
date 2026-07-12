@@ -50,7 +50,7 @@
   {
     "question": "Wo kann ich dem Bot eine Frage zum Server stellen?",
     "answerable": true,
-    "expected_sources": ["discord-server/faq-bot-selbst.html", "discord-server/module/faq-support.html"],
+    "expected_sources": ["discord-server/faq-bot-selbst.html", "discord-server/module/faq-support.html", "discord-server/dm-concierge.html", "discord-server/ueber-bot-und-server.html"],
     "context_terms": ["Frage stellen", "faq"],
     "answer_terms": ["faq"],
     "forbidden_terms": ["prompt", "retrieval"]
