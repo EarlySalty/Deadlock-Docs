@@ -1,5 +1,13 @@
 # Changelog
 
+## #11 — Alle belegten Fragewege im Antworttest zugelassen
+
+Problem: Die richtige Antwort zum Stellen einer Serverfrage konnte aus zwei passenden öffentlichen Übersichten kommen, die im Antworttest noch nicht als zulässige Quellen geführt waren.
+
+Änderung: Der Test erkennt nun auch die Concierge- und die allgemeine Bot-Übersicht als passende Quellen für diesen Frageweg an.
+
+Aktuelles Verhalten: Belegte Hinweise auf <em>Frage stellen</em> oder <code>/faq</code> werden aus allen passenden öffentlichen Hilfeseiten akzeptiert.
+
 ## #10 — Steam-Modulübersicht als richtige Quelle anerkannt
 
 Problem: Die richtige Live-Antwort zur Steam-Verknüpfung kam aus der öffentlichen Modulübersicht, die im Antworttest noch nicht als zulässige Quelle geführt war.
