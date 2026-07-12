@@ -1,5 +1,13 @@
 # Changelog
 
+## #18 — Patch- und Turnierantworten vollständig belegt
+
+Problem: Patch- und Turnierantworten lagen über Nachbarpassagen verteilt.
+
+Änderung: Sichere aktuelle Wege, Regeln und Einordnungen sind jetzt je Antwortblock vollständig.
+
+Aktuelles Verhalten: Der Support-Agent kann diese geprüften Fragen belegen.
+
 ## #17 — Geprüfte Antworten wieder auffindbar
 
 Problem: Verständlichere Formulierungen hatten zwei für geprüfte Antworten nötige Begriffe voneinander getrennt.
