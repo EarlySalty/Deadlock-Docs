@@ -1,5 +1,13 @@
 # Changelog
 
+## #22 — Router-DM bleibt vollständig beantwortbar
+
+Problem: Mehrere passende Erklärungen zur Willkommens-DM konnten gemeinsam das Antwortlimit überschreiten.
+
+Änderung: Die überschneidenden DM-Hinweise sind kürzer; Ereignisse und Selbsthilfe stehen getrennt.
+
+Aktuelles Verhalten: Der Support-Agent kann erklären, warum die Router-DM fehlt und welcher Weg dann weiterhilft.
+
 ## #21 — Erste Lane-Antwort bleibt im Antwortlimit
 
 Problem: Die Erklärung zum ersten Router-Beitritt und zur Owner-Verwaltung konnte zusammen mit passenden Nachbarpassagen das Antwortlimit überschreiten.
