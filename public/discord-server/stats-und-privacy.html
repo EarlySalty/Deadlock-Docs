@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Aktivität, Statistiken und Datenschutz</title>
   <meta name="tags" content="discord-server, statistiken, aktivitaet, datenschutz, opt-out">
-  <meta name="stand" content="2026-07-11">
+  <meta name="stand" content="2026-07-12">
   <meta name="quelle" content="Produktdokumentation, geprüftes sichtbares Verhalten und Datenschutz-Audit 2026-07-11">
 </head>
 <body>
@@ -23,7 +23,7 @@
 
   <section id="befehle">
     <h2>Eigene Aktivität und öffentliche Ranglisten</h2>
-    <p>Deine eigene Aktivität rufst du im Discord ohne Zielangabe ab: <code>!myactivity</code> für deine Aktivität, <code>!messagestats</code> für deine Textstatistik und <code>!vstats</code> für deine Voice-Statistik. Ohne Zielangabe liefern sie deine eigenen Werte. Zeigt ein sichtbarer Befehl unerwartet Daten einer anderen Person, probiere nichts weiter aus, teile die Anzeige nicht und melde dich beim menschlichen Support.</p>
+    <p>Deine eigene Aktivität rufst du im Discord ohne Zielangabe ab: <code>!myactivity</code> für deine Aktivität, <code>!messagestats</code> für deine Textstatistik und <code>!vstats</code> für deine Voice-Statistik. Ohne Zielangabe liefern sie deine eigenen Werte. Mit einer ausdrücklichen Zielangabe können diese Befehle auch sichtbare Statistikwerte einer anderen Person abrufen; der Support-Assistent selbst gibt keine fremden persönlichen Detailwerte aus. Zeigt ein sichtbarer Befehl mehr als die erwarteten Statistikwerte, probiere nichts weiter aus, teile die Anzeige nicht und melde dich beim menschlichen Support.</p>
     <p>Öffentlich und serverweit sind die Ranglisten <code>!tleaderboard</code> und <code>!vleaderboard</code>. Als öffentliche Ranglisten können sie öffentliche Namen und einzelne Ranglistenwerte zeigen, aber keine privaten Detailprofile.</p>
   </section>
 
@@ -37,13 +37,13 @@
     <h2>Deine eigenen Daten</h2>
     <p>Mit <code>/datenschutz</code> forderst du einen Export an. Die Löschung entfernt die personenbezogenen Daten, die dieser Ablauf erfasst, und setzt zusätzlich einen globalen Opt-out-Vermerk gegen weitere Speicherung. Mit <code>/datenschutz-optin</code> erlaubst du die Speicherung später wieder.</p>
     <p>Ehrlich gesagt: Wir sagen dir nicht pauschal zu, dass dieser Opt-out ausnahmslos jede künftige Speicherung in allen Serversystemen verhindert. Was in deinem Fall genau erfasst, gelöscht und gesperrt wird, klärst du über den veröffentlichten Datenschutzweg oder den sichtbaren Menschen-Support — dort bekommst du eine konkrete Auskunft.</p>
-    <p>Der Opt-out-Vermerk selbst bleibt bestehen, damit die Sperre überhaupt durchgesetzt werden kann. Nicht personenbezogene Aggregate können unabhängig davon bestehen bleiben.</p>
+    <p>Der Opt-out bleibt aktiv, bis du ihn bewusst wieder aufhebst. Zusammengefasste, nicht personenbezogene Statistiken können weiterhin bestehen.</p>
   </section>
 
   <section id="opt-out-folgen">
     <h2>Was der Opt-out im Alltag bedeutet</h2>
     <ul>
-      <li>Schreibst du dem Concierge in einer echten Direktnachricht <code>stopp</code>, setzt das denselben globalen Opt-out. Im privaten Fragechat über <code>/faq</code>, im öffentlichen Fragenkanal und in einem privaten Concierge-Ersatzkanal verarbeitet er weder <code>stopp</code> noch seine engen Löschsätze als persönliche Steuerung.</li>
+      <li>Schreibst du dem Concierge in einer echten Direktnachricht <code>stopp</code>, setzt das denselben globalen Opt-out. Im privaten Fragechat über <code>/faq</code>, im öffentlichen Fragenkanal und in einem privaten Supportkanal ist <code>stopp</code> keine persönliche Steuerung; nutze dort stattdessen den sichtbaren Datenschutzweg.</li>
       <li>Danach speichert der Concierge keinen neuen Gesprächsverlauf mehr und meldet sich nicht mehr von sich aus. Eine direkte Frage beantwortet er weiterhin — dann ohne Verlauf, also ohne Bezug auf vorher Gesagtes.</li>
       <li>Bereits gespeicherte Daten löscht <code>stopp</code> nicht; dafür nutzt du den getrennten Löschweg über <code>/datenschutz</code>.</li>
       <li>Solange der Opt-out aktiv ist, lässt sich kein speichernder privater Fragechat starten. Wege dorthin sind ein bewusster Opt-in über <code>/datenschutz-optin</code> oder ein Ticket beim menschlichen Support.</li>

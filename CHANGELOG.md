@@ -1,5 +1,13 @@
 # Changelog
 
+## #16 — Discord-Hilfe direkt belegbar
+
+Problem: Erwartete Antworten zu Discord und Bots lagen teilweise nur in Überschriften oder Nachbarpassagen und waren einzeln nicht vollständig.
+
+Änderung: Discord-Navigation, Voice, Scrims, Datenschutz, Steam-Hilfe sowie Einordnungen zu Tierlist und Builds sind jetzt als eigenständige öffentliche Antworten formuliert.
+
+Aktuelles Verhalten: Der Support-Agent kann diese geprüften Fragen direkt aus einer vollständigen öffentlichen Passage belegen.
+
 ## #15 — Mehrere Steam-Konten und Primärkonto gemeinsam erklärt
 
 Problem: Die Hinweise zu mehreren Steam-Konten und zum Primärkonto standen in getrennten Antwortblöcken und konnten deshalb gemeinsam abgelehnt werden.
