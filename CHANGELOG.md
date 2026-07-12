@@ -1,5 +1,13 @@
 # Changelog
 
+## #10 — Steam-Modulübersicht als richtige Quelle anerkannt
+
+Problem: Die richtige Live-Antwort zur Steam-Verknüpfung kam aus der öffentlichen Modulübersicht, die im Antworttest noch nicht als zulässige Quelle geführt war.
+
+Änderung: Der Test ordnet nun auch die Modulübersicht der Steam-Verknüpfung als erwartete Quelle zu.
+
+Aktuelles Verhalten: Eine belegte Antwort über Steam-Panel, <code>/account_verknüpfen</code>, Freundescode und Freundschaftsanfrage wird aus allen drei passenden öffentlichen Seiten akzeptiert.
+
 ## #9 — Automatische Begrüßungs-DM klar eingegrenzt
 
 Problem: Die richtige Antwort wurde verworfen, weil ihr die eindeutige Zuordnung von Bot, Beitritt und Concierge fehlte; der Test sicherte diese Eingrenzung ebenfalls nicht ab.
