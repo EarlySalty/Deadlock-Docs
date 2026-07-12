@@ -20,7 +20,7 @@
     "answerable": true,
     "expected_sources": ["steam-bot/steam-bot.html"],
     "context_terms": ["primär", "setprimary"],
-    "answer_terms": ["primär"],
+    "answer_terms": ["mehrere", "Steam-Konten", "verknüpfen", "primär", "setprimary"],
     "forbidden_terms": []
   },
   {
