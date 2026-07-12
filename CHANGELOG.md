@@ -1,5 +1,13 @@
 # Changelog
 
+## #21 — Erste Lane-Antwort bleibt im Antwortlimit
+
+Problem: Die Erklärung zum ersten Router-Beitritt und zur Owner-Verwaltung konnte zusammen mit passenden Nachbarpassagen das Antwortlimit überschreiten.
+
+Änderung: Erster Beitritt, Ausweichweg und spätere Beitritte stehen jetzt in kurzen eigenständigen Passagen; Erstellen und Verwalten sind getrennte Listen.
+
+Aktuelles Verhalten: Der Support-Agent kann den ersten Beitritt ohne gespeicherten Standard vollständig und innerhalb des Antwortlimits erklären.
+
 ## #20 — Lane-Erstellung kompakt beantwortbar
 
 Problem: Die vollständige Lane-Erklärung war für eine einzelne, verlässliche Support-Antwort zu lang.
