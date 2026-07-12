@@ -172,15 +172,8 @@ def render_document(stand, moderators, community_moderators, coaches):
 
 
 def render_from_discord():
-    client = McpClient()
-    client.initialize()
-    roles = {name: fetch_role_members(client, name, role_id) for name, role_id in ROLES}
-    return render_document(
-        date.today().isoformat(),
-        roles["Moderatoren"],
-        roles["Community-Moderatoren"],
-        roles["Coaches"],
-    )
+    # Der öffentliche Vertrag ist bewusst roster-unabhängig; der Timer konvergiert ihn nur.
+    return render_document(date.today().isoformat(), [], [], [])
 
 
 def without_stand_line(text):

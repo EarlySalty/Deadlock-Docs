@@ -1,6 +1,7 @@
 import sys
 import tempfile
 import unittest
+from datetime import date
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -52,6 +53,21 @@ class ExtractMembersTest(unittest.TestCase):
     def test_extract_members_rejects_empty_role(self):
         with self.assertRaisesRegex(ValueError, "Testrolle"):
             update_team_doc.extract_members({"members": []}, "Testrolle")
+
+
+class RenderFromDiscordTest(unittest.TestCase):
+    def test_public_render_does_not_query_discord_roster(self):
+        with patch.object(update_team_doc, "McpClient") as client, patch.object(
+            update_team_doc, "fetch_role_members"
+        ) as fetch:
+            rendered = update_team_doc.render_from_discord()
+
+        client.assert_not_called()
+        fetch.assert_not_called()
+        self.assertEqual(
+            rendered,
+            update_team_doc.render_document(date.today().isoformat(), [], [], []),
+        )
 
 
 class RenderHtmlTest(unittest.TestCase):

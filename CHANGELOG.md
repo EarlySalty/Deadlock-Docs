@@ -2,11 +2,11 @@
 
 ## #7 — Team-Support bleibt vollständig und redigiert
 
-Problem: Einzelne Supportantworten konnten den sichtbaren Fundort auslassen; zusätzlich konnte die tägliche Team-Aktualisierung die redigierte Seite wieder durch eine Namensliste ersetzen.
+Problem: Einzelne Supportantworten konnten den sichtbaren Fundort auslassen; zusätzlich hing die tägliche Team-Aktualisierung von Rollendaten ab und konnte die redigierte Seite wieder durch eine Namensliste ersetzen.
 
-Änderung: Der Supportsatz nennt „Community-Team“ und „Willkommen“ gemeinsam, und die Aktualisierung erzeugt denselben öffentlichen Vertrag ohne Namen oder Benutzernamen.
+Änderung: Der Supportsatz nennt „Community-Team“ und „Willkommen“ gemeinsam, und die Aktualisierung erzeugt denselben öffentlichen Vertrag, ohne Rollendaten abzufragen oder Namen und Benutzernamen auszugeben.
 
-Aktuelles Verhalten: Der Supportweg bleibt auch als einzeln ausgewählte Antwort verständlich; aktuelle Zuständigkeiten stehen im sichtbaren Community-Team-Bereich statt in der Wissensseite.
+Aktuelles Verhalten: Der Supportweg bleibt auch als einzeln ausgewählte Antwort verständlich; die generatorfeste Seite bleibt roster-unabhängig und verweist für aktuelle Zuständigkeiten auf den sichtbaren Community-Team-Bereich.
 
 ## #6 — Live-Supportantworten nennen den sichtbaren Einstieg vollständig
 
