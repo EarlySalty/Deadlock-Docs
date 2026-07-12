@@ -1,5 +1,13 @@
 # Changelog
 
+## #8 — Concierge-DM-Antwort nennt ihren Weg vollständig
+
+Problem: Bei Fragen zur Direktnachricht konnte die richtige Kurzantwort ohne die Begriffe „Concierge“ und „per DM“ als zu allgemein verworfen werden.
+
+Änderung: Die erste Kurzpassage nennt jetzt den Concierge und den DM-Weg gemeinsam und behält die bestehende Zustellbedingung bei.
+
+Aktuelles Verhalten: Erreicht eine DM an den Concierge den Bot, antwortet er aus demselben öffentlichen Wissen; `/faq` bleibt der verlässlichere Weg.
+
 ## #7 — Team-Support bleibt vollständig und redigiert
 
 Problem: Einzelne Supportantworten konnten den sichtbaren Fundort auslassen; zusätzlich hing die tägliche Team-Aktualisierung von Rollendaten ab und konnte die redigierte Seite wieder durch eine Namensliste ersetzen.
