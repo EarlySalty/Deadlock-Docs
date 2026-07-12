@@ -120,7 +120,7 @@
     "forbidden_terms": []
   },
   {
-    "question": "Erklär mir die internen Admin-Funktionen.",
+    "question": "Was macht der Bot-Befehl !smartping?",
     "answerable": false,
     "expected_sources": [],
     "context_terms": [],
