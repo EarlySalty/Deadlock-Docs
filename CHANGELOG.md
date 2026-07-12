@@ -1,5 +1,13 @@
 # Changelog
 
+## #13 — Steam-Kontoverwaltung als vollständiger Beleg
+
+Problem: Die richtige Antwort zur eigenen Steam-Verwaltung konnte aus der Steam-Bot-Übersicht stammen, deren drei Listenpunkte ohne Satzende aber nicht als vollständige Einzelbelege galten; außerdem war diese Seite im Antworttest nicht zugelassen.
+
+Änderung: Die drei Verwaltungswege enden jetzt als vollständige Aussagen, und der Antworttest akzeptiert die Steam-Bot-Übersicht als passende Quelle.
+
+Aktuelles Verhalten: Belegte Antworten erklären jetzt direkt aus der Steam-Bot-Übersicht, wie du Konten ansiehst, das primäre Konto festlegst und eigene Verknüpfungen entfernst.
+
 ## #12 — Rangverlauf-Antwort bleibt einzeln eindeutig
 
 Problem: Die richtige Antwort zur Rang-Sichtbarkeit wurde abgelehnt, wenn nur ihr erster Satz ausgewählt wurde; „privat“ und „sehen“ standen darin nicht gemeinsam. Außerdem fehlte eine passende öffentliche Seite im Antworttest.
