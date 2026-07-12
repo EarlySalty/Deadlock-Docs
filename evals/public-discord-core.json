@@ -2,7 +2,7 @@
   {
     "question": "Wo finde ich den richtigen Bereich für meine Frage?",
     "answerable": true,
-    "expected_sources": ["discord-server/module/serverstruktur.html", "discord-server/rules-und-channels.html"],
+    "expected_sources": ["discord-server/module/serverstruktur.html", "discord-server/rules-und-channels.html", "discord-server/ueber-bot-und-server.html"],
     "context_terms": ["Willkommen", "Navigation"],
     "answer_terms": ["Willkommen"],
     "forbidden_terms": ["systemctl", "shadowban"]
