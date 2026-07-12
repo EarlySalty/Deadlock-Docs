@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Twitch-Chat-Befehle</title>
   <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
-  <meta name="stand" content="2026-07-11">
+  <meta name="stand" content="2026-07-12">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -18,7 +18,7 @@
 <body>
 <main>
   <h1>Twitch-Chat-Befehle</h1>
-  <p><strong>Kurz gesagt.</strong> Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog samt Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
+  <p><strong>Kurz gesagt.</strong> Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog, darunter <code>!rank</code>, samt vorhandenen Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
 
   <section id="hinweis-hilfelinks">
     <h2>Warum die Befehle hier vollständig stehen</h2>
@@ -27,7 +27,7 @@
 
   <section id="statistik-befehle">
     <h2>Zuschauerbefehle: Deadlock-Statistiken</h2>
-    <p>Diese Zuschauerbefehle kannst du als Zuschauer im Chat benutzen; sie zeigen Deadlock-Werte des Streamers. Sie brauchen die passende Deadlock-Streamkategorie und eine Steam-Zuordnung des Kanals (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
+    <p>Diese Zuschauerbefehle kannst du als Zuschauer im Chat benutzen; dazu gehört <code>!rank</code>. Bei den Statistikbefehlen ist <code>!climb</code> ein Alias für <code>!mmr</code> beim Rangtrend und <code>!last</code> ein Alias für <code>!lastmatch</code> beim letzten Match. Nur die Statistikbefehle zeigen Deadlock-Werte des Streamers und brauchen die passende Deadlock-Streamkategorie sowie eine Steam-Zuordnung des Kanals (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
     <table>
       <tr><th>Befehl (mit Aliasen)</th><th>Zeigt</th></tr>
       <tr><td><code>!rank</code></td><td>Aktueller Deadlock-Rang.</td></tr>
@@ -73,7 +73,7 @@
 
   <section id="status-befehle">
     <h2>Status abfragen: für alle im Chat</h2>
-    <p>Diese Befehle sind nicht rollenbeschränkt; jede Person im Chat darf sie ausführen. Sie sind reine Anzeigen: Sie lesen einen Zustand aus und ändern nichts.</p>
+    <p><code>!raid_status</code> und sein Alias <code>!raidbot_status</code> zeigen den Status, <code>!raid_history</code> die Historie; <code>!health</code> ist ein weiterer Anzeige-Befehl für die Bot-Prüfung. Diese reinen Anzeigen sind nicht rollenbeschränkt: Jede Person im Chat darf sie nutzen, ohne etwas zu ändern. <code>!title</code> ist dagegen ein Steuerungsbefehl für Broadcaster und Mods; er liefert nur einen Titelvorschlag und ändert den Streamtitel nicht.</p>
     <ul>
       <li><code>!raid_status</code> · <code>!raidbot_status</code> — zeigen den Auto-Raid-Status und eine grobe Raid-Statistik; sie setzen oder ändern keinen Status.</li>
       <li><code>!raid_history</code> · <code>!raidbot_history</code> — zeigen die letzten Raid-Versuche; ebenfalls nur lesend.</li>
