@@ -1,5 +1,13 @@
 # Changelog
 
+## #20 — Lane-Erstellung kompakt beantwortbar
+
+Problem: Die vollständige Lane-Erklärung war für eine einzelne, verlässliche Support-Antwort zu lang.
+
+Änderung: Der direkte Erstellungsweg und die Hinweise zu Standard, späteren Beitritten und Ausweichweg stehen jetzt in getrennten Absätzen.
+
+Aktuelles Verhalten: Fragen zur Casual- oder Ranked-Lane lassen sich aus einer kurzen, vollständigen Passage beantworten.
+
 ## #19 — Twitch-Antworten vollständig belegt
 
 Problem: Mehrere Twitch-Antworten hatten die nötigen Belege über Nachbarabschnitte verteilt.
