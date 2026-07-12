@@ -1,5 +1,13 @@
 # Changelog
 
+## #26 — Rangbefehle klar unterschieden
+
+Problem: Die beiden Rangbefehle wurden für den eigenen Rang fälschlich als gleich beschrieben.
+
+Änderung: Eigene Ranganzeige und Rollenabgleich erklären jetzt getrennt, welche Verknüpfungen sie verwenden.
+
+Aktuelles Verhalten: Der Support-Agent kann erklären, dass die direkte Rangabfrage die Rolle nicht verändert und der Rollenabgleich alle eigenen Verknüpfungen berücksichtigt.
+
 ## #25 — Eigenen Deadlock-Rang direkt prüfen
 
 Problem: Die direkte Rangabfrage war mit Fremdzielen und Datenschutzgrenzen in einer langen Erklärung vermischt.
