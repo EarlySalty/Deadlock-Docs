@@ -1,5 +1,13 @@
 # Changelog
 
+## #24 — Turnierteam-Einladungen direkt erklärt
+
+Problem: Die Verwaltung eigener Team-Einladungen war nur indirekt aus mehreren Hinweisen erkennbar.
+
+Änderung: Turnierseite, Annahme oder Ablehnung, Auto-Annahme und die aktuellen Grenzen für Kapitäne stehen jetzt direkt zusammen.
+
+Aktuelles Verhalten: Der Support-Agent kann den öffentlichen Weg für Turnierteam-Einladungen vollständig und kompakt erklären.
+
 ## #23 — Build-Stimmen klar vom Spielkatalog getrennt
 
 Problem: Überschneidende Erklärungen zu Website-Stimmen und Spielkatalog konnten gemeinsam das Antwortlimit überschreiten.
