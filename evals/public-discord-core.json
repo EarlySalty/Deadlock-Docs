@@ -76,7 +76,7 @@
     "answerable": true,
     "expected_sources": ["discord-server/negativ-wissen.html", "discord-server/dm-concierge.html"],
     "context_terms": ["automatisch", "DM"],
-    "answer_terms": ["nicht automatisch"],
+    "answer_terms": ["nicht automatisch", "Concierge"],
     "forbidden_terms": ["shadowban", "systemctl"]
   },
   {

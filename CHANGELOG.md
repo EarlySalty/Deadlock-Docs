@@ -1,5 +1,13 @@
 # Changelog
 
+## #9 — Automatische Begrüßungs-DM klar eingegrenzt
+
+Problem: Die richtige Antwort wurde verworfen, weil ihr die eindeutige Zuordnung von Bot, Beitritt und Concierge fehlte; der Test sicherte diese Eingrenzung ebenfalls nicht ab.
+
+Änderung: Die öffentliche Kurzantwort benennt den Concierge-Bot, den Beitritt zum Server und die ausbleibende automatische Begrüßungs-DM gemeinsam; der Antworttest verlangt diese Zuordnung.
+
+Aktuelles Verhalten: Der Concierge-Bot schreibt nach dem Serverbeitritt nicht automatisch eine Begrüßungs-DM; andere dokumentierte, ereignisgebundene Bot-DMs bleiben möglich.
+
 ## #8 — Concierge-DM-Antwort nennt ihren Weg vollständig
 
 Problem: Bei Fragen zur Direktnachricht konnte die richtige Kurzantwort ohne die Begriffe „Concierge“ und „per DM“ als zu allgemein verworfen werden.
