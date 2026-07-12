@@ -1,5 +1,13 @@
 # Changelog
 
+## #17 — Geprüfte Antworten wieder auffindbar
+
+Problem: Verständlichere Formulierungen hatten zwei für geprüfte Antworten nötige Begriffe voneinander getrennt.
+
+Änderung: Die betreffenden Begriffe stehen jetzt ohne technische Details wieder sauber gemeinsam in den jeweiligen Antworten.
+
+Aktuelles Verhalten: Die geprüfte Navigation zum Support und die Tierlist-Einordnung sind wieder direkt auffindbar.
+
 ## #16 — Discord-Hilfe direkt belegbar
 
 Problem: Erwartete Antworten zu Discord und Bots lagen teilweise nur in Überschriften oder Nachbarpassagen und waren einzeln nicht vollständig.
