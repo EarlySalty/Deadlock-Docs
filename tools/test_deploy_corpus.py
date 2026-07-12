@@ -123,6 +123,102 @@ class DeployCorpusTest(unittest.TestCase):
         self.assertEqual(self.current_target(), sha_a)
         self.assertIn("A", (self.base / "current" / "public" / "x.html").read_text())
 
+    def test_ignores_local_replace_refs(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        committed_sha = self.commit("committed")
+        self.write("public/x.html", VALID_PAGE.format(h1="Local replacement"))
+        replacement_sha = self.commit("replacement")
+        git(self.repo, "replace", committed_sha, replacement_sha)
+
+        result = self.deploy(committed_sha)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        deployed = (self.base / "current" / "public" / "x.html").read_text()
+        self.assertIn("Committed", deployed)
+        self.assertNotIn("Local replacement", deployed)
+
+    def test_ignores_local_info_attributes(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        self.commit("committed")
+        info_attributes = self.repo / ".git" / "info" / "attributes"
+        info_attributes.parent.mkdir(parents=True, exist_ok=True)
+        info_attributes.write_text("public/x.html export-ignore\n", encoding="utf-8")
+
+        result = self.deploy("HEAD")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.base / "current" / "public" / "x.html").is_file())
+
+    def test_applies_committed_export_ignore_attributes(self):
+        self.write("public/kept.html", VALID_PAGE.format(h1="Kept"))
+        self.write("public/ignored.html", VALID_PAGE.format(h1="Ignored"))
+        self.write(".gitattributes", "public/ignored.html export-ignore\n")
+        self.commit("committed attributes")
+
+        result = self.deploy("HEAD")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.base / "current" / "public" / "kept.html").is_file())
+        self.assertFalse((self.base / "current" / "public" / "ignored.html").exists())
+
+    def test_ignores_git_init_templates(self):
+        self.write("public/x.html", VALID_PAGE.format(h1="Committed"))
+        self.commit("committed")
+        template = Path(self._base_tmp.name) / "git-template"
+        (template / "info").mkdir(parents=True)
+        (template / "info" / "attributes").write_text(
+            "public/x.html export-ignore\n", encoding="utf-8"
+        )
+        env = dict(
+            os.environ,
+            DL_KNOWLEDGE_HOME=str(self.base),
+            GIT_TEMPLATE_DIR=str(template),
+        )
+
+        result = subprocess.run(
+            ["bash", str(self.deploy_script), "HEAD"],
+            cwd=str(self.repo),
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.base / "current" / "public" / "x.html").is_file())
+
+    def test_deploys_sha256_repository(self):
+        repo = Path(self._base_tmp.name) / "sha256-repo"
+        base = Path(self._base_tmp.name) / "sha256-deploy"
+        subprocess.run(
+            ["git", "init", "-q", "--object-format=sha256", str(repo)], check=True
+        )
+        git(repo, "config", "user.email", "t@example.invalid")
+        git(repo, "config", "user.name", "Test")
+        tools = repo / "tools"
+        tools.mkdir()
+        for name in ("deploy_corpus.sh", "validate_corpus.py"):
+            shutil.copy(TOOLS_DIR / name, tools / name)
+        (tools / "deploy_corpus.sh").chmod(0o755)
+        public = repo / "public"
+        public.mkdir()
+        (public / "x.html").write_text(
+            VALID_PAGE.format(h1="SHA-256"), encoding="utf-8"
+        )
+        git(repo, "add", "-A")
+        git(repo, "commit", "-q", "-m", "sha256")
+        env = dict(os.environ, DL_KNOWLEDGE_HOME=str(base))
+
+        result = subprocess.run(
+            ["bash", str(tools / "deploy_corpus.sh"), "HEAD"],
+            cwd=str(repo),
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((base / "current" / "public" / "x.html").is_file())
+
     def test_refuses_commit_without_public_html(self):
         self.write("public/nur-notiz.md", "# markdown")
         self.commit("kein html")

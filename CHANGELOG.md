@@ -1,5 +1,13 @@
 # Changelog
 
+## #14 — Supportantworten bleiben eigenständig
+
+Problem: Einige richtige Antworten waren nur zusammen mit Überschriften oder Nachbarabsätzen eindeutig und konnten deshalb abgelehnt werden.
+
+Änderung: Die betroffenen öffentlichen Hinweise tragen Frage, Bedingung und nächsten Schritt jetzt jeweils im selben Antwortblock.
+
+Aktuelles Verhalten: Der Support-Agent kann die geprüften Discord-, Steam-, Twitch-, Patchnotes- und Turnierfragen direkt aus vollständigen öffentlichen Passagen beantworten.
+
 ## #13 — Steam-Kontoverwaltung als vollständiger Beleg
 
 Problem: Die richtige Antwort zur eigenen Steam-Verwaltung konnte aus der Steam-Bot-Übersicht stammen, deren drei Listenpunkte ohne Satzende aber nicht als vollständige Einzelbelege galten; außerdem war diese Seite im Antworttest nicht zugelassen.

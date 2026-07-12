@@ -27,8 +27,13 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Vollen SHA auflösen (schlägt bei unbekanntem Ref fehl).
-SHA="$(git -C "$REPO_ROOT" rev-parse --verify "${REF}^{commit}")"
+# Lokale Replace-Refs sowie System- und globale Attribute dürfen den
+# committeten Export nicht verändern.
+export GIT_NO_REPLACE_OBJECTS=1
+export GIT_ATTR_NOSYSTEM=1
+SHA="$(git -c core.attributesFile=/dev/null -C "$REPO_ROOT" rev-parse --verify "${REF}^{commit}")"
+ORIGINAL_OBJECT_DIR="$(git -C "$REPO_ROOT" rev-parse --path-format=absolute --git-path objects)"
+OBJECT_FORMAT="$(git -c core.attributesFile=/dev/null -C "$REPO_ROOT" rev-parse --show-object-format)"
 DEST="$BASE/$SHA"
 
 mkdir -p "$BASE"
@@ -38,8 +43,14 @@ mkdir -p "$BASE"
 # Korpusvertrag erfüllt und baumgleich mit genau diesem Commit ist.
 STAGING="$(mktemp -d "$BASE/.staging.XXXXXX")"
 
-# Nur den committeten public/-Baum exportieren; scheitert, wenn public/ fehlt.
-git -C "$REPO_ROOT" archive "$SHA" public | tar -x -C "$STAGING"
+# Ein leeres Bare-Control-Gitdir trennt den Export von lokalen Repository-
+# Attributen und Refs; nur die originalen Commit-Objekte bleiben zugänglich.
+CONTROL_GIT_DIR="$STAGING/.control.git"
+git init --bare -q --template= --object-format="$OBJECT_FORMAT" "$CONTROL_GIT_DIR"
+GIT_OBJECT_DIRECTORY="$ORIGINAL_OBJECT_DIR" \
+  git -c core.attributesFile=/dev/null --git-dir="$CONTROL_GIT_DIR" archive "$SHA" public \
+  | tar -x -C "$STAGING"
+rm -rf "$CONTROL_GIT_DIR"
 
 # Ohne öffentliche HTML-Seite gibt es nichts zu deployen.
 html_count="$(find "$STAGING/public" -type f -name '*.html' 2>/dev/null | wc -l)"
