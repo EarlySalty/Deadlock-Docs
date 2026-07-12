@@ -126,71 +126,54 @@ def member_item(member, suffix=""):
 
 
 def render_document(stand, moderators, community_moderators, coaches):
-    moderator_items = "\n".join(member_item(member) for member in moderators)
-    community_items = "\n".join(member_item(member) for member in community_moderators)
-    coach_items = []
-    for member in coaches:
-        if member["user_id"] == NANI_ID:
-            continue
-        suffix = ", organisiert auch die Scrims" if member["user_id"] == LEO_ID else ""
-        coach_items.append(member_item(member, suffix))
-    coach_items.append("    <li><strong>Nani</strong> selbst coacht ebenfalls</li>")
-    coach_items = "\n".join(coach_items)
-
+    _ = moderators, community_moderators, coaches
     return f"""<!doctype html>
-<html lang="de"><head>
+<html lang="de">
+<head>
   <meta charset="utf-8">
   <title>Team und Ansprechpartner</title>
-  <meta name="tags" content="discord-server, team, support">
+  <meta name="tags" content="discord-server, team, support, ansprechpartner, serverproblem, hilfe">
   <meta name="stand" content="{stand}">
-  <meta name="quelle" content="Discord-Rollenabfrage">
-</head><body><main>
+  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+</head>
+<body>
+<main>
   <h1>Team und Ansprechpartner</h1>
-  <section id="owner"><h2>Owner und Gründer</h2>
-  <p><strong>Nani</strong> (Discord: <code>earlysalty</code>) hat den Server gegründet und betreibt ihn. Er ist auch als <strong>Salty</strong> oder <strong>EarlySalty</strong> bekannt, streamt unter dem Namen EarlySalty auf Twitch und baut die Bots und die Website der Community.</p>
+  <p><strong>Kurz:</strong> Die aktuell zuständigen Personen findest du in <em>Willkommen</em> im Abschnitt <em>Community-Team</em>. Für ein persönliches Anliegen nutzt du den dortigen Support-Schnellzugriff; für reine Wissensfragen zuerst <code>/faq</code>.</p>
+
+  <section id="wen-erreichen">
+    <h2>Wen du erreichst</h2>
+    <p>Der Abschnitt <em>Community-Team</em> in <em>Willkommen</em> zeigt die aktuell zugeordneten Gruppen wie Owner, Moderation, Community-Moderation und Coach. Unbesetzte Gruppen werden als solche angezeigt. Namen und Besetzung sind dynamisch — deshalb nennt diese Seite keine festen Personen.</p>
+    <p>Hast du ein Serverproblem und weißt nicht, wer dir hilft? Nutze beim Abschnitt <em>Community-Team</em> in <em>Willkommen</em> den Support-Schnellzugriff — von dort kümmert sich der Support um dein Serveranliegen.</p>
   </section>
-  <section id="moderatoren"><h2>Moderatoren</h2>
-  <p>Sie kümmern sich um Regeln, Ordnung und Konflikte:</p>
-  <ul>
-{moderator_items}
-  </ul>
+
+  <section id="richtiger-weg">
+    <h2>Der richtige Weg je Anliegen</h2>
+    <table>
+      <tr><th>Anliegen</th><th>Weg</th></tr>
+      <tr><td>Server- oder Bot-Frage</td><td>Privater Fragechat über <code>/faq</code>.</td></tr>
+      <tr><td>Persönliches Support- oder Moderationsanliegen</td><td>Support-Schnellzugriff im Abschnitt <em>Willkommen</em>.</td></tr>
+      <tr><td>Coaching</td><td>Sichtbarer Coaching-Bereich beziehungsweise <code>/coaching-anfrage</code>.</td></tr>
+    </table>
   </section>
-  <section id="community-moderatoren"><h2>Community-Moderatoren</h2>
-  <p>Sie unterstützen die Moderation und sind nah an der Community:</p>
-  <ul>
-{community_items}
-  </ul>
+
+  <section id="grenzen">
+    <h2>Was hier offen bleibt</h2>
+    <ul>
+      <li>Keine privaten Kontaktdaten, Dienstpläne oder internen Zuständigkeiten.</li>
+      <li>Keine garantierte Antwortzeit oder Verfügbarkeit einer bestimmten Person.</li>
+      <li>Direkte DMs an einzelne Teammitglieder sind nicht der vorgesehene Standardweg — nutze den sichtbaren Support-Einstieg.</li>
+    </ul>
   </section>
-  <section id="coaches"><h2>Coaches</h2>
-  <p>Sie geben kostenloses Coaching für alle Ränge. Anmelden kannst du dich über das Coaching-Panel im Discord oder über die Coaching-Seite auf der Website.</p>
-  <ul>
-{coach_items}
-  </ul>
-  </section>
-  <section id="paten"><h2>Paten</h2>
-  <p>Freiwillige aus der Community, die Neulinge persönlich begleiten. Das ist keine feste Liste; wer die Paten-Rolle hat, kann Neulinge übernehmen. Wenn du einen Paten suchst, öffne ein Ticket im Ticket-Bereich, dann vermittelt dich das Team weiter.</p>
-  </section>
-  <section id="ansprechpartner"><h2>Ansprechpartner</h2>
-  <ul>
-    <li>Probleme oder persönliche Anliegen: öffne ein Ticket im Ticket-Bereich, dort meldet sich das Team.</li>
-    <li>Regelverstöße oder Konflikte: wende dich an die Moderatoren – per Ticket oder direkt.</li>
-    <li>Fragen zum Server oder zu den Bots: stell sie im passenden Fragen-Kanal oder nutze den Bot-Befehl <code>/faq</code>.</li>
-  </ul>
-  </section>
-</main></body></html>
+</main>
+</body>
+</html>
 """
 
 
 def render_from_discord():
-    client = McpClient()
-    client.initialize()
-    roles = {name: fetch_role_members(client, name, role_id) for name, role_id in ROLES}
-    return render_document(
-        date.today().isoformat(),
-        roles["Moderatoren"],
-        roles["Community-Moderatoren"],
-        roles["Coaches"],
-    )
+    # Der öffentliche Vertrag ist bewusst roster-unabhängig; der Timer konvergiert ihn nur.
+    return render_document(date.today().isoformat(), [], [], [])
 
 
 def without_stand_line(text):
