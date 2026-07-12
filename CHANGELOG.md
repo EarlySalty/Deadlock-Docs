@@ -1,5 +1,13 @@
 # Changelog
 
+## #6 — Live-Supportantworten nennen den sichtbaren Einstieg vollständig
+
+Problem: Bei einer allgemeinen Orientierungsfrage fand der Assistent zwar den richtigen Navigationsabschnitt, ließ in der Antwort aber den sichtbaren Einstieg über „Willkommen“ aus.
+
+Änderung: Der Navigationsabschnitt nennt den Einstieg jetzt direkt dort, wo die einzelnen Anliegen und Zielbereiche erklärt werden.
+
+Aktuelles Verhalten: Auf die Frage nach dem richtigen Bereich verweist der Assistent zuerst auf „Willkommen“ und führt anschließend über die aktuelle Navigation zum passenden sichtbaren Weg.
+
 ## #5 — Datenschutz-, Paten- und Antwortgrenzen klargezogen
 
 Problem: Die Dokumentation versprach an mehreren Stellen mehr, als tatsächlich passiert, und erklärte technisch unsichere Discord-Zustände nicht eindeutig.
