@@ -8,6 +8,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import update_team_doc
 
+PUBLIC_TEAM_DOC = (
+    Path(__file__).resolve().parents[1]
+    / "public"
+    / "discord-server"
+    / "team-und-ansprechpartner.html"
+)
+
 
 class ExtractMembersTest(unittest.TestCase):
     def test_extract_members_prefers_nick_then_global_name(self):
@@ -52,17 +59,36 @@ class RenderHtmlTest(unittest.TestCase):
         return update_team_doc.render_document(
             "2026-07-07",
             moderators=[
-                {"display_name": "Mod", "username": "mod", "user_id": "10"},
-                # deckt HTML-Escaping und UTF-8 ab
+                {
+                    "display_name": "Private Modperson",
+                    "username": "private_mod_user",
+                    "user_id": "10",
+                },
                 {"display_name": "Zoé<x>&", "username": "zoe<x>", "user_id": "13"},
             ],
             community_moderators=[
-                {"display_name": "Com", "username": "com", "user_id": "11"}
+                {
+                    "display_name": "Private Communityperson",
+                    "username": "private_community_user",
+                    "user_id": "11",
+                }
             ],
             coaches=[
-                {"display_name": "Leo", "username": "leo", "user_id": update_team_doc.LEO_ID},
-                {"display_name": "Nani", "username": "earlysalty", "user_id": update_team_doc.NANI_ID},
-                {"display_name": "Coach", "username": "coach", "user_id": "12"},
+                {
+                    "display_name": "Private Leorolle",
+                    "username": "private_leo_user",
+                    "user_id": update_team_doc.LEO_ID,
+                },
+                {
+                    "display_name": "Private Nanirolle",
+                    "username": "private_nani_user",
+                    "user_id": update_team_doc.NANI_ID,
+                },
+                {
+                    "display_name": "Private Coachperson",
+                    "username": "private_coach_user",
+                    "user_id": "12",
+                },
             ],
         )
 
@@ -75,9 +101,17 @@ class RenderHtmlTest(unittest.TestCase):
         rendered = self.render()
         self.assertIn('<meta charset="utf-8">', rendered)
         self.assertIn("<title>Team und Ansprechpartner</title>", rendered)
-        self.assertIn('<meta name="tags" content="discord-server, team, support">', rendered)
+        self.assertIn(
+            '<meta name="tags" content="discord-server, team, support, '
+            'ansprechpartner, serverproblem, hilfe">',
+            rendered,
+        )
         self.assertIn('<meta name="stand" content="2026-07-07">', rendered)
-        self.assertIn('<meta name="quelle" content="Discord-Rollenabfrage">', rendered)
+        self.assertIn(
+            '<meta name="quelle" content="Produktdokumentation und geprüftes '
+            'sichtbares Verhalten">',
+            rendered,
+        )
 
     def test_exactly_one_main_and_one_h1(self):
         rendered = self.render()
@@ -85,24 +119,45 @@ class RenderHtmlTest(unittest.TestCase):
         self.assertEqual(rendered.count("</main>"), 1)
         self.assertEqual(rendered.count("<h1>"), 1)
 
-    def test_discord_display_names_are_escaped(self):
+    def test_discord_member_data_is_not_rendered(self):
         rendered = self.render()
-        # Rohtext darf nicht als Markup landen
-        self.assertNotIn("Zoé<x>&", rendered)
-        self.assertNotIn("zoe<x>", rendered)
-        # escaped Variante muss vorhanden sein
-        self.assertIn("Zoé&lt;x&gt;&amp;", rendered)
-        self.assertIn("zoe&lt;x&gt;", rendered)
+        for private_value in (
+            "Private Modperson",
+            "private_mod_user",
+            "Zoé&lt;x&gt;&amp;",
+            "zoe&lt;x&gt;",
+            "Private Communityperson",
+            "private_community_user",
+            "Private Leorolle",
+            "private_leo_user",
+            "Private Nanirolle",
+            "private_nani_user",
+            "Private Coachperson",
+            "private_coach_user",
+        ):
+            self.assertNotIn(private_value, rendered)
 
-    def test_filters_nani_and_marks_leo(self):
+    def test_public_contract_describes_dynamic_groups_without_people(self):
         rendered = self.render()
-        self.assertIn("Mod", rendered)
-        self.assertIn("Com", rendered)
-        self.assertIn("Leo", rendered)
-        self.assertIn("organisiert auch die Scrims", rendered)
-        self.assertIn("Coach", rendered)
-        coaches_section = rendered.split(">Coaches<", 1)[1]
-        self.assertNotIn("earlysalty", coaches_section)
+        self.assertIn("Owner, Moderation, Community-Moderation und Coach", rendered)
+        self.assertIn("Namen und Besetzung sind dynamisch", rendered)
+
+    def test_public_support_sentence_is_self_contained(self):
+        rendered = self.render()
+        self.assertIn("<strong>Kurz:</strong>", rendered)
+        self.assertIn(
+            "Nutze beim Abschnitt <em>Community-Team</em> in <em>Willkommen</em> "
+            "den Support-Schnellzugriff — von dort kümmert sich der Support um "
+            "dein Serveranliegen.",
+            rendered,
+        )
+
+    def test_render_matches_committed_public_contract_except_stand(self):
+        committed = PUBLIC_TEAM_DOC.read_text(encoding="utf-8")
+        self.assertEqual(
+            update_team_doc.without_stand_line(committed),
+            update_team_doc.without_stand_line(self.render()),
+        )
 
     def test_no_discord_snowflakes_or_channel_ids(self):
         rendered = self.render()
@@ -117,8 +172,8 @@ class RenderHtmlTest(unittest.TestCase):
         # keine pauschal verfügbare Concierge-DM behaupten
         self.assertNotIn("in den DMs", rendered)
         # stattdessen sichtbare, stabile Wege
-        self.assertIn("Coaching-Panel", rendered)
-        self.assertIn("Ticket-Bereich", rendered)
+        self.assertIn("Support-Schnellzugriff", rendered)
+        self.assertIn("Willkommen", rendered)
         self.assertIn("/faq", rendered)
 
     def test_rendered_output_passes_validator(self):
@@ -148,7 +203,7 @@ class UnchangedDetectionTest(unittest.TestCase):
             update_team_doc.without_stand_line(neu),
         )
 
-    def test_content_change_counts_as_changed(self):
+    def test_roster_change_does_not_change_public_render(self):
         alt = update_team_doc.render_document(
             "2026-07-07",
             moderators=[{"display_name": "A", "username": "a", "user_id": "1"}],
@@ -161,7 +216,7 @@ class UnchangedDetectionTest(unittest.TestCase):
             community_moderators=[],
             coaches=[],
         )
-        self.assertNotEqual(
+        self.assertEqual(
             update_team_doc.without_stand_line(alt),
             update_team_doc.without_stand_line(neu),
         )

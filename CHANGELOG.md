@@ -1,5 +1,13 @@
 # Changelog
 
+## #7 — Team-Support bleibt vollständig und redigiert
+
+Problem: Einzelne Supportantworten konnten den sichtbaren Fundort auslassen; zusätzlich konnte die tägliche Team-Aktualisierung die redigierte Seite wieder durch eine Namensliste ersetzen.
+
+Änderung: Der Supportsatz nennt „Community-Team“ und „Willkommen“ gemeinsam, und die Aktualisierung erzeugt denselben öffentlichen Vertrag ohne Namen oder Benutzernamen.
+
+Aktuelles Verhalten: Der Supportweg bleibt auch als einzeln ausgewählte Antwort verständlich; aktuelle Zuständigkeiten stehen im sichtbaren Community-Team-Bereich statt in der Wissensseite.
+
 ## #6 — Live-Supportantworten nennen den sichtbaren Einstieg vollständig
 
 Problem: Bei allgemeinen Orientierungsfragen fand der Assistent zwar den richtigen Navigationsabschnitt, ließ aber entweder den sichtbaren Einstieg über „Willkommen“ aus oder lehnte die Frage nach dem passenden Kanal beziehungsweise der passenden Rolle als zu unbestimmt ab.
