@@ -1,5 +1,13 @@
 # Changelog
 
+## #25 — Eigenen Deadlock-Rang direkt prüfen
+
+Problem: Die direkte Rangabfrage war mit Fremdzielen und Datenschutzgrenzen in einer langen Erklärung vermischt.
+
+Änderung: Der Weg zum eigenen Rang, die Voraussetzungen für die Community-Rolle und Abfragen zu Fremdzielen stehen jetzt getrennt.
+
+Aktuelles Verhalten: Der Support-Agent kann die eigene Rangabfrage kompakt mit beiden Befehlen und ohne unnötige Fremddetails erklären.
+
 ## #24 — Turnierteam-Einladungen direkt erklärt
 
 Problem: Die Verwaltung eigener Team-Einladungen war nur indirekt aus mehreren Hinweisen erkennbar.
