@@ -1,5 +1,13 @@
 # Changelog
 
+## #12 — Rangverlauf-Antwort bleibt einzeln eindeutig
+
+Problem: Die richtige Antwort zur Rang-Sichtbarkeit wurde abgelehnt, wenn nur ihr erster Satz ausgewählt wurde; „privat“ und „sehen“ standen darin nicht gemeinsam. Außerdem fehlte eine passende öffentliche Seite im Antworttest.
+
+Änderung: Die Rang-Passagen nennen jetzt ausdrücklich, dass andere den standardmäßig privaten Rangverlauf nicht sehen können, und der Test akzeptiert auch die öffentliche Statistikübersicht als Quelle.
+
+Aktuelles Verhalten: Andere sehen den Rangverlauf standardmäßig nicht; du selbst siehst ihn weiterhin und kannst die Sichtbarkeit nach Login ändern.
+
 ## #11 — Alle belegten Fragewege im Antworttest zugelassen
 
 Problem: Die richtige Antwort zum Stellen einer Serverfrage konnte aus zwei passenden öffentlichen Übersichten kommen, die im Antworttest noch nicht als zulässige Quellen geführt waren.

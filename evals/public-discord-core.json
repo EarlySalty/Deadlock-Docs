@@ -130,7 +130,7 @@
   {
     "question": "Wer kann meinen Rangverlauf sehen?",
     "answerable": true,
-    "expected_sources": ["discord-server/workflows/rang-sichtbarkeit.html", "discord-server/module/statistiken-privatsphaere.html"],
+    "expected_sources": ["discord-server/workflows/rang-sichtbarkeit.html", "discord-server/module/statistiken-privatsphaere.html", "discord-server/stats-und-privacy.html"],
     "context_terms": ["Rangverlauf", "privat"],
     "answer_terms": ["privat"],
     "forbidden_terms": ["shadowban", "systemctl"]
