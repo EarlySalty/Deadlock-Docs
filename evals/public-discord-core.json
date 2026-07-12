@@ -114,7 +114,7 @@
   {
     "question": "Wie verknüpfe ich Steam mit Discord?",
     "answerable": true,
-    "expected_sources": ["discord-server/steam-integration.html", "discord-server/workflows/steam-verknuepfen-rang.html"],
+    "expected_sources": ["discord-server/steam-integration.html", "discord-server/workflows/steam-verknuepfen-rang.html", "discord-server/module/steam-twitch-verknuepfung.html"],
     "context_terms": ["account_verknüpfen", "Freundescode"],
     "answer_terms": ["Steam"],
     "forbidden_terms": ["systemctl", "shadowban"]
