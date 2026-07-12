@@ -1,5 +1,13 @@
 # Changelog
 
+## #28 — Heldenwissen im Wissenskorpus
+
+Problem: Die Heldenseiten lagen als Markdown auf einem alten Zweig. Der FAQ-Bot liefert nur HTML aus, er hätte sie also nie gefunden.
+
+Änderung: 36 Heldenseiten inhaltsgleich nach HTML übertragen. Die Drifter-Seite ist bewusst nicht dabei, die alte Quelle beschrieb dort Hazes Fähigkeiten.
+
+Aktuelles Verhalten: Fragen zu Spielweise, Builds, Stärken und Schwächen eines Helden werden aus dem Korpus beantwortet. Drifter fehlt noch und braucht verlässliche Daten.
+
 ## #26 — Rangbefehle klar unterschieden
 
 Problem: Die beiden Rangbefehle wurden für den eigenen Rang fälschlich als gleich beschrieben.
