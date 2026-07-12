@@ -1,5 +1,9 @@
 # Changelog
 
+## #27 — Routine-Turniere brauchen zwei Mods
+
+Problem: Die Betriebsdoku beschrieb nicht, dass Routine-Turniere nur noch als interner Vorschlag beginnen. Änderung: J/N, Änderungswünsche, Rollen, Lernhistorie und die Trennung vom Minuten-Scheduler sind dokumentiert. Aktuelles Verhalten: Der Support kann klar erklären, dass erst zwei Mods das Turnier anlegen und keine Ankündigung automatisch veröffentlicht wird.
+
 ## #26 — Rangbefehle klar unterschieden
 
 Problem: Die beiden Rangbefehle wurden für den eigenen Rang fälschlich als gleich beschrieben.
