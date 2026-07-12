@@ -2,11 +2,11 @@
 
 ## #6 — Live-Supportantworten nennen den sichtbaren Einstieg vollständig
 
-Problem: Bei einer allgemeinen Orientierungsfrage fand der Assistent zwar den richtigen Navigationsabschnitt, ließ in der Antwort aber den sichtbaren Einstieg über „Willkommen“ aus.
+Problem: Bei allgemeinen Orientierungsfragen fand der Assistent zwar den richtigen Navigationsabschnitt, ließ aber entweder den sichtbaren Einstieg über „Willkommen“ aus oder lehnte die Frage nach dem passenden Kanal beziehungsweise der passenden Rolle als zu unbestimmt ab.
 
-Änderung: Der Navigationsabschnitt nennt den Einstieg jetzt direkt dort, wo die einzelnen Anliegen und Zielbereiche erklärt werden.
+Änderung: Der Navigationsabschnitt nennt den Einstieg und die allgemeine Zuordnung von Kanal, Bereich und selbst wählbarer Rolle jetzt direkt dort, wo die einzelnen Anliegen erklärt werden.
 
-Aktuelles Verhalten: Auf die Frage nach dem richtigen Bereich verweist der Assistent zuerst auf „Willkommen“ und führt anschließend über die aktuelle Navigation zum passenden sichtbaren Weg.
+Aktuelles Verhalten: Auf Fragen nach dem richtigen Bereich, Kanal oder der passenden Rolle verweist der Assistent zuerst auf „Willkommen“ und führt anschließend über die aktuelle Navigation sowie „Kanäle &amp; Rollen“ zum passenden sichtbaren Weg.
 
 ## #5 — Datenschutz-, Paten- und Antwortgrenzen klargezogen
 
