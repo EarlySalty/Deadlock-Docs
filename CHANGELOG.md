@@ -8,6 +8,10 @@ Problem: Die Heldenseiten lagen als Markdown auf einem alten Zweig. Der FAQ-Bot 
 
 Aktuelles Verhalten: Fragen zu Spielweise, Builds, Stärken und Schwächen eines Helden werden aus dem Korpus beantwortet. Drifter fehlt noch und braucht verlässliche Daten.
 
+## #27 — Routine-Turniere brauchen zwei Mods
+
+Problem: Die Betriebsdoku beschrieb nicht, dass Routine-Turniere nur noch als interner Vorschlag beginnen. Änderung: J/N, Änderungswünsche, Rollen, Lernhistorie und die Trennung vom Minuten-Scheduler sind dokumentiert. Aktuelles Verhalten: Der Support kann klar erklären, dass erst zwei Mods das Turnier anlegen und keine Ankündigung automatisch veröffentlicht wird.
+
 ## #26 — Rangbefehle klar unterschieden
 
 Problem: Die beiden Rangbefehle wurden für den eigenen Rang fälschlich als gleich beschrieben.

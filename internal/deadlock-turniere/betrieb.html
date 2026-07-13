@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Turniere — Betrieb</title>
   <meta name="tags" content="internal, deadlock-turniere, betrieb">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-12">
   <meta name="quelle" content="Deadlock-Turniere">
 </head>
 <body>
@@ -16,6 +16,12 @@
 <p>Neustart: <code>systemctl --user restart deadlock-turniere.service</code>. Für Laufzeitprüfung immer <code>systemctl --user cat deadlock-turniere.service</code> verwenden, weil die Basisdatei und die Drop-ins zusammen den wirksamen Start ergeben. (<code>/home/naniadm/.config/systemd/user/deadlock-turniere.service</code>, <code>/etc/systemd/user/deadlock-turniere.service.d/10-infisical-gate.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
 <p>Vor dem Start wartet das globale Drop-in auf Infisical, das Credential-Drop-in lädt <code>infisical-token</code>, und das Rust-Cutover-Drop-in ersetzt <code>ExecStart</code> durch <code>scripts/run_turniere_backend_rust.sh</code>. Diese Reihenfolge ist Teil der kompletten Unit. (<code>/etc/systemd/user/deadlock-turniere.service.d/10-infisical-gate.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/20-creds.conf</code>, <code>/home/naniadm/.config/systemd/user/deadlock-turniere.service.d/30-rust-cutover.conf</code>)</p>
 <p>Der Rust-Launcher liest <code>TURNIERE_CONFIG_FILE</code> oder <code>$HOME/.config/deadlock-turniere/turniere.env</code>, optional <code>INFISICAL_CONFIG_FILE</code> oder <code>$HOME/.config/deadlock-bots/infisical.conf</code>, und bei gesetztem <code>CREDENTIALS_DIRECTORY</code> die Datei <code>infisical-token</code>. Fehlt <code>INFISICAL_SERVICE_TOKEN</code>, beendet er den Start. (<code>scripts/run_turniere_backend_rust.sh</code>)</p>
+</section>
+<section id="routine-turniere">
+<h2>Routine-Turniere mit Mod-Freigabe</h2>
+<p>Der Routine-Planer erzeugt beim Dienststart und danach höchstens stündlich nur einen Vorschlag. Er legt dabei kein Turnier an, öffnet keine Anmeldung und sendet keine öffentliche Ankündigung. Der weiterhin minütliche Scheduler ist davon getrennt und prüft ausschließlich Phasen und Erinnerungen bereits laufender Turniere. (<code>rust/crates/turnier-scheduler/src/lib.rs</code>, <code>rust/crates/turnier-automatik/src/routine.rs</code>)</p>
+<p>Der Vorschlag erscheint im internen Kanal <code>1474543558793887937</code>. Abstimmen dürfen nur Moderator und Community Moderator. Ein J bedeutet Zeit plus Freigabe; zwei unterschiedliche J legen das Turnier idempotent an und öffnen die Anmeldung. Ein N braucht einen Grund, blockiert aber nicht. Ein Änderungswunsch erzeugt über die KI eine neue Version und setzt alle Stimmen zurück. (<code>rust/crates/turnier-api/src/internal_automatik.rs</code>, <code>rust/crates/turnier-automatik/src/proposals.rs</code>, <code>Deadlock-Bots/rust/bin/dl-bot/src/turnierglue.rs</code>)</p>
+<p>Nach der zweiten Freigabe erstellt die KI im selben internen Kanal nur eine Ankündigungsvorlage. Mods bearbeiten, ersetzen oder veröffentlichen sie manuell. Gründe und Änderungswünsche bleiben in Postgres gespeichert und werden als begrenzte Lernhistorie in spätere Planungsprompts aufgenommen; ein Modelltraining findet nicht statt. (<code>turnier.tournament_proposal_feedback</code>, <code>Deadlock-Bots/rust/bin/dl-bot/src/turnierglue.rs</code>)</p>
 </section>
 <section id="konfiguration">
 <h2>Konfiguration</h2>
@@ -71,6 +77,10 @@
 <tr>
 <td><code>TURNIER_ENABLE_TEST_MODE</code></td>
 <td>Schalter für Test-Routen</td>
+</tr>
+<tr>
+<td><code>ROUTINE_TOURNAMENTS_ENABLED</code>, <code>ROUTINE_PROPOSAL_CHANNEL_ID</code></td>
+<td>Aktiviert den Vorschlagsplaner und setzt seinen internen Discord-Kanal</td>
 </tr>
 <tr>
 <td><code>CENTRAL_TEST_DSN</code>, <code>TURNIER_TEST_DB_CONFIRM</code></td>
