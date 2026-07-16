@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Scrim-Cockpit — Handbuch für Coaches</title>
+  <meta name="tags" content="website, scrims, coaching, handbuch">
+  <meta name="stand" content="2026-07-16">
+  <meta name="quelle" content="Website/dl-coaching (ScrimPoolPage, ScrimSignupPage, ScrimBoardPage), builds/backend-rust/src/routes/scrim.rs">
+</head>
+<body>
+<main>
+<h1>Scrim-Cockpit — Handbuch für Coaches</h1>
+
+<p>Für Leo, Deniz und alle, die Scrim-Teams betreuen. Beschreibt, was wo liegt, was der Bot
+automatisch macht und was bewusst bei euch bleibt.</p>
+
+<section id="grundprinzip">
+<h2>Das Grundprinzip</h2>
+<p><strong>Der Bot nimmt euch das Tippen ab, nicht das Reden.</strong> Er sammelt Daten ein,
+vergibt Rollen, verschickt Nachrichten und rechnet Zeiten aus. Wer in welches Team kommt, wer
+Auswechselspieler wird und wann ein Aufruf rausgeht — das entscheidet ihr. Der Bot postet nie
+von selbst.</p>
+</section>
+
+<section id="was-wo">
+<h2>Was liegt wo</h2>
+<table>
+  <tr><th>Seite</th><th>Adresse</th><th>Wer sieht sie</th></tr>
+  <tr><td>Anmeldung</td><td><code>/coaching/scrims/signup</code></td><td>alle (Tab „Scrims", Login erst beim Absenden)</td></tr>
+  <tr><td>Mein Team</td><td><code>/coaching/me/scrims</code></td><td>angemeldete Spieler</td></tr>
+  <tr><td>Scrim-Verwaltung</td><td><code>/coaching/scrims</code></td><td><strong>nur Coaches</strong></td></tr>
+  <tr><td>Team-Board</td><td><code>/coaching/scrims/teams/&lt;id&gt;</code></td><td><strong>nur Coaches</strong></td></tr>
+</table>
+<p>Coach ist, wer Admin ist oder in der Coach-Liste aktiv steht — nicht über Discord-Rollen.</p>
+</section>
+
+<section id="anmeldung">
+<h2>Wie sich jemand anmeldet</h2>
+<p>Zwei Türen, ein Pool:</p>
+<ol>
+  <li><strong>Haken auf die Ankündigung</strong> im Ankündigungskanal → Bot vergibt die Rolle
+      <em>Scrims Teilnehmer</em> (damit sieht die Person die Scrim-Kanäle) und schickt eine DM mit
+      dem Link zum Formular.</li>
+  <li><strong>Website-Formular</strong> → Rang mit Unterstufe, Lane, Wochen-Verfügbarkeit. Erst hier
+      entstehen die Daten, mit denen ihr planen könnt.</li>
+</ol>
+<p><strong>Die Verfügbarkeit ist Pflicht.</strong> Ohne sie lässt sich das Formular nicht absenden —
+sie ist die einzige Angabe, die man nicht nachschlagen kann, und die Terminrechnung ist ohne sie
+wertlos.</p>
+<p>Wer schon aus der alten Excel-Liste im Pool steht, verknüpft sich automatisch selbst, sobald er
+sich mit Discord anmeldet: Der Abgleich läuft über den Anzeigenamen.</p>
+</section>
+
+<section id="toepfe">
+<h2>Die vier Töpfe</h2>
+<p>Auf <code>/coaching/scrims</code>, sortiert entlang des Ablaufs. Verschieben per Status-Auswahl
+in der Zeile:</p>
+<table>
+  <tr><th>Topf</th><th>Bedeutung</th><th>Discord-Rolle</th></tr>
+  <tr><td>Neue Anmeldungen</td><td>frisch rein, noch nicht einsortiert</td><td>Scrims Teilnehmer</td></tr>
+  <tr><td>Spieler-Pool</td><td>wartet auf ein festes Team</td><td>Scrims Teilnehmer</td></tr>
+  <tr><td>Auswechselspieler</td><td>springt ein, wenn wer fehlt</td><td>+ Auswechselspieler (pingbar)</td></tr>
+  <tr><td>In Teams</td><td>fest eingeteilt</td><td>+ Team-Rolle</td></tr>
+  <tr><td>Ausgetreten</td><td>raus</td><td>alle Scrim-Rollen entzogen</td></tr>
+</table>
+<p>Die Rollen vergibt und entzieht der Bot selbst, sobald ihr jemanden verschiebt. Ihr müsst in
+Discord nichts nachziehen.</p>
+<p><strong>Auswechselspieler wird niemand von allein</strong> — das setzt ihr bewusst. Wer im
+Spieler-Pool sitzt, wird auch nur für feste Teams vorgeschlagen, nie als Ersatz, und umgekehrt.</p>
+</section>
+
+<section id="stammzeit">
+<h2>Team-Stammzeit — einmal setzen, überall sparen</h2>
+<p><em>Scrim-Verwaltung → Team → Bearbeiten → Übliche Spielzeit.</em></p>
+<p>Das ist die Uhrzeit, zu der das Team normalerweise spielt („Team 2 spielt um 20 Uhr"). Kein
+Wochentag — der wird ja pro Woche ausgehandelt.</p>
+<p>Einmal gesetzt, wirkt sie an zwei Stellen: Der <strong>Aufruf-Text schreibt die Zeit selbst</strong>,
+und die <strong>Einspringer-Suche ist damit vorausgefüllt</strong>. Ohne Stammzeit müsst ihr die
+Uhrzeit jedes Mal neu eintippen.</p>
+</section>
+
+<section id="aufruf">
+<h2>Aufruf posten</h2>
+<p><em>Scrim-Verwaltung → Team → Aufruf posten.</em></p>
+<p>Ihr seht eine Vorschau, könnt eine eigene Zeile ergänzen („Wir suchen vor allem jemanden für die
+Solo-Lane") und postet auf Klick. Der Bot schreibt das fertige Embed in den Scrim-Kanal und pingt
+<em>Scrims Teilnehmer</em>.</p>
+<p><strong>Setzt danach einmal selbst den Haken unter den Aufruf.</strong> Der Bot kann das (noch)
+nicht — ohne ersten Haken muss jeder das Emoji selbst suchen, und dann reagiert kaum wer.</p>
+</section>
+
+<section id="einspringer">
+<h2>Auswechselspieler finden</h2>
+<p><em>Scrim-Verwaltung → Auswechselspieler finden.</em></p>
+<ol>
+  <li>Team wählen — die Stammzeit steht dann schon da.</li>
+  <li>Tag und Uhrzeit prüfen.</li>
+  <li>„Passende suchen" → ihr seht, wer von der Bank zu der Zeit kann und <strong>wie viele
+      Minuten</strong> davon (nicht nur ja/nein — so seht ihr, ob es knapp wird).</li>
+  <li>„Einspringen lassen" → die Person bekommt die Team-Rolle und eine DM mit Team und Uhrzeit.</li>
+</ol>
+<p>Sie bleibt Auswechselspieler und rutscht nicht ins Team. <strong>Nach spätestens 24 Stunden
+nimmt der Bot die Team-Rolle von selbst wieder weg</strong> — ihr müsst nichts zurückstellen.</p>
+</section>
+
+<section id="team-board">
+<h2>Team-Board</h2>
+<p><em>Scrim-Verwaltung → Team → Board öffnen.</em></p>
+<p>Zeigt den Kader und die Überschneidungs-Karte: wann das Team gemeinsam kann. „Roster
+vorschlagen" füllt ein Team aus dem Spieler-Pool nach bester Zeitüberschneidung — ihr bestätigt
+oder tauscht.</p>
+<p>Die Karte ist nur so gut wie die eingetragenen Zeiten. Wer nichts einträgt, taucht nirgends auf.</p>
+</section>
+
+<section id="grenzen">
+<h2>Was der Bot nicht kann (Stand 2026-07-16)</h2>
+<ul>
+  <li><strong>Am Handy gibt es keine Navigation</strong> auf der Coaching-Seite — die Tabs sind dort
+      ausgeblendet. Bewusst so belassen: Das Publikum sitzt am PC.</li>
+  <li><strong>Schichtarbeit lässt sich nicht abbilden.</strong> Das Wochenraster unterstellt gleiche
+      Wochen. Wer im Schichtwechsel arbeitet, trägt sinnvollerweise nichts ein — mit dem müsst ihr
+      wie bisher reden.</li>
+  <li><strong>„Wie oft pro Woche" wird nicht gefragt.</strong> Wer vier Tage einträgt, kann trotzdem
+      nur zweimal wollen. Steht in den Zeiten nicht drin.</li>
+  <li><strong>Den ersten Haken unter dem Aufruf</strong> setzt ihr selbst.</li>
+  <li><strong>Der Slash-Befehl <code>/scrim-signup</code> ist bei Discord nicht registriert</strong> —
+      er existiert im Code, ist aber für niemanden sichtbar. Die öffentliche Doku bewirbt ihn
+      trotzdem. Nutzt und nennt den Website-Weg.</li>
+</ul>
+</section>
+
+<section id="fuer-devs">
+<h2>Für Devs (knapp)</h2>
+<ul>
+<li>Frontend <code>Website/dl-coaching/src/pages/Scrim*.tsx</code>; Backend
+    <code>builds/backend-rust/src/routes/scrim.rs</code>; Discord-Aufrufe über
+    <code>discord_broker.rs</code> → Master-Broker <code>127.0.0.1:8770</code>.</li>
+<li>Tabellen: <code>scrim.participants</code> (status: new/waitlist/reserve/assigned/inactive —
+    <code>reserve</code> ist ein Textwert, keine eigene Spalte), <code>scrim.teams</code>
+    (<code>default_from</code>/<code>default_to</code> = Stammzeit in Minuten),
+    <code>scrim.team_members</code> (<code>substitute_until</code>: NULL = feste Mitgliedschaft,
+    Wert = befristete Aushilfe).</li>
+<li>Rollen-Sollmenge in <code>discord_role_snapshot_from_rows</code>: nicht-inaktiv ⇒ Signup-Rolle;
+    <code>status='reserve'</code> ⇒ Auswechsel-Rolle; Team-Mitgliedschaft ⇒ Team-Rolle. Sync läuft
+    per Vorher/Nachher-Differenz, fail-open nach dem Commit.</li>
+<li>Reaction-Roles sind datengetrieben: <code>bot.reaction_role_mappings</code> (message_id + emoji +
+    role_id + dm_text). Eine neue Anmelde-Nachricht = eine DB-Zeile; <code>backfill_pending=TRUE</code>
+    plus Bot-Neustart zieht bestehende Reaktionen nach.</li>
+<li>Migrationen laufen <strong>nur</strong> über <code>dl-central-migrate</code> im Repo
+    Deadlock-Bots — das Website-Backend hat keinen Migrations-Runner.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
