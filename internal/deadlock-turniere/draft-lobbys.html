@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Freie Draft-Lobbys — Support- und Betriebswissen</title>
+  <meta name="tags" content="internal, deadlock-turniere, draft, lobby, support">
+  <meta name="stand" content="2026-07-16">
+  <meta name="quelle" content="Deadlock-Turniere und geprüftes Live-Verhalten">
+</head>
+<body>
+<main>
+  <h1>Freie Draft-Lobbys — Support- und Betriebswissen</h1>
+  <p><strong>Kurzfassung.</strong> Unter <a href="https://deutsche-deadlock-community.de/turnier/draft">deutsche-deadlock-community.de/turnier/draft</a> können zwei Teams ohne Konto einen gemeinsamen Pick-&amp;-Ban-Draft anlegen, über getrennte Captain-Links bedienen und über einen Zuschauer-Link teilen.</p>
+
+  <nav aria-label="Auf dieser Seite">
+    <ul>
+      <li><a href="#modul">Modulüberblick</a></li>
+      <li><a href="#ablauf">Ablauf</a></li>
+      <li><a href="#zustaende">Sichtbare Zustände und Fehler</a></li>
+      <li><a href="#support">Leitfaden für Support-Agenten</a></li>
+      <li><a href="#grenzen">Bekannte Grenzen</a></li>
+    </ul>
+  </nav>
+
+  <section id="modul">
+    <h2>Modulüberblick</h2>
+    <table>
+      <tbody>
+        <tr><th>Name</th><td>Freie Draft-Lobby</td></tr>
+        <tr><th>Zweck</th><td>Zwei Teams koordinieren Picks und Bans in einer gemeinsamen, live aktualisierten Ansicht.</td></tr>
+        <tr><th>Verantwortung</th><td>Lobby anlegen, Rollen über Links trennen, gültige Aktionen annehmen, den Fortschritt speichern und den aktuellen Stand anzeigen.</td></tr>
+        <tr><th>Wann verwendet</th><td>Für freie Scrims, Trainings oder Absprachen, die keinen angelegten Turniertermin benötigen.</td></tr>
+        <tr><th>Eingaben</th><td>Teamnamen, sichtbares Ablauf-Preset sowie Zug- und Reservezeit.</td></tr>
+        <tr><th>Ausgaben</th><td>Ein Link pro Captain, ein Zuschauer-Link sowie das gemeinsame Draft-Board mit Zuganzeige, Picks, Bans und Timer.</td></tr>
+        <tr><th>Abhängigkeiten</th><td>Die öffentliche Turnierseite, eine aktuelle Heldenliste und der laufende Turnierdienst.</td></tr>
+        <tr><th>Interne Details bewusst abstrahiert</th><td>Zugangsdaten, Missbrauchsschutz, Speichertechnik, interne Kommunikation und Infrastruktur.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="ablauf">
+    <h2>Ablauf</h2>
+    <ol>
+      <li>Eine Person öffnet die Draft-Seite, trägt beide Teamnamen ein und wählt Ablauf sowie Timer.</li>
+      <li>Nach dem Anlegen erscheinen zwei getrennte Captain-Links und ein Zuschauer-Link.</li>
+      <li>Jeder Captain erhält ausschließlich den Link für sein Team; der Zuschauer-Link erlaubt nur das Mitlesen.</li>
+      <li>Das Board zeigt, welches Team bannt oder pickt. Bereits vergebene Helden sind nicht erneut auswählbar.</li>
+      <li>Nach jedem Zug aktualisieren sich beide Captain-Ansichten und die Zuschaueransicht. Läuft die Zeit ab, führt das System den Zug automatisch fort.</li>
+      <li>Nach dem letzten Zug bleibt der abgeschlossene Stand unter demselben Zuschauer-Link lesbar.</li>
+    </ol>
+    <p><strong>Wichtig:</strong> Die Captain-Links werden nur direkt nach dem Anlegen angezeigt. Wer sie nicht verteilt oder sicher kopiert, muss eine neue Lobby anlegen. Ein Captain-Link darf nicht öffentlich geteilt werden.</p>
+  </section>
+
+  <section id="zustaende">
+    <h2>Sichtbare Zustände und Fehler</h2>
+    <table>
+      <thead>
+        <tr><th>Anzeige oder Meldung</th><th>Bedeutung</th><th>Sicherer nächster Schritt</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Lobby steht</td><td>Die Lobby wurde angelegt und die drei Links können verteilt werden.</td><td>Beide Captain-Links sofort getrennt kopieren; Zuschauer erhalten nur den Link ohne Captain-Zugang.</td></tr>
+        <tr><td>Du schaust zu</td><td>Im geöffneten Link steckt kein Captain-Zugang.</td><td>Zum Mitlesen nichts ändern; zum Draften den passenden Captain-Link verwenden.</td></tr>
+        <tr><td>Das andere Team ist am Zug</td><td>Der Captain-Link ist gültig, aber gerade ist das andere Team dran.</td><td>Auf die sichtbare Zuganzeige warten und die Seite geöffnet lassen.</td></tr>
+        <tr><td>Du bist in diesem Draft kein Captain</td><td>Der verwendete Link gehört nicht zu einem Captain dieser Lobby.</td><td>Den ursprünglichen Ersteller um den richtigen Captain-Link bitten.</td></tr>
+        <tr><td>Diesen Draft gibt es nicht</td><td>Der Code ist falsch oder die Lobby ist nicht verfügbar.</td><td>Den vollständigen Zuschauer- oder Captain-Link erneut kopieren; andernfalls eine neue Lobby anlegen.</td></tr>
+        <tr><td>Held bereits vergeben</td><td>Der Held wurde in diesem Draft schon gepickt oder gebannt.</td><td>Einen noch freien Helden wählen und den aktuellen Stand neu laden, falls zwei Aktionen fast gleichzeitig erfolgten.</td></tr>
+        <tr><td>Parallele Aktion</td><td>Zwei Eingaben trafen nahezu gleichzeitig ein; nur der aktuelle Stand gilt.</td><td>Board neu laden und den noch anstehenden Zug erneut ausführen.</td></tr>
+        <tr><td>Draft abgeschlossen</td><td>Alle vorgesehenen Picks und Bans sind gespeichert.</td><td>Den Zuschauer-Link für die Nachbesprechung teilen.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="support">
+    <h2>Leitfaden für Support-Agenten</h2>
+
+    <article id="may-say">
+      <h3>Darf gegenüber Mitgliedern gesagt werden</h3>
+      <ul>
+        <li>Die Lobby funktioniert ohne Login und trennt beide Captains über unterschiedliche Links.</li>
+        <li>Der Zuschauer-Link erlaubt nur das Ansehen; der aktuelle Stand bleibt auch nach Neuladen oder einem Dienstneustart erhalten.</li>
+        <li>Bei einem falschen Team, bereits vergebenen Helden oder einer parallelen Eingabe helfen die sichtbare Zuganzeige und ein Neuladen.</li>
+      </ul>
+    </article>
+
+    <article id="internal-use">
+      <h3>Nur zur internen Einordnung</h3>
+      <p>Support behandelt Captain-Links wie Zugangsdaten und bittet niemals darum, sie in einem öffentlichen Kanal zu posten. Für die Diagnose genügen der Zuschauer-Link, die sichtbare Meldung und der Zeitpunkt des Problems.</p>
+    </article>
+
+    <article id="never-say">
+      <h3>Niemals herausgeben</h3>
+      <p>Keine Zugangswerte, Schutzkriterien, internen Adressen, Betreiberfunktionen, Datenbankdetails oder Infrastrukturinformationen nennen. Auch als „nur intern“ markierte technische Einzelheiten gehören nicht in eine Antwort.</p>
+    </article>
+
+    <article id="uncertain-cases">
+      <h3>Unklare Fälle</h3>
+      <p>Wenn der Zuschauer-Link den Fehler nicht reproduziert, keine Captain-Links anfordern. Sichtbare Meldung und Zeitpunkt aufnehmen und an das Turnierteam eskalieren. Ob eine gelöschte oder abgelaufene Lobby wiederhergestellt werden kann, ist aus dem bereitgestellten Verhalten nicht eindeutig; deshalb keine Wiederherstellung versprechen.</p>
+    </article>
+
+    <article id="safe-answer-patterns">
+      <h3>Sichere Antwortmuster</h3>
+      <ul>
+        <li>„Öffne bitte noch einmal den passenden Captain-Link und richte dich nach der Team- und Zuganzeige oben im Board.“</li>
+        <li>„Teile hier bitte nur den Zuschauer-Link, nicht den Captain-Link. Mit der sichtbaren Fehlermeldung kann das Turnierteam den Fall prüfen.“</li>
+        <li>„Die internen Schutz- und Zugangsprüfungen sind nicht öffentlich; ich kann dir aber beim sichtbaren Zustand und dem nächsten sicheren Schritt helfen.“</li>
+      </ul>
+    </article>
+
+    <article id="escalation">
+      <h3>Eskalieren, wenn</h3>
+      <ul>
+        <li>die Lobby trotz korrekt kopiertem Zuschauer-Link nicht erreichbar ist,</li>
+        <li>der Stand nach Neuladen sichtbar zurückspringt oder Picks verschwinden,</li>
+        <li>der Timer wiederholt nicht fortschreitet oder dieselbe Aktion dauerhaft scheitert,</li>
+        <li>ein Captain-Link öffentlich geworden ist und die Lobby deshalb nicht mehr vertrauenswürdig ist.</li>
+      </ul>
+    </article>
+
+    <article id="first-aid">
+      <h3>Sichere Soforthilfe</h3>
+      <ol>
+        <li>Link vollständig neu kopieren und Seite neu laden.</li>
+        <li>Prüfen, welches Team laut Board am Zug ist.</li>
+        <li>Bei einem vergebenen Helden einen freien Helden wählen.</li>
+        <li>Bei gleichzeitigem Klick kurz neu laden und nur die noch offene Aktion wiederholen.</li>
+        <li>Wenn Captain-Links fehlen oder öffentlich wurden, eine neue Lobby anlegen.</li>
+      </ol>
+    </article>
+  </section>
+
+  <section id="grenzen">
+    <h2>Bekannte Grenzen</h2>
+    <ul>
+      <li>Das Board sagt einem Captain noch nicht vorab, welchem Team sein Link gehört; bei einem falschen Zug weist die sichtbare Meldung darauf hin.</li>
+      <li>Automatisch ausgeführte Züge sind im Board noch nicht eigens markiert.</li>
+      <li>Eine öffentliche Lobby-Liste, Logos und frei konfigurierbare Abläufe gibt es derzeit nicht.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

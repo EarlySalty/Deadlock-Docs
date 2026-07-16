@@ -1,5 +1,13 @@
 # Changelog
 
+## #29 — Freie Draft-Lobbys erklärt
+
+Problem: Die Turnierhilfe behauptete noch, ein eigener Hero-Draft sei nicht selbst bedienbar, obwohl das freie Draft-Werkzeug inzwischen live ist.
+
+Änderung: Anlegen, getrennte Captain-Links, Zuschaueransicht, sichtbare Fehler und sichere Soforthilfe sind jetzt beschrieben; sensible Zugangs- und Betriebsdetails bleiben außen vor.
+
+Aktuelles Verhalten: Der Support-Agent kann Mitglieder zur freien Draft-Lobby führen und bei typischen Problemen helfen, ohne Captain-Zugänge anzufordern oder technische Schutzmechanismen offenzulegen.
+
 ## #28 — Heldenwissen im Wissenskorpus
 
 Problem: Die Heldenseiten lagen als Markdown auf einem alten Zweig. Der FAQ-Bot liefert nur HTML aus, er hätte sie also nie gefunden.
