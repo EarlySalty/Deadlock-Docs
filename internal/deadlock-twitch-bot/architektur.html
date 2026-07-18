@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Architektur</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, architektur">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-18">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -24,6 +24,16 @@
 <li><code>tb-bot</code> erstellt die interne API und injiziert Helix, EventSub-Dispatcher, Raid-Ports, Chat-Ports, Scam-Guard-Ports, Analytics-Ports und Discord-Relay in den Router. (rust/bin/tb-bot/src/main.rs; rust/crates/tb-internal-api/src/lib.rs)</li>
 <li><code>tb-dashboard</code> erstellt den Dashboard-Router und mischt öffentliche Routen, Auth-Routen, Affiliate-Routen, Admin-Routen, Billing-Routen, Website-Routen und SPA-Routen. (rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-dashboard-api/src/lib.rs)</li>
 <li><code>tb-dashboard</code> spricht für Scam-Guard-Aktionen, Chat-Aktionen, Raid-Seiten und Self-Explainer-Logs gegen die interne API des Bots. (rust/crates/tb-dashboard-api/src/handlers/scam_guard_enforce.rs; rust/crates/tb-dashboard-api/src/handlers/admin_chat_action.rs; rust/crates/tb-dashboard-api/src/handlers/raid_pages.rs; rust/crates/tb-dashboard-api/src/handlers/self_explainer.rs)</li>
+</ul>
+</section>
+<section id="id-spezial-review-prozessgrenzen">
+<h2>ID-getriggerter Spezial-Review</h2>
+<ul>
+<li>Der Spezialablauf ist ein eigener Nebenpfad zur Chat- und Scout-Beobachtung: Er reagiert ausschließlich auf einen exakten Treffer gegen eine intern konfigurierte Twitch-Account-ID. Login, Handle, Anzeigename oder Ähnlichkeitsregeln lösen ihn nicht aus; der konkrete ID-Wert bleibt außerhalb der Doku. (rust/crates/tb-chat/src/crew_guard.rs; rust/bin/tb-bot/src/scout_chat.rs)</li>
+<li>Die Review-Session bleibt bis 10 Minuten nach der letzten relevanten Aktivität offen. Neue Trigger oder relevante Transkripte bilden darin getrennte Modellzyklen; erst eine neue exakt passende Nachricht nach dem Session-Ende startet eine weitere Session. Stream-Offline und SIGTERM schließen offene Sessions explizit. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/eventsub_hooks.rs)</li>
+<li>Pro Audiolauf liegt ein 20-Sekunden-Segment nur als flüchtiger RAM-Puffer vor. OpenAI <code>whisper-1</code> erzeugt daraus den gespeicherten Transkriptionskontext; Roh-Audio wird nicht abgelegt. (rust/crates/tb-engagement/src/audio_capture.rs; rust/crates/tb-engagement/src/transcribe.rs)</li>
+<li>Die strukturierte Entscheidung kommt von Fireworks <code>accounts/fireworks/models/deepseek-v4-flash</code> und endet in einem terminalen Review-Ergebnis. Provider-Fehler sind ebenfalls terminal, damit Claims nicht offen hängen bleiben. (rust/crates/tb-engagement/src/crew_review.rs; rust/crates/tb-engagement/src/crew_review_store.rs)</li>
+<li>Das Ergebnis wird zur menschlichen Prüfung nach Discord gespiegelt. Der Ablauf erzeugt kein automatisches Twitch-Sendesignal und sendet keine Antwort selbstständig in den Twitch-Chat. (rust/crates/tb-transport-discord/src/relay.rs; rust/crates/tb-engagement/src/crew_review_store.rs)</li>
 </ul>
 </section>
 <section id="eventsub-fluss">

@@ -1,5 +1,13 @@
 # Changelog
 
+## #30 — Interner Spezial-Review nachvollziehbar dokumentiert
+
+Problem: Der neue interne Prüflauf war in Architektur, Betrieb und Datenmodell noch nicht als zusammenhängender Ablauf beschrieben.
+
+Änderung: Triggergrenze, flüchtige Transkription, Modellzyklen, Discord-Spiegelung und der sechsmonatige Löschpfad sind jetzt mit ihren Fehlergrenzen dokumentiert.
+
+Aktuelles Verhalten: Der Ablauf bleibt ein reiner Shadow-Review ohne Twitch-Versand; Betrieb und Aufbewahrung lassen sich intern vollständig prüfen.
+
 ## #29 — Freie Draft-Lobbys erklärt
 
 Problem: Die Turnierhilfe behauptete noch, ein eigener Hero-Draft sei nicht selbst bedienbar, obwohl das freie Draft-Werkzeug inzwischen live ist.

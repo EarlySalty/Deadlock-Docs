@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Datenmodell</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, datenmodell">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-18">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -15,6 +15,32 @@
 <ul>
 <li>Die Rust-Migrationen sind die aktive Schemaquelle, weil <code>tb-db</code> <code>../../migrations</code> einbettet und <code>tb-dashboard</code> sie beim Start ausführt. (rust/crates/tb-db/src/migrate.rs; rust/bin/tb-dashboard/src/main.rs)</li>
 <li><code>tb_schema_ownership</code> markiert <code>analytics_schema</code> als <code>rust</code>. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership.sql)</li>
+</ul>
+</section>
+<section id="spezial-review-events">
+<h2>Spezial-Review Events</h2>
+<ul>
+<li><code>twitch_crew_review_events</code> speichert den ID-getriggerten Spezial-Review als Eventlog mit Session-Referenz, Kanalbezug, Trigger-Referenz, Zeitstempel, Metadaten, Provider, Modell, Confidence, Claim-Leases, Discord-Message-Referenz, Löschstatus, Tombstone-Status und Ablaufzeit. Rohinhalte werden hier nicht ausgeschrieben. (rust/migrations/20260717121000_twitch_crew_review_events.sql)</li>
+<li>Der Trigger-Bezug ist ein exakter Treffer auf eine intern konfigurierte Twitch-Account-ID; der konkrete Wert wird nicht dokumentiert. Transkriptionskontext aus 20-Sekunden-RAM-Segmenten mit OpenAI <code>whisper-1</code> und Entscheidungen von Fireworks <code>accounts/fireworks/models/deepseek-v4-flash</code> bleiben derselben Session zugeordnet. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/crates/tb-engagement/src/crew_review.rs; rust/crates/tb-engagement/src/transcribe.rs)</li>
+<li><code>expires_at</code> liegt 6 Monate nach Anlage. Gepostete Discord-Gruppen werden erst nach Ablauf aller zugehörigen Events, ohne aktive Claims und nach erfolgreichem Discord-Delete bereinigt. (rust/migrations/20260717121000_twitch_crew_review_events.sql; rust/crates/tb-engagement/src/crew_review_store.rs)</li>
+</ul>
+<table>
+<thead>
+<tr><th>Gespeicherte Eventart</th><th>Bedeutung</th><th>Review-Relevanz</th></tr>
+</thead>
+<tbody>
+<tr><td>Sitzungsstart</td><td>Start einer Session nach exakt passendem ID-Trigger.</td><td>Setzt die Session-Grenze.</td></tr>
+<tr><td>ID-getriggerte Nachricht</td><td>Gespeicherter Chat-Trigger mit Quellreferenz.</td><td>Eröffnet einen getrennten Modellzyklus und setzt relevante Aktivität.</td></tr>
+<tr><td>Streamer-Transkript</td><td>Gespeicherter Kontext aus dem flüchtigen Audiosegment.</td><td>Bildet einen getrennten Modellzyklus; eindeutiger Themenbezug setzt relevante Aktivität.</td></tr>
+<tr><td>Modellentscheidung</td><td>Strukturierte Aktion, Themenstatus, Faktbezüge und Confidence.</td><td>Schließt den Modell-Claim terminal.</td></tr>
+<tr><td>Entwurf</td><td>Validierter Shadow-Entwurf ohne Twitch-Sendeauftrag.</td><td>Bleibt der terminalen Entscheidung desselben Modellzyklus zugeordnet.</td></tr>
+<tr><td>Providerfehler</td><td>Begrenzte technische Fehlerklasse ohne erfundenen Ersatztext.</td><td>Schließt den Modellzyklus ebenfalls terminal.</td></tr>
+<tr><td>Sitzungsende</td><td>Explizites Ende durch Offline, SIGTERM oder Inaktivität.</td><td>Verhindert spätere Wiederverwendung einer geschlossenen Session.</td></tr>
+</tbody>
+</table>
+<ul>
+<li>Claims verhindern parallele Modell- oder Discord-Bearbeitung; die jeweilige DB-Zuordnung wird atomar abgeschlossen. Externe Discord-Sends sind dadurch nicht als Exactly-once zugesichert. SIGTERM- und Offline-Close schreiben terminale Session-Grenzen, bevor der Prozess endet oder der Stream-Zustand wechselt. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/eventsub_hooks.rs)</li>
+<li>Discord-Löschung ist vor der DB-Löschung vertraglich: Erst wenn die Discord-Nachricht gelöscht oder bereits weg ist, darf die Eventgruppe entfernt werden. Bei Löschfehlern bleibt ein Tombstone mit begrenzter Fehlerklasse und Retry-Pfad zurück. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/crates/tb-transport-discord/src/relay.rs)</li>
 </ul>
 </section>
 <section id="identitaet-und-partner">
