@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Betrieb</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, betrieb">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-18">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -40,6 +40,16 @@
 <li>Verschlüsselung, Sessions und Billing: <code>DB_MASTER_KEY_V1</code>, <code>SESSIONS_ENCRYPTION_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>, <code>STRIPE_SECRET_KEY</code>, <code>TWITCH_BILLING_STRIPE_SECRET_KEY</code>. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-dashboard-api/src/handlers/stripe_webhook.rs)</li>
 <li>Discord und Broker: <code>MASTER_BROKER_BASE_URL</code>, <code>MASTER_BROKER_HOST</code>, <code>MASTER_BROKER_PORT</code>, <code>MASTER_BROKER_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>STREAMER_GUILD_ID</code>, <code>MAIN_GUILD_ID</code>, <code>STREAMER_ROLE_ID</code>. (rust/crates/tb-config/src/lib.rs; rust/bin/tb-bot/src/oauth_followups.rs)</li>
 <li>Frontend- und Content-Pfade: <code>DASHBOARD_V2_DIST_PATH</code>, <code>WEBSITE_DIST_PATH</code>, <code>TB_LEGAL_PAGES_PATH</code>. (rust/crates/tb-dashboard-api/src/handlers/spa.rs; rust/crates/tb-dashboard-api/src/handlers/website.rs; rust/scripts/run_tb_dashboard_service.sh)</li>
+</ul>
+</section>
+<section id="id-spezial-review-betrieb">
+<h2>ID-getriggerter Spezial-Review Betrieb</h2>
+<ul>
+<li>Der Ablauf ist ein enger Spezialpfad und keine Umbenennung des bestehenden Engagement-Reviews. Solange <code>TB_CHAT_ENABLED=0</code> gilt, ist anonymes Scout-IRC der primäre Eingang für alle aktuell gefundenen Live-Kanäle; ab 101 Kanälen verteilt der Adapter den Roster auf weitere anonyme Verbindungen. Der EventSub-Decorator verarbeitet zusätzlich bereits zugestellte Chat-Events, legt ohne native ChatRuntime aber bewusst keine neuen Chat-Subscriptions an; beide Eingänge deduplizieren über die Nachrichten-ID. Nur eine exakte intern konfigurierte Twitch-Account-ID löst aus; konkrete ID, Channel-Ziele und Account-Details bleiben außerhalb dieser Doku. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/ricky_review_wiring.rs; rust/bin/tb-bot/src/scout_chat.rs; rust/crates/tb-monitoring/src/scout.rs)</li>
+<li>Nach einem Treffer bleibt die Session höchstens über ein 10-Minuten-Aktivitätsfenster offen; neue Eingaben werden darin als getrennte Modellzyklen verarbeitet. Offline-Ereignisse, eine nicht verfügbare Streamquelle und SIGTERM schließen offene Sessions, damit kein veralteter Stream-Kontext weiterverwendet wird. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/bin/tb-bot/src/ricky_review_wiring.rs; rust/bin/tb-bot/src/main.rs)</li>
+<li>Der Audio-Kontext besteht pro Lauf aus einem flüchtigen 20-Sekunden-RAM-Segment. Nur der daraus mit OpenAI <code>whisper-1</code> erzeugte Transkriptionskontext wird für die Review-Entscheidung genutzt; Roh-Audio wird nicht als Betriebsartefakt abgelegt. (rust/crates/tb-engagement/src/audio_capture.rs; rust/crates/tb-engagement/src/transcribe.rs)</li>
+<li>Fireworks <code>accounts/fireworks/models/deepseek-v4-flash</code> liefert die strukturierte Entscheidung. Das Ergebnis wird zur Discord-Review-Spiegelung geschrieben, aber es gibt keinen automatischen Twitch-Versand. (rust/crates/tb-engagement/src/crew_review.rs; rust/crates/tb-transport-discord/src/relay.rs)</li>
+<li>Der Retention-Lauf startet beim Prozessstart und danach täglich. Review-Daten werden 6 Monate aufbewahrt. Bei abgelaufenen Discord-Spiegelungen wird zuerst die Discord-Nachricht über ihre gemeinsam gespeicherte Ursprungs-Kanal-ID und Nachrichten-ID gelöscht und erst danach die DB-Gruppe entfernt; ein später geänderter Zielkanal beeinflusst alte Löschungen nicht. Eine bei Discord bereits fehlende Nachricht bestätigt der Broker idempotent als Erfolg, während eine HTTP-404 des Broker-Endpunkts ein Löschfehler bleibt. Bei Löschfehlern bleibt ein Tombstone mit Retry-Pfad statt Rohinhalt stehen. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/crates/tb-transport-discord/src/relay.rs)</li>
 </ul>
 </section>
 <section id="fallen">
