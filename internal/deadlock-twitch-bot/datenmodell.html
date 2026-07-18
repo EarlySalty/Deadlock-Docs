@@ -39,7 +39,7 @@
 </tbody>
 </table>
 <ul>
-<li>Claims verhindern parallele Modell- oder Discord-Bearbeitung; die jeweilige DB-Zuordnung wird atomar abgeschlossen. Externe Discord-Sends sind dadurch nicht als Exactly-once zugesichert. SIGTERM- und Offline-Close schreiben terminale Session-Grenzen, bevor der Prozess endet oder der Stream-Zustand wechselt. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/bin/tb-bot/src/main.rs; rust/bin/tb-bot/src/eventsub_hooks.rs)</li>
+<li>Claims verhindern parallele Modell- oder Discord-Bearbeitung; die jeweilige DB-Zuordnung wird atomar abgeschlossen. Externe Discord-Sends sind dadurch nicht als Exactly-once zugesichert, nutzen aber einen deterministischen Broker-Idempotency-Key pro vollständiger Payload. SIGTERM- und Offline-Close schreiben terminale Session-Grenzen, bevor der Prozess endet oder der Stream-Zustand wechselt. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/crates/tb-transport-discord/src/relay.rs; rust/bin/tb-bot/src/ricky_review_wiring.rs; rust/bin/tb-bot/src/main.rs)</li>
 <li>Discord-Löschung ist vor der DB-Löschung vertraglich: Erst wenn die Discord-Nachricht gelöscht oder bereits weg ist, darf die Eventgruppe entfernt werden. Bei Löschfehlern bleibt ein Tombstone mit begrenzter Fehlerklasse und Retry-Pfad zurück. (rust/crates/tb-engagement/src/crew_review_store.rs; rust/crates/tb-transport-discord/src/relay.rs)</li>
 </ul>
 </section>
