@@ -1,5 +1,13 @@
 # Changelog
 
+## #32 — OBS-Pause-Loop vollständig dokumentiert
+
+Problem: Auswahl, Cache, Fehlerbetrieb und OBS-Einrichtung des neuen Clip-Loops waren nur im Entwicklungsplan beschrieben.
+
+Änderung: Eine interne Wissensseite belegt Partnerfilter, Helix-Abruf, Wiederholungsschutz, Endpunkte, Sicherheitsheader und Live-Prüfung direkt gegen Code und Proxy-Konfiguration.
+
+Aktuelles Verhalten: Betrieb und Fehlersuche des Pause-Loops sind an einer Stelle nachvollziehbar, ohne Zugangsdaten oder interne Werte offenzulegen.
+
 ## #31 — Eindeutiger Zustand bei Stream-Neustarts
 
 Problem: Die Hilfe erklärte nicht, wie zwei Discord-Hinweise nach einem echten Stream-Neustart zu unterscheiden sind.
