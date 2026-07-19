@@ -11,13 +11,13 @@
 <main>
 <h1>OBS-Pause-Loop mit Deadlock-Clips</h1>
 <p>Die Seite <code>/twitch/pause-loop</code> ist eine öffentliche OBS-Browser-Quelle. Sie spielt bestehende Twitch-Clips aktiver Partner ab und erzeugt selbst keine Clips oder Videos.</p>
-<p>Der Server filtert auf Deadlock, hält den Pool 15 Minuten im Speicher und liefert bei vorübergehenden Fehlern den letzten vollständigen Stand weiter. Der Browser mischt die Clips und verhindert Wiederholungen innerhalb eines Durchlaufs.</p>
+<p>Der Server filtert auf Deadlock und hält den Pool 15 Minuten im Speicher. Bei einem Refresh bleiben alte Clips nur für weiterhin aktive Partner erhalten, deren aktueller Abruf fehlgeschlagen ist; ausgeschlossene oder deaktivierte Partner fallen aus dem Pool. Der Browser mischt die Clips und verhindert Wiederholungen innerhalb eines Durchlaufs.</p>
 
 <section id="auswahl-und-pool">
 <h2>Auswahl und Clip-Pool</h2>
 <p>Die Datenbankabfrage nimmt nur Partner mit aktivem Partnerstatus, Twitch-Login und Twitch-User-ID. Eine nicht reaktivierte Zeile in <code>twitch_exclusions</code> schließt den Kanal aus. Login und User-ID werden vor der weiteren Verarbeitung getrimmt. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs</code>)</p>
 <p>Der Dienst löst die Twitch-Kategorie "Deadlock" über Helix auf. Danach lädt er pro Partner höchstens 500 Clips, filtert exakt auf die Deadlock-Spiel-ID und entfernt doppelte oder ungültige Clip-IDs. Höchstens sechs Partnerabrufe laufen gleichzeitig; ein einzelner Abruf endet nach 15 Sekunden, der gesamte Refresh nach 30 Sekunden. (<code>rust/crates/tb-transport-twitch/src/clips.rs</code>, <code>rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs</code>)</p>
-<p>Ein vollständiger Pool gilt 15 Minuten. Parallele Cache-Misses starten nur einen Refresh. Schlägt der Refresh fehl oder liefert er nur einen Teil der Partner, bleibt ein vorhandener vollständiger Pool erhalten; ein neuer Versuch ist nach 30 Sekunden möglich. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs</code>)</p>
+<p>Ein vollständiger Pool gilt 15 Minuten. Der erste Abruf danach erhält den alten Stand sofort als veraltet markiert, während genau ein Hintergrund-Refresh läuft. Bei einem Teilfehler ersetzen erfolgreiche Partner ihre alten Clips; alte Clips fehlgeschlagener Partner bleiben nur erhalten, wenn diese laut der frisch geladenen Kohorte weiterhin aktiv sind. Kann die aktive Kohorte nicht verlässlich geprüft werden, antwortet die API statt eines unvalidierten Altbestands mit HTTP 503. Ein neuer Versuch ist nach 30 Sekunden möglich. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs</code>)</p>
 </section>
 
 <section id="endpunkte-und-player">
@@ -43,7 +43,7 @@
 <section id="fehlerbetrieb">
 <h2>Fehlerbetrieb</h2>
 <p>Ohne <code>TWITCH_CLIENT_ID</code> oder <code>TWITCH_CLIENT_SECRET</code> bleibt die HTML-Seite erreichbar, die JSON-Route antwortet aber mit HTTP 503 und einem allgemeinen Fehlercode. Interne Helix- oder Datenbankdetails stehen nur im Dienstprotokoll. (<code>rust/bin/tb-dashboard/src/main.rs</code>, <code>rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs</code>)</p>
-<p>Bei einem späteren Refresh-Fehler antwortet die JSON-Route mit dem letzten vollständigen Array und <code>X-Pause-Loop-Stale: 1</code>. Der Browser spielt dieses Array weiter und fragt früher erneut ab. Ein erfolgreich geladener leerer Pool ist dagegen ein gültiger Zustand und zeigt im Player einen Hinweis.</p>
+<p>Während ein abgelaufener Pool im Hintergrund aktualisiert wird, kennzeichnet die JSON-Route die sofortige Altantwort mit <code>X-Pause-Loop-Stale: 1</code>. Bei einem verifizierten Teilrefresh enthält sie frische Clips erfolgreicher Partner und höchstens den Altbestand weiterhin aktiver, fehlgeschlagener Partner. Bei Datenbankfehlern, Refresh-Timeouts oder abnormal beendeten Workern folgt nach dieser Übergangsantwort HTTP 503; der Browser behält seinen bereits geladenen Pool und fragt früher erneut ab. Ein erfolgreich geladener leerer Pool ist dagegen ein gültiger Zustand und zeigt im Player einen Hinweis.</p>
 </section>
 
 <section id="betrieb-und-pruefung">
