@@ -1,5 +1,13 @@
 # Changelog
 
+## #31 — Eindeutiger Zustand bei Stream-Neustarts
+
+Problem: Die Hilfe erklärte nicht, wie zwei Discord-Hinweise nach einem echten Stream-Neustart zu unterscheiden sind.
+
+Änderung: Der sichtbare Sollzustand und die nötigen Angaben für eine Fehlermeldung sind jetzt beschrieben, ohne interne Zeitfenster oder Zustellmechanik offenzulegen.
+
+Aktuelles Verhalten: Ein älterer beendeter Hinweis neben dem neuen Live-Hinweis ist möglich. Bleiben beide Hinweise gleichzeitig LIVE, soll der Fall mit Kanalname und ungefährem Zeitpunkt an den Support gehen.
+
 ## #30 — Interner Spezial-Review nachvollziehbar dokumentiert
 
 Problem: Der neue interne Prüflauf war in Architektur, Betrieb und Datenmodell noch nicht als zusammenhängender Ablauf beschrieben.
