@@ -1,5 +1,13 @@
 # Changelog
 
+## #38 — Scrim-Ergebnisse und Lagebilder korrekt eingeordnet
+
+Problem: Die öffentliche Scrim-Hilfe führte Match-ID-Ergebnisse und AI-Lagebilder noch als unfertig, obwohl beide eingeschränkt nutzbar sind.
+
+Änderung: Ergebnisabruf samt sichtbaren Status und nächsten Schritten, Teilstände, Match-History, Lagebild, Timeline, Evidenzen, Zugriffsgrenzen und Korrekturdialog sind mit ihren aktuellen Grenzen beschrieben.
+
+Aktuelles Verhalten: Mitglieder und Support sehen den echten Stand; globale Ankündigung, automatische Ersatzanfragen, automatische Erkennung, Zuordnungsklärung falscher Match-IDs und freie Chat-Auswertung bleiben klar offen.
+
 ## #37 — Scrim-Orga-Status für Concierge verdichtet
 
 Problem: Die Statusfrage zur Scrim-Orga fand zwar die neue Quelle, aber nicht zuverlässig den kompakten Schon-gebaut-gegen-noch-offen-Absatz.
