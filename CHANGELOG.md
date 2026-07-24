@@ -1,5 +1,13 @@
 # Changelog
 
+## #36 — Scrim-Orga-Status direkt beantwortbar
+
+Problem: Der Concierge konnte zur Frage nach dem Ausbaustand einzelne Scrim-Abschnitte finden, aber die klare Schon-gebaut-gegen-noch-offen-Antwort war nicht direkt genug.
+
+Änderung: Die Scrim-Orga-Doku nennt den aktuellen nutzbaren Stand und die offenen Punkte zusätzlich als kurze Statuszusammenfassung.
+
+Aktuelles Verhalten: Fragen nach dem Scrim-Orga-Ausbaustand lassen sich aus einer kompakten öffentlichen Passage beantworten.
+
 ## #35 — Scrim-Orga-Flow öffentlich dokumentiert
 
 Problem: Die öffentliche Scrim-Hilfe erklärte den neuen Dashboard-Flow noch nicht vollständig und enthielt noch alte Aussagen zur Lobby-Automatik.
