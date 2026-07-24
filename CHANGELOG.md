@@ -1,5 +1,13 @@
 # Changelog
 
+## #35 — Scrim-Orga-Flow öffentlich dokumentiert
+
+Problem: Die öffentliche Scrim-Hilfe erklärte den neuen Dashboard-Flow noch nicht vollständig und enthielt noch alte Aussagen zur Lobby-Automatik.
+
+Änderung: Die neue zentrale Doku erklärt Scrim-Blöcke, Team-Abfragen, Button-Antworten, Reminder, Slot-Freigabe, Ersatzbedarf, Match-Status, Lobbycode und den aktuellen Ausbaustand.
+
+Aktuelles Verhalten: Mitglieder, Coaches, Leo/Admins und Concierge sehen den nutzbaren Scrim-Orga-Ablauf ohne interne Technikdetails.
+
 ## #32 — OBS-Pause-Loop vollständig dokumentiert
 
 Problem: Auswahl, Cache, Fehlerbetrieb und OBS-Einrichtung des neuen Clip-Loops waren nur im Entwicklungsplan beschrieben.

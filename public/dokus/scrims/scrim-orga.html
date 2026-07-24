@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Scrim-Orga im Dashboard benutzen</title>
+  <meta name="tags" content="scrims, scrim-orga, dashboard, terminabfrage, lobbycode, concierge">
+  <meta name="stand" content="2026-07-24">
+  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+</head>
+<body>
+<main>
+  <h1>Scrim-Orga im Dashboard benutzen</h1>
+  <p><strong>Kurz:</strong> Die Scrim-Orga hilft Leo, Admins und Coaches dabei, mehrere Scrim-Matches in einem Block zu planen. Das Dashboard ist die Zentrale; Discord ist der Ort, an dem Teams antworten und am Spieltag den Lobbycode bekommen.</p>
+  <p>Diese Seite erklärt nur sichtbares Verhalten: was du im Dashboard anklickst, was im Teamkanal passiert, welche Entscheidungen die Orga freigibt und welche Funktionen noch nicht fertig sind.</p>
+
+  <section id="wer-nutzt-das">
+    <h2>Wer nutzt das?</h2>
+    <p>Leo und Admins nutzen den Flow, um Scrim-Blöcke anzulegen, Antworten zu prüfen, Reminder freizugeben, Termine festzulegen und den Lobbycode zu posten. Coaches nutzen die gleichen sichtbaren Infos, wenn sie ihr Team einordnen oder fehlende Rückmeldungen klären müssen.</p>
+    <p>Teammitglieder nutzen das Dashboard nicht für die Terminabfrage. Sie antworten im eigenen Teamkanal per Button und schreiben dort nach, wenn etwas unklar ist.</p>
+  </section>
+
+  <section id="aktueller-stand">
+    <h2>Was geht schon und was noch nicht?</h2>
+    <table>
+      <thead><tr><th>Bereich</th><th>Status</th><th>Was du daraus machst</th></tr></thead>
+      <tbody>
+        <tr><td>Scrim-Block mit mehreren Matches</td><td>Geht schon</td><td>Lege mehrere Paarungen in einem Schritt an.</td></tr>
+        <tr><td>Gemeinsame und eigene Slots</td><td>Geht schon</td><td>Nutze gemeinsame Zeiten für den Block und eigene Zeiten nur für Ausnahmen.</td></tr>
+        <tr><td>Zwei-Wochen-Vorlage und Paarungsrotation</td><td>Geht schon</td><td>Nimm den Vorschlag als Startpunkt und ändere Teams oder Slots vor dem Senden.</td></tr>
+        <tr><td>Team-Abfragen im Teamkanal</td><td>Geht schon</td><td>Nach dem Anlegen postet der Bot die Terminabfragen in die betroffenen Teamkanäle.</td></tr>
+        <tr><td>Button-Antworten</td><td>Geht schon</td><td>Teammitglieder klicken passende Slots oder <em>Kein Slot passt</em>.</td></tr>
+        <tr><td>Fehlende Antworten und Reminder</td><td>Geht schon</td><td>Das Dashboard zeigt Lücken; die Orga gibt Reminder manuell frei.</td></tr>
+        <tr><td>Slot-Empfehlung und Freigabe</td><td>Geht schon</td><td>Nach Fristende prüfst du den Vorschlag und gibst den Slot frei oder überschreibst ihn.</td></tr>
+        <tr><td>Ersatzbedarf</td><td>Geht sichtbar</td><td>Das Dashboard zeigt konkrete Personen mit Grund; Ersatzanfragen bleiben noch Handarbeit.</td></tr>
+        <tr><td>Match-Statusnachricht</td><td>Geht schon</td><td>Nach Slot-Freigabe postet oder aktualisiert der Bot den verbindlichen Stand im Teamkanal.</td></tr>
+        <tr><td>Lobbycode</td><td>Geht schon</td><td>Trage den Code ein, sobald die Lobby offen ist; der Bot postet ihn pingfrei in die Teamkanäle.</td></tr>
+        <tr><td>Globale Scrim-Ankündigung</td><td>Noch nicht fertig</td><td>Veröffentliche globale Ankündigungen vorerst selbst.</td></tr>
+        <tr><td>Turnier- oder Match-ID-Ergebnisse</td><td>Noch nicht fertig</td><td>Ergebnisse und spätere Matchdaten werden noch nicht über diesen Flow eingelesen.</td></tr>
+        <tr><td>AI-Lagebilder</td><td>Noch nicht fertig</td><td>Teamlage, Wochenberichte und AI-Korrekturdialog sind noch kein nutzbarer Teil dieses Flows.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="scrim-block-anlegen">
+    <h2>Scrim-Block anlegen</h2>
+    <ol>
+      <li>Öffne im Dashboard den Bereich <strong>Scrims</strong>.</li>
+      <li>Starte den Block-Flow für Terminabfragen.</li>
+      <li>Prüfe die Zwei-Wochen-Vorlage: Paarungen, Vorlage, Frist und vorgeschlagene Slots.</li>
+      <li>Wähle pro Match Team A und Team B. Wenn der Gegner noch offen ist, lasse Team B offen.</li>
+      <li>Nutze gemeinsame Slots, wenn alle Matches die gleichen Zeitoptionen bekommen sollen.</li>
+      <li>Schalte bei einzelnen Matches eigene Slots ein, wenn nur dieses Match andere Zeiten braucht.</li>
+      <li>Entferne doppelte oder falsche Paarungen, bevor du die Team-Abfragen anlegst.</li>
+      <li>Lege die Terminabfragen an. Der Bot übernimmt danach die Posts in den Teamkanälen.</li>
+    </ol>
+    <p>Die Paarungsrotation ist bewusst einfach: Sie schlägt passende Paarungen vor und verhindert, dass ein Team im selben Block doppelt verplant wird. Leo kann Teams tauschen, Paarungen entfernen oder eigene Matches ergänzen.</p>
+  </section>
+
+  <section id="team-abfragen">
+    <h2>Team-Abfragen posten und beantworten</h2>
+    <p>Nach dem Anlegen erstellt der Bot pro betroffenem Team eine Terminabfrage im Teamkanal. Dort stehen Gegner, Frist und die Slotoptionen. Die Abfrage ist der Ort, an dem Teammitglieder ihre Verfügbarkeit abgeben.</p>
+    <p>Teammitglieder klicken alle passenden Slot-Buttons. Wenn keiner der Slots passt, klicken sie <em>Kein Slot passt</em>. Wer etwas erklären muss, schreibt zusätzlich kurz in den Teamkanal, damit Coach oder Orga nicht raten müssen.</p>
+    <p>Antworten aus dem falschen Team oder zur falschen Nachricht zählen nicht als saubere Rückmeldung. Wenn ein Button nicht klappt oder jemand nicht sicher ist, soll die Person im Teamkanal Bescheid sagen.</p>
+  </section>
+
+  <section id="antworten-reminder">
+    <h2>Fehlende Antworten und Reminder</h2>
+    <p>Das Dashboard zeigt pro Match und Team, wer schon geantwortet hat, wer fehlt und ob jemand <em>Kein Slot passt</em> gewählt hat. Vor Fristende ist das vor allem eine Nachfassliste, noch keine Ersatzplanung.</p>
+    <p>Reminder werden nicht automatisch verschickt. Leo oder Admin prüfen die fehlenden Antworten und geben <strong>Jetzt erinnern</strong> frei, wenn ein Reminder sinnvoll ist. Der Bot erinnert dann im passenden Teamkanal mit Bezug zur Terminabfrage.</p>
+  </section>
+
+  <section id="fristende-slot">
+    <h2>Nach Fristende: Slot verstehen und freigeben</h2>
+    <p>Vor Fristende zeigt das Dashboard keine finale Slot-Empfehlung. Nach Fristende empfiehlt es einen Slot, wenn beide Teams für denselben Slot Zusagen haben. Gibt es keine gemeinsame Zusage, zeigt das Dashboard keinen Scheinvorschlag.</p>
+    <p>Die Empfehlung bevorzugt den Slot mit den meisten gemeinsamen Zusagen. Wenn die Lage eng ist, hilft der Vorschlag beim Entscheiden, ersetzt aber nicht Leos Verantwortung für die finale Planung.</p>
+    <p>Leo kann den empfohlenen Slot freigeben oder einen anderen gespeicherten Slot auswählen. Bei einer Überschreibung kann ein kurzer Grund eingetragen werden, damit später klar ist, warum die Orga anders entschieden hat.</p>
+  </section>
+
+  <section id="ersatzbedarf">
+    <h2>Ersatzbedarf lesen</h2>
+    <p>Ersatzbedarf erscheint erst nach Fristende und nur für den ausgewählten oder freigegebenen Slot. Das Dashboard zeigt keine Ersatzsuche auf Verdacht.</p>
+    <p>Die Anzeige nennt die konkrete Person und den Grund: Antwort fehlt, kein Slot passt oder für den ausgewählten Slot nicht zugesagt. Rollen- und Lineup-Daten sind aktuell noch begrenzt, deshalb ist die Anzeige bewusst vorsichtig.</p>
+    <p>Wenn Ersatzbedarf sichtbar ist, entscheidet die Orga den nächsten Schritt. Aktuell bedeutet das: Person klären, Team fragen oder Ersatz manuell organisieren. Automatische Ersatzanfragen sind noch nicht Teil des nutzbaren Flows.</p>
+  </section>
+
+  <section id="match-status-und-lobbycode">
+    <h2>Match-Status und Lobbycode</h2>
+    <p>Nach der Slot-Freigabe postet oder aktualisiert der Bot im Teamkanal eine Match-Statusnachricht. Sie fasst finalen Termin, Teams, Antwortstand, offene Punkte, Ersatzbedarf und nächste Aktion zusammen. Die ursprüngliche Terminabfrage bleibt trotzdem als Abstimmung sichtbar.</p>
+    <p>Wenn die Lobby bereit ist, trägt Leo oder ein berechtigter Nutzer im Dashboard den Lobbycode ein. Der Code besteht aus fünf Buchstaben oder Zahlen. Der Bot schreibt ihn in Großbuchstaben als einfache, pingfreie Nachricht in die betroffenen Teamkanäle: <code>Lobby Code: ABC12</code>.</p>
+    <p>Wenn der Code korrigiert wird, soll keine neue Nachrichtenkette entstehen. Der Bot aktualisiert die vorhandene Code-Nachricht, damit Teammitglieder immer den aktuellen Code finden.</p>
+  </section>
+
+  <section id="haeufige-probleme">
+    <h2>FAQ und häufige Probleme</h2>
+    <table>
+      <thead><tr><th>Problem</th><th>Was du tun sollst</th></tr></thead>
+      <tbody>
+        <tr><td>Ein Team ist im Block doppelt verplant.</td><td>Ändere eine Paarung oder entferne das zweite Match, bevor du die Abfragen anlegst.</td></tr>
+        <tr><td>Ein Match braucht andere Zeiten.</td><td>Nutze eigene Slots nur bei diesem Match. Die gemeinsamen Slots bleiben für die anderen Matches erhalten.</td></tr>
+        <tr><td>Team B steht noch nicht fest.</td><td>Lasse Team B offen und nutze die Abfrage als Planungshilfe für das bekannte Team.</td></tr>
+        <tr><td>Jemand hat nicht geantwortet.</td><td>Prüfe die fehlenden Antworten im Dashboard und gib bei Bedarf einen Reminder frei.</td></tr>
+        <tr><td>Jemand klickt den falschen Button.</td><td>Die Person soll im Teamkanal kurz nachschreiben. Coach oder Orga klären die Antwort sichtbar.</td></tr>
+        <tr><td>Es gibt keine gemeinsame Zusage.</td><td>Sprich mit den Teams, setze neue Slots oder plane das Match neu. Das Dashboard soll dann keinen Termin erzwingen.</td></tr>
+        <tr><td>Ersatzbedarf wirkt falsch.</td><td>Prüfe, ob die richtige Frist vorbei ist und welcher Slot ausgewählt wurde. Kläre unklare Antworten im Teamkanal.</td></tr>
+        <tr><td>Der Lobbycode ist falsch.</td><td>Trage den richtigen Code im Dashboard ein. Der Bot aktualisiert die bestehende Code-Nachricht.</td></tr>
+        <tr><td>Eine globale Ankündigung fehlt.</td><td>Das ist aktuell noch nicht automatisiert. Poste die Ankündigung vorerst selbst.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="concierge-support">
+    <h2>Für Concierge und Support</h2>
+    <p>Der Concierge darf sagen: Scrim-Termine werden im Dashboard vorbereitet, Teammitglieder antworten im Teamkanal per Slot-Button oder <em>Kein Slot passt</em>, und Leo/Admin geben sichtbare Aktionen wie Reminder, finalen Slot und Lobbycode frei.</p>
+    <p>Der Concierge darf nicht behaupten, dass der Flow globale Ankündigungen, Ergebnisabruf, AI-Lagebilder oder automatische Ersatzanfragen schon erledigt. Bei unklaren Teamzuordnungen, fehlenden Rechten oder technischen Fehlern verweist er auf Coach, Orga oder Menschen-Support.</p>
+  </section>
+
+  <section id="leo-fuenf-minuten">
+    <h2>So plant Leo einen Scrim in 5 Minuten</h2>
+    <ol>
+      <li>Scrims im Dashboard öffnen und den Block-Flow starten.</li>
+      <li>Zwei-Wochen-Vorschlag prüfen: Paarungen, Vorlage, Frist und Slots.</li>
+      <li>Gemeinsame Slots übernehmen oder einzelne Matches auf eigene Slots stellen.</li>
+      <li>Team A und Team B pro Match prüfen; offene Gegner bewusst offen lassen.</li>
+      <li>Terminabfragen anlegen und im Dashboard kontrollieren, ob die Team-Abfragen sichtbar sind.</li>
+      <li>Vor Fristende fehlende Antworten beobachten und bei Bedarf Reminder freigeben.</li>
+      <li>Nach Fristende Empfehlung prüfen, Slot freigeben oder begründet überschreiben.</li>
+      <li>Ersatzbedarf klären und am Spieltag den Lobbycode eintragen.</li>
+    </ol>
+  </section>
+
+  <nav>
+    <p>Mehr zu Scrims allgemein: <a href="../../discord-server/scrims.html">Scrims</a> · Zurück zum <a href="../index.html">Doku-Hub</a>.</p>
+  </nav>
+</main>
+</body>
+</html>
