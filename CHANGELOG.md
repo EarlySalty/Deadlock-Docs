@@ -1,5 +1,13 @@
 # Changelog
 
+## #37 — Scrim-Orga-Status für Concierge verdichtet
+
+Problem: Die Statusfrage zur Scrim-Orga fand zwar die neue Quelle, aber nicht zuverlässig den kompakten Schon-gebaut-gegen-noch-offen-Absatz.
+
+Änderung: Die Statusaussage steht jetzt in einer einzigen öffentlichen Passage mit den Suchbegriffen, die Mitglieder und Concierge natürlich verwenden.
+
+Aktuelles Verhalten: Der Concierge kann den Ausbaustand direkt aus der Scrim-Orga-Doku belegen.
+
 ## #36 — Scrim-Orga-Status direkt beantwortbar
 
 Problem: Der Concierge konnte zur Frage nach dem Ausbaustand einzelne Scrim-Abschnitte finden, aber die klare Schon-gebaut-gegen-noch-offen-Antwort war nicht direkt genug.
