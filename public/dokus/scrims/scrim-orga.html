@@ -21,7 +21,7 @@
 
   <section id="aktueller-stand">
     <h2>Was geht schon und was noch nicht?</h2>
-    <p>Kurzstatus: Bei der Scrim-Orga sind Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf, Lobbycode, Match-ID-Ergebnisabruf und AI-Lagebilder mit Korrekturdialog nutzbar. Noch nicht fertig sind die globale Scrim-Ankündigung, automatische Ersatzanfragen, automatische Lobby- oder Match-ID-Erkennung und die Auswertung freier Scrim-Chatverläufe.</p>
+    <p>Kurzstatus: Bei der Scrim-Orga sind Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, editierbare Slot-Presets, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder mit drei Vorlagen, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf, Lobbycode, Match-ID-Ergebnisabruf und AI-Lagebilder mit Korrekturdialog nutzbar. Noch nicht fertig sind die globale Scrim-Ankündigung, automatische Ersatzanfragen, automatische Lobby- oder Match-ID-Erkennung und die Auswertung freier Scrim-Chatverläufe.</p>
     <table>
       <thead><tr><th>Bereich</th><th>Status</th><th>Was du daraus machst</th></tr></thead>
       <tbody>
@@ -30,7 +30,8 @@
         <tr><td>Zwei-Wochen-Vorlage und Paarungsrotation</td><td>Geht schon</td><td>Nimm den Vorschlag als Startpunkt und ändere Teams oder Slots vor dem Senden.</td></tr>
         <tr><td>Team-Abfragen im Teamkanal</td><td>Geht schon</td><td>Nach dem Anlegen postet der Bot die Terminabfragen in die betroffenen Teamkanäle.</td></tr>
         <tr><td>Button-Antworten</td><td>Geht schon</td><td>Teammitglieder klicken passende Slots oder <em>Kein Slot passt</em>.</td></tr>
-        <tr><td>Fehlende Antworten und Reminder</td><td>Geht schon</td><td>Das Dashboard zeigt Lücken; die Orga gibt Reminder manuell frei.</td></tr>
+        <tr><td>Fehlende Antworten und Reminder</td><td>Geht schon</td><td>Das Dashboard zeigt Lücken; die Orga wählt eine der drei Vorlagen und gibt den Reminder manuell frei.</td></tr>
+        <tr><td>Slot-Presets</td><td>Geht schon</td><td>Speichere häufige Zeitfenster als Preset, ändere oder lösche sie und übernimm sie als Startpunkt für den Block.</td></tr>
         <tr><td>Slot-Empfehlung und Freigabe</td><td>Geht schon</td><td>Nach Fristende prüfst du den Vorschlag und gibst den Slot frei oder überschreibst ihn.</td></tr>
         <tr><td>Ersatzbedarf</td><td>Geht sichtbar</td><td>Das Dashboard zeigt konkrete Personen mit Grund; Ersatzanfragen bleiben noch Handarbeit.</td></tr>
         <tr><td>Match-Statusnachricht</td><td>Geht schon</td><td>Nach Slot-Freigabe postet oder aktualisiert der Bot den verbindlichen Stand im Teamkanal.</td></tr>
@@ -48,6 +49,7 @@
       <li>Öffne im Dashboard den Bereich <strong>Scrims</strong>.</li>
       <li>Starte den Block-Flow für Terminabfragen.</li>
       <li>Prüfe die Zwei-Wochen-Vorlage: Paarungen, Vorlage, Frist und vorgeschlagene Slots.</li>
+      <li>Nimm bei Bedarf ein gespeichertes Slot-Preset als Startpunkt. Presets kannst du hier auch anlegen, umbenennen, in den Zeiten ändern oder löschen; übernommene Slots bleiben vor dem Senden anpassbar.</li>
       <li>Wähle pro Match Team A und Team B. Wenn der Gegner noch offen ist, lasse Team B offen.</li>
       <li>Nutze gemeinsame Slots, wenn alle Matches die gleichen Zeitoptionen bekommen sollen.</li>
       <li>Schalte bei einzelnen Matches eigene Slots ein, wenn nur dieses Match andere Zeiten braucht.</li>
@@ -68,12 +70,13 @@
     <h2>Fehlende Antworten und Reminder</h2>
     <p>Das Dashboard zeigt pro Match und Team, wer schon geantwortet hat, wer fehlt und ob jemand <em>Kein Slot passt</em> gewählt hat. Vor Fristende ist das vor allem eine Nachfassliste, noch keine Ersatzplanung.</p>
     <p>Reminder werden nicht automatisch verschickt. Leo oder Admin prüfen die fehlenden Antworten und geben <strong>Jetzt erinnern</strong> frei, wenn ein Reminder sinnvoll ist. Der Bot erinnert dann im passenden Teamkanal mit Bezug zur Terminabfrage. Sind einzelne Discord-Konten nicht eindeutig und ist keine Teamrolle hinterlegt, wird der Reminder nicht als scheinbar erfolgreicher Post verschickt.</p>
+    <p>Vor dem Freigeben wählst du die passende Vorlage. Es gibt drei: <em>Antwort fehlt</em> für offene Stimmen, <em>Frist läuft bald ab</em>, wenn die Zeit knapp wird, und <em>Bestätigung offen</em>, wenn noch Zusagen für das Match fehlen. Die Texte sind fest hinterlegt und werden nicht frei formuliert. Angesprochen werden weiterhin nur die Personen, die tatsächlich fehlen.</p>
   </section>
 
   <section id="fristende-slot">
     <h2>Nach Fristende: Slot verstehen und freigeben</h2>
     <p>Vor Fristende zeigt das Dashboard keine finale Slot-Empfehlung. Nach Fristende empfiehlt es einen Slot, wenn beide Teams für denselben Slot Zusagen haben. Gibt es keine gemeinsame Zusage, zeigt das Dashboard keinen Scheinvorschlag.</p>
-    <p>Die Empfehlung bevorzugt den Slot mit den meisten gemeinsamen Zusagen. Wenn die Lage eng ist, hilft der Vorschlag beim Entscheiden, ersetzt aber nicht Leos Verantwortung für die finale Planung.</p>
+    <p>Die Empfehlung bevorzugt den Slot mit den meisten gemeinsamen Zusagen. Sind zwei Slots gleich stark, gewinnt der mit weniger Ersatzbedarf, danach der mit mehr Zusagen von Stammspielern. Bleibt es auch dann gleich, steht der frühere Slot vorne. Wenn die Lage eng ist, hilft der Vorschlag beim Entscheiden, ersetzt aber nicht Leos Verantwortung für die finale Planung.</p>
     <p>Leo kann den empfohlenen Slot freigeben oder einen anderen gespeicherten Slot auswählen. Bei einer Überschreibung kann ein kurzer Grund eingetragen werden, damit später klar ist, warum die Orga anders entschieden hat.</p>
   </section>
 
