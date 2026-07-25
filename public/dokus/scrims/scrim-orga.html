@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Scrim-Orga im Dashboard benutzen</title>
   <meta name="tags" content="scrims, scrim-orga, dashboard, terminabfrage, lobbycode, concierge">
-  <meta name="stand" content="2026-07-24">
+  <meta name="stand" content="2026-07-25">
   <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
 </head>
 <body>
@@ -21,7 +21,7 @@
 
   <section id="aktueller-stand">
     <h2>Was geht schon und was noch nicht?</h2>
-    <p>Kurzstatus: Bei der Scrim-Orga ist schon gebaut und nutzbar: Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf und Lobbycode. Noch nicht fertig sind globale Scrim-Ankündigung, Turnier- oder Match-ID-Ergebnisse, AI-Lagebilder und automatische Ersatzanfragen.</p>
+    <p>Kurzstatus: Bei der Scrim-Orga ist schon gebaut und nutzbar: Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf, Lobbycode, Match-ID-Eingabe mit Ergebnisabruf sowie AI-Lagebilder mit Timeline, Evidenzen und Korrektur-Chat. Noch nicht fertig sind globale Scrim-Ankündigung, automatische Ersatzanfragen und die Gesamtübersicht über alle Teams.</p>
     <table>
       <thead><tr><th>Bereich</th><th>Status</th><th>Was du daraus machst</th></tr></thead>
       <tbody>
@@ -35,9 +35,11 @@
         <tr><td>Ersatzbedarf</td><td>Geht sichtbar</td><td>Das Dashboard zeigt konkrete Personen mit Grund; Ersatzanfragen bleiben noch Handarbeit.</td></tr>
         <tr><td>Match-Statusnachricht</td><td>Geht schon</td><td>Nach Slot-Freigabe postet oder aktualisiert der Bot den verbindlichen Stand im Teamkanal.</td></tr>
         <tr><td>Lobbycode</td><td>Geht schon</td><td>Trage den Code ein, sobald die Lobby offen ist; der Bot postet ihn pingfrei in die Teamkanäle.</td></tr>
+        <tr><td>Match-ID und Ergebnisabruf</td><td>Geht mit Einschränkung</td><td>Trage die Match-ID am Match ein; der Bot holt die Ergebnisdaten. Prüfe die ID vorher genau, denn eine falsch eingetragene ID lässt sich hier noch nicht löschen.</td></tr>
+        <tr><td>AI-Lagebilder</td><td>Geht mit Einschränkung</td><td>Lies pro Team das Lagebild mit Timeline und Evidenzen und korrigiere es im Chat daneben. Grundlage sind die Scrim-Daten des Systems, noch nicht der freie Chatverlauf.</td></tr>
         <tr><td>Globale Scrim-Ankündigung</td><td>Noch nicht fertig</td><td>Veröffentliche globale Ankündigungen vorerst selbst.</td></tr>
-        <tr><td>Turnier- oder Match-ID-Ergebnisse</td><td>Noch nicht fertig</td><td>Ergebnisse und spätere Matchdaten werden noch nicht über diesen Flow eingelesen.</td></tr>
-        <tr><td>AI-Lagebilder</td><td>Noch nicht fertig</td><td>Teamlage, Wochenberichte und AI-Korrekturdialog sind noch kein nutzbarer Teil dieses Flows.</td></tr>
+        <tr><td>Automatische Ersatzanfragen</td><td>Noch nicht fertig</td><td>Frage Ersatzspieler weiterhin selbst an.</td></tr>
+        <tr><td>Gesamtübersicht über alle Teams</td><td>Noch nicht fertig</td><td>Sieh dir die Lage pro Team an; eine gebündelte Wochen- und Aufmerksamkeitssicht gibt es noch nicht.</td></tr>
       </tbody>
     </table>
   </section>
@@ -91,6 +93,20 @@
     <p>Wenn der Code korrigiert wird, soll keine neue Nachrichtenkette entstehen. Der Bot aktualisiert die vorhandene Code-Nachricht, damit Teammitglieder immer den aktuellen Code finden.</p>
   </section>
 
+  <section id="match-id-ergebnis">
+    <h2>Match-ID eintragen und Ergebnis holen</h2>
+    <p>Nach dem Spiel trägst du die Match-ID direkt am Match ein. Das Feld nimmt nur Zahlen an und speichert von selbst, sobald du das Feld verlässt. Danach erscheint ein neues leeres Feld, wenn ein Match mehrere IDs braucht.</p>
+    <p>Der Bot holt die Ergebnisdaten zur ID und zeigt am Match, ob der Abruf noch läuft, geklappt hat oder fehlgeschlagen ist. Ein fehlgeschlagener Abruf wird später von selbst erneut versucht und blockiert keine neu eingetragene ID.</p>
+    <p>Prüfe die ID vor dem Eintragen genau. Die Zuordnung zu Teams und Spielern wird noch nicht zuverlässig geprüft, und eine falsch eingetragene ID lässt sich hier noch nicht löschen. Melde einen Fehleintrag der Orga.</p>
+  </section>
+
+  <section id="lagebilder">
+    <h2>AI-Lagebilder lesen und korrigieren</h2>
+    <p>Pro Scrim-Team steht im Dashboard ein Lagebild: eine kurze Einordnung der aktuellen Lage, darunter die Evidenzen mit Link zur Originalstelle und eine Timeline der früheren Lagebilder. Das Lagebild ist keine Ampel und keine Bewertung einzelner Personen, sondern eine Beschreibung der Orga-Lage.</p>
+    <p>Grundlage sind die Scrim-Daten des Systems: Teams, Terminabfragen, Antworten, Reminder, Matchstand und abgerufene Ergebnisse. Der freie Chatverlauf aus den Kanälen fließt noch nicht ein. Wenn wenig Daten vorliegen, sagt das Lagebild das offen.</p>
+    <p>Stimmt etwas nicht, schreibst du deine Einordnung in den Korrektur-Chat direkt am Lagebild. Die AI arbeitet sie ein oder fragt kurz nach. Wer korrigiert hat und wann, wird gespeichert; spätere Lagebilder berücksichtigen die Korrektur. Aus dem Lagebild entstehen keine Discord-Nachrichten.</p>
+  </section>
+
   <section id="haeufige-probleme">
     <h2>FAQ und häufige Probleme</h2>
     <table>
@@ -105,6 +121,9 @@
         <tr><td>Ersatzbedarf wirkt falsch.</td><td>Prüfe, ob die richtige Frist vorbei ist und welcher Slot ausgewählt wurde. Kläre unklare Antworten im Teamkanal.</td></tr>
         <tr><td>Der Lobbycode ist falsch.</td><td>Trage den richtigen Code im Dashboard ein. Der Bot aktualisiert die bestehende Code-Nachricht.</td></tr>
         <tr><td>Eine globale Ankündigung fehlt.</td><td>Das ist aktuell noch nicht automatisiert. Poste die Ankündigung vorerst selbst.</td></tr>
+        <tr><td>Eine falsche Match-ID wurde eingetragen.</td><td>Sie lässt sich im Dashboard noch nicht löschen. Trage die richtige ID zusätzlich ein und melde die falsche der Orga.</td></tr>
+        <tr><td>Das Lagebild wirkt unvollständig.</td><td>Schreib deine Einordnung in den Korrektur-Chat am Lagebild. Sie wird gespeichert und in späteren Lagebildern berücksichtigt.</td></tr>
+        <tr><td>Die Terminabfrage steht nicht im Teamkanal.</td><td>Prüfe in der Terminabfrage-Karte den Status. Steht dort „Post fehlgeschlagen“, fehlt meist der hinterlegte Teamkanal.</td></tr>
       </tbody>
     </table>
   </section>
@@ -112,7 +131,7 @@
   <section id="concierge-support">
     <h2>Für Concierge und Support</h2>
     <p>Der Concierge darf sagen: Scrim-Termine werden im Dashboard vorbereitet, Teammitglieder antworten im Teamkanal per Slot-Button oder <em>Kein Slot passt</em>, und Leo/Admin geben sichtbare Aktionen wie Reminder, finalen Slot und Lobbycode frei.</p>
-    <p>Der Concierge darf nicht behaupten, dass der Flow globale Ankündigungen, Ergebnisabruf, AI-Lagebilder oder automatische Ersatzanfragen schon erledigt. Bei unklaren Teamzuordnungen, fehlenden Rechten oder technischen Fehlern verweist er auf Coach, Orga oder Menschen-Support.</p>
+    <p>Der Concierge darf nicht behaupten, dass der Flow globale Ankündigungen oder automatische Ersatzanfragen schon erledigt. Beim Ergebnisabruf und bei den AI-Lagebildern nennt er die Grenzen mit: Eine falsch eingetragene Match-ID lässt sich noch nicht löschen, und das Lagebild stützt sich auf die Scrim-Daten des Systems, nicht auf den freien Chatverlauf. Bei unklaren Teamzuordnungen, fehlenden Rechten oder technischen Fehlern verweist er auf Coach, Orga oder Menschen-Support.</p>
   </section>
 
   <section id="leo-fuenf-minuten">
@@ -126,6 +145,7 @@
       <li>Vor Fristende fehlende Antworten beobachten und bei Bedarf Reminder freigeben.</li>
       <li>Nach Fristende Empfehlung prüfen, Slot freigeben oder begründet überschreiben.</li>
       <li>Ersatzbedarf klären und am Spieltag den Lobbycode eintragen.</li>
+      <li>Nach dem Spiel die Match-ID eintragen und später das Lagebild des Teams durchlesen.</li>
     </ol>
   </section>
 
