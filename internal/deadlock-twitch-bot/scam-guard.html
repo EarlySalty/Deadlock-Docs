@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Scam Guard</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, scam-guard">
-  <meta name="stand" content="2026-07-07">
+  <meta name="stand" content="2026-07-27">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -14,7 +14,7 @@
 <h2>Laufzeit</h2>
 <ul>
 <li>Conversation Scam Guard hängt in der Chat-Pipeline nach Globalban und vor Spam-Autoban. (rust/crates/tb-chat/src/pipeline.rs)</li>
-<li>Der Guard bewertet Gesprächsverläufe mit einem MiniMax-basierten Judge und kennt die Modi <code>auto_ban</code>, <code>timeout</code> und <code>alert_only</code>. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
+<li>Der Guard bewertet Gesprächsverläufe mit einem LLM-Judge und kennt die Modi <code>auto_ban</code>, <code>timeout</code> und <code>alert_only</code>. Der Judge nutzt den Engagement-Client und damit die gemeinsame Anbieterauswahl, im Betrieb also Fireworks mit DeepSeek; umschaltbar über <code>TB_LLM_PROVIDER_ENGAGEMENT</code>. Weil <code>auto_ban</code> ohne Rückfrage bannt, ist ein Anbieterwechsel hier eine Änderung am Sanktionsverhalten, nicht nur an der Technik. Die wirksame Schwelle hängt am Accountalter: am Erstellungstag <code>0.80</code>, nach 30 Tagen <code>0.85</code>, ab 60 Tagen die regulären <code>0.90</code>. (rust/crates/tb-chat/src/conversation_scam.rs; rust/crates/tb-engagement/src/minimax_chat.rs; rust/crates/tb-llm/src/selection.rs)</li>
 <li>Defaultwerte sind aktiv, Modus <code>auto_ban</code>, Schwelle <code>0.90</code>, Vorschlagsgrenze <code>0.70</code> und Timeout <code>600</code> Sekunden. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
 <li>Der Guard bewertet Einzel-Pitches sofort und sonst erst, wenn ein Gespräch mindestens drei substanzielle Nachrichten enthält. (rust/crates/tb-chat/src/conversation_scam.rs)</li>
 </ul>

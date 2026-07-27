@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Betrieb</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, betrieb">
-  <meta name="stand" content="2026-07-18">
+  <meta name="stand" content="2026-07-27">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -40,7 +40,25 @@
 <li>Verschlüsselung, Sessions und Billing: <code>DB_MASTER_KEY_V1</code>, <code>SESSIONS_ENCRYPTION_KEY</code>, <code>STRIPE_WEBHOOK_SECRET</code>, <code>STRIPE_SECRET_KEY</code>, <code>TWITCH_BILLING_STRIPE_SECRET_KEY</code>. (rust/bin/tb-bot/src/main.rs; rust/bin/tb-dashboard/src/main.rs; rust/crates/tb-dashboard-api/src/handlers/stripe_webhook.rs)</li>
 <li>Discord und Broker: <code>MASTER_BROKER_BASE_URL</code>, <code>MASTER_BROKER_HOST</code>, <code>MASTER_BROKER_PORT</code>, <code>MASTER_BROKER_TOKEN</code>, <code>MAIN_BOT_INTERNAL_TOKEN</code>, <code>STREAMER_GUILD_ID</code>, <code>MAIN_GUILD_ID</code>, <code>STREAMER_ROLE_ID</code>. (rust/crates/tb-config/src/lib.rs; rust/bin/tb-bot/src/oauth_followups.rs)</li>
 <li>Frontend- und Content-Pfade: <code>DASHBOARD_V2_DIST_PATH</code>, <code>WEBSITE_DIST_PATH</code>, <code>TB_LEGAL_PAGES_PATH</code>. (rust/crates/tb-dashboard-api/src/handlers/spa.rs; rust/crates/tb-dashboard-api/src/handlers/website.rs; rust/scripts/run_tb_dashboard_service.sh)</li>
+<li>LLM-Anbieter: <code>FIREWORK_API_KEY</code>, <code>MINIMAX_TOKEN_PLAN_KEY</code>, <code>MINIMAX_API_KEY</code>, <code>ANTHROPIC_API_KEY</code>, dazu die Umschalter <code>TB_LLM_PROVIDER_DEFAULT</code> und <code>TB_LLM_PROVIDER_&lt;USE_CASE&gt;</code>. Details im Abschnitt zur Anbieterauswahl. (rust/crates/tb-llm/src/keys.rs; rust/crates/tb-llm/src/selection.rs)</li>
 </ul>
+</section>
+<section id="llm-anbieterauswahl">
+<h2>LLM-Anbieterauswahl</h2>
+<p>Die Chat-nahen KI-Aufrufe holen Adresse, Modell und Key aus einer gemeinsamen Auswahl statt aus eigenen Konstanten. Ohne jede Konfiguration gilt: Fireworks mit <code>accounts/fireworks/models/deepseek-v4-flash</code>, sobald <code>FIREWORK_API_KEY</code> gesetzt ist, sonst MiniMax mit <code>MiniMax-M3</code>. Weil der Dienst seine Secrets per <code>dl-infisical-env --profile all</code> lädt und der Fireworks-Key dort liegt, ist Fireworks im Betrieb der aktive Anbieter. (rust/crates/tb-llm/src/selection.rs; rust/scripts/run_tb_bot_service.sh)</p>
+<p><code>TB_LLM_PROVIDER_DEFAULT</code> setzt den Anbieter für die angeschlossenen Anwendungsfälle, <code>TB_LLM_PROVIDER_&lt;USE_CASE&gt;</code> zieht einen einzelnen heraus. Erlaubte Werte sind <code>fireworks</code>, <code>deepseek</code> als dessen Alias und <code>minimax</code>. Ein unbekannter Wert schaltet den Bot nicht stumm, sondern fällt mit einer Warnung auf die Auto-Auswahl zurück. Ein Wechsel braucht keinen Rebuild, nur einen Neustart des Dienstes.</p>
+<p><strong>Wichtig für Ops:</strong> Diese Umschalter erreichen nicht jeden KI-Aufruf im Repo. Angeschlossen sind Engagement-Chat, Spam-Judge und Titelgenerator; der Conversation Scam Guard hängt über den Engagement-Client mit dran. Eigene Verdrahtung mit eigenen Variablen haben weiterhin der ID-getriggerte Spezial-Review (<code>FIREWORKS_RICKY_REVIEW_MODEL</code>), der Outreach-Shadow und die Social-Media-Anreicherung. Wer dort den Anbieter wechseln will, muss die jeweiligen Variablen anfassen; <code>TB_LLM_PROVIDER_DEFAULT</code> bewirkt für sie nichts. (rust/crates/tb-engagement/src/crew_review.rs; rust/crates/tb-engagement/src/outreach_shadow.rs; rust/crates/tb-social-media/src/llm_dispatch.rs)</p>
+<table>
+<thead><tr><th>Anwendungsfall</th><th>Umschalter</th><th>Ledger-Zweck</th></tr></thead>
+<tbody>
+<tr><td>Engagement-Chat</td><td><code>TB_LLM_PROVIDER_ENGAGEMENT</code></td><td>je Aufrufer</td></tr>
+<tr><td>Spam-Judge</td><td><code>TB_LLM_PROVIDER_SPAM_JUDGE</code></td><td><code>spam-review</code></td></tr>
+<tr><td>Titelgenerator</td><td><code>TB_LLM_PROVIDER_TITLE_AI</code></td><td><code>title</code>, <code>title-insight</code></td></tr>
+<tr><td>Post-Stream-Report (nur Legacy-Pfad)</td><td><code>TB_LLM_PROVIDER_POST_STREAM</code></td><td><code>post-stream-report</code></td></tr>
+</tbody>
+</table>
+<p>Nur der Spam-Judge arbeitet eine Endpunkt-Kette ab: der gewählte Anbieter zuerst, der andere als Ausweichweg bei Fehlern oder Limits. Einträge ohne Key entfallen, und fehlen beide Keys, wird die Entscheidung als Provider-Fehler persistiert statt stillschweigend verworfen. Die übrigen Anwendungsfälle kennen kein Failover: ohne Key liefert der Titelgenerator einen Key-Fehler, der Post-Stream-Report seinen Fallback ohne KI. (rust/crates/tb-chat/src/scam_pitch.rs; rust/crates/tb-chat/src/title_ai.rs; rust/crates/tb-analytics/src/post_stream.rs)</p>
+<p>Adresse und Modell sind je Anbieter überschreibbar: <code>FIREWORK_BASE_URL</code> vor <code>FIREWORKS_BASE_URL</code> und <code>FIREWORK_MODEL</code> vor <code>FIREWORKS_MODEL</code>, analog <code>MINIMAX_BASE_URL</code> und <code>MINIMAX_MODEL</code>. Die Singular-Namen stehen zuerst, weil der Discord-Bot dieselbe Reihenfolge nutzt. Der Post-Stream-Report ist ein Sonderfall: die Modellwahl folgt dem Plan, und dort vergibt nur noch das <code>analytics</code>-Flag ein Modell, nämlich Claude Opus über <code>ANTHROPIC_API_KEY</code>. Der MiniMax-Zweig ist ein Legacy-Pfad, den kein Plan mehr erreicht; er nutzt die Auswahl mit, entscheidet im Betrieb aber nichts. Wer den Anbieter des Reports wechseln will, muss an der Planauflösung ansetzen, nicht an <code>TB_LLM_PROVIDER_POST_STREAM</code>. (rust/crates/tb-analytics/src/post_stream.rs; rust/crates/tb-llm/src/selection.rs)</p>
 </section>
 <section id="id-spezial-review-betrieb">
 <h2>ID-getriggerter Spezial-Review Betrieb</h2>
