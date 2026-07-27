@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Betrieb — Zentrale Bot-Config bots.env</title>
+  <meta name="tags" content="internal, betrieb, konfiguration, systemd, bots.env, feature-flags">
+  <meta name="stand" content="2026-07-27">
+  <meta name="quelle" content="~/.config/deadlock/bots.env; ~/.config/systemd/user/*.service.d/10-deadlock-env.conf">
+</head>
+<body>
+<main>
+<h1>Betrieb — Zentrale Bot-Config bots.env</h1>
+<p><code>~/.config/deadlock/bots.env</code> hält Konfiguration, die mehrere Bots betrifft und kein Secret ist — vor allem Feature-Schalter. Secrets gehören weiterhin nach Infisical, siehe internal/betrieb/secrets-infisical.html.</p>
+
+<section id="verdrahtung">
+<h2>Wie die Datei an die Dienste kommt</h2>
+<p>Jeder Dienst bindet sie über ein eigenes systemd-Drop-in <code>10-deadlock-env.conf</code> mit einer einzigen Zeile ein: <code>EnvironmentFile=-/home/naniadm/.config/deadlock/bots.env</code>. Das führende Minus macht die Datei optional — fehlt sie, startet der Dienst trotzdem.</p>
+<p>Aktuell hängen 16 User-Units daran, darunter <code>deadlock-twitch-bot-rust</code>, <code>deadlock-bot-rust</code>, <code>deadlock-turniere</code>, <code>deadlock-patchnotes</code>, <code>tradingbot-rust</code>, <code>dl-knowledge</code> und die Brain-Dienste. Die vollständige Liste liefert <code>grep -rl bots.env ~/.config/systemd/user/</code>.</p>
+</section>
+
+<section id="aendern">
+<h2>Einen Wert ändern</h2>
+<p>Wert in der Datei setzen, dann <code>systemctl --user restart &lt;dienst&gt;</code> für jeden betroffenen Dienst. Kein Rebuild, kein Deploy, kein <code>daemon-reload</code> — <code>EnvironmentFile</code> wird bei jedem Start neu gelesen. Ein <code>daemon-reload</code> ist nur nötig, wenn sich das Drop-in selbst ändert.</p>
+<p>Ob ein Wert wirklich angekommen ist, zeigt das Verhalten des Dienstes im Journal, nicht die Datei. Die Umgebung eines laufenden Prozesses nicht auslesen — dort stehen auch Secrets.</p>
+</section>
+
+<section id="inhalt">
+<h2>Was drinsteht</h2>
+<ul>
+<li><code>SMALLTALK_LOOP_ENABLED</code>: schaltet den Smalltalk-Shadow des Twitch-Bots. Details in internal/deadlock-twitch-bot/smalltalk-shadow.html.</li>
+<li><code>OUTREACH_SHADOW_ENABLED</code>: schaltet den Outreach-Shadow.</li>
+</ul>
+<p>Beide Schalter lesen den Wert gleich: <code>1</code>, <code>true</code>, <code>yes</code> und <code>on</code> gelten als an, alles andere und "nicht gesetzt" als aus.</p>
+</section>
+
+<section id="grenzen">
+<h2>Grenzen</h2>
+<p>Die Datei ist nicht versioniert und liegt nur auf diesem Host. Ein Schalter, der hier steht, ist im Repo unsichtbar — wer ein Verhalten nicht erklären kann, prüft sie mit. Keine Credentials, keine DSNs, keine Tokens hier ablegen: die Datei ist unverschlüsselt und wird von 16 Diensten gelesen.</p>
+</section>
+</main>
+</body>
+</html>

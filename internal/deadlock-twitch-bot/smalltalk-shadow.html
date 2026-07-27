@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot — Smalltalk-Shadow</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, smalltalk, shadow, testmodus, engagement">
+  <meta name="stand" content="2026-07-27">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot — Smalltalk-Shadow</h1>
+<p>Der Smalltalk-Shadow misst, ob die Engagement-KI in fremden Deadlock-Kanälen mitreden könnte. Der Bot liest dort mit, erzeugt Antworten und sendet sie nie; jede Sitzung wird als Karte nach Discord ausgewertet. Er ist ein Messwerkzeug, kein Feature für Zuschauer — in den beobachteten Kanälen ist er unsichtbar.</p>
+
+<section id="ablauf">
+<h2>Ablauf einer Sitzung</h2>
+<p>Ein Loop tickt alle 5 Sekunden und hält höchstens eine Sitzung gleichzeitig offen; ein partieller Unique-Index auf <code>ended_at IS NULL</code> erzwingt das auch bei Nebenläufigkeit (rust/bin/tb-bot/src/smalltalk_loop_wiring.rs; rust/migrations/20260727150000_twitch_smalltalk_loop.sql). Eine Sitzung läuft 60 Minuten, danach hat derselbe Kanal 24 Stunden Cooldown (<code>SESSION_DURATION</code>, <code>CHANNEL_COOLDOWN</code> in rust/crates/tb-engagement/src/smalltalk_loop_store.rs).</p>
+<p>Kandidaten kommen aus <code>twitch_partner_outreach</code>, verschnitten mit <code>twitch_live_state</code>: der Kanal muss live sein. Aktive Partner scheiden aus, geprüft gegen <code>twitch_partners</code> und <code>twitch_streamers_partner_state</code> — der Shadow beobachtet also nur Nicht-Partner. Kanäle aus <code>twitch_raid_blacklist</code> fallen ebenfalls raus, sowohl über den Login als auch über die <code>twitch_user_id</code>, damit eine Umbenennung die Sperre nicht aushebelt (rust/crates/tb-engagement/src/smalltalk_loop_store.rs).</p>
+<p>Beim Start schreibt der Store die Engagement-Settings des Kanals auf <code>output_mode='test'</code> um und merkt sich den Vorzustand in <code>settings_existed</code>, <code>previous_enabled</code>, <code>previous_irc_read</code> und <code>previous_output_mode</code>. Beim Schließen stellt er genau diesen Zustand wieder her, auch wenn vorher gar keine Settings-Zeile existierte. Endet der Prozess, schließt der Loop offene Sitzungen mit <code>process_start</code> beziehungsweise <code>process_shutdown</code>.</p>
+</section>
+
+<section id="partner-gate">
+<h2>Warum OutputMode::Test das Partner-Gate überspringt</h2>
+<p>Die Gate-Kaskade in der Pipeline verlangt normalerweise einen operativen Partner, bevor überhaupt ein Modell-Call passiert. Genau dieses eine Gate hängt an einer Bedingung, die den Testmodus ausnimmt: <code>settings.output_mode != OutputMode::Test &amp;&amp; !gate::is_operational_partner(...)</code> (rust/crates/tb-engagement/src/pipeline.rs). Ohne diese Ausnahme gäbe es in fremden Kanälen nie eine Generierung — und damit nichts zu messen.</p>
+<p>Alle anderen Gates gelten unverändert: <code>enabled</code>, <code>output_mode != off</code>, der Kanal muss live mit Deadlock sein, Opt-out zieht, Skip-Trigger, Anti-Flood und Anti-Burst ebenso.</p>
+</section>
+
+<section id="nicht-senden">
+<h2>Die Nicht-Sende-Garantie</h2>
+<p>Der Testmodus kann nicht senden, weil er das Sendesignal strukturell nie setzt. Er liefert <code>Decision::Tested</code> und legt den Text in <code>shadow_text</code> ab; <code>response_text</code> bleibt <code>None</code> (rust/crates/tb-engagement/src/pipeline.rs). Der Twitch-Sendepfad liest ausschließlich <code>response_text</code> und bricht ohne diesen Wert ab (rust/bin/tb-bot/src/chat_wiring.rs:1279).</p>
+<p>Dazu kommt der Lesepfad: der IRC-Reader verbindet sich anonym als <code>justinfan</code> und hat keinen Schreib-Transport. Zwei Tests halten das fest: <code>testmodus_fremdkanal_erzeugt_aber_sendet_nicht</code> und <code>testmodus_hat_keinen_twitch_send_port</code>.</p>
+<p><code>Decision::Tested</code> ist bewusst ein eigener Wert und nicht <code>Shadowed</code>: der bestehende Shadow-Review leitet jede <code>shadowed</code>-Zeile ins Partner-Review nach Discord weiter. Testantworten aus fremden Kanälen lägen dort zwischen echten Partner-Vorschlägen und sähen aus wie welche.</p>
+</section>
+
+<section id="bewertung">
+<h2>Bewertung der erzeugten Texte</h2>
+<p>Jeder erzeugte Text läuft durch <code>sanitize_test_mode_text</code>. Anders als der Live-Sendefilter schreibt diese Prüfung nichts um, sondern lehnt mit einem stabilen Grund ab: <code>dash</code>, <code>quote</code>, <code>list</code>, <code>repeated_punctuation</code>, <code>too_long</code>, <code>offer_or_link</code> oder <code>empty</code> (rust/crates/tb-engagement/src/minimax_chat.rs). Das Ergebnis landet als <code>would_send</code> oder <code>rejected</code> plus Grund in <code>twitch_smalltalk_messages</code>.</p>
+<p>Gespeichert werden Trigger-Text und erzeugter Text — die Tabelle ist die Auswertungsgrundlage und die einzige Stelle, an der Texte liegen. Doppelte Datensätze verhindert ein Unique-Index auf <code>(session_id, triggered_by_msg_id)</code>.</p>
+</section>
+
+<section id="logs">
+<h2>Was im Journal steht</h2>
+<p>Alle Zeilen tragen ein <code>event</code>-Feld mit Präfix <code>smalltalk_loop.</code> und enthalten nie einen Nachrichtentext. Sichtbar unter <code>journalctl --user -u deadlock-twitch-bot-rust</code>.</p>
+<ul>
+<li><code>smalltalk_loop.started</code> / <code>smalltalk_loop.disabled</code>: Zustand beim Prozessstart.</li>
+<li><code>smalltalk_loop.session_started</code> / <code>smalltalk_loop.session_closed</code>: Sitzungs-ID, Kanal, Grund des Endes, Zuschauerzahl.</li>
+<li><code>smalltalk_loop.decision</code>: eine Zeile pro verarbeiteter Chat-Nachricht im Testmodus, mit Kanal, Entscheidung und <code>generated</code>-Flag. Auch dann, wenn ein Gate vor der Generierung abbricht — sonst wäre Stille im Journal nicht von einem kaputten Pfad zu unterscheiden.</li>
+<li><code>smalltalk_loop.message_recorded</code>: Datensatz gespeichert, mit <code>would_send</code>/<code>rejected</code> und Ablehnungsgrund.</li>
+<li><code>smalltalk_loop.message_not_persisted</code> / <code>smalltalk_loop.message_persist_failed</code>: Datensatz ging verloren (fehlende Sitzung, Duplikat oder DB-Fehler), mit der Bewertung, die verloren ging.</li>
+<li><code>smalltalk_loop.report_sent</code>: Discord-Karte zugestellt.</li>
+</ul>
+</section>
+
+<section id="discord">
+<h2>Discord-Auswertung</h2>
+<p>Ein zweiter Loop holt alle 30 Sekunden beendete Sitzungen ohne Discord-Nachricht und postet je eine Components-V2-Karte in Guild <code>1289721245281292288</code>, Kanal <code>1374364800817303632</code> (rust/bin/tb-bot/src/smalltalk_loop_wiring.rs). Die Karte zeigt Kanal, Dauer, Zuschauerzahl, Endgrund, Zahl der erzeugten Texte, die Aufteilung <code>would_send</code>/<code>rejected</code>, die Ablehnungsgründe und Provider-Fehler.</p>
+<p>Das Claiming ist gegen Doppelposts und hängengebliebene Läufe abgesichert: ein Claim gilt 2 Minuten, ein Fehlschlag wird nach 30 Sekunden erneut versucht, nach 3 Versuchen bleibt die Sitzung liegen. Pro Karte werden höchstens 39 Textblöcke gerendert, damit die Discord-Grenze nicht reißt.</p>
+</section>
+
+<section id="schalten">
+<h2>Ein- und ausschalten</h2>
+<p>Der Schalter ist die Umgebungsvariable <code>SMALLTALK_LOOP_ENABLED</code>; als wahr gelten <code>1</code>, <code>true</code>, <code>yes</code> und <code>on</code>, alles andere und "nicht gesetzt" heißt aus (rust/bin/tb-bot/src/smalltalk_loop_wiring.rs). Sie steht in der zentralen Konfiguration <code>~/.config/deadlock/bots.env</code>, die per systemd-Drop-in eingebunden ist — siehe internal/betrieb/zentrale-bot-config.html.</p>
+<p>Wert ändern und <code>systemctl --user restart deadlock-twitch-bot-rust</code>: kein Rebuild, kein Deploy. Beim Start ohne Schalter schließt der Bot alle offenen Sitzungen mit Grund <code>kill_switch</code> und stellt die Settings der beobachteten Kanäle wieder her; dasselbe passiert, wenn der Discord-Backend oder die Karten-Texte fehlen (<code>discord_unavailable</code>, <code>discord_copy_missing</code>).</p>
+</section>
+
+<section id="datenmodell">
+<h2>Datenmodell</h2>
+<p>Zwei Tabellen, angelegt in rust/migrations/20260727150000_twitch_smalltalk_loop.sql. <code>twitch_smalltalk_sessions</code> hält Kanal, Zeitraum, Endgrund, Zuschauerzahl, den gemerkten Settings-Vorzustand, Provider-Fehlerzähler und den kompletten Discord-Zustellzustand. <code>twitch_smalltalk_messages</code> hält pro erzeugtem Text Zeitpunkt, Trigger, Text, <code>outcome</code> und <code>reject_reason</code>, mit <code>ON DELETE CASCADE</code> an der Sitzung.</p>
+<p>Sitzungen laufen nach 6 Monaten ab (<code>expires_at</code>); ein Retention-Loop räumt stündlich auf. Die Migration erweitert außerdem den Check auf <code>twitch_engagement_settings.output_mode</code> um den Wert <code>test</code>.</p>
+</section>
+
+<section id="tests">
+<h2>Tests</h2>
+<p>Die DB-Tests unter rust/crates/tb-engagement/tests/ brauchen <code>TB_TEST_DATABASE_URL</code>. Ohne gesetzte Variable überspringen sie sich still und melden grün — beim Prüfen also immer setzen. Der Schema-Test verlangt TimescaleDB, nicht ein blankes Postgres.</p>
+<p>Die Testuhr ist bewusst <code>Utc::now()</code>: die Tabelle setzt <code>discord_next_attempt_at</code> und <code>expires_at</code> per DB-<code>NOW()</code>, und <code>claim_reports</code> vergleicht beide gegen die übergebene Zeit. Ein fixes Testdatum lief dieser Vergleichsbasis davon und machte den Report-Test am 2026-07-27 um 20:08 UTC von selbst rot, ohne Codeänderung.</p>
+</section>
+</main>
+</body>
+</html>
