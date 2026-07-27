@@ -44,11 +44,13 @@
 <ul>
 <li><code>smalltalk_loop.started</code> / <code>smalltalk_loop.disabled</code>: Zustand beim Prozessstart.</li>
 <li><code>smalltalk_loop.session_started</code> / <code>smalltalk_loop.session_closed</code>: Sitzungs-ID, Kanal, Grund des Endes, Zuschauerzahl.</li>
+<li><code>smalltalk_loop.no_candidate</code>: keine Sitzung gestartet, mit der Aufteilung der geprüften Kanäle auf <code>offline</code>, <code>other_game</code>, <code>partner</code>, <code>blacklisted</code> und <code>cooldown</code>. Gezählt wird pro Kanal der erste greifende Grund, die Zahlen summieren sich also auf <code>checked</code>.</li>
 <li><code>smalltalk_loop.decision</code>: eine Zeile pro verarbeiteter Chat-Nachricht im Testmodus, mit Kanal, Entscheidung und <code>generated</code>-Flag. Auch dann, wenn ein Gate vor der Generierung abbricht — sonst wäre Stille im Journal nicht von einem kaputten Pfad zu unterscheiden.</li>
 <li><code>smalltalk_loop.message_recorded</code>: Datensatz gespeichert, mit <code>would_send</code>/<code>rejected</code> und Ablehnungsgrund.</li>
 <li><code>smalltalk_loop.message_not_persisted</code> / <code>smalltalk_loop.message_persist_failed</code>: Datensatz ging verloren (fehlende Sitzung, Duplikat oder DB-Fehler), mit der Bewertung, die verloren ging.</li>
 <li><code>smalltalk_loop.report_sent</code>: Discord-Karte zugestellt.</li>
 </ul>
+<p><code>no_candidate</code> ist gedrosselt: der Loop tickt alle 5 Sekunden, ungedrosselt wären das rund 17.000 Zeilen pro Tag. Gemeldet wird jede Änderung der Aufteilung, plus alle 15 Minuten eine Wiederholung — Dauerstille wäre sonst wieder nicht von einem toten Prozess zu unterscheiden.</p>
 </section>
 
 <section id="discord">
