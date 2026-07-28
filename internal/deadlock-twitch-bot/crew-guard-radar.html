@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Crew Guard Radar</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, crew-guard, radar">
+  <meta name="stand" content="2026-07-28">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Crew Guard Radar</h1>
+
+<section id="zweck">
+<h2>Zweck</h2>
+<ul>
+<li>Der Crew Guard beobachtet die Abwerbe-Kampagne der Ricky-Gruppe in fremden und Partner-Chats. Er handelt nicht selbst: jedes Ergebnis geht als Radar-Log nach Discord und in das Ledger. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li>Erkennung und Zustellung sind getrennt. <code>decide()</code> ist seiteneffektfrei und liefert Log plus Meldetext; der Alert läuft danach über genau einen Meldeweg (<code>send_crew_campaign</code>, per Test auf genau ein Vorkommen fixiert). (rust/crates/tb-chat/src/crew_guard.rs)</li>
+</ul>
+</section>
+
+<section id="signalstufen">
+<h2>Signalstufen</h2>
+<ul>
+<li><code>HardId</code>: die Twitch-User-ID des Chatters steht in <code>CREW_REGISTRY</code>. Match läuft nur über die ID, ein umbenannter Account bleibt erkannt. Kein LLM nötig. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li><code>HardInvite</code>: <code>discord.gg/&lt;code&gt;</code> mit einem bekannten Rival-Invite-Code. Deterministisch. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li><code>Trigger</code>: mehrdeutige Reizwörter (<code>helmbomben</code>, <code>ricky</code>, <code>nani</code>, <code>bannliste</code>, „Freund gebannt“ in beiden Reihenfolgen). Ein Treffer ist kein Urteil, sondern nur der Auftrag an den Judge. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li><code>None</code> plus Verhaltens-Gate: seit dem 2026-07-28 löst auch das Verhalten allein die Judge-Prüfung aus. <code>behavioral_trigger()</code> greift bei Ricky-Stil &gt;= 40, oder bei &gt;= 25 zusammen mit Kontoalter &lt;= 90 Tage UND Rickys Zeitfenster. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li><code>None</code> ohne Verhaltens-Gate: Verdict <code>skipped</code>. Das heißt „nie inhaltlich geprüft“ und wird als solches gemeldet — es ist ausdrücklich kein Freispruch. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+</ul>
+</section>
+
+<section id="warum-verhaltens-gate">
+<h2>Warum das Verhaltens-Gate existiert</h2>
+<ul>
+<li>Bis zum 2026-07-28 hing die Judge-Prüfung ausschließlich am Vokabular. Stil-Score, Kontoalter und Zeitfenster wurden berechnet, gingen aber nur als Fakten <em>in</em> den Judge-Prompt — sie konnten den Judge nie auslösen.</li>
+<li>Belegter Fehlschlag: <code>deadlock_germany</code> (ID 1505528697) fuhr am 2026-07-28 in <code>#jackauftwitch</code> das Muster mit Ricky-Stil 75 %, 60 Tage altem Konto und Werbung für den eigenen „community dc“ — ohne ein einziges Reizwort. Der Radar meldete „geprüft, kein Kampagnen-Muster“, obwohl der Judge nie lief.</li>
+<li>Die Schwellen sind am Ledger gemessen, nicht geschätzt: über 30 Tage und 638 Radar-Logs erzeugt das Gate genau einen zusätzlichen Judge-Call. Vor jeder Schwellenänderung dieselbe Messung wiederholen (Query auf <code>twitch_crew_radar_log</code>).</li>
+</ul>
+</section>
+
+<section id="wann-laeuft-der-radar">
+<h2>Wann der Radar überhaupt anläuft</h2>
+<ul>
+<li>Ohne Hard-/Trigger-Signal läuft der Radar-Pfad nur, wenn das Gespräch genug Substanz hat, der Erstschreiber-Kontext passt und die Drossel frei ist: höchstens ein Log je (Kanal, Chatter) pro 24 Stunden, im Speicher und zusätzlich gegen das Ledger geprüft. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+<li>Der Judge selbst ist fail-safe: fehlt <code>CREW_GUARD_MODEL</code> oder der Key, antwortet er <code>unsure</code>. Ausfall und Timeout bleiben eigene Verdicts (<code>error</code>, <code>timeout</code>) und werden als „NICHT geprüft“ gemeldet. Eine Ausfallserie warnt genau einmal. (rust/crates/tb-chat/src/crew_guard.rs)</li>
+</ul>
+</section>
+
+<section id="daten">
+<h2>Daten</h2>
+<ul>
+<li><code>twitch_crew_radar_log</code>: Kanal, Chatter, Kontoalter, Stil-Score plus Breakdown, Zeitfenster, die letzten Nachrichten, Verdict, Confidence, Begründung, <code>action_taken</code>, Quelle. (rust/migrations/20260714120000_twitch_crew_radar_log.sql)</li>
+<li><code>twitch_chatter_global_ban</code>: die eigentliche Banliste. Ein Eintrag hier wirkt über den Global-Ban-Sweep, nicht über den Radar. Der Radar meldet nur. (rust/crates/tb-chat/src/global_chatter_ban.rs)</li>
+<li><code>CREW_REGISTRY</code> (tb-chat) und <code>CREW_OWN_CHANNELS</code> (tb-engagement) müssen synchron bleiben; ein Test hält beide Listen zusammen. Ein neues Crew-Konto gehört in beide Listen und zusätzlich in die Banliste. (rust/crates/tb-chat/src/crew_guard.rs; rust/crates/tb-engagement/src/crew_review.rs)</li>
+</ul>
+</section>
+
+<section id="neues-konto-eintragen">
+<h2>Neues Kampagnen-Konto eintragen</h2>
+<ul>
+<li>Twitch-User-ID beschaffen (das Login allein reicht nicht, Accounts werden umbenannt).</li>
+<li><code>CREW_REGISTRY</code> in <code>crew_guard.rs</code> ergänzen, mit Kommentar zum konkreten Verhaltensbeleg (Kanal + Datum) und <code>has_behavioral_evidence</code> passend setzen.</li>
+<li>Login in <code>CREW_OWN_CHANNELS</code> in <code>crew_review.rs</code> ergänzen, sonst schlägt der Synchron-Test fehl.</li>
+<li>Zeile in <code>twitch_chatter_global_ban</code> anlegen (<code>chatter_login</code>, <code>chatter_id</code>, belegter <code>reason</code>, <code>added_by</code>). Der Sweep bannt daraufhin in Partnerkanälen: fällig eine Stunde nach Stream-Ende, sonst im täglichen Voll-Sweep ab 6 Uhr über die offline Partner. In Nicht-Partner-Kanälen kann der Bot nicht bannen — dort bleibt es bei der Meldung.</li>
+</ul>
+</section>
+
+<section id="grenzen">
+<h2>Grenzen</h2>
+<ul>
+<li>Der Radar handelt nie selbst. Ein Ban entsteht ausschließlich über die Banliste plus Sweep oder von Hand.</li>
+<li>Das Verhaltens-Gate ist eine Vorfilterung, kein Urteil. Ob gemeldet wird, entscheidet weiter der Judge; wer den Judge-Prompt oder die Stil-Gewichte ändert, verschiebt damit auch die Meldemenge.</li>
+<li>Der Global-Ban-Sweep loggt nur, wenn er tatsächlich Bans gesetzt hat. Aus fehlenden Sweep-Zeilen im Journal folgt nicht, dass nichts fällig war. (rust/crates/tb-chat/src/global_ban_sweep.rs)</li>
+</ul>
+</section>
+</main>
+</body>
+</html>
