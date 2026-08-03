@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot — Bot bewusst vom Kanal trennen</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, partner, opt-out, moderator, dashboard, admin">
+  <meta name="stand" content="2026-08-03">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot — Bot bewusst vom Kanal trennen</h1>
+<p>Will ein Streamer den Bot loswerden, reicht es nicht, ihn zu departnern: der Bot bleibt dann Moderator im Kanal und mehrere Selbstheilungs-Pfade holen einen Kanal automatisch zurück. Die Admin-Aktion „Bot bewusst trennen“ auf der Streamer-Detailseite macht beides in einem Zug und nagelt den Zustand fest.</p>
+
+<section id="was-passiert">
+<h2>Was die Aktion tut</h2>
+<p>Vier Schritte, jeder für sich fehler-isoliert — ein Fehlschlag bricht die folgenden nicht ab (rust/crates/tb-internal-api/src/handlers/streamers.rs, <code>disconnect_bot_handler</code>).</p>
+<ol>
+<li><strong>Moderator-Rechte abgeben.</strong> Helix <code>DELETE /moderation/moderators</code> mit dem <em>Streamer</em>-Token. Ein Moderator kann sich nicht selbst entmoderieren — deshalb geht das nur mit dem Broadcaster-Token und dem Scope <code>channel:manage:moderators</code>.</li>
+<li><strong>Departnern.</strong> <code>departner_active_partner</code> mit <code>clear_verification</code>: Status auf <code>departnered</code>, Raid-Auth aus.</li>
+<li><strong>Opt-out setzen.</strong> <code>manual_partner_opt_out = 1</code> per eigenem UPDATE, bewusst redundant zum Departner-Pfad.</li>
+<li><strong>Discord-Streamer-Rolle entziehen</strong>, falls eine Verknüpfung existiert.</li>
+</ol>
+<p>Die Reihenfolge ist zwingend: Schritt 1 braucht den Streamer-Token, den Schritt 2 deaktiviert. Umgedreht wäre der Unmod nicht mehr möglich.</p>
+<p>Gelöscht wird nichts. Die Zeile in <code>twitch_raid_auth</code> bleibt liegen — autorisiert der Streamer den Bot später erneut, läuft <code>complete_setup_for_streamer</code> und der Bot wird wieder Moderator. Das ist gewollt: die Entscheidung liegt beim Streamer.</p>
+</section>
+
+<section id="warum-doppelt">
+<h2>Warum der Opt-out zusätzlich gesetzt wird</h2>
+<p>Am 03.08.2026 hat der Departner-Pfad live den Opt-out nicht mitgezogen; der Fix dafür lag zu dem Zeitpunkt ungemergt auf einem Branch. Der Trenn-Endpoint verlässt sich deshalb nicht auf den Lifecycle, sondern setzt das Flag selbst. Das UPDATE ist idempotent und schadet auch dann nicht, wenn der Lifecycle es ohnehin setzt.</p>
+</section>
+
+<section id="rescue-pfade">
+<h2>Welche Pfade den Bot sonst zurückholen würden</h2>
+<p>Es gibt drei Stellen, an denen sich der Bot selbst wieder als Moderator einsetzt. Keine davon greift nach der Trennung — der Schutz liegt aber im Roster, nicht im Provisioner.</p>
+<ul>
+<li><strong>EventSub-403-Selbstheilung</strong> (rust/crates/tb-monitoring/src/subscriptions.rs): setzt eine Chat-Subscription voraus. Die Roster-Query in rust/bin/tb-bot/src/chat_wiring.rs liest aus <code>twitch_streamers_partner_state</code>, und diese View filtert auf <code>status = 'active'</code>. Ein departnerter Kanal steht dort gar nicht mehr drin.</li>
+<li><strong>Chatters-Self-Heal</strong> (rust/crates/tb-monitoring/src/chatters_poller.rs): hartes Gate auf <code>is_partner_active</code>.</li>
+<li><strong>OAuth-Erstsetup</strong> (rust/crates/tb-raid/src/partner_setup.rs): läuft nur im OAuth-Callback, nicht periodisch.</li>
+</ul>
+<p>Der Provisioner selbst hat <em>kein</em> Partner-Gate: er holt den Token über <code>get_valid_token_unrestricted</code>, weil der Remod auch bei deaktivierten Raids greifen soll. Wer <code>status</code> zurück auf <code>active</code> setzt, ohne den Opt-out zu beachten, bekommt beim nächsten 403 wieder einen selbst-moddenden Bot.</p>
+<p>Die beiden Reaktivierungs-Sweeps in rust/crates/tb-raid/src/token_lifecycle.rs (<code>reactivate_token_error_partners_with_valid_auth</code> und <code>reconcile_healthy_raid_toggles</code>) verlangen beide <code>status = 'active'</code> und fassen departnerte Kanäle nicht an.</p>
+</section>
+
+<section id="bestaetigung">
+<h2>Doppelte Bestätigung</h2>
+<p>Im Dashboard fragt zuerst ein Warn-Dialog, danach muss der Login abgetippt werden. Die Tipp-Bestätigung ist nicht nur Frontend-Kosmetik: der Body <code>{"confirm_login": "&lt;login&gt;"}</code> wird serverseitig gegen den Pfad-Login geprüft, bevor irgendetwas mutiert (rust/crates/tb-dashboard-api/src/handlers/admin_streamers.rs, <code>confirmation_matches</code>). Eine leere Bestätigung zählt nie — sonst würde ein Client, der das Feld weglässt, die Trennung auslösen.</p>
+</section>
+
+<section id="antwort">
+<h2>Antwort und Log</h2>
+<p>Der Endpoint meldet jeden Teilschritt einzeln, auch die, bei denen nichts passiert ist. Ein Lauf, bei dem nur der Unmod scheitert, darf nicht wie ein sauberer Erfolg aussehen.</p>
+<pre>{ "ok": true, "login": "...", "unmod": "removed", "unmod_detail": null,
+  "departnered": true, "opt_out": true, "discord_role": "revoked", "message": "..." }</pre>
+<p><code>unmod</code> kennt sechs Ausgänge: <code>removed</code>, <code>not_moderator</code>, <code>no_token</code> (keine gültige Autorisierung), <code>unknown_channel</code> (Broadcaster-ID nicht auflösbar), <code>unavailable</code> (Port nicht verdrahtet) und <code>failed</code>. Die letzten vier bedeuten alle: <strong>die Moderator-Rechte bestehen weiter</strong>. Die deutsche <code>message</code> stellt solche Fälle mit „ACHTUNG“ voran, das Dashboard färbt die betroffene Zeile.</p>
+<p>Dieselben Felder stehen in einer <code>tracing::info!</code>-Zeile („Bot bewusst getrennt“) im Journal, unabhängig vom Ausgang.</p>
+</section>
+
+<section id="pfade">
+<h2>Endpunkte und Verdrahtung</h2>
+<ul>
+<li>Dashboard: <code>POST /twitch/api/admin/streamers/{login}/disconnect-bot</code>, Admin-Session plus CSRF.</li>
+<li>Intern: <code>POST /internal/twitch/v1/streamers/{login}/disconnect-bot</code>, privileged, idempotent über den Idempotency-Key.</li>
+<li>Das Dashboard proxied auf die interne API, weil nur der Bot-Prozess Bot-User-ID und den rotierenden Streamer-Token hat. Fehlt <code>TWITCH_INTERNAL_API_TOKEN</code> oder ist der Bot weg, kommt 503 mit deutschem Klartext — nie ein stiller Erfolg.</li>
+<li>Fehlt im Bot der Token-Provider (<code>DB_MASTER_KEY_V1</code>), Helix oder die Bot-User-ID, wird der Port nicht verdrahtet und der Endpoint meldet <code>unavailable</code>.</li>
+</ul>
+</section>
+
+<section id="manuell">
+<h2>Manueller Weg zur Gegenprobe</h2>
+<p>Der Mod-Status eines Kanals lässt sich mit dem Streamer-Token direkt prüfen: <code>GET https://api.twitch.tv/helix/moderation/moderators?broadcaster_id=&lt;id&gt;</code>. Der Bot-Account ist <code>deutschedeadlockcommunity</code>. Der Token liegt verschlüsselt in <code>twitch_raid_auth.access_token_enc</code> (AES-256-GCM, AAD <code>twitch_raid_auth|access_token|&lt;twitch_user_id&gt;|&lt;enc_version&gt;</code>, Schlüssel <code>DB_MASTER_KEY_V1</code>).</p>
+</section>
+</main>
+</body>
+</html>
