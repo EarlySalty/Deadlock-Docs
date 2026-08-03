@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Deadlock Twitch Bot Verwaltung Selbstbedienung</title>
+  <meta name="tags" content="internal, deadlock-twitch-bot, verwaltung, dashboard, chat-commands">
+  <meta name="stand" content="2026-08-03">
+  <meta name="quelle" content="Deadlock-Twitch-Bot">
+</head>
+<body>
+<main>
+<h1>Deadlock Twitch Bot Verwaltung Selbstbedienung</h1>
+
+<section id="seitenaufbau">
+<h2>Seitenaufbau</h2>
+<ul>
+<li>Die Verwaltung ist eine eigene Route neben dem Analyse-Dashboard und wird ohne <code>PlanProvider</code> gerendert; Entitlement-Gates wie <code>SubTabs</code> stehen dort deshalb nicht zur Verfügung. (bot/dashboard_v2/src/App.tsx; bot/dashboard_v2/src/components/layout/SubTabs.tsx)</li>
+<li>Die Seite gruppiert ihre Sektionen in vier Bereiche: <code>konto</code> (Twitch-OAuth, Discord, Steam, Profil), <code>chat</code> (Begrüßung, !lurk, !clip, Lurker-Steuer), <code>bot</code> (AI-Engagement, Scam Guard, stille Benachrichtigungen, Bot trennen) und <code>overlay</code>. (bot/dashboard_v2/src/pages/Verwaltung.tsx)</li>
+<li>Der aktive Bereich hängt im URL-Hash. Der Router in <code>App.tsx</code> entscheidet ausschließlich über <code>pathname</code>, der Hash kollidiert daher nicht mit der Routenwahl. Unbekannte Hash-Werte fallen auf den ersten Bereich zurück statt eine leere Seite zu zeigen. (bot/dashboard_v2/src/pages/verwaltungTabs.ts; bot/dashboard_v2/tests/verwaltungTabs.test.ts)</li>
+</ul>
+</section>
+
+<section id="chat-command-toggles">
+<h2>Chat-Command-Toggles</h2>
+<ul>
+<li><code>!lurk</code> und <code>!clip</code> lassen sich pro Streamer abschalten. Beide Schalter liegen als INTEGER-Spalten mit Default <code>1</code> auf <code>streamer_plans</code>: <code>lurk_command_enabled</code> und <code>clip_command_enabled</code>. (rust/migrations/20260717130000_add_lurk_command_enabled.sql; rust/migrations/20260803220000_add_clip_command_enabled.sql)</li>
+<li>Das Gate sitzt jeweils am Anfang der Command-Funktion, vor jedem Seiteneffekt. Bei <code>!clip</code> heißt abgeschaltet: kein Helix-Call und keine Chat-Antwort — der Befehl läuft still ins Leere. Der Alias <code>!createclip</code> teilt dieselbe Funktion und damit dasselbe Gate. (rust/crates/tb-chat/src/commands.rs)</li>
+<li>Beide Gates sind fail-open: Schlägt die DB-Abfrage fehl, bleibt der Command aktiv und es geht eine Warnung ins Log. Ein Ausfall der Abfrage soll kein Feature abschalten. (rust/crates/tb-chat/src/commands.rs)</li>
+<li>Die Spalten werden nicht compile-time-geprüft abgefragt (<code>query_scalar</code> statt <code>query_scalar!</code>), ein Schema-Update erzwingt hier also keinen sqlx-Offline-Cache-Lauf. Der Snapshot-Test in <code>tb-db</code> verlangt dagegen sehr wohl einen Eintrag pro neuer Spalte. (rust/crates/tb-db/tests/fresh_migrations_schema.rs; rust/crates/tb-db/tests/fresh_schema_snapshot.txt)</li>
+</ul>
+</section>
+
+<section id="api">
+<h2>API</h2>
+<ul>
+<li>Je Toggle ein GET/POST-Paar unter <code>/twitch/api/v2/streamer/&lt;name&gt;-settings</code>, konkret <code>lurk-command-settings</code>, <code>clip-command-settings</code> und <code>greeting-settings</code>. (rust/crates/tb-dashboard-api/src/lib.rs)</li>
+<li>Partner treffen immer nur den eigenen Kanal, der Login kommt aus der Session. Admins müssen einen <code>streamer</code>-Query-Parameter setzen, sonst antwortet der Handler mit <code>400</code>; ohne Session gibt es <code>401</code>. (rust/crates/tb-dashboard-api/src/handlers/clip_command_settings.rs)</li>
+<li>Fehlt die Plan-Zeile beim Lesen, antwortet der Handler mit <code>true</code> — bestehendes Verhalten bleibt der Default. Beim Schreiben legt der Partner-Pfad die Zeile per UPSERT an; der Admin-Pfad aktualisiert nur und meldet <code>404</code>, wenn nichts getroffen wurde. (rust/crates/tb-dashboard-api/src/handlers/clip_command_settings.rs)</li>
+<li>Diese Streamer-Settings-Pfade stehen nicht in den Passive-Allow-Listen des Partner-Gates. Bei inaktivem Partner-Status ist die Verwaltungsseite erreichbar, die Settings-APIs sind es nicht. (rust/crates/tb-dashboard-api/src/auth/partner_gate.rs)</li>
+</ul>
+</section>
+
+<section id="neuen-toggle-bauen">
+<h2>Neuen Toggle bauen</h2>
+<ul>
+<li>Vorlage ist durchgehend <code>lurk_command_enabled</code>. Nötig sind: Migration mit <code>ADD COLUMN IF NOT EXISTS … integer DEFAULT 1 NOT NULL</code>, Zeile im Schema-Snapshot, Handler-Modul plus Route, Gate in der Command-Funktion und die Spalte im Test-DDL von <code>commands.rs</code>. (rust/crates/tb-chat/src/commands.rs; rust/crates/tb-dashboard-api/src/handlers/mod.rs)</li>
+<li>Der Merge-Kritiker auf <code>main</code> blockt eine neue Spalte ohne Snapshot-Zeile. Nachziehen mit <code>UPDATE_SCHEMA_SNAPSHOT=1 cargo test -p tb-db --test fresh_migrations_schema</code>. (rust/crates/tb-db/tests/fresh_migrations_schema.rs)</li>
+<li>Im Frontend gehören dazu ein API-Modul unter <code>src/api/</code>, eine Sektion unter <code>src/components/verwaltung/</code> und ein Eintrag in der passenden Bereichsliste in <code>Verwaltung.tsx</code>. Neue Testdateien müssen zusätzlich ins <code>test</code>-Script der <code>package.json</code>, sonst laufen sie nie mit. (bot/dashboard_v2/package.json)</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
