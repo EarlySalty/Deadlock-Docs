@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <title>Twitch-Bot — OBS-Pause-Loop mit Deadlock-Clips</title>
   <meta name="tags" content="twitch-bot, obs, pause-loop, clips, deadlock, helix">
-  <meta name="stand" content="2026-07-20">
+  <meta name="stand" content="2026-07-21">
   <meta name="quelle" content="Deadlock-Twitch-Bot, Caddy">
 </head>
 <body>
 <main>
 <h1>OBS-Pause-Loop mit Deadlock-Clips</h1>
-<p>Die Seite <code>/twitch/pause-loop</code> ist eine öffentliche OBS-Browser-Quelle. Sie spielt bestehende Twitch-Clips aktiver Partner ab und erzeugt selbst keine Clips oder Videos.</p>
+<p>Die Seite <code>/twitch/pause-loop</code> ist eine öffentliche OBS-Browser-Quelle. Sie spielt bestehende Twitch-Clips aktiver Partner ab und lädt dafür nur den aktuellen Clip und zwei Clips im Vorlauf temporär als lokale MP4-Dateien.</p>
 <p>Der Server filtert auf Deadlock und hält den Pool 15 Minuten im Speicher. Bei einem Refresh bleiben alte Clips nur für weiterhin aktive Partner erhalten, deren aktueller Abruf fehlgeschlagen ist; ausgeschlossene oder deaktivierte Partner fallen aus dem Pool. Der Browser mischt die Clips und verhindert Wiederholungen innerhalb eines Durchlaufs.</p>
 
 <section id="auswahl-und-pool">
@@ -26,18 +26,21 @@
 <thead><tr><th>Pfad</th><th>Antwort</th><th>Authentifizierung</th></tr></thead>
 <tbody>
 <tr><td><code>/twitch/pause-loop</code></td><td>HTML-Player für OBS</td><td>keine</td></tr>
-<tr><td><code>/twitch/api/v2/public/pause-loop-clips</code></td><td>JSON-Array mit Clip-ID, Anzeigename, Titel und Dauer</td><td>keine</td></tr>
+<tr><td><code>/twitch/api/v2/public/pause-loop-clips</code></td><td>JSON-Array mit Clip-ID, Anzeigename, Login, Quellenlink, Quellenlabel, Titel und Dauer</td><td>keine</td></tr>
+<tr><td><code>/twitch/api/v2/public/pause-loop-assets/&lt;clip-id&gt;/prepare</code></td><td>lädt den Clip per <code>yt-dlp</code> in den temporären Asset-Ordner und liefert die lokale Video-URL</td><td>keine</td></tr>
+<tr><td><code>/twitch/api/v2/public/pause-loop-assets/&lt;clip-id&gt;</code></td><td>lokale MP4-Datei mit Byte-Range-Unterstützung für den Browser-Player</td><td>keine</td></tr>
+<tr><td><code>/twitch/api/v2/public/pause-loop-assets/&lt;clip-id&gt;/done</code></td><td>löscht die temporäre MP4-Datei nach dem Abspielen</td><td>keine</td></tr>
 </tbody>
 </table>
 <p>Der Browser führt einen Fisher-Yates-Shuffle aus. Er merkt sich die in diesem Durchlauf gespielten IDs, übernimmt neue Clips bei einer Pool-Aktualisierung und entfernt nicht mehr vorhandene Clips aus der Warteschlange. Bei mehr als einem Clip beginnt der nächste Durchlauf nicht sofort wieder mit der zuletzt gespielten ID. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html</code>)</p>
-<p>Der Twitch-Embed erhält den aktuellen Hostnamen als <code>parent</code>. Die Wiedergabezeit startet nach dem Laden des Iframes; nach fünf Sekunden greift ein Fallback. Da Twitch für Clip-Embeds kein verlässliches Ende-Ereignis bereitstellt, wechselt der Player anhand der von Helix gelieferten Dauer plus 1,5 Sekunden Puffer. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html</code>)</p>
+<p>Der Browser nutzt ein eigenes <code>&lt;video&gt;</code>-Element statt eines Twitch-Iframes. Vor dem Start ruft er <code>prepare</code> für den aktuellen Clip auf und stößt parallel die nächsten zwei Vorbereitungen an. Beim <code>ended</code>-Ereignis oder beim Dauer-Fallback meldet er <code>done</code>, löscht damit die lokale Datei und startet den nächsten Clip. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html</code>)</p>
 <p>Der Browser fragt den Pool im Normalfall alle zehn Minuten ab. Netzwerkaufrufe brechen nach zwölf Sekunden ab. Fehler und als veraltet markierte Antworten führen zu neuen Versuchen nach 15, 30 und höchstens 60 Sekunden, ohne den vorhandenen Pool zu löschen. (<code>rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html</code>)</p>
 </section>
 
 <section id="obs-einrichtung">
 <h2>OBS-Einrichtung</h2>
-<p>Als Browser-Quelle wird <code>https://deutsche-deadlock-community.de/twitch/pause-loop</code> eingetragen. Breite und Höhe entsprechen der verwendeten Szene. Die Seite füllt die komplette Browser-Fläche mit dem Twitch-Embed und legt nur Streamername und Clip-Titel darüber.</p>
-<p>Die Quelle braucht keinen Dashboard-Login. Ton und Autoplay kommen aus dem Twitch-Embed; deshalb muss die Browser-Quelle in OBS so betrieben werden, dass ihre Audioausgabe nicht stummgeschaltet ist.</p>
+<p>Als Browser-Quelle wird <code>https://deutsche-deadlock-community.de/twitch/pause-loop</code> eingetragen. Breite und Höhe entsprechen der verwendeten Szene. Die Seite füllt die komplette Browser-Fläche mit dem lokalen Video, zeigt oben links den Kanal wie <code>TTV/login</code> und unten mittig den direkten Link zum originalen Twitch-Clip.</p>
+<p>Die Quelle braucht keinen Dashboard-Login. Der Player versucht zuerst Autoplay mit Ton. Blockiert die Browser-Policy diesen Start, läuft der Clip ohne sichtbare Fehlermeldung stumm an und der Player schaltet direkt wieder auf Ton. Ein normaler Chrome-Test ist dabei strenger als OBS: Ton ohne User-Geste ist dort nur erlaubt, wenn Chrome die Domain bereits freigibt.</p>
 </section>
 
 <section id="fehlerbetrieb">
@@ -48,7 +51,7 @@
 
 <section id="betrieb-und-pruefung">
 <h2>Betrieb und Prüfung</h2>
-<p>Caddy leitet die HTML- und API-Pfade an <code>tb-dashboard</code> weiter. Die Pause-Loop-Seite braucht eine eigene Content-Security-Policy mit Inline-Script und Inline-Style sowie <code>frame-src https://clips.twitch.tv</code>; die allgemeine Dashboard-Policy würde den Embed sonst blockieren. (<code>conf/Caddyfile</code>)</p>
+<p>Caddy leitet die HTML- und API-Pfade an <code>tb-dashboard</code> weiter. Die Pause-Loop-Seite braucht eine eigene Content-Security-Policy mit Inline-Script und Inline-Style sowie <code>media-src 'self'</code>; die allgemeine Dashboard-Policy würde den lokalen Video-Player sonst blockieren. (<code>conf/Caddyfile</code>)</p>
 <p>Nach einem Release werden der neue Dashboard-Prozess, sein Release-Binary-Pfad und das Journal geprüft. Danach müssen die API-URL ein JSON-Array und die HTML-URL den Player mit HTTP 200 liefern. Der abschließende OBS-Test belegt, dass ein Clip startet und nach seiner Dauer der nächste folgt.</p>
 </section>
 </main>

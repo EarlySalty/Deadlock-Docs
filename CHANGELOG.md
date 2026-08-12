@@ -1,13 +1,5 @@
 # Changelog
 
-## #38 — Scrim-Ergebnisse und Lagebilder korrekt eingeordnet
-
-Problem: Die öffentliche Scrim-Hilfe führte Match-ID-Ergebnisse und AI-Lagebilder noch als unfertig, obwohl beide eingeschränkt nutzbar sind.
-
-Änderung: Ergebnisabruf samt sichtbaren Status und nächsten Schritten, Teilstände, Match-History, Lagebild, Timeline, Evidenzen, Zugriffsgrenzen und Korrekturdialog sind mit ihren aktuellen Grenzen beschrieben.
-
-Aktuelles Verhalten: Mitglieder und Support sehen den echten Stand; globale Ankündigung, automatische Ersatzanfragen, automatische Erkennung, Zuordnungsklärung falscher Match-IDs und freie Chat-Auswertung bleiben klar offen.
-
 ## #37 — Scrim-Orga-Status für Concierge verdichtet
 
 Problem: Die Statusfrage zur Scrim-Orga fand zwar die neue Quelle, aber nicht zuverlässig den kompakten Schon-gebaut-gegen-noch-offen-Absatz.
@@ -31,6 +23,22 @@ Problem: Die öffentliche Scrim-Hilfe erklärte den neuen Dashboard-Flow noch ni
 Änderung: Die neue zentrale Doku erklärt Scrim-Blöcke, Team-Abfragen, Button-Antworten, Reminder, Slot-Freigabe, Ersatzbedarf, Match-Status, Lobbycode und den aktuellen Ausbaustand.
 
 Aktuelles Verhalten: Mitglieder, Coaches, Leo/Admins und Concierge sehen den nutzbaren Scrim-Orga-Ablauf ohne interne Technikdetails.
+
+## #34 — Pause-Loop-Overlay und Tonverhalten aktualisiert
+
+Problem: Die OBS-Doku beschrieb noch die alte Quellenanzeige und den stummen Autoplay-Fallback.
+
+Änderung: Die Seite erklärt jetzt Kanal oben links, direkten Originalclip-Link unten und den Tonstart mit stummem Autoplay-Fallback.
+
+Aktuelles Verhalten: Support und Betrieb sehen, welche Overlay-Elemente OBS anzeigen soll und dass normaler Browser-Ton ohne User-Geste nicht als OBS-Beweis gilt.
+
+## #33 — Pause-Loop ohne Twitch-Iframe erklärt
+
+Problem: Die interne OBS-Pause-Loop-Doku beschrieb noch den alten Twitch-Embed, obwohl der Klickzwang damit nicht zuverlässig lösbar ist.
+
+Änderung: Die Seite erklärt jetzt temporäre MP4-Vorbereitung, zwei Clips Vorlauf, lokale Video-Endpunkte, Löschung nach dem Abspielen und die angepasste Medien-CSP.
+
+Aktuelles Verhalten: Support und Betrieb sehen, warum der Loop ohne Play-Klick läuft und welche Dateien nur temporär auf der Platte liegen.
 
 ## #32 — OBS-Pause-Loop vollständig dokumentiert
 
