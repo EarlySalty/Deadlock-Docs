@@ -8,7 +8,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-BERICHT="berichte/frische.md"
+BERICHTE=("berichte/frische.md" "berichte/referenzen.md")
 
 cd "$REPO_ROOT"
 
@@ -23,15 +23,20 @@ fi
 
 # Der Bericht beschreibt den committeten Stand der Quell-Repos. Ein schmutziger
 # Arbeitsbaum wuerde ihn mit halbfertigen Aenderungen vermischen.
-if [ -n "$(git status --porcelain -- "$BERICHT")" ]; then
+if [ -n "$(git status --porcelain -- "${BERICHTE[@]}")" ]; then
   echo "Bericht ist lokal veraendert – Lauf abgebrochen, bitte erst aufraeumen." >&2
   exit 1
 fi
 
+# Erst die Referenzen: ein nicht existierender Pfad ist ein Fehler, keine
+# Frage der Commit-Zahl. Der Lauf bricht daran nicht ab, damit der
+# Frische-Bericht trotzdem erneuert wird.
+python3 "$SCRIPT_DIR/check_referenzen.py" --schreiben || true
+
 python3 "$SCRIPT_DIR/check_freshness.py" --schreiben
 
-if git diff --quiet -- "$BERICHT"; then
-  echo "Keine Aenderung an $BERICHT – nichts zu committen."
+if git diff --quiet -- "${BERICHTE[@]}"; then
+  echo "Keine Aenderung an den Berichten – nichts zu committen."
   exit 0
 fi
 
@@ -41,7 +46,7 @@ seiten = json.load(sys.stdin)["seiten"]
 print(sum(1 for s in seiten if s["status"] == "veraltet"))
 ')"
 
-git add -- "$BERICHT"
+git add -- "${BERICHTE[@]}"
 git commit -q -m "docs(frische): woechentlicher Quellabgleich, ${VERALTET} Seiten ungeprueft"
 git push -q origin main
 echo "Bericht aktualisiert und gepusht (${VERALTET} veraltete Seiten)."
