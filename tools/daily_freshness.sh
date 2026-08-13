@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Woechentlicher Frische-Lauf: prueft, was die Quell-Repos seit der letzten
+# Taeglicher Frische-Lauf: prueft, was die Quell-Repos seit der letzten
 # Pruefung ueberholt haben, und committet den Bericht nur bei echter Aenderung.
 #
 # Bewusst ohne LLM: der Lauf ist reines git und kostet kein Budget. Die

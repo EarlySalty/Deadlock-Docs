@@ -1,8 +1,8 @@
 [Unit]
-Description=Woechentlicher Frische-Abgleich der internen Wissensseiten
+Description=Taeglicher Frische-Abgleich der internen Wissensseiten
 
 [Timer]
-OnCalendar=Sat *-*-* 07:00:00
+OnCalendar=*-*-* 07:00:00
 Persistent=true
 RandomizedDelaySec=15m
 

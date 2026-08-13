@@ -6,5 +6,5 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 WorkingDirectory=%h/repos/Deadlock-Docs
-ExecStart=%h/repos/Deadlock-Docs/tools/weekly_freshness.sh
+ExecStart=%h/repos/Deadlock-Docs/tools/daily_freshness.sh
 Environment=DL_REPO_HOME=%h/repos
