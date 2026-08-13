@@ -11,7 +11,7 @@
 <main>
 <h1>Deadlock Twitch Bot — Stream-Coaching-Audit</h1>
 <p>Der Dienst nimmt die Streams der eigenen Leute live auf, transkribiert sie auf diesem Rechner und meldet auffällige Stellen als Discord-DM. Er ist ein Coaching-Werkzeug: er sperrt nichts, löscht nichts und schreibt in keinen Chat. Am Ende steht ein Bericht, den ein Mensch liest.</p>
-<p>Vorgänger war ein Python-Dienst, dessen Startskript beim Abriss der Python-Laufzeit verschwand; die Unit scheiterte danach monatelang mit <code>203/EXEC</code>. Die Prüflogik ist aus diesem Vorgänger 1:1 übernommen, die Laufzeit ist neu in Rust (rust/crates/tb-stream-audit; rust/bin/tb-stream-audit).</p>
+<p>Vorgänger war ein Python-Dienst, dessen Startskript beim Abriss der Python-Laufzeit verschwand; die Unit scheiterte danach monatelang mit <code>203/EXEC</code>. Die drei festen Regeln - Muster, Kategorien, Schweregrade - und der System-Prompt sind aus diesem Vorgänger wörtlich übernommen. Alles darum herum ist neu: Blockaufnahme statt VOD, Schwärzung vor dem Modellschritt, Zusammenfassen doppelter Funde, Anbieterwahl über den Twitch-Bot. Es ist kein Port, sondern eine Neuimplementierung mit gleicher Prüflogik (rust/crates/tb-stream-audit; rust/bin/tb-stream-audit).</p>
 
 <section id="warum-live">
 <h2>Warum live und nicht aus dem VOD</h2>
@@ -22,8 +22,8 @@
 <section id="bloecke">
 <h2>Blöcke, Warteschlange, Deckel</h2>
 <p>Aufgenommen wird in Blöcken von 10 Minuten (<code>BLOCK_SEKUNDEN</code>). Whisper verarbeitet Blöcke besser als einen Dauerstrom, und ein abgestürzter Lauf verliert höchstens einen Block. Jeder fertige Block geht in eine Warteschlange; die Auswertung läuft <strong>seriell</strong> dahinter ab, weil Aufnehmen fast nichts kostet und Transkribieren teuer ist.</p>
-<p>Je Sendung nimmt der Dienst höchstens 6 Stunden auf (<code>MAX_SEKUNDEN_JE_SENDUNG</code>). Ist der Deckel erreicht, merkt die Aufsicht sich den Kanal und startet ihn nicht neu, solange er sendet — sonst setzte jeder Poll-Takt die Grenze zurück und der Plattenschutz wäre keiner. Der Deckel fällt erst, wenn der Kanal offline war.</p>
-<p>Scheitert ein Block, wird er hinten wieder eingereiht, bis zu <code>MAX_VERSUCHE</code> = 3 Mal. Erst danach gilt er als verloren. Die Aufnahme wird nicht gelöscht, solange die Auswertung nicht durch ist — auch die DM zählt dazu: kommt die DM nicht raus, bleibt der Block liegen und läuft erneut.</p>
+<p>Je Sendung nimmt der Dienst höchstens 6 Stunden auf (<code>MAX_SEKUNDEN_JE_SENDUNG</code>). Der Aufnahmestand liegt bei der Aufsicht, nicht im Aufnahme-Task: bricht streamlink mitten in der Sendung ab, setzt der Neustart genau dort auf statt bei null. Ist der Deckel erreicht, bleibt der Kanal bis zum Sendungsende ohne Aufnahme. Der Stand fällt erst, wenn der Kanal offline war; dann bekommt die nächste Sendung eine neue Lauf-Kennung.</p>
+<p>Scheitert ein Block, wird er hinten wieder eingereiht, bis <code>MAX_VERSUCHE</code> = 3 Versuche insgesamt erreicht sind, also zwei Wiederholungen. Erst danach gilt er als verloren. Die Aufnahme wird nicht gelöscht, solange die Auswertung nicht durch ist — auch die DM zählt dazu: kommt die DM nicht raus, bleibt der Block liegen und läuft erneut.</p>
 <p>Die Warteschlange lebt im Speicher. Beim Start liest der Dienst deshalb den Aufnahmeordner (<code>$TMPDIR/stream-audit-captures</code>) und reiht liegengebliebene <code>.ts</code>-Dateien als Lauf <code>wiederaufnahme-&lt;Zeitstempel&gt;</code> wieder ein. Ohne diesen Schritt wäre jeder Neustart ein stiller Verlust: die Dateien lägen weiter da, würden aber nie ausgewertet und nie gelöscht.</p>
 <p>Beide Schleifen laufen endlos. Endet eine, beendet sich der Prozess mit Code 1 — <code>Restart=on-failure</code> greift nur bei Fehlercode, und ein Dienst, der als leere Hülle weiterläuft, sieht im Journal aus wie einer, der arbeitet.</p>
 </section>
@@ -34,7 +34,7 @@
 <ul>
 <li><strong>Transkription</strong> läuft gegen den lokalen STT-Dienst (<code>ENGAGEMENT_STT_BASE_URL=http://127.0.0.1:8791/v1/audio/transcriptions</code>, faster-whisper <code>large-v3-turbo-ct2</code>). Zeigt die URL auf einen fremden Host, <strong>bricht der Start ab</strong>; nur <code>STREAM_AUDIT_ALLOW_REMOTE_STT=1</code> hebt das auf. Die Unit setzt es nicht.</li>
 <li><strong>Modellschritt</strong> bekommt ausschließlich geschwärzte Ausschnitte, je Anfrage 20 Segmente (<code>SEGMENTE_JE_ANFRAGE</code>). Geschwärzt wird mit denselben Mustern, mit denen erkannt wird — ein Test hält fest, dass ein geschwärzter Treffer nicht mehr auffindbar ist. Das Modell kommt aus <code>tb_llm::selection::endpoint_for("stream_audit")</code>, also aus derselben Auswahl wie der übrige Twitch-Bot. Für einen fremden Anbieter wäre <code>STREAM_AUDIT_ALLOW_REMOTE_LLM=1</code> nötig; die Unit setzt es bewusst nicht.</li>
-<li><strong>Bericht</strong> und DM tragen nie ein Rohzitat, sondern die geschwärzte Fassung plus SHA-256 des Originals. Wer den Wortlaut braucht, geht über den Zeitstempel in die lokale Aufnahme.</li>
+<li><strong>Bericht</strong> trägt kein ungefiltertes Zitat: jeder Beleg läuft durch dieselbe Schwärzung und kommt mit SHA-256 des Originals. Geschwärzt werden aber nur die drei bekannten Muster - was ein Modellfund sonst an Wortlaut enthält, steht im Bericht. Die <strong>DM</strong> trägt überhaupt kein Zitat und keinen Hash.</li>
 </ul>
 <p>Der Bericht sagt selbst, unter welchen Bedingungen er entstand: <code>transkription_lokal</code>, <code>transkript_behalten</code> und <code>modell_geprueft</code>. Fällt der Modellschritt aus, steht "NICHT GELAUFEN" im Bericht — Stille ließe sich sonst nicht von Sauberkeit unterscheiden.</p>
 </section>
@@ -42,18 +42,21 @@
 <section id="regeln">
 <h2>Was gemeldet wird</h2>
 <p>Zwei Stufen. Zuerst drei feste Regeln über dem Transkript (rust/crates/tb-stream-audit/src/rules.rs): rassistische Beleidigung und diskriminierende Beleidigung als <code>hate_speech_slur</code> mit Schwere <code>high</code>, Drohung oder Aufforderung zur Selbstverletzung als <code>threat_or_self_harm</code> mit <code>medium</code>. Die Muster lassen zwischen den Buchstaben beliebige Nicht-Wortzeichen zu (<code>[\W_]*</code>), damit Verschleifungen nicht durchrutschen. Danach der Modellschritt für alles, was keine feste Regel trifft.</p>
-<p>Jeder Fund trägt Zeit im Block, Kategorie, Schwere, Begründung und einen geschwärzten Ausschnitt von rund 80 Zeichen Radius. Sortiert wird nach Schwere, dann nach Zeit — wer den Bericht überfliegt, soll das Schwerste zuerst sehen. Der Befund ist immer ein <em>Verdacht</em>: die Begründungen sagen ausdrücklich "Kontext manuell prüfen".</p>
+<p>Jeder Fund trägt Zeit im Block, Kategorie, Schwere, Begründung, Beleg und Hash. Die Belege sind unterschiedlich groß: ein Regelfund zeigt rund 80 Zeichen um die Fundstelle, ein Modellfund das <strong>ganze Segment</strong>, beides geschwärzt. Sortiert wird nach Schwere, dann nach Zeit — wer den Bericht überfliegt, soll das Schwerste zuerst sehen.</p>
+<p>Jeder Befund ist ein <em>Verdacht</em>. Bei den drei festen Regeln steht der Vorbehalt "Kontext manuell prüfen" fest in der Begründung; bei Modellfunden kommt die Begründung vom Modell und kann knapp oder leer sein. Der Prompt verlangt Zurückhaltung, erzwingt sie aber nicht.</p>
 </section>
 
 <section id="ablage">
 <h2>Ablage und Aufbewahrung</h2>
 <p>Berichte liegen als Markdown und JSON unter <code>STREAM_AUDIT_OUTPUT_DIR</code> (Unit: <code>~/repos/Deadlock-Twitch-Bot/data/stream_coaching_audits</code>), Dateien mit Modus 0600, Verzeichnisse zusätzlich über <code>UMask=0077</code>.</p>
-<p>Das <strong>Rohtranskript bleibt standardmäßig nicht liegen</strong>. <code>STREAM_AUDIT_KEEP_TRANSCRIPT</code> ist per Default aus; wer den Wortlaut für eine Sitzung braucht, schaltet ihn bewusst ein. Berichte räumt <code>STREAM_AUDIT_RETENTION_DAYS</code> auf, Default 30 Tage, <code>0</code> heißt unbegrenzt. Die Aufnahme selbst wird nach erfolgreicher Auswertung gelöscht.</p>
+<p>Das <strong>Rohtranskript bleibt standardmäßig nicht liegen</strong>, <code>STREAM_AUDIT_KEEP_TRANSCRIPT</code> ist per Default aus. Die Aufnahme wird nach erfolgreicher Auswertung gelöscht. Im Normalbetrieb ist der volle Wortlaut damit <strong>weg</strong>: was bleibt, ist der geschwärzte Beleg im Bericht und der Hash, der ein vorgelegtes Zitat bestätigen, aber keines herstellen kann. Wer den Wortlaut braucht, muss den Schalter vorher setzen — rückwirkend geht es nicht. Nur ein Block, der nach drei Versuchen aufgegeben wurde, bleibt als Aufnahme liegen.</p>
+<p>Berichte räumt <code>STREAM_AUDIT_RETENTION_DAYS</code> auf, Default 30 Tage, <code>0</code> heißt unbegrenzt. Ein Durchlauf pro Stunde löscht <code>.md</code>, <code>.json</code> und <code>.txt</code> im Ausgabeordner, deren Änderungszeit älter als die Grenze ist; ist der Zeitstempel nicht lesbar, bleibt die Datei liegen.</p>
 </section>
 
 <section id="meldung">
 <h2>Meldung</h2>
-<p>Die DM geht über den Master-Broker (<code>POST /internal/master/v1/discord/send-dm</code> mit <code>X-Internal-Token</code>) an den Standardempfänger <code>662995601738170389</code>. Überlange Berichte werden zeichenweise auf 1900 Zeichen gekürzt, damit die Discord-Grenze nicht in einem Mehrbyte-Zeichen bricht. Scheitert die Zustellung, gilt der Block als nicht ausgewertet und läuft erneut.</p>
+<p>Die DM geht über den Master-Broker (<code>POST /internal/master/v1/discord/send-dm</code> mit <code>X-Internal-Token</code>) an den Standardempfänger <code>662995601738170389</code>. Sie ist eine Kurzmeldung, nicht der Bericht: eine Kopfzeile mit Kanal, Fundzahl, Zahl der hohen Funde und Segmentzahl, dazu höchstens fünf Funde mit Zeit, Kategorie und Schwere. Kein Zitat, kein Hash — Einzelheiten stehen im Bericht auf der Platte. Gekürzt wird zeichenweise auf 1900 Zeichen, damit die Discord-Grenze nicht in einem Mehrbyte-Zeichen bricht.</p>
+<p>Ohne Funde geht <strong>keine</strong> DM raus. Bei drei Kanälen im Zehnminutentakt wäre eine Ruhemeldung je Block nur Rauschen. Eine Ausnahme: ist der Modellschritt ausgefallen, meldet der Dienst auch ohne Funde — Stille würde sonst eine halbe Prüfung wie eine ganze aussehen lassen. Scheitert die Zustellung, gilt der Block als nicht ausgewertet und läuft erneut.</p>
 </section>
 
 <section id="betrieb">
@@ -69,7 +72,7 @@
 <tr><td><code>STREAM_AUDIT_ALLOW_REMOTE_STT</code></td><td>Transkription auf fremdem Host erlauben</td><td>aus, Start bricht sonst ab</td></tr>
 <tr><td><code>STREAM_AUDIT_ALLOW_REMOTE_LLM</code></td><td>Modellschritt bei fremdem Anbieter erlauben</td><td>aus</td></tr>
 <tr><td><code>ENGAGEMENT_STT_BASE_URL</code></td><td>lokaler Whisper-Endpunkt, OpenAI-kompatibel</td><td>—, ohne Wert startet der Dienst nicht</td></tr>
-<tr><td><code>VOICE_REACTION_STREAMLINK_BIN</code></td><td>streamlink für die Aufnahme</td><td><code>~/stt-tools/bin/streamlink</code></td></tr>
+<tr><td><code>VOICE_REACTION_STREAMLINK_BIN</code></td><td>streamlink für die Aufnahme</td><td>im Code <code>streamlink</code> aus dem <code>PATH</code>; die Unit setzt <code>~/stt-tools/bin/streamlink</code></td></tr>
 <tr><td><code>TWITCH_CLIENT_ID</code>/<code>_SECRET</code></td><td>Helix-Abfrage, wer live ist</td><td>aus Infisical</td></tr>
 </table>
 <p>Kanäle stehen in der Unit und nicht im Binärprogramm: wer aufgenommen wird, soll sichtbar sein, ohne im Code zu suchen. Aktuell <code>helmbombenricky</code>, <code>skifahrertv</code>, <code>deadlockgermany</code>.</p>
@@ -78,7 +81,7 @@
 <section id="stoerungen">
 <h2>Wenn nichts kommt</h2>
 <ul>
-<li><strong>Keine DM, aber Dienst läuft:</strong> Erst prüfen, ob überhaupt jemand live war (<code>journalctl --user -u deadlock-twitch-stream-coaching-watch -g "Aufnahme gestartet"</code>). Ein Lauf ohne Funde meldet trotzdem.</li>
+<li><strong>Keine DM:</strong> Das ist der Normalfall — ohne Funde meldet der Dienst nicht. Ob er gearbeitet hat, zeigen die Berichte im Ausgabeordner und das Journal (<code>journalctl --user -u deadlock-twitch-stream-coaching-watch -g "Block aufgenommen"</code>).</li>
 <li><strong>Dienst tot nach Start:</strong> Exit 2 heißt fehlende Konfiguration — Helix-Zugang, <code>ENGAGEMENT_STT_BASE_URL</code>, oder der Schutz gegen entfernte Transkription hat gegriffen. Der Grund steht im Klartext im Journal.</li>
 <li><strong>Warteschlange wächst:</strong> STT-Dienst prüfen (<code>systemctl --user status deadlock-stt-server</code>). Blöcke bleiben liegen und laufen nach dem Neustart wieder an.</li>
 <li><strong>"NICHT GELAUFEN" im Bericht:</strong> Der Modellschritt ist ausgefallen. Der Bericht ist dann eine Regel-Prüfung, kein vollständiges Audit.</li>

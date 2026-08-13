@@ -119,7 +119,7 @@
       ]
     },
     "internal/betrieb/uebersicht.html": {
-      "stand": "2026-07-11",
+      "stand": "2026-08-13",
       "bindungen": [
         {
           "repo": "Deadlock-Bots",
@@ -136,6 +136,15 @@
           ],
           "geprueft": "9f2bd24b46684ab023b99d53547d25b2b390a4a8",
           "herkunft": "datum-abgeleitet"
+        },
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "ops/systemd",
+            "rust/scripts"
+          ],
+          "geprueft": "f977e91c01d55ca10c33914ae6cea73df6dc20de",
+          "herkunft": "explizit"
         }
       ]
     },
@@ -1058,7 +1067,7 @@
             "rust/scripts/run_stream_audit_service.sh",
             "ops/systemd/deadlock-twitch-stream-coaching-watch.service"
           ],
-          "geprueft": "cb4fca2b0c3ea2fa84810dc996f73908295c86f3",
+          "geprueft": "f977e91c01d55ca10c33914ae6cea73df6dc20de",
           "herkunft": "explizit"
         }
       ]
