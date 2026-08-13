@@ -33,3 +33,6 @@
 - 2026-07-07: Parallel Worker 2 Rust-first-Sweep abgeschlossen: systemd-User-Units vollständig gelesen, Python-/Fallback-Frames auf Rust-first korrigiert, Codepoint-/Frontmatter-Checks leer.
 - 2026-07-07: Parallel Worker 1 abgeschlossen: 6 Dateien unter `internal/deadlock-turniere/` Rust-first umgeschrieben; Python bleibt nur als Legacy-Absatz in `architektur.md`.
 - 2026-07-07: Parallel Worker 1 verifiziert: Frontmatter/Stand vollständig, `UNSICHER` entfernt, Codepoint-Pflicht-Check für Zielordner und Workflow leer.
+- 2026-08-13: Frische-Verfolgung eingeführt: `quellen.json` bindet alle 70 internen Seiten an Quell-Repos, Pfade und geprüften Commit.
+- 2026-08-13: `tools/check_freshness.py` plus 14 Tests ergänzt; meldet veraltete, nicht prüfbare und nicht im Manifest eingetragene Seiten nach `berichte/frische.md`.
+- 2026-08-13: Erster Lauf: 67 von 70 internen Seiten sind seit ihrer Erstellung von den Quellen überholt, 23 davon mit genauer Bindung; Korpus-Validator und Gesamt-Testlauf (145 Tests) bleiben grün.

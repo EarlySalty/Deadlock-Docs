@@ -7,6 +7,7 @@ Zentrales Wissens-Repo für die Deutsche Deadlock Community. Es bündelt das gep
 - `public/`: öffentliches, redigiertes Supportwissen für Mitglieder.
 - `internal/`: Entwicklungs-, Betriebs- und Produktwissen für Menschen mit internem Zugriff.
 - `evals/`: sechs geprüfte Fragenpakete mit insgesamt 224 realistischen Supportfragen.
+- `quellen.json`: bindet jede interne Seite an die Quell-Repos und Pfade, aus denen sie geschrieben wurde, samt geprüftem Commit.
 
 Alle Wissensseiten unter `public/` und `internal/` sind kanonisches, semantisches HTML. Root-Dateien wie README, Plan und Changelog bleiben Markdown und werden nie indexiert.
 
@@ -24,5 +25,23 @@ Der Agent fragt keinen aktuellen Dienststatus ab und startet aufgrund einer Nutz
 - Jede Seite erfüllt den HTML-Vertrag mit Titel, Metadaten, genau einem Hauptbereich und genau einer Hauptüberschrift.
 - Der Korpus-Validator prüft Struktur, Links, Trennung und öffentliche Redaction.
 - Deployment und Reload verwenden nur committete, validierte Inhalte; der Arbeitsbaum ist kein Produktionskorpus.
+
+### Frische der internen Seiten
+
+Interne Seiten beschreiben Code, der weiterläuft, während die Seite stillsteht. `tools/check_freshness.py` macht diesen Abstand sichtbar: Es liest `quellen.json`, fragt jedes gebundene Quell-Repo, was sich seit dem geprüften Commit in den gebundenen Pfaden geändert hat, und schreibt das Ergebnis nach `berichte/frische.md`.
+
+```bash
+python3 tools/check_freshness.py --schreiben   # Bericht erneuern
+python3 tools/check_freshness.py --json        # maschinenlesbar
+python3 tools/check_freshness.py --strict      # Exit 1, sobald eine Seite veraltet ist
+```
+
+Die Quell-Repos werden unter `$DL_REPO_HOME` gesucht, standardmäßig im Elternverzeichnis dieses Repos. Der Lauf ist rein lesend.
+
+Pflege-Vertrag:
+
+- Wer eine interne Seite überarbeitet, setzt `geprueft` des zugehörigen Eintrags auf den dann aktuellen Commit des Quell-Repos und trägt bei der Gelegenheit die genauen Pfade nach.
+- Wer eine interne Seite anlegt, legt den Eintrag in `quellen.json` mit an. Ohne Eintrag schlägt der Lauf fehl, auch ohne `--strict`; eine unverfolgte Seite veraltet sonst unbemerkt.
+- `veraltet` heißt ungeprüft, nicht falsch. Grob gebundene Seiten liefern Obergrenzen, genau gebundene liefern Befunde.
 
 Website-FAQ und Twitch-In-App sind mögliche spätere Konsumenten desselben öffentlichen Wissensdienstes.

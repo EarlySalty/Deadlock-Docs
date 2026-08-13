@@ -1,0 +1,1051 @@
+{
+  "version": 1,
+  "hinweis": "Bindet jede interne Wissensseite an die Quellen, aus denen sie geschrieben wurde. tools/check_freshness.py meldet, welche Seiten seit dem geprueften Commit ueberholt wurden. Nach einer Ueberarbeitung wird 'geprueft' auf den dann aktuellen Commit gesetzt.",
+  "repo_basis_env": "DL_REPO_HOME",
+  "ausschluss": [
+    "graphify-out",
+    "logs",
+    "data",
+    "target",
+    "rust/target",
+    "__pycache__",
+    "node_modules",
+    "WORKFLOW.md",
+    "CHANGELOG.md"
+  ],
+  "repos": {
+    "Deadlock-Bots": {
+      "verzeichnis": "Deadlock-Bots",
+      "branch": "main"
+    },
+    "Deadlock-Twitch-Bot": {
+      "verzeichnis": "Deadlock-Twitch-Bot",
+      "branch": "main"
+    },
+    "Deadlock-Steam-Bot": {
+      "verzeichnis": "Deadlock-Steam-Bot",
+      "branch": "main"
+    },
+    "Deadlock-Turniere": {
+      "verzeichnis": "Deadlock-Turniere",
+      "branch": "main"
+    },
+    "Deadlock--Patchnotes-Bot": {
+      "verzeichnis": "Deadlock--Patchnotes-Bot",
+      "branch": "main"
+    },
+    "Website": {
+      "verzeichnis": "Website",
+      "branch": "main"
+    },
+    "Deadlock-Brain": {
+      "verzeichnis": "Deadlock-Brain",
+      "branch": "main"
+    },
+    "Deadlock-Docs": {
+      "verzeichnis": "Deadlock-Docs",
+      "branch": "main"
+    },
+    "Caddy": {
+      "verzeichnis": "Caddy",
+      "branch": "master"
+    }
+  },
+  "seiten": {
+    "internal/STYLEGUIDE.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "tools/validate_corpus.py"
+          ],
+          "geprueft": "5dfe43fbd5af17ad72c884af0dc0780e43eb942e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/betrieb/datenbank.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-central-db",
+            "rust/crates/dl-central-etl"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/betrieb/deploy.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "scripts"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/betrieb/routing-caddy.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Caddy",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "89c1f8ab016b724f7c58e8ca512b37d6b1c6d5a1",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/betrieb/secrets-infisical.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "scripts"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        }
+      ]
+    },
+    "internal/betrieb/uebersicht.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "scripts"
+          ],
+          "geprueft": "7b0f35bb3ed64e701a4b88ab7e92375e5d117c90",
+          "herkunft": "datum-abgeleitet"
+        },
+        {
+          "repo": "Caddy",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "9f2bd24b46684ab023b99d53547d25b2b390a4a8",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/betrieb/zentrale-bot-config.html": {
+      "stand": "2026-07-27",
+      "bindungen": [],
+      "grund": "Quelle sind Host-Dateien (~/.config/deadlock/bots.env, systemd-Drop-ins), kein Repo"
+    },
+    "internal/deadlock-bots/architektur.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/betrieb.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "scripts"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        },
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "tools/deploy_corpus.sh"
+          ],
+          "geprueft": "08c01ff0e50a5a159dd13e9b112f20d487d9765f",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/coaching-devs.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/coaching.html"
+          ],
+          "geprueft": "89390f67580426b9611863511598a6ffbe46698e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/community-tools-devs.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/community-tools.html"
+          ],
+          "geprueft": "5dfe43fbd5af17ad72c884af0dc0780e43eb942e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/datenmodell.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-central-db"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/faq-bot-selbst-devs.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/bin/dl-knowledge",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        },
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/faq-bot-selbst.html"
+          ],
+          "geprueft": "08c01ff0e50a5a159dd13e9b112f20d487d9765f",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/faq-grounding.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/bin/dl-knowledge",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        }
+      ]
+    },
+    "internal/deadlock-bots/integrationen.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-bridges"
+          ],
+          "geprueft": "7b0f35bb3ed64e701a4b88ab7e92375e5d117c90",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/moderation-scam-guard.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-moderation"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/onboarding-concierge-devs.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "b069b5c857e0bed5ffa4be5098aabf1609f3a5c5",
+          "herkunft": "explizit"
+        }
+      ]
+    },
+    "internal/deadlock-bots/onboarding-concierge-llm-compliance.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/onboarding-concierge-slice-b-c.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-voice/src/nudge.rs",
+            "rust/crates/dl-voice/src/feedback.rs"
+          ],
+          "geprueft": "7b0f35bb3ed64e701a4b88ab7e92375e5d117c90",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/onboarding-concierge-texte.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "b069b5c857e0bed5ffa4be5098aabf1609f3a5c5",
+          "herkunft": "explizit"
+        }
+      ]
+    },
+    "internal/deadlock-bots/onboarding-und-invites-devs.html": {
+      "stand": "2026-07-10",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/onboarding-und-invites.html"
+          ],
+          "geprueft": "91f8207a7f9df74533652f4ef6856e22fadb4f19",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/rules-und-channels-devs.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/rules-und-channels.html"
+          ],
+          "geprueft": "89390f67580426b9611863511598a6ffbe46698e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/scrim-orga-redaction-notes.html": {
+      "stand": "2026-07-24",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/dokus/scrims"
+          ],
+          "geprueft": "697f05d0ad0e99b91c3e41e4fec2f43f28c725f0",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/server-insights.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "docs/server_insights.md",
+            "rust/crates/dl-stats"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/stats-und-privacy-devs.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-activity",
+            "rust/crates/dl-community",
+            "rust/crates/dl-voice",
+            "rust/crates/dl-central-db"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        },
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "6fad947c3b0a7b34b79f16a67f0eb6aec3be6cfe",
+          "herkunft": "explizit"
+        },
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/stats-und-privacy.html"
+          ],
+          "geprueft": "08c01ff0e50a5a159dd13e9b112f20d487d9765f",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/steam-integration-devs.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/steam-integration.html"
+          ],
+          "geprueft": "89390f67580426b9611863511598a6ffbe46698e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/support-agent-design.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/bin/dl-knowledge",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/concierge.rs"
+          ],
+          "geprueft": "3bc8ca8a27285471e9b8d150a2b04818f9e15372",
+          "herkunft": "explizit"
+        }
+      ]
+    },
+    "internal/deadlock-bots/tierlist-und-builds-devs.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/tierlist-und-builds.html"
+          ],
+          "geprueft": "728368dc6345f75161dddea453f6401bd33345ca",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/twitch-clips-und-social.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "docs/twitch-clips-und-social.md",
+            "rust/crates/dl-bridges"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/uebersicht.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "9669df25ebd2c055a098c04e4de2b43ffdb6e410",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-bots/voice-features-devs.html": {
+      "stand": "2026-07-11",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Bots",
+          "pfade": [
+            "rust/crates/dl-voice"
+          ],
+          "geprueft": "7b0f35bb3ed64e701a4b88ab7e92375e5d117c90",
+          "herkunft": "datum-abgeleitet"
+        },
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/discord-server/voice-features.html"
+          ],
+          "geprueft": "5dfe43fbd5af17ad72c884af0dc0780e43eb942e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-brain/match-demo-learning.html": {
+      "stand": "2026-07-10",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Brain",
+          "pfade": [
+            "rust",
+            "src"
+          ],
+          "geprueft": "10edcd428f52f96075e596f4ffd0ab1d804ddabe",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/architektur.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/betrieb.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust",
+            "scripts"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/datenmodell.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/integrationen.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/task-queue.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-steam-bot/uebersicht.html": {
+      "stand": "2026-07-08",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Steam-Bot",
+          "pfade": [
+            "rust"
+          ],
+          "geprueft": "d802571476faf7bd79b4a10c63b1d1b678228c1e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/architektur.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend"
+          ],
+          "geprueft": "c6a5d2c9fa49c8c5b78c951e02982388c7f344ea",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/betrieb.html": {
+      "stand": "2026-07-12",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "ops",
+            "scripts"
+          ],
+          "geprueft": "208c28bfc81a7837486389746889b2a1125166e0",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/datenmodell.html": {
+      "stand": "2026-07-10",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend"
+          ],
+          "geprueft": "c6a5d2c9fa49c8c5b78c951e02982388c7f344ea",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/draft-lobbys-redaction-notes.html": {
+      "stand": "2026-07-16",
+      "bindungen": [],
+      "grund": "Redaktionspruefung einer Doku-Seite, kein Code-Bezug"
+    },
+    "internal/deadlock-turniere/draft-lobbys.html": {
+      "stand": "2026-07-16",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend",
+            "frontend"
+          ],
+          "geprueft": "16490dcf3950be8a27a052f21a308f22880c1155",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/integrationen.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend"
+          ],
+          "geprueft": "c6a5d2c9fa49c8c5b78c951e02982388c7f344ea",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/match-automatik.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend"
+          ],
+          "geprueft": "c6a5d2c9fa49c8c5b78c951e02982388c7f344ea",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-turniere/uebersicht.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Turniere",
+          "pfade": [
+            "rust",
+            "backend",
+            "frontend"
+          ],
+          "geprueft": "c6a5d2c9fa49c8c5b78c951e02982388c7f344ea",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/affiliate.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "03822a50cbe45535825dd9c049a68126545f0eb1",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/architektur.html": {
+      "stand": "2026-07-18",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "9e740716a4fd43336e9bc028eeff943aa8d917ba",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/betrieb.html": {
+      "stand": "2026-07-27",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "ops",
+            "rust"
+          ],
+          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/bot-trennen.html": {
+      "stand": "2026-08-03",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "22fd298dda2f852a39bc4c069d977def94ab348c",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/crew-guard-radar.html": {
+      "stand": "2026-07-28",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "1283d4818c495aadf85182594bdcebb105797ab7",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/datenmodell.html": {
+      "stand": "2026-07-18",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "9e740716a4fd43336e9bc028eeff943aa8d917ba",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/integrationen.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "03822a50cbe45535825dd9c049a68126545f0eb1",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/knowledge-faq.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "03822a50cbe45535825dd9c049a68126545f0eb1",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/pause-loop-obs.html": {
+      "stand": "2026-07-20",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "a0a3f8d702a74de79f1a042a84d858d059bca1e6",
+          "herkunft": "datum-abgeleitet"
+        },
+        {
+          "repo": "Caddy",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "ed03744ad4cc3c233af33ff1969ab0d9c3e8d741",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/scam-guard.html": {
+      "stand": "2026-07-27",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/smalltalk-shadow.html": {
+      "stand": "2026-07-27",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/uebersicht.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "bot"
+          ],
+          "geprueft": "03822a50cbe45535825dd9c049a68126545f0eb1",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/deadlock-twitch-bot/verwaltung-selbstbedienung.html": {
+      "stand": "2026-08-03",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust",
+            "features"
+          ],
+          "geprueft": "22fd298dda2f852a39bc4c069d977def94ab348c",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/patchnotes-bot/architektur.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock--Patchnotes-Bot",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "e1c71cba480267e2aacda5bdefba110c0864cbb2",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/patchnotes-bot/betrieb.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock--Patchnotes-Bot",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "e1c71cba480267e2aacda5bdefba110c0864cbb2",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/patchnotes-bot/integrationen.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock--Patchnotes-Bot",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "e1c71cba480267e2aacda5bdefba110c0864cbb2",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/patchnotes-bot/uebersicht.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock--Patchnotes-Bot",
+          "pfade": [
+            "."
+          ],
+          "geprueft": "e1c71cba480267e2aacda5bdefba110c0864cbb2",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/architektur.html": {
+      "stand": "2026-07-10",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "builds",
+            "dl-coaching",
+            "dl-landing"
+          ],
+          "geprueft": "f305c821d1b80fa6d51b16ffe49951fd51b154ce",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/betrieb.html": {
+      "stand": "2026-07-10",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "builds",
+            "scripts"
+          ],
+          "geprueft": "f305c821d1b80fa6d51b16ffe49951fd51b154ce",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/datenmodell.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "builds"
+          ],
+          "geprueft": "66a9c32b46af485d5f75d058f5f669dfafbb983c",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/integrationen.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "builds"
+          ],
+          "geprueft": "66a9c32b46af485d5f75d058f5f669dfafbb983c",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/scrim-cockpit-handbuch.html": {
+      "stand": "2026-07-16",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "dl-coaching",
+            "builds/backend-rust/src/routes/scrim.rs"
+          ],
+          "geprueft": "5b9bfa3b784a07e65bf5b1cc4cc6fc68e360d8cf",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/uebersicht.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Website",
+          "pfade": [
+            "builds",
+            "dl-coaching",
+            "dl-landing"
+          ],
+          "geprueft": "66a9c32b46af485d5f75d058f5f669dfafbb983c",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    },
+    "internal/website/website-portale-technik.html": {
+      "stand": "2026-07-07",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Docs",
+          "pfade": [
+            "public/website/website-portale.html"
+          ],
+          "geprueft": "89390f67580426b9611863511598a6ffbe46698e",
+          "herkunft": "datum-abgeleitet"
+        }
+      ]
+    }
+  }
+}
