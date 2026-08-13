@@ -1,0 +1,10 @@
+[Unit]
+Description=Woechentlicher Frische-Abgleich der internen Wissensseiten
+
+[Timer]
+OnCalendar=Sat *-*-* 07:00:00
+Persistent=true
+RandomizedDelaySec=15m
+
+[Install]
+WantedBy=timers.target

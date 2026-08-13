@@ -1,0 +1,10 @@
+[Unit]
+Description=Interne Wissensseiten gegen die Quell-Repos abgleichen
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/repos/Deadlock-Docs
+ExecStart=%h/repos/Deadlock-Docs/tools/weekly_freshness.sh
+Environment=DL_REPO_HOME=%h/repos
