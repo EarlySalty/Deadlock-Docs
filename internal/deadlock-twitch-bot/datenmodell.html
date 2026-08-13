@@ -14,7 +14,7 @@
 <h2>Migrationen</h2>
 <ul>
 <li>Die Rust-Migrationen sind die aktive Schemaquelle, weil <code>tb-db</code> <code>../../migrations</code> einbettet und <code>tb-dashboard</code> sie beim Start ausführt. (rust/crates/tb-db/src/migrate.rs; rust/bin/tb-dashboard/src/main.rs)</li>
-<li><code>tb_schema_ownership</code> markiert <code>analytics_schema</code> als <code>rust</code>. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership.sql)</li>
+<li><code>tb_schema_ownership</code> markiert <code>analytics_schema</code> als <code>rust</code>. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership_marker.sql)</li>
 </ul>
 </section>
 <section id="spezial-review-events">
@@ -90,9 +90,9 @@
 <h2>Telemetrie und Features</h2>
 <ul>
 <li><code>20260630130000_reconcile_event_hypertables.sql</code> legt Hypertables für Ads, Bans, Bits, Channel-Points, Clips, EventSub-Kapazität, Follows, Hype-Trains, Link-Klicks, Raids, Sessions, Shoutouts, Statistik-Kategorien, Subscriptions und Viewers an. (rust/migrations/20260630130000_reconcile_event_hypertables.sql)</li>
-<li>Engagement nutzt Tabellen für Settings, Conversation, Logs, Stream-Transkripte, Sender-Auth und Self-Explainer. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260628130000_engagement_sender_auth.sql; rust/migrations/20260617040000_self_explainer_feedback.sql)</li>
+<li>Engagement nutzt Tabellen für Settings, Conversation, Logs, Stream-Transkripte, Sender-Auth und Self-Explainer. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260628130000_engagement_sender_auth.sql; rust/migrations/20260617040000_self_explainer_and_irc_read.sql)</li>
 <li>Social-Media-Features nutzen Tabellen für Clips, Upload-Queue, Analytics, Approval, Enrichment, Plattform-Auth, Settings, Templates und Reports. (rust/migrations/20260601000000_baseline_schema.sql)</li>
-<li>Billing nutzt <code>twitch_billing_subscriptions</code>, <code>twitch_billing_profiles</code> und <code>twitch_billing_events</code>. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260617010000_billing_profiles.sql; rust/migrations/20260630144000_billing_events.sql)</li>
+<li>Billing nutzt <code>twitch_billing_subscriptions</code>, <code>twitch_billing_profiles</code> und <code>twitch_billing_events</code>. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260617010000_tb_dashboard_api_billing_profiles.sql; rust/migrations/20260630144000_billing_events_runtime_table.sql)</li>
 <li>Affiliate nutzt <code>affiliate_accounts</code>, <code>affiliate_pii</code>, <code>affiliate_streamer_claims</code>, <code>affiliate_commissions</code>, <code>affiliate_gutschrift_counter</code> und <code>affiliate_gutschriften</code>. (rust/migrations/20260617030000_baseline_missing_tables.sql)</li>
 </ul>
 </section>

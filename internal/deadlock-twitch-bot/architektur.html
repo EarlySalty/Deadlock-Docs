@@ -62,7 +62,7 @@
 <ul>
 <li>Beide Binaries lesen <code>TWITCH_ANALYTICS_DSN</code> und bauen daraus einen PostgreSQL-Pool. (rust/crates/tb-config/src/lib.rs; rust/crates/tb-db/src/pool.rs)</li>
 <li>Rust-Migrationen liegen unter <code>rust/migrations</code> und werden über <code>sqlx::migrate!</code> eingebettet. (rust/crates/tb-db/src/migrate.rs)</li>
-<li>Der Schema-Owner-Marker <code>tb_schema_ownership</code> kennzeichnet <code>analytics_schema</code> als Rust-owned. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership.sql)</li>
+<li>Der Schema-Owner-Marker <code>tb_schema_ownership</code> kennzeichnet <code>analytics_schema</code> als Rust-owned. (rust/crates/tb-db/src/migrate.rs; rust/migrations/20260702090000_schema_ownership_marker.sql)</li>
 </ul>
 </section>
 <section id="legacy">

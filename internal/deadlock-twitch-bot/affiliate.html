@@ -16,7 +16,7 @@
 <li>Affiliate-Onboarding startet über <code>/twitch/auth/affiliate/login</code> und endet über <code>/twitch/auth/affiliate/callback</code> in einer Affiliate-Session. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
 <li>Stripe-Connect läuft über <code>/twitch/affiliate/connect/stripe</code> und <code>/twitch/affiliate/connect/stripe/callback</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs)</li>
 <li>Streamer-Claims laufen über <code>/twitch/affiliate/claim</code> und API-Routen unter <code>/twitch/api/affiliate/*</code>. (rust/crates/tb-dashboard-api/src/handlers/affiliate.rs; rust/crates/tb-dashboard-api/src/lib.rs)</li>
-<li>Das Affiliate-Cookie heißt <code>twitch_affiliate_session</code>. (rust/crates/tb-dashboard-api/src/session.rs)</li>
+<li>Das Affiliate-Cookie heißt <code>twitch_affiliate_session</code>. (rust/crates/tb-dashboard-api/src/auth/session.rs)</li>
 </ul>
 </section>
 <section id="daten">
