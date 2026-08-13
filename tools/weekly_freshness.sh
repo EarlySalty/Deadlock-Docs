@@ -12,6 +12,15 @@ BERICHT="berichte/frische.md"
 
 cd "$REPO_ROOT"
 
+# Der Dienst teilt sich den Arbeitsbaum mit Menschen. Laeuft er, waehrend ein
+# Feature-Branch ausgecheckt ist, landet der Bericht per `push` still dort statt
+# auf main. Lieber laut abbrechen als am falschen Ort committen.
+ZWEIG="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$ZWEIG" != "main" ]; then
+  echo "Arbeitsbaum steht auf '$ZWEIG', nicht auf main – Lauf abgebrochen." >&2
+  exit 1
+fi
+
 # Der Bericht beschreibt den committeten Stand der Quell-Repos. Ein schmutziger
 # Arbeitsbaum wuerde ihn mit halbfertigen Aenderungen vermischen.
 if [ -n "$(git status --porcelain -- "$BERICHT")" ]; then
@@ -34,5 +43,5 @@ print(sum(1 for s in seiten if s["status"] == "veraltet"))
 
 git add -- "$BERICHT"
 git commit -q -m "docs(frische): woechentlicher Quellabgleich, ${VERALTET} Seiten ungeprueft"
-git push -q origin HEAD
+git push -q origin main
 echo "Bericht aktualisiert und gepusht (${VERALTET} veraltete Seiten)."

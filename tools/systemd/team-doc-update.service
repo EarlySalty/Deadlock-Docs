@@ -3,5 +3,5 @@ Description=Team-Doku aus Discord-Rollen aktualisieren
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/naniadm/Documents/Deadlock-Docs
-ExecStart=/usr/bin/python3 /home/naniadm/Documents/Deadlock-Docs/tools/update_team_doc.py
+WorkingDirectory=%h/repos/Deadlock-Docs
+ExecStart=/usr/bin/python3 %h/repos/Deadlock-Docs/tools/update_team_doc.py
