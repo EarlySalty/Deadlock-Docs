@@ -1046,6 +1046,22 @@
           "herkunft": "datum-abgeleitet"
         }
       ]
+    },
+    "internal/deadlock-twitch-bot/stream-coaching-audit.html": {
+      "stand": "2026-08-13",
+      "bindungen": [
+        {
+          "repo": "Deadlock-Twitch-Bot",
+          "pfade": [
+            "rust/crates/tb-stream-audit",
+            "rust/bin/tb-stream-audit",
+            "rust/scripts/run_stream_audit_service.sh",
+            "ops/systemd/deadlock-twitch-stream-coaching-watch.service"
+          ],
+          "geprueft": "cb4fca2b0c3ea2fa84810dc996f73908295c86f3",
+          "herkunft": "explizit"
+        }
+      ]
     }
   }
 }

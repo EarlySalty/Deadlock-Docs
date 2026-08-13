@@ -105,10 +105,10 @@ Welcher Stand tatsächlich läuft, belegt allein die deployte Revision samt Heal
 <tr>
 <td><code>deadlock-twitch-stream-coaching-watch.service</code></td>
 <td><code>Deadlock-Twitch-Bot</code></td>
-<td>stillgelegt: Das Startskript wurde beim Abriss der Python-Laufzeit entfernt, die Unit zeigt weiter darauf und scheiterte zuletzt mit <code>203/EXEC</code>. Der Dienst ist inzwischen deaktiviert.</td>
-<td>kein Prozess</td>
-<td>kein Listener</td>
-<td><code>systemctl --user cat deadlock-twitch-stream-coaching-watch.service</code></td>
+<td><code>rust/scripts/run_stream_audit_service.sh</code></td>
+<td><code>rust/target/release/tb-stream-audit</code></td>
+<td>kein Listener; braucht <code>deadlock-stt-server.service</code> auf <code>8791</code></td>
+<td><code>systemctl --user cat deadlock-twitch-stream-coaching-watch.service</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_stream_audit_service.sh</code>; <code>Deadlock-Twitch-Bot/rust/bin/tb-stream-audit/src/main.rs</code>; internal/deadlock-twitch-bot/stream-coaching-audit.html</td>
 </tr>
 <tr>
 <td><code>deadlock-turniere.service</code></td>
