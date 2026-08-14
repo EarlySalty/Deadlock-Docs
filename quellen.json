@@ -119,7 +119,7 @@
       ]
     },
     "internal/betrieb/uebersicht.html": {
-      "stand": "2026-08-13",
+      "stand": "2026-07-11",
       "bindungen": [
         {
           "repo": "Deadlock-Bots",
@@ -143,7 +143,7 @@
             "ops/systemd",
             "rust/scripts"
           ],
-          "geprueft": "f977e91c01d55ca10c33914ae6cea73df6dc20de",
+          "geprueft": "5082d53ffdd29cd88a03c5befe5c949d0694e5da",
           "herkunft": "explizit"
         }
       ]
@@ -1057,17 +1057,20 @@
       ]
     },
     "internal/deadlock-twitch-bot/stream-coaching-audit.html": {
-      "stand": "2026-08-13",
+      "stand": "2026-08-14",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
           "pfade": [
             "rust/crates/tb-stream-audit",
             "rust/bin/tb-stream-audit",
+            "rust/crates/tb-engagement/src/audio_capture.rs",
+            "rust/crates/tb-engagement/src/transcribe.rs",
+            "rust/crates/tb-llm/src/selection.rs",
             "rust/scripts/run_stream_audit_service.sh",
             "ops/systemd/deadlock-twitch-stream-coaching-watch.service"
           ],
-          "geprueft": "f977e91c01d55ca10c33914ae6cea73df6dc20de",
+          "geprueft": "5082d53ffdd29cd88a03c5befe5c949d0694e5da",
           "herkunft": "explizit"
         }
       ]
