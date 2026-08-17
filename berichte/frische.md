@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-08-16 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-08-17 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **68**, davon 25 mit genauer Bindung
