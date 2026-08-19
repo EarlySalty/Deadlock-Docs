@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ &amp; Hilfe · Deutsche Deadlock Community</title>
+<meta name="description" content="Alle häufigen Fragen und Anleitungen der Deutschen Deadlock Community: Deadlock-Invite, Steam-Verknüpfung, Rang, Mitspieler, Voice-Lanes, kostenloses Coaching, Twitch-Bot, Turniere, Patchnotes und Datenschutz. Auf Deutsch.">
+<link rel="canonical" href="https://deutsche-deadlock-community.de/faq/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FAQ &amp; Hilfe · Deutsche Deadlock Community">
+<meta property="og:description" content="Alle Fragen und Anleitungen: Invite, Steam, Rang, Mitspieler, Voice, Coaching, Twitch-Bot, Turniere. Auf Deutsch.">
+<meta property="og:url" content="https://deutsche-deadlock-community.de/faq/">
+<meta property="og:image" content="https://deutsche-deadlock-community.de/ddc-logo.svg">
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/brand/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(201,168,106,0.10), transparent 60%),
+      var(--ink, #0b0b0b);
+    color: var(--bone, #f2eee6);
+    font-family: var(--font-body, "Manrope", system-ui, sans-serif);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--gold-bright, #efd49d); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: clamp(1.2rem, 4vw, 3rem); }
+
+  header.hero { padding-top: clamp(2rem, 6vw, 4.5rem); }
+  .kicker {
+    font-family: var(--font-body); font-size: .8rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold, #c8a86b); margin: 0 0 .8rem;
+  }
+  h1 {
+    font-family: var(--font-display, "Sora", Georgia, serif);
+    font-weight: 700; font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1.05;
+    margin: 0 0 1rem; color: var(--bone, #f2eee6);
+  }
+  .lede { font-size: clamp(1.05rem, 2.4vw, 1.2rem); color: var(--bone-dim, #b5aea2); max-width: 62ch; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.6rem 0 .4rem; }
+  .btn {
+    display: inline-block; padding: .7rem 1.2rem; border-radius: 999px;
+    font-weight: 600; font-size: .95rem; border: 1px solid var(--gold-border, rgba(201,168,106,.42));
+  }
+  .btn.primary { background: var(--gold, #c8a86b); color: #14100a; border-color: transparent; }
+  .btn.primary:hover { background: var(--gold-bright, #efd49d); text-decoration: none; }
+  .btn.ghost:hover { background: var(--gold-glow, rgba(201,168,106,.14)); text-decoration: none; }
+
+  nav.toc {
+    margin: 2.6rem 0 1rem; padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line, rgba(201,168,106,.24)); border-radius: 14px;
+    background: var(--panel-solid, #161616);
+  }
+  nav.toc p { margin: 0 0 .6rem; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-faint, #8d867a); }
+  nav.toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem .9rem; }
+  nav.toc a { font-size: .95rem; }
+
+  section.faq, section.topic { margin-top: 2.8rem; }
+  section.faq > h2, section.topic > h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+    margin: 0 0 .4rem; padding-top: .6rem; scroll-margin-top: 1rem;
+  }
+  .section-note { margin: 0 0 1.1rem; color: var(--bone-dim, #b5aea2); font-size: .98rem; }
+
+  details {
+    border: 1px solid var(--line-soft, rgba(201,168,106,.14));
+    border-radius: 12px; margin: .6rem 0; background: rgba(255,255,255,0.015);
+    overflow: hidden; transition: border-color .2s var(--ease, ease);
+  }
+  details[open] { border-color: var(--gold-border, rgba(201,168,106,.42)); background: rgba(201,168,106,0.04); }
+  summary {
+    cursor: pointer; list-style: none; padding: 1rem 1.2rem; font-weight: 600;
+    font-size: 1.03rem; color: var(--bone, #f2eee6); display: flex; gap: .7rem; align-items: baseline;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; color: var(--gold, #c8a86b); font-weight: 700; font-size: 1.2rem; line-height: 1; }
+  details[open] summary::before { content: "\2212"; }
+  summary:hover { color: var(--gold-bright, #efd49d); }
+  .answer { padding: 0 1.2rem 1.15rem 2.55rem; color: var(--bone-dim, #cfc7b8); }
+  .answer p { margin: 0 0 .7rem; }
+  .answer p:last-child { margin-bottom: 0; }
+  .answer .more { font-size: .9rem; }
+  ul.subs { margin: .2rem 0 .7rem; padding-left: 1.1rem; color: var(--bone-dim, #b5aea2); font-size: .95rem; }
+  ul.subs li { margin: .15rem 0; }
+  code { background: rgba(201,168,106,0.12); color: var(--gold-bright, #efd49d); padding: .08em .4em; border-radius: 5px; font-family: var(--font-mono, monospace); font-size: .92em; }
+
+  .hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .5rem; }
+  .hero-grid a {
+    display: block; padding: .55rem .7rem; border-radius: 9px; text-align: center;
+    border: 1px solid var(--line-soft, rgba(201,168,106,.14)); background: rgba(255,255,255,0.015);
+    color: var(--bone, #f2eee6); font-size: .92rem;
+  }
+  .hero-grid a:hover { border-color: var(--gold-border, rgba(201,168,106,.42)); color: var(--gold-bright, #efd49d); text-decoration: none; }
+
+  .callout {
+    margin: 1.4rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--gold, #c8a86b);
+    background: var(--gold-glow, rgba(201,168,106,.14)); border-radius: 0 10px 10px 0;
+    color: var(--bone, #f2eee6); font-size: .97rem;
+  }
+  footer {
+    margin-top: 4rem; padding-top: 1.6rem; border-top: 1px solid var(--line-soft, rgba(201,168,106,.14));
+    color: var(--bone-faint, #8d867a); font-size: .9rem;
+  }
+  footer a { color: var(--bone-dim, #b5aea2); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "de",
+  "name": "FAQ der Deutschen Deadlock Community",
+  "url": "https://deutsche-deadlock-community.de/faq/",
+  "mainEntity": [
+    {"@type":"Question","name":"Wie bekomme ich einen Deadlock-Invite?","acceptedAnswer":{"@type":"Answer","text":"Verknüpfe deinen Steam-Account im Steam-Kanal auf dem Discord und nimm danach die Freundschaftsanfrage unseres Steam-Bots an. Der Invite kommt dann automatisch, meist innerhalb weniger Stunden. Alternativ kannst du im Fragen-Kanal nach einem Invite fragen und deinen Steam-Freundescode dazuschreiben, dann lädt dich jemand persönlich ein."}},
+    {"@type":"Question","name":"Muss ich dem Bot eine Steam-Freundschaftsanfrage schicken?","acceptedAnswer":{"@type":"Answer","text":"Normalerweise nicht: Nach dem Verknüpfen schickt der Bot dir eine Anfrage, du nimmst sie auf Steam nur an. Kam nichts an, füge ihn selbst über Steam, Freunde, Freund hinzufügen mit dem Freundescode 820142646 hinzu. Sobald die Freundschaft steht, läuft dein Invite automatisch weiter."}},
+    {"@type":"Question","name":"Wie lange dauert mein Invite?","acceptedAnswer":{"@type":"Answer","text":"Sobald die Steam-Freundschaft mit dem Bot bestätigt ist, dauert es in der Regel nur ein paar Stunden, oft schneller. Über das Panel im Steam-Kanal kannst du deine Verknüpfung jederzeit neu prüfen lassen."}},
+    {"@type":"Question","name":"Mein Invite hängt, was tun?","acceptedAnswer":{"@type":"Answer","text":"Fast immer liegt es an drei Punkten: Steam ist noch nicht verknüpft, die Freundschaftsanfrage des Bots wurde auf Steam noch nicht angenommen, oder dein Steam-Account ist limited. Geh die drei durch. Klemmt es weiter, schreib im Fragen-Kanal oder mach ein Support-Ticket auf, dann schaut ein Mensch drauf."}},
+    {"@type":"Question","name":"Steam sagt limited account, warum kein Invite?","acceptedAnswer":{"@type":"Answer","text":"Das ist eine Beschränkung von Valve, kein Fehler bei uns. Limited sind Steam-Accounts, die noch nie mindestens 5 Dollar im Steam-Store ausgegeben haben. Nach einem einmaligen Kauf über 5 Dollar fällt die Sperre weg."}},
+    {"@type":"Question","name":"Wie verknüpfe ich meinen Steam-Account?","acceptedAnswer":{"@type":"Answer","text":"Im Steam-Kanal auf dem Discord führt dich ein Guide Schritt für Schritt: Button klicken, auf der offiziellen Steam-Seite einloggen, Freundschaftsanfrage des Bots annehmen, fertig. Der Login läuft über Steam OpenID, wir sehen nie dein Passwort."}},
+    {"@type":"Question","name":"Was passiert bei der Verifizierung mit meinen Daten?","acceptedAnswer":{"@type":"Answer","text":"Die Verknüpfung läuft über den offiziellen Steam-Login (OpenID). Wir sehen nie dein Passwort und haben keinen Zugriff auf deinen Account, wir bekommen nur deine Steam-ID. Dafür bekommst du deine echte Rang-Rolle, Zugang zu den Ranked-Funktionen und kannst Freunde einladen. Deine Daten kannst du jederzeit exportieren oder löschen lassen."}},
+    {"@type":"Question","name":"Wie bekomme oder ändere ich meine Rang-Rolle?","acceptedAnswer":{"@type":"Answer","text":"Beim Onboarding gibst du deinen Rang selbst an und bekommst die passende Rolle, änderbar jederzeit im Kanäle-und-Rollen-Tab. Verknüpfst du zusätzlich deinen Steam-Account, bekommst du deine echte Rang-Rolle aus dem Spiel, die sich ab dann automatisch aktuell hält."}},
+    {"@type":"Question","name":"Wie funktioniert das kostenlose Coaching?","acceptedAnswer":{"@type":"Answer","text":"Komplett kostenlos: Erfahrene Spieler aus der Community nehmen sich Zeit für dich, von den Grundlagen bis zum Rang-Aufstieg. Anmelden kannst du dich über den Coaching-Bereich auf der Website. Deine Anfrage landet direkt beim Coach-Team im Discord."}},
+    {"@type":"Question","name":"Wo finde ich Mitspieler?","acceptedAnswer":{"@type":"Answer","text":"Zwei Wege: Poste ein Gesuch im Mitspielersuche-Forum (LFG) und wähle Modus, Rang-Bereich und Spielzeit per Klick. Oder spring direkt in eine Voice-Lane über das Voice-Panel: Normale Lane, Ranked oder Street Brawl. Reinsetzen ist ausdrücklich erlaubt, du musst niemanden um Erlaubnis fragen."}},
+    {"@type":"Question","name":"Wie funktionieren die Voice-Lanes?","acceptedAnswer":{"@type":"Answer","text":"Du darfst in jede Lane rein, unsere Lanes haben keine Türsteher. Wer eine Lane öffnet, wählt den Modus. Bei Ranked ist der Rang-Bereich eine Ansage, kein Schloss. Der Lane-Ersteller entscheidet, wer bleibt, bei Streit entscheiden die Mods. Nur zuhören ist auch völlig okay."}},
+    {"@type":"Question","name":"Was kostet der Twitch-Bot und wie verbinde ich meinen Kanal?","acceptedAnswer":{"@type":"Answer","text":"Der sichere Kanalzugang läuft über Twitch OAuth. Du bestätigst die angezeigten Berechtigungen mit dem Twitch-Konto deines Kanals. Den Zugriff widerrufst du jederzeit in den Twitch-Einstellungen unter Verbindungen. Welche Funktionen und Abrechnungsoptionen aktuell verfügbar sind, zeigt die Planseite im Dashboard."}},
+    {"@type":"Question","name":"Wie fordere ich meine Daten an oder lasse sie löschen?","acceptedAnswer":{"@type":"Answer","text":"Deine personenbezogenen Daten forderst du über den Datenschutz-Befehl im Discord an oder lässt sie dort löschen. Nach dem Verlassen des Servers kann optional eine kurze, freiwillige Rückmeldung per Direktnachricht kommen, die du ignorieren kannst."}},
+    {"@type":"Question","name":"Wie stelle ich eine Frage, wenn hier nichts passt?","acceptedAnswer":{"@type":"Answer","text":"Auf dem Discord öffnest du über Frage stellen oder den Befehl für den Fragechat einen privaten Chat mit dem Concierge, oder du fragst im öffentlichen Fragen-Kanal. Findet der Concierge keine belegte Antwort, verweist er an einen Menschen. Persönliche Anliegen und Moderationsfälle gehören immer zum menschlichen Support."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Deutsche Deadlock Community</p>
+  <h1>FAQ &amp; Hilfe</h1>
+  <p class="lede">Die häufigsten Fragen und der komplette Themen-Index: Deadlock-Invite, Steam-Verknüpfung, Rang, Mitspieler, Voice-Lanes, kostenloses Coaching, Twitch-Bot, Turniere, Patchnotes und Datenschutz. Alles auf Deutsch. Ausführliche Anleitungen findest du unter jedem Punkt verlinkt.</p>
+  <div class="cta-row">
+    <a class="btn primary" href="https://discord.gg/PhkP3WgY7w">Discord beitreten</a>
+    <a class="btn ghost" href="/docs/">Alle Anleitungen (Doku)</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Themen">
+  <p>Springe zu</p>
+  <ul>
+    <li><a href="#top-fragen">Top-Fragen</a></li>
+    <li><a href="#t-discord-server">Discord</a></li>
+    <li><a href="#t-steam-bot">Steam</a></li>
+    <li><a href="#t-twitch-bot">Twitch-Bot</a></li>
+    <li><a href="#t-turniere">Turniere</a></li>
+    <li><a href="#t-patchnotes-bot">Patchnotes</a></li>
+    <li><a href="#t-website">Website</a></li>
+    <li><a href="#t-deadlock-helden">Helden</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="faq" id="top-fragen">
+  <h2>Top-Fragen</h2>
+  <p class="section-note">Die 13 häufigsten Fragen kurz beantwortet. Darunter der vollständige Themen-Index über alle Hilfeseiten.</p>
+
+  <details open>
+    <summary>Wie bekomme ich einen Deadlock-Invite?</summary>
+    <div class="answer">
+      <p>Verknüpfe deinen Steam-Account im Steam-Kanal auf dem Discord (der Guide dort führt dich durch) und nimm danach die Freundschaftsanfrage unseres Steam-Bots an. Dein Invite kommt dann automatisch. Alternativ fragst du im Fragen-Kanal nach einem Invite und schreibst deinen Steam-Freundescode dazu.</p>
+      <p class="more"><a href="/docs/discord-server/onboarding-und-invites.html">Mehr: Onboarding und Playtest-Einladung</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Muss ich dem Bot eine Steam-Freundschaftsanfrage schicken?</summary>
+    <div class="answer">
+      <p>Normalerweise nicht: Nach dem Verknüpfen schickt der Bot dir eine Anfrage, du nimmst sie auf Steam nur an. Kam nichts an, füge ihn selbst über Steam, Freunde, Freund hinzufügen mit Freundescode <code>820142646</code> hinzu.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie lange dauert mein Invite?</summary>
+    <div class="answer">
+      <p>Sobald deine Steam-Freundschaft mit dem Bot bestätigt ist, dauert es in der Regel nur ein paar Stunden, oft schneller. Über das Panel im Steam-Kanal kannst du deine Verknüpfung jederzeit neu prüfen lassen.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Mein Invite hängt, was tun?</summary>
+    <div class="answer">
+      <p>Fast immer liegt es an: Steam noch nicht verknüpft, Freundschaftsanfrage des Bots noch nicht angenommen, oder Steam-Account ist limited. Geh die drei durch. Klemmt es weiter, schreib im Fragen-Kanal oder mach ein Support-Ticket auf.</p>
+      <p class="more"><a href="/docs/discord-server/haeufige-probleme.html">Mehr: Häufige Probleme</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Steam sagt „limited account“, warum kein Invite?</summary>
+    <div class="answer">
+      <p>Das ist eine Beschränkung von Valve. „Limited“ sind Steam-Accounts, die noch nie mindestens 5 Dollar im Steam-Store ausgegeben haben. Nach einem einmaligen Kauf über 5 Dollar fällt die Sperre weg.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie verknüpfe ich meinen Steam-Account?</summary>
+    <div class="answer">
+      <p>Im Steam-Kanal auf dem Discord führt dich ein Guide: Button klicken, auf der offiziellen Steam-Seite einloggen, Freundschaftsanfrage des Bots annehmen, fertig. Der Login läuft über Steam OpenID, wir sehen nie dein Passwort.</p>
+      <p class="more"><a href="/docs/discord-server/steam-integration.html">Mehr: Steam-Verknüpfung, Rang und Invite</a> &middot; <a href="/docs/steam-bot/steam-bot.html">Steam-Bot</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Was passiert bei der Verifizierung mit meinen Daten?</summary>
+    <div class="answer">
+      <p>Die Verknüpfung läuft über den offiziellen Steam-Login (OpenID): Wir sehen nie dein Passwort und haben keinen Zugriff auf deinen Account, wir bekommen nur deine Steam-ID. Dafür bekommst du deine echte Rang-Rolle, Zugang zu den Ranked-Funktionen und kannst Freunde einladen. Löschen jederzeit möglich.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie bekomme oder ändere ich meine Rang-Rolle?</summary>
+    <div class="answer">
+      <p>Beim Onboarding gibst du deinen Rang selbst an, änderbar jederzeit im „Kanäle &amp; Rollen“-Tab. Mit verknüpftem Steam-Account bekommst du deine echte Rang-Rolle aus dem Spiel, die sich automatisch aktuell hält.</p>
+      <p class="more"><a href="/docs/discord-server/workflows/rang-sichtbarkeit.html">Mehr: Rang-Sichtbarkeit</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie funktioniert das kostenlose Coaching?</summary>
+    <div class="answer">
+      <p>Komplett kostenlos: Erfahrene Spieler nehmen sich Zeit für dich, von den Grundlagen bis zum Rang-Aufstieg. Anmelden über den <a href="https://deutsche-deadlock-community.de/coaching">Coaching-Bereich</a>, deine Anfrage landet direkt beim Coach-Team im Discord.</p>
+      <p class="more"><a href="/docs/discord-server/coaching.html">Mehr: Coaching</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wo finde ich Mitspieler?</summary>
+    <div class="answer">
+      <p>Poste ein Gesuch im Mitspielersuche-Forum (LFG) mit Modus, Rang-Bereich und Spielzeit per Klick. Oder spring direkt in eine Voice-Lane über das Voice-Panel (Normale Lane, Ranked, Street Brawl). Reinsetzen ist ausdrücklich erlaubt.</p>
+      <p class="more"><a href="/docs/discord-server/module/mitspielersuche-lfg.html">Mehr: Mitspielersuche (LFG)</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie funktionieren die Voice-Lanes?</summary>
+    <div class="answer">
+      <p>Du darfst in jede rein, keine Türsteher. Wer öffnet, wählt den Modus. Bei Ranked ist der Rang-Bereich eine Ansage, kein Schloss. Der Lane-Ersteller entscheidet, wer bleibt, bei Streit die Mods. Nur zuhören ist auch okay.</p>
+      <p class="more"><a href="/docs/discord-server/tempvoice-guide.html">Mehr: TempVoice</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Was kostet der Twitch-Bot und wie verbinde ich meinen Kanal?</summary>
+    <div class="answer">
+      <p>Der sichere Kanalzugang läuft über Twitch OAuth, du bestätigst die Berechtigungen mit dem Twitch-Konto deines Kanals. Widerruf jederzeit in den Twitch-Einstellungen unter Verbindungen. Verfügbare Funktionen und Preise zeigt die Planseite im Dashboard.</p>
+      <p class="more"><a href="/docs/twitch-bot/faq-einstieg.html">Mehr: Twitch-Bot Einstieg</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie fordere ich meine Daten an oder lasse sie löschen?</summary>
+    <div class="answer">
+      <p>Über den Datenschutz-Befehl im Discord forderst du deine Daten an oder lässt sie löschen. Nach dem Verlassen kann optional eine kurze, freiwillige Rückmeldung per Direktnachricht kommen, die du ignorieren kannst.</p>
+      <p class="more"><a href="/docs/discord-server/workflows/austritt-datenloeschung.html">Mehr: Austritt und Datenlöschung</a></p>
+    </div>
+  </details>
+
+  <div class="callout">
+    Nichts Passendes gefunden? Stell deine Frage direkt im Discord im Fragen-Kanal oder öffne dort ein Support-Ticket. Dort antworten echte Menschen, normalerweise noch am selben Tag.
+  </div>
+</section>
+
+<section class="topic" id="alle-themen" style="margin-top:3.4rem">
+  <h2>Alle Hilfe-Themen</h2>
+  <p class="section-note">Der vollständige Index über {{TOTAL_PAGES}} Hilfeseiten. Jeder Punkt verlinkt die ausführliche Anleitung.</p>
+</section>
+<!--ALL_TOPICS-->
+
+</main>
+
+<footer>
+  <p>Dieser Index deckt das komplette öffentliche Supportwissen ab. Die ausführlichen Seiten liegen in der <a href="/docs/">Doku</a> und werden gepflegt, damit Suchmaschinen und Assistenten belegte Antworten auf Deutsch finden.</p>
+  <p>Deutsche Deadlock Community &middot; <a href="https://discord.gg/PhkP3WgY7w">Discord</a> &middot; <a href="https://deutsche-deadlock-community.de/">Startseite</a></p>
+</footer>
+
+</div>
+</body>
+</html>

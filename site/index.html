@@ -1,0 +1,1313 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ &amp; Hilfe · Deutsche Deadlock Community</title>
+<meta name="description" content="Alle häufigen Fragen und Anleitungen der Deutschen Deadlock Community: Deadlock-Invite, Steam-Verknüpfung, Rang, Mitspieler, Voice-Lanes, kostenloses Coaching, Twitch-Bot, Turniere, Patchnotes und Datenschutz. Auf Deutsch.">
+<link rel="canonical" href="https://deutsche-deadlock-community.de/faq/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FAQ &amp; Hilfe · Deutsche Deadlock Community">
+<meta property="og:description" content="Alle Fragen und Anleitungen: Invite, Steam, Rang, Mitspieler, Voice, Coaching, Twitch-Bot, Turniere. Auf Deutsch.">
+<meta property="og:url" content="https://deutsche-deadlock-community.de/faq/">
+<meta property="og:image" content="https://deutsche-deadlock-community.de/ddc-logo.svg">
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/brand/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(201,168,106,0.10), transparent 60%),
+      var(--ink, #0b0b0b);
+    color: var(--bone, #f2eee6);
+    font-family: var(--font-body, "Manrope", system-ui, sans-serif);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--gold-bright, #efd49d); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: clamp(1.2rem, 4vw, 3rem); }
+
+  header.hero { padding-top: clamp(2rem, 6vw, 4.5rem); }
+  .kicker {
+    font-family: var(--font-body); font-size: .8rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--gold, #c8a86b); margin: 0 0 .8rem;
+  }
+  h1 {
+    font-family: var(--font-display, "Sora", Georgia, serif);
+    font-weight: 700; font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1.05;
+    margin: 0 0 1rem; color: var(--bone, #f2eee6);
+  }
+  .lede { font-size: clamp(1.05rem, 2.4vw, 1.2rem); color: var(--bone-dim, #b5aea2); max-width: 62ch; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: .8rem; margin: 1.6rem 0 .4rem; }
+  .btn {
+    display: inline-block; padding: .7rem 1.2rem; border-radius: 999px;
+    font-weight: 600; font-size: .95rem; border: 1px solid var(--gold-border, rgba(201,168,106,.42));
+  }
+  .btn.primary { background: var(--gold, #c8a86b); color: #14100a; border-color: transparent; }
+  .btn.primary:hover { background: var(--gold-bright, #efd49d); text-decoration: none; }
+  .btn.ghost:hover { background: var(--gold-glow, rgba(201,168,106,.14)); text-decoration: none; }
+
+  nav.toc {
+    margin: 2.6rem 0 1rem; padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line, rgba(201,168,106,.24)); border-radius: 14px;
+    background: var(--panel-solid, #161616);
+  }
+  nav.toc p { margin: 0 0 .6rem; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--bone-faint, #8d867a); }
+  nav.toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem .9rem; }
+  nav.toc a { font-size: .95rem; }
+
+  section.faq, section.topic { margin-top: 2.8rem; }
+  section.faq > h2, section.topic > h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+    margin: 0 0 .4rem; padding-top: .6rem; scroll-margin-top: 1rem;
+  }
+  .section-note { margin: 0 0 1.1rem; color: var(--bone-dim, #b5aea2); font-size: .98rem; }
+
+  details {
+    border: 1px solid var(--line-soft, rgba(201,168,106,.14));
+    border-radius: 12px; margin: .6rem 0; background: rgba(255,255,255,0.015);
+    overflow: hidden; transition: border-color .2s var(--ease, ease);
+  }
+  details[open] { border-color: var(--gold-border, rgba(201,168,106,.42)); background: rgba(201,168,106,0.04); }
+  summary {
+    cursor: pointer; list-style: none; padding: 1rem 1.2rem; font-weight: 600;
+    font-size: 1.03rem; color: var(--bone, #f2eee6); display: flex; gap: .7rem; align-items: baseline;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; color: var(--gold, #c8a86b); font-weight: 700; font-size: 1.2rem; line-height: 1; }
+  details[open] summary::before { content: "\2212"; }
+  summary:hover { color: var(--gold-bright, #efd49d); }
+  .answer { padding: 0 1.2rem 1.15rem 2.55rem; color: var(--bone-dim, #cfc7b8); }
+  .answer p { margin: 0 0 .7rem; }
+  .answer p:last-child { margin-bottom: 0; }
+  .answer .more { font-size: .9rem; }
+  ul.subs { margin: .2rem 0 .7rem; padding-left: 1.1rem; color: var(--bone-dim, #b5aea2); font-size: .95rem; }
+  ul.subs li { margin: .15rem 0; }
+  code { background: rgba(201,168,106,0.12); color: var(--gold-bright, #efd49d); padding: .08em .4em; border-radius: 5px; font-family: var(--font-mono, monospace); font-size: .92em; }
+
+  .hero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .5rem; }
+  .hero-grid a {
+    display: block; padding: .55rem .7rem; border-radius: 9px; text-align: center;
+    border: 1px solid var(--line-soft, rgba(201,168,106,.14)); background: rgba(255,255,255,0.015);
+    color: var(--bone, #f2eee6); font-size: .92rem;
+  }
+  .hero-grid a:hover { border-color: var(--gold-border, rgba(201,168,106,.42)); color: var(--gold-bright, #efd49d); text-decoration: none; }
+
+  .callout {
+    margin: 1.4rem 0; padding: 1rem 1.2rem; border-left: 3px solid var(--gold, #c8a86b);
+    background: var(--gold-glow, rgba(201,168,106,.14)); border-radius: 0 10px 10px 0;
+    color: var(--bone, #f2eee6); font-size: .97rem;
+  }
+  footer {
+    margin-top: 4rem; padding-top: 1.6rem; border-top: 1px solid var(--line-soft, rgba(201,168,106,.14));
+    color: var(--bone-faint, #8d867a); font-size: .9rem;
+  }
+  footer a { color: var(--bone-dim, #b5aea2); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "inLanguage": "de",
+  "name": "FAQ der Deutschen Deadlock Community",
+  "url": "https://deutsche-deadlock-community.de/faq/",
+  "mainEntity": [
+    {"@type":"Question","name":"Wie bekomme ich einen Deadlock-Invite?","acceptedAnswer":{"@type":"Answer","text":"Verknüpfe deinen Steam-Account im Steam-Kanal auf dem Discord und nimm danach die Freundschaftsanfrage unseres Steam-Bots an. Der Invite kommt dann automatisch, meist innerhalb weniger Stunden. Alternativ kannst du im Fragen-Kanal nach einem Invite fragen und deinen Steam-Freundescode dazuschreiben, dann lädt dich jemand persönlich ein."}},
+    {"@type":"Question","name":"Muss ich dem Bot eine Steam-Freundschaftsanfrage schicken?","acceptedAnswer":{"@type":"Answer","text":"Normalerweise nicht: Nach dem Verknüpfen schickt der Bot dir eine Anfrage, du nimmst sie auf Steam nur an. Kam nichts an, füge ihn selbst über Steam, Freunde, Freund hinzufügen mit dem Freundescode 820142646 hinzu. Sobald die Freundschaft steht, läuft dein Invite automatisch weiter."}},
+    {"@type":"Question","name":"Wie lange dauert mein Invite?","acceptedAnswer":{"@type":"Answer","text":"Sobald die Steam-Freundschaft mit dem Bot bestätigt ist, dauert es in der Regel nur ein paar Stunden, oft schneller. Über das Panel im Steam-Kanal kannst du deine Verknüpfung jederzeit neu prüfen lassen."}},
+    {"@type":"Question","name":"Mein Invite hängt, was tun?","acceptedAnswer":{"@type":"Answer","text":"Fast immer liegt es an drei Punkten: Steam ist noch nicht verknüpft, die Freundschaftsanfrage des Bots wurde auf Steam noch nicht angenommen, oder dein Steam-Account ist limited. Geh die drei durch. Klemmt es weiter, schreib im Fragen-Kanal oder mach ein Support-Ticket auf, dann schaut ein Mensch drauf."}},
+    {"@type":"Question","name":"Steam sagt limited account, warum kein Invite?","acceptedAnswer":{"@type":"Answer","text":"Das ist eine Beschränkung von Valve, kein Fehler bei uns. Limited sind Steam-Accounts, die noch nie mindestens 5 Dollar im Steam-Store ausgegeben haben. Nach einem einmaligen Kauf über 5 Dollar fällt die Sperre weg."}},
+    {"@type":"Question","name":"Wie verknüpfe ich meinen Steam-Account?","acceptedAnswer":{"@type":"Answer","text":"Im Steam-Kanal auf dem Discord führt dich ein Guide Schritt für Schritt: Button klicken, auf der offiziellen Steam-Seite einloggen, Freundschaftsanfrage des Bots annehmen, fertig. Der Login läuft über Steam OpenID, wir sehen nie dein Passwort."}},
+    {"@type":"Question","name":"Was passiert bei der Verifizierung mit meinen Daten?","acceptedAnswer":{"@type":"Answer","text":"Die Verknüpfung läuft über den offiziellen Steam-Login (OpenID). Wir sehen nie dein Passwort und haben keinen Zugriff auf deinen Account, wir bekommen nur deine Steam-ID. Dafür bekommst du deine echte Rang-Rolle, Zugang zu den Ranked-Funktionen und kannst Freunde einladen. Deine Daten kannst du jederzeit exportieren oder löschen lassen."}},
+    {"@type":"Question","name":"Wie bekomme oder ändere ich meine Rang-Rolle?","acceptedAnswer":{"@type":"Answer","text":"Beim Onboarding gibst du deinen Rang selbst an und bekommst die passende Rolle, änderbar jederzeit im Kanäle-und-Rollen-Tab. Verknüpfst du zusätzlich deinen Steam-Account, bekommst du deine echte Rang-Rolle aus dem Spiel, die sich ab dann automatisch aktuell hält."}},
+    {"@type":"Question","name":"Wie funktioniert das kostenlose Coaching?","acceptedAnswer":{"@type":"Answer","text":"Komplett kostenlos: Erfahrene Spieler aus der Community nehmen sich Zeit für dich, von den Grundlagen bis zum Rang-Aufstieg. Anmelden kannst du dich über den Coaching-Bereich auf der Website. Deine Anfrage landet direkt beim Coach-Team im Discord."}},
+    {"@type":"Question","name":"Wo finde ich Mitspieler?","acceptedAnswer":{"@type":"Answer","text":"Zwei Wege: Poste ein Gesuch im Mitspielersuche-Forum (LFG) und wähle Modus, Rang-Bereich und Spielzeit per Klick. Oder spring direkt in eine Voice-Lane über das Voice-Panel: Normale Lane, Ranked oder Street Brawl. Reinsetzen ist ausdrücklich erlaubt, du musst niemanden um Erlaubnis fragen."}},
+    {"@type":"Question","name":"Wie funktionieren die Voice-Lanes?","acceptedAnswer":{"@type":"Answer","text":"Du darfst in jede Lane rein, unsere Lanes haben keine Türsteher. Wer eine Lane öffnet, wählt den Modus. Bei Ranked ist der Rang-Bereich eine Ansage, kein Schloss. Der Lane-Ersteller entscheidet, wer bleibt, bei Streit entscheiden die Mods. Nur zuhören ist auch völlig okay."}},
+    {"@type":"Question","name":"Was kostet der Twitch-Bot und wie verbinde ich meinen Kanal?","acceptedAnswer":{"@type":"Answer","text":"Der sichere Kanalzugang läuft über Twitch OAuth. Du bestätigst die angezeigten Berechtigungen mit dem Twitch-Konto deines Kanals. Den Zugriff widerrufst du jederzeit in den Twitch-Einstellungen unter Verbindungen. Welche Funktionen und Abrechnungsoptionen aktuell verfügbar sind, zeigt die Planseite im Dashboard."}},
+    {"@type":"Question","name":"Wie fordere ich meine Daten an oder lasse sie löschen?","acceptedAnswer":{"@type":"Answer","text":"Deine personenbezogenen Daten forderst du über den Datenschutz-Befehl im Discord an oder lässt sie dort löschen. Nach dem Verlassen des Servers kann optional eine kurze, freiwillige Rückmeldung per Direktnachricht kommen, die du ignorieren kannst."}},
+    {"@type":"Question","name":"Wie stelle ich eine Frage, wenn hier nichts passt?","acceptedAnswer":{"@type":"Answer","text":"Auf dem Discord öffnest du über Frage stellen oder den Befehl für den Fragechat einen privaten Chat mit dem Concierge, oder du fragst im öffentlichen Fragen-Kanal. Findet der Concierge keine belegte Antwort, verweist er an einen Menschen. Persönliche Anliegen und Moderationsfälle gehören immer zum menschlichen Support."}}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Deutsche Deadlock Community</p>
+  <h1>FAQ &amp; Hilfe</h1>
+  <p class="lede">Die häufigsten Fragen und der komplette Themen-Index: Deadlock-Invite, Steam-Verknüpfung, Rang, Mitspieler, Voice-Lanes, kostenloses Coaching, Twitch-Bot, Turniere, Patchnotes und Datenschutz. Alles auf Deutsch. Ausführliche Anleitungen findest du unter jedem Punkt verlinkt.</p>
+  <div class="cta-row">
+    <a class="btn primary" href="https://discord.gg/PhkP3WgY7w">Discord beitreten</a>
+    <a class="btn ghost" href="/docs/">Alle Anleitungen (Doku)</a>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Themen">
+  <p>Springe zu</p>
+  <ul>
+    <li><a href="#top-fragen">Top-Fragen</a></li>
+    <li><a href="#t-discord-server">Discord</a></li>
+    <li><a href="#t-steam-bot">Steam</a></li>
+    <li><a href="#t-twitch-bot">Twitch-Bot</a></li>
+    <li><a href="#t-turniere">Turniere</a></li>
+    <li><a href="#t-patchnotes-bot">Patchnotes</a></li>
+    <li><a href="#t-website">Website</a></li>
+    <li><a href="#t-deadlock-helden">Helden</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="faq" id="top-fragen">
+  <h2>Top-Fragen</h2>
+  <p class="section-note">Die 13 häufigsten Fragen kurz beantwortet. Darunter der vollständige Themen-Index über alle Hilfeseiten.</p>
+
+  <details open>
+    <summary>Wie bekomme ich einen Deadlock-Invite?</summary>
+    <div class="answer">
+      <p>Verknüpfe deinen Steam-Account im Steam-Kanal auf dem Discord (der Guide dort führt dich durch) und nimm danach die Freundschaftsanfrage unseres Steam-Bots an. Dein Invite kommt dann automatisch. Alternativ fragst du im Fragen-Kanal nach einem Invite und schreibst deinen Steam-Freundescode dazu.</p>
+      <p class="more"><a href="/docs/discord-server/onboarding-und-invites.html">Mehr: Onboarding und Playtest-Einladung</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Muss ich dem Bot eine Steam-Freundschaftsanfrage schicken?</summary>
+    <div class="answer">
+      <p>Normalerweise nicht: Nach dem Verknüpfen schickt der Bot dir eine Anfrage, du nimmst sie auf Steam nur an. Kam nichts an, füge ihn selbst über Steam, Freunde, Freund hinzufügen mit Freundescode <code>820142646</code> hinzu.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie lange dauert mein Invite?</summary>
+    <div class="answer">
+      <p>Sobald deine Steam-Freundschaft mit dem Bot bestätigt ist, dauert es in der Regel nur ein paar Stunden, oft schneller. Über das Panel im Steam-Kanal kannst du deine Verknüpfung jederzeit neu prüfen lassen.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Mein Invite hängt, was tun?</summary>
+    <div class="answer">
+      <p>Fast immer liegt es an: Steam noch nicht verknüpft, Freundschaftsanfrage des Bots noch nicht angenommen, oder Steam-Account ist limited. Geh die drei durch. Klemmt es weiter, schreib im Fragen-Kanal oder mach ein Support-Ticket auf.</p>
+      <p class="more"><a href="/docs/discord-server/haeufige-probleme.html">Mehr: Häufige Probleme</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Steam sagt „limited account“, warum kein Invite?</summary>
+    <div class="answer">
+      <p>Das ist eine Beschränkung von Valve. „Limited“ sind Steam-Accounts, die noch nie mindestens 5 Dollar im Steam-Store ausgegeben haben. Nach einem einmaligen Kauf über 5 Dollar fällt die Sperre weg.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie verknüpfe ich meinen Steam-Account?</summary>
+    <div class="answer">
+      <p>Im Steam-Kanal auf dem Discord führt dich ein Guide: Button klicken, auf der offiziellen Steam-Seite einloggen, Freundschaftsanfrage des Bots annehmen, fertig. Der Login läuft über Steam OpenID, wir sehen nie dein Passwort.</p>
+      <p class="more"><a href="/docs/discord-server/steam-integration.html">Mehr: Steam-Verknüpfung, Rang und Invite</a> &middot; <a href="/docs/steam-bot/steam-bot.html">Steam-Bot</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Was passiert bei der Verifizierung mit meinen Daten?</summary>
+    <div class="answer">
+      <p>Die Verknüpfung läuft über den offiziellen Steam-Login (OpenID): Wir sehen nie dein Passwort und haben keinen Zugriff auf deinen Account, wir bekommen nur deine Steam-ID. Dafür bekommst du deine echte Rang-Rolle, Zugang zu den Ranked-Funktionen und kannst Freunde einladen. Löschen jederzeit möglich.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie bekomme oder ändere ich meine Rang-Rolle?</summary>
+    <div class="answer">
+      <p>Beim Onboarding gibst du deinen Rang selbst an, änderbar jederzeit im „Kanäle &amp; Rollen“-Tab. Mit verknüpftem Steam-Account bekommst du deine echte Rang-Rolle aus dem Spiel, die sich automatisch aktuell hält.</p>
+      <p class="more"><a href="/docs/discord-server/workflows/rang-sichtbarkeit.html">Mehr: Rang-Sichtbarkeit</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie funktioniert das kostenlose Coaching?</summary>
+    <div class="answer">
+      <p>Komplett kostenlos: Erfahrene Spieler nehmen sich Zeit für dich, von den Grundlagen bis zum Rang-Aufstieg. Anmelden über den <a href="https://deutsche-deadlock-community.de/coaching">Coaching-Bereich</a>, deine Anfrage landet direkt beim Coach-Team im Discord.</p>
+      <p class="more"><a href="/docs/discord-server/coaching.html">Mehr: Coaching</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wo finde ich Mitspieler?</summary>
+    <div class="answer">
+      <p>Poste ein Gesuch im Mitspielersuche-Forum (LFG) mit Modus, Rang-Bereich und Spielzeit per Klick. Oder spring direkt in eine Voice-Lane über das Voice-Panel (Normale Lane, Ranked, Street Brawl). Reinsetzen ist ausdrücklich erlaubt.</p>
+      <p class="more"><a href="/docs/discord-server/module/mitspielersuche-lfg.html">Mehr: Mitspielersuche (LFG)</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie funktionieren die Voice-Lanes?</summary>
+    <div class="answer">
+      <p>Du darfst in jede rein, keine Türsteher. Wer öffnet, wählt den Modus. Bei Ranked ist der Rang-Bereich eine Ansage, kein Schloss. Der Lane-Ersteller entscheidet, wer bleibt, bei Streit die Mods. Nur zuhören ist auch okay.</p>
+      <p class="more"><a href="/docs/discord-server/tempvoice-guide.html">Mehr: TempVoice</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Was kostet der Twitch-Bot und wie verbinde ich meinen Kanal?</summary>
+    <div class="answer">
+      <p>Der sichere Kanalzugang läuft über Twitch OAuth, du bestätigst die Berechtigungen mit dem Twitch-Konto deines Kanals. Widerruf jederzeit in den Twitch-Einstellungen unter Verbindungen. Verfügbare Funktionen und Preise zeigt die Planseite im Dashboard.</p>
+      <p class="more"><a href="/docs/twitch-bot/faq-einstieg.html">Mehr: Twitch-Bot Einstieg</a></p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Wie fordere ich meine Daten an oder lasse sie löschen?</summary>
+    <div class="answer">
+      <p>Über den Datenschutz-Befehl im Discord forderst du deine Daten an oder lässt sie löschen. Nach dem Verlassen kann optional eine kurze, freiwillige Rückmeldung per Direktnachricht kommen, die du ignorieren kannst.</p>
+      <p class="more"><a href="/docs/discord-server/workflows/austritt-datenloeschung.html">Mehr: Austritt und Datenlöschung</a></p>
+    </div>
+  </details>
+
+  <div class="callout">
+    Nichts Passendes gefunden? Stell deine Frage direkt im Discord im Fragen-Kanal oder öffne dort ein Support-Ticket. Dort antworten echte Menschen, normalerweise noch am selben Tag.
+  </div>
+</section>
+
+<section class="topic" id="alle-themen" style="margin-top:3.4rem">
+  <h2>Alle Hilfe-Themen</h2>
+  <p class="section-note">Der vollständige Index über 108 Hilfeseiten. Jeder Punkt verlinkt die ausführliche Anleitung.</p>
+</section>
+
+<section class="topic" id="t-discord-server">
+  <h2>Discord &amp; Community</h2>
+  <p class="section-note">Beitritt, Rollen, Voice-Lanes, Mitspielersuche, Coaching, Moderation, Datenschutz.</p>
+  <details>
+    <summary>Bots und Dienste der Deadlock Community</summary>
+    <div class="answer">
+      <p>Kurz: Auf dem Server gibt es diese Bots und Dienste: den Community-Bot im Discord, den Steam-Bot, den Twitch-Bot, den Patchnotes-Bot, das Turnierportal und die Website-Portale. Diese Übersicht nennt den Zweck und den sichtbaren Mitgliedsweg</p>
+      <ul class="subs">
+        <li>Community-Bot und Discord-Server</li>
+        <li>Fragen und Menschen-Support</li>
+        <li>Steam-Bot</li>
+        <li>Twitch-Bot</li>
+        <li>Patchnotes-Bot</li>
+        <li>Turnierportal</li>
+        <li>Website-Portale</li>
+        <li>Wenn ein Bot gerade nicht reagiert</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/bots-und-dienste.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Coaching</summary>
+    <div class="answer">
+      <p>Überblick. Coaching-Anfragen laufen über die Coaching-Website. Diese Seite zeigt, wie du eine Anfrage startest, wo du den Status siehst und wie Termine und Hinweise zugestellt werden.</p>
+      <ul class="subs">
+        <li>Coaching anfragen</li>
+        <li>Nach dem Absenden</li>
+        <li>Status prüfen</li>
+        <li>Termine und Hinweise</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/coaching.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Community-Werkzeuge</summary>
+    <div class="answer">
+      <p>Überblick. Die Werkzeuge, mit denen du auf dem Server Mitspieler findest und Gameplay-Fragen stellst. Welche Oberfläche gerade sichtbar ist, hängt vom Server ab, nutze immer den bei dir sichtbaren Einstieg.</p>
+      <ul class="subs">
+        <li>Mitspieler finden (LFG)</li>
+        <li>Gameplay-Fragen mit !brain</li>
+        <li>Anonymes Feedback über den Feedback-Hub</li>
+        <li>Gameplay-Clips einsenden</li>
+        <li>Weitere Gruppen-Werkzeuge</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/community-tools.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Custom Games</summary>
+    <div class="answer">
+      <p>Überblick. Normale Custom Games, also eigene Lobbys ohne Turnier- oder Scrim-Charakter, organisierst du im sichtbaren Custom-Games-Bereich. Zum Treffen dient der zugehörige Voice-Sammelpunkt.</p>
+      <ul class="subs">
+        <li>Ein Custom Game organisieren</li>
+        <li>Voice-Sammelpunkt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/custom-games.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Deadlock, Grundlagen</summary>
+    <div class="answer">
+      <p>Kurz: Deadlock ist ein Third-Person-MOBA-Shooter von Valve. Ein normales Match ist 6 gegen 6. Das Spiel ist aktuell im kostenlosen Playtest; du brauchst nur eine Einladung.</p>
+      <ul class="subs">
+        <li>Was ist Deadlock?</li>
+        <li>Wie viele Spieler?</li>
+        <li>Wie komme ich an das Spiel?</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/deadlock-grundlagen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Direktnachricht an den Concierge</summary>
+    <div class="answer">
+      <p>Kurz: Erreicht deine DM den Concierge, antwortet er aus demselben öffentlichen Wissen wie der Fragechat. Verlässlicher ist /faq, weil Discord DMs nicht immer zustellt. Nach deinem Beitritt zum Server schickt dir der Concierge keine automati</p>
+      <ul class="subs">
+        <li>Der verlässliche Weg</li>
+        <li>Wenn eine DM den Bot erreicht</li>
+        <li>Persönliche Aktionen bleiben in privaten Concierge-Bereichen</li>
+        <li>Wenn du nach einem Paten fragst</li>
+        <li>Mit stopp Ruhe geben lassen</li>
+        <li>Concierge-Daten mit einem eindeutigen Satz löschen lassen</li>
+        <li>Keine automatische Begrüßungs-DM zum Beitritt</li>
+        <li>Ereignisgebundene DMs</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/dm-concierge.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Fragen an den Concierge und FAQ-Chat</summary>
+    <div class="answer">
+      <p>Kurz: Fragen zum Server, zu Kanälen, Rollen und Bots stellst du im fest ausgewiesenen öffentlichen Fragenkanal oder in einem privaten Chat über Frage stellen beziehungsweise /faq. Im öffentlichen Kanal steht jede Frage für sich; der private</p>
+      <ul class="subs">
+        <li>Privaten Fragechat öffnen</li>
+        <li>Frage im öffentlichen Server- und Bot-Fragenkanal</li>
+        <li>Vom Concierge angelegter privater Ersatzkanal</li>
+        <li>Was du erwarten kannst</li>
+        <li>Persönliche Text-Steuerung nur per Direktnachricht</li>
+        <li>Wann ein Mensch übernimmt</li>
+        <li>Häufige Hinweise</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/faq-bot-selbst.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Häufige Probleme und schnelle Selbsthilfe</summary>
+    <div class="answer">
+      <p>Kurz: Reagiert ein Button nicht oder meldet der Bot einen gewöhnlichen vorübergehenden Fehler, prüfe zuerst den sichtbaren Hinweis und versuche es einmal erneut. Sagt der konkrete Bot-Hinweis ausdrücklich, dass du einen Schritt nicht erneut</p>
+      <ul class="subs">
+        <li>Was du zuerst prüfen kannst</li>
+        <li>Sichtbarer Zustand und sicherer nächster Schritt</li>
+        <li>Wenn es weiter hakt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/haeufige-probleme.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Gameplay-Brain (!brain)</summary>
+    <div class="answer">
+      <p>Überblick. Für Fragen rund um Deadlock kannst du in einem freigeschalteten Serverkanal den Befehl !brain nutzen. Diese Seite erklärt, wofür er gedacht ist und was zu tun ist, wenn keine sichere Antwort kommt.</p>
+      <ul class="subs">
+        <li>!brain für Deadlock-Fragen</li>
+        <li>Wenn keine sichere Antwort kommt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/brain.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Changelog, Patchnotes und Ankündigungen</summary>
+    <div class="answer">
+      <p>Kurz: Neue Patch- oder Bot-Hinweise findest du in getrennten sichtbaren Bereichen: Patchnotes für Deadlock-Patches, Ankündigungen für Community-News und Dev-Updates für Bot- und Website-Änderungen. In welchem Bereich ein Hinweis steht, häng</p>
+      <ul class="subs">
+        <li>Wo du was findest</li>
+        <li>Benachrichtigungen selbst wählen</li>
+        <li>Wenn kein Hinweis ankam</li>
+        <li>Keine feste Zusage</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/changelog-ankuendigungen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Coaching-Modul</summary>
+    <div class="answer">
+      <p>Überblick. Wie das Coaching-Modul aus Mitgliedersicht funktioniert: Einstieg über Discord, Verwaltung auf der Website, Benachrichtigungen als Ergänzung.</p>
+      <ul class="subs">
+        <li>Einstieg über Panel oder Befehl</li>
+        <li>Verwaltung auf der Website</li>
+        <li>Benachrichtigungen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/coaching.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Dashboard und Login</summary>
+    <div class="answer">
+      <p>Kurz: Auf der Community-Website meldest du dich über Discord an, um persönliche Ansichten zu sehen. Öffentliche Auswertungen brauchen keinen Login. Der Verwaltungsbereich ist dem Team vorbehalten; als Mitglied brauchst du ihn nicht.</p>
+      <ul class="subs">
+        <li>Anmelden für persönliche Ansichten</li>
+        <li>Öffentlich ohne Login</li>
+        <li>Verwaltungsbereich ist team-intern</li>
+        <li>Deine Daten</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/dashboard-login.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ und Concierge-Support</summary>
+    <div class="answer">
+      <p>Kurz: Der Concierge ist ein dokumentationsbasierter Assistent für Server- und Bot-Fragen. Du erreichst ihn im fest ausgewiesenen öffentlichen Fragenkanal oder im privaten Fragechat über Frage stellen beziehungsweise /faq. Bei unsicherer Ant</p>
+      <ul class="subs">
+        <li>Zweck</li>
+        <li>Einstieg</li>
+        <li>Datenschutz im Chat</li>
+        <li>Sichtbare Zustände</li>
+        <li>Übergabe an einen Menschen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/faq-support.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Mitspielersuche (LFG)</summary>
+    <div class="answer">
+      <p>Überblick. So findest du Mitspieler auf dem Server. Es gibt zwei mögliche Einstiege, ein strukturiertes Panel und die klassische Textsuche. Welcher bei dir sichtbar ist, hängt von der Server-Konfiguration ab; nutze den jeweils sichtbaren We</p>
+      <ul class="subs">
+        <li>Der sichtbare LFG-Einstieg</li>
+        <li>Wenn das Panel „Mitspieler finden“ aktiv ist</li>
+        <li>Klassische Textsuche als Alternative</li>
+        <li>Strukturiertes Ranked-LFG</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/mitspielersuche-lfg.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Moderation</summary>
+    <div class="answer">
+      <p>Kurz: Die Moderation sorgt für einen respektvollen Umgang. Schutzmaßnahmen gegen erkannte Gefahren können automatisch greifen; Meldungen, Rückfragen und Einsprüche prüft das Moderationsteam.</p>
+      <ul class="subs">
+        <li>Wozu Moderation dient</li>
+        <li>Meldeweg</li>
+        <li>Was Mitglieder beobachten können</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/moderation.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Onboarding</summary>
+    <div class="answer">
+      <p>Kurz: Der Einstieg läuft über Discords natives Server-Onboarding. Du beantwortest sichtbare Fragen, wählst optionale Interessen und gelangst danach zu Kanäle &amp; Rollen. Eine mögliche Folge-DM zum Rang-Guide ist optional.</p>
+      <ul class="subs">
+        <li>Ablauf</li>
+        <li>Optionale Interessen</li>
+        <li>Mögliche Folge-DM zum Rang-Guide</li>
+        <li>Wenn Kanäle oder Rollen fehlen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/onboarding.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Servernavigation, Bereiche und Rollen</summary>
+    <div class="answer">
+      <p>Kurz: Startpunkt ist der Kanal Willkommen. Dort liegt eine nach Bereichen sortierte Navigation der für Mitglieder sichtbaren Kanäle. Benachrichtigungsrollen wählst du selbst im Discord-Bereich Kanäle &amp; Rollen. Namen und Sichtbarkeit können </p>
+      <ul class="subs">
+        <li>Wo du anfängst</li>
+        <li>Sichtbare Bereiche und ihr Zweck</li>
+        <li>Benachrichtigungen und Rollen selbst wählen</li>
+        <li>Wenn ein Bereich nicht auffindbar ist</li>
+        <li>Was hier bewusst offen bleibt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/serverstruktur.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Statistiken und Privatsphäre</summary>
+    <div class="answer">
+      <p>Kurz: Dein Rangverlauf ist für andere zunächst privat. Nach Discord-Login wählst du die Sichtbarkeit selbst und siehst deine eigene Historie weiterhin. Serverweite Auswertungen und Ranglisten sind öffentlich, persönliche Details brauchen Lo</p>
+      <ul class="subs">
+        <li>Sichtbarkeit deines Rangverlaufs</li>
+        <li>Öffentliche Auswertungen und eigene Ansichten</li>
+        <li>„Wir vermissen dich“-Erinnerungen</li>
+        <li>Deine Daten steuern</li>
+        <li>Folgen des Opt-outs</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/statistiken-privatsphaere.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Konto-Verknüpfungen: Steam und Twitch</summary>
+    <div class="answer">
+      <p>Kurz: Es gibt zwei getrennte Verknüpfungen. Steam bringt deinen Deadlock-Rang auf den Server. Die Streamer-/Twitch-Verknüpfung läuft über /streamer und ein Website-Onboarding und kann, wenn aktiv, Live-Hinweise im Streamer-Bereich zeigen.</p>
+      <ul class="subs">
+        <li>Steam-Verknüpfung</li>
+        <li>Streamer- und Twitch-Verknüpfung</li>
+        <li>Live-Hinweise und Discord Go Live</li>
+        <li>Was nicht zugesagt wird</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/steam-twitch-verknuepfung.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Tierlist- und Build-Modul</summary>
+    <div class="answer">
+      <p>Überblick. Was das Tierlist- und Build-Modul aus Mitgliedersicht zeigt, wie Stimmen wirken und wie sich Website und Spielkatalog unterscheiden.</p>
+      <ul class="subs">
+        <li>Was die Build-Seite zeigt</li>
+        <li>Stimmen und Sortierung</li>
+        <li>Website und Spielkatalog</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/tierlist-builds.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Voice-Lanes (TempVoice)</summary>
+    <div class="answer">
+      <p>Überblick. Über den Voice-Router bekommst du eine eigene, selbst verwaltete Lane. Diese Seite erklärt, wie sie entsteht, was du als Owner tun kannst und wie Ranked-Lanes funktionieren.</p>
+      <ul class="subs">
+        <li>Eigene Lane über den Router</li>
+        <li>Owner-Funktionen</li>
+        <li>Ranked-Lanes und optionales Rang-Gate</li>
+        <li>Lane-Lebenszyklus</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/module/voice-lanes.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Was der Bot nicht tut und nicht zusagt</summary>
+    <div class="answer">
+      <p>Kurz: Diese Seite sammelt Dinge, die Mitglieder gelegentlich erwarten, die aber nicht zugesagt werden. So vermeidest du Missverständnisse und findest schneller den richtigen Weg.</p>
+      <ul class="subs">
+        <li>Keine automatische Begrüßungs-DM zum Beitritt</li>
+        <li>Ein Ticket ist Menschen-Support, keine Bot-Diagnose</li>
+        <li>Keine Aktionen oder Debug auf Zuruf</li>
+        <li>Keine erfundenen Live-Auskünfte</li>
+        <li>Keine festen Garantien</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/negativ-wissen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Onboarding und Playtest-Einladung</summary>
+    <div class="answer">
+      <p>Kurz: Der Einstieg läuft über Discords eigenes Server-Onboarding. Für eine Deadlock-Playtest-Einladung nutzt du den aktuell sichtbaren Invite-Weg oder fragst im offenen Invite-Bereich mit deinem eigenen Steam-Freundescode.</p>
+      <ul class="subs">
+        <li>So startest du nach dem Beitritt</li>
+        <li>Einladung zum Deadlock-Playtest</li>
+        <li>Was von außen abhängt</li>
+        <li>Nicht mehr aktuell</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/onboarding-und-invites.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Glossar</summary>
+    <div class="answer">
+      <p>Kurz: Einheitliche Begriffe, wie sie in dieser Wissensbasis und gegenüber Mitgliedern verwendet werden. Die Definitionen bleiben auf der beobachtbaren Ebene.</p>
+      <ul class="subs">
+        <li>Begriffe</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/referenz/glossar.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Sichtbare Zustände und was sie bedeuten</summary>
+    <div class="answer">
+      <p>Kurz: Diese Übersicht erklärt häufige sichtbare Hinweise des Bots aus Mitgliedersicht: was du siehst und welcher nächste Schritt sicher ist. Interne Ursachen werden nicht diagnostiziert.</p>
+      <ul class="subs">
+        <li>So liest du einen Hinweis</li>
+        <li>Häufige Zustände</li>
+        <li>Wichtig</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/referenz/status-und-fehler.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Regeln, Meldung und Einspruch</summary>
+    <div class="answer">
+      <p>Kurz: Respektvoller Umgang ist Pflicht. Regelverstöße meldest du dem Moderationsteam oder über den sichtbaren Supportweg. Maßnahmen richten sich nach dem Einzelfall; hältst du eine Entscheidung für falsch, kannst du sie dem Team zur Prüfung</p>
+      <ul class="subs">
+        <li>Was auf dem Server gilt</li>
+        <li>Einen Regelverstoß melden</li>
+        <li>Wie über Maßnahmen entschieden wird</li>
+        <li>Gegen eine Entscheidung Einspruch einlegen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/regeln.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Kanäle und Rollen finden</summary>
+    <div class="answer">
+      <p>Kurz: Den richtigen Kanal oder die passende Rolle für dein Anliegen findest du über die aktuelle Navigation in Willkommen und über Kanäle &amp; Rollen. Diese Seite nennt nur sichtbare Wege, keine festen Kennungen.</p>
+      <ul class="subs">
+        <li>Welcher Kanal oder welche Rolle ist gedacht?</li>
+        <li>Rollen und Benachrichtigungen wählen</li>
+        <li>Wenn ein Kanal fehlt</li>
+        <li>Was hier nicht steht</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/rules-und-channels.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Scrims</summary>
+    <div class="answer">
+      <p>Überblick. Bei den Inhouse-Coachscrims spielst du in einem festen Team mit festem Coach. Diese Seite zeigt, wie du dabei bist, was dich erwartet und wie eine organisierte Lobby entsteht.</p>
+      <ul class="subs">
+        <li>Was dich erwartet</li>
+        <li>Für Scrims anmelden</li>
+        <li>Die organisierte Lobby</li>
+        <li>Terminabfragen beantworten</li>
+        <li>Mit Lobbycode beitreten</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/scrims.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Aktivität, Statistiken und Datenschutz</summary>
+    <div class="answer">
+      <p>Kurz: Öffentlich sind serverweite Auswertungen und Ranglisten. Persönliche Detailansichten brauchen einen Discord-Login. Deine eigenen Daten kannst du über /datenschutz exportieren; eine Löschung setzt zusätzlich einen globalen Opt-out.</p>
+      <ul class="subs">
+        <li>Öffentlich sichtbar oder nur nach Login</li>
+        <li>Eigene Aktivität und öffentliche Ranglisten</li>
+        <li>„Wir vermissen dich“-Erinnerungen steuern</li>
+        <li>Deine eigenen Daten</li>
+        <li>Was der Opt-out im Alltag bedeutet</li>
+        <li>Rangverlauf getrennt geregelt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/stats-und-privacy.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Steam-Verknüpfung, Rang und Playtest-Invite</summary>
+    <div class="answer">
+      <p>Kurz: Die Steam-Verknüpfung startest du im Discord über Steam verknüpfen im Steam-Panel oder mit /account_verknüpfen. Die Anmeldung läuft über Steam; der Bot erhält dabei kein Steam-Passwort. Danach hinterlegst du deinen eigenen Freundescod</p>
+      <ul class="subs">
+        <li>Steam verknüpfen</li>
+        <li>Konten selbst verwalten</li>
+        <li>Rang und Ranked-Lanes</li>
+        <li>Playtest-Einladung mit Freundescode</li>
+        <li>Was nicht passiert</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/steam-integration.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Support und Fehlerbehebung</summary>
+    <div class="answer">
+      <p>Kurz: Für Wissensfragen und dokumentierte technische Fehlerbilder nutzt du den privaten Fragechat über /faq; der Support-Agent nennt dort die sichere Ersthilfe aus FAQ und Guides. Für persönliche Anliegen, Moderationsfälle und ungeklärte te</p>
+      <ul class="subs">
+        <li>In welcher Reihenfolge du vorgehst</li>
+        <li>Was ein Ticket ist</li>
+        <li>Ist gerade etwas ausgefallen?</li>
+        <li>Das gibst du nie weiter</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/support/troubleshooting.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Team und Ansprechpartner</summary>
+    <div class="answer">
+      <p>Kurz: Die aktuell zuständigen Personen findest du in Willkommen im Abschnitt Community-Team. Für ein persönliches Anliegen nutzt du den dortigen Support-Schnellzugriff; für reine Wissensfragen zuerst /faq.</p>
+      <ul class="subs">
+        <li>Wen du erreichst</li>
+        <li>Der richtige Weg je Anliegen</li>
+        <li>Was hier offen bleibt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/team-und-ansprechpartner.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>TempVoice, die Anleitung</summary>
+    <div class="answer">
+      <p>Überblick. TempVoice gibt jeder Gruppe automatisch ihren eigenen Sprachkanal. Diese Anleitung zeigt, wie eine Lane entsteht, was du als Owner steuerst und wie eine Lane wieder endet.</p>
+      <ul class="subs">
+        <li>Eine Lane erstellen</li>
+        <li>Das Lane-Panel</li>
+        <li>Ownership und Ende der Lane</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/tempvoice-guide.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Tierlist und Builds</summary>
+    <div class="answer">
+      <p>Überblick. Auf der öffentlichen Build-Seite findest du die Helden-Tierlist und von der Community geteilte Builds, über die du abstimmen kannst. Diese Seite erklärt, was du dort siehst, wie die Stimmzahlen zustande kommen und wie du die Eins</p>
+      <ul class="subs">
+        <li>Die öffentliche Build-Seite</li>
+        <li>Helden-Tierlist</li>
+        <li>Builds bewerten</li>
+        <li>Wie du die Einstufung liest</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/tierlist-und-builds.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Über den Bot und den Server</summary>
+    <div class="answer">
+      <p>Kurz: Der Community-Bot unterstützt den Server bei Rollen, Voice-Lanes, Onboarding, Coaching und dem Willkommens-Hub. Für dein Anliegen führt jeweils ein sichtbarer Mitgliedsweg weiter.</p>
+      <ul class="subs">
+        <li>Was der Bot übernimmt</li>
+        <li>Ein paar Community-Fakten</li>
+        <li>Den Server finanziell unterstützen</li>
+        <li>So findest du den richtigen Weg</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/ueber-bot-und-server.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Voice-Features</summary>
+    <div class="answer">
+      <p>Überblick. Die Sprach-Lanes der Community: Wie du über den Router in eine Lane kommst, was du als Owner steuerst, wie Ranked-Lanes funktionieren, was ein Lane-Name anzeigt und wie du optional Feedback gibst.</p>
+      <ul class="subs">
+        <li>Voice-Router und Lanes</li>
+        <li>Deine Lane steuern</li>
+        <li>Ranked-Lanes</li>
+        <li>Was der Lane-Name anzeigt</li>
+        <li>Lebenszyklus einer Lane</li>
+        <li>Freiwilliges Voice-Feedback</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/voice-features.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Austritt und Datenlöschung</summary>
+    <div class="answer">
+      <p>Kurz: Deine personenbezogenen Daten forderst du über /datenschutz an oder lässt sie löschen. Nach dem Verlassen kann optional eine kurze, freiwillige Rückmeldung per DM kommen; du kannst sie einfach ignorieren.</p>
+      <ul class="subs">
+        <li>Daten anfordern oder löschen</li>
+        <li>Was sich mit dem Opt-out ändert</li>
+        <li>Freiwillige Rückmeldung nach dem Verlassen</li>
+        <li>Gut zu wissen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/austritt-datenloeschung.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Builds bewerten</summary>
+    <div class="answer">
+      <p>Überblick. So stimmst du auf der öffentlichen Build-Seite über einen Build ab und so liest du die Stimmen richtig.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Was die Stimmen bedeuten</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/builds-abstimmen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Coaching anfragen</summary>
+    <div class="answer">
+      <p>Überblick. Der Ablauf einer Coaching-Anfrage vom Einstieg bis zur Statusprüfung.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Status deiner Anfrage</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/coaching-anfragen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Mitspieler finden</summary>
+    <div class="answer">
+      <p>Überblick. Ein kurzer Ablauf für die Mitspielersuche über den sichtbaren LFG-Einstieg, mit Panel oder, falls das Panel fehlt, über die klassische Textsuche.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Einem Gesuch beitreten</li>
+        <li>Kein Panel sichtbar?</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/mitspieler-finden.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Regelverstoß melden und Einspruch einlegen</summary>
+    <div class="answer">
+      <p>Kurz: Diese Schritte zeigen, wie du einen Vorfall meldest und wie du gegen eine Moderationsentscheidung vorgehst, die du für falsch hältst. Beide Wege führen zu einem Menschen im Team.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt: melden</li>
+        <li>Schritt für Schritt: Einspruch</li>
+        <li>Gut zu wissen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/moderationsfall-einspruch.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Serverbeitritt Schritt für Schritt</summary>
+    <div class="answer">
+      <p>Kurz: So kommst du nach dem Beitritt sicher an: dem nativen Discord-Onboarding folgen, Interessen wählen und danach die Navigation in Willkommen nutzen.</p>
+      <ul class="subs">
+        <li>Die Schritte</li>
+        <li>Danach</li>
+        <li>Wenn etwas hakt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/onboarding-beitritt.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Rang-Sichtbarkeit einstellen</summary>
+    <div class="answer">
+      <p>Kurz: Standardmäßig können andere deinen Rangverlauf nicht sehen, weil er privat ist. Nach Discord-Login auf der Aktivitätsseite wählst du selbst, wer ihn sehen darf. Deine eigene Historie bleibt für dich sichtbar.</p>
+      <ul class="subs">
+        <li>Wer deinen Rangverlauf sieht</li>
+        <li>Schritt für Schritt</li>
+        <li>Gut zu wissen</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/rang-sichtbarkeit.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Steam verknüpfen und Rang erhalten</summary>
+    <div class="answer">
+      <p>Kurz: In wenigen Schritten verknüpfst du Steam mit Discord und erhältst deine Rang-Rolle. Der Bot bekommt dabei kein Steam-Passwort.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Wenn der Rang nicht erscheint</li>
+        <li>Hinweis zu Ranked-Lanes</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/steam-verknuepfen-rang.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Streamer werden: Twitch-Kanal mit der Community verknüpfen</summary>
+    <div class="answer">
+      <p>Kurz: So verknüpfst du deinen Twitch-Kanal mit der Community: Über /streamer startest du das Streamer-Onboarding auf der Website und verbindest dort deinen Twitch-Kanal. Nur wenn die Twitch-Live-Ankündigungen sichtbar aktiv sind und die sic</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Wie Live-Hinweise erscheinen</li>
+        <li>Wenn die Verknüpfung ausbleibt</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/streamer-partner-werden.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Voice-Lane erstellen und verwalten</summary>
+    <div class="answer">
+      <p>Überblick. Über den Voice-Router bekommst du eine eigene Voice-Lane und wirst als Owner hineingezogen. Als Owner kannst du die Lane umbenennen, ein Teilnehmerlimit setzen sowie Mitglieder kicken, bannen und wieder entbannen.</p>
+      <ul class="subs">
+        <li>Schritt für Schritt</li>
+        <li>Lane erstellen und Standard speichern</li>
+        <li>Lane als Owner verwalten</li>
+        <li>Ranked-Lane und optionales Rang-Gate</li>
+        <li>Owner-Wechsel und Lane-Ende</li>
+      </ul>
+      <p class="more"><a href="/docs/discord-server/workflows/voice-lane-erstellen-verwalten.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-steam-bot">
+  <h2>Steam-Bot</h2>
+  <p class="section-note">Steam verknuepfen, Rang pruefen, Playtest-Einladung, Build-Katalog.</p>
+  <details>
+    <summary>Steam-Bot</summary>
+    <div class="answer">
+      <p>Überblick. Der Steam-Bot verbindet dein Steam-Konto mit der Community. Über ihn verknüpfst du dein Konto, verwaltest deine Verknüpfungen selbst, prüfst deinen Deadlock-Rang, fragst die Playtest-Einladung an und findest den veröffentlichten </p>
+      <ul class="subs">
+        <li>Steam-Account verbinden, ohne Passwort beim Bot</li>
+        <li>Eigene Verknüpfungen verwalten</li>
+        <li>Steam-Freundschaft annehmen</li>
+        <li>Deadlock-Rang prüfen und Community-Rolle</li>
+        <li>Playtest-Einladung anfragen</li>
+        <li>Build-Katalog und Website</li>
+        <li>Verknüpfung prüfen</li>
+        <li>Steam-Daten und Löschung</li>
+      </ul>
+      <p class="more"><a href="/docs/steam-bot/steam-bot.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-twitch-bot">
+  <h2>Twitch-Bot fuer Streamer</h2>
+  <p class="section-note">Kanal verbinden, Auto-Raid, Dashboard, Overlay, Plaene, Werbefrei, Datenschutz.</p>
+  <details>
+    <summary>Analytics-Dashboard</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Nach dem Twitch-Login zeigt das Dashboard deinen eigenen Kanalstatus, letzte Streams und verfügbare Auswertungen. Welche Bereiche sichtbar sind, hängt vom aktuellen Zugang und Plan ab.</p>
+      <ul class="subs">
+        <li>Was du siehst</li>
+        <li>Was du nicht erwarten solltest</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/analytics-dashboard.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Auto-Raid</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Endet der Deadlock-Stream eines aktiven, autorisierten Partners und ist Auto-Raid aktiv, versucht der Bot, deine Zuschauer an einen passenden, live streamenden Deadlock-Kanal weiterzuleiten. Ein Raid ohne geeignetes Ziel bleibt</p>
+      <ul class="subs">
+        <li>Wie der Auto-Raid abläuft</li>
+        <li>Bedienung und Status</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/auto-raid.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Twitch-Chat-Befehle</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog, darunter !ran</p>
+      <ul class="subs">
+        <li>Warum die Befehle hier vollständig stehen</li>
+        <li>Zuschauerbefehle: Deadlock-Statistiken</li>
+        <li>Zuschauerbefehle: Clip und Community</li>
+        <li>Immer verfügbar: Hilfe</li>
+        <li>Deine eigene Datenschutzwahl</li>
+        <li>Status abfragen: für alle im Chat</li>
+        <li>Befehle zur Steuerung: Broadcaster, Moderation und Super-Mods</li>
+        <li>Voraussetzungen im Überblick</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/chat-befehle.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Chat-Moderation und Einspruch</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Die Chatmoderation des Bots kann in registrierten Partnerkanälen als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Au</p>
+      <ul class="subs">
+        <li>Was die Chatmoderation macht</li>
+        <li>Wie kann ich eine Maßnahme prüfen lassen?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/chat-moderation.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Discord-Go-Live-Hinweise</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Für einen aktiven Partnerkanal versucht der Bot, beim Streamen in der Deadlock-Kategorie automatisch einen Hinweis im Community-Discord zu senden. Geht der Kanal offline oder verlässt die Kategorie, stellt der Bot den bestehend</p>
+      <ul class="subs">
+        <li>Wann erscheint ein Hinweis?</li>
+        <li>Es erscheint kein Hinweis, was prüfen?</li>
+        <li>Warum sind nach einem Neustart zwei Hinweise sichtbar?</li>
+        <li>Ist das dasselbe wie Discords „Go Live“ im Voice-Kanal?</li>
+        <li>Was es nicht gibt</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/discord-golive.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Einrichtung und Twitch-OAuth</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Richte den Bot für deinen Kanal über das Streamer-Onboarding mit Twitch ein. Die Verbindung nutzt Twitch OAuth und lässt sich jederzeit in den Twitch-Einstellungen unter Verbindungen wieder widerrufen.</p>
+      <ul class="subs">
+        <li>So verbindest du deinen Kanal</li>
+        <li>Wie sicher ist die Verbindung?</li>
+        <li>Zugriff widerrufen</li>
+        <li>Wenn beim Verbinden etwas hakt</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/einrichtung.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Affiliate-Programm</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Für Vertriebler gibt es ein eigenes Affiliate-Portal mit eigener Twitch-Anmeldung. Dort beanspruchst du Streamer, pflegst dein Profil und siehst deinen Provisions- und Gutschriftstatus. Maßgeblich sind immer die im Portal angez</p>
+      <ul class="subs">
+        <li>Affiliate-Programm und Bedingungen</li>
+        <li>Was kann ich im Affiliate-Portal tun?</li>
+        <li>An wen wende ich mich bei einer Frage zu meinem Affiliate-Status?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-affiliate.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Analytics</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Das Dashboard zeigt Auswertungen zu deinem eigenen Kanal, abhängig von Zugang und Plan. Vollständigkeit gibt es nicht sofort nach der Einrichtung.</p>
+      <ul class="subs">
+        <li>Welche Auswertungen bietet das Dashboard?</li>
+        <li>Wie aktuell und wie vollständig sind die Daten?</li>
+        <li>Kein Stream-Report trotz Analytics-Zugang</li>
+        <li>Was passiert mit meinen Daten?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-analytics.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Community und Engagement</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Bot verbindet deinen Kanal mit dem Community-Discord und lässt dich im Chat selbst entscheiden, ob dich seine automatischen KI-Chat-Reaktionen einbeziehen. Die allgemeine Erfassung oder deine Wiederkehr schaltet das nicht a</p>
+      <ul class="subs">
+        <li>Wie hängt der Bot mit dem Community-Discord zusammen?</li>
+        <li>Wie stoppe ich die Engagement-Erfassung für mich?</li>
+        <li>Wie aktiviere ich meine eigene Berücksichtigung später wieder?</li>
+        <li>Vollständiger Widerruf und Löschung</li>
+        <li>Beobachtet der Bot auch Chats von Kanälen ohne Partnerstatus?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-community.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Einstieg</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Alles, um mit dem Twitch-Bot loszulegen: was er ist, wie du deinen Kanal sicher verbindest und wie du den Zugriff wieder widerrufst. Der sichere Kanalzugang läuft über Twitch OAuth; den Zugriff widerrufst und die Twitch-Verbind</p>
+      <ul class="subs">
+        <li>Was ist der Twitch-Bot?</li>
+        <li>Wie verbinde ich meinen Twitch-Kanal sicher?</li>
+        <li>Wie widerrufe ich den Zugriff wieder?</li>
+        <li>Was kostet der Bot?</li>
+        <li>Warum lohnt sich der Community-Discord?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-einstieg.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Funktionen</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Bot leitet am Stream-Ende Zuschauer weiter, kann Spam-Accounts moderieren, wertet den eigenen Kanal aus und bindet die Community an. Vieles läuft automatisch im Hintergrund.</p>
+      <ul class="subs">
+        <li>Welche Hauptaufgaben übernimmt der Bot?</li>
+        <li>Moderiert der Bot auch meinen Chat?</li>
+        <li>Warum funktioniert !rank in diesem Stream nicht?</li>
+        <li>Welche Rechte braucht der Bot?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-funktionen.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Pläne, Preise und Kündigung</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Die aktuelle Planseite im Dashboard zeigt die heute verfügbaren Funktionen und Abrechnungsoptionen. Feste Preise, Rabatte oder Kontingente nennen wir hier bewusst nicht, maßgeblich ist immer der aktuelle Katalog.</p>
+      <ul class="subs">
+        <li>Was kostet der Twitch-Bot aktuell?</li>
+        <li>Wo sehe oder buche ich meinen Plan?</li>
+        <li>Wie beende ich meinen Plan?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-plaene.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Raids</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Auto-Raid leitet am Stream-Ende deine Zuschauer an einen passenden Deadlock-Kanal weiter. Nur der manuelle Raid ist rollenbegrenzt; Status und Historie darf jede Person im Chat lesen, und sie sind reine Anzeigen ohne Status</p>
+      <ul class="subs">
+        <li>Wie starte oder prüfe ich einen Raid?</li>
+        <li>Kann ich den Zielkanal des Raids selbst festlegen?</li>
+        <li>Es hat kein Raid stattgefunden, was tun?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-raids.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Stats und Stream-Overlay</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Deine Deadlock-Werte gibt es als Chat-Befehle und als einblendbares OBS-Overlay. Beides braucht einen über den Discord verknüpften Steam-Account.</p>
+      <ul class="subs">
+        <li>Statistik-Befehle im Chat</li>
+        <li>Was brauche ich für die Statistiken?</li>
+        <li>Stream-Overlay einrichten (OBS)</li>
+        <li>Im Overlay erscheinen keine Daten</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-stats-overlay.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>FAQ Support und Rechtstexte</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Hilfe und die Rechtstexte zum Twitch-Bot findest du über die öffentlichen Community-Wege: Hilfe bekommst du im Community-Discord; die Befehle findest du direkt in dieser Wissensbasis. Impressum, Datenschutz und AGB sind öffentl</p>
+      <ul class="subs">
+        <li>Wo finde ich Hilfe?</li>
+        <li>Kannst du mir die Befehle direkt nennen?</li>
+        <li>Wie widerrufe ich den Zugang oder lösche meine Daten?</li>
+        <li>Wo finde ich Impressum, Datenschutz und AGB?</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-support.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Bot-Werbung und Werbefrei</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Bot kann in laufenden Partnerstreams gelegentlich auf die Deadlock-Community und den Discord hinweisen. Wer diese Bot-Werbung im eigenen Kanal abstellen will, wählt einen Plan mit der Funktion „Werbefrei“.</p>
+      <ul class="subs">
+        <li>Welche Werbung schickt der Bot?</li>
+        <li>Wie schalte ich die Bot-Werbung ab?</li>
+        <li>Was „Werbefrei“ nicht bedeutet</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/faq-werbung.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Streamer-Dashboard</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Nach dem Twitch-Login findest du im Dashboard Startseite, Analyse, Verwaltung, Planseite und Overlay-Baukasten. Es ist der zentrale Ort, um deinen Kanal zu autorisieren, Auswertungen zu lesen und Zusatzfunktionen zu steuern.</p>
+      <ul class="subs">
+        <li>Login und Verwaltung</li>
+        <li>Was das Dashboard zeigt</li>
+        <li>Overlay und Go-Live</li>
+        <li>Lurker-Erinnerung</li>
+        <li>Pläne und Affiliate</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/twitch-streamer-dashboard.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Twitch-Bot, Überblick für Streamer</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Twitch-Bot ist eine Plattform für Deadlock-Streamer auf Twitch. Nach dem Verbinden deines Kanals läuft das meiste automatisch; ein Dashboard bündelt Einrichtung, Auswertungen und optionale Zusatzfunktionen.</p>
+      <ul class="subs">
+        <li>Was ist der Twitch-Bot?</li>
+        <li>Funktionen im Überblick</li>
+        <li>Wie fange ich an?</li>
+        <li>Kosten und Pläne</li>
+        <li>Hilfe und mehr</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/twitchbot-ueberblick.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Vertrauen und Seriosität</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Bot ist transparent: geraidete Zuschauer sind echte Leute von echten Streamern, und jede Bot-Nachricht ist klar am Absender erkennbar. Die Twitch-Verbindung kannst du jederzeit widerrufen.</p>
+      <ul class="subs">
+        <li>Was den Bot seriös macht</li>
+        <li>Du behältst die Kontrolle</li>
+      </ul>
+      <p class="more"><a href="/docs/twitch-bot/vertrauen-seriositaet.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-turniere">
+  <h2>Turniere</h2>
+  <p class="section-note">Anmeldung, Team, Check-in, Bracket und Rangliste ueber das Turnierportal.</p>
+  <details>
+    <summary>Turniere</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Die Community-Turniere laufen über das Turnierportal auf der Website. Dort erledigst du Anmeldung, Team, Check-in, dein eigenes Match und siehst Bracket, Rangliste und die abgeschlossenen Turniere. Diese Seite beschreibt nur si</p>
+      <ul class="subs">
+        <li>Anmeldung und Einwilligung</li>
+        <li>Team und Rekrutierung</li>
+        <li>Check-in</li>
+        <li>Format, Bracket und Draft</li>
+        <li>Freie Draft-Lobbys</li>
+        <li>Eigenes Match und Ergebnis melden</li>
+        <li>Gegner nicht erschienen</li>
+        <li>Profil, Rangliste und Sichtbarkeit</li>
+      </ul>
+      <p class="more"><a href="/docs/turniere/turniere.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-patchnotes-bot">
+  <h2>Patchnotes</h2>
+  <p class="section-note">Offizielle Deadlock-Patchnotes auf Deutsch, plus durchsuchbares Archiv.</p>
+  <details>
+    <summary>Patchnotes-Bot</summary>
+    <div class="answer">
+      <p>Kurz gesagt. Der Patchnotes-Bot bringt offizielle Deadlock-Patchnotes übersetzt und für Discord aufbereitet in die Community. Zum Nachschlagen älterer Patches gibt es zusätzlich ein durchsuchbares Archiv auf der Community-Website. Diese Sei</p>
+      <ul class="subs">
+        <li>Quellen, Übersetzung und Discord-Ausgabe</li>
+        <li>Archiv, Suche und Filter</li>
+        <li>Verzögerung und fehlende Ausgabe</li>
+        <li>Neuester Patch</li>
+        <li>Neuübersetzung anfordern</li>
+        <li>Prozent-Lesehilfe bei Wertänderungen</li>
+        <li>Emoji-Darstellung</li>
+        <li>Häufige Grenzen</li>
+      </ul>
+      <p class="more"><a href="/docs/patchnotes-bot/patchnotes-bot.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-website">
+  <h2>Website-Portale</h2>
+  <p class="section-note">Coaching, Scrims, Builds, Patch-Archiv, Aktivitaet und Turniere im Web.</p>
+  <details>
+    <summary>Website-Portale</summary>
+    <div class="answer">
+      <p>Überblick. Die Community betreibt mehrere öffentliche Web-Portale. Diese Seite erklärt die sichtbaren Einstiege für Coaching, Scrims, Builds, das Patch-Archiv, Aktivität und Turniere sowie weitere Community-Seiten, und wo jeweils eine Disco</p>
+      <ul class="subs">
+        <li>Coaching-Portal</li>
+        <li>Scrims, Anmeldung und eigene Verfügbarkeit</li>
+        <li>Build-Portal und Kataloggrenze</li>
+        <li>Patch-Portal</li>
+        <li>Aktivitätsportal, private Details und Rangsichtbarkeit</li>
+        <li>Turnierportal</li>
+        <li>Weitere Community-Seiten</li>
+        <li>Weg zur Mitspielersuche</li>
+      </ul>
+      <p class="more"><a href="/docs/website/website-portale.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-dokus">
+  <h2>Anleitungen</h2>
+  <p class="section-note">Schritt-fuer-Schritt-Abläufe fuer Mitglieder und Orga.</p>
+  <details>
+    <summary>Doku-Hub der Deutschen Deadlock Community</summary>
+    <div class="answer">
+      <p>Kurz: Hier liegen die öffentlichen Anleitungen, die Mitglieder und der Concierge benutzen können. Jede Seite beschreibt den sichtbaren Weg: was du anklickst, was danach passiert und wann du Menschen-Support brauchst.</p>
+      <ul class="subs">
+        <li>Scrims und Coaching</li>
+        <li>So bleiben die Dokus sauber</li>
+      </ul>
+      <p class="more"><a href="/docs/dokus/index.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Scrim-Block und Terminabfragen benutzen</summary>
+    <div class="answer">
+      <p>Kurz: Diese Seite ist nur ein kurzer Verweis. Die kanonische Anleitung für den neuen Scrim-Orga-Flow steht unter Scrim-Orga im Dashboard benutzen.</p>
+      <ul class="subs">
+        <li>Neue zentrale Doku</li>
+      </ul>
+      <p class="more"><a href="/docs/dokus/scrims/scrim-block-flow.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+  <details>
+    <summary>Scrim-Orga im Dashboard benutzen</summary>
+    <div class="answer">
+      <p>Kurz: Die Scrim-Orga hilft Leo und berechtigten Admins dabei, mehrere Scrim-Matches in einem Block zu planen. Coaches können die sichtbaren Informationen nutzen, wenn sie den nötigen Dashboard-Vollzugriff haben. Das Dashboard ist die Zentra</p>
+      <ul class="subs">
+        <li>Wer nutzt das?</li>
+        <li>Was geht schon und was noch nicht?</li>
+        <li>Scrim-Block anlegen</li>
+        <li>Team-Abfragen posten und beantworten</li>
+        <li>Fehlende Antworten und Reminder</li>
+        <li>Nach Fristende: Slot verstehen und freigeben</li>
+        <li>Ersatzbedarf lesen</li>
+        <li>Match-Status und Lobbycode</li>
+      </ul>
+      <p class="more"><a href="/docs/dokus/scrims/scrim-orga.html">Ganze Seite oeffnen</a></p>
+    </div>
+  </details>
+</section>
+
+<section class="topic" id="t-deadlock-helden">
+  <h2>Helden-Guides</h2>
+  <p class="section-note">Spielweise, Build, Staerken und Schwaechen aller Helden.</p>
+  <div class="hero-grid">
+    <a href="/docs/deadlock-helden/abrams.html">Abrams</a>
+    <a href="/docs/deadlock-helden/apollo.html">Apollo</a>
+    <a href="/docs/deadlock-helden/bebop.html">Bebop</a>
+    <a href="/docs/deadlock-helden/billy.html">Billy</a>
+    <a href="/docs/deadlock-helden/calico.html">Calico</a>
+    <a href="/docs/deadlock-helden/celeste.html">Celeste</a>
+    <a href="/docs/deadlock-helden/doorman.html">Doorman</a>
+    <a href="/docs/deadlock-helden/dynamo.html">Dynamo</a>
+    <a href="/docs/deadlock-helden/fgraves.html">FGraves</a>
+    <a href="/docs/deadlock-helden/geist.html">Geist</a>
+    <a href="/docs/deadlock-helden/haze.html">Haze</a>
+    <a href="/docs/deadlock-helden/holyday.html">Holyday</a>
+    <a href="/docs/deadlock-helden/infernus.html">Infernus</a>
+    <a href="/docs/deadlock-helden/ivy.html">Ivy</a>
+    <a href="/docs/deadlock-helden/kelvin.html">Kelvin</a>
+    <a href="/docs/deadlock-helden/lash.html">Lash</a>
+    <a href="/docs/deadlock-helden/mcginnis.html">McGinnis</a>
+    <a href="/docs/deadlock-helden/mina.html">Mina</a>
+    <a href="/docs/deadlock-helden/mirage.html">Mirage</a>
+    <a href="/docs/deadlock-helden/mo_krill.html">Mo &amp; Krill</a>
+    <a href="/docs/deadlock-helden/paige.html">Paige</a>
+    <a href="/docs/deadlock-helden/paradox.html">Paradox</a>
+    <a href="/docs/deadlock-helden/pocket.html">Pocket</a>
+    <a href="/docs/deadlock-helden/rem.html">Rem</a>
+    <a href="/docs/deadlock-helden/shiv.html">Shiv</a>
+    <a href="/docs/deadlock-helden/silver.html">Silver</a>
+    <a href="/docs/deadlock-helden/sinclair.html">Sinclair</a>
+    <a href="/docs/deadlock-helden/talon.html">Talon</a>
+    <a href="/docs/deadlock-helden/venator.html">Venator</a>
+    <a href="/docs/deadlock-helden/victor.html">Victor</a>
+    <a href="/docs/deadlock-helden/vindicta.html">Vindicta</a>
+    <a href="/docs/deadlock-helden/viper.html">Viper</a>
+    <a href="/docs/deadlock-helden/viscous.html">Viscous</a>
+    <a href="/docs/deadlock-helden/warden.html">Warden</a>
+    <a href="/docs/deadlock-helden/wraith.html">Wraith</a>
+    <a href="/docs/deadlock-helden/yamato.html">Yamato</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Dieser Index deckt das komplette öffentliche Supportwissen ab. Die ausführlichen Seiten liegen in der <a href="/docs/">Doku</a> und werden gepflegt, damit Suchmaschinen und Assistenten belegte Antworten auf Deutsch finden.</p>
+  <p>Deutsche Deadlock Community &middot; <a href="https://discord.gg/PhkP3WgY7w">Discord</a> &middot; <a href="https://deutsche-deadlock-community.de/">Startseite</a></p>
+</footer>
+
+</div>
+</body>
+</html>
