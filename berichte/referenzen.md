@@ -1,19 +1,12 @@
 # Nicht auffindbare Quellpfade
 
-Erzeugt: 2026-08-25 von `tools/check_referenzen.py`.
+Erzeugt: 2026-08-26 von `tools/check_referenzen.py`.
 
-- fehlende Pfade: **3** auf 2 Seiten
-- abgeglichen gegen 17184 Dateien und Verzeichnisse der Quell-Repos
+- fehlende Pfade: **0** auf 0 Seiten
+- abgeglichen gegen 17209 Dateien und Verzeichnisse der Quell-Repos
 
 Ein hier gelisteter Pfad steht in der Doku, existiert aber nirgends.
 Anders als der Frische-Bericht ist das kein Verdacht, sondern ein Fehler:
 wer der Seite folgt, laeuft ins Leere.
 
-## internal/deadlock-steam-bot/task-queue.html (2)
-
-- `rust/crates/steam-flows/src/task_backlog.rs`
-- `rust/crates/steam-flows/src/task_routing.rs`
-
-## internal/deadlock-steam-bot/betrieb.html (1)
-
-- `rust/crates/steam-flows/src/task_backlog.rs`
+Keine Treffer. Alle genannten Pfade existieren.
