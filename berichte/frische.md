@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-08-30 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-08-31 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **68**, davon 25 mit genauer Bindung
@@ -87,7 +87,7 @@ Stand der Seite: 2026-08-14
   - `rust/crates/tb-stream-audit/src/archiv.rs`
   - … 9 weitere
 
-### internal/betrieb/uebersicht.html (genau, 70 Commits seit Pruefung)
+### internal/betrieb/uebersicht.html (genau, 71 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-11
 - `Deadlock-Bots` (scripts) ab `7b0f35bb` [datum-abgeleitet, grob]: 10 Commits, 7 Dateien
@@ -98,7 +98,7 @@ Stand der Seite: 2026-07-11
   - `scripts/run_dl_knowledge_service.sh`
   - `scripts/run_verbinder.sh`
   - `scripts/test_dl_knowledge_launcher.py`
-- `Caddy` (.) ab `9f2bd24b` [datum-abgeleitet, grob]: 41 Commits, 8 Dateien
+- `Caddy` (.) ab `9f2bd24b` [datum-abgeleitet, grob]: 42 Commits, 8 Dateien
   - `CLAUDE.md`
   - `README.md`
   - `conf/Caddyfile`
@@ -345,7 +345,7 @@ Stand der Seite: 2026-07-18
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
   - … 1099 weitere
 
-### internal/deadlock-twitch-bot/pause-loop-obs.html (grob, 453 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/pause-loop-obs.html (grob, 454 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-20
 - `Deadlock-Twitch-Bot` (rust, features) ab `a0a3f8d7` [datum-abgeleitet, grob]: 421 Commits, 462 Dateien
@@ -358,7 +358,7 @@ Stand der Seite: 2026-07-20
   - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
   - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
   - … 454 weitere
-- `Caddy` (.) ab `ed03744a` [datum-abgeleitet, grob]: 32 Commits, 8 Dateien
+- `Caddy` (.) ab `ed03744a` [datum-abgeleitet, grob]: 33 Commits, 8 Dateien
   - `CLAUDE.md`
   - `README.md`
   - `conf/Caddyfile`
@@ -480,10 +480,10 @@ Stand der Seite: 2026-08-03
   - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
   - … 349 weitere
 
-### internal/website/uebersicht.html (grob, 148 Commits seit Pruefung)
+### internal/website/uebersicht.html (grob, 151 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Website` (builds, dl-coaching, dl-landing) ab `66a9c32b` [datum-abgeleitet, grob]: 148 Commits, 141 Dateien
+- `Website` (builds, dl-coaching, dl-landing) ab `66a9c32b` [datum-abgeleitet, grob]: 151 Commits, 146 Dateien
   - `builds/backend-rust/Cargo.lock`
   - `builds/backend-rust/Cargo.toml`
   - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
@@ -492,12 +492,12 @@ Stand der Seite: 2026-07-07
   - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
   - `builds/backend-rust/src/app.rs`
   - `builds/backend-rust/src/auth.rs`
-  - … 133 weitere
+  - … 138 weitere
 
-### internal/website/architektur.html (grob, 141 Commits seit Pruefung)
+### internal/website/architektur.html (grob, 144 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-10
-- `Website` (builds, dl-coaching, dl-landing) ab `f305c821` [datum-abgeleitet, grob]: 141 Commits, 139 Dateien
+- `Website` (builds, dl-coaching, dl-landing) ab `f305c821` [datum-abgeleitet, grob]: 144 Commits, 144 Dateien
   - `builds/backend-rust/Cargo.lock`
   - `builds/backend-rust/Cargo.toml`
   - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
@@ -506,7 +506,21 @@ Stand der Seite: 2026-07-10
   - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
   - `builds/backend-rust/src/app.rs`
   - `builds/backend-rust/src/auth.rs`
-  - … 131 weitere
+  - … 136 weitere
+
+### internal/website/betrieb.html (grob, 116 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-10
+- `Website` (builds, scripts) ab `f305c821` [datum-abgeleitet, grob]: 116 Commits, 108 Dateien
+  - `builds/backend-rust/Cargo.lock`
+  - `builds/backend-rust/Cargo.toml`
+  - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
+  - `builds/backend-rust/README.md`
+  - `builds/backend-rust/migrations/2026071999_video_library.sql`
+  - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
+  - `builds/backend-rust/src/app.rs`
+  - `builds/backend-rust/src/auth.rs`
+  - … 100 weitere
 
 ### internal/deadlock-steam-bot/betrieb.html (grob, 115 Commits seit Pruefung)
 
@@ -591,20 +605,6 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-123972121ed49650b28f6eddc1fe2b09b41e08158ff8dc2e889924b416426667.json`
   - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
   - … 197 weitere
-
-### internal/website/betrieb.html (grob, 113 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-10
-- `Website` (builds, scripts) ab `f305c821` [datum-abgeleitet, grob]: 113 Commits, 107 Dateien
-  - `builds/backend-rust/Cargo.lock`
-  - `builds/backend-rust/Cargo.toml`
-  - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
-  - `builds/backend-rust/README.md`
-  - `builds/backend-rust/migrations/2026071999_video_library.sql`
-  - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
-  - `builds/backend-rust/src/app.rs`
-  - `builds/backend-rust/src/auth.rs`
-  - … 99 weitere
 
 ### internal/deadlock-turniere/uebersicht.html (grob, 108 Commits seit Pruefung)
 
@@ -732,10 +732,10 @@ Stand der Seite: 2026-07-16
   - `backend/config.py`
   - … 82 weitere
 
-### internal/betrieb/routing-caddy.html (grob, 43 Commits seit Pruefung)
+### internal/betrieb/routing-caddy.html (grob, 44 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Caddy` (.) ab `89c1f8ab` [datum-abgeleitet, grob]: 43 Commits, 8 Dateien
+- `Caddy` (.) ab `89c1f8ab` [datum-abgeleitet, grob]: 44 Commits, 8 Dateien
   - `CLAUDE.md`
   - `README.md`
   - `conf/Caddyfile`
