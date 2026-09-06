@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-09-05 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-09-06 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **68**, davon 25 mit genauer Bindung
@@ -19,7 +19,7 @@ danach meldet der Bericht fuer sie nur noch echte Treffer.
 
 ## veraltet (68)
 
-### internal/deadlock-bots/stats-und-privacy-devs.html (genau, 256 Commits seit Pruefung)
+### internal/deadlock-bots/stats-und-privacy-devs.html (genau, 260 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
 - `Deadlock-Bots` (rust/crates/dl-activity, rust/crates/dl-community, rust/crates/dl-voice, rust/crates/dl-central-db) ab `3bc8ca8a` [explizit, genau]: 184 Commits, 113 Dateien
@@ -32,7 +32,7 @@ Stand der Seite: 2026-07-12
   - `rust/crates/dl-central-db/Cargo.toml`
   - `rust/crates/dl-central-db/build.rs`
   - … 105 weitere
-- `Deadlock-Steam-Bot` (rust) ab `6fad947c` [explizit, grob]: 72 Commits, 116 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `6fad947c` [explizit, grob]: 76 Commits, 116 Dateien
   - `rust/.sqlx/query-1045b3d8cc81ee6518f699e634cd7396ea5b0619312f291bc9a7cc73d70e1a32.json`
   - `rust/.sqlx/query-158079b4bdbfb714a7d4845bbc45bb1690f77595b07d53df9630f3a7e4639e3c.json`
   - `rust/.sqlx/query-2266eaf88d227d9de58ff57fcadca118b8f1e5d711cbea9499ddf1411ac1b449.json`
@@ -44,10 +44,10 @@ Stand der Seite: 2026-07-12
   - … 108 weitere
 - `Deadlock-Docs` (public/discord-server/stats-und-privacy.html) ab `08c01ff0` [datum-abgeleitet, genau]: 0 Commits, 0 Dateien
 
-### internal/deadlock-twitch-bot/stream-coaching-audit.html (genau, 97 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/stream-coaching-audit.html (genau, 98 Commits seit Pruefung)
 
 Stand der Seite: 2026-08-14
-- `Deadlock-Twitch-Bot` (rust/crates/tb-stream-audit, rust/bin/tb-stream-audit, rust/crates/tb-engagement/src/audio_capture.rs, rust/crates/tb-engagement/src/transcribe.rs, rust/crates/tb-llm/src/selection.rs, rust/scripts/run_stream_audit_service.sh, ops/systemd/deadlock-twitch-stream-coaching-watch.service) ab `5082d53f` [explizit, genau]: 97 Commits, 17 Dateien
+- `Deadlock-Twitch-Bot` (rust/crates/tb-stream-audit, rust/bin/tb-stream-audit, rust/crates/tb-engagement/src/audio_capture.rs, rust/crates/tb-engagement/src/transcribe.rs, rust/crates/tb-llm/src/selection.rs, rust/scripts/run_stream_audit_service.sh, ops/systemd/deadlock-twitch-stream-coaching-watch.service) ab `5082d53f` [explizit, genau]: 98 Commits, 17 Dateien
   - Hinweis: geprueft liegt nicht auf main; verglichen ab gemeinsamem Vorfahr 8b450be1 (meldet eher zu viel als zu wenig)
   - `ops/systemd/deadlock-twitch-stream-coaching-watch.service`
   - `rust/bin/tb-stream-audit/Cargo.toml`
@@ -269,10 +269,10 @@ Stand der Seite: 2026-07-24
 - `Deadlock-Docs` (public/dokus/scrims) ab `697f05d0` [datum-abgeleitet, genau]: 2 Commits, 1 Dateien
   - `public/dokus/scrims/scrim-orga.html`
 
-### internal/deadlock-twitch-bot/affiliate.html (grob, 1005 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/affiliate.html (grob, 1123 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1005 Commits, 1351 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1123 Commits, 1454 Dateien
   - `bot/__init__.py`
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
@@ -281,12 +281,12 @@ Stand der Seite: 2026-07-07
   - `bot/admin_dashboard/src/api/types.ts`
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
-  - … 1343 weitere
+  - … 1446 weitere
 
-### internal/deadlock-twitch-bot/integrationen.html (grob, 1005 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/integrationen.html (grob, 1123 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1005 Commits, 1351 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1123 Commits, 1454 Dateien
   - `bot/__init__.py`
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
@@ -295,12 +295,12 @@ Stand der Seite: 2026-07-07
   - `bot/admin_dashboard/src/api/types.ts`
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
-  - … 1343 weitere
+  - … 1446 weitere
 
-### internal/deadlock-twitch-bot/uebersicht.html (grob, 1005 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/uebersicht.html (grob, 1123 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1005 Commits, 1351 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `03822a50` [datum-abgeleitet, grob]: 1123 Commits, 1454 Dateien
   - `bot/__init__.py`
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
@@ -309,26 +309,26 @@ Stand der Seite: 2026-07-07
   - `bot/admin_dashboard/src/api/types.ts`
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
-  - … 1343 weitere
+  - … 1446 weitere
 
-### internal/deadlock-twitch-bot/knowledge-faq.html (grob, 777 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/knowledge-faq.html (grob, 859 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Twitch-Bot` (rust, features) ab `03822a50` [datum-abgeleitet, grob]: 777 Commits, 647 Dateien
+- `Deadlock-Twitch-Bot` (rust, features) ab `03822a50` [datum-abgeleitet, grob]: 859 Commits, 736 Dateien
   - `rust/.cargo/audit.toml`
   - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
   - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
   - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
   - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
   - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
-  - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 639 weitere
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
+  - … 728 weitere
 
-### internal/deadlock-twitch-bot/architektur.html (grob, 737 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/architektur.html (grob, 855 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-18
-- `Deadlock-Twitch-Bot` (rust, bot) ab `9e740716` [datum-abgeleitet, grob]: 737 Commits, 1188 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `9e740716` [datum-abgeleitet, grob]: 855 Commits, 1300 Dateien
   - `bot/__init__.py`
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
@@ -337,12 +337,12 @@ Stand der Seite: 2026-07-18
   - `bot/admin_dashboard/src/api/types.ts`
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
-  - … 1180 weitere
+  - … 1292 weitere
 
-### internal/deadlock-twitch-bot/datenmodell.html (grob, 737 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/datenmodell.html (grob, 855 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-18
-- `Deadlock-Twitch-Bot` (rust, bot) ab `9e740716` [datum-abgeleitet, grob]: 737 Commits, 1188 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `9e740716` [datum-abgeleitet, grob]: 855 Commits, 1300 Dateien
   - `bot/__init__.py`
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
@@ -351,12 +351,12 @@ Stand der Seite: 2026-07-18
   - `bot/admin_dashboard/src/api/types.ts`
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
-  - … 1180 weitere
+  - … 1292 weitere
 
-### internal/deadlock-twitch-bot/bot-trennen.html (grob, 606 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/bot-trennen.html (grob, 724 Commits seit Pruefung)
 
 Stand der Seite: 2026-08-03
-- `Deadlock-Twitch-Bot` (rust, bot) ab `22fd298d` [datum-abgeleitet, grob]: 606 Commits, 594 Dateien
+- `Deadlock-Twitch-Bot` (rust, bot) ab `22fd298d` [datum-abgeleitet, grob]: 724 Commits, 712 Dateien
   - `bot/admin_dashboard/package-lock.json`
   - `bot/admin_dashboard/package.json`
   - `bot/admin_dashboard/src/App.tsx`
@@ -365,21 +365,21 @@ Stand der Seite: 2026-08-03
   - `bot/admin_dashboard/src/components/layout/AdminShell.tsx`
   - `bot/admin_dashboard/src/components/layout/Sidebar.tsx`
   - `bot/admin_dashboard/src/components/layout/TopBar.tsx`
-  - … 586 weitere
+  - … 704 weitere
 
-### internal/deadlock-twitch-bot/pause-loop-obs.html (grob, 563 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/pause-loop-obs.html (grob, 645 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-20
-- `Deadlock-Twitch-Bot` (rust, features) ab `a0a3f8d7` [datum-abgeleitet, grob]: 528 Commits, 525 Dateien
+- `Deadlock-Twitch-Bot` (rust, features) ab `a0a3f8d7` [datum-abgeleitet, grob]: 610 Commits, 618 Dateien
   - `rust/.cargo/audit.toml`
   - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
   - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
   - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
   - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
   - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
-  - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 517 weitere
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
+  - … 610 weitere
 - `Caddy` (.) ab `ed03744a` [datum-abgeleitet, grob]: 35 Commits, 8 Dateien
   - `CLAUDE.md`
   - `README.md`
@@ -390,10 +390,10 @@ Stand der Seite: 2026-07-20
   - `hosts/v50671/systemd/20-tailscale.conf`
   - `hosts/v50671/systemd/99-caddy-nonlocal-bind.sysctl.conf`
 
-### internal/deadlock-twitch-bot/betrieb.html (grob, 494 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/betrieb.html (grob, 576 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-27
-- `Deadlock-Twitch-Bot` (ops, rust) ab `3b74c611` [datum-abgeleitet, grob]: 494 Commits, 526 Dateien
+- `Deadlock-Twitch-Bot` (ops, rust) ab `3b74c611` [datum-abgeleitet, grob]: 576 Commits, 621 Dateien
   - `ops/learn-samples.sh`
   - `ops/stt-server/README.md`
   - `ops/stt-server/stt_server.py`
@@ -402,35 +402,63 @@ Stand der Seite: 2026-07-27
   - `ops/systemd/bot.conf`
   - `ops/systemd/dashboard.conf`
   - `ops/systemd/deadlock-streamlink`
-  - … 518 weitere
+  - … 613 weitere
 
-### internal/deadlock-twitch-bot/scam-guard.html (grob, 481 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/scam-guard.html (grob, 563 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-27
-- `Deadlock-Twitch-Bot` (rust, features) ab `3b74c611` [datum-abgeleitet, grob]: 481 Commits, 506 Dateien
+- `Deadlock-Twitch-Bot` (rust, features) ab `3b74c611` [datum-abgeleitet, grob]: 563 Commits, 601 Dateien
   - `rust/.cargo/audit.toml`
   - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
   - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
   - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
   - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
   - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
-  - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 498 weitere
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
+  - … 593 weitere
 
-### internal/deadlock-twitch-bot/smalltalk-shadow.html (grob, 481 Commits seit Pruefung)
+### internal/deadlock-twitch-bot/smalltalk-shadow.html (grob, 563 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-27
-- `Deadlock-Twitch-Bot` (rust, features) ab `3b74c611` [datum-abgeleitet, grob]: 481 Commits, 506 Dateien
+- `Deadlock-Twitch-Bot` (rust, features) ab `3b74c611` [datum-abgeleitet, grob]: 563 Commits, 601 Dateien
   - `rust/.cargo/audit.toml`
   - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
   - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
   - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
   - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
   - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
+  - … 593 weitere
+
+### internal/deadlock-twitch-bot/crew-guard-radar.html (grob, 541 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-28
+- `Deadlock-Twitch-Bot` (rust, features) ab `1283d481` [datum-abgeleitet, grob]: 541 Commits, 583 Dateien
+  - `rust/.cargo/audit.toml`
+  - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
+  - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
+  - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
+  - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
+  - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
+  - … 575 weitere
+
+### internal/deadlock-twitch-bot/verwaltung-selbstbedienung.html (grob, 502 Commits seit Pruefung)
+
+Stand der Seite: 2026-08-03
+- `Deadlock-Twitch-Bot` (rust, features) ab `22fd298d` [datum-abgeleitet, grob]: 502 Commits, 529 Dateien
+  - `rust/.cargo/audit.toml`
+  - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
+  - `rust/.sqlx/query-04b227969422b64c03140040d7bd1b9daafa6afb1a4551652399895c7e9dbdd4.json`
+  - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
+  - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
+  - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
+  - `rust/.sqlx/query-08a83ac4bae64373cb21a59fb41b4e1feb87c318a32badcc5d8a60d64ad23d48.json`
   - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 498 weitere
+  - … 521 weitere
 
 ### internal/deadlock-bots/architektur.html (grob, 459 Commits seit Pruefung)
 
@@ -460,34 +488,6 @@ Stand der Seite: 2026-07-07
   - `rust/.sqlx/query-45623204c0ce3c836ca17e31d5eab228607cd49337cf79700fcae82fec6bab77.json`
   - … 256 weitere
 
-### internal/deadlock-twitch-bot/crew-guard-radar.html (grob, 459 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-28
-- `Deadlock-Twitch-Bot` (rust, features) ab `1283d481` [datum-abgeleitet, grob]: 459 Commits, 488 Dateien
-  - `rust/.cargo/audit.toml`
-  - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
-  - `rust/.sqlx/query-06df9f1066fbe003f82f4eb567df77e08edcf9ae7f31f8db0796613e96d214c4.json`
-  - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
-  - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
-  - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
-  - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 480 weitere
-
-### internal/deadlock-twitch-bot/verwaltung-selbstbedienung.html (grob, 420 Commits seit Pruefung)
-
-Stand der Seite: 2026-08-03
-- `Deadlock-Twitch-Bot` (rust, features) ab `22fd298d` [datum-abgeleitet, grob]: 420 Commits, 430 Dateien
-  - `rust/.cargo/audit.toml`
-  - `rust/.sqlx/query-00748f8a6734810c5b88b17f3db55311a86abaf4e77a2e2cb672e418c2e4d11c.json`
-  - `rust/.sqlx/query-07e85552c7c34d4721a4d35d01091001db448f6cf395c35f64943f75d7a010c8.json`
-  - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
-  - `rust/.sqlx/query-088424abdc92ba8c210b4d20627b639a872f6f1b85a165867890c05face7f40d.json`
-  - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
-  - `rust/.sqlx/query-0a07d8bfba936f213c2b433571721f61470e6f7799639987620e812b3ccd55f0.json`
-  - `rust/.sqlx/query-0ad212233983ef7c10dc16d202d35251e321f3083c2e8aa28a98444ebc8430f3.json`
-  - … 422 weitere
-
 ### internal/website/uebersicht.html (grob, 159 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
@@ -516,6 +516,20 @@ Stand der Seite: 2026-07-10
   - `builds/backend-rust/src/auth.rs`
   - … 140 weitere
 
+### internal/deadlock-steam-bot/betrieb.html (grob, 119 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-08
+- `Deadlock-Steam-Bot` (rust, scripts) ab `d8025714` [datum-abgeleitet, grob]: 119 Commits, 207 Dateien
+  - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
+  - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
+  - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
+  - `rust/.sqlx/query-0a32af394f4f16de182fbb55cd68e99fe6a1a9f44d17f32dc780b91ae37ba78d.json`
+  - `rust/.sqlx/query-0d49b183c1421760ae41af8f85fb92e00118fa937162197241bfff1875ed0712.json`
+  - `rust/.sqlx/query-1045b3d8cc81ee6518f699e634cd7396ea5b0619312f291bc9a7cc73d70e1a32.json`
+  - `rust/.sqlx/query-123972121ed49650b28f6eddc1fe2b09b41e08158ff8dc2e889924b416426667.json`
+  - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
+  - … 199 weitere
+
 ### internal/website/betrieb.html (grob, 119 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-10
@@ -530,24 +544,10 @@ Stand der Seite: 2026-07-10
   - `builds/backend-rust/src/auth.rs`
   - … 100 weitere
 
-### internal/deadlock-steam-bot/betrieb.html (grob, 115 Commits seit Pruefung)
+### internal/deadlock-steam-bot/architektur.html (grob, 118 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust, scripts) ab `d8025714` [datum-abgeleitet, grob]: 115 Commits, 207 Dateien
-  - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
-  - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
-  - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
-  - `rust/.sqlx/query-0a32af394f4f16de182fbb55cd68e99fe6a1a9f44d17f32dc780b91ae37ba78d.json`
-  - `rust/.sqlx/query-0d49b183c1421760ae41af8f85fb92e00118fa937162197241bfff1875ed0712.json`
-  - `rust/.sqlx/query-1045b3d8cc81ee6518f699e634cd7396ea5b0619312f291bc9a7cc73d70e1a32.json`
-  - `rust/.sqlx/query-123972121ed49650b28f6eddc1fe2b09b41e08158ff8dc2e889924b416426667.json`
-  - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
-  - … 199 weitere
-
-### internal/deadlock-steam-bot/architektur.html (grob, 114 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 114 Commits, 205 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 118 Commits, 205 Dateien
   - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
   - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
   - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
@@ -558,10 +558,10 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
   - … 197 weitere
 
-### internal/deadlock-steam-bot/datenmodell.html (grob, 114 Commits seit Pruefung)
+### internal/deadlock-steam-bot/datenmodell.html (grob, 118 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 114 Commits, 205 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 118 Commits, 205 Dateien
   - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
   - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
   - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
@@ -572,10 +572,10 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
   - … 197 weitere
 
-### internal/deadlock-steam-bot/integrationen.html (grob, 114 Commits seit Pruefung)
+### internal/deadlock-steam-bot/integrationen.html (grob, 118 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 114 Commits, 205 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 118 Commits, 205 Dateien
   - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
   - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
   - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
@@ -586,10 +586,10 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
   - … 197 weitere
 
-### internal/deadlock-steam-bot/task-queue.html (grob, 114 Commits seit Pruefung)
+### internal/deadlock-steam-bot/task-queue.html (grob, 118 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 114 Commits, 205 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 118 Commits, 205 Dateien
   - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
   - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
   - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
@@ -600,10 +600,10 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-13285ae2c88d2dd08155b19d411ce5095bd5a21405a357ebd0dd153748c65b03.json`
   - … 197 weitere
 
-### internal/deadlock-steam-bot/uebersicht.html (grob, 114 Commits seit Pruefung)
+### internal/deadlock-steam-bot/uebersicht.html (grob, 118 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
-- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 114 Commits, 205 Dateien
+- `Deadlock-Steam-Bot` (rust) ab `d8025714` [datum-abgeleitet, grob]: 118 Commits, 205 Dateien
   - `rust/.sqlx/query-016202238c2fe79d321d1f8c873d75585a5f0a35be607126b724b298e205fa8d.json`
   - `rust/.sqlx/query-04fcd77056839e21ca8270bca1c2c29328533082baf6dab083f0aa721df1d381.json`
   - `rust/.sqlx/query-0863636aa6ac78389deb8751d87fd069a1a7d27cd1f250423e735e082bbc2077.json`
