@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-09-15 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-09-16 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **68**, davon 25 mit genauer Bindung
@@ -212,6 +212,18 @@ Stand der Seite: 2026-07-11
   - `rust/crates/dl-bridges/src/steam.rs`
   - `rust/crates/dl-bridges/src/twitch.rs`
 
+### internal/deadlock-bots/moderation-scam-guard.html (genau, 7 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-07
+- `Deadlock-Bots` (rust/crates/dl-moderation) ab `9669df25` [datum-abgeleitet, genau]: 7 Commits, 7 Dateien
+  - `rust/crates/dl-moderation/src/action_policy.rs`
+  - `rust/crates/dl-moderation/src/behavior_detector.rs`
+  - `rust/crates/dl-moderation/src/case_embed.rs`
+  - `rust/crates/dl-moderation/src/content_analyzer.rs`
+  - `rust/crates/dl-moderation/src/content_verifier.rs`
+  - `rust/crates/dl-moderation/src/lib.rs`
+  - `rust/crates/dl-moderation/src/moderation_system.rs`
+
 ### internal/deadlock-bots/tierlist-und-builds-devs.html (genau, 6 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-08
@@ -229,16 +241,6 @@ Stand der Seite: 2026-07-07
 Stand der Seite: 2026-07-07
 - `Deadlock-Docs` (public/discord-server/rules-und-channels.html) ab `89390f67` [datum-abgeleitet, genau]: 5 Commits, 1 Dateien
   - `public/discord-server/rules-und-channels.html`
-
-### internal/deadlock-bots/moderation-scam-guard.html (genau, 4 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust/crates/dl-moderation) ab `9669df25` [datum-abgeleitet, genau]: 4 Commits, 5 Dateien
-  - `rust/crates/dl-moderation/src/behavior_detector.rs`
-  - `rust/crates/dl-moderation/src/content_analyzer.rs`
-  - `rust/crates/dl-moderation/src/content_verifier.rs`
-  - `rust/crates/dl-moderation/src/lib.rs`
-  - `rust/crates/dl-moderation/src/moderation_system.rs`
 
 ### internal/deadlock-bots/steam-integration-devs.html (genau, 3 Commits seit Pruefung)
 
@@ -461,10 +463,10 @@ Stand der Seite: 2026-08-03
   - `rust/.sqlx/query-09308917b86027e8e264cb9d3671ff6bf08cb5a69e384e84c633a3a0423337b1.json`
   - … 617 weitere
 
-### internal/deadlock-bots/architektur.html (grob, 471 Commits seit Pruefung)
+### internal/deadlock-bots/architektur.html (grob, 474 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 471 Commits, 270 Dateien
+- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 474 Commits, 272 Dateien
   - `rust/.sqlx/query-00cbd620a306b6128f21c744d815c1f46d6698fe84aae23739772996b49402fc.json`
   - `rust/.sqlx/query-115f831897ce9f7ec2e81cc7ac7e28021cdcab6aac51fda1e94d733304c8e43e.json`
   - `rust/.sqlx/query-14fdb6d7fa6d976e5890147a53bd1d7b31168661e01dcf2bb79aa6b0b8a4d61e.json`
@@ -473,12 +475,12 @@ Stand der Seite: 2026-07-07
   - `rust/.sqlx/query-2dcc3b77350e59caef3af267e1ea961d664f450b424be977e7b2cbdd6c6027aa.json`
   - `rust/.sqlx/query-2e9682b2bb3267e7980b3b1bfab7697df0dabf5b7510ee803963dcc1344ec22d.json`
   - `rust/.sqlx/query-45623204c0ce3c836ca17e31d5eab228607cd49337cf79700fcae82fec6bab77.json`
-  - … 262 weitere
+  - … 264 weitere
 
-### internal/deadlock-bots/uebersicht.html (grob, 471 Commits seit Pruefung)
+### internal/deadlock-bots/uebersicht.html (grob, 474 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 471 Commits, 270 Dateien
+- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 474 Commits, 272 Dateien
   - `rust/.sqlx/query-00cbd620a306b6128f21c744d815c1f46d6698fe84aae23739772996b49402fc.json`
   - `rust/.sqlx/query-115f831897ce9f7ec2e81cc7ac7e28021cdcab6aac51fda1e94d733304c8e43e.json`
   - `rust/.sqlx/query-14fdb6d7fa6d976e5890147a53bd1d7b31168661e01dcf2bb79aa6b0b8a4d61e.json`
@@ -487,7 +489,7 @@ Stand der Seite: 2026-07-07
   - `rust/.sqlx/query-2dcc3b77350e59caef3af267e1ea961d664f450b424be977e7b2cbdd6c6027aa.json`
   - `rust/.sqlx/query-2e9682b2bb3267e7980b3b1bfab7697df0dabf5b7510ee803963dcc1344ec22d.json`
   - `rust/.sqlx/query-45623204c0ce3c836ca17e31d5eab228607cd49337cf79700fcae82fec6bab77.json`
-  - … 262 weitere
+  - … 264 weitere
 
 ### internal/website/uebersicht.html (grob, 171 Commits seit Pruefung)
 
@@ -601,10 +603,10 @@ Stand der Seite: 2026-07-08
   - `rust/.sqlx/query-123972121ed49650b28f6eddc1fe2b09b41e08158ff8dc2e889924b416426667.json`
   - … 224 weitere
 
-### internal/deadlock-turniere/uebersicht.html (grob, 129 Commits seit Pruefung)
+### internal/deadlock-turniere/uebersicht.html (grob, 130 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Turniere` (rust, backend, frontend) ab `c6a5d2c9` [datum-abgeleitet, grob]: 129 Commits, 171 Dateien
+- `Deadlock-Turniere` (rust, backend, frontend) ab `c6a5d2c9` [datum-abgeleitet, grob]: 130 Commits, 175 Dateien
   - `backend/__init__.py`
   - `backend/admin/__init__.py`
   - `backend/admin/test_mode.py`
@@ -613,7 +615,7 @@ Stand der Seite: 2026-07-07
   - `backend/auth/middleware.py`
   - `backend/auth/permissions.py`
   - `backend/config.py`
-  - … 163 weitere
+  - … 167 weitere
 
 ### internal/website/betrieb.html (grob, 125 Commits seit Pruefung)
 
@@ -699,10 +701,24 @@ Stand der Seite: 2026-07-07
   - `backend/config.py`
   - … 127 weitere
 
-### internal/deadlock-turniere/draft-lobbys.html (grob, 89 Commits seit Pruefung)
+### internal/deadlock-brain/match-demo-learning.html (grob, 110 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-10
+- `Deadlock-Brain` (rust, src) ab `10edcd42` [datum-abgeleitet, grob]: 110 Commits, 76 Dateien
+  - `rust/Cargo.lock`
+  - `rust/Cargo.toml`
+  - `rust/crates/dbrain-builds/src/lib.rs`
+  - `rust/crates/dbrain-builds/src/patch_tag.rs`
+  - `rust/crates/dbrain-builds/src/spec.rs`
+  - `rust/crates/dbrain-builds/src/sync.rs`
+  - `rust/crates/dbrain-enrich/src/lib.rs`
+  - `rust/crates/dbrain-learn/src/build_learning.rs`
+  - … 68 weitere
+
+### internal/deadlock-turniere/draft-lobbys.html (grob, 90 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-16
-- `Deadlock-Turniere` (rust, backend, frontend) ab `16490dcf` [datum-abgeleitet, grob]: 89 Commits, 142 Dateien
+- `Deadlock-Turniere` (rust, backend, frontend) ab `16490dcf` [datum-abgeleitet, grob]: 90 Commits, 146 Dateien
   - `backend/__init__.py`
   - `backend/admin/__init__.py`
   - `backend/admin/test_mode.py`
@@ -711,7 +727,7 @@ Stand der Seite: 2026-07-16
   - `backend/auth/middleware.py`
   - `backend/auth/permissions.py`
   - `backend/config.py`
-  - … 134 weitere
+  - … 138 weitere
 
 ### internal/website/datenmodell.html (grob, 82 Commits seit Pruefung)
 
@@ -754,75 +770,61 @@ Stand der Seite: 2026-07-07
   - `hosts/v50671/systemd/20-tailscale.conf`
   - `hosts/v50671/systemd/99-caddy-nonlocal-bind.sysctl.conf`
 
-### internal/deadlock-brain/match-demo-learning.html (grob, 45 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-10
-- `Deadlock-Brain` (rust, src) ab `10edcd42` [datum-abgeleitet, grob]: 45 Commits, 47 Dateien
-  - `rust/Cargo.lock`
-  - `rust/Cargo.toml`
-  - `rust/crates/dbrain-builds/src/lib.rs`
-  - `rust/crates/dbrain-builds/src/patch_tag.rs`
-  - `rust/crates/dbrain-builds/src/spec.rs`
-  - `rust/crates/dbrain-builds/src/sync.rs`
-  - `rust/crates/dbrain-enrich/src/lib.rs`
-  - `rust/crates/dbrain-learn/src/build_learning.rs`
-  - … 39 weitere
-
-### internal/patchnotes-bot/architektur.html (grob, 26 Commits seit Pruefung)
+### internal/patchnotes-bot/architektur.html (grob, 39 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 26 Commits, 13 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 39 Commits, 16 Dateien
+  - `.github/workflows/codeql.yml`
+  - `.github/workflows/secret-scanning.yml`
   - `.github/workflows/security.yml`
   - `changelog_latest_fetcher.py`
   - `entity_emojis.py`
   - `main.py`
   - `patch_view.py`
-  - `scripts/recolor_patch_containers.py`
-  - `scripts/run_patchnotes_bot.sh`
-  - `scripts/run_prepared_patch_once.sh`
-  - … 5 weitere
+  - `requirements.txt`
+  - … 8 weitere
 
-### internal/patchnotes-bot/betrieb.html (grob, 26 Commits seit Pruefung)
+### internal/patchnotes-bot/betrieb.html (grob, 39 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 26 Commits, 13 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 39 Commits, 16 Dateien
+  - `.github/workflows/codeql.yml`
+  - `.github/workflows/secret-scanning.yml`
   - `.github/workflows/security.yml`
   - `changelog_latest_fetcher.py`
   - `entity_emojis.py`
   - `main.py`
   - `patch_view.py`
-  - `scripts/recolor_patch_containers.py`
-  - `scripts/run_patchnotes_bot.sh`
-  - `scripts/run_prepared_patch_once.sh`
-  - … 5 weitere
+  - `requirements.txt`
+  - … 8 weitere
 
-### internal/patchnotes-bot/integrationen.html (grob, 26 Commits seit Pruefung)
+### internal/patchnotes-bot/integrationen.html (grob, 39 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 26 Commits, 13 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 39 Commits, 16 Dateien
+  - `.github/workflows/codeql.yml`
+  - `.github/workflows/secret-scanning.yml`
   - `.github/workflows/security.yml`
   - `changelog_latest_fetcher.py`
   - `entity_emojis.py`
   - `main.py`
   - `patch_view.py`
-  - `scripts/recolor_patch_containers.py`
-  - `scripts/run_patchnotes_bot.sh`
-  - `scripts/run_prepared_patch_once.sh`
-  - … 5 weitere
+  - `requirements.txt`
+  - … 8 weitere
 
-### internal/patchnotes-bot/uebersicht.html (grob, 26 Commits seit Pruefung)
+### internal/patchnotes-bot/uebersicht.html (grob, 39 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 26 Commits, 13 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 39 Commits, 16 Dateien
+  - `.github/workflows/codeql.yml`
+  - `.github/workflows/secret-scanning.yml`
   - `.github/workflows/security.yml`
   - `changelog_latest_fetcher.py`
   - `entity_emojis.py`
   - `main.py`
   - `patch_view.py`
-  - `scripts/recolor_patch_containers.py`
-  - `scripts/run_patchnotes_bot.sh`
-  - `scripts/run_prepared_patch_once.sh`
-  - … 5 weitere
+  - `requirements.txt`
+  - … 8 weitere
 
 ### internal/betrieb/deploy.html (grob, 19 Commits seit Pruefung)
 
