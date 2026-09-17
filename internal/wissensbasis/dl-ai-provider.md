@@ -4,10 +4,13 @@ Interne Referenz für KI-Support-Agenten. Beschrieben ist der gelesene Quellstan
 
 ## Kurzantwort
 
-- **Anbieter und Modell:** Für `BotPate`, `Faq` und `BrainAntwort` ist Fireworks der Anbieter-Standard. Der gemeinsame Modell-Standard ist **DeepSeek V4 Flash**, konkret `accounts/fireworks/models/deepseek-v4-flash-0731`. Anbieter und Modell lassen sich überschreiben. [chat_provider.rs:594–612; lib.rs:30–42]
+- **Anbieter und Modell:** Für `BotPate`, `Faq` und `BrainAntwort` ist Fireworks der Anbieter-Standard. Der gemeinsame Modell-Standard ist **DeepSeek V4 Flash**, konkret `accounts/fireworks/models/deepseek-v4-flash-0731`. Anbieter und Modell lassen sich überschreiben (Default `default_provider_for` chat_provider.rs:594–629, Überschreibung `from_env` 377–398 und Modell 700–703). [lib.rs:30–42]
 - **Modellauflösung:** Der Modellname wird aus Anfrage beziehungsweise Konfiguration übernommen, nicht über einen Modellkatalog ermittelt. Es gibt entgegen der Annahme „statt einkompiliert“ einen **einkompilierten Rückfallwert**. Ein konfiguriertes Modell kann ohne Änderung dieser Konstante verwendet werden. [chat_provider.rs:572–583, 687–711, 765–768; lib.rs:434–465, 501–506]
 - **Timeout:** Entgegen der Erwartung „kein hartes Timeout“ setzt der Code explizite HTTP-Zeitlimits: **110 Sekunden für `BotPate`**, **45 Sekunden für die übrigen Fälle im Provider-Fabrikweg**, **60 Sekunden beim direkten `FireworksClient`**. Eine Timeout-Umgebungsvariable wird in diesen Bauwegen nicht ausgewertet. [chat_provider.rs:11–26, 562–569, 1066–1088; lib.rs:434–465]
-- **Gemeinsame Textschnittstelle:** `TextGenerator::generate_text(GenerateRequest) -> Option<String>`. Die Brücke `ChatTextGenerator` verbindet diese Konsumentenschnittstelle mit dem typisierten `ChatProvider`. [lib.rs:54–63, 117–121; chat_text.rs:1–21, 58–100]
+- **Schnittstellen und Konsumentenpfade (wichtig, drei getrennte Wege):** Die Traits `TextGenerator::generate_text` und der typisierte `ChatProvider::chat` existieren, werden von den Konsumenten aber nicht gemeinsam genutzt.
+  - **dl-knowledge:** direkter `FireworksClient::from_env`, 60 s HTTP plus zusätzliches 7 s Anwendungs-Timeout um `generate_text`, sendet `reasoning_effort: none`, umgeht Fabrik, Retry, Compliance-Gate und Transparenz-Log und liest kein `DL_LLM_MODEL_*`. [dl-knowledge/src/main.rs:689–691, 36, 813–819]
+  - **Concierge:** `build_provider_for_env(BotPate)` über `ChatProvider::chat`, 110 s HTTP, Retry bei 429/5xx, kein `reasoning_effort`; eigener Concierge-Timeout Default 100 s, Env `DL_CONCIERGE_AI_TIMEOUT_SECS`, Deckel 110 s. [dl-bot/src/main.rs:1075–1077; concierge.rs:93–100, 304–308, 2813–2825]
+  - **Faq und BrainAntwort im Bot:** Fabrik plus `ChatTextGenerator`, 45 s, `reasoning_effort` wird verworfen und nur als Warnung geloggt. [dl-bot/src/main.rs:196–223, 983, 1066; chat_text.rs:58–100]
 - **Denkmodus:** Der direkte `FireworksClient` übermittelt ein gesetztes `reasoning_effort`. `ChatTextGenerator` reicht es ausdrücklich **nicht** weiter und protokolliert eine Warnung. Das Weglassen ist keine belegte Abschaltung des Denkmodus. [lib.rs:520–522; chat_text.rs:60–67]
 
 ## Quellen und Geltungsbereich
