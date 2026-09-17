@@ -1,9 +1,9 @@
 # Nicht auffindbare Quellpfade
 
-Erzeugt: 2026-09-16 von `tools/check_referenzen.py`.
+Erzeugt: 2026-09-17 von `tools/check_referenzen.py`.
 
 - fehlende Pfade: **2** auf 2 Seiten
-- abgeglichen gegen 18845 Dateien und Verzeichnisse der Quell-Repos
+- abgeglichen gegen 18901 Dateien und Verzeichnisse der Quell-Repos
 
 Ein hier gelisteter Pfad steht in der Doku, existiert aber nirgends.
 Anders als der Frische-Bericht ist das kein Verdacht, sondern ein Fehler:
