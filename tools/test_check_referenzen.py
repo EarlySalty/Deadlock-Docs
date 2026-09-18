@@ -108,6 +108,63 @@ class ReferenzenTest(unittest.TestCase):
         self.seite("Fehlt: rust/crates/b/src/y.rs", "internal/unter/b.html")
         self.assertEqual(sorted(self.pruefe()), ["internal/a.html", "internal/unter/b.html"])
 
+    def markdown(self, text, name="internal/wissensbasis/test.md"):
+        ziel = self.docs / name
+        ziel.parent.mkdir(parents=True, exist_ok=True)
+        ziel.write_text(text, encoding="utf-8")
+
+    def test_markdown_mit_fehlendem_quellpfad_wird_geprueft(self):
+        self.markdown("Beleg: `rust/crates/fehlt/src/kern.rs:1-2`.")
+        self.assertEqual(self.pruefe(), {
+            "internal/wissensbasis/test.md": ["rust/crates/fehlt/src/kern.rs"],
+        })
+
+    def test_qualifizierter_beleg_bleibt_im_genannten_repo(self):
+        manifest = self.manifest()
+        manifest["repos"]["Deadlock-Bots"] = {"verzeichnis": "Anderes-Repo"}
+        (self.basis / "Anderes-Repo").mkdir()
+        beleg = "Deadlock-Bots/rust/crates/dl-ding/src/kern.rs:1"
+        self.markdown(f"Beleg: `{beleg}`.")
+        fehlend, _ = check_referenzen.pruefe(manifest, self.basis, self.docs)
+        self.assertEqual(fehlend, {"internal/wissensbasis/test.md": [beleg]})
+
+    def test_faq_prueft_qualifizierte_html_quelle(self):
+        manifest = self.manifest()
+        manifest["repos"]["Deadlock-Docs"] = {"verzeichnis": "Docs"}
+        beleg = "Deadlock-Docs/public/helden/fehlt.html:1-5"
+        self.markdown(f"Quelle: `{beleg}`.")
+        fehlend, _ = check_referenzen.pruefe(manifest, self.basis, self.docs)
+        self.assertEqual(fehlend, {"internal/wissensbasis/test.md": [beleg]})
+
+    def test_faq_prueft_qualifizierte_brain_quelle(self):
+        manifest = self.manifest()
+        manifest["repos"]["Deadlock-Brain"] = {"verzeichnis": "Quell-Repo"}
+        beleg = "Deadlock-Brain/game-wiki/pages/fehlt.md:1-5"
+        self.markdown(f"Quelle: `{beleg}`.")
+        fehlend, _ = check_referenzen.pruefe(manifest, self.basis, self.docs)
+        self.assertEqual(fehlend, {"internal/wissensbasis/test.md": [beleg]})
+
+    def test_zeilenbeleg_hinter_dateiende_wird_gemeldet(self):
+        beleg = "Quelle/rust/crates/dl-ding/src/kern.rs:1-2"
+        self.markdown(f"Beleg: `{beleg}`.")
+        self.assertEqual(self.pruefe(), {"internal/wissensbasis/test.md": [beleg]})
+
+    def test_ungueltige_zeilenbereiche_werden_gemeldet(self):
+        for bereich in ("0", "2-1", "1-0"):
+            with self.subTest(bereich=bereich):
+                beleg = f"Quelle/rust/crates/dl-ding/src/kern.rs:{bereich}"
+                self.markdown(f"Beleg: `{beleg}`.")
+                self.assertEqual(self.pruefe(), {"internal/wissensbasis/test.md": [beleg]})
+
+    def test_gueltiger_markdown_beleg_und_html_link_bleiben_gruen(self):
+        self.markdown("Beleg: `Quelle/rust/crates/dl-ding/src/kern.rs:1-1`. "
+                      "[Andere Seite](bot/uebersicht.html)")
+        self.assertEqual(self.pruefe(), {})
+
+    def test_public_entwurf_wird_nicht_als_interne_seite_geprueft(self):
+        self.markdown("`rust/crates/fehlt/src/kern.rs:1-2`", "public/test.md")
+        self.assertEqual(self.pruefe(), {})
+
     def test_bericht_nennt_zahlen_und_pfade(self):
         self.seite("Fehlt: rust/crates/dl-weg/src/kern.rs")
         text = check_referenzen.bericht(self.pruefe(), 42, heute="2026-08-13")
