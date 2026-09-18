@@ -334,5 +334,50 @@
     "context_terms": ["!raidbot_status", "!health"],
     "answer_terms": ["!raidbot_status", "!health", "Anzeige"],
     "forbidden_terms": ["!raid_enable", "nur Mods dürfen", "nur Moderatoren dürfen", "ausschließlich Moderatoren", "nur mit einer Rolle", "eine Rolle ist erforderlich", "sind rollenbeschränkt", "ändert dabei den Status", "Status wird geändert", "!health ändert dabei"]
+  },
+  {
+    "question": "Wie verbinde ich meinen Twitch Channel sicher?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/einrichtung.html","twitch-bot/faq-einstieg.html"],
+    "context_terms": ["Twitch OAuth","Streamer-Onboarding"],
+    "answer_terms": ["OAuth"],
+    "forbidden_terms": ["shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "How do I revoke the bot's Twitch access?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/einrichtung.html","twitch-bot/faq-einstieg.html"],
+    "context_terms": ["Verbindungen","widerrufen"],
+    "answer_terms": ["Twitch-Einstellungen"],
+    "forbidden_terms": ["shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Warum funzt !rank in dem Stream nich?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/chat-befehle.html","twitch-bot/faq-funktionen.html"],
+    "context_terms": ["Steam-Zuordnung"],
+    "answer_terms": ["Steam"],
+    "forbidden_terms": ["shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Im Dashboard steht ANALYTICS-404 und ich sehe keine Daten. Was prüfe ich?",
+    "answerable": true,
+    "expected_sources": ["twitch-bot/faq-analytics.html","twitch-bot/analytics-dashboard.html"],
+    "context_terms": ["Keine Daten"],
+    "answer_terms": ["Stream"],
+    "forbidden_terms": ["13 Tabs"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Was bedeutet der interne Dashboard-Fehlercode ANALYTICS-404 genau?",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]

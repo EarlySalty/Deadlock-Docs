@@ -302,5 +302,50 @@
     "context_terms": ["nicht garantiert", "Freundescode"],
     "answer_terms": ["nicht garantiert"],
     "forbidden_terms": ["/invite", "/betainvite"]
+  },
+  {
+    "question": "Wohin geeh ich, wenn ein Bot-Schritt weiter fehlschlägt?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html","discord-server/haeufige-probleme.html"],
+    "context_terms": ["Supportweg","faq"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["systemctl","shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Where do I go if a bot step keeps failing?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html","discord-server/haeufige-probleme.html"],
+    "context_terms": ["Supportweg","faq"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["systemctl","shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Beim FAQ-Chat steht Fehler DL-503. Was soll ich zuerst tun?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html","discord-server/haeufige-probleme.html"],
+    "context_terms": ["Supportweg","faq"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["systemctl","shadowban"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Wer kümmert sich um mein Ticket, Menschen oder der Bot?",
+    "answerable": true,
+    "expected_sources": ["discord-server/support/troubleshooting.html","discord-server/negativ-wissen.html"],
+    "context_terms": ["Ticket","Team"],
+    "answer_terms": ["antwortet nicht direkt","Team"],
+    "forbidden_terms": ["Shadow","Log-Kanal"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Was bedeutet der interne Fehlercode DL-503 genau?",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]

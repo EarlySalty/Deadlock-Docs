@@ -318,5 +318,50 @@
     "context_terms": [],
     "answer_terms": [],
     "forbidden_terms": []
+  },
+  {
+    "question": "Welche Community-Bots gibt es eigentlich alles?",
+    "answerable": true,
+    "expected_sources": ["discord-server/bots-und-dienste.html","discord-server/ueber-bot-und-server.html"],
+    "context_terms": ["Community-Bot","Website-Portale"],
+    "answer_terms": ["Community-Bot","Steam-Bot","Twitch-Bot","Patchnotes-Bot","Turnierportal","Website-Portale"],
+    "forbidden_terms": ["systemctl","/internal/"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "What is the Steam bot used for?",
+    "answerable": true,
+    "expected_sources": ["index.html","steam-bot/steam-bot.html"],
+    "context_terms": ["Steam-Bot","Playtest-Einladung"],
+    "answer_terms": ["Steam-Bot","Steam-Verknüpfung"],
+    "forbidden_terms": ["systemctl","/internal/"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Wie fang ich mit dem Twtich-Bot an?",
+    "answerable": true,
+    "expected_sources": ["index.html","twitch-bot/twitchbot-ueberblick.html","twitch-bot/einrichtung.html","twitch-bot/faq-einstieg.html"],
+    "context_terms": ["Streamer-Onboarding","Dashboard"],
+    "answer_terms": ["Twitch-Bot","Streamer-Onboarding"],
+    "forbidden_terms": ["systemctl","/internal/"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Ich sehe SERVICE-502. Kann die Wissensbasis sagen, ob gerade alles down ist?",
+    "answerable": true,
+    "expected_sources": ["discord-server/bots-und-dienste.html","discord-server/support/troubleshooting.html","discord-server/negativ-wissen.html"],
+    "context_terms": ["nicht verlässlich","Menschen-Support"],
+    "answer_terms": ["Support"],
+    "forbidden_terms": ["Der Bot ist gerade down","Bot läuft aktuell","Bot ist aktuell online","Bot ist online","Bot ist derzeit nicht erreichbar","Alle Community-Dienste laufen","Alle Dienste sind online"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Zeig mir den aktuellen internen Statuscode aller Community-Dienste.",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]
