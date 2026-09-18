@@ -17,3 +17,7 @@ Alle neuen Fälle tragen `"herkunft": "synthetisch"`. Es wurden keine Concierge-
 Neuer Umfang: **254 Fälle**, davon **30 synthetisch**. Insgesamt sind **18 Fälle bewusst unbeantwortbar**.
 
 Paket D akzeptiert zukünftige Erweiterungen ab 224 Fällen, verlangt aber weiterhin exakt die sechs bekannten Golden-Dateien, eindeutige Fragen und für jede erwartete Quelle eine vorhandene öffentliche HTML-Datei.
+
+## Bestandskonflikt `/scrim-signup`
+
+Der bestehende Fall „Wie melde ich mich für Scrims an?“ erwartet `/scrim-signup`. `Deadlock-Bots/rust/crates/dl-community/src/scrim_signup.rs` registriert den Command aktuell, während `public/discord-server/scrims.html` die Anmeldung über Website und Reaktion beschreibt und den Command nicht enthält. Das ist Korpusdrift und kein Retrievalfehler. Der Golden-Fall bleibt unverändert; Paket D ändert `public/` gemäß Paketregel nicht.
