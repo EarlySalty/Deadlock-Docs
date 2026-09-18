@@ -246,5 +246,50 @@
     "context_terms": ["mitspieler", "lfg"],
     "answer_terms": ["mitspieler"],
     "forbidden_terms": []
+  },
+  {
+    "question": "Wie verknüpfe ich Steam mit der Community?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["steam-anmeldung","panel"],
+    "answer_terms": ["steam","anmeld"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Do I have to give the bot my Steam password?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["kein steam-passwort"],
+    "answer_terms": ["kein Steam-Passwort","direkt bei Steam"],
+    "forbidden_terms": ["gib dem Bot dein Passwort","Passwort an den Bot geben","Bot braucht dein Steam-Passwort","musst dem Bot dein Passwort geben","Steam-Passwort beim Bot eingeben"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Wie prüf ich mein Deadlok-Rank über den Bot?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["checkrank","rang"],
+    "answer_terms": ["rang"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Beim Invite steht STEAM-409. Was prüfe ich bei einer offenen Voraussetzung?",
+    "answerable": true,
+    "expected_sources": ["steam-bot/steam-bot.html"],
+    "context_terms": ["voraussetzung","freundschaft"],
+    "answer_terms": ["voraussetzung"],
+    "forbidden_terms": ["/betainvite"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Was bedeutet der interne Steam-Bot-Fehlercode STEAM-409 technisch?",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]

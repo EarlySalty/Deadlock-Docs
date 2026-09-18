@@ -278,5 +278,50 @@
     "context_terms": ["Spielerprofil", "Historie"],
     "answer_terms": ["Historie", "Siege"],
     "forbidden_terms": ["Datenbanktabelle"]
+  },
+  {
+    "question": "Aus welcher Quelle holt ihr die Patch Notes?",
+    "answerable": true,
+    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
+    "context_terms": ["Forum","Steam"],
+    "answer_terms": ["Forum","Steam"],
+    "forbidden_terms": ["Prompt","Quellenauswahl"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Can I search older Deadlock patch notes?",
+    "answerable": true,
+    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
+    "context_terms": ["Archiv","Patch-Portal"],
+    "answer_terms": ["Archiv","Portal"],
+    "forbidden_terms": ["Datenbanktabelle"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Wo filter ich Patches nach Helden oder Items?",
+    "answerable": true,
+    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
+    "context_terms": ["Filter","Helden"],
+    "answer_terms": ["Filter","Portal"],
+    "forbidden_terms": ["Datenbanktabelle"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Patch-Übersetzung zeigt ERR-42. Wo finde ich die sichere Alternative?",
+    "answerable": true,
+    "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
+    "context_terms": ["Originalquelle","Support"],
+    "answer_terms": ["Support","Originalquelle"],
+    "forbidden_terms": ["Wartefrist"],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Welcher interne Parser-Fehlercode wurde beim neuesten Patch ausgelöst?",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]
