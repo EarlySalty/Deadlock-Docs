@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Twitch Bot Crew Guard Radar</title>
   <meta name="tags" content="internal, deadlock-twitch-bot, crew-guard, radar">
-  <meta name="stand" content="2026-07-28">
+  <meta name="stand" content="2026-09-19">
   <meta name="quelle" content="Deadlock-Twitch-Bot">
 </head>
 <body>
@@ -52,7 +52,7 @@
 <ul>
 <li><code>twitch_crew_radar_log</code>: Kanal, Chatter, Kontoalter, Stil-Score plus Breakdown, Zeitfenster, die letzten Nachrichten, Verdict, Confidence, Begründung, <code>action_taken</code>, Quelle. (rust/migrations/20260714120000_twitch_crew_radar_log.sql)</li>
 <li><code>twitch_chatter_global_ban</code>: die eigentliche Banliste. Ein Eintrag hier wirkt über den Global-Ban-Sweep, nicht über den Radar. Der Radar meldet nur. (rust/crates/tb-chat/src/global_chatter_ban.rs)</li>
-<li><code>CREW_REGISTRY</code> (tb-chat) und <code>CREW_OWN_CHANNELS</code> (tb-engagement) müssen synchron bleiben; ein Test hält beide Listen zusammen. Ein neues Crew-Konto gehört in beide Listen und zusätzlich in die Banliste. (rust/crates/tb-chat/src/crew_guard.rs; rust/crates/tb-engagement/src/crew_review.rs)</li>
+<li><code>CREW_REGISTRY</code> in <code>tb-chat</code> ist die aktuelle statische Crew-Kontoliste des Radars. Der frühere zweite Abgleich über <code>CREW_OWN_CHANNELS</code> existiert im aktuellen <code>tb-engagement</code> nicht mehr. (rust/crates/tb-chat/src/crew_guard.rs)</li>
 </ul>
 </section>
 
@@ -61,7 +61,7 @@
 <ul>
 <li>Twitch-User-ID beschaffen (das Login allein reicht nicht, Accounts werden umbenannt).</li>
 <li><code>CREW_REGISTRY</code> in <code>crew_guard.rs</code> ergänzen, mit Kommentar zum konkreten Verhaltensbeleg (Kanal + Datum) und <code>has_behavioral_evidence</code> passend setzen.</li>
-<li>Login in <code>CREW_OWN_CHANNELS</code> in <code>crew_review.rs</code> ergänzen, sonst schlägt der Synchron-Test fehl.</li>
+<li>Für den Radar ist kein zweiter Crew-Review-Registereintrag mehr nötig; der aktive Kontobezug liegt in <code>CREW_REGISTRY</code>. (rust/crates/tb-chat/src/crew_guard.rs)</li>
 <li>Zeile in <code>twitch_chatter_global_ban</code> anlegen (<code>chatter_login</code>, <code>chatter_id</code>, belegter <code>reason</code>, <code>added_by</code>). Der Sweep bannt daraufhin in Partnerkanälen: fällig eine Stunde nach Stream-Ende, sonst im täglichen Voll-Sweep ab 6 Uhr über die offline Partner. In Nicht-Partner-Kanälen kann der Bot nicht bannen — dort bleibt es bei der Meldung.</li>
 </ul>
 </section>
