@@ -1,6 +1,6 @@
 # dl-community: Onboarding, Patenschaften und Datenschutz
 
-stand: 2026-09-19  
+stand: 2026-09-19
 quelle: `Deadlock-Bots` Commit `bb03deb53b28a7266de83748c3b834bff9c9a205`
 
 Interne Referenz für Support und Entwicklung. Sie trennt aktuellen Code von verbliebenem Legacy-Schema.
