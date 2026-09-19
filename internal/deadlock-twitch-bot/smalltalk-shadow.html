@@ -34,7 +34,7 @@
 
 <section id="bewertung">
 <h2>Bewertung der erzeugten Texte</h2>
-<p>Jeder erzeugte Text läuft durch <code>sanitize_test_mode_text</code>. Anders als der Live-Sendefilter schreibt diese Prüfung nichts um, sondern lehnt mit einem stabilen Grund ab: <code>dash</code>, <code>quote</code>, <code>list</code>, <code>repeated_punctuation</code>, <code>too_long</code>, <code>offer_or_link</code> oder <code>empty</code> (rust/crates/tb-engagement/src/minimax_chat.rs). Das Ergebnis landet als <code>would_send</code> oder <code>rejected</code> plus Grund in <code>twitch_smalltalk_messages</code>.</p>
+<p>Jeder erzeugte Text läuft durch <code>sanitize_test_mode_text</code>. Anders als der Live-Sendefilter schreibt diese Prüfung nichts um, sondern lehnt mit einem stabilen Grund ab: <code>dash</code>, <code>quote</code>, <code>list</code>, <code>repeated_punctuation</code>, <code>too_long</code>, <code>offer_or_link</code> oder <code>empty</code> (rust/crates/tb-engagement/src/llm_chat.rs). Das Ergebnis landet als <code>would_send</code> oder <code>rejected</code> plus Grund in <code>twitch_smalltalk_messages</code>.</p>
 <p>Gespeichert werden Trigger-Text und erzeugter Text — die Tabelle ist die Auswertungsgrundlage und die einzige Stelle, an der Texte liegen. Doppelte Datensätze verhindert ein Unique-Index auf <code>(session_id, triggered_by_msg_id)</code>.</p>
 </section>
 
