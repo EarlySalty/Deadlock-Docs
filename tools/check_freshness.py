@@ -171,7 +171,8 @@ def ohne_eintrag(manifest, docs_root):
         return []
     vorhanden = {
         p.relative_to(docs_root).as_posix()
-        for p in verzeichnis.rglob("*.html")
+        for muster in ("*.html", "*.md")
+        for p in verzeichnis.rglob(muster)
     }
     return sorted(vorhanden - set(manifest["seiten"]))
 
