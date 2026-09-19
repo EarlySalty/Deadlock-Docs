@@ -1,7 +1,7 @@
 # FAQ-Entwurf: Item-Referenz
 
-status: entwurf  
-stand: 2026-09-19  
+status: entwurf
+stand: 2026-09-19
 quelle: `Deadlock-Brain` Commit `15bc1d3ac3158791ab5260aa83d415a38fb7beb1`, ergänzend bestehende Heldenguides
 
 Nicht für `public/` freigegeben.
