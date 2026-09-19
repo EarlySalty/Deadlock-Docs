@@ -732,7 +732,7 @@
       ]
     },
     "internal/deadlock-twitch-bot/architektur.html": {
-      "stand": "2026-07-18",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
@@ -740,13 +740,13 @@
             "rust",
             "bot"
           ],
-          "geprueft": "9e740716a4fd43336e9bc028eeff943aa8d917ba",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
     "internal/deadlock-twitch-bot/betrieb.html": {
-      "stand": "2026-07-27",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
@@ -754,8 +754,8 @@
             "ops",
             "rust"
           ],
-          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
@@ -774,21 +774,22 @@
       ]
     },
     "internal/deadlock-twitch-bot/crew-guard-radar.html": {
-      "stand": "2026-07-28",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
           "pfade": [
-            "rust",
-            "features"
+            "rust/crates/tb-chat/src/crew_guard.rs",
+            "rust/crates/tb-chat/src/global_chatter_ban.rs",
+            "rust/migrations/20260714120000_twitch_crew_radar_log.sql"
           ],
-          "geprueft": "1283d4818c495aadf85182594bdcebb105797ab7",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
     "internal/deadlock-twitch-bot/datenmodell.html": {
-      "stand": "2026-07-18",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
@@ -796,8 +797,8 @@
             "rust",
             "bot"
           ],
-          "geprueft": "9e740716a4fd43336e9bc028eeff943aa8d917ba",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
@@ -852,30 +853,32 @@
       ]
     },
     "internal/deadlock-twitch-bot/scam-guard.html": {
-      "stand": "2026-07-27",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
           "pfade": [
-            "rust",
-            "features"
+            "rust/crates/tb-chat/src/conversation_scam.rs",
+            "rust/crates/tb-engagement/src/llm_chat.rs",
+            "rust/crates/tb-llm/src/selection.rs"
           ],
-          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
     "internal/deadlock-twitch-bot/smalltalk-shadow.html": {
-      "stand": "2026-07-27",
+      "stand": "2026-09-19",
       "bindungen": [
         {
           "repo": "Deadlock-Twitch-Bot",
           "pfade": [
-            "rust",
-            "features"
+            "rust/crates/tb-engagement/src/llm_chat.rs",
+            "rust/crates/tb-engagement/src/pipeline.rs",
+            "rust/crates/tb-engagement/src/smalltalk_loop_store.rs"
           ],
-          "geprueft": "3b74c6112f637d82157d835a29c2393fca3283e8",
-          "herkunft": "datum-abgeleitet"
+          "geprueft": "0ee3561f8def0a0d3a66d037e826034641313b9c",
+          "herkunft": "explizit"
         }
       ]
     },
