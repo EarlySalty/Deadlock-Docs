@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Streamer-Dashboard</title>
   <meta name="tags" content="twitch-bot, dashboard, verwaltung, overlay">
-  <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -16,7 +16,7 @@
 <body>
 <main>
   <h1>Streamer-Dashboard</h1>
-  <p><strong>Kurz gesagt.</strong> Nach dem Twitch-Login findest du im Dashboard Startseite, Analyse, Verwaltung, Planseite und Overlay-Baukasten. Es ist der zentrale Ort, um deinen Kanal zu autorisieren, Auswertungen zu lesen und Zusatzfunktionen zu steuern.</p>
+  <p><strong>Kurz gesagt.</strong> Nach dem Twitch-Login findest du im Dashboard Startseite, Analyse, Verwaltung, Planseite, Overlay-Baukasten und den Einstieg zu Uplink. Es ist der zentrale Ort, um deinen Kanal zu autorisieren, Auswertungen zu lesen und Zusatzfunktionen zu steuern.</p>
 
   <section id="login-und-verwaltung">
     <h2>Login und Verwaltung</h2>
@@ -36,7 +36,7 @@
 
   <section id="lurker-erinnerung">
     <h2>Lurker-Erinnerung</h2>
-    <p>Die Lurker-Erinnerung stupst deine ruhigsten Stamm-Zuschauer ab und zu mit einem freundlichen @-Hinweis an, mal wieder Hallo zu sagen. Sie ist standardmäßig aus und gehört zu bestimmten Plänen. Ein- und ausschalten kannst du sie im Dashboard unter „Verwaltung“. Per Chat lässt sie sich nur abschalten – dafür gibt es <code>!lurkersteuer_off</code> (auch <code>!lurkersteuer_aus</code> und <code>!lurker_tax_off</code>), das nur der Broadcaster ausführen darf. Ob sie tatsächlich wirkt, hängt von deinem Zugang bzw. Plan und den nötigen Berechtigungen ab.</p>
+    <p>Die Lurker-Erinnerung stupst deine ruhigsten Stamm-Zuschauer ab und zu mit einem freundlichen @-Hinweis an, mal wieder Hallo zu sagen. Sie ist standardmäßig aus und gehört zu bestimmten Plänen. Ein- und ausschalten kannst du sie im Dashboard unter „Verwaltung“. Per Chat lässt sie sich nur abschalten – dafür gibt es <code>!lurkersteuer_off</code> (auch <code>!lurkersteuer_aus</code> und <code>!lurker_tax_off</code>), das nur der Broadcaster ausführen darf. Der Schalter ist für Partner sichtbar. Ob tatsächlich Erinnerungen gesendet werden, hängt zusätzlich von deinem Zugang beziehungsweise Plan und den nötigen Berechtigungen ab.</p>
   </section>
 
   <section id="plaene-und-affiliate">
@@ -44,6 +44,7 @@
     <p>Aktuelle Funktionen, Preise und die Abo-Verwaltung liegen auf der Planseite – siehe <a href="faq-plaene.html">Pläne und Preise</a>. Das Affiliate-Programm hat ein eigenes Portal mit eigener Twitch-Anmeldung – siehe <a href="faq-affiliate.html">FAQ Affiliate</a>.</p>
     <nav><a href="einrichtung.html">Einrichtung</a><a href="faq-plaene.html">Pläne</a></nav>
   </section>
+<section id="uplink"><h2>Mit OBS über Uplink streamen</h2><p>Uplink hat einen eigenen Einrichtungsweg im Dashboard. Dort verbindest du die gewünschten Plattformen und richtest OBS ein. Die Anmeldung beim Dashboard allein ersetzt diese Freigabe nicht. Folge der <a href="uplink-obs.html">OBS-Anleitung für Uplink</a>.</p></section>
 </main>
 </body>
 </html>

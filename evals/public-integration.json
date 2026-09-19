@@ -259,16 +259,16 @@
     "question": "Was ist der aktuellste Patch?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html", "website/website-portale.html"],
-    "context_terms": ["Patch-Portal", "Ankündigungen"],
-    "answer_terms": ["Patch-Portal", "Ankündigungen"],
+    "context_terms": ["Patch-Portal", "Originalquelle"],
+    "answer_terms": ["Patch-Portal", "Originalquelle"],
     "forbidden_terms": ["Der neueste Patch ist Version", "Der aktuellste Patch ist Version", "Aktuellster Patch: Version", "Patch 1.2.3 ist der neueste", "ist der aktuelle Patch"]
   },
   {
     "question": "Wo finde ich die neuesten Patchnotes jetzt?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html", "website/website-portale.html"],
-    "context_terms": ["Patch-Portal", "aktuellen Community-Ankündigungen"],
-    "answer_terms": ["Patch-Portal", "Ankündigungen"],
+    "context_terms": ["Patch-Portal", "Originalquelle"],
+    "answer_terms": ["Patch-Portal", "Originalquelle"],
     "forbidden_terms": ["Der neueste Patch ist Version", "Der aktuellste Patch ist Version", "Aktuellster Patch: Version", "Patch 1.2.3 ist der neueste", "ist der aktuelle Patch"]
   },
   {

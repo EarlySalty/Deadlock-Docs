@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <title>Scrim-Orga im Dashboard benutzen</title>
   <meta name="tags" content="scrims, scrim-orga, dashboard, terminabfrage, lobbycode, concierge">
-  <meta name="stand" content="2026-07-24">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
 </head>
 <body>
 <main>
   <h1>Scrim-Orga im Dashboard benutzen</h1>
   <p><strong>Kurz:</strong> Die Scrim-Orga hilft Leo und berechtigten Admins dabei, mehrere Scrim-Matches in einem Block zu planen. Coaches können die sichtbaren Informationen nutzen, wenn sie den nötigen Dashboard-Vollzugriff haben. Das Dashboard ist die Zentrale; Discord ist der Ort, an dem Teams antworten und am Spieltag den Lobbycode bekommen.</p>
   <p>Diese Seite erklärt nur sichtbares Verhalten: was du im Dashboard anklickst, was im Teamkanal passiert, welche Entscheidungen die Orga freigibt und welche Funktionen noch nicht fertig sind.</p>
+  <p>Prüfe zuerst den angezeigten Betriebsstatus. Während einer Umstellung können Änderungen in diesem Dashboard gesperrt sein; dann klärt die Orga den aktuell freigegebenen Verwaltungsweg. Ein vorhandener Eintrag allein bedeutet nicht, dass du ihn hier ändern kannst.</p>
 
   <section id="wer-nutzt-das">
     <h2>Wer nutzt das?</h2>
@@ -21,7 +22,7 @@
 
   <section id="aktueller-stand">
     <h2>Was geht schon und was noch nicht?</h2>
-    <p>Kurzstatus: Bei der Scrim-Orga sind Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, editierbare Slot-Presets, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder mit drei Vorlagen, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf, Lobbycode, Match-ID-Ergebnisabruf und AI-Lagebilder mit Korrekturdialog nutzbar. Noch nicht fertig sind die globale Scrim-Ankündigung, automatische Ersatzanfragen, automatische Lobby- oder Match-ID-Erkennung und die Auswertung freier Scrim-Chatverläufe.</p>
+    <p>Bei freigegebenem Verwaltungszugriff stehen Scrim-Blöcke mit mehreren Matches, gemeinsame oder eigene Slots, editierbare Slot-Presets, Zwei-Wochen-Vorlage, Team-Abfragen, Button-Antworten, fehlende Antworten, manuell freigegebene Reminder mit drei Vorlagen, Slot-Empfehlung, Slot-Freigabe, Match-Statusnachricht, sichtbarer Ersatzbedarf, Lobbycode, Match-ID-Ergebnisabruf und KI-Lagebilder mit Korrekturdialog bereit. Die Lagebilder können auch begrenzte Ausschnitte des Teamkanals berücksichtigen. Globale Ankündigungen, Ersatzsuche und unklare Match-Zuordnungen musst du weiterhin mit der Orga klären.</p>
     <table>
       <thead><tr><th>Bereich</th><th>Status</th><th>Was du daraus machst</th></tr></thead>
       <tbody>
@@ -38,7 +39,7 @@
         <tr><td>Lobbycode</td><td>Geht schon</td><td>Trage den Code ein, sobald die Lobby offen ist; der Bot postet ihn pingfrei in die Teamkanäle.</td></tr>
         <tr><td>Globale Scrim-Ankündigung</td><td>Noch nicht fertig</td><td>Veröffentliche globale Ankündigungen vorerst selbst.</td></tr>
         <tr><td>Match-ID und Ergebnisabruf</td><td>Geht eingeschränkt</td><td>Trage eine oder mehrere sorgfältig geprüfte Match-IDs nacheinander ein. Das Dashboard zeigt Abrufstatus, Teilstände, Fehler und verfügbare Ergebnisse; eine Klärung unsicherer Zuordnungen und das Löschen falscher IDs fehlen noch.</td></tr>
-        <tr><td>AI-Lagebilder</td><td>Geht eingeschränkt</td><td>Prüfe Lagebild, Timeline und Evidenzen pro Team. Ergänze fehlenden Kontext im Korrekturdialog.</td></tr>
+        <tr><td>KI-Lagebilder</td><td>Geht eingeschränkt</td><td>Prüfe Lagebild, Timeline und Evidenzen pro Team. Ergänze fehlenden Kontext im Korrekturdialog.</td></tr>
       </tbody>
     </table>
   </section>
@@ -111,10 +112,10 @@
   </section>
 
   <section id="ai-lagebilder">
-    <h2>AI-Lagebilder prüfen und korrigieren</h2>
-    <p>Unter <strong>AI-Lagebilder</strong> siehst du pro Team den aktuellen Stand, ältere Stände in der Timeline und die gespeicherten Evidenzen. Evidenzlinks führen zur passenden Stelle in Discord, wenn eine solche Referenz vorhanden ist.</p>
-    <p>Die aktuelle Auswertung nutzt strukturierte Scrim-Daten wie Terminabfragen, Antworten, Reminder, Matchstatus und abrufbare Ergebnisse. Freie Nachrichten aus Scrim-Kanälen werden derzeit gar nicht ausgewertet; das Lagebild kann deshalb wichtigen Gesprächskontext übersehen.</p>
-    <p>Wenn etwas fehlt oder falsch gewichtet ist, schreibst du den Kontext direkt in den Korrekturdialog. Autor und Zeitpunkt bleiben sichtbar, die AI antwortet dort und kann einen korrigierten Stand speichern. Daraus entsteht keine öffentliche Discord-Nachricht.</p>
+    <h2>KI-Lagebilder prüfen und korrigieren</h2>
+    <p>Unter <strong>KI-Lagebilder</strong> siehst du pro Team den aktuellen Stand, ältere Stände in der Timeline und die gespeicherten Evidenzen. Evidenzlinks führen zur passenden Stelle in Discord, wenn eine solche Referenz vorhanden ist.</p>
+    <p>Die Auswertung nutzt strukturierte Scrim-Daten wie Terminabfragen, Antworten, Reminder, Matchstatus und abrufbare Ergebnisse. Sie kann zusätzlich einen begrenzten jüngeren Verlauf des zugeordneten Teamkanals berücksichtigen. Das ist keine vollständige Chat-Auswertung: Ältere Nachrichten oder bei einem Abruffehler nicht geladener Kontext können fehlen.</p>
+    <p>Wenn etwas fehlt oder falsch gewichtet ist, schreibst du den Kontext direkt in den Korrekturdialog. Autor und Zeitpunkt bleiben sichtbar, die KI antwortet dort und kann einen korrigierten Stand speichern. Daraus entsteht keine öffentliche Discord-Nachricht.</p>
     <p>Wenn noch kein Lagebild vorhanden ist, kannst du Kontext im Korrekturdialog hinterlassen und auf den nächsten Hintergrundlauf warten. Bei einem sichtbaren Fehler bleibt ein vorsichtiger Ersatztext erhalten; ergänze nötigen Kontext und gib einen dauerhaft wiederkehrenden Fehler an Menschen-Support weiter.</p>
     <p>Ein eigener Button zum sofortigen Neuerzeugen eines Lagebilds ist noch nicht vorhanden. Neue Stände entstehen im Hintergrund regelmäßig und nach verarbeiteten Match-Ergebnissen.</p>
   </section>
@@ -134,7 +135,7 @@
         <tr><td>Der Lobbycode ist falsch.</td><td>Trage den richtigen Code im Dashboard ein. Der Bot aktualisiert die bestehende Code-Nachricht.</td></tr>
         <tr><td>Ein Ergebnis ist noch nicht verfügbar.</td><td>Lass die Match-ID gespeichert. Der Abruf wird später erneut versucht; bei Bedarf kannst du <em>Ergebnis holen</em> nutzen.</td></tr>
         <tr><td>Eine falsche Match-ID wurde gespeichert.</td><td>Stoße keinen weiteren Abruf für diese ID an und gib Match sowie falsche ID an Leo oder einen berechtigten Admin weiter. Löschen oder Zuordnungsklärung sind im Dashboard noch nicht vorhanden.</td></tr>
-        <tr><td>Ein Lagebild übersieht wichtigen Kontext.</td><td>Ergänze den Kontext im Korrekturdialog. Freie Chatverläufe werden derzeit nicht eingelesen.</td></tr>
+        <tr><td>Ein Lagebild übersieht wichtigen Kontext.</td><td>Ergänze den Kontext im Korrekturdialog. Der berücksichtigte Teamkanalverlauf ist begrenzt und kann unvollständig sein.</td></tr>
         <tr><td>Noch kein Lagebild oder ein Lagebild-Fehler ist sichtbar.</td><td>Hinterlasse bei Bedarf Kontext im Korrekturdialog und warte auf den nächsten Hintergrundlauf. Bleibt der Fehler bestehen, nutze Menschen-Support.</td></tr>
         <tr><td>Eine Terminabfrage steht nicht im Teamkanal.</td><td>Lies den Status am Eintrag der Terminabfrage. Steht dort <em>Post fehlgeschlagen</em>, fehlt meist der hinterlegte Teamkanal des Teams; steht dort <em>Entwurf</em> oder <em>Wird gepostet</em>, lade die Übersicht kurz später neu.</td></tr>
         <tr><td>Eine globale Ankündigung fehlt.</td><td>Das ist aktuell noch nicht automatisiert. Poste die Ankündigung vorerst selbst.</td></tr>
@@ -144,12 +145,12 @@
 
   <section id="concierge-support">
     <h2>Für Concierge und Support</h2>
-    <p>Der Concierge darf sagen: Scrim-Termine werden im Dashboard vorbereitet, Teammitglieder antworten im Teamkanal per Slot-Button oder <em>Kein Slot passt</em>, und Leo oder berechtigte Admins geben sichtbare Aktionen wie Reminder, finalen Slot und Lobbycode frei. Match-IDs, Ergebnisstatus und korrigierbare AI-Lagebilder sind im Dashboard vorhanden, aber falsche Match-IDs und unsichere Teamzuordnungen lassen sich dort noch nicht selbst klären.</p>
+    <p>Der Concierge darf sagen: Scrim-Termine werden im Dashboard vorbereitet, Teammitglieder antworten im Teamkanal per Slot-Button oder <em>Kein Slot passt</em>, und Leo oder berechtigte Admins geben sichtbare Aktionen wie Reminder, finalen Slot und Lobbycode frei. Match-IDs, Ergebnisstatus und korrigierbare KI-Lagebilder sind im Dashboard vorhanden, aber falsche Match-IDs und unsichere Teamzuordnungen lassen sich dort noch nicht selbst klären.</p>
     <p>Der Concierge darf nicht behaupten, dass der Flow globale Ankündigungen, automatische Ersatzanfragen, automatische Lobby- oder Match-ID-Erkennung oder vollständige Chat-Auswertung schon erledigt. Bei unklaren Teamzuordnungen, fehlenden Rechten oder technischen Fehlern verweist er auf Coach, Orga oder Menschen-Support.</p>
   </section>
 
   <section id="leo-fuenf-minuten">
-    <h2>So plant Leo einen Scrim in 5 Minuten</h2>
+    <h2>Scrim-Planung Schritt für Schritt</h2>
     <ol>
       <li>Scrims im Dashboard öffnen und den Block-Flow starten.</li>
       <li>Zwei-Wochen-Vorschlag prüfen: Paarungen, Vorlage, Frist und Slots.</li>

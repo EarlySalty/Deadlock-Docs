@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Voice-Features</title>
   <meta name="tags" content="discord-server, voice, lanes, router">
-  <meta name="stand" content="2026-07-12">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Abgleich mit aktueller produktiver Implementierung">
 </head>
 <body>
 <main>
@@ -14,8 +14,8 @@
 
 <section id="router-und-lanes">
 <h2>Voice-Router und Lanes</h2>
-<p>Für deine eigene Lane trittst du dem sichtbaren Voice-Router bei. Wenn bei deinem ersten Beitritt noch kein Standard gespeichert ist, wählst du in der Willkommens-DM <strong>Casual</strong>, <strong>Ranked</strong> oder <strong>Street Brawl</strong>, bleibst im Router-Sprachkanal oder gehst dorthin zurück und klickst <strong>Fertig</strong>. Danach erstellt der Bot deine Lane, zieht dich hinein und macht dich zum Owner.</p>
-<p>Beim ersten Router-Beitritt ohne gespeicherten Standard kann dir der Bot einmalig eine Willkommens-DM schicken. Mit <strong>Fertig</strong> speichert er deine Wahl als Standard; bei späteren Router-Beitritten kommst du ohne Extra-Schritt direkt in deine Lane. Erreicht dich die Willkommens-DM nicht, wählst du Modus und optionale sichtbare Voreinstellungen wie Name, Limit oder Rang im Router-Panel.</p>
+<p>Geh in den sichtbaren Voice-Router. Ohne gespeicherten Standard erstellt der Bot zunächst eine Casual-Lane, zieht dich hinein und macht dich zum Owner. In der einmaligen Willkommens-DM kannst du anschließend <strong>Casual</strong>, <strong>Ranked</strong> oder <strong>Street Brawl</strong> und deine Voreinstellungen wählen. Mit <strong>Fertig</strong> übernimmst du die Wahl für deine bestehende Lane; es entsteht dadurch keine zweite Lane.</p>
+<p>Erreicht dich die Willkommens-DM nicht, nutze die sichtbare Moduswahl im Router-Panel. Der gewählte Modus wird als Standard gespeichert; spätere Router-Beitritte verwenden ihn direkt. Die erste Casual-Lane allein speichert noch keinen Standard.</p>
 </section>
 
 <section id="eigene-lane-steuern">
@@ -30,7 +30,7 @@
 
 <section id="lane-namen">
 <h2>Was der Lane-Name anzeigt</h2>
-<p>Ein Lane-Name ist entweder ein selbst gesetzter Name oder kommt aus deiner Voreinstellung (Preset) — du bist dabei nicht auf Modus oder Rang festgelegt und kannst ihn frei wählen. Genau deshalb ist der Kanalname keine verlässliche automatische Anzeige des laufenden Spielstands: Ob gerade ein Match läuft, wie viel Lobbyzeit schon vergangen ist oder welchen Spielerstatus die Runde gerade hat, hängt der Bot nicht automatisch an den Namen. Es gibt am Lane-Namen auch keinen mitlaufenden Timer und keinen Countdown. Für den aktuellen Match-, Lobby- und Spielerstand verlässt du dich auf das Spiel selbst, nicht auf den Lane- oder Kanalnamen.</p>
+<p>Ein Lane-Name ist entweder ein selbst gesetzter Name oder kommt aus deiner Voreinstellung (Preset) — du bist dabei nicht auf Modus oder Rang festgelegt und kannst ihn frei wählen. Genau deshalb ist der Kanalname keine verlässliche automatische Anzeige des laufenden Spielstands: Ein selbst gewählter Name oder ein ergänzter Hinweis ist kein verlässlicher Live-Timer. Für den aktuellen Match-, Lobby- und Spielerstand verlässt du dich auf das Spiel selbst, nicht auf den Lane- oder Kanalnamen.</p>
 </section>
 
 <section id="lane-lebenszyklus">

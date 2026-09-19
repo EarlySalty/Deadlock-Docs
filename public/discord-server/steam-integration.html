@@ -4,20 +4,20 @@
   <meta charset="utf-8">
   <title>Steam-Verknüpfung, Rang und Playtest-Invite</title>
   <meta name="tags" content="discord-server, steam, verknuepfung, rang, freundescode, invite">
-  <meta name="stand" content="2026-07-12">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Abgleich mit aktueller produktiver Implementierung">
 </head>
 <body>
 <main>
   <h1>Steam-Verknüpfung, Rang und Playtest-Invite</h1>
-  <p><strong>Kurz:</strong> Die Steam-Verknüpfung startest du im Discord über <em>Steam verknüpfen</em> im Steam-Panel oder mit <code>/account_verknüpfen</code>. Die Anmeldung läuft über Steam; der Bot erhält dabei kein Steam-Passwort. Danach hinterlegst du deinen eigenen Freundescode und nimmst die Freundschaftsanfrage an, damit Verifizierung und Rang-Abgleich funktionieren.</p>
+  <p><strong>Kurz:</strong> Die Steam-Verknüpfung startest du im Discord über <em>Steam verknüpfen</em> im Steam-Panel oder mit <code>/account_verknüpfen</code>. Die Anmeldung läuft über Steam; der Bot erhält dabei kein Steam-Passwort. Folge dem angezeigten Verknüpfungsweg: Steam-Anmeldung und Freundescode-Dialog sind unterschiedliche Einstiege. Nimm eine erhaltene Freundschaftsanfrage an, wenn der Ablauf sie voraussetzt, damit Verifizierung und Rang-Abgleich funktionieren.</p>
 
   <section id="verknuepfen">
     <h2>Steam verknüpfen</h2>
     <ol>
       <li><em>Steam verknüpfen</em> im Steam-Panel öffnen oder <code>/account_verknüpfen</code> ausführen.</li>
-      <li>Über Steam anmelden — die offizielle Steam-Anmeldung gibt dem Bot kein Passwort.</li>
-      <li>Deinen eigenen Steam-Freundescode hinterlegen und die Freundschaftsanfrage des Bots annehmen.</li>
+      <li>Dem angebotenen Weg folgen: direkt bei Steam anmelden oder den Freundescode-Dialog verwenden. Der Bot bekommt kein Steam-Passwort.</li>
+      <li>Einen Freundescode nur angeben, wenn der angebotene Verknüpfungsweg danach fragt. Eine erhaltene Freundschaftsanfrage des Bots annehmen.</li>
     </ol>
     <p>Erst mit angenommener Freundschaft kann der In-Game-Rang erkannt und als Rang-Rolle gepflegt werden.</p>
   </section>
@@ -46,7 +46,7 @@
   <section id="grenzen">
     <h2>Was nicht passiert</h2>
     <ul>
-      <li>Die Steam-Verknüpfung zeigt keinen Live-Match-Status im Namen eines Voice-Kanals.</li>
+      <li>Die Steam-Verknüpfung ist keine Garantie für einen stets aktuellen Match-Status im Namen eines Voice-Kanals.</li>
       <li>Keine festen externen Invite-Bedingungen oder Erfolgsgarantien.</li>
       <li>Meldet eine Steam-Funktion, dass der Dienst gerade nicht erreichbar ist, kurz warten und die Aktion erneut auslösen.</li>
     </ul>

@@ -1,0 +1,10 @@
+[Unit]
+Description=Öffentliches Community-Wissen prüfen und atomar aktualisieren
+After=network-online.target dl-knowledge.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/deadlock-docs/current/tools/deploy_corpus.sh --config /opt/deadlock-docs/current/ops/public-corpus-refresh.json
+TimeoutStartSec=45min
+NoNewPrivileges=true
+UMask=0077
