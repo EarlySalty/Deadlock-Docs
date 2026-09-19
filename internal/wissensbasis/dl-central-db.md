@@ -1,6 +1,6 @@
 # dl-central-db: PostgreSQL-Schicht und Migrationen
 
-stand: 2026-09-19  
+stand: 2026-09-19
 quelle: `Deadlock-Bots` Commit `bb03deb53b28a7266de83748c3b834bff9c9a205`
 
 Interne Referenz für Support und Entwicklung. Produktionsdaten wurden für diese Seite nicht gelesen.
