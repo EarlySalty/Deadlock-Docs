@@ -1,7 +1,7 @@
 # FAQ-Entwurf: Ranks und Matchmaking
 
-status: entwurf  
-stand: 2026-09-19  
+status: entwurf
+stand: 2026-09-19
 quelle: `Deadlock-Bots` Commit `bb03deb53b28a7266de83748c3b834bff9c9a205`, Korpuslücke aus `Deadlock-Docs`
 
 Nicht für `public/` freigegeben.
