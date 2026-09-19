@@ -21,7 +21,7 @@ Spätere Migrationen erweitern die Schema-Landschaft weiter. Die operative Quell
 
 ## User- und Rollenbezüge
 
-`core.users` und `core.steam_links` werden in `Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql:11-30` angelegt.
+`core.users` und `core.steam_links` werden in `Deadlock-Bots/rust/crates/dl-central-db/migrations/0001_core_and_schemas.sql:11-29` angelegt.
 
 `core.meta_users` und `core.user_privacy` folgen in `Deadlock-Bots/rust/crates/dl-central-db/migrations/0002_sp1_schemas_and_core.sql:163-188`. Das Feld `role` in `core.meta_users` ist ein Anwendungsfeld. Discord-Rollenbezüge tauchen zusätzlich in Fachschemas auf. Diese Doku macht keine Aussage über PostgreSQL-Loginrollen des Hosts.
 

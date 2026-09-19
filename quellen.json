@@ -1177,8 +1177,7 @@
             "rust/crates/dl-community/src/privacy_ui.rs",
             "rust/crates/dl-central-db/src/locks.rs",
             "rust/crates/dl-central-db/migrations/0007_bot.sql",
-            "rust/crates/dl-voice/src/router.rs",
-            "rust/bin/dl-bot/src/journeyglue.rs"
+            "rust/crates/dl-voice/src/router.rs"
           ],
           "geprueft": "bb03deb53b28a7266de83748c3b834bff9c9a205",
           "herkunft": "explizit"
@@ -1191,7 +1190,6 @@
         {
           "repo": "Deadlock-Bots",
           "pfade": [
-            "rust/crates/dl-central-db/src/lib.rs",
             "rust/crates/dl-central-db/src/pool.rs",
             "rust/crates/dl-central-db/src/locks.rs",
             "rust/crates/dl-central-db/migrations",
@@ -1213,9 +1211,7 @@
             "rust/crates/dl-webcore/src/config.rs",
             "rust/crates/dl-dashboard/src/config.rs",
             "rust/crates/dl-dashboard/src/authority.rs",
-            "rust/crates/dl-dashboard/src/web.rs",
-            "rust/crates/dl-dashboard/src/names.rs",
-            "rust/crates/dl-stats/src/auth.rs"
+            "rust/crates/dl-dashboard/src/web.rs"
           ],
           "geprueft": "bb03deb53b28a7266de83748c3b834bff9c9a205",
           "herkunft": "explizit"
@@ -1253,7 +1249,7 @@
           "repo": "Deadlock-Brain",
           "pfade": [
             "rust/crates/dbrain-learn/src/build_optimizer.rs",
-            "rust/crates/deadlock-brain/src/pg_patchnotes.rs"
+            "README.md"
           ],
           "geprueft": "15bc1d3ac3158791ab5260aa83d415a38fb7beb1",
           "herkunft": "explizit"
