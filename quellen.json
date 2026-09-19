@@ -1083,7 +1083,7 @@
           "pfade": [
             "rust/bin/dl-knowledge/src/main.rs"
           ],
-          "geprueft": "9ebe19eeabee2d53427ad9c3d9a9c6041ec6a553",
+          "geprueft": "bb03deb53b28a7266de83748c3b834bff9c9a205",
           "herkunft": "explizit"
         }
       ]
@@ -1097,7 +1097,7 @@
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/knowledge_client.rs"
           ],
-          "geprueft": "9ebe19eeabee2d53427ad9c3d9a9c6041ec6a553",
+          "geprueft": "bb03deb53b28a7266de83748c3b834bff9c9a205",
           "herkunft": "explizit"
         }
       ]
@@ -1130,7 +1130,7 @@
             "rust/bin/dl-bot/src/main.rs",
             "rust/crates/dl-community/src/concierge.rs"
           ],
-          "geprueft": "9ebe19eeabee2d53427ad9c3d9a9c6041ec6a553",
+          "geprueft": "bb03deb53b28a7266de83748c3b834bff9c9a205",
           "herkunft": "explizit"
         }
       ]
@@ -1143,7 +1143,7 @@
           "pfade": [
             "public"
           ],
-          "geprueft": "e88571370e00ee5712d72e2b5b6d8e42f410f409",
+          "geprueft": "9674a3cd51ebd4255782f56ff2d3da9d44fe3c5c",
           "herkunft": "explizit"
         }
       ]
