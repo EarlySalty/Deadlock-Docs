@@ -788,7 +788,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
           "paths": [
             "rust/crates/dl-answer/src/lib.rs"
           ]
