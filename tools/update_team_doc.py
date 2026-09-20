@@ -134,7 +134,7 @@ def render_document(stand, moderators, community_moderators, coaches):
   <title>Team und Ansprechpartner</title>
   <meta name="tags" content="discord-server, team, support, ansprechpartner, serverproblem, hilfe">
   <meta name="stand" content="{stand}">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
 </head>
 <body>
 <main>
