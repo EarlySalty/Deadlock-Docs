@@ -8,7 +8,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/main.rs",
             "rust/bin/dl-bot/src/modglue.rs",
@@ -72,7 +72,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/main.rs",
             "rust/bin/dl-bot/src/modglue.rs",
@@ -114,7 +114,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/main.rs",
             "rust/bin/dl-bot/src/modglue.rs",
@@ -156,7 +156,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/main.rs",
             "rust/bin/dl-bot/src/modglue.rs",
@@ -752,7 +752,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
             "rust/crates/dl-moderation/src/lib.rs",
@@ -776,7 +776,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
             "rust/crates/dl-moderation/src/lib.rs",
@@ -800,7 +800,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
             "rust/crates/dl-moderation/src/lib.rs",
@@ -824,7 +824,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/privacy.rs",
             "rust/crates/dl-community/src/privacy_ui.rs",
@@ -865,7 +865,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/privacy.rs",
             "rust/crates/dl-community/src/privacy_ui.rs",
@@ -906,7 +906,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/privacy.rs",
             "rust/crates/dl-community/src/privacy_ui.rs",
@@ -947,7 +947,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/privacy.rs",
             "rust/crates/dl-community/src/privacy_ui.rs",
@@ -1228,7 +1228,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-voice/src/lfg_panel.rs",
             "rust/crates/dl-activity/src/player_finder.rs",
@@ -1259,7 +1259,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
@@ -1295,7 +1295,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
@@ -1326,7 +1326,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
@@ -1357,7 +1357,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
@@ -1396,7 +1396,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
@@ -1528,7 +1528,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/modglue.rs"
           ]
@@ -1579,7 +1579,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
             "rust/bin/dl-bot/src/serversync.rs",
@@ -1604,7 +1604,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
             "rust/bin/dl-bot/src/serversync.rs",
@@ -2071,7 +2071,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
+          "revision": "33eb740673908492f7a4dc0cfbbf9f5432b1b5e2",
           "paths": [
             "rust/crates/dl-community/src/concierge.rs",
             "rust/crates/dl-community/src/faq.rs",
