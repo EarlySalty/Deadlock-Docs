@@ -23,6 +23,7 @@ class PublicSections(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.stack: list[str] = []
         self.section: str | None = None
+        self.section_depth: int | None = None
         self.heading: list[str] | None = None
         self.title: list[str] = []
         self.questions: list[tuple[str, str]] = []
@@ -35,12 +36,14 @@ class PublicSections(HTMLParser):
             return
         if tag == "section" and self.stack and self.stack[-1] == "main":
             self.section = dict(attrs).get("id")
+            self.section_depth = len(self.stack)
             if self.section:
                 self.section_counts[self.section] = self.section_counts.get(self.section, 0) + 1
                 self.sections[self.section] = []
         if self.section and tag in {"a", "table", "nav"}:
             self.unsuitable_sections.add(self.section)
-        if tag == "h2" and self.section and self.stack and self.stack[-1] == "section":
+        if (tag == "h2" and self.section
+                and len(self.stack) == self.section_depth + 1):
             self.heading = []
         self.stack.append(tag)
 
@@ -53,15 +56,16 @@ class PublicSections(HTMLParser):
             self.sections[self.section].append(data)
 
     def handle_endtag(self, tag: str) -> None:
-        if self.section and tag in {"p", "li", "ul", "ol", "br"}:
+        if self.section and tag in {"p", "li", "ul", "ol", "br", "h2", "h3", "section"}:
             self.sections[self.section].append("\n")
         if tag == "h2" and self.heading is not None:
             question = " ".join("".join(self.heading).split())
             if question.endswith("?") and self.section:
                 self.questions.append((self.section, question))
             self.heading = None
-        if tag == "section":
+        if tag == "section" and len(self.stack) == (self.section_depth or 0) + 1:
             self.section = None
+            self.section_depth = None
         if tag in self.stack:
             self.stack = self.stack[:len(self.stack) - 1 - self.stack[::-1].index(tag)]
 

@@ -83,6 +83,27 @@ class MetadataTests(unittest.TestCase):
             (public / 'help.html').write_bytes(content + b'changed')
             self.assertEqual(faq_manifest(public, [audit], policy_revision='revision')['entries'], [])
 
+    def test_nested_section_does_not_hide_later_prerequisites_or_links(self):
+        with tempfile.TemporaryDirectory() as temp:
+            public = Path(temp)
+            standard = {'section_id': 'start', 'question': 'Wie geht das?',
+                        'answer': 'Start. Details Inhalt. Nur mit Freigabe.', 'scope': 'Allgemeiner Ablauf.'}
+            for suffix in ['<p>Nur mit Freigabe.</p>', '<a href="hilfe.html">Hilfe</a>']:
+                content = ('<main><section id="start"><h2>Ablauf</h2><p>Start.</p>'
+                           '<section id="details"><h2>Details</h2><p>Inhalt.</p></section>'
+                           + suffix + '</section></main>').encode()
+                (public / 'help.html').write_bytes(content)
+                audit = {'path': 'public/help.html', 'verified_at': '2026-09-20',
+                         'code': [{'repository': 'bot'}], 'claims': [{'verdict': 'verified'}],
+                         'content_sha256': hashlib.sha256(content).hexdigest(), 'gaps': [],
+                         'standard_answers': [standard]}
+                if suffix.startswith('<p>'):
+                    self.assertEqual(len(faq_manifest(public, [audit], policy_revision='test')['entries']), 1)
+                    standard['answer'] = 'Start. Inhalt.'
+                with self.assertRaises(ValueError):
+                    faq_manifest(public, [audit], policy_revision='test')
+                standard['answer'] = 'Start. Details Inhalt. Nur mit Freigabe.'
+
     def test_checked_in_standard_answers_match_complete_audited_sources(self):
         root = Path(__file__).resolve().parent.parent
         policy = json.loads((root / 'public-sources.json').read_text())

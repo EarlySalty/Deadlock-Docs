@@ -367,7 +367,15 @@
           "evidence": "catalog.rs active Builds und Cleanup; purge.rs nur bei Kapazitätsbedarf, Inaktivität und Schonfrist. Codepfade HEAD02f1367 sind mit origin/main f4ac4a86 identisch."
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "verknuepfen",
+          "question": "Wie verknüpfe ich meinen Steam-Account mit der Community?",
+          "answer": "Starte die Verknüpfung über das sichtbare Steam-Panel oder mit /account_verknüpfen. Beim angebotenen Anmeldeweg öffnest du die offizielle Steam-Anmeldung: Du meldest dich direkt bei Steam an und gibst dem Bot dabei kein Steam-Passwort. Falls das Panel stattdessen einen Freundescode-Dialog anbietet, folge dessen sichtbaren Schritten; ein Freundescode ist nicht pauschal nach jeder Steam-Anmeldung zusätzlich nötig. Für die Zuordnung werden deine Discord- und Steam-Kennung sowie die für Community-Funktionen benötigten Rangdaten verarbeitet.",
+          "scope": "Nur allgemeine Anleitung zum Start der eigenen Steam-Verknüpfung. Sichtbaren Anmeldeweg beachten. Nicht bei bereits bestehender oder fremder Verknüpfung, abgelehntem Freundescode, fehlender Rangrolle oder einem konkreten Anmeldefehler; keine Anmeldung selbst ausführen."
+        }
+      ]
     },
     {
       "path": "public/discord-server/steam-integration.html",
