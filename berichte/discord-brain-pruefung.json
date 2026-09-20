@@ -1735,7 +1735,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
           "paths": [
             "rust/crates/dl-dashboard/src/scrims.rs",
             "rust/crates/dl-squads/src/lagebild.rs",
@@ -1762,7 +1762,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
           "paths": [
             "rust/crates/dl-dashboard/src/scrims.rs",
             "rust/crates/dl-squads/src/lagebild.rs",
@@ -1789,7 +1789,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
           "paths": [
             "rust/crates/dl-dashboard/src/scrims.rs",
             "rust/crates/dl-squads/src/lagebild.rs",
