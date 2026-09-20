@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Twitch-Chat-Befehle</title>
   <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
-  <meta name="stand" content="2026-09-09">
+  <meta name="stand" content="2026-09-20">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -39,7 +39,25 @@
       <tr><td><code>!streak</code></td><td>Aktuelle Sieges- oder Pechsträhne.</td></tr>
       <tr><td><code>!mostplayed</code> · <code>!main</code></td><td>Meistgespielter Held der jüngsten Spiele.</td></tr>
     </table>
-    <p>Fehlt die Steam-Zuordnung, antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen.</p>
+    <p>Ohne Ziel beziehen sich die Spielstatistiken auf den Streamer. Mit <code>@username</code> kannst du die genannten Befehle und ihre Aliase für eine andere Person aufrufen. Die Einstellungen des aktuellen Kanals gelten weiterhin. Fehlen eine passende Zuordnung oder Daten, meldet der Bot das, statt einen Wert zu erfinden.</p>
+  </section>
+
+  <section id="twitch-steam-direkt-verbinden">
+    <h2>Twitch und Steam direkt verbinden</h2>
+    <ol>
+      <li>Schreibe <code>!connect</code> in den Chat oder öffne <a href="https://deutsche-deadlock-community.de/twitch/connect">Twitch und Steam verbinden</a>.</li>
+      <li>Bestätige dein Twitch-Konto und melde dich anschließend bei Steam an. Ein Discord-Konto oder eine Streamer-Partnerschaft ist dafür nicht nötig.</li>
+      <li>Rufe danach <code>!rank @deinname</code> auf. Der Bot verwendet den bestätigten Steam-Account. Die Verbindung garantiert nicht, dass bereits aktuelle Rangdaten vorliegen.</li>
+    </ol>
+    <p>Mit <code>!unconnect</code> oder <code>!disconnect</code> entfernst du deine direkte Steam-Zuordnung. Auf der Kontoseite heißt der entsprechende Knopf „Verknüpfung entfernen“. Der Chatbefehl gilt nur für dein eigenes Konto, nicht für ein angegebenes <code>@user</code>.</p>
+    <p>Nach dem Trennen bleibt ein Abschaltvermerk an deiner Twitch-ID, damit der Bot die Zuordnung nicht automatisch über Discord oder eine Namenssuche wiederherstellt. Erst wenn du selbst erneut verbindest, wird diese Sperre aufgehoben. Die separate Discord-Verknüpfung und öffentliche Spieldaten werden dadurch nicht gelöscht.</p>
+  </section>
+
+  <section id="werte-anderer-personen">
+    <h2>Werte einer anderen Person abfragen</h2>
+    <p><code>!watchtime @username</code> zeigt die erfasste Zuschauerzeit dieser Person im aktuellen Kanal. Ein Twitch-Name ohne <code>@</code> funktioniert ebenfalls. Pro Aufruf ist genau ein Ziel erlaubt; ohne Ziel siehst du deine eigene erfasste Zeit. Dafür brauchst du keine Steam-Verknüpfung.</p>
+    <p><code>!rank @username</code> bevorzugt die direkte Verbindung über <code>!connect</code>. Ohne sie nutzt der Bot die vorhandene Discord-/Steam-Zuordnung. Fehlen dort Rangdaten, kann er den öffentlichen Rang des bestätigten Accounts abfragen. Ohne bestätigte Zuordnung ist ein eindeutiger exakter Steam-Namensfund ausdrücklich als unbestätigte Twitch-Zuordnung gekennzeichnet; bei mehreren oder nur ähnlichen Treffern erhältst du Vorschläge.</p>
+    <p>Mit <code>!rank steam:&lt;Account-ID&gt;</code> oder <code>!rank steam:&lt;SteamID64&gt;</code> wählst du einen Steam-Account eindeutig aus, ohne eine neue Verknüpfung zu speichern. Öffentliche API-Ränge tragen den Stand des letzten erfassten Ranked-Matches. Fehlende Daten bedeuten nicht, dass die Person noch nie gerankt war. Die übrigen Spielstatistiken brauchen weiterhin die bestehende Discord-/Steam-Zuordnung zum passenden Account.</p>
   </section>
 
   <section id="clip-community">
@@ -59,6 +77,7 @@
     <p>Diese Befehle funktionieren unabhängig von der gestreamten Kategorie.</p>
     <ul>
       <li><code>!commands</code>: verweist auf die Befehlsübersicht.</li>
+      <li><code>!dashboard</code>: verlinkt dein Twitch-Dashboard.</li>
       <li><code>!help &lt;thema&gt;</code>: Hilfe zu einem Thema, zum Beispiel <code>!help raid</code>.</li>
       <li><code>!ping</code> · <code>!health</code> · <code>!status</code> · <code>!bot</code>: prüfen, ob der Bot gerade antwortet.</li>
     </ul>
@@ -117,7 +136,8 @@
 
   <section id="grenzen">
     <h2>Was der Bot nicht ist</h2>
-    <p>Der Twitch-Bot ist kein frei konfigurierbarer Chat-Bot für eigene Fun-Commands oder Filterlisten. Auto-Raid ist ohne eigenen Aktivierungsbefehl aktiv; du musst nichts freischalten. Das meiste wird im Dashboard eingestellt oder läuft automatisch im Hintergrund.</p>
+    <p>Der Twitch-Bot ist kein frei konfigurierbarer Chat-Bot für eigene Fun-Commands oder Filterlisten. Einstellungen findest du im Dashboard. Auto-Raid setzt einen teilnehmenden Kanal, eine gültige Verbindung, einen eingeschalteten Auto-Raid und ein geeignetes Ziel voraus; der Status zeigt fehlende Voraussetzungen.</p>
+    <p>Kurze Wiederholungssperren verhindern doppelte Antworten und Aktionen. Bleibt ein direkt wiederholter Befehl ohne Antwort, warte kurz. Prüfe bei anhaltenden Problemen den Kanalschalter und die Hinweise im Dashboard.</p>
     <nav><a href="einrichtung.html">Einrichtung</a><a href="twitchbot-ueberblick.html">Überblick</a><a href="faq-support.html">Hilfe und Rechtstexte</a></nav>
   </section>
 </main>

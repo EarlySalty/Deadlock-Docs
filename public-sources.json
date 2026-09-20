@@ -1,0 +1,969 @@
+{
+  "version": 1,
+  "managed_targets": [
+    "twitch-bot/analytics-dashboard.html",
+    "twitch-bot/auto-raid.html",
+    "twitch-bot/chat-befehle.html",
+    "twitch-bot/chat-moderation.html",
+    "twitch-bot/discord-golive.html",
+    "twitch-bot/einrichtung.html",
+    "twitch-bot/faq-affiliate.html",
+    "twitch-bot/faq-analytics.html",
+    "twitch-bot/faq-community.html",
+    "twitch-bot/faq-einstieg.html",
+    "twitch-bot/faq-funktionen.html",
+    "twitch-bot/faq-plaene.html",
+    "twitch-bot/faq-raids.html",
+    "twitch-bot/faq-stats-overlay.html",
+    "twitch-bot/faq-support.html",
+    "twitch-bot/faq-werbung.html",
+    "twitch-bot/vertrauen-seriositaet.html",
+    "quellen/twitch/chat_network_disabled.html",
+    "quellen/twitch/features.html",
+    "quellen/twitch/werbemanager.html",
+    "twitch-bot/berechtigungen.html",
+    "twitch-bot/uplink-obs.html",
+    "twitch-bot/uplink-stoerungen.html",
+    "twitch-bot/uplink-was-ist.html",
+    "quellen/website/beitreten.html",
+    "quellen/website/coaching.html",
+    "quellen/website/anfaenger.html",
+    "quellen/website/mitspieler.html",
+    "quellen/website/transparenz.html",
+    "quellen/website/wohin.html",
+    "quellen/turniere/help_tournament_modes.html",
+    "quellen/turniere/comp-finder.html"
+  ],
+  "repositories": [
+    {
+      "id": "community-docs",
+      "label": "Community-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock-Docs",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "public/*.html",
+          "represented": true,
+          "evidence": "README: public ist das öffentliche redigierte Supportwissen; wird bereits durch den bestehenden Export übernommen."
+        }
+      ],
+      "reviews": {}
+    },
+    {
+      "id": "twitch",
+      "label": "Streamer-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock-Twitch-Bot",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "rust/knowledge/bot/*.md",
+          "require_audience": true,
+          "target_prefix": "twitch-bot",
+          "evidence": "Explizites Frontmatter audience streamer/public/viewer; tb-knowledge ist der bestehende Nutzer-Wissenspfad.",
+          "use_curated": true
+        },
+        {
+          "glob": "docs/streamer/README.md",
+          "sections": [
+            "Schnellstart fuer Streamer"
+          ],
+          "evidence": "Ausgewiesener Streamer Guide; ausschließlich Schnellstart, keine internen Einschränkungen/Verweise.",
+          "use_curated": true,
+          "represented": true,
+          "represented_by": "twitch-bot/einrichtung.html",
+          "deduplication": "Nutzerinhalt wird in der vollständig geprüften zentralen Anleitung gepflegt; keine zweite veraltende Kurzfassung."
+        },
+        {
+          "glob": "docs/streamer/CHAT_NETWORK_DISABLED.md",
+          "sections": [
+            "Status",
+            "Warum deaktiviert"
+          ],
+          "evidence": "Ausgewiesene Streamer-Dokumentation; sichtbarer Status und Nutzerbegründung, keine Reaktivierungsanleitung.",
+          "use_curated": true
+        },
+        {
+          "glob": "docs/streamer/CHAT_PENETRATION_DISABLED.md",
+          "sections": [
+            "Status",
+            "Warum deaktiviert"
+          ],
+          "evidence": "Ausgewiesene Streamer-Dokumentation; sichtbarer Status und Nutzerbegründung, keine Reaktivierungsanleitung.",
+          "use_curated": true,
+          "represented": true,
+          "represented_by": "twitch-bot/faq-analytics.html",
+          "deduplication": "Nutzerinhalt wird in der vollständig geprüften zentralen Anleitung gepflegt; keine zweite veraltende Kurzfassung."
+        },
+        {
+          "glob": "docs/streamer/WERBEMANAGER.md",
+          "evidence": "Aktuelles Nutzerhandbuch für den im Dashboard sichtbaren Werbemanager, Stand 2026-09-18.",
+          "use_curated": true
+        },
+        {
+          "glob": "docs/streamer/DASHBOARD.md",
+          "sections": [
+            "`/twitch/dashboard`",
+            "`/twitch/verwaltung`",
+            "`/twitch/affiliate/portal`"
+          ],
+          "evidence": "Ausgewiesenes Streamer-Handbuch; nur klar benannte Nutzerseiten, keine Admin-/API-Dokumentation.",
+          "use_curated": true,
+          "represented": true,
+          "represented_by": "twitch-bot/twitch-streamer-dashboard.html",
+          "deduplication": "Nutzerinhalt wird in der vollständig geprüften zentralen Anleitung gepflegt; keine zweite veraltende Kurzfassung."
+        },
+        {
+          "glob": "docs/streamer/FEATURES.md",
+          "sections": [
+            "Was Streamer konfigurieren koennen",
+            "Platzhalter"
+          ],
+          "evidence": "Ausgewiesenes Streamer-Handbuch; ausschließlich ausdrücklich beschriebene Nutzereinstellungen.",
+          "use_curated": true
+        },
+        {
+          "glob": "docs/streamer/COMMANDS.md",
+          "sections": [
+            "Twitch Chat Commands"
+          ],
+          "evidence": "Ausgewiesene Twitch-Chat-Befehlsreferenz für Nutzer; keine administrativen Abschnitte.",
+          "use_curated": true,
+          "represented": true,
+          "represented_by": "twitch-bot/chat-befehle.html",
+          "deduplication": "Nutzerinhalt wird in der vollständig geprüften zentralen Anleitung gepflegt; keine zweite veraltende Kurzfassung."
+        }
+      ],
+      "reviews": {
+        "rust/knowledge/bot/analytics-dashboard.md": {
+          "source_sha256": "e3c00679d6cab41000e632ccf5b916265892c2974cb7e361e707ea7c4bf13fe2",
+          "content_sha256": "0b2d60e245a2be71faad040603fc7ae763add92921a877341d0c885e1a972d8b",
+          "verified_at": "2026-09-19T23:22:29.306Z",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "bot/dashboard_v2/src/App.tsx",
+                "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/auto-raid.md": {
+          "source_sha256": "648039bcf6e8c914feabd04bd61e6d2e8ee32b7f5710c2cb221b7e61acb97190",
+          "content_sha256": "82355d36f98f1705f322439a952c4db3231cefb208749ee2561f8d8ad417d87d",
+          "verified_at": "2026-09-19T23:16:51.314000+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-raid/src/eligibility.rs",
+                "rust/crates/tb-raid/src/candidate_selection.rs",
+                "rust/crates/tb-chat/src/commands.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/chat-befehle.md": {
+          "source_sha256": "77ead8b97b92299740ee21397047be112d5f3f1e4579e7c41f66aeff630acf78",
+          "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
+          "verified_at": "2026-09-19T23:16:51.084369+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/catalog.rs",
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-chat/src/player_links.rs",
+                "rust/crates/tb-chat/src/rank_lookup.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/chat-moderation.md": {
+          "source_sha256": "4863c6ede7097244ff27e7a103104aca259dc2dc0a4b687314523427d3c62457",
+          "content_sha256": "8430ed4c0c93ec5d613abccedb365f7f94fffc2157bee227ab00bcc23e0f7cdc",
+          "verified_at": "2026-09-19T23:16:51.276949+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-chat/src/channel_policy.rs",
+                "rust/crates/tb-chat/src/moderation.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/einrichtung.md": {
+          "source_sha256": "315b8639b93b3fb1660b1aa884170de8d1f3dec1cd9ed001440dfe80e6f84bbd",
+          "content_sha256": "c844d1d60a461b78531cded03363a5374082b9906028a24d67ed19a00d36b0de",
+          "verified_at": "2026-09-19T23:16:51.018638+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "website/src/components/partner-clean/Hero.tsx",
+                "website/src/data/externalLinks.ts",
+                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-affiliate.md": {
+          "source_sha256": "361006f07e684ed0423705eb98e9c93fb35ad639b66e8d834b726963e7dd4e63",
+          "content_sha256": "58813d31f7862095caaeb34e8943aa741ee279ee69e65a1b1cc7e48d60547b2a",
+          "verified_at": "2026-09-19T23:16:51.630026+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-einstieg.md": {
+          "source_sha256": "68c7b32e94201ec0f0bfae0796ac0d8c9d739d9020c8555861e955db6a9f4fa9",
+          "content_sha256": "7a9db7f0bd827a7cf76702d7c8d3998d4ba04fa4b2901f216924906d744c5694",
+          "verified_at": "2026-09-19T23:16:51.044558+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "website/src/data/externalLinks.ts",
+                "website/src/components/partner-clean/Hero.tsx",
+                "rust/crates/tb-analytics/src/billing/catalog.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-funktionen.md": {
+          "source_sha256": "ba27c81a0fcd4679ac69abc9e243705e97f1442960e495aa0e4ab3368d6cf162",
+          "content_sha256": "4f812c411e1515cba59974abaf53c1a7fa3b0ce40b0a6dfffd83c9cef993430f",
+          "verified_at": "2026-09-19T23:16:51.124093+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/catalog.rs",
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-chat/src/channel_policy.rs",
+                "rust/crates/tb-chat/src/rank_lookup.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-plaene.md": {
+          "source_sha256": "c804d5efcf2a7c0ece827d26407e8afe65dce4412eb8b024a9faa098e2588f68",
+          "content_sha256": "f990498fe3551308c42cb71012efc13e48582577f3a09ef0636806c696832fbd",
+          "verified_at": "2026-09-19T23:16:51.616954+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-analytics/src/billing/catalog.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-raids.md": {
+          "source_sha256": "1a75df0b84002f199cca5ab3a4b838e0e98dc143ae4ef2c1a216ddc5389f8893",
+          "content_sha256": "125cd251ebccde84f8561c40b16132251abff3e027d962b73cd1d349dfe8780c",
+          "verified_at": "2026-09-19T23:16:51.535101+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-raid/src/eligibility.rs",
+                "rust/crates/tb-raid/src/candidate_selection.rs",
+                "rust/crates/tb-chat/src/commands.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-stats-overlay.md": {
+          "source_sha256": "37a3f6a0923f11cf7d05752f207ec14a6da453782a543c330dec28d469d19206",
+          "content_sha256": "cfa2b6e15f2db954c75085bdbca65badc9b3c2c13e9632255f838a3342de9391",
+          "verified_at": "2026-09-19T23:22:29.284Z",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
+                "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+                "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-support.md": {
+          "source_sha256": "2d391d3a994231a325bffce836dddc4aa33433618aab93d58696d346dadc853c",
+          "content_sha256": "012bf5a8bf9ce820748ef6c76c64b0f8d73afdc28d6ed5f3aac4896f174188ce",
+          "verified_at": "2026-09-19T23:22:29.293Z",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-chat/src/promos.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/vertrauen-seriositaet.md": {
+          "source_sha256": "f545f5744777b132d5200ebf6697b052161e41a8f029e27dbd49544cb159135b",
+          "content_sha256": "9396238593bc2378ef96b5eabddbb41f6a74cb3c776799bfc54422cadf8c919c",
+          "verified_at": "2026-09-19T23:22:29.288Z",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/legal.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "docs/streamer/CHAT_NETWORK_DISABLED.md": {
+          "source_sha256": "2066aaaecb584491604e02a2de565bed3ab3cdaa572e713b6c241ab398894a6e",
+          "content_sha256": "29e4b44832f7b6347265f329e6cabbf9fc470c9ba1fb3a4317ee300365569173",
+          "verified_at": "2026-09-19T23:47:49.859839+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "bot/dashboard_v2/src/pages/useChatAnalyticsPage.ts"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "docs/streamer/FEATURES.md": {
+          "source_sha256": "0b7468c1d45a51efcb79a5cb63768eb955df6adb4aa4f09b0757547cd99cf4e4",
+          "content_sha256": "db7f2612a1a22c1a190da70fc7cd562f3535787cd11a114a2ad8a97fc5eca082",
+          "verified_at": "2026-09-19T23:23:36.095146+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
+                "rust/crates/tb-dashboard-api/src/lib.rs",
+                "rust/crates/tb-monitoring/src/announce/sink.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "docs/streamer/WERBEMANAGER.md": {
+          "source_sha256": "b09206d738e3964fd4ac557eb65ff31f9ef99e4251c793447f1246c1ae699829",
+          "content_sha256": "e900f3f6b4a687d51e800e48c6966f60e3778ad054100e690826048c94d46d91",
+          "verified_at": "2026-09-19T23:47:49.866039+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-analytics/src/ad_manager.rs",
+                "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
+                "bot/dashboard_v2/src/components/verwaltung/adManagerTexte.ts"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/berechtigungen.md": {
+          "source_sha256": "0c1820f08b2f8087c092ab7a744f2a45107f3ac4049dac826426c8e708317ea4",
+          "content_sha256": "3dea0d7bcf7a285a12872289abde226c9f4fa30f40a96aeba449d94ce4d24cd1",
+          "verified_at": "2026-09-19T23:47:49.855833+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-raid/src/scope_profiles.rs",
+                "rust/crates/tb-chat/src/moderation.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/lurker_tax_settings.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/discord-golive.md": {
+          "source_sha256": "8280451d8dfa131e449d01a1a6569e39c233f59c95ae7ed0663f7222a1ed0109",
+          "content_sha256": "7339e817ad9d09d84df5eaf79af1b80f799714092a9302ecd663563c9ffac00a",
+          "verified_at": "2026-09-19T23:47:49.820344+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-monitoring/src/announce/sink.rs",
+                "rust/crates/tb-monitoring/src/announce/template.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-analytics.md": {
+          "source_sha256": "027ec9c8de17055081f0a4f2375e3e91a69812b75f18ec073d77b9788e20cb5a",
+          "content_sha256": "ac730f8bac35817d03180c7c5c8611f702a497b8013342c8dc24c6ba1f076769",
+          "verified_at": "2026-09-19T23:47:49.832246+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "bot/dashboard_v2/src/App.tsx",
+                "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs",
+                "rust/crates/tb-chat/src/commands.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-community.md": {
+          "source_sha256": "6f71c4bbf4da432120395c9b1095d0e6e2743cc04b171a85173faebb0e1a97a9",
+          "content_sha256": "3b05280ca9fb482fdfe7d8829cbf8a50c5437fd356cbf3f685ccae0ed333a0f2",
+          "verified_at": "2026-09-19T23:16:51.640032+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-chat/src/channel_policy.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/faq-werbung.md": {
+          "source_sha256": "253182c45e303d173f8a6b5a2e64e9bf42c79a9c0e47d827f38ca62d76b0421f",
+          "content_sha256": "4f719ac3810b68b57ca50671f297d66e474b8f38460072ac004b0bf3e7d085fe",
+          "verified_at": "2026-09-19T23:47:49.843146+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-chat/src/promos.rs",
+                "rust/crates/tb-analytics/src/billing/catalog.rs",
+                "rust/crates/tb-analytics/src/plan.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/uplink-obs.md": {
+          "source_sha256": "b3ccd0f36ab68e6850f76b67eb5e42c2e9e8617491f2e4a1b6c840bd3be16410",
+          "content_sha256": "413bf45a05100d9177e4e3799ced2d6da9121a9ca17a64f2a69d5562c60bec6d",
+          "verified_at": "2026-09-19T23:23:36.076196+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
+                "bot/dashboard_v2/public/uplink/obs.html"
+              ]
+            },
+            {
+              "repository": "uplink",
+              "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+              "paths": [
+                "crates/uplink-ingest/src/media.rs",
+                "crates/uplink-service/src/media.rs",
+                "crates/uplink-service/src/media_output.rs",
+                "crates/uplink-service/src/media_status.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/uplink-stoerungen.md": {
+          "source_sha256": "cc4415026617503f2371b82aa0ccf8080abde2548f42386db63649ce04b15e4a",
+          "content_sha256": "6b04c30230ddccca7082c45e62fca38ae406306814a7004d64f0201a8e80fc5f",
+          "verified_at": "2026-09-19T23:23:36.077475+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
+                "bot/dashboard_v2/public/uplink/obs.html"
+              ]
+            },
+            {
+              "repository": "uplink",
+              "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+              "paths": [
+                "crates/uplink-ingest/src/media.rs",
+                "crates/uplink-service/src/media.rs",
+                "crates/uplink-service/src/media_output.rs",
+                "crates/uplink-service/src/media_status.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "rust/knowledge/bot/uplink-was-ist.md": {
+          "source_sha256": "1e9cd1a41f4599265bda5c6ef9c2b9c2dc1ba3610b1312592b4eacb0a87d6a09",
+          "content_sha256": "f499ac918f17991a68defa7d7e2ab81c18a9b9cda7c1717160dd9e5bc2650955",
+          "verified_at": "2026-09-19T23:23:36.076691+00:00",
+          "code": [
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
+                "bot/dashboard_v2/public/uplink/obs.html"
+              ]
+            },
+            {
+              "repository": "uplink",
+              "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+              "paths": [
+                "crates/uplink-ingest/src/media.rs",
+                "crates/uplink-service/src/media.rs",
+                "crates/uplink-service/src/media_output.rs",
+                "crates/uplink-service/src/media_status.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        }
+      }
+    },
+    {
+      "id": "discord",
+      "label": "Discord-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock-Bots",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "docs/tempvoice-guide.md",
+          "represented": true,
+          "evidence": "Nutzerhandbuch; redigierte Fassung bereits public/discord-server/tempvoice-guide.html, SSOT-Hinweis gibt Deadlock-Docs Vorrang."
+        },
+        {
+          "glob": "docs/scrims.html",
+          "represented": true,
+          "evidence": "Nutzeranleitung; bereits redigiert unter public/discord-server/scrims.html."
+        },
+        {
+          "glob": "docs/lfg-freitext.html",
+          "evidence": "Anleitung der Mitspielersuche für Discord-Mitglieder; technischer Inhalt wird durch den öffentlichen Redactionvertrag gesperrt.",
+          "represented": true,
+          "represented_by": "discord-server/module/mitspielersuche-lfg.html",
+          "deduplication": "Öffentliche Bedienung kuratiert in der zentralen Anleitung; interne Konfigurationsdetails werden nicht übernommen."
+        }
+      ],
+      "reviews": {}
+    },
+    {
+      "id": "website",
+      "label": "Community-Website",
+      "path": "/home/nathanael/repos/Website",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "dl-landing/guides/anfaenger/index.html",
+          "target": "quellen/website/anfaenger.html",
+          "evidence": "Veröffentlichter Einsteiger-Guide unter /guides/anfaenger/.",
+          "use_curated": true
+        },
+        {
+          "glob": "dl-landing/beitreten/index.html",
+          "target": "quellen/website/beitreten.html",
+          "evidence": "Öffentliche Beitrittsanleitung der Community-Website.",
+          "use_curated": true
+        },
+        {
+          "glob": "dl-landing/coaching/index.html",
+          "target": "quellen/website/coaching.html",
+          "evidence": "Öffentliche Coaching-Erklärung und Nutzerwege.",
+          "use_curated": true
+        },
+        {
+          "glob": "dl-landing/mitspieler/index.html",
+          "target": "quellen/website/mitspieler.html",
+          "evidence": "Öffentliche Hilfeseite zur Mitspielersuche.",
+          "use_curated": true
+        },
+        {
+          "glob": "dl-landing/wohin/index.html",
+          "target": "quellen/website/wohin.html",
+          "evidence": "Öffentliche Orientierungshilfe für Community-Mitglieder.",
+          "use_curated": true
+        },
+        {
+          "glob": "dl-landing/transparenz/index.html",
+          "target": "quellen/website/transparenz.html",
+          "evidence": "Veröffentlichte Transparenzseite, keine internen Audit-/Adminseiten.",
+          "use_curated": true
+        }
+      ],
+      "reviews": {
+        "dl-landing/beitreten/index.html": {
+          "source_sha256": "8a659e85d34482822e88f876afc38f55f8c767c9b4c7af3c7996d15e0218592a",
+          "content_sha256": "4123d1b7fa2749fff94cfab1621b17b63070d83074f985745733fd128b8be717",
+          "verified_at": "2026-09-19T23:47:49.881500+00:00",
+          "code": [
+            {
+              "repository": "website",
+              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+              "paths": [
+                "dl-landing/beitreten/index.html"
+              ]
+            },
+            {
+              "repository": "discord",
+              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "paths": [
+                "rust/crates/dl-community/src/concierge.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "dl-landing/coaching/index.html": {
+          "source_sha256": "ce48e9b3afa8d4e878578f3394a1923fa368972dae26dafc01085f5fa359a1da",
+          "content_sha256": "58bf31584e1aa1ebf291c02b6f5dee2fce7d7a5589ed6f7a00eb34609fde87af",
+          "verified_at": "2026-09-19T23:47:49.895905+00:00",
+          "code": [
+            {
+              "repository": "website",
+              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+              "paths": [
+                "dl-coaching/src/App.tsx",
+                "builds/backend-rust/src/routes/coaching.rs",
+                "dl-landing/coaching/index.html"
+              ]
+            },
+            {
+              "repository": "discord",
+              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "paths": [
+                "rust/crates/dl-community/src/coaching_requests.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "dl-landing/guides/anfaenger/index.html": {
+          "source_sha256": "7a0a304cc38ec90124ae0fee789265c83f197163811b899acf3e1309b762bef9",
+          "content_sha256": "1810a87e261842343c47ad2190ea104e948c27cbde0f8bb97e33f44956a7a42f",
+          "verified_at": "2026-09-19T23:47:49.873342+00:00",
+          "code": [
+            {
+              "repository": "website",
+              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+              "paths": [
+                "dl-landing/guides/anfaenger/index.html"
+              ]
+            },
+            {
+              "repository": "game-brain",
+              "revision": "b306fa9030bf32669d9c91a50fdd665bde73cb3a",
+              "paths": [
+                "game-wiki/pages/deadlock-wiki/wiki-page.md"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "dl-landing/mitspieler/index.html": {
+          "source_sha256": "bdbd2c9a6614a0282af80946db376a3cacc44eec87bdf0cac2d6800d98f47b80",
+          "content_sha256": "b158f8e9457e5c662ec9cd403b1cd4d4fa526b51dc7862e9ca2c0f0a08589218",
+          "verified_at": "2026-09-19T23:47:49.904226+00:00",
+          "code": [
+            {
+              "repository": "discord",
+              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "paths": [
+                "rust/crates/dl-voice/src/lfg_panel.rs",
+                "rust/crates/dl-activity/src/player_finder.rs",
+                "rust/crates/dl-voice/src/tempvoice/engine.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "dl-landing/transparenz/index.html": {
+          "source_sha256": "ea3c10ec27b86b384a97888a32bac906708a47b3ae297071b58ed7c38ff38863",
+          "content_sha256": "cf658e4a169a1c5d5e616598de1d5fa92d69c9de9eb5cdb7630f87e69392855a",
+          "verified_at": "2026-09-19T23:47:49.911275+00:00",
+          "code": [
+            {
+              "repository": "discord",
+              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "paths": [
+                "rust/crates/dl-answer/src/lib.rs"
+              ]
+            },
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "dl-landing/wohin/index.html": {
+          "source_sha256": "fc36b0f5e8954ff68032f53c19042909d8b72e96a3855e66235b45dffed2f12b",
+          "content_sha256": "9a6bb41b1b989c627bc59d9925e1702d09d53e1579fa436459a8f5563809ba82",
+          "verified_at": "2026-09-19T23:47:49.922374+00:00",
+          "code": [
+            {
+              "repository": "website",
+              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+              "paths": [
+                "dl-coaching/src/App.tsx"
+              ]
+            },
+            {
+              "repository": "discord",
+              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "paths": [
+                "rust/crates/dl-community/src/concierge.rs",
+                "rust/crates/dl-voice/src/lfg_panel.rs"
+              ]
+            },
+            {
+              "repository": "twitch",
+              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "paths": [
+                "website/src/data/externalLinks.ts"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        }
+      }
+    },
+    {
+      "id": "turniere",
+      "label": "Turnier-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock-Turniere",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "docs/comp-finder.md",
+          "sections": [
+            "Ablauf"
+          ],
+          "evidence": "Beschreibt den öffentlich zugänglichen Comp-Finder aus Spielersicht. Datenzugriff, Verifikation und Deployment explizit ausgenommen.",
+          "use_curated": true
+        },
+        {
+          "glob": "docs/HELP_TOURNAMENT_MODES.md",
+          "sections": [
+            "Überblick",
+            "Automatische Wahl"
+          ],
+          "evidence": "Ausdrücklich als Hilfe ausgewiesene Erklärung der Turniermodi; keine technischen Betriebsabschnitte.",
+          "use_curated": true
+        }
+      ],
+      "reviews": {
+        "docs/HELP_TOURNAMENT_MODES.md": {
+          "source_sha256": "577441f1a494e9b09d26feab3eec0d43277948fe488b9becb6d8b36e559b6268",
+          "content_sha256": "1443d8b7690df9db7adc65826a7f327237a858cb0e08d6860c659b804375dffb",
+          "verified_at": "2026-09-19T23:47:49.926635+00:00",
+          "code": [
+            {
+              "repository": "turniere",
+              "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+              "paths": [
+                "rust/crates/turnier-engine/src/status.rs",
+                "rust/crates/turnier-core/src/enums.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        },
+        "docs/comp-finder.md": {
+          "source_sha256": "8f9bc34006dfcf69d611cac3cb26edbe8822bf61eb0b56aec32d6de5c7448707",
+          "content_sha256": "4f5957149599cd60b10f942c1236fbfa7148e74d98392a435cdf7aeb2239f16b",
+          "verified_at": "2026-09-19T23:47:49.931502+00:00",
+          "code": [
+            {
+              "repository": "turniere",
+              "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+              "paths": [
+                "frontend/src/pages/CompFinder.tsx",
+                "rust/crates/turnier-api/src/comp.rs",
+                "rust/crates/turnier-draft/src/comp/solver.rs"
+              ]
+            }
+          ],
+          "owner": "Community-Dokumentationsredaktion"
+        }
+      }
+    },
+    {
+      "id": "steam",
+      "label": "Steam-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock-Steam-Bot",
+      "ref": "origin/main",
+      "public": [],
+      "coverage": "docs/README verweist Nutzerhilfe auf zentrale Steam-Integration; redigiert bereits in public/steam-bot.",
+      "reviews": {}
+    },
+    {
+      "id": "patchnotes",
+      "label": "Patchnotes-Hilfe",
+      "path": "/home/nathanael/repos/Deadlock--Patchnotes-Bot",
+      "ref": "origin/main",
+      "public": [],
+      "coverage": "Öffentliche Nutzerhilfe bereits in public/patchnotes-bot; lokales Betriebshandbuch nicht öffentlich.",
+      "reviews": {}
+    },
+    {
+      "id": "uplink",
+      "label": "Uplink",
+      "path": "/home/nathanael/repos/uplink",
+      "ref": "origin/main",
+      "public": [],
+      "coverage": "Lokale docs sind Entwicklungs-/Betriebsverträge. Aktuelle öffentliche Uplink-Hilfe stammt aus den ausdrücklich freigegebenen Twitch-Wissensdateien.",
+      "reviews": {}
+    },
+    {
+      "id": "relay",
+      "label": "Uplink-Relay",
+      "path": "/home/nathanael/repos/rs-relay",
+      "ref": "origin/main",
+      "public": [],
+      "coverage": "Support-Agentenleitfaden enthält interne Verbote und veraltete SRT-Aussagen; keine öffentliche Nutzerseite. Aktuelle Hilfe über Twitch-Wissensdateien.",
+      "reviews": {}
+    },
+    {
+      "id": "game-brain",
+      "label": "Deadlock-Spielwissen",
+      "path": "/home/nathanael/repos/Deadlock-Brain",
+      "ref": "origin/main",
+      "public": [
+        {
+          "glob": "game-wiki/pages/*.md",
+          "represented": true,
+          "evidence": "Spielwiki ist bereits der separate Live-Retrievalkanal der gemeinsamen KI; keine zweite Indexkopie."
+        }
+      ],
+      "reviews": {}
+    },
+    {
+      "id": "obsidian",
+      "label": "Betriebsgedächtnis",
+      "path": "/home/nathanael/repos/Deadlock-2nd-Brain",
+      "ref": "origin/main",
+      "public": [],
+      "coverage": "README deklariert Betriebsgedächtnis, SOPs und Entscheidungen; keine pauschale öffentliche Freigabe.",
+      "reviews": {}
+    },
+    {
+      "id": "caddy",
+      "label": "Website-Betrieb",
+      "path": "/home/nathanael/repos/Caddy",
+      "ref": "origin/master",
+      "public": [],
+      "reviews": {},
+      "coverage": "Keine positiv als Community-Nutzerhilfe freigegebene Quelle in der Inventur; unbekannte Zielgruppe bleibt ausgeschlossen."
+    },
+    {
+      "id": "trading",
+      "label": "Trading",
+      "path": "/home/nathanael/repos/TradingBot",
+      "ref": "origin/v5",
+      "public": [],
+      "inventory_only": true,
+      "coverage": "Außerhalb des Community-Workspace; ausdrücklich nicht zuständig. Nur Inventurzählung, kein Fetch und keine Aufnahme von Trading-Dokumenten.",
+      "reviews": {}
+    },
+    {
+      "id": "earlysalty",
+      "label": "Profil",
+      "path": "/home/nathanael/repos/EarlySalty",
+      "ref": "origin/main",
+      "public": [],
+      "reviews": {},
+      "coverage": "Keine positiv als Community-Nutzerhilfe freigegebene Quelle in der Inventur; unbekannte Zielgruppe bleibt ausgeschlossen."
+    },
+    {
+      "id": "vault-clients",
+      "label": "Vault-Clients",
+      "path": "/home/nathanael/repos/vault-clients",
+      "ref": "HEAD",
+      "public": [],
+      "reviews": {},
+      "coverage": "Keine positiv als Community-Nutzerhilfe freigegebene Quelle in der Inventur; unbekannte Zielgruppe bleibt ausgeschlossen."
+    },
+    {
+      "id": "codex-mcp",
+      "label": "Entwicklungswerkzeuge",
+      "path": "/home/nathanael/repos/codex-mcp",
+      "ref": "origin/master",
+      "public": [],
+      "reviews": {},
+      "coverage": "Keine positiv als Community-Nutzerhilfe freigegebene Quelle in der Inventur; unbekannte Zielgruppe bleibt ausgeschlossen."
+    },
+    {
+      "id": "t3code",
+      "label": "Entwicklungsoberfläche",
+      "path": "/home/nathanael/repos/t3code-multi-agent",
+      "ref": "origin/main",
+      "public": [],
+      "reviews": {},
+      "coverage": "Keine positiv als Community-Nutzerhilfe freigegebene Quelle in der Inventur; unbekannte Zielgruppe bleibt ausgeschlossen."
+    }
+  ],
+  "export_policy": [
+    {
+      "glob": "deadlock-helden/*.html",
+      "status": "historical",
+      "reason": "Automatisch abgeleitete Community-Build- und Winratenanalysen vom 7. Juli 2026; konkrete Fähigkeiten, Itemempfehlungen und Rollen nicht gegen aktuellen Patch geprüft. Aktuelle Spieldaten beantwortet Deadlock Brain."
+    }
+  ],
+  "audit_files": [
+    "berichte/discord-brain-pruefung.json",
+    "berichte/twitch-website-pruefung.json"
+  ]
+}

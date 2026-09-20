@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Stats und Stream-Overlay</title>
   <meta name="tags" content="twitch-bot, stats, overlay, obs">
-  <meta name="stand" content="2026-07-11">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -34,8 +34,9 @@
     <ol>
       <li>Öffne im Dashboard unter „Verwaltung“ den Overlay-Baukasten (alternativ die Overlay-Seite unter <code>/twitch/overlay</code>).</li>
       <li>Wähle Stil, Layout, Spielmodus und die anzuzeigenden Module (z. B. Rang, Match-Verlauf, Tagesbilanz, Live-Match).</li>
-      <li>Klicke auf „URL kopieren“.</li>
-      <li>Füge in OBS eine Browser-Quelle hinzu und trage die URL ein.</li>
+      <li>Wähle eine fertige Karte oder Leiste. Für ein eigenes Layout öffnest du „Module frei bearbeiten“, verschiebst die Module in der Vorschau und passt ihre Größe an. „Layout speichern“ bewahrt deine Auswahl in diesem Browser.</li>
+<li>Klicke auf „URL kopieren“. Nach einer Layoutänderung kopierst du die neue Adresse auch in deine OBS-Browser-Quelle.</li>
+      <li>Füge in OBS eine Browser-Quelle hinzu und trage die URL ein. Stelle ihre Breite und Höhe passend zur angezeigten Overlay-Leinwand ein.</li>
     </ol>
     <p>Voraussetzung für Spiel- und Rangdaten ist ein zugeordneter Steam-Account. Die fertige OBS-URL ist ein öffentlicher Render-Link – behandle ihn nicht als vertraulich. Einzelne Module können mangels Daten leer bleiben; eine feste Aktualisierungsfrequenz oder lückenlose Live-Erkennung sagen wir nicht zu.</p>
   </section>

@@ -51,64 +51,64 @@
     "question": "Was ist der neueste Deadlock-Patch?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Patch-Portal", "Ankündigungen"],
-    "answer_terms": ["Portal", "Ankündigungen"],
+    "context_terms": ["Patch-Portal", "Originalquelle"],
+    "answer_terms": ["Patch-Portal", "Originalquelle"],
     "forbidden_terms": ["Datenbanktabelle"]
   },
   {
     "question": "Wo sehe ich die aktuellsten Patchnotes?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Portal", "Ankündigungen"],
-    "answer_terms": ["Portal", "Ankündigungen"],
+    "context_terms": ["Patch-Portal", "Originalquelle"],
+    "answer_terms": ["Patch-Portal", "Originalquelle"],
     "forbidden_terms": ["Datenbanktabelle"]
   },
   {
     "question": "Kann ich den Bot zwingen, einen Patch neu zu übersetzen?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Befehl", "Support"],
-    "answer_terms": ["keinen öffentlichen Befehl", "Support"],
+    "context_terms": ["Übersetzung", "Support"],
+    "answer_terms": ["Support", "Team prüft"],
     "forbidden_terms": ["!tpatch", "!ppatch"]
   },
   {
     "question": "Welchen öffentlichen Befehl nutze ich für eine erneute Übersetzung?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Befehl", "Support"],
-    "answer_terms": ["keinen öffentlichen Befehl", "Support"],
+    "context_terms": ["Übersetzung", "Support"],
+    "answer_terms": ["Support", "Team prüft"],
     "forbidden_terms": ["!tpatch", "!ppatch"]
   },
   {
     "question": "Warum steht hinter manchen Patch-Werten eine Prozentangabe in Klammern?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Prozent", "Lesehilfe", "Original"],
-    "answer_terms": ["reine Lesehilfe", "maßgeblich", "Einheit"],
+    "context_terms": ["Prozentangabe", "Originalquelle"],
+    "answer_terms": ["keine zugesicherte Funktion", "Originalquelle"],
     "forbidden_terms": ["Formel", "Regex"]
   },
   {
     "question": "Rechnet der Bot bei Zahlenänderungen die prozentuale Veränderung aus?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Prozent", "Lesehilfe", "Original"],
-    "answer_terms": ["reine Lesehilfe", "maßgeblich", "Einheit"],
+    "context_terms": ["Prozentangabe", "Originalquelle"],
+    "answer_terms": ["keine zugesicherte Funktion", "Originalquelle"],
     "forbidden_terms": ["Formel", "Regex"]
   },
   {
     "question": "Warum stehen bei manchen Helden und Items Emojis in den Patchnotes?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Emoji", "Helden", "optional"],
-    "answer_terms": ["Emoji", "optional"],
+    "context_terms": ["Emoji", "Zuordnung"],
+    "answer_terms": ["Emojis", "überfliegen"],
     "forbidden_terms": ["Mapping", "Blacklist"]
   },
   {
     "question": "Was bedeutet es, wenn bei einem Namen kein Emoji erscheint?",
     "answerable": true,
     "expected_sources": ["patchnotes-bot/patchnotes-bot.html"],
-    "context_terms": ["Emoji", "Zuordnung", "optional"],
-    "answer_terms": ["Text", "unverändert"],
+    "context_terms": ["Emoji", "Zuordnung"],
+    "answer_terms": ["Zuordnung", "Text", "lesbar"],
     "forbidden_terms": ["Mapping", "Blacklist"]
   },
   {

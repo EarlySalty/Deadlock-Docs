@@ -11,12 +11,21 @@
 # und lassen bei Fehlern das laufende current unangetastet.
 set -euo pipefail
 
+if [ "${1:-}" = "--config" ]; then
+  CONFIG="${2:?usage: deploy_corpus.sh --config <refresh.json>}"
+  exec python3 "$(dirname "${BASH_SOURCE[0]}")/refresh_public_corpus.py" --config "$CONFIG"
+fi
+
 REF="${1:?usage: deploy_corpus.sh <git-ref>}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Deployt wird immer das Repository des Skripts (SCRIPT_DIR/..), unabhängig vom
 # Aufruf-CWD – sonst könnte ein fremdes Repo als Deadlock-Korpus erscheinen.
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+if [ -f "$REPO_ROOT/public-sources.json" ]; then
+  echo "deploy: Dieser Korpus braucht die Quellen-/Frischeprüfung. Nutze deploy_corpus.sh --config <refresh.json>." >&2
+  exit 1
+fi
 BASE="${DL_KNOWLEDGE_HOME:-$HOME/.local/share/dl-knowledge}"
 
 STAGING=""

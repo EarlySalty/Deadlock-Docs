@@ -1,0 +1,269 @@
+[
+  {
+    "file": "public-integration.json",
+    "row": 33,
+    "question": "Was ist der aktuellste Patch?",
+    "before": {
+      "context_terms": [
+        "Patch-Portal",
+        "Ankündigungen"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Ankündigungen"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-integration.json",
+    "row": 34,
+    "question": "Wo finde ich die neuesten Patchnotes jetzt?",
+    "before": {
+      "context_terms": [
+        "Patch-Portal",
+        "aktuellen Community-Ankündigungen"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Ankündigungen"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 7,
+    "question": "Was ist der neueste Deadlock-Patch?",
+    "before": {
+      "context_terms": [
+        "Patch-Portal",
+        "Ankündigungen"
+      ],
+      "answer_terms": [
+        "Portal",
+        "Ankündigungen"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 8,
+    "question": "Wo sehe ich die aktuellsten Patchnotes?",
+    "before": {
+      "context_terms": [
+        "Portal",
+        "Ankündigungen"
+      ],
+      "answer_terms": [
+        "Portal",
+        "Ankündigungen"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "Patch-Portal",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 9,
+    "question": "Kann ich den Bot zwingen, einen Patch neu zu übersetzen?",
+    "before": {
+      "context_terms": [
+        "Befehl",
+        "Support"
+      ],
+      "answer_terms": [
+        "keinen öffentlichen Befehl",
+        "Support"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Übersetzung",
+        "Support"
+      ],
+      "answer_terms": [
+        "Support",
+        "Team prüft"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 10,
+    "question": "Welchen öffentlichen Befehl nutze ich für eine erneute Übersetzung?",
+    "before": {
+      "context_terms": [
+        "Befehl",
+        "Support"
+      ],
+      "answer_terms": [
+        "keinen öffentlichen Befehl",
+        "Support"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Übersetzung",
+        "Support"
+      ],
+      "answer_terms": [
+        "Support",
+        "Team prüft"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 11,
+    "question": "Warum steht hinter manchen Patch-Werten eine Prozentangabe in Klammern?",
+    "before": {
+      "context_terms": [
+        "Prozent",
+        "Lesehilfe",
+        "Original"
+      ],
+      "answer_terms": [
+        "reine Lesehilfe",
+        "maßgeblich",
+        "Einheit"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Prozentangabe",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "keine zugesicherte Funktion",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 12,
+    "question": "Rechnet der Bot bei Zahlenänderungen die prozentuale Veränderung aus?",
+    "before": {
+      "context_terms": [
+        "Prozent",
+        "Lesehilfe",
+        "Original"
+      ],
+      "answer_terms": [
+        "reine Lesehilfe",
+        "maßgeblich",
+        "Einheit"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Prozentangabe",
+        "Originalquelle"
+      ],
+      "answer_terms": [
+        "keine zugesicherte Funktion",
+        "Originalquelle"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 13,
+    "question": "Warum stehen bei manchen Helden und Items Emojis in den Patchnotes?",
+    "before": {
+      "context_terms": [
+        "Emoji",
+        "Helden",
+        "optional"
+      ],
+      "answer_terms": [
+        "Emoji",
+        "optional"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Emoji",
+        "Zuordnung"
+      ],
+      "answer_terms": [
+        "Emojis",
+        "überfliegen"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  },
+  {
+    "file": "public-patchnotes-turniere.json",
+    "row": 14,
+    "question": "Was bedeutet es, wenn bei einem Namen kein Emoji erscheint?",
+    "before": {
+      "context_terms": [
+        "Emoji",
+        "Zuordnung",
+        "optional"
+      ],
+      "answer_terms": [
+        "Text",
+        "unverändert"
+      ]
+    },
+    "after": {
+      "context_terms": [
+        "Emoji",
+        "Zuordnung"
+      ],
+      "answer_terms": [
+        "Zuordnung",
+        "Text",
+        "lesbar"
+      ]
+    },
+    "reason": "Independent code/document audit by concierge_status; no ranking-output tuning"
+  }
+]

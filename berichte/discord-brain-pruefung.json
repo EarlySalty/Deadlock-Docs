@@ -1,0 +1,2064 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "path": "public/discord-server/module/brain.html",
+      "verified_at": "2026-09-19T22:53:37.356Z",
+      "content_sha256": "5f8997a7dbf3dc3c64fb185034a707b35bbafea19ff40f32bbf024825d20e863",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/main.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-answer/src/lib.rs",
+            "rust/crates/dl-answer/src/game.rs"
+          ]
+        },
+        {
+          "repository": "game-brain",
+          "revision": "b306fa9030bf32669d9c91a50fdd665bde73cb3a",
+          "paths": [
+            "rust/crates/dbrain-retrieval/src/game_wiki.rs",
+            "rust/crates/dbrain-retrieval/src/lib.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "!brain als Prefix im freigeschalteten Serverkanal; öffentliche Antwort, FAQ/DM für private Fragen.",
+          "verdict": "verified",
+          "evidence": "modglue.rs BrainHandler.handle_message_event prüft guild und channel_allowed; parse_brain_question liest !brain plus Frage. SharedBrainAnswerer verwendet Scope::GameOnly."
+        },
+        {
+          "claim": "Concierge und FAQ nutzen gemeinsames Community- und Spielwissen.",
+          "verdict": "verified",
+          "evidence": "main.rs erstellt eine gemeinsame AnswerEngine. concierge.rs answer_with_context und faq.rs lookup_with_context verwenden CommunityAndGame."
+        },
+        {
+          "claim": "Fähigkeiten/Items/Build-Pläne nur mit Belegen; normaler Wissensaufruf publiziert keinen Build und vermittelt keinen Paten automatisch.",
+          "verdict": "verified",
+          "evidence": "game.rs projiziert fachliche Belege und validierte Build-Pläne; Brain ask-context ist lesend; persönlicher Patenwunsch wird in concierge.rs separat ausdrücklich geprüft/bestätigt. Reale zuvor protokollierte G01/G02/G03-Antworten und Live-Wardenform vollständig."
+        },
+        {
+          "claim": "Teilantwort bei Quellenausfall hat serverseitigen Hinweis; fehlende Belege und Timeout sind sichtbar.",
+          "verdict": "verified",
+          "evidence": "dl-answer/lib.rs retrieve/coverage_notice/validate_answer; modglue.rs public_bodies_for_outcome, concierge.rs Fehlerausgänge. Keine Garantie über Vollständigkeit oder neuesten Patch."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/dm-concierge.html",
+      "verified_at": "2026-09-19T22:57:10.435Z",
+      "content_sha256": "6fa6f924da3e47e5ce6993011f365a52c44ee2d678d445e8d755ce24910d4140",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/main.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-answer/src/lib.rs",
+            "rust/crates/dl-answer/src/game.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Neue gemeinsame Community-/Spielantwort, Grenzen und sichtbare Quellenausfälle.",
+          "verdict": "verified",
+          "evidence": "Gemeinsame AnswerEngine in main.rs; CommunityAndGame in Concierge/FAQ, serverseitiger coverage_notice, NoEvidence/Timeout-Abbildung."
+        },
+        {
+          "claim": "Wissensfrage führt keine persönliche Aktion aus; Patenwunsch nur ausdrücklich und mit eigener Bestätigung.",
+          "verdict": "verified",
+          "evidence": "concierge.rs explicit_pate_request(question), allow_personal_actions=is_direct_dm, separater Paten-Button-/Bestätigungsweg."
+        },
+        {
+          "claim": "Öffentlicher Kanal ohne privaten Verlauf; Text-Steuerung nur echte DM.",
+          "verdict": "verified",
+          "evidence": "concierge.rs handle_user_message_inner: is_direct_dm vor handle_dm_control, public_support über send_stateless_reply; private Antworten über getrennten Zustand."
+        },
+        {
+          "claim": "Opt-out/enge Löschdirektiven, kein privater Verlauf im öffentlichen Kanal, FAQ-Lebenszyklus und persönliche Aktionsgrenzen.",
+          "verdict": "verified",
+          "evidence": "Concierge forget_intent/forget_core_matches (1132–1183), handle_dm_control und is_direct_dm-Gate (3740–3936), forget_user SQL (2420–2474), PrivacyStateless-Fallback (3970ff). FAQ handle_chat_message_inner (1252–1340) unterscheidet active/closed/missing und owner/private; privacy_write_allowed und Chatstartblock ab1654; cleanup_expired schließt nach Read-back. Dokumentierter Corecode gelesen, vorhandene regressionsgesicherte Fälle als Zusatzbeleg; keine destruktiven Liveaktionen ausgelöst."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/faq-support.html",
+      "verified_at": "2026-09-19T22:57:10.476Z",
+      "content_sha256": "a6876545af0c1e0a717fb62607d48ce4e53feec88bde396423eb3add3407a771",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/main.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-answer/src/lib.rs",
+            "rust/crates/dl-answer/src/game.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Neue gemeinsame Community-/Spielantwort, Grenzen und sichtbare Quellenausfälle.",
+          "verdict": "verified",
+          "evidence": "Gemeinsame AnswerEngine in main.rs; CommunityAndGame in Concierge/FAQ, serverseitiger coverage_notice, NoEvidence/Timeout-Abbildung."
+        },
+        {
+          "claim": "Wissensfrage führt keine persönliche Aktion aus; Patenwunsch nur ausdrücklich und mit eigener Bestätigung.",
+          "verdict": "verified",
+          "evidence": "concierge.rs explicit_pate_request(question), allow_personal_actions=is_direct_dm, separater Paten-Button-/Bestätigungsweg."
+        },
+        {
+          "claim": "Öffentlicher Kanal ohne privaten Verlauf; Text-Steuerung nur echte DM.",
+          "verdict": "verified",
+          "evidence": "concierge.rs handle_user_message_inner: is_direct_dm vor handle_dm_control, public_support über send_stateless_reply; private Antworten über getrennten Zustand."
+        },
+        {
+          "claim": "Opt-out/enge Löschdirektiven, kein privater Verlauf im öffentlichen Kanal, FAQ-Lebenszyklus und persönliche Aktionsgrenzen.",
+          "verdict": "verified",
+          "evidence": "Concierge forget_intent/forget_core_matches (1132–1183), handle_dm_control und is_direct_dm-Gate (3740–3936), forget_user SQL (2420–2474), PrivacyStateless-Fallback (3970ff). FAQ handle_chat_message_inner (1252–1340) unterscheidet active/closed/missing und owner/private; privacy_write_allowed und Chatstartblock ab1654; cleanup_expired schließt nach Read-back. Dokumentierter Corecode gelesen, vorhandene regressionsgesicherte Fälle als Zusatzbeleg; keine destruktiven Liveaktionen ausgelöst."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/faq-bot-selbst.html",
+      "verified_at": "2026-09-19T22:57:10.480Z",
+      "content_sha256": "21718e86e4f3b2423226c7d03c52b1c8e9ccabc0ab090e3f688c23f332820374",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/main.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-answer/src/lib.rs",
+            "rust/crates/dl-answer/src/game.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Neue gemeinsame Community-/Spielantwort, Grenzen und sichtbare Quellenausfälle.",
+          "verdict": "verified",
+          "evidence": "Gemeinsame AnswerEngine in main.rs; CommunityAndGame in Concierge/FAQ, serverseitiger coverage_notice, NoEvidence/Timeout-Abbildung."
+        },
+        {
+          "claim": "Wissensfrage führt keine persönliche Aktion aus; Patenwunsch nur ausdrücklich und mit eigener Bestätigung.",
+          "verdict": "verified",
+          "evidence": "concierge.rs explicit_pate_request(question), allow_personal_actions=is_direct_dm, separater Paten-Button-/Bestätigungsweg."
+        },
+        {
+          "claim": "Öffentlicher Kanal ohne privaten Verlauf; Text-Steuerung nur echte DM.",
+          "verdict": "verified",
+          "evidence": "concierge.rs handle_user_message_inner: is_direct_dm vor handle_dm_control, public_support über send_stateless_reply; private Antworten über getrennten Zustand."
+        },
+        {
+          "claim": "Opt-out/enge Löschdirektiven, kein privater Verlauf im öffentlichen Kanal, FAQ-Lebenszyklus und persönliche Aktionsgrenzen.",
+          "verdict": "verified",
+          "evidence": "Concierge forget_intent/forget_core_matches (1132–1183), handle_dm_control und is_direct_dm-Gate (3740–3936), forget_user SQL (2420–2474), PrivacyStateless-Fallback (3970ff). FAQ handle_chat_message_inner (1252–1340) unterscheidet active/closed/missing und owner/private; privacy_write_allowed und Chatstartblock ab1654; cleanup_expired schließt nach Read-back. Dokumentierter Corecode gelesen, vorhandene regressionsgesicherte Fälle als Zusatzbeleg; keine destruktiven Liveaktionen ausgelöst."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/voice-lanes.html",
+      "verified_at": "2026-09-19T23:10:08.607Z",
+      "content_sha256": "1fb66b902c85aaf640181a0fbc3bc1a479cb2ffd1472ae5adac6d682306e7a21",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs",
+            "rust/crates/dl-voice/src/feedback.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Erster Router-Beitritt erstellt Casual-Lane, Moduswahl übernimmt bestehende Lane und speichert Standard.",
+          "verdict": "verified",
+          "evidence": "router.rs spawn_fallback_lane_and_onboard sowie router_dm_done/AlreadyOwnLane; alter Erst-DM-vor-Lane-Ablauf korrigiert."
+        },
+        {
+          "claim": "Owner-Verwaltung, optionales Ranked-Gate, Ownerwechsel und Leerlöschung.",
+          "verdict": "verified",
+          "evidence": "router.rs Panelvertrag/Ownerprüfung; engine.rs Mitgliederwechsel und cleanup_lane; Ranked-Gate betrifft neue Beitritte."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/voice-features.html",
+      "verified_at": "2026-09-19T23:10:08.608Z",
+      "content_sha256": "287501826cae1ec7af524828633ee27b0ec70ebf0c96d07ab6bc31791f2e3ad8",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs",
+            "rust/crates/dl-voice/src/feedback.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Erster Router-Beitritt erstellt Casual-Lane, Moduswahl übernimmt bestehende Lane und speichert Standard.",
+          "verdict": "verified",
+          "evidence": "router.rs spawn_fallback_lane_and_onboard sowie router_dm_done/AlreadyOwnLane; alter Erst-DM-vor-Lane-Ablauf korrigiert."
+        },
+        {
+          "claim": "Owner-Verwaltung, optionales Ranked-Gate, Ownerwechsel und Leerlöschung.",
+          "verdict": "verified",
+          "evidence": "router.rs Panelvertrag/Ownerprüfung; engine.rs Mitgliederwechsel und cleanup_lane; Ranked-Gate betrifft neue Beitritte."
+        },
+        {
+          "claim": "Freiwillige Feedback-DM mit zeitlich begrenzter Freitextantwort.",
+          "verdict": "verified",
+          "evidence": "feedback.rs handle_dm_message prüft echte DM, Opt-out und RESPONSE_WINDOW_SECONDS. Kanalname bewusst nicht als Live-Matchquelle zugesagt; engine.rs erhält vorhandene Live-Suffixe."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/tempvoice-guide.html",
+      "verified_at": "2026-09-19T23:10:08.608Z",
+      "content_sha256": "7d8e7dd46dd8ccbe89686c64fa7cf7fc260ab39fe7f331eed1994a0d30a5db08",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs",
+            "rust/crates/dl-voice/src/feedback.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Erster Router-Beitritt erstellt Casual-Lane, Moduswahl übernimmt bestehende Lane und speichert Standard.",
+          "verdict": "verified",
+          "evidence": "router.rs spawn_fallback_lane_and_onboard sowie router_dm_done/AlreadyOwnLane; alter Erst-DM-vor-Lane-Ablauf korrigiert."
+        },
+        {
+          "claim": "Owner-Verwaltung, optionales Ranked-Gate, Ownerwechsel und Leerlöschung.",
+          "verdict": "verified",
+          "evidence": "router.rs Panelvertrag/Ownerprüfung; engine.rs Mitgliederwechsel und cleanup_lane; Ranked-Gate betrifft neue Beitritte."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html",
+      "verified_at": "2026-09-19T23:10:08.609Z",
+      "content_sha256": "90490a3fba39eb20bf43d7ce7f3f6942b1177f1ce5c8b6cd4a2284535a83e637",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs",
+            "rust/crates/dl-voice/src/feedback.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Erster Router-Beitritt erstellt Casual-Lane, Moduswahl übernimmt bestehende Lane und speichert Standard.",
+          "verdict": "verified",
+          "evidence": "router.rs spawn_fallback_lane_and_onboard sowie router_dm_done/AlreadyOwnLane; alter Erst-DM-vor-Lane-Ablauf korrigiert."
+        },
+        {
+          "claim": "Owner-Verwaltung, optionales Ranked-Gate, Ownerwechsel und Leerlöschung.",
+          "verdict": "verified",
+          "evidence": "router.rs Panelvertrag/Ownerprüfung; engine.rs Mitgliederwechsel und cleanup_lane; Ranked-Gate betrifft neue Beitritte."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/steam-bot/steam-bot.html",
+      "verified_at": "2026-09-19T23:10:08.610Z",
+      "content_sha256": "dc2362f2908e14f6ac15a9a6666aa6f7a56c3a11820e2b996d30cfdda81fae54",
+      "code": [
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-flows/src/link.rs",
+            "rust/crates/steam-flows/src/link_commands.rs",
+            "rust/crates/steam-flows/src/rank.rs",
+            "rust/crates/steam-flows/src/invite.rs",
+            "rust/crates/steam-flows/src/purge.rs",
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
+          "verdict": "verified",
+          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
+        },
+        {
+          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
+          "verdict": "verified",
+          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
+        },
+        {
+          "claim": "Build-Katalog folgt aktiver Freigabe, nicht Website-Stimmen; frische Verknüpfung ist vor Inaktivitätsbereinigung geschützt.",
+          "verdict": "verified",
+          "evidence": "catalog.rs active Builds und Cleanup; purge.rs nur bei Kapazitätsbedarf, Inaktivität und Schonfrist. Codepfade HEAD02f1367 sind mit origin/main f4ac4a86 identisch."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/steam-integration.html",
+      "verified_at": "2026-09-19T23:10:08.610Z",
+      "content_sha256": "bfa7f7ea0187c7e882a4d31583664a3be001af0168b7f9262ea81d84ff4d9bb4",
+      "code": [
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-flows/src/link.rs",
+            "rust/crates/steam-flows/src/link_commands.rs",
+            "rust/crates/steam-flows/src/rank.rs",
+            "rust/crates/steam-flows/src/invite.rs",
+            "rust/crates/steam-flows/src/purge.rs",
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
+          "verdict": "verified",
+          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
+        },
+        {
+          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
+          "verdict": "verified",
+          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/steam-verknuepfen-rang.html",
+      "verified_at": "2026-09-19T23:10:08.611Z",
+      "content_sha256": "3e2fe0b3b2956caf8af28f6f6708ae873168704ff8734da8d4d5581059ff9ee5",
+      "code": [
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-flows/src/link.rs",
+            "rust/crates/steam-flows/src/link_commands.rs",
+            "rust/crates/steam-flows/src/rank.rs",
+            "rust/crates/steam-flows/src/invite.rs",
+            "rust/crates/steam-flows/src/purge.rs",
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
+          "verdict": "verified",
+          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
+        },
+        {
+          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
+          "verdict": "verified",
+          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/rang-sichtbarkeit.html",
+      "verified_at": "2026-09-19T23:10:08.611Z",
+      "content_sha256": "096bd864b7aa8dca6fc174453dade87649fa22b3c1c302115cbe5d24646fde04",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-stats/src/rank_history.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Private Voreinstellung, selbst sichtbare Historie, Mitglieder/Öffentlich-Wahl über eigenen authentifizierten Schreibweg.",
+          "verdict": "verified",
+          "evidence": "visibility_from_db/visible_to_viewer, me_rank_history_payload und handle_me_rank_visibility; tatsächliches Website activity.js bindRankVisibilityToggle speichert beim Klick, keinen erfundenen Speichernknopf beibehalten."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/mitspielersuche-lfg.html",
+      "verified_at": "2026-09-19T23:12:03.714Z",
+      "content_sha256": "0bdaa4cd515cdd39c8b11284665ece7b633855688518ad3d0d13ccee957089b6",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "rust/crates/dl-activity/src/player_finder.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Panel mit Modus, freien Plätzen, optionaler Benachrichtigung und geprüfter Voice-Verschiebung; Ranked nur verifiziert.",
+          "evidence": "lfg_panel.rs handle_join prüft offenen Post, vorhandene Lane, Voice-Mitgliedschaft, Kapazität und ranked_allowed.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Textsuche garantiert keine automatische Antwort.",
+          "evidence": "player_finder.rs ist standardmäßig deaktiviert; bedingte Vorschlagsfunktion nicht als überall aktiver Service versprochen.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/mitspieler-finden.html",
+      "verified_at": "2026-09-19T23:12:03.722Z",
+      "content_sha256": "006c7607011a099f6b263680d51edca060777dba8849a4befc73622851ca880a",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "rust/crates/dl-activity/src/player_finder.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Panel mit Modus, freien Plätzen, optionaler Benachrichtigung und geprüfter Voice-Verschiebung; Ranked nur verifiziert.",
+          "evidence": "lfg_panel.rs handle_join prüft offenen Post, vorhandene Lane, Voice-Mitgliedschaft, Kapazität und ranked_allowed.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Textsuche garantiert keine automatische Antwort.",
+          "evidence": "player_finder.rs ist standardmäßig deaktiviert; bedingte Vorschlagsfunktion nicht als überall aktiver Service versprochen.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/steam-twitch-verknuepfung.html",
+      "verified_at": "2026-09-19T23:12:03.729Z",
+      "content_sha256": "b7669fe5a7639c62dbf5dd0ce81730eb7c84b5b664fdf67756561ce43375d374",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-bridges/src/streamer_intent.rs"
+          ]
+        },
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-flows/src/link.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs",
+            "rust/crates/tb-monitoring/src/announce/mod.rs",
+            "rust/crates/tb-monitoring/src/announce/template.rs",
+            "rust/crates/tb-monitoring/src/announce/sink.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Getrennte Steam- und Twitch-Verknüpfung, funktionierender /streamer-Onboardinglink und bewusster Discord-Link im Dashboard.",
+          "evidence": "Steam OpenID/Code-Flows gelesen; streamer_intent.rs Slash-Link. Tatsächliches HTTPS GET /streamer/onboarding/ am 2026-09-20 liefert 200 und Onboarding-App mit canonical /twitch/onboarding. Twitch discord_link.rs prüft Partneridentität und startet vorhandenen OAuth-Brokerflow.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Twitch-Livehinweise hängen an aktivierter Einrichtung; Discord Go Live ist davon getrennt.",
+          "evidence": "Twitch announce/{mod,template,sink}.rs durch unabhängigen A/B-Codeaudit bestätigt; keine native Discord-Streaming-Verknüpfung behauptet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/onboarding-und-invites.html",
+      "verified_at": "2026-09-19T23:12:03.738Z",
+      "content_sha256": "3b1c79d7db22073c6ccaec9347304525ca5e575def055e55d2be6b62b0154490",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/onboarding.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Natives Onboarding mit optionalen Ping-Interessen; alte Wizard-/Thread-Flows entfernt.",
+          "evidence": "onboarding.rs ausdrücklich nur verbliebene Konstanten; serversync.rs build_welle2b_onboarding_config und Pingoptionen Patchnotes/LFG/Events/Custom/Streams.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Kein unbelegter automatischer Rang-Guide-DM-Trigger zugesagt.",
+          "evidence": "Aktueller Onboarding-Code enthält diesen alten Folgeflow nicht; sichtbarer Rang-Guide bleibt über serversync/rang_guide_publish.rs belegt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Invite folgt sichtbarem Serverweg und externen Steamvoraussetzungen.",
+          "evidence": "Steam store app1422450 am Prüftag: Zugang über Einladungen von Playtestern; keine kostenlose oder bedingungslose Zugangsgarantie daraus abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/onboarding.html",
+      "verified_at": "2026-09-19T23:12:03.752Z",
+      "content_sha256": "5c874131e7d49013c696e2169926419d4deee2e9f5c669cfde15265ade0f83b1",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/onboarding.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Natives Onboarding mit optionalen Ping-Interessen; alte Wizard-/Thread-Flows entfernt.",
+          "evidence": "onboarding.rs ausdrücklich nur verbliebene Konstanten; serversync.rs build_welle2b_onboarding_config und Pingoptionen Patchnotes/LFG/Events/Custom/Streams.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Kein unbelegter automatischer Rang-Guide-DM-Trigger zugesagt.",
+          "evidence": "Aktueller Onboarding-Code enthält diesen alten Folgeflow nicht; sichtbarer Rang-Guide bleibt über serversync/rang_guide_publish.rs belegt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Invite folgt sichtbarem Serverweg und externen Steamvoraussetzungen.",
+          "evidence": "Steam store app1422450 am Prüftag: Zugang über Einladungen von Playtestern; keine kostenlose oder bedingungslose Zugangsgarantie daraus abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/onboarding-beitritt.html",
+      "verified_at": "2026-09-19T23:12:03.792Z",
+      "content_sha256": "0c30161be74445750606abbcc356aa9108f35f06e65c2ebe9e0afc0d7ad7d379",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/onboarding.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Natives Onboarding mit optionalen Ping-Interessen; alte Wizard-/Thread-Flows entfernt.",
+          "evidence": "onboarding.rs ausdrücklich nur verbliebene Konstanten; serversync.rs build_welle2b_onboarding_config und Pingoptionen Patchnotes/LFG/Events/Custom/Streams.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Kein unbelegter automatischer Rang-Guide-DM-Trigger zugesagt.",
+          "evidence": "Aktueller Onboarding-Code enthält diesen alten Folgeflow nicht; sichtbarer Rang-Guide bleibt über serversync/rang_guide_publish.rs belegt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Invite folgt sichtbarem Serverweg und externen Steamvoraussetzungen.",
+          "evidence": "Steam store app1422450 am Prüftag: Zugang über Einladungen von Playtestern; keine kostenlose oder bedingungslose Zugangsgarantie daraus abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/serverstruktur.html",
+      "verified_at": "2026-09-19T23:12:03.792Z",
+      "content_sha256": "aca23aa7763fd12fe4d3b9903217dce9706b9b945822f9914b8d7813315310fb",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/crates/dl-server-as-code/src/rules.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Sichtbare Navigation, Teamgruppen und Support, keine festen privaten Rollen-/Kanalangaben.",
+          "evidence": "welcome_publish.rs WELCOME_TEAM_ROLE_GROUPS mit Owner/Moderator/Community Moderator/Coach und empty_team_role_members; Schnellzugriffe/öffentliche Kategorien gefiltert. serversync.rs native Onboarding-Pingoptionen. Bestehende Anleitung sachlich erhalten.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/rules-und-channels.html",
+      "verified_at": "2026-09-19T23:12:03.797Z",
+      "content_sha256": "46f4be1a891098b8ad4dfa9149e8dc6be64e8ddeaf9a3950a83685d8fd2126c8",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/crates/dl-server-as-code/src/rules.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Sichtbare Navigation, Teamgruppen und Support, keine festen privaten Rollen-/Kanalangaben.",
+          "evidence": "welcome_publish.rs WELCOME_TEAM_ROLE_GROUPS mit Owner/Moderator/Community Moderator/Coach und empty_team_role_members; Schnellzugriffe/öffentliche Kategorien gefiltert. serversync.rs native Onboarding-Pingoptionen. Bestehende Anleitung sachlich erhalten.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/team-und-ansprechpartner.html",
+      "verified_at": "2026-09-19T23:12:03.798Z",
+      "content_sha256": "61111aeb6054ec8be39ae52c43f4ff26385bed1d68afc195ba43e5c859861874",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/crates/dl-server-as-code/src/rules.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Sichtbare Navigation, Teamgruppen und Support, keine festen privaten Rollen-/Kanalangaben.",
+          "evidence": "welcome_publish.rs WELCOME_TEAM_ROLE_GROUPS mit Owner/Moderator/Community Moderator/Coach und empty_team_role_members; Schnellzugriffe/öffentliche Kategorien gefiltert. serversync.rs native Onboarding-Pingoptionen. Bestehende Anleitung sachlich erhalten.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/regeln.html",
+      "verified_at": "2026-09-19T23:12:03.804Z",
+      "content_sha256": "b2de36ddb9082db809179aaf18ead1473cac4affe071beeb7eae9fde7a4adcb9",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
+            "rust/crates/dl-moderation/src/lib.rs",
+            "rust/crates/dl-community/src/faq.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Respekt, Schutz vor persönlichen Angriffen/Schadlinks, kontextabhängiger Banter und menschlicher Support-/Einspruchsweg.",
+          "evidence": "regelwerk_publish.rs REGELWERK_SECTION_VERHALTEN/SPIELKONTEXT/MODERATION, Moderator/Owner oder Ticket; Moderationssystem unterstützt automatische Gefahrenprüfung. Keine garantierte Entscheidung oder Antwortzeit zugesagt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/moderation.html",
+      "verified_at": "2026-09-19T23:12:03.806Z",
+      "content_sha256": "c6a0b16540cfd45840ecb4386edd1e18aaefc8c717a8ef154e7702fb1a16941e",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
+            "rust/crates/dl-moderation/src/lib.rs",
+            "rust/crates/dl-community/src/faq.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Respekt, Schutz vor persönlichen Angriffen/Schadlinks, kontextabhängiger Banter und menschlicher Support-/Einspruchsweg.",
+          "evidence": "regelwerk_publish.rs REGELWERK_SECTION_VERHALTEN/SPIELKONTEXT/MODERATION, Moderator/Owner oder Ticket; Moderationssystem unterstützt automatische Gefahrenprüfung. Keine garantierte Entscheidung oder Antwortzeit zugesagt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/moderationsfall-einspruch.html",
+      "verified_at": "2026-09-19T23:12:03.811Z",
+      "content_sha256": "3bb79e00b7159753fceb9adeb152f9d14eaedad47ad03649495b327e4ef53279",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/regelwerk_publish.rs",
+            "rust/crates/dl-moderation/src/lib.rs",
+            "rust/crates/dl-community/src/faq.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Respekt, Schutz vor persönlichen Angriffen/Schadlinks, kontextabhängiger Banter und menschlicher Support-/Einspruchsweg.",
+          "evidence": "regelwerk_publish.rs REGELWERK_SECTION_VERHALTEN/SPIELKONTEXT/MODERATION, Moderator/Owner oder Ticket; Moderationssystem unterstützt automatische Gefahrenprüfung. Keine garantierte Entscheidung oder Antwortzeit zugesagt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/stats-und-privacy.html",
+      "verified_at": "2026-09-19T23:14:31.080Z",
+      "content_sha256": "9da9e7133ddc334294d0844d1a9cff2cb472a903b1a18f6ed6b8ce3633f4fb47",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/privacy.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/retention.rs",
+            "rust/crates/dl-community/src/leave_survey.rs",
+            "rust/crates/dl-stats/src/me.rs",
+            "rust/crates/dl-stats/src/rank_history.rs",
+            "rust/crates/dl-activity/src/stats_cmd.rs",
+            "rust/crates/dl-voice/src/stats.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Persönliche Websiteansichten sind sessionsgebunden, Ranghistorie standardmäßig privat; Statistikbefehle ohne Ziel verwenden eigene ID.",
+          "evidence": "me.rs require_session und session_user_id; rank_history.rs Private-Default; stats_cmd.rs und stats.rs Zielauflösung/Leaderboards.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Export/Löschung/Opt-in, globaler Vermerk und separate Erinnerungssteuerung.",
+          "evidence": "privacy_ui.rs registriert beide Slashbefehle und Export; retention.rs berücksichtigt globalen Opt-out zusätzlich lokal; leave_survey.rs skip bei opted_out, bestätigter Rückfrage-/Modalweg.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Echte DM-Steuerung, Opt-out beantwortet Fragen stateless, FAQ-Neustart benötigt Speicherungserlaubnis.",
+          "evidence": "Concierge/FAQ bereits vollständig gelesene Control-/Privacyguards; aus Datenoptout keinen Communityausschluss abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/statistiken-privatsphaere.html",
+      "verified_at": "2026-09-19T23:14:31.087Z",
+      "content_sha256": "302c9400c71ceac8732b3386b66c9ffc3bc7538a3768afabf5fce5189970db9c",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/privacy.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/retention.rs",
+            "rust/crates/dl-community/src/leave_survey.rs",
+            "rust/crates/dl-stats/src/me.rs",
+            "rust/crates/dl-stats/src/rank_history.rs",
+            "rust/crates/dl-activity/src/stats_cmd.rs",
+            "rust/crates/dl-voice/src/stats.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Persönliche Websiteansichten sind sessionsgebunden, Ranghistorie standardmäßig privat; Statistikbefehle ohne Ziel verwenden eigene ID.",
+          "evidence": "me.rs require_session und session_user_id; rank_history.rs Private-Default; stats_cmd.rs und stats.rs Zielauflösung/Leaderboards.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Export/Löschung/Opt-in, globaler Vermerk und separate Erinnerungssteuerung.",
+          "evidence": "privacy_ui.rs registriert beide Slashbefehle und Export; retention.rs berücksichtigt globalen Opt-out zusätzlich lokal; leave_survey.rs skip bei opted_out, bestätigter Rückfrage-/Modalweg.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Echte DM-Steuerung, Opt-out beantwortet Fragen stateless, FAQ-Neustart benötigt Speicherungserlaubnis.",
+          "evidence": "Concierge/FAQ bereits vollständig gelesene Control-/Privacyguards; aus Datenoptout keinen Communityausschluss abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/austritt-datenloeschung.html",
+      "verified_at": "2026-09-19T23:14:31.093Z",
+      "content_sha256": "508ffbf1d67ee8992842c04f1b88f6c201f50ec2c4d41b093179d840daf90d48",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/privacy.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/retention.rs",
+            "rust/crates/dl-community/src/leave_survey.rs",
+            "rust/crates/dl-stats/src/me.rs",
+            "rust/crates/dl-stats/src/rank_history.rs",
+            "rust/crates/dl-activity/src/stats_cmd.rs",
+            "rust/crates/dl-voice/src/stats.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Persönliche Websiteansichten sind sessionsgebunden, Ranghistorie standardmäßig privat; Statistikbefehle ohne Ziel verwenden eigene ID.",
+          "evidence": "me.rs require_session und session_user_id; rank_history.rs Private-Default; stats_cmd.rs und stats.rs Zielauflösung/Leaderboards.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Export/Löschung/Opt-in, globaler Vermerk und separate Erinnerungssteuerung.",
+          "evidence": "privacy_ui.rs registriert beide Slashbefehle und Export; retention.rs berücksichtigt globalen Opt-out zusätzlich lokal; leave_survey.rs skip bei opted_out, bestätigter Rückfrage-/Modalweg.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Echte DM-Steuerung, Opt-out beantwortet Fragen stateless, FAQ-Neustart benötigt Speicherungserlaubnis.",
+          "evidence": "Concierge/FAQ bereits vollständig gelesene Control-/Privacyguards; aus Datenoptout keinen Communityausschluss abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/dashboard-login.html",
+      "verified_at": "2026-09-19T23:14:31.108Z",
+      "content_sha256": "353b1e4efb6eea652aa2bcf0b7a33b84f2513a2737438272650937c903ddc90f",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/privacy.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/retention.rs",
+            "rust/crates/dl-community/src/leave_survey.rs",
+            "rust/crates/dl-stats/src/me.rs",
+            "rust/crates/dl-stats/src/rank_history.rs",
+            "rust/crates/dl-activity/src/stats_cmd.rs",
+            "rust/crates/dl-voice/src/stats.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Persönliche Websiteansichten sind sessionsgebunden, Ranghistorie standardmäßig privat; Statistikbefehle ohne Ziel verwenden eigene ID.",
+          "evidence": "me.rs require_session und session_user_id; rank_history.rs Private-Default; stats_cmd.rs und stats.rs Zielauflösung/Leaderboards.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Export/Löschung/Opt-in, globaler Vermerk und separate Erinnerungssteuerung.",
+          "evidence": "privacy_ui.rs registriert beide Slashbefehle und Export; retention.rs berücksichtigt globalen Opt-out zusätzlich lokal; leave_survey.rs skip bei opted_out, bestätigter Rückfrage-/Modalweg.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Echte DM-Steuerung, Opt-out beantwortet Fragen stateless, FAQ-Neustart benötigt Speicherungserlaubnis.",
+          "evidence": "Concierge/FAQ bereits vollständig gelesene Control-/Privacyguards; aus Datenoptout keinen Communityausschluss abgeleitet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/tierlist-und-builds.html",
+      "verified_at": "2026-09-19T23:14:31.121Z",
+      "content_sha256": "1a16520d67bd6f09237103829e3ffd20aac4da6a790b3356117efdd18ad2a573",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-tierlist/src/data.rs",
+            "rust/crates/dl-tierlist/src/votes.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-tierlist/src/tierlist.js"
+          ]
+        },
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Tierlist/Rangansichten und Änderungen, positive/negative Buildstimmen sichtbar.",
+          "evidence": "Website tierlist.js postBuildVote/Buildkarte/wr_change; dl-tierlist votes.rs erlaubt up/down; data.rs zeigt Stimmen und sortiert primär sort_order, danach Stimmen. Keine unabhängige Abstimmungsrangfolge zugesagt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Spielkatalog bleibt separat freigegebener aktiver Buildbestand.",
+          "evidence": "Steam catalog.rs aktive Freigaben/Quellupdate/Entfernen; keine Stimmensteuerung dieses Katalogs.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/tierlist-builds.html",
+      "verified_at": "2026-09-19T23:14:31.125Z",
+      "content_sha256": "80e61658c12cac8b61c820b9e08552c892c3e26fd18002e1351656d5cea2dc74",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-tierlist/src/data.rs",
+            "rust/crates/dl-tierlist/src/votes.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-tierlist/src/tierlist.js"
+          ]
+        },
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Tierlist/Rangansichten und Änderungen, positive/negative Buildstimmen sichtbar.",
+          "evidence": "Website tierlist.js postBuildVote/Buildkarte/wr_change; dl-tierlist votes.rs erlaubt up/down; data.rs zeigt Stimmen und sortiert primär sort_order, danach Stimmen. Keine unabhängige Abstimmungsrangfolge zugesagt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Spielkatalog bleibt separat freigegebener aktiver Buildbestand.",
+          "evidence": "Steam catalog.rs aktive Freigaben/Quellupdate/Entfernen; keine Stimmensteuerung dieses Katalogs.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/builds-abstimmen.html",
+      "verified_at": "2026-09-19T23:14:31.133Z",
+      "content_sha256": "e156d8569a70a4475a74dd098b9f0380557688928e78eb79ab110ae9cc146640",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-tierlist/src/data.rs",
+            "rust/crates/dl-tierlist/src/votes.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-tierlist/src/tierlist.js"
+          ]
+        },
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Tierlist/Rangansichten und Änderungen, positive/negative Buildstimmen sichtbar.",
+          "evidence": "Website tierlist.js postBuildVote/Buildkarte/wr_change; dl-tierlist votes.rs erlaubt up/down; data.rs zeigt Stimmen und sortiert primär sort_order, danach Stimmen. Keine unabhängige Abstimmungsrangfolge zugesagt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Spielkatalog bleibt separat freigegebener aktiver Buildbestand.",
+          "evidence": "Steam catalog.rs aktive Freigaben/Quellupdate/Entfernen; keine Stimmensteuerung dieses Katalogs.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/coaching.html",
+      "verified_at": "2026-09-19T23:14:31.149Z",
+      "content_sha256": "aa34eaeeedcac0b82fb1b7dca2538c7cf79562d880ec5da25253ef2a711c1678",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/coaching_requests.rs",
+            "rust/crates/dl-community/src/coaching.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "builds/backend-rust/src/routes/coaching.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Website-CTA statt Discord-Intake, authentifizierte Anfrage und eigener Coachingverlauf.",
+          "evidence": "coaching_requests.rs2190 website_cta_reply, /coaching-status liest jüngste Anfrage; Website App/Request/MyCoaching mit Login, Notizen/Terminen; create_request speichert pending.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Keine automatische Rolle/Coach/Termin nach bloßer Bearbeitung garantiert; optionale Termin-DMs und Feedback.",
+          "evidence": "Alte Analyse/Rollen-Pipeline für neue Anfragen ausdrücklich abgeschaltet, daher Altversprechen entfernt. coaching.rs Benachrichtigungsworker; coaching_requests.rs spawn startet Survey-Poll/Voice-Ende.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/coaching.html",
+      "verified_at": "2026-09-19T23:14:31.174Z",
+      "content_sha256": "9d96b26805542a5e053cb54b0d2a67d1bf9587ba8b2760c72a34cd5eb56b36f7",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/coaching_requests.rs",
+            "rust/crates/dl-community/src/coaching.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "builds/backend-rust/src/routes/coaching.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Website-CTA statt Discord-Intake, authentifizierte Anfrage und eigener Coachingverlauf.",
+          "evidence": "coaching_requests.rs2190 website_cta_reply, /coaching-status liest jüngste Anfrage; Website App/Request/MyCoaching mit Login, Notizen/Terminen; create_request speichert pending.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Keine automatische Rolle/Coach/Termin nach bloßer Bearbeitung garantiert; optionale Termin-DMs und Feedback.",
+          "evidence": "Alte Analyse/Rollen-Pipeline für neue Anfragen ausdrücklich abgeschaltet, daher Altversprechen entfernt. coaching.rs Benachrichtigungsworker; coaching_requests.rs spawn startet Survey-Poll/Voice-Ende.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/coaching-anfragen.html",
+      "verified_at": "2026-09-19T23:14:31.192Z",
+      "content_sha256": "6ebbd9fa7a341db89d509b17452f22337b412e5098978b5e692df2d8fdc30a12",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/coaching_requests.rs",
+            "rust/crates/dl-community/src/coaching.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "builds/backend-rust/src/routes/coaching.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Website-CTA statt Discord-Intake, authentifizierte Anfrage und eigener Coachingverlauf.",
+          "evidence": "coaching_requests.rs2190 website_cta_reply, /coaching-status liest jüngste Anfrage; Website App/Request/MyCoaching mit Login, Notizen/Terminen; create_request speichert pending.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Keine automatische Rolle/Coach/Termin nach bloßer Bearbeitung garantiert; optionale Termin-DMs und Feedback.",
+          "evidence": "Alte Analyse/Rollen-Pipeline für neue Anfragen ausdrücklich abgeschaltet, daher Altversprechen entfernt. coaching.rs Benachrichtigungsworker; coaching_requests.rs spawn startet Survey-Poll/Voice-Ende.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/community-tools.html",
+      "verified_at": "2026-09-19T23:16:29.054Z",
+      "content_sha256": "955ec0107adc7ddd6a622764e177558677a6262c5cf9ddf20009fa46894dad9e",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "rust/crates/dl-activity/src/player_finder.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
+            "rust/crates/dl-community/src/feedback_hub.rs",
+            "rust/crates/dl-community/src/clips.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "LFG und Gameplayfragen mit gemeinsamen privaten Alternativen.",
+          "evidence": "LFG-Rang/Joinbedingungen und deaktivierbarer Textfinder geprüft; SharedBrainAnswerer/Concierge/FAQ-Eingänge bereits unabhängig vollständig geprüft.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Feedback ohne Absendername beim Empfänger, Clip-Einverständnis und Link/Credit/optionaler Kontext.",
+          "evidence": "feedback_hub.rs submit sendet Eingabefelder+Interaktionsnummer+Quellkanal, keinen Autor; technische Vollanonymität/Zustellung nicht zugesagt. clips.rs RULES_TEXT und Modalvalidierung entsprechen 1080p-Vorgabe, Erlaubnis und Credits.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/negativ-wissen.html",
+      "verified_at": "2026-09-19T23:16:29.078Z",
+      "content_sha256": "d5d201e8cdf50203a019018ac08e44257d340fa7d10b4de47f3393f656c1d476",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-stats/src/me.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Wissensantwort führt keine frei angeforderten Aktionen aus; enge persönliche Steuerung/Patenübergabe bleiben getrennt.",
+          "evidence": "Concierge aktuelle direkte DM-Gates, Pate confirmed/uncertain-Ergebnisse und FAQ lifecycle zuvor vollständig geprüft.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Ticket wird menschlich beantwortet, intern kann ein Antwortentwurf entstehen.",
+          "evidence": "faq.rs handle_ticket_message sendet Kandidat nur an separaten geprüften Shadowkanal; Aussage ausschließlich Mensch liest entfernt, keine Kontodiagnose behauptet.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Keine Laufzeitgarantien aus statischer Doku, kein absoluter proaktiver DM-Ausschluss.",
+          "evidence": "Concierge.proactive ist Laufzeitoption, daher alte kategorische Aussage nicht als Tatsache ausgegeben; Einstieg über natives Onboarding unabhängig davon.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/haeufige-probleme.html",
+      "verified_at": "2026-09-19T23:16:29.087Z",
+      "content_sha256": "4068515f10ac169dcec0c3904f08619a96327b41ff2d8cbd812e9ae0a47ce416",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-stats/src/me.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "FAQ-Lebenszyklus, unsichere Anlage/Aktion nicht wiederholen, vorhandene private/stateless Antworten und Datensteuerung.",
+          "evidence": "Gelesene FAQ-/Concierge-Fehlerkonstanten und Outcomeausgänge; Start/Ende/Privacyguards. Keine ausgelösten Live-Aktionen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Owner-/Voice- und Loginvoraussetzungen, Datenleere nicht als sichere Inaktivitätsdiagnose.",
+          "evidence": "router.rs Owner/Voice-Meldungen; me.rs Sessionguard, datengebundene Views und privacy.rs Lösch-/Optoutwirkung.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/referenz/status-und-fehler.html",
+      "verified_at": "2026-09-19T23:16:29.089Z",
+      "content_sha256": "aee5c00b76352c9c3191ea2ab02fd055dc634324bb275178c46e8ddb02203dfa",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-stats/src/me.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "FAQ-Lebenszyklus, unsichere Anlage/Aktion nicht wiederholen, vorhandene private/stateless Antworten und Datensteuerung.",
+          "evidence": "Gelesene FAQ-/Concierge-Fehlerkonstanten und Outcomeausgänge; Start/Ende/Privacyguards. Keine ausgelösten Live-Aktionen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Owner-/Voice- und Loginvoraussetzungen, Datenleere nicht als sichere Inaktivitätsdiagnose.",
+          "evidence": "router.rs Owner/Voice-Meldungen; me.rs Sessionguard, datengebundene Views und privacy.rs Lösch-/Optoutwirkung.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/support/troubleshooting.html",
+      "verified_at": "2026-09-19T23:16:29.090Z",
+      "content_sha256": "aed75221e3272c741b8e34347f52288dce5afc5585a13328ab36f329fd8bd70b",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-stats/src/me.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "FAQ-Lebenszyklus, unsichere Anlage/Aktion nicht wiederholen, vorhandene private/stateless Antworten und Datensteuerung.",
+          "evidence": "Gelesene FAQ-/Concierge-Fehlerkonstanten und Outcomeausgänge; Start/Ende/Privacyguards. Keine ausgelösten Live-Aktionen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Owner-/Voice- und Loginvoraussetzungen, Datenleere nicht als sichere Inaktivitätsdiagnose.",
+          "evidence": "router.rs Owner/Voice-Meldungen; me.rs Sessionguard, datengebundene Views und privacy.rs Lösch-/Optoutwirkung.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/referenz/glossar.html",
+      "verified_at": "2026-09-19T23:16:29.091Z",
+      "content_sha256": "9dd5efff57edf5fcd46f248aa2a5fbc603a45cf72d9fe2fd5d239e9283ba4c8d",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-voice/src/router.rs",
+            "rust/crates/dl-stats/src/me.rs",
+            "rust/crates/dl-answer/src/lib.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Begriffe entsprechen den geprüften aktuellen Familien; gemeinsames Spielwissen und alternative Steam-Einstiege ergänzt.",
+          "evidence": "Abgleich mit Concierge/FAQ/Privacy/Router und zuvor geprüftem Steam link.rs; keine neuen Rechte/Automatikgarantien.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/workflows/streamer-partner-werden.html",
+      "verified_at": "2026-09-19T23:16:29.094Z",
+      "content_sha256": "449db69024a1d0dc5a5351ecf84f9f52109e3241368512cfb846a323955f947d",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-bridges/src/streamer_intent.rs"
+          ]
+        },
+        {
+          "repository": "steam",
+          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+          "paths": [
+            "rust/crates/steam-flows/src/link.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs",
+            "rust/crates/tb-monitoring/src/announce/mod.rs",
+            "rust/crates/tb-monitoring/src/announce/template.rs",
+            "rust/crates/tb-monitoring/src/announce/sink.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Getrennte Steam- und Twitch-Verknüpfung, funktionierender /streamer-Onboardinglink und bewusster Discord-Link im Dashboard.",
+          "evidence": "Steam OpenID/Code-Flows gelesen; streamer_intent.rs Slash-Link. Tatsächliches HTTPS GET /streamer/onboarding/ am 2026-09-20 liefert 200 und Onboarding-App mit canonical /twitch/onboarding. Twitch discord_link.rs prüft Partneridentität und startet vorhandenen OAuth-Brokerflow.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Twitch-Livehinweise hängen an aktivierter Einrichtung; Discord Go Live ist davon getrennt.",
+          "evidence": "Twitch announce/{mod,template,sink}.rs durch unabhängigen A/B-Codeaudit bestätigt; keine native Discord-Streaming-Verknüpfung behauptet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/scrims.html",
+      "verified_at": "2026-09-19T23:17:49.077Z",
+      "content_sha256": "26d349e3630373c092aff7e6f45897d15a7a24dc59543818ed54a1a97d63b40b",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/scrim_signup.rs",
+            "rust/crates/dl-community/src/reaction_roles.rs",
+            "rust/crates/dl-dashboard/src/scrims.rs",
+            "rust/bin/dl-bot/src/scrimglue.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/ScrimSignupPage.tsx"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Anmeldung benötigt Rang/Rolle/Zeiten; Reaktion allein liefert keine Verfügbarkeit.",
+          "evidence": "Website ScrimSignupPage hasAnyAvailability/disabled Submit; reaction_roles.rs optionaler Rollen-/Teilnehmerupsert. Unbelegte sofortige Zuteilung und feste Trainingsfrequenz entfernt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Terminabfragen mit Kein Slot passt, Lobbycode in Teamkanälen und Korrektur derselben Nachricht.",
+          "evidence": "scrimglue.rs Sync bestehender Message-IDs edit_raw_public statt Neupost, schlichtes lobby_code_message und pingfreier message_body. Manuelle Vorbereitung nicht mehr als ausschließliche technische Möglichkeit behauptet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/custom-games.html",
+      "verified_at": "2026-09-19T23:17:49.106Z",
+      "content_sha256": "acd2d6fe6dbd74258f9350d3e3bddfbebfe2870554da5d99b40af8c6057998de",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-server-as-code/src/rules.rs",
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Sichtbarer Custom-Games-Chat und Voice-Sammelbereich für eigene Verabredung.",
+          "evidence": "rules.rs normalisiert custom-games und apply_custom_game; Sammelpunkt-/Pingregeln vorhanden, keine automatische Erstellung einer Spiellobby zugesagt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/deadlock-grundlagen.html",
+      "verified_at": "2026-09-19T23:17:49.110Z",
+      "content_sha256": "cc837d3888409453c5e3a59e08964f032e5e705ba19f09ec54ba13d0be2a47bf",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/modglue.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Grundlagen bleiben allgemeine Orientierung; Zugang ist keine bedingungslose Garantie.",
+          "evidence": "Offizielle Valve-Steamseite app1422450 am 2026-09-20 direkt gelesen: early development, friend invites via playtesters; alte nur-eine-Einladung-/Preisgarantie gestrichen. Bestehende 6-gegen-6-/Helden-/Items-/Souls-Beschreibung unverändert, keine aktuellen Balancewerte.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/ueber-bot-und-server.html",
+      "verified_at": "2026-09-19T23:17:49.131Z",
+      "content_sha256": "7c1f50b5666787ffab9a2f094435110c91cab7bed15857cdfd6ecd8df7988ad3",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync/support_publish.rs",
+            "assets/support_texts.toml"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Botzweck, sichtbarer Ko-fi-/Boost-/Supportweg ohne Leistungs-/Zahlungsgarantie.",
+          "evidence": "welcome_publish.rs Botbeschreibung und Teamnavigation, support_publish.rs sowie versionierte Supporttexte mit Ko-fi-Ziel.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Historische Erstinbetriebnahme des Bots im März 2025.",
+          "evidence": "Der laufende Rust-Code kann dieses historische Ereignis nicht belegen. Community-Gründung September 2024 entspricht Guild-Erstellungszeit; Bot-Erststart bleibt ohne zeitgenössischen Betriebsbeleg.",
+          "verdict": "removed"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/bots-und-dienste.html",
+      "verified_at": "2026-09-19T23:17:49.143Z",
+      "content_sha256": "8b146c4276de944dd355a77f200f302bde1b479a3da4a907d054c99ad9d44094",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/concierge.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Öffentliche Einstiege und getrennte Bereiche, keine Betriebs-/Zustellgarantien aus statischer Übersicht.",
+          "evidence": "Welcome-Bereichszwecke/Schnellzugriffe und native Pingoptionen im Servermodell geprüft; Concierge/FAQ direkte Antwort und gesonderter menschlicher Ticketweg. Detailfunktionen entsprechen den separat geprüften Steam-/Voice-/Coaching-/Brain-Familien.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/changelog-ankuendigungen.html",
+      "verified_at": "2026-09-19T23:17:49.187Z",
+      "content_sha256": "74770f09400b1d1dc3038b30c293aca14d722e887ffa9db942fcf55a633e71e8",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
+            "rust/bin/dl-bot/src/serversync.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-community/src/concierge.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Öffentliche Einstiege und getrennte Bereiche, keine Betriebs-/Zustellgarantien aus statischer Übersicht.",
+          "evidence": "Welcome-Bereichszwecke/Schnellzugriffe und native Pingoptionen im Servermodell geprüft; Concierge/FAQ direkte Antwort und gesonderter menschlicher Ticketweg. Detailfunktionen entsprechen den separat geprüften Steam-/Voice-/Coaching-/Brain-Familien.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/twitch-streamer-dashboard.html",
+      "verified_at": "2026-09-19T23:22:29.281Z",
+      "content_sha256": "c85053cc9e0d61b3490608b0205c667e759163bd5b916c711401ccd0cdf98964",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/lurker_tax_settings.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/promos.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Eigene Partneransicht, Twitch/Discord/Steam-Status und bewusste Verknüpfung, Overlay- und Uplink-Einstieg.",
+          "evidence": "App Routeauswahl, Verwaltung Status-/Fehlermeldungen und eigener Discord/Steam-Flow; streamer_scope bindet Partner an Session.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Lurker-Schalter standardmäßig aus, Dashboard sichtbar für Partner, tatsächliches Senden weiterhin planabhängig.",
+          "evidence": "lurker_tax_settings.rs Partner-Schreibweg; promos.rs lurker_tax_channel_gate prüft Flag UND chat.lurker_tax; commands.rs nur Broadcaster darf drei Off-Aliase nutzen. Keine Freischaltung allein durch Toggle zugesagt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/faq-stats-overlay.html",
+      "verified_at": "2026-09-19T23:22:29.284Z",
+      "content_sha256": "cfa2b6e15f2db954c75085bdbca65badc9b3c2c13e9632255f838a3342de9391",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Statistikbefehle/Aliase und Steamzuordnung über Discord.",
+          "evidence": "commands.rs registriert rank/wins/winrate/mmr+climb/live/lastmatch+last/streak/mostplayed+main; overlay.rs resolve_discord_id und lesende Rank/History/Live-Abfragen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Öffentliches OBS-Render, authentifizierter Builder mit freier Leinwand, lokale Layoutspeicherung und URLübernahme.",
+          "evidence": "overlay_html_handler unterscheidet streamer-Render von gegateter Builder-SPA; OverlayBuilderSection.tsx URLSearchParams enthalten Layout/Module, Speicherung lokal; neue URL muss in OBS übernommen werden.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/vertrauen-seriositaet.html",
+      "verified_at": "2026-09-19T23:22:29.288Z",
+      "content_sha256": "9396238593bc2378ef96b5eabddbb41f6a74cb3c776799bfc54422cadf8c919c",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/legal.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "OAuth statt Botpasswort, Widerruf und Support-Datenschutzweg; Engagementoptout ist kein Löschen.",
+          "evidence": "commands.rs cmd_engagement_ignore_me schreibt nur twitch_user_engagement_optout per Plattform-ID, remember entfernt nur diesen Eintrag. Autorisierung/geschützter Login bestehender OAuthflow; unverifizierbare pauschale Echtheit jedes Zuschauers entfernt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/faq-support.html",
+      "verified_at": "2026-09-19T23:22:29.293Z",
+      "content_sha256": "012bf5a8bf9ce820748ef6c76c64b0f8d73afdc28d6ed5f3aac4896f174188ce",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/promos.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Discord-Einladung über Commands und vorhandenen Fallback; Engagement-Abmeldung löscht keine allgemeinen Daten.",
+          "evidence": "commands.rs invite/discord und ID-gebundene Optoutbefehle; promos.rs DEFAULT_PROMO_DISCORD_INVITE.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Konkrete veröffentlichte Rechtsseiten ohne Twitch-Login, aber möglichem Browsergate.",
+          "evidence": "legal.rs Human-Gate/Cookie und Rechtsseitenrouten; keinen irreführenden garantiert hindernisfreien Aufruf und kein Versprechen eines Footers auf jeder beliebigen Seite.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/twitchbot-ueberblick.html",
+      "verified_at": "2026-09-19T23:22:29.304Z",
+      "content_sha256": "9746efb487cbfb692485b9353644eeb86fcf95956e5f3fbdf17a737456a97a93",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Überblick über vorhandene Dashboard-, Chat-, Moderations-, Raid- und Overlaywege ohne Erfolgsversprechen.",
+          "evidence": "Codebelege der parallel geprüften Partner-/Raiddokus durch A/B und der eigenen Dashboard-/Overlay-/Commandprüfung; funktionierender Onboardingalias am Prüftag per HTTPS belegt. Kostenangaben nur als Verweis auf aktuellen sichtbaren Katalog, keine festen Preise.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/analytics-dashboard.html",
+      "verified_at": "2026-09-19T23:22:29.306Z",
+      "content_sha256": "0b2d60e245a2be71faad040603fc7ae763add92921a877341d0c885e1a972d8b",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Analysebereiche, eigene Partnerdaten und zugangsabhängige Auswertungen; Leerdaten ohne Sofortgarantie.",
+          "evidence": "App OverviewOrTagesform prüft analytics-Entitlement, Tabs streams/audience/growth/planning/insights/monetization; streamer_scope sperrt fremde Partnerkanäle. Streamreport als bedingtes Angebot, keine zugesagte Generierung.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/dokus/index.html",
+      "verified_at": "2026-09-19T23:39:32.700Z",
+      "content_sha256": "83399edf424eaf333155888b308fed48aac1e660b0e1794d2f69166b6c397c2a",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "paths": [
+            "rust/crates/dl-dashboard/src/scrims.rs",
+            "rust/crates/dl-squads/src/lagebild.rs",
+            "rust/bin/dl-bot/src/scrimglue.rs",
+            "rust/bin/dl-bot/src/scrim_adapter.rs",
+            "service/static/dashboard.html",
+            "rust/crates/dl-central-db/src/scrim_runtime.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Öffentlicher Navigationsverweis zur Scrim-Anleitung.",
+          "evidence": "Verlinkte Seite vorhanden; Scrim-Nutzerwege gegen Dashboard und Bot geprüft. Keine unabhängigen Funktions-/Zeitversprechen ergänzt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/dokus/scrims/scrim-block-flow.html",
+      "verified_at": "2026-09-19T23:39:32.703Z",
+      "content_sha256": "2a163f923a4c8b87f5e94fb24f18d6c641ed9785cb904d173061c0aab47eec86",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "paths": [
+            "rust/crates/dl-dashboard/src/scrims.rs",
+            "rust/crates/dl-squads/src/lagebild.rs",
+            "rust/bin/dl-bot/src/scrimglue.rs",
+            "rust/bin/dl-bot/src/scrim_adapter.rs",
+            "service/static/dashboard.html",
+            "rust/crates/dl-central-db/src/scrim_runtime.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Öffentlicher Navigationsverweis zur Scrim-Anleitung.",
+          "evidence": "Verlinkte Seite vorhanden; Scrim-Nutzerwege gegen Dashboard und Bot geprüft. Keine unabhängigen Funktions-/Zeitversprechen ergänzt.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/dokus/scrims/scrim-orga.html",
+      "verified_at": "2026-09-19T23:39:32.705Z",
+      "content_sha256": "b6609b1ab6ddd000b3263556a8606f6cdcd2b9280973036d10ed9895c2c6e361",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "01276f1530cd960ce80523a5a11904c54a14d967",
+          "paths": [
+            "rust/crates/dl-dashboard/src/scrims.rs",
+            "rust/crates/dl-squads/src/lagebild.rs",
+            "rust/bin/dl-bot/src/scrimglue.rs",
+            "rust/bin/dl-bot/src/scrim_adapter.rs",
+            "service/static/dashboard.html",
+            "rust/crates/dl-central-db/src/scrim_runtime.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Terminabfragen, Presets, manuelle Reminder, Slotfreigabe, Ergebnisstatus und Korrekturdialog sind vorhandene Dashboardwege.",
+          "evidence": "scrims.rs und dashboard.html: entsprechende Handler/Formulare; konkrete Volladminprüfung vor Zugriff.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Änderungen hängen vom aktuell freigegebenen Verwaltungsweg ab.",
+          "evidence": "scrim_runtime.rs sperrt lokalen Schreibweg außerhalb legacy/dl-bots; sichtbarer Betriebsstatus berücksichtigt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Lagebilder berücksichtigen begrenzten Teamkanalverlauf statt ausschließlich strukturierter Daten.",
+          "evidence": "scrimglue.rs übergibt DiscordChannelHistory; lagebild.rs load_lagebild_input nutzt Rückschaufenster/Limit; Fehlerpfad ohne Verlauf sichtbar. Alte gegenteilige Behauptung entfernt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Feste Fertigstellungszeit von fünf Minuten.",
+          "evidence": "Keine Zusage im Code; zeitliches Versprechen aus Überschrift entfernt, bestehender Anker erhalten.",
+          "verdict": "removed"
+        },
+        {
+          "claim": "Manuell eingegebener Lobbycode besteht aus fünf alphanumerischen Zeichen; gespeicherte Match-ID im Dashboard nicht löschbar.",
+          "evidence": "parse_lobby_code, match-id Handler und sichtbarer UI-Hinweis; keine ungesicherte automatische Zuordnung versprochen.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/patchnotes-bot/patchnotes-bot.html",
+      "verified_at": "2026-09-19T23:39:32.706Z",
+      "content_sha256": "aaf9088513e6ada3174e1b3075f6f826c9e9ad78baec6ec634690add8f3d69eb",
+      "code": [
+        {
+          "repository": "patchnotes",
+          "revision": "8114f9c6e01ff7b56236fb76519163c0a6a73c30",
+          "paths": [
+            "main.py",
+            "changelog_latest_fetcher.py",
+            "changelog_content_fetcher.py",
+            "perplexity_requests.py",
+            "patch_view.py",
+            "entity_emojis.py",
+            "docs/internal/perplexity-summarization.md"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "dl-coaching/src/pages/MyScrimPage.tsx",
+            "dl-coaching/src/pages/ScrimSignupPage.tsx",
+            "dl-tierlist/src/tierlist.js",
+            "dl-patch/src/patch.js",
+            "dl-activity/src/activity.js"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Offizielle Forum-/Steamquellen, deutsche Lesefassung und strukturierte Discord-Ausgabe.",
+          "evidence": "changelog_latest_fetcher und content_fetcher; Übersetzung/patch_response in main.py. Laufende Unit deadlock-patchnotes am Prüftag aktiv, WorkingDirectory zeigt auf dieses Repo; keine Rustimplementierung vorhanden.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Archiv und einfachere Ersatzansicht bei fehlenden strukturierten Daten.",
+          "evidence": "Website dl-patch/src/patch.js loadData/applyPatchNotesFallback.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Automatische zusätzliche Prozentberechnung.",
+          "evidence": "Im aktuellen main/Übersetzungs-/Darstellungscode nicht implementiert; unbelegtes Funktionsversprechen entfernt.",
+          "verdict": "removed"
+        },
+        {
+          "claim": "Neuübersetzungsanliegen gehen an den Community-Support.",
+          "evidence": "Neuübersetzung nur als Betriebsweg in docs/internal/perplexity-summarization.md dokumentiert. on_message hat dennoch keine Rollenprüfung; Befehle deshalb nicht als öffentliche Nutzerfunktion beworben. Absolute Aussage, es gebe überhaupt keinen Befehl, entfernt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Emojis/Bilder helfen bei der Darstellung; kein garantierter Emoji für jeden Namen.",
+          "evidence": "patch_view.py/entity_emojis.py lösen vorhandene Zuordnungen auf; unbelegter Nutzerschalter nicht mehr behauptet.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/turniere/turniere.html",
+      "verified_at": "2026-09-19T23:39:32.708Z",
+      "content_sha256": "773af6bcb39d7019dcb2399a802299f75a302c44860033b382ad293ccb388fdb",
+      "code": [
+        {
+          "repository": "turniere",
+          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+          "paths": [
+            "rust/crates/turnier-api/src/public/teams.rs",
+            "rust/crates/turnier-api/src/public/signups.rs",
+            "rust/crates/turnier-api/src/public/invitations.rs",
+            "rust/crates/turnier-api/src/consent.rs",
+            "rust/crates/turnier-api/src/account.rs",
+            "rust/crates/turnier-api/src/operations.rs",
+            "rust/crates/turnier-api/src/leaderboard.rs",
+            "rust/crates/turnier-api/src/draft.rs",
+            "frontend/src/pages/Tournament.tsx",
+            "frontend/src/pages/PlayerProfile.tsx",
+            "frontend/src/pages/DraftBoard.tsx",
+            "frontend/src/pages/DraftLobbyNeu.tsx",
+            "frontend/src/hooks/useDraftLobby.ts"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Anmeldung mit Einwilligung, Check-in, offene Einladungen und öffentliche Profile.",
+          "evidence": "consent/signups/invitations und sichtbare Tournament-/PlayerProfile-Komponenten; Widerruf bei aktiver Teilnahme gesperrt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Ergebnis-/No-show-Meldung bleibt bis menschlicher Bestätigung offen.",
+          "evidence": "operations.rs persistiert pending report und bestätigt erst über Modroute; MyMatchReport nur beteiligten Captains angezeigt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Öffentlicher Draft nutzt Raum-Code, Captain-Übernahme und Bereitschaft beider Teams.",
+          "evidence": "DraftLobbyNeu sendet bans_per_team/round_seconds und navigiert in Raum; DraftBoard claim/ready/rematch. Alte Tokenlink-/Reservetimer-Anleitung ersetzt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Keine öffentliche Captain-Oberfläche für Rekrutierungsverwaltung versprochen.",
+          "evidence": "API erlaubt Captain/Mod-Änderung, Frontend-Recruitingsteuerung aber nur in Admin ParticipantManager; Nutzerdoku trennt Oberfläche von API.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/website/website-portale.html",
+      "verified_at": "2026-09-19T23:39:32.710Z",
+      "content_sha256": "bcfec7be6731de519554dfcf62bdbd39fbd405300cc0e1f032f0099bdcc8d88c",
+      "code": [
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "dl-coaching/src/pages/MyScrimPage.tsx",
+            "dl-coaching/src/pages/ScrimSignupPage.tsx",
+            "dl-tierlist/src/tierlist.js",
+            "dl-patch/src/patch.js",
+            "dl-activity/src/activity.js"
+          ]
+        },
+        {
+          "repository": "turniere",
+          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+          "paths": [
+            "rust/crates/turnier-api/src/public/teams.rs",
+            "rust/crates/turnier-api/src/public/signups.rs",
+            "rust/crates/turnier-api/src/public/invitations.rs",
+            "rust/crates/turnier-api/src/consent.rs",
+            "rust/crates/turnier-api/src/account.rs",
+            "rust/crates/turnier-api/src/operations.rs",
+            "rust/crates/turnier-api/src/leaderboard.rs",
+            "rust/crates/turnier-api/src/draft.rs",
+            "frontend/src/pages/Tournament.tsx",
+            "frontend/src/pages/PlayerProfile.tsx",
+            "frontend/src/pages/DraftBoard.tsx",
+            "frontend/src/pages/DraftLobbyNeu.tsx",
+            "frontend/src/hooks/useDraftLobby.ts"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Öffentliche Portale und angemeldete eigene Coaching-/Scrim-/Aktivitätsbereiche.",
+          "evidence": "App.tsx und genannte Seiten/JS belegen Routen, Formulare und eigene Datenansichten; Rangvisibility-Speicherweg bereits gegen aktuellen Code geprüft.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Coaching-Anfrage erzeugt keinen garantierten Termin.",
+          "evidence": "MyCoachingPage zeigt hinterlegte Termine/Notizen; Formulierung korrigiert, automatische Terminbehauptung entfernt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Build-Karten/Votes sind kein garantierter Spielkatalog; Patcharchiv hat Datenfallback.",
+          "evidence": "dl-tierlist/src/tierlist.js und dl-patch/src/patch.js; bestehende Grenzen beibehalten.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/index.html",
+      "verified_at": "2026-09-19T23:39:32.711Z",
+      "content_sha256": "c439a437ea9ebdbb8b8157b0d1a7c3b604c6b15590a1e70c32863733c0e7b4a2",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-community/src/faq.rs",
+            "rust/crates/dl-brain/src/lib.rs"
+          ]
+        },
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx",
+            "dl-coaching/src/pages/CoachingRequestPage.tsx",
+            "dl-coaching/src/pages/MyCoachingPage.tsx",
+            "dl-coaching/src/pages/MyScrimPage.tsx",
+            "dl-coaching/src/pages/ScrimSignupPage.tsx",
+            "dl-tierlist/src/tierlist.js",
+            "dl-patch/src/patch.js",
+            "dl-activity/src/activity.js"
+          ]
+        },
+        {
+          "repository": "turniere",
+          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+          "paths": [
+            "rust/crates/turnier-api/src/public/teams.rs",
+            "rust/crates/turnier-api/src/public/signups.rs",
+            "rust/crates/turnier-api/src/public/invitations.rs",
+            "rust/crates/turnier-api/src/consent.rs",
+            "rust/crates/turnier-api/src/account.rs",
+            "rust/crates/turnier-api/src/operations.rs",
+            "rust/crates/turnier-api/src/leaderboard.rs",
+            "rust/crates/turnier-api/src/draft.rs",
+            "frontend/src/pages/Tournament.tsx",
+            "frontend/src/pages/PlayerProfile.tsx",
+            "frontend/src/pages/DraftBoard.tsx",
+            "frontend/src/pages/DraftLobbyNeu.tsx",
+            "frontend/src/hooks/useDraftLobby.ts"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Übersicht verlinkt tatsächlich vorhandene öffentliche Hilfeseiten.",
+          "evidence": "Relative Ziele geprüft; Fachtexte getrennt gegen aktuelle Implementierung geprüft.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Concierge und FAQ verbinden Community-/Spielwissen, Brain ist eigener Spielfrageweg.",
+          "evidence": "Gemeinsame AnswerEngine in Concierge/FAQ, GameOnly bei Brain; keine Aktionsausführung durch reine Wissensantwort versprochen.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
+    }
+  ]
+}
