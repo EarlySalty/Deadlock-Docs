@@ -113,7 +113,7 @@ class ActivationTests(unittest.TestCase):
             if self.fail_next:
                 self.fail_next = False
                 raise OSError('Fixture reload failed')
-            self.live_generation = corpus_digest(self.base / 'current/public')
+            self.live_generation = corpus_digest((self.base / 'current').resolve() / 'public')
             self.live_faq = faq_digest((self.base / 'current').resolve())
             return {'chunks': 1}
         return {'generation': self.live_generation, 'faq_generation': self.live_faq}
@@ -122,7 +122,7 @@ class ActivationTests(unittest.TestCase):
         with patch('refresh_public_corpus.request', side_effect=self.service):
             state = refresh(self.config)
             self.assertEqual(state['refresh_status'], 'ok')
-            self.assertEqual(self.live_generation, corpus_digest(self.base / 'current/public'))
+            self.assertEqual(self.live_generation, corpus_digest((self.base / 'current').resolve() / 'public'))
             self.assertEqual(self.posts, 1)
             again = refresh(self.config)
             self.assertEqual(again['active_snapshot'], state['active_snapshot'])
