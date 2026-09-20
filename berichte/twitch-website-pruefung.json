@@ -3,8 +3,8 @@
   "documents": [
     {
       "path": "public/twitch-bot/einrichtung.html",
-      "verified_at": "2026-09-19T23:16:51.018638+00:00",
-      "content_sha256": "c844d1d60a461b78531cded03363a5374082b9906028a24d67ed19a00d36b0de",
+      "verified_at": "2026-09-20T10:56:52.208592+00:00",
+      "content_sha256": "54593f30344c86312f01163b7e17a24aad38b7fa93dacc2a6be753c596e41696",
       "code": [
         {
           "repository": "twitch",
@@ -12,7 +12,10 @@
           "paths": [
             "website/src/components/partner-clean/Hero.tsx",
             "website/src/data/externalLinks.ts",
-            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs",
+            "rust/crates/tb-chat/src/player_links.rs",
+            "rust/crates/tb-chat/src/rank_lookup.rs"
           ]
         }
       ],
@@ -27,6 +30,11 @@
             "website/src/data/externalLinks.ts",
             "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
           ]
+        },
+        {
+          "claim": "Twitch-App-Autorisierung, direkte Twitch-Steam-Zuordnung für Spielstatistiken und Steam-Verknüpfung im Discord sind ausdrücklich getrennte Bedienwege. Keine Ableitung weiterer Löschfolgen aus einem OAuth-Widerruf.",
+          "verdict": "verified",
+          "evidence": "Erneut am 2026-09-20 gegen c8c8b258 geprüft: player_connect.rs unlink ruft player_links::disconnect ausschließlich für die Twitch-ID der Session auf; player_links.rs schaltet nur die Twitch-Spielzuordnung ab. rank_lookup.rs lookup_enabled-Guards verhindern danach die automatische Steam-Zuordnung im Twitch-Rangpfad. Kein Zugriff dieser Trennfunktion auf Discord-Steam- oder OAuth-Speicher. Der OAuth-Abschnitt beschreibt nur den bisherigen Twitch-Widerrufsweg und behauptet keine zusätzlichen Folgen für Steam-Verknüpfungen."
         }
       ],
       "gaps": []
@@ -63,8 +71,8 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-09-19T23:16:51.084369+00:00",
-      "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
+      "verified_at": "2026-09-20T10:56:52.208640+00:00",
+      "content_sha256": "bd7b29af462bc3cd9af17593527456aacdd9df5dabbb9f3b82edf07234bc50b9",
       "code": [
         {
           "repository": "twitch",
@@ -91,6 +99,11 @@
             "rust/crates/tb-chat/src/rank_lookup.rs",
             "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
           ]
+        },
+        {
+          "claim": "Twitch-App-Autorisierung, direkte Twitch-Steam-Zuordnung für Spielstatistiken und Steam-Verknüpfung im Discord sind ausdrücklich getrennte Bedienwege. Keine Ableitung weiterer Löschfolgen aus einem OAuth-Widerruf.",
+          "verdict": "verified",
+          "evidence": "Erneut am 2026-09-20 gegen c8c8b258 geprüft: player_connect.rs unlink ruft player_links::disconnect ausschließlich für die Twitch-ID der Session auf; player_links.rs schaltet nur die Twitch-Spielzuordnung ab. rank_lookup.rs lookup_enabled-Guards verhindern danach die automatische Steam-Zuordnung im Twitch-Rangpfad. Kein Zugriff dieser Trennfunktion auf Discord-Steam- oder OAuth-Speicher. Der OAuth-Abschnitt beschreibt nur den bisherigen Twitch-Widerrufsweg und behauptet keine zusätzlichen Folgen für Steam-Verknüpfungen."
         }
       ],
       "gaps": []
