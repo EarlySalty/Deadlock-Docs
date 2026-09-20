@@ -49,6 +49,14 @@ Die Fachprüfberichte können ausdrücklich ausgewählte `standard_answers` enth
 
 Das FAQ-Manifest bleibt Schema 1. Alle Einträge bekommen die stabile `id` aus `faq:<path>#<section_id>`; nur ausdrücklich ausgewählte Einträge bekommen zusätzlich `standard_answer` und `standard_answer_scope`. Fragen ohne diese Felder sind weiterhin Suchhilfen. Antworttext und Geltungsbereich sind Teil der bestehenden `faq_generation`, werden zusammen mit dem Korpus geladen und dürfen bei Unsicherheit nur als Belege für die Wissensantwort dienen.
 
+### Öffentliche Bedienbelege aus Code
+
+Der begrenzte Codequellen-Test verwendet ausschließlich drei ausdrücklich ausgewählte öffentliche FAQ-/Mitspielersuche-Belege aus zwei Rust-Dateien. Die `public_code`-Policy in `public-sources.json` nennt Releasecommit, Symbol, vollständigen Quellblobhash, exakten Ausschnitt und geprüfte öffentliche Erklärung. Eintrag und zugehörige öffentliche Hilfeseite brauchen eine gültige Freigabe. Einträge mit `review_status: pending` werden nicht exportiert. Andere Dateien, Repositories, Symbole und historische Ersatzstände sind ausgeschlossen. Änderungen an Release, Quelle oder Fachprüfung entziehen die Belege; es gibt keine Suche in einem Repository für Nutzerfragen.
+
+`public-code-manifest.json` gehört zum selben Snapshot. Sein Bytehash steht als `public_code_sha256` im FAQ-Manifest und wird dadurch über dessen vorhandene Generation atomar bestätigt. Der Leser prüft zusätzlich, ob der Codebeleg zum tatsächlich gebauten Release gehört. Ohne passende Belege bleibt die gewöhnliche öffentliche Wissensantwort verfügbar.
+
+Öffentliche Berechtigungen, das Trennen einer Verbindung und Schutzmaßnahmen aus Nutzersicht sind zulässiges Wissen. Konkrete Spam-/Scam-Erkennung, Filtermuster, interne Schwellen, KI-Modelle und Anbieter sowie technische Details interner Sicherheitsmechanismen gehören nicht in diese Belege, auch wenn sie andernorts öffentlich stehen.
+
 ### Frische der internen Seiten
 
 Interne Seiten beschreiben Code, der weiterläuft, während die Seite stillsteht. `tools/check_freshness.py` macht diesen Abstand sichtbar: Es liest `quellen.json`, fragt jedes gebundene Quell-Repo, was sich seit dem geprüften Commit in den gebundenen Pfaden geändert hat, und schreibt das Ergebnis nach `berichte/frische.md`.

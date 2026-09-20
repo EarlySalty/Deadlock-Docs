@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 
 from import_public_sources import freeze_revisions, git, import_sources, private_path, safe_relative
 from knowledge_metadata import corpus_digest, faq_manifest, verified_audit, write_json
+from public_code_metadata import public_code_manifest
 from validate_corpus import validate_root
 
 
@@ -253,6 +254,18 @@ def refresh(config: dict, *, activate: bool = True) -> dict:
                     raise ValueError("Öffentlicher Korpusvertrag nicht erfüllt")
                 generation = corpus_digest(staging / "public")
                 faq = faq_manifest(staging / "public", audits, policy_revision=revision)
+                if "public_code" in manifest:
+                    repositories = {source["id"]: Path(source["path"])
+                                    for source in manifest["repositories"]}
+                    code = public_code_manifest(
+                        staging / "public", audits, policy_revision=revision,
+                        policy=manifest["public_code"], revisions=revisions,
+                        read_blob=lambda source, commit, path: git(
+                            repositories[source], "show", commit + ":" + path),
+                    )
+                    code_path = staging / "public-code-manifest.json"
+                    write_json(code_path, code)
+                    faq["public_code_sha256"] = hashlib.sha256(code_path.read_bytes()).hexdigest()
                 faq_hash = hashlib.sha256(json.dumps(faq, sort_keys=True).encode()).hexdigest()
                 snapshot = f"{revision[:12]}-{report['identity']}-{generation[:12]}-{faq_hash[:12]}"
                 write_json(staging / "source-manifest.json", report)
@@ -262,7 +275,10 @@ def refresh(config: dict, *, activate: bool = True) -> dict:
                 destination = base / snapshot
                 if destination.exists():
                     if (corpus_digest(destination / "public") != generation
-                            or json.loads((destination / "faq-manifest.json").read_text()) != faq):
+                            or json.loads((destination / "faq-manifest.json").read_text()) != faq
+                            or ("public_code_sha256" in faq
+                                and hashlib.sha256((destination / "public-code-manifest.json").read_bytes()).hexdigest()
+                                != faq["public_code_sha256"])):
                         raise ValueError("Bestehender Snapshot stimmt nicht mit Export überein")
                 else:
                     # TemporaryDirectory räumt anschließend nur das leere

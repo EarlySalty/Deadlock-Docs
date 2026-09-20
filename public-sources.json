@@ -965,5 +965,48 @@
   "audit_files": [
     "berichte/discord-brain-pruefung.json",
     "berichte/twitch-website-pruefung.json"
-  ]
+  ],
+  "public_code": {
+    "schema_version": 1,
+    "repository": "discord",
+    "release_commit": "fb357052142f96f09f541fac92b674202eeb264c",
+    "entries": [
+      {
+        "id": "P1",
+        "title": "Den FAQ-Chat auf dem Server öffnen",
+        "public_help_path": "discord-server/faq-bot-selbst.html",
+        "public_help_section": "chat-oeffnen",
+        "source_path": "rust/crates/dl-community/src/faq.rs",
+        "symbol": "register:faq",
+        "blob_sha256": "164cb4882fd758078aa29097d039ffdb8515ec622c0a3b2d34560fb7bfcdb66a",
+        "excerpt": "\"name\": \"faq\",\n                \"description\": \"Startet einen Concierge-Chat mit dem Server-Assistenten.\",\n                \"type\": 1,\n                \"dm_permission\": false,",
+        "explanation": "Der öffentliche Befehl /faq startet den Concierge-Chat auf dem Community-Server. In einer Direktnachricht steht dieser Slash-Befehl nicht zur Verfügung. Führe /faq auf dem Server aus oder nutze dort „Frage stellen“. Das ist eine Anleitung, keine Bestätigung, dass gerade ein Chat erstellt wurde.",
+        "review_status": "verified"
+      },
+      {
+        "id": "P2",
+        "title": "Ein vorhandenes Mitspieler-Gesuch zuerst schließen",
+        "public_help_path": "discord-server/module/mitspielersuche-lfg.html",
+        "public_help_section": "panel",
+        "source_path": "rust/crates/dl-voice/src/lfg_panel.rs",
+        "symbol": "LFG_ERR_SCHON_AKTIVE_SUCHE",
+        "blob_sha256": "a8337588d8e252d9d7d3c6e2a028ab45d6182d080634101d806ff1e740a09e29",
+        "excerpt": "pub const LFG_ERR_SCHON_AKTIVE_SUCHE: &str =\n    \"Du hast schon ein laufendes Gesuch. Schließ das erst, bevor du ein neues aufmachst.\";",
+        "explanation": "Zeigt das sichtbare Mitspieler-Panel genau den Hinweis auf ein bereits laufendes Gesuch, schließe zuerst dein vorhandenes Gesuch. Danach kannst du ein neues öffnen. Diese Erklärung gilt für das strukturierte Panel; sie behauptet weder, dass du aktuell ein Gesuch hast, noch schließt sie es für dich.",
+        "review_status": "verified"
+      },
+      {
+        "id": "P3",
+        "title": "Fehlende Angaben für eine Mitspieler-Benachrichtigung",
+        "public_help_path": "discord-server/module/mitspielersuche-lfg.html",
+        "public_help_section": "panel",
+        "source_path": "rust/crates/dl-voice/src/lfg_panel.rs",
+        "symbol": "LFG_WATCH_ERR_UNVOLLSTAENDIG",
+        "blob_sha256": "a8337588d8e252d9d7d3c6e2a028ab45d6182d080634101d806ff1e740a09e29",
+        "excerpt": "pub const LFG_WATCH_ERR_UNVOLLSTAENDIG: &str = \"Wähl noch Modus und Zeitfenster aus.\";",
+        "explanation": "Zeigt der Einrichtungsdialog für freiwillige Mitspieler-Benachrichtigungen „Wähl noch Modus und Zeitfenster aus“, ergänze dort diese beiden Angaben. Gemeint ist der Suchalarm für passende Gesuche, nicht die Veröffentlichung eines eigenen Gesuchs. Die Antwort aktiviert keinen Alarm und behauptet keine bereits gesendete Nachricht.",
+        "review_status": "verified"
+      }
+    ]
+  }
 }

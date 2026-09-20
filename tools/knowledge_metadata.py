@@ -102,7 +102,7 @@ def faq_manifest(public: Path, audits: list[dict], *, policy_revision: str) -> d
         standards: dict[str, dict] = {}
         for standard in audit.get("standard_answers", []):
             if not isinstance(standard, dict):
-                raise ValueError("Ungültiger Standardantwort-Eintrag")
+                raise TypeError("Ungültiger Standardantwort-Eintrag")
             section = standard.get("section_id")
             question = standard.get("question")
             answer = standard.get("answer")

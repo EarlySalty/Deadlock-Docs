@@ -128,6 +128,20 @@ class ActivationTests(unittest.TestCase):
             self.assertEqual(again['active_snapshot'], state['active_snapshot'])
             self.assertEqual(self.posts, 1)
 
+    def test_code_manifest_is_bound_into_existing_faq_generation(self):
+        self.fixture.config['public_code'] = {
+            'schema_version': 1, 'repository': 'discord', 'release_commit': 'a' * 40, 'entries': [],
+        }
+        self.commit_snapshot(self.page)
+        with patch('refresh_public_corpus.request', side_effect=self.service):
+            state = refresh(self.config)
+        snapshot = self.base / state['active_snapshot']
+        faq = json.loads((snapshot / 'faq-manifest.json').read_text())
+        code = (snapshot / 'public-code-manifest.json').read_bytes()
+        self.assertEqual(faq['public_code_sha256'], hashlib.sha256(code).hexdigest())
+        self.assertEqual(state['faq_generation'], faq_digest(snapshot))
+        self.assertEqual(json.loads(code)['entries'], [])
+
     def test_failed_first_activation_removes_unconfirmed_current(self):
         self.fail_next = True
         with patch('refresh_public_corpus.request', side_effect=self.service):
