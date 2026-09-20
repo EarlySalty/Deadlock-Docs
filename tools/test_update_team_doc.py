@@ -246,15 +246,12 @@ class MainWiringTest(unittest.TestCase):
             doc.write_text("ALT", encoding="utf-8")
             with patch.object(update_team_doc, "DOC_PATH", doc), patch.object(
                 update_team_doc, "render_from_discord", return_value="<!doctype html>NEU"
-            ), patch.object(update_team_doc, "run") as run_mock, patch.object(
-                update_team_doc, "reload_knowledge"
-            ) as reload_mock:
+            ), patch.object(update_team_doc, "run") as run_mock:
                 manager.attach_mock(run_mock, "run")
-                manager.attach_mock(reload_mock, "reload")
                 rc = update_team_doc.main([])
         return rc, manager.mock_calls
 
-    def test_commit_push_deploy_reload_order(self):
+    def test_commit_push_confirmed_refresh_order(self):
         rc, calls = self.run_main()
         self.assertEqual(rc, 0)
 
@@ -269,22 +266,19 @@ class MainWiringTest(unittest.TestCase):
             lambda c: c[0] == "run"
             and str(c[1][0][0]).endswith("deploy_corpus.sh")
         )
-        reload_i = index(lambda c: c[0] == "reload")
 
         self.assertNotEqual(push_i, -1, "git push wurde nicht aufgerufen")
         self.assertNotEqual(deploy_i, -1, "deploy_corpus.sh wurde nicht aufgerufen")
-        self.assertNotEqual(reload_i, -1, "reload wurde nicht aufgerufen")
         self.assertLess(push_i, deploy_i, "Deploy muss nach dem Push laufen")
-        self.assertLess(deploy_i, reload_i, "Reload muss nach dem Deploy laufen")
 
-    def test_deploy_called_with_head(self):
+    def test_deploy_uses_shared_refresh_configuration(self):
         _, calls = self.run_main()
         deploy_calls = [
             c for c in calls
             if c[0] == "run" and str(c[1][0][0]).endswith("deploy_corpus.sh")
         ]
         self.assertEqual(len(deploy_calls), 1)
-        self.assertEqual(list(deploy_calls[0][1][0]), [str(update_team_doc.DEPLOY_SCRIPT), "HEAD"])
+        self.assertEqual(list(deploy_calls[0][1][0]), [str(update_team_doc.DEPLOY_SCRIPT), "--config", str(update_team_doc.REFRESH_CONFIG)])
 
     def test_unchanged_converges_without_new_commit(self):
         # Unverändertes Dokument darf keinen neuen Commit erzeugen, muss aber den
@@ -302,9 +296,7 @@ class MainWiringTest(unittest.TestCase):
                 update_team_doc, "committed_doc", return_value=rendered
             ), patch.object(update_team_doc, "run") as run_mock, patch.object(
                 update_team_doc, "deploy_corpus"
-            ) as deploy_mock, patch.object(
-                update_team_doc, "reload_knowledge"
-            ) as reload_mock:
+            ) as deploy_mock:
                 rc = update_team_doc.main([])
         self.assertEqual(rc, 0)
         # kein neuer Commit
@@ -317,8 +309,7 @@ class MainWiringTest(unittest.TestCase):
             c[0] == "" and list(c[1][0]) == ["git", "push"] for c in run_mock.mock_calls
         )
         self.assertTrue(pushed, "Push muss zur Konvergenz laufen")
-        deploy_mock.assert_called_once_with("HEAD")
-        reload_mock.assert_called_once()
+        deploy_mock.assert_called_once_with()
 
     def test_fail_then_retry_converges(self):
         # Lauf 1: Push ok, Deploy scheitert transient -> Reload nie erreicht.
@@ -335,18 +326,16 @@ class MainWiringTest(unittest.TestCase):
                 update_team_doc, "committed_doc", side_effect=["", rendered]
             ), patch.object(update_team_doc, "run") as run_mock, patch.object(
                 update_team_doc, "deploy_corpus", deploy
-            ), patch.object(update_team_doc, "reload_knowledge") as reload_mock:
+            ):
                 with self.assertRaises(RuntimeError):
                     update_team_doc.main([])
                 self.assertEqual(doc.read_text(), rendered, "Doc vor Deploy geschrieben")
-                reload_mock.assert_not_called()
 
                 run_mock.reset_mock()
                 rc = update_team_doc.main([])
 
         self.assertEqual(rc, 0)
         self.assertEqual(deploy.call_count, 2, "Deploy muss im Retry nachgeholt werden")
-        reload_mock.assert_called_once()
         # Lauf 2 pusht (konvergiert einen ggf. zuvor fehlgeschlagenen Push), committet aber nicht
         pushed = any(
             c[0] == "" and list(c[1][0]) == ["git", "push"] for c in run_mock.mock_calls
@@ -380,21 +369,17 @@ class MainWiringTest(unittest.TestCase):
                 update_team_doc, "run", side_effect=run_side
             ) as run_mock, patch.object(
                 update_team_doc, "deploy_corpus"
-            ) as deploy_mock, patch.object(
-                update_team_doc, "reload_knowledge"
-            ) as reload_mock:
+            ) as deploy_mock:
                 with self.assertRaises(RuntimeError):
                     update_team_doc.main([])
                 self.assertEqual(doc.read_text(), rendered, "Doc vor Commit geschrieben")
                 deploy_mock.assert_not_called()
-                reload_mock.assert_not_called()
 
                 rc = update_team_doc.main([])
 
         self.assertEqual(rc, 0)
         self.assertEqual(commit_state["n"], 2, "Retry muss erneut committen")
-        deploy_mock.assert_called_once_with("HEAD")
-        reload_mock.assert_called_once()
+        deploy_mock.assert_called_once_with()
         commits = [
             c for c in run_mock.mock_calls if list(c.args[0][:2]) == ["git", "commit"]
         ]
