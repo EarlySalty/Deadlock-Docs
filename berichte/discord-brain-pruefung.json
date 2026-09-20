@@ -49,7 +49,21 @@
           "evidence": "dl-answer/lib.rs retrieve/coverage_notice/validate_answer; modglue.rs public_bodies_for_outcome, concierge.rs Fehlerausgänge. Keine Garantie über Vollständigkeit oder neuesten Patch."
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "brain",
+          "question": "Wie stelle ich dem Brain eine Deadlock-Frage?",
+          "answer": "Community und Spiel: Öffne über /faq oder Frage stellen einen privaten Fragechat. Du kannst auch dem Concierge direkt schreiben, wenn Discord deine DM zustellt.\n\nNur Deadlock: Schreibe in einem freigeschalteten Serverkanal !brain, ein Leerzeichen und deine Frage. Die Antwort erscheint in diesem Kanal. Für eine private Frage nutzt du den FAQ-Chat oder eine Direktnachricht an den Concierge.\n\nWenn !brain nicht reagiert, prüfe den freigeschalteten Kanal und die Schreibweise. Während des Nachschlagens kann ein Wartehinweis erscheinen. Bei einer angezeigten Wartezeit wartest du diese ab, bevor du erneut fragst.",
+          "scope": "Nur Einstieg und Bedienung von !brain, FAQ und Concierge. Keine konkrete Spielberatung, keine aktuelle Kanal-Freischaltung und keine Kontoaktion."
+        },
+        {
+          "section_id": "wissen",
+          "question": "Welche Quellen nutzt der Concierge für Community- und Spielfragen?",
+          "answer": "Für Community-Fragen werden freigegebene öffentliche Dokumentationsseiten herangezogen. Für Spielfragen kommen hinterlegte Spielinformationen hinzu, etwa Heldenfähigkeiten, Itemdaten und belegte Build-Pläne. Interne Projektdokumentation ist kein öffentliches Antwortwissen.\n\nDas bedeutet nicht, dass jede Quelle vollständig oder auf dem allerneuesten Patchstand ist. Eine Antwort ist eine Hilfestellung, keine Garantie für Patchaktualität oder spielerischen Erfolg. Frage nach einem konkreten Patch, wenn du eine Änderung im Zeitverlauf meinst.",
+          "scope": "Nur allgemeine Erklärung der öffentlichen Wissensquellen und Aktualitätsgrenzen. Keine konkrete Patchauskunft oder Behauptung, eine bestimmte Quelle sei gerade erreichbar."
+        }
+      ]
     },
     {
       "path": "public/discord-server/dm-concierge.html",
@@ -175,7 +189,27 @@
           "evidence": "Concierge forget_intent/forget_core_matches (1132–1183), handle_dm_control und is_direct_dm-Gate (3740–3936), forget_user SQL (2420–2474), PrivacyStateless-Fallback (3970ff). FAQ handle_chat_message_inner (1252–1340) unterscheidet active/closed/missing und owner/private; privacy_write_allowed und Chatstartblock ab1654; cleanup_expired schließt nach Read-back. Dokumentierter Corecode gelesen, vorhandene regressionsgesicherte Fälle als Zusatzbeleg; keine destruktiven Liveaktionen ausgelöst."
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "chat-oeffnen",
+          "question": "Wie öffne ich einen privaten FAQ-Chat?",
+          "answer": "Über die Schaltfläche Frage stellen im Bereich für Server- und Bot-Fragen.\n\nOder mit dem Befehl /faq auf dem Server.\n\nEs entsteht ein privater Chat, den andere gewöhnliche Mitglieder nicht sehen. Dort stellst du deine Frage zum Server in eigenen Worten.",
+          "scope": "Nur allgemeine Anleitung zum Öffnen eines neuen privaten Fragechats. Nicht bei bestehendem Chat, Datenschutz-Opt-out, Fehlermeldung oder Wunsch nach einer Kontoaktion."
+        },
+        {
+          "section_id": "oeffentlicher-fragenkanal",
+          "question": "Berücksichtigt der Concierge im öffentlichen Fragenkanal meinen Gesprächsverlauf?",
+          "answer": "Dort beantwortet der Concierge immer nur die aktuelle Nachricht. Er speichert in diesem Kanal keinen persönlichen Gesprächsverlauf und übernimmt keinen Kontext aus deinen Direktnachrichten oder privaten Concierge-Kanälen. Bezüge wie „und dort?\" brauchen deshalb den Gegenstand noch einmal in derselben Nachricht.\n\nPersönliche Paten- oder Steckbrief-Aktionen bietet er dort nicht an. Auch bereits sichtbare allgemeine Concierge-Schaltflächen führen im öffentlichen Fragenkanal keine persönliche Aktion aus.",
+          "scope": "Nur zum Gesprächsbezug und zu persönlichen Aktionen im öffentlichen Server- und Bot-Fragenkanal. Nicht auf Direktnachrichten oder private Fragechats übertragen."
+        },
+        {
+          "section_id": "mensch-uebernimmt",
+          "question": "Wann brauche ich menschlichen Support statt des FAQ-Chats?",
+          "answer": "Geht es um ein persönliches Support-Anliegen oder einen Moderationsfall, oder reicht die Dokumentation nicht sicher aus, führt der sichtbare Menschen-Support weiter. Der private Fragechat ist für Wissensfragen gedacht, nicht für Fälle, die eine Person prüfen muss.",
+          "scope": "Nur die allgemeine Abgrenzung zwischen Wissensfragen und menschlichem Support. Keine Beurteilung eines konkreten Moderationsfalls und keine Aktion auslösen."
+        }
+      ]
     },
     {
       "path": "public/discord-server/module/voice-lanes.html",
@@ -669,7 +703,15 @@
           "verdict": "verified"
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "rollen-waehlen",
+          "question": "Wie wähle ich meine Interessen- und Benachrichtigungsrollen?",
+          "answer": "Interessen- und Benachrichtigungsrollen setzt du selbst in Kanäle & Rollen. Damit steuerst du, welche Hinweise dich erreichen. Diese Auswahl ist freiwillig und jederzeit änderbar.",
+          "scope": "Nur selbst wählbare Interessen- und Benachrichtigungsrollen. Keine Rang-, Team-, Partner- oder Moderationsrechte; nicht bei fehlgeschlagenem Onboarding."
+        }
+      ]
     },
     {
       "path": "public/discord-server/team-und-ansprechpartner.html",
@@ -1329,7 +1371,15 @@
           "verdict": "verified"
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "ticket",
+          "question": "Was ist ein Support-Ticket?",
+          "answer": "Ein Ticket ist der sichtbare Weg zu menschlichem Support. Der Bot antwortet nicht direkt im Ticket; das Ticket wird von Menschen bearbeitet, die Bearbeitung übernimmt das Team. Schildere dein Anliegen also so, dass ein Mensch es aufnehmen kann.",
+          "scope": "Nur allgemeine Erklärung des menschlichen Supportwegs. Kein Ticket anlegen, keinen Bearbeitungsstand oder eine Antwortfrist behaupten."
+        }
+      ]
     },
     {
       "path": "public/discord-server/referenz/glossar.html",
@@ -1624,7 +1674,15 @@
           "verdict": "verified"
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "steam-voraussetzung",
+          "question": "Was brauche ich für meine Deadlock-Statistiken im Twitch-Bot?",
+          "answer": "Einen über den Discord verknüpften Steam-Account. Die Verknüpfung richtest du im Verwaltungs-Dashboard im Einrichtungs-Assistenten ein. Die Steam-Anmeldung läuft ohne Passwort-Eingabe beim Bot. Ohne Verknüpfung antwortet der Bot mit einem freundlichen Hinweis statt mit Zahlen.",
+          "scope": "Nur allgemeine Voraussetzung und Einrichtung der Steam-Zuordnung für Twitch-Statistiken. Nicht zur Diagnose falscher Matchwerte, Kontowechsel oder Discord-Rangrechte verwenden."
+        }
+      ]
     },
     {
       "path": "public/twitch-bot/vertrauen-seriositaet.html",

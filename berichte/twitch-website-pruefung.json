@@ -215,7 +215,15 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "zielkanal-nicht-waehlbar",
+          "question": "Kann ich den Zielkanal des Auto-Raids selbst festlegen?",
+          "answer": "Nein. Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter; den konkreten Zielkanal wählst du nicht selbst. Beobachtbar ist nur das Ergebnis: Gibt es kein geeignetes, live streamendes Ziel, findet kein Raid statt – das ist normal und kein Fehler. Über !raid_status und !raid_history siehst du Status und die letzten Versuche.",
+          "scope": "Nur allgemeine Auswahlregeln des Community-Twitch-Bots. Nicht für einen konkreten Raid entscheiden, Live-Ziele nennen oder einen Raid auslösen."
+        }
+      ]
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
@@ -297,7 +305,21 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "standard_answers": [
+        {
+          "section_id": "engagement-abwahl",
+          "question": "Wie nehme ich mich aus den KI-Chat-Reaktionen des Twitch-Bots heraus?",
+          "answer": "Der Bot hat eine KI-Engagement-Funktion, mit der er sich gelegentlich selbst am Chat beteiligt. Willst du dabei nicht berücksichtigt werden, nutze im Chat !engagement_ignore_me; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein. Diese Wahl betrifft nur dich.\n\nWichtig: Das ist keine Löschung deiner Daten und schaltet nicht die allgemeine Kanal-Statistik oder Auswertung ab – !engagement_ignore_me steuert ausschließlich die KI-Engagement-Funktion. Genauso schaltet die Kanal-Einstellung !engagement_off nur die KI-Engagement-Funktion aus, nicht die gesamte Erfassung.",
+          "scope": "Nur persönliche Abwahl der automatischen Twitch-KI-Chat-Reaktionen. Nicht als vollständigen Widerspruch, Datenlöschung, Abschaltung aller Auswertungen oder Discord-Opt-out verwenden."
+        },
+        {
+          "section_id": "engagement-wieder-an",
+          "question": "Wie aktiviere ich meine Berücksichtigung durch die Twitch-KI-Chat-Reaktionen wieder?",
+          "answer": "Mit !engagement_remember_me lässt du dich später wieder von der KI-Engagement-Funktion berücksichtigen. Beide Befehle sind unabhängig von der Streamkategorie verfügbar. Den Kanalstatus kann jede Person im Chat mit !engagement_status abfragen; die Antwort kann auch die letzte Bot-Aktion und einen kurzen Ausschnitt enthalten. Ein- oder ausschalten dürfen die KI-Engagement-Funktion für den Kanal Broadcaster, Kanalmods und berechtigte Super-Mods über !engagement_on bzw. !engagement_off.",
+          "scope": "Nur Twitch-Engagement wieder erlauben und zugehörige Kanalrechte erklären. Kein Discord-Opt-in, keine Datenwiederherstellung und keine automatische Durchführung."
+        }
+      ]
     },
     {
       "path": "public/twitch-bot/uplink-obs.html",
@@ -501,7 +523,21 @@
       ],
       "gaps": [],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben.",
+      "standard_answers": [
+        {
+          "section_id": "zwei-hinweise",
+          "question": "Warum sind nach einem Stream-Neustart zwei Discord-Live-Hinweise sichtbar?",
+          "answer": "Erkennt Twitch einen echten neuen Stream, wird der bisherige Hinweis zuerst als beendet markiert; danach kann ein neuer Live-Hinweis erscheinen. Ein älterer beendeter Hinweis neben dem neuen Live-Hinweis ist daher möglich. Bleiben dagegen beide Hinweise gleichzeitig LIVE, melde dem Support bitte den Kanalnamen und den ungefähren Zeitpunkt.",
+          "scope": "Nur allgemeine Erklärung eines beendeten und eines neuen Hinweises. Nicht behaupten, den aktuellen Streamzustand zu kennen; bei zwei LIVE-Hinweisen gilt der Supportweg."
+        },
+        {
+          "section_id": "kein-discord-voice-golive",
+          "question": "Ist die Twitch-Discord-Ankündigung dasselbe wie Discords Go Live im Voice-Kanal?",
+          "answer": "Nein. Gemeint ist ausschließlich eine automatische Twitch-zu-Discord-Ankündigung als Textnachricht im Community-Discord für einen aktiven Partner in der Deadlock-Kategorie. Discords eigener „Go Live“-Button, mit dem du deinen Bildschirm in einem Voice-Kanal überträgst, ist eine getrennte Discord-Funktion. Der Twitch-Bot startet dieses native Discord Go Live nicht automatisch und verknüpft es nicht mit deinem Twitch-Stream.",
+          "scope": "Nur Abgrenzung der Twitch-Textankündigung von Discords Bildschirmübertragung. Nicht als Anleitung zur Einrichtung oder Zusage einer Veröffentlichung verwenden."
+        }
+      ]
     },
     {
       "path": "public/twitch-bot/faq-analytics.html",
@@ -533,7 +569,15 @@
       ],
       "gaps": [],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben.",
+      "standard_answers": [
+        {
+          "section_id": "wie-aktuell",
+          "question": "Wie aktuell und vollständig sind die Twitch-Dashboard-Daten?",
+          "answer": "Verlaufsauswertungen brauchen erfasste Streams. Direkt nach der Einrichtung kann eine Ansicht „Keine Daten“ zeigen; prüfe nach einem abgeschlossenen Stream erneut. Eine feste Datenaktualisierungszeit oder garantierte Vollständigkeit sagen wir nicht zu.",
+          "scope": "Nur allgemeine Datenverfügbarkeit nach der Einrichtung. Keine Diagnose eines konkreten Ausfalls, keine garantierte Aktualisierungszeit und kein aktueller Dienststatus."
+        }
+      ]
     },
     {
       "path": "public/twitch-bot/faq-werbung.html",

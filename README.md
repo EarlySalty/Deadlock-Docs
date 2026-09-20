@@ -43,6 +43,12 @@ Ein vollständiger Redaktionsexport wird zuerst einschließlich seiner Links gep
 
 Der Adminstatus unterscheidet geprüfte Quellen, ausstehende Prüfungen, historische Inhalte und ausgeschlossene Repositories. Die Größe des Obsidian-Graphen ist kein Maß für die Antwortabdeckung. Aktuelle Spieldaten kommen zusätzlich aus Deadlock Brain; historische Buildanalysen werden nicht als aktuelle Spielberatung ausgegeben.
 
+### Geprüfte Standardantworten
+
+Die Fachprüfberichte können ausdrücklich ausgewählte `standard_answers` enthalten: Abschnitt, Frage, fertiger Antworttext und enger Geltungsbereich. Der Export erlaubt nur vollständige Texte eines eindeutigen geprüften Abschnitts ohne Links, Navigation oder Tabellen; eine abgeschnittene Voraussetzung oder frei ergänzte Aussage bricht den Export ab. Die ausgewählten Antworten sind höchstens 1600 UTF-16-Einheiten lang. Sie teilen die Inhalts- und Codebindung der Fachprüfung: Ändert sich die Quelle oder der relevante Produktcode, entfällt auch die Direktantwort.
+
+Das FAQ-Manifest bleibt Schema 1. Alle Einträge bekommen die stabile `id` aus `faq:<path>#<section_id>`; nur ausdrücklich ausgewählte Einträge bekommen zusätzlich `standard_answer` und `standard_answer_scope`. Fragen ohne diese Felder sind weiterhin Suchhilfen. Antworttext und Geltungsbereich sind Teil der bestehenden `faq_generation`, werden zusammen mit dem Korpus geladen und dürfen bei Unsicherheit nur als Belege für die Wissensantwort dienen.
+
 ### Frische der internen Seiten
 
 Interne Seiten beschreiben Code, der weiterläuft, während die Seite stillsteht. `tools/check_freshness.py` macht diesen Abstand sichtbar: Es liest `quellen.json`, fragt jedes gebundene Quell-Repo, was sich seit dem geprüften Commit in den gebundenen Pfaden geändert hat, und schreibt das Ergebnis nach `berichte/frische.md`.
