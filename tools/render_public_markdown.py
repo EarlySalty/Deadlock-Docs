@@ -38,7 +38,7 @@ def render_markdown(raw: str, *, title: str | None = None) -> str:
         raise ValueError("Expliziter Seitentitel erforderlich")
     # Die flachste Überschrift unterhalb des Seitentitels bildet Abschnitte;
     # tiefere Überschriften bleiben darin, ebenso Listen, Tabellen und Code.
-    levels = [int(t.tag[1:]) for t in tokens if t.type == "heading_open" and t.tag != "h1"]
+    levels = [int(t.tag[1:]) for t in tokens if t.type == "heading_open" and t.level == 0 and t.tag != "h1"]
     level = min(levels, default=2)
     result = []
     active = False
@@ -46,10 +46,10 @@ def render_markdown(raw: str, *, title: str | None = None) -> str:
     index = 0
     while index < len(tokens):
         token = tokens[index]
-        if token.type == "heading_open" and token.tag == "h1":
+        if token.type == "heading_open" and token.level == 0 and token.tag == "h1":
             index += 3
             continue
-        if token.type == "heading_open" and int(token.tag[1:]) == level:
+        if token.type == "heading_open" and token.level == 0 and int(token.tag[1:]) == level:
             if active:
                 result.append("</section>\n")
             heading = tokens[index + 1]
@@ -67,7 +67,7 @@ def render_markdown(raw: str, *, title: str | None = None) -> str:
             index += 3
             continue
         elif token.type in {"heading_open", "heading_close"}:
-            token.tag = f"h{min(6, int(token.tag[1:]) - level + 2)}"
+            token.tag = f"h{max(2, min(6, int(token.tag[1:]) - level + 2))}"
         result.append(parser.renderer.render([token], parser.options, {}))
         index += 1
     if active:

@@ -1,4 +1,8 @@
+import tempfile
 import unittest
+from pathlib import Path
+
+from validate_corpus import validate_root
 
 from render_public_markdown import render_markdown
 
@@ -33,6 +37,18 @@ Keine Garantie.
         page = render_markdown('## Hilfe\n\nA\n\n## Hilfe\n\nB', title='Test')
         self.assertIn('id="hilfe"', page)
         self.assertIn('id="hilfe-2"', page)
+
+    def test_nested_headings_do_not_split_document_sections(self):
+        for nested in ("> ## Zitat", "- ## Liste", "> # Titel"):
+            with self.subTest(nested=nested):
+                page = render_markdown("### Außen\n\n" + nested + "\n\nText", title="Test")
+                self.assertEqual(page.count("<section "), 1)
+                self.assertIn('<section id="außen">', page)
+                with tempfile.TemporaryDirectory() as directory:
+                    path = Path(directory) / "public" / "nested.html"
+                    path.parent.mkdir()
+                    path.write_text(page)
+                    self.assertEqual(validate_root(directory), [])
 
     def test_source_markup_is_not_executable_and_date_is_not_audit(self):
         page = render_markdown('<script>alert(1)</script>', title='Test')
