@@ -1228,7 +1228,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
           "paths": [
             "rust/crates/dl-voice/src/lfg_panel.rs",
             "rust/crates/dl-activity/src/player_finder.rs",
@@ -1528,7 +1528,7 @@
       "code": [
         {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
           "paths": [
             "rust/bin/dl-bot/src/modglue.rs"
           ]
