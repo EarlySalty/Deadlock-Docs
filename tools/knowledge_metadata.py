@@ -63,11 +63,13 @@ class PublicSections(HTMLParser):
             if question.endswith("?") and self.section:
                 self.questions.append((self.section, question))
             self.heading = None
-        if tag == "section" and len(self.stack) == (self.section_depth or 0) + 1:
+        closing_index = (len(self.stack) - 1 - self.stack[::-1].index(tag)
+                         if tag in self.stack else None)
+        if tag == "section" and closing_index == self.section_depth:
             self.section = None
             self.section_depth = None
-        if tag in self.stack:
-            self.stack = self.stack[:len(self.stack) - 1 - self.stack[::-1].index(tag)]
+        if closing_index is not None:
+            self.stack = self.stack[:closing_index]
 
 
 def verified_audit(audit: dict, content: bytes) -> bool:

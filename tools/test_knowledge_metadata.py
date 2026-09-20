@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from knowledge_metadata import corpus_digest, faq_manifest
+from knowledge_metadata import PublicSections, corpus_digest, faq_manifest
 
 
 class MetadataTests(unittest.TestCase):
@@ -116,6 +116,13 @@ class MetadataTests(unittest.TestCase):
         self.assertEqual(len(selected), len(exported))
         for entry in exported:
             self.assertLessEqual(len(entry['standard_answer'].encode('utf-16-le')) // 2, 1600)
+
+    def test_omitted_paragraph_end_does_not_capture_footer(self):
+        parser = PublicSections()
+        parser.feed('<main><section id="help"><h2>Frage?</h2><p>Antwort.</section>'
+                    '<p>Footer.</main>')
+        self.assertEqual(' '.join(''.join(parser.sections['help']).split()), 'Antwort.')
+        self.assertIsNone(parser.section)
 
 
 if __name__ == '__main__':
