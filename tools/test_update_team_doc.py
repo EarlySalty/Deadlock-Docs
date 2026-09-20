@@ -124,8 +124,8 @@ class RenderHtmlTest(unittest.TestCase):
         )
         self.assertIn('<meta name="stand" content="2026-07-07">', rendered)
         self.assertIn(
-            '<meta name="quelle" content="Produktdokumentation und geprüftes '
-            'sichtbares Verhalten">',
+            '<meta name="quelle" content="Abgleich mit aktueller Implementierung und '
+            'angegebenen Quellen">',
             rendered,
         )
 
