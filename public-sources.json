@@ -170,8 +170,8 @@
         },
         "rust/knowledge/bot/chat-befehle.md": {
           "source_sha256": "77ead8b97b92299740ee21397047be112d5f3f1e4579e7c41f66aeff630acf78",
-          "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
-          "verified_at": "2026-09-19T23:16:51.084369+00:00",
+          "content_sha256": "d818e90ff1896200e359e1755cc3bb6ebe5697bfaba27889bbef1a45c624c033",
+          "verified_at": "2026-09-20T11:02:32.718688+00:00",
           "code": [
             {
               "repository": "twitch",
@@ -182,6 +182,15 @@
                 "rust/crates/tb-chat/src/player_links.rs",
                 "rust/crates/tb-chat/src/rank_lookup.rs",
                 "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
+              ]
+            },
+            {
+              "repository": "steam",
+              "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+              "paths": [
+                "rust/crates/steam-web/src/routes/events.rs",
+                "rust/crates/steam-flows/src/link_commands.rs",
+                "rust/crates/steam-flows/src/unlink.rs"
               ]
             }
           ],
@@ -206,8 +215,8 @@
         },
         "rust/knowledge/bot/einrichtung.md": {
           "source_sha256": "315b8639b93b3fb1660b1aa884170de8d1f3dec1cd9ed001440dfe80e6f84bbd",
-          "content_sha256": "c844d1d60a461b78531cded03363a5374082b9906028a24d67ed19a00d36b0de",
-          "verified_at": "2026-09-19T23:16:51.018638+00:00",
+          "content_sha256": "5c473e5d471dd842d8b06af8594872a3b0b46fefedb79ac27171f82d5fadee87",
+          "verified_at": "2026-09-20T11:02:32.718637+00:00",
           "code": [
             {
               "repository": "twitch",
@@ -215,7 +224,19 @@
               "paths": [
                 "website/src/components/partner-clean/Hero.tsx",
                 "website/src/data/externalLinks.ts",
-                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs",
+                "rust/crates/tb-chat/src/player_links.rs",
+                "rust/crates/tb-chat/src/rank_lookup.rs"
+              ]
+            },
+            {
+              "repository": "steam",
+              "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
+              "paths": [
+                "rust/crates/steam-web/src/routes/events.rs",
+                "rust/crates/steam-flows/src/link_commands.rs",
+                "rust/crates/steam-flows/src/unlink.rs"
               ]
             }
           ],
