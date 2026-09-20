@@ -655,7 +655,7 @@
             },
             {
               "repository": "discord",
-              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
               "paths": [
                 "rust/crates/dl-community/src/concierge.rs"
               ]
@@ -733,7 +733,7 @@
           "code": [
             {
               "repository": "discord",
-              "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
+              "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
               "paths": [
                 "rust/crates/dl-answer/src/lib.rs"
               ]
@@ -762,7 +762,7 @@
             },
             {
               "repository": "discord",
-              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "revision": "02d073a9c71c412af9c78733142ddf036a52e85c",
               "paths": [
                 "rust/crates/dl-community/src/concierge.rs",
                 "rust/crates/dl-voice/src/lfg_panel.rs"
@@ -969,7 +969,7 @@
   "public_code": {
     "schema_version": 1,
     "repository": "discord",
-    "release_commit": "fb357052142f96f09f541fac92b674202eeb264c",
+    "release_commit": "02d073a9c71c412af9c78733142ddf036a52e85c",
     "entries": [
       {
         "id": "P1",
@@ -978,7 +978,7 @@
         "public_help_section": "chat-oeffnen",
         "source_path": "rust/crates/dl-community/src/faq.rs",
         "symbol": "register:faq",
-        "blob_sha256": "164cb4882fd758078aa29097d039ffdb8515ec622c0a3b2d34560fb7bfcdb66a",
+        "blob_sha256": "578a6bec97f73758a377976bd3516c2e37eddd99990e1f53ffcceb3c45fa0072",
         "excerpt": "\"name\": \"faq\",\n                \"description\": \"Startet einen Concierge-Chat mit dem Server-Assistenten.\",\n                \"type\": 1,\n                \"dm_permission\": false,",
         "explanation": "Der öffentliche Befehl /faq startet den Concierge-Chat auf dem Community-Server. In einer Direktnachricht steht dieser Slash-Befehl nicht zur Verfügung. Führe /faq auf dem Server aus oder nutze dort „Frage stellen“. Das ist eine Anleitung, keine Bestätigung, dass gerade ein Chat erstellt wurde.",
         "review_status": "verified"
