@@ -20,7 +20,7 @@
         },
         {
           "repository": "game-brain",
-          "revision": "b306fa9030bf32669d9c91a50fdd665bde73cb3a",
+          "revision": "92db8ee6319466daf21934dc0b9b406bdf5fb538",
           "paths": [
             "rust/crates/dbrain-retrieval/src/game_wiki.rs",
             "rust/crates/dbrain-retrieval/src/lib.rs"
