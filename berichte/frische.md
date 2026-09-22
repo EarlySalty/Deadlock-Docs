@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-09-21 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-09-22 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **67**, davon 23 mit genauer Bindung
@@ -19,19 +19,19 @@ danach meldet der Bericht fuer sie nur noch echte Treffer.
 
 ## veraltet (67)
 
-### internal/deadlock-bots/stats-und-privacy-devs.html (genau, 325 Commits seit Pruefung)
+### internal/deadlock-bots/stats-und-privacy-devs.html (genau, 332 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (rust/crates/dl-activity, rust/crates/dl-community, rust/crates/dl-voice, rust/crates/dl-central-db) ab `3bc8ca8a` [explizit, genau]: 192 Commits, 117 Dateien
+- `Deadlock-Bots` (rust/crates/dl-activity, rust/crates/dl-community, rust/crates/dl-voice, rust/crates/dl-central-db) ab `3bc8ca8a` [explizit, genau]: 199 Commits, 126 Dateien
   - `rust/crates/dl-activity/Cargo.toml`
   - `rust/crates/dl-activity/src/analyzer.rs`
+  - `rust/crates/dl-activity/src/journey.rs`
+  - `rust/crates/dl-activity/src/journey/voice_reconcile.rs`
   - `rust/crates/dl-activity/src/lfg_freetext.rs`
   - `rust/crates/dl-activity/src/lib.rs`
   - `rust/crates/dl-activity/src/outbox.rs`
   - `rust/crates/dl-activity/src/survey_pulse.rs`
-  - `rust/crates/dl-central-db/Cargo.toml`
-  - `rust/crates/dl-central-db/build.rs`
-  - … 109 weitere
+  - … 118 weitere
 - `Deadlock-Steam-Bot` (rust) ab `6fad947c` [explizit, grob]: 133 Commits, 181 Dateien
   - `rust/.sqlx/query-0206b6cdb9ad61c91d680e8938b06fd9f504d740e38fcd6e13c71881616f1d9d.json`
   - `rust/.sqlx/query-1045b3d8cc81ee6518f699e634cd7396ea5b0619312f291bc9a7cc73d70e1a32.json`
@@ -44,10 +44,10 @@ Stand der Seite: 2026-07-12
   - … 173 weitere
 - `Deadlock-Docs` (public/discord-server/stats-und-privacy.html) ab `08c01ff0` [datum-abgeleitet, genau]: 0 Commits, 0 Dateien
 
-### internal/betrieb/datenbank.html (genau, 93 Commits seit Pruefung)
+### internal/betrieb/datenbank.html (genau, 94 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust/crates/dl-central-db, rust/crates/dl-central-etl) ab `9669df25` [datum-abgeleitet, genau]: 93 Commits, 87 Dateien
+- `Deadlock-Bots` (rust/crates/dl-central-db, rust/crates/dl-central-etl) ab `9669df25` [datum-abgeleitet, genau]: 94 Commits, 89 Dateien
   - `rust/crates/dl-central-db/Cargo.toml`
   - `rust/crates/dl-central-db/build.rs`
   - `rust/crates/dl-central-db/migrations/2026070913_invite_requests.sql`
@@ -56,12 +56,12 @@ Stand der Seite: 2026-07-07
   - `rust/crates/dl-central-db/migrations/2026071111_steam_bot_event_log.sql`
   - `rust/crates/dl-central-db/migrations/2026071112_pate_journey_metadata_scrub.sql`
   - `rust/crates/dl-central-db/migrations/2026071120_invite_dispatch_claim.sql`
-  - … 79 weitere
+  - … 81 weitere
 
-### internal/deadlock-bots/datenmodell.html (genau, 93 Commits seit Pruefung)
+### internal/deadlock-bots/datenmodell.html (genau, 94 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust/crates/dl-central-db) ab `9669df25` [datum-abgeleitet, genau]: 93 Commits, 87 Dateien
+- `Deadlock-Bots` (rust/crates/dl-central-db) ab `9669df25` [datum-abgeleitet, genau]: 94 Commits, 89 Dateien
   - `rust/crates/dl-central-db/Cargo.toml`
   - `rust/crates/dl-central-db/build.rs`
   - `rust/crates/dl-central-db/migrations/2026070913_invite_requests.sql`
@@ -70,12 +70,12 @@ Stand der Seite: 2026-07-07
   - `rust/crates/dl-central-db/migrations/2026071111_steam_bot_event_log.sql`
   - `rust/crates/dl-central-db/migrations/2026071112_pate_journey_metadata_scrub.sql`
   - `rust/crates/dl-central-db/migrations/2026071120_invite_dispatch_claim.sql`
-  - … 79 weitere
+  - … 81 weitere
 
-### internal/deadlock-bots/voice-features-devs.html (genau, 63 Commits seit Pruefung)
+### internal/deadlock-bots/voice-features-devs.html (genau, 66 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (rust/crates/dl-voice) ab `7b0f35bb` [datum-abgeleitet, genau]: 61 Commits, 20 Dateien
+- `Deadlock-Bots` (rust/crates/dl-voice) ab `7b0f35bb` [datum-abgeleitet, genau]: 64 Commits, 24 Dateien
   - `rust/crates/dl-voice/Cargo.toml`
   - `rust/crates/dl-voice/src/adaptive.rs`
   - `rust/crates/dl-voice/src/feedback.rs`
@@ -84,56 +84,89 @@ Stand der Seite: 2026-07-11
   - `rust/crates/dl-voice/src/lfg_watch.rs`
   - `rust/crates/dl-voice/src/lib.rs`
   - `rust/crates/dl-voice/src/mate_survey.rs`
-  - … 12 weitere
+  - … 16 weitere
 - `Deadlock-Docs` (public/discord-server/voice-features.html) ab `5dfe43fb` [datum-abgeleitet, genau]: 2 Commits, 1 Dateien
   - `public/discord-server/voice-features.html`
 
-### internal/deadlock-bots/onboarding-concierge-llm-compliance.html (genau, 43 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `9669df25` [datum-abgeleitet, genau]: 43 Commits, 1 Dateien
-  - `rust/crates/dl-community/src/concierge.rs`
-
-### internal/deadlock-bots/faq-bot-selbst-devs.html (genau, 20 Commits seit Pruefung)
+### internal/deadlock-bots/faq-bot-selbst-devs.html (genau, 48 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 20 Commits, 3 Dateien
-  - `rust/bin/dl-knowledge/src/main.rs`
-  - `rust/crates/dl-community/src/concierge.rs`
-  - `rust/crates/dl-community/src/faq.rs`
+- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 48 Commits, 33 Dateien
+  - `rust/bin/dl-knowledge/Cargo.toml`
+  - `rust/bin/dl-knowledge/README.md`
+  - `rust/bin/dl-knowledge/examples/production_preflight.rs`
+  - `rust/bin/dl-knowledge/src/dense/bench.rs`
+  - `rust/bin/dl-knowledge/src/dense/cli.rs`
+  - `rust/bin/dl-knowledge/src/dense/local.rs`
+  - `rust/bin/dl-knowledge/src/dense/mod.rs`
+  - `rust/bin/dl-knowledge/src/dense/store.rs`
+  - … 25 weitere
 - `Deadlock-Docs` (public/discord-server/faq-bot-selbst.html) ab `08c01ff0` [datum-abgeleitet, genau]: 0 Commits, 0 Dateien
 
-### internal/deadlock-bots/faq-grounding.html (genau, 20 Commits seit Pruefung)
+### internal/deadlock-bots/faq-grounding.html (genau, 48 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 20 Commits, 3 Dateien
-  - `rust/bin/dl-knowledge/src/main.rs`
-  - `rust/crates/dl-community/src/concierge.rs`
-  - `rust/crates/dl-community/src/faq.rs`
+- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 48 Commits, 33 Dateien
+  - `rust/bin/dl-knowledge/Cargo.toml`
+  - `rust/bin/dl-knowledge/README.md`
+  - `rust/bin/dl-knowledge/examples/production_preflight.rs`
+  - `rust/bin/dl-knowledge/src/dense/bench.rs`
+  - `rust/bin/dl-knowledge/src/dense/cli.rs`
+  - `rust/bin/dl-knowledge/src/dense/local.rs`
+  - `rust/bin/dl-knowledge/src/dense/mod.rs`
+  - `rust/bin/dl-knowledge/src/dense/store.rs`
+  - … 25 weitere
 
-### internal/deadlock-bots/support-agent-design.html (genau, 20 Commits seit Pruefung)
+### internal/deadlock-bots/support-agent-design.html (genau, 48 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 20 Commits, 3 Dateien
-  - `rust/bin/dl-knowledge/src/main.rs`
-  - `rust/crates/dl-community/src/concierge.rs`
-  - `rust/crates/dl-community/src/faq.rs`
+- `Deadlock-Bots` (rust/bin/dl-knowledge, rust/crates/dl-community/src/faq.rs, rust/crates/dl-community/src/concierge.rs) ab `3bc8ca8a` [explizit, genau]: 48 Commits, 33 Dateien
+  - `rust/bin/dl-knowledge/Cargo.toml`
+  - `rust/bin/dl-knowledge/README.md`
+  - `rust/bin/dl-knowledge/examples/production_preflight.rs`
+  - `rust/bin/dl-knowledge/src/dense/bench.rs`
+  - `rust/bin/dl-knowledge/src/dense/cli.rs`
+  - `rust/bin/dl-knowledge/src/dense/local.rs`
+  - `rust/bin/dl-knowledge/src/dense/mod.rs`
+  - `rust/bin/dl-knowledge/src/dense/store.rs`
+  - … 25 weitere
 
-### internal/deadlock-bots/onboarding-concierge-slice-b-c.html (genau, 18 Commits seit Pruefung)
+### internal/deadlock-bots/onboarding-concierge-llm-compliance.html (genau, 45 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-07
+- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `9669df25` [datum-abgeleitet, genau]: 45 Commits, 1 Dateien
+  - `rust/crates/dl-community/src/concierge.rs`
+
+### internal/deadlock-bots/twitch-clips-und-social.html (genau, 21 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-07
+- `Deadlock-Bots` (docs/twitch-clips-und-social.md, rust/crates/dl-bridges) ab `9669df25` [datum-abgeleitet, genau]: 21 Commits, 6 Dateien
+  - `rust/crates/dl-bridges/Cargo.toml`
+  - `rust/crates/dl-bridges/src/lib.rs`
+  - `rust/crates/dl-bridges/src/matcher.rs`
+  - `rust/crates/dl-bridges/src/steam.rs`
+  - `rust/crates/dl-bridges/src/steam_operating.rs`
+  - `rust/crates/dl-bridges/src/twitch.rs`
+
+### internal/deadlock-bots/onboarding-concierge-slice-b-c.html (genau, 20 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs, rust/crates/dl-voice/src/nudge.rs, rust/crates/dl-voice/src/feedback.rs) ab `7b0f35bb` [datum-abgeleitet, genau]: 18 Commits, 3 Dateien
+- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs, rust/crates/dl-voice/src/nudge.rs, rust/crates/dl-voice/src/feedback.rs) ab `7b0f35bb` [datum-abgeleitet, genau]: 20 Commits, 3 Dateien
   - `rust/crates/dl-community/src/concierge.rs`
   - `rust/crates/dl-voice/src/feedback.rs`
   - `rust/crates/dl-voice/src/nudge.rs`
 
-### internal/deadlock-bots/twitch-clips-und-social.html (genau, 18 Commits seit Pruefung)
+### internal/deadlock-bots/onboarding-concierge-devs.html (genau, 18 Commits seit Pruefung)
 
-Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (docs/twitch-clips-und-social.md, rust/crates/dl-bridges) ab `9669df25` [datum-abgeleitet, genau]: 18 Commits, 3 Dateien
-  - `rust/crates/dl-bridges/src/matcher.rs`
-  - `rust/crates/dl-bridges/src/steam.rs`
-  - `rust/crates/dl-bridges/src/twitch.rs`
+Stand der Seite: 2026-07-11
+- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `b069b5c8` [explizit, genau]: 18 Commits, 1 Dateien
+  - `rust/crates/dl-community/src/concierge.rs`
+
+### internal/deadlock-bots/onboarding-concierge-texte.html (genau, 18 Commits seit Pruefung)
+
+Stand der Seite: 2026-07-11
+- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `b069b5c8` [explizit, genau]: 18 Commits, 1 Dateien
+  - `rust/crates/dl-community/src/concierge.rs`
 
 ### internal/deadlock-bots/server-insights.html (genau, 17 Commits seit Pruefung)
 
@@ -143,24 +176,15 @@ Stand der Seite: 2026-07-07
   - `rust/crates/dl-stats/src/me.rs`
   - `rust/crates/dl-stats/src/public.rs`
 
-### internal/deadlock-bots/onboarding-concierge-devs.html (genau, 16 Commits seit Pruefung)
+### internal/deadlock-bots/integrationen.html (genau, 15 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `b069b5c8` [explizit, genau]: 16 Commits, 1 Dateien
-  - `rust/crates/dl-community/src/concierge.rs`
-
-### internal/deadlock-bots/onboarding-concierge-texte.html (genau, 16 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (rust/crates/dl-community/src/concierge.rs) ab `b069b5c8` [explizit, genau]: 16 Commits, 1 Dateien
-  - `rust/crates/dl-community/src/concierge.rs`
-
-### internal/deadlock-bots/integrationen.html (genau, 12 Commits seit Pruefung)
-
-Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (rust/crates/dl-bridges) ab `7b0f35bb` [datum-abgeleitet, genau]: 12 Commits, 3 Dateien
+- `Deadlock-Bots` (rust/crates/dl-bridges) ab `7b0f35bb` [datum-abgeleitet, genau]: 15 Commits, 6 Dateien
+  - `rust/crates/dl-bridges/Cargo.toml`
+  - `rust/crates/dl-bridges/src/lib.rs`
   - `rust/crates/dl-bridges/src/matcher.rs`
   - `rust/crates/dl-bridges/src/steam.rs`
+  - `rust/crates/dl-bridges/src/steam_operating.rs`
   - `rust/crates/dl-bridges/src/twitch.rs`
 
 ### internal/deadlock-bots/moderation-scam-guard.html (genau, 7 Commits seit Pruefung)
@@ -414,10 +438,10 @@ Stand der Seite: 2026-08-03
   - `rust/.sqlx/query-08262ee6cf43e404aad8038fa616d91b8d1fe587cb3d93513037f926689bfb65.json`
   - … 818 weitere
 
-### internal/deadlock-bots/architektur.html (grob, 481 Commits seit Pruefung)
+### internal/deadlock-bots/architektur.html (grob, 534 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 481 Commits, 274 Dateien
+- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 534 Commits, 340 Dateien
   - `rust/.sqlx/query-00cbd620a306b6128f21c744d815c1f46d6698fe84aae23739772996b49402fc.json`
   - `rust/.sqlx/query-115f831897ce9f7ec2e81cc7ac7e28021cdcab6aac51fda1e94d733304c8e43e.json`
   - `rust/.sqlx/query-14fdb6d7fa6d976e5890147a53bd1d7b31168661e01dcf2bb79aa6b0b8a4d61e.json`
@@ -426,12 +450,12 @@ Stand der Seite: 2026-07-07
   - `rust/.sqlx/query-2dcc3b77350e59caef3af267e1ea961d664f450b424be977e7b2cbdd6c6027aa.json`
   - `rust/.sqlx/query-2e9682b2bb3267e7980b3b1bfab7697df0dabf5b7510ee803963dcc1344ec22d.json`
   - `rust/.sqlx/query-45623204c0ce3c836ca17e31d5eab228607cd49337cf79700fcae82fec6bab77.json`
-  - … 266 weitere
+  - … 332 weitere
 
-### internal/deadlock-bots/uebersicht.html (grob, 481 Commits seit Pruefung)
+### internal/deadlock-bots/uebersicht.html (grob, 534 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 481 Commits, 274 Dateien
+- `Deadlock-Bots` (rust) ab `9669df25` [datum-abgeleitet, grob]: 534 Commits, 340 Dateien
   - `rust/.sqlx/query-00cbd620a306b6128f21c744d815c1f46d6698fe84aae23739772996b49402fc.json`
   - `rust/.sqlx/query-115f831897ce9f7ec2e81cc7ac7e28021cdcab6aac51fda1e94d733304c8e43e.json`
   - `rust/.sqlx/query-14fdb6d7fa6d976e5890147a53bd1d7b31168661e01dcf2bb79aa6b0b8a4d61e.json`
@@ -440,12 +464,12 @@ Stand der Seite: 2026-07-07
   - `rust/.sqlx/query-2dcc3b77350e59caef3af267e1ea961d664f450b424be977e7b2cbdd6c6027aa.json`
   - `rust/.sqlx/query-2e9682b2bb3267e7980b3b1bfab7697df0dabf5b7510ee803963dcc1344ec22d.json`
   - `rust/.sqlx/query-45623204c0ce3c836ca17e31d5eab228607cd49337cf79700fcae82fec6bab77.json`
-  - … 266 weitere
+  - … 332 weitere
 
-### internal/website/uebersicht.html (grob, 185 Commits seit Pruefung)
+### internal/website/uebersicht.html (grob, 184 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Website` (builds, dl-coaching, dl-landing) ab `66a9c32b` [datum-abgeleitet, grob]: 185 Commits, 167 Dateien
+- `Website` (builds, dl-coaching, dl-landing) ab `66a9c32b` [datum-abgeleitet, grob]: 184 Commits, 163 Dateien
   - `builds/backend-rust/Cargo.lock`
   - `builds/backend-rust/Cargo.toml`
   - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
@@ -454,12 +478,12 @@ Stand der Seite: 2026-07-07
   - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
   - `builds/backend-rust/src/app.rs`
   - `builds/backend-rust/src/auth.rs`
-  - … 159 weitere
+  - … 155 weitere
 
-### internal/website/architektur.html (grob, 178 Commits seit Pruefung)
+### internal/website/architektur.html (grob, 177 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-10
-- `Website` (builds, dl-coaching, dl-landing) ab `f305c821` [datum-abgeleitet, grob]: 178 Commits, 165 Dateien
+- `Website` (builds, dl-coaching, dl-landing) ab `f305c821` [datum-abgeleitet, grob]: 177 Commits, 161 Dateien
   - `builds/backend-rust/Cargo.lock`
   - `builds/backend-rust/Cargo.toml`
   - `builds/backend-rust/DEPLOY-NOTES-video-bibliothek.md`
@@ -468,7 +492,7 @@ Stand der Seite: 2026-07-10
   - `builds/backend-rust/migrations/2026072000_video_action_audit.sql`
   - `builds/backend-rust/src/app.rs`
   - `builds/backend-rust/src/auth.rs`
-  - … 157 weitere
+  - … 153 weitere
 
 ### internal/deadlock-steam-bot/betrieb.html (grob, 176 Commits seit Pruefung)
 
@@ -708,10 +732,10 @@ Stand der Seite: 2026-07-07
   - `builds/backend-rust/src/auth.rs`
   - … 88 weitere
 
-### internal/betrieb/uebersicht.html (grob, 68 Commits seit Pruefung)
+### internal/betrieb/uebersicht.html (grob, 70 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-11
-- `Deadlock-Bots` (scripts) ab `7b0f35bb` [datum-abgeleitet, grob]: 17 Commits, 10 Dateien
+- `Deadlock-Bots` (scripts) ab `7b0f35bb` [datum-abgeleitet, grob]: 19 Commits, 10 Dateien
   - `scripts/check-local.sh`
   - `scripts/export_infisical_env.py`
   - `scripts/kill_stale_bot.sh`
@@ -802,10 +826,10 @@ Stand der Seite: 2026-07-07
   - `.tasks/2026-09-20-global-toml/fixtures/dry-run-patch.txt`
   - … 47 weitere
 
-### internal/betrieb/deploy.html (grob, 19 Commits seit Pruefung)
+### internal/betrieb/deploy.html (grob, 21 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock-Bots` (scripts) ab `9669df25` [datum-abgeleitet, grob]: 19 Commits, 10 Dateien
+- `Deadlock-Bots` (scripts) ab `9669df25` [datum-abgeleitet, grob]: 21 Commits, 10 Dateien
   - `scripts/check-local.sh`
   - `scripts/export_infisical_env.py`
   - `scripts/kill_stale_bot.sh`
@@ -816,10 +840,10 @@ Stand der Seite: 2026-07-07
   - `scripts/run_verbinder.sh`
   - … 2 weitere
 
-### internal/betrieb/secrets-infisical.html (grob, 14 Commits seit Pruefung)
+### internal/betrieb/secrets-infisical.html (grob, 16 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (scripts) ab `3bc8ca8a` [explizit, grob]: 14 Commits, 10 Dateien
+- `Deadlock-Bots` (scripts) ab `3bc8ca8a` [explizit, grob]: 16 Commits, 10 Dateien
   - `scripts/check-local.sh`
   - `scripts/export_infisical_env.py`
   - `scripts/kill_stale_bot.sh`
@@ -830,10 +854,10 @@ Stand der Seite: 2026-07-12
   - `scripts/run_verbinder.sh`
   - … 2 weitere
 
-### internal/deadlock-bots/betrieb.html (grob, 14 Commits seit Pruefung)
+### internal/deadlock-bots/betrieb.html (grob, 16 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-12
-- `Deadlock-Bots` (scripts) ab `3bc8ca8a` [explizit, grob]: 14 Commits, 10 Dateien
+- `Deadlock-Bots` (scripts) ab `3bc8ca8a` [explizit, grob]: 16 Commits, 10 Dateien
   - `scripts/check-local.sh`
   - `scripts/export_infisical_env.py`
   - `scripts/kill_stale_bot.sh`
@@ -845,19 +869,19 @@ Stand der Seite: 2026-07-12
   - … 2 weitere
 - `Deadlock-Docs` (tools/deploy_corpus.sh) ab `08c01ff0` [datum-abgeleitet, genau]: 0 Commits, 0 Dateien
 
-### internal/website/scrim-cockpit-handbuch.html (grob, 14 Commits seit Pruefung)
+### internal/website/scrim-cockpit-handbuch.html (grob, 13 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-16
-- `Website` (dl-coaching, builds/backend-rust/src/routes/scrim.rs) ab `5b9bfa3b` [datum-abgeleitet, grob]: 14 Commits, 12 Dateien
+- `Website` (dl-coaching, builds/backend-rust/src/routes/scrim.rs) ab `5b9bfa3b` [datum-abgeleitet, grob]: 13 Commits, 11 Dateien
   - `builds/backend-rust/src/routes/scrim.rs`
   - `dl-coaching/index.html`
   - `dl-coaching/package-lock.json`
   - `dl-coaching/package.json`
   - `dl-coaching/src/App.tsx`
   - `dl-coaching/src/api/client.ts`
-  - `dl-coaching/src/assets/brand/coaching-signet.svg`
   - `dl-coaching/src/components/Layout.tsx`
-  - … 4 weitere
+  - `dl-coaching/src/lib/commandCenter.test.ts`
+  - … 3 weitere
 
 ## unbekannt (1)
 
