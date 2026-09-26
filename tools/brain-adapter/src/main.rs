@@ -1,10 +1,17 @@
+use deadlock_docs_brain_adapter::infisical::AdapterConfig;
 use deadlock_docs_brain_adapter::{direct_query, read_query, AdapterError, DocsBrainAdapter};
-use std::{process::ExitCode, time::Duration};
+use std::{path::Path, process::ExitCode};
+
+async fn configured_adapter(path: &str) -> Result<DocsBrainAdapter, AdapterError> {
+    let config = AdapterConfig::load(Path::new(path))?;
+    let token = config.load_token().await?;
+    DocsBrainAdapter::new(&config.endpoint, &token, config.timeout())
+}
 
 async fn run(args: &[String]) -> Result<(), AdapterError> {
     match args {
         [command] if command == "--help" => {
-            println!("brain-adapter prepare < query.json\nbrain-adapter answer LOOPBACK_ENDPOINT TIMEOUT_MS < query.json\nbrain-adapter query LOOPBACK_ENDPOINT TIMEOUT_MS QUESTION...\nanswer/query benötigen das explizit gesetzte BRAIN_ADAPTER_TOKEN. prepare nutzt kein Netz. Kein Corpus-Import, kein Publishing, kein Deployment.");
+            println!("brain-adapter prepare < query.json\nbrain-adapter answer CONFIG_JSON < query.json\nbrain-adapter query CONFIG_JSON QUESTION...\nanswer/query laden den freigegebenen Brain-Token direkt aus Infisical. prepare nutzt kein Netz. Kein Corpus-Import, kein Publishing, kein Deployment.");
             Ok(())
         }
         [command] if command == "prepare" => {
@@ -15,14 +22,9 @@ async fn run(args: &[String]) -> Result<(), AdapterError> {
             );
             Ok(())
         }
-        [command, endpoint, timeout] if command == "answer" => {
-            let timeout = timeout
-                .parse::<u64>()
-                .map_err(|_| AdapterError::Configuration)?;
-            let token =
-                std::env::var("BRAIN_ADAPTER_TOKEN").map_err(|_| AdapterError::Configuration)?;
-            let adapter = DocsBrainAdapter::new(endpoint, &token, Duration::from_millis(timeout))?;
+        [command, path] if command == "answer" => {
             let query = read_query(std::io::stdin().lock())?;
+            let adapter = configured_adapter(path).await?;
             let response = adapter.answer(&query).await?;
             println!(
                 "{}",
@@ -30,16 +32,9 @@ async fn run(args: &[String]) -> Result<(), AdapterError> {
             );
             Ok(())
         }
-        [command, endpoint, timeout, question @ ..]
-            if command == "query" && !question.is_empty() =>
-        {
-            let timeout = timeout
-                .parse::<u64>()
-                .map_err(|_| AdapterError::Configuration)?;
-            let token =
-                std::env::var("BRAIN_ADAPTER_TOKEN").map_err(|_| AdapterError::Configuration)?;
-            let adapter = DocsBrainAdapter::new(endpoint, &token, Duration::from_millis(timeout))?;
+        [command, path, question @ ..] if command == "query" && !question.is_empty() => {
             let query = direct_query(&question.join(" "))?;
+            let adapter = configured_adapter(path).await?;
             let response = adapter.answer(&query).await?;
             println!(
                 "{}",

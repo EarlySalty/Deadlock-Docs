@@ -10,13 +10,15 @@ Der Adapter erlaubt ausschließlich `docs.public`. Weder Frage noch JSON-Eingabe
 
 Timeout, Request-/Response-Limits, Redirect-/Proxy-Schutz und Token-Redaktion kommen aus dem typisierten BrainClient. `unavailable` und `build_rejected` sind Teil des gepinnten Wire-Vertrags und werden als unveränderter `PublicAnswerResponse` ausgegeben.
 
+Die nicht geheime [Config-Vorlage](config.example.json) enthält Loopback-Endpunkt, Frist, Infisical-Projekt und den **Namen** eines für `docs.public` vorgesehenen Tokens. Der vorhandene Infisical-Bootstrap-Token wird ausschließlich aus seiner geschützten Runtime-Credential-Datei gelesen; der Adapter legt keine Credential-Datei an. Weder Bootstrap- noch Brain-Token erscheinen in Argumenten, Environment-Variablen oder Logs. Der Infisical-Zugriff verwendet ausschließlich den geschützten lokalen Unix-Socket. Fehlende, doppelte oder ungültige Token-Werte brechen den Lauf ab. Vor einer echten Nutzung muss der Betreiber den gewählten Secret-Namen mit der Brain-Serve-Credential-ACL abgleichen und den erlaubten öffentlichen Wissensrelease live prüfen.
+
 ## Tatsächlicher Query-Pfad
 
 ```sh
 # Typisierte Query direkt an eine ausdrücklich freigegebene lokale brain-serve-Instanz.
-# BRAIN_ADAPTER_TOKEN separat sicher setzen.
+# CONFIG_JSON ist eine bearbeitete Kopie der Vorlage ohne Secret-Werte.
 cargo run --manifest-path tools/brain-adapter/Cargo.toml --locked -- \
-  query http://127.0.0.1:PORT 5000 "Welche öffentliche Dokumentation gibt es dazu?"
+  query CONFIG_JSON "Welche öffentliche Dokumentation gibt es dazu?"
 ```
 
 Der `query`-Befehl erzeugt eindeutige Request-/Conversation-IDs und bindet fest `docs.public`. Für Contract-/Fixture-Arbeit bleiben `prepare` und `answer` erhalten.

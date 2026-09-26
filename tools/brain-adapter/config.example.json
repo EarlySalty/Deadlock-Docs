@@ -1,0 +1,12 @@
+{
+  "endpoint": "http://127.0.0.1:8787",
+  "timeout_ms": 5000,
+  "infisical": {
+    "project_id": "00000000-0000-0000-0000-000000000000",
+    "environment": "prod",
+    "secret_path": "/",
+    "socket_path": "/run/uplink-infisical/api.sock",
+    "credential_file": "/absolute/path/to/infisical-token",
+    "token_secret": "BRAIN_SERVE_DOCS_PUBLIC_TOKEN"
+  }
+}
