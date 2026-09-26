@@ -1,10 +1,10 @@
-use deadlock_docs_brain_adapter::{read_query, AdapterError, DocsBrainAdapter};
+use deadlock_docs_brain_adapter::{direct_query, read_query, AdapterError, DocsBrainAdapter};
 use std::{process::ExitCode, time::Duration};
 
 async fn run(args: &[String]) -> Result<(), AdapterError> {
     match args {
         [command] if command == "--help" => {
-            println!("brain-adapter prepare < query.json\nbrain-adapter answer LOOPBACK_ENDPOINT TIMEOUT_MS < query.json\nanswer benötigt das explizit gesetzte BRAIN_ADAPTER_TOKEN. prepare nutzt kein Netz. Kein Corpus-Import, kein Publishing, kein Deployment.");
+            println!("brain-adapter prepare < query.json\nbrain-adapter answer LOOPBACK_ENDPOINT TIMEOUT_MS < query.json\nbrain-adapter query LOOPBACK_ENDPOINT TIMEOUT_MS QUESTION...\nanswer/query benötigen das explizit gesetzte BRAIN_ADAPTER_TOKEN. prepare nutzt kein Netz. Kein Corpus-Import, kein Publishing, kein Deployment.");
             Ok(())
         }
         [command] if command == "prepare" => {
@@ -23,6 +23,23 @@ async fn run(args: &[String]) -> Result<(), AdapterError> {
                 std::env::var("BRAIN_ADAPTER_TOKEN").map_err(|_| AdapterError::Configuration)?;
             let adapter = DocsBrainAdapter::new(endpoint, &token, Duration::from_millis(timeout))?;
             let query = read_query(std::io::stdin().lock())?;
+            let response = adapter.answer(&query).await?;
+            println!(
+                "{}",
+                serde_json::to_string(&response).map_err(|_| AdapterError::Transport)?
+            );
+            Ok(())
+        }
+        [command, endpoint, timeout, question @ ..]
+            if command == "query" && !question.is_empty() =>
+        {
+            let timeout = timeout
+                .parse::<u64>()
+                .map_err(|_| AdapterError::Configuration)?;
+            let token =
+                std::env::var("BRAIN_ADAPTER_TOKEN").map_err(|_| AdapterError::Configuration)?;
+            let adapter = DocsBrainAdapter::new(endpoint, &token, Duration::from_millis(timeout))?;
+            let query = direct_query(&question.join(" "))?;
             let response = adapter.answer(&query).await?;
             println!(
                 "{}",
