@@ -35,17 +35,9 @@ pub struct InfisicalConfig {
 }
 
 #[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct Reply {
-    #[serde(default)]
-    secrets: Vec<Entry>,
-    #[serde(default)]
-    imports: Vec<Import>,
-}
-
-#[derive(Deserialize)]
-struct Import {
-    #[serde(default)]
-    secrets: Vec<Entry>,
+    secret: Entry,
 }
 
 #[derive(Deserialize)]
@@ -143,16 +135,17 @@ impl InfisicalConfig {
             .map_err(|_| AdapterError::Configuration)?;
         let mut response = client
             .get(format!(
-                "{}/api/v4/secrets/",
-                uplink_infisical_transport::BASE_URL
+                "{}/api/v4/secrets/{}",
+                uplink_infisical_transport::BASE_URL,
+                self.token_secret
             ))
             .query(&[
                 ("projectId", self.project_id.as_str()),
                 ("environment", self.environment.as_str()),
                 ("secretPath", self.secret_path.as_str()),
                 ("viewSecretValue", "true"),
-                ("includeImports", "true"),
-                ("recursive", "false"),
+                ("includeImports", "false"),
+                ("expandSecretReferences", "false"),
             ])
             .bearer_auth(bootstrap.as_str())
             .send()
@@ -204,26 +197,15 @@ fn read_credential(path: &Path) -> Result<Zeroizing<String>, AdapterError> {
 }
 
 fn selected_token(reply: Reply, name: &str) -> Result<Zeroizing<String>, AdapterError> {
-    let mut found = None;
-    for mut entry in reply
-        .secrets
-        .into_iter()
-        .chain(reply.imports.into_iter().flat_map(|item| item.secrets))
-    {
-        if entry.name != name {
-            continue;
-        }
-        let value = Zeroizing::new(entry.value.take().ok_or(AdapterError::Configuration)?);
-        if found.is_some()
-            || value.is_empty()
-            || value.len() > 4096
-            || !value.bytes().all(|c| c.is_ascii_graphic())
-        {
-            return Err(AdapterError::Configuration);
-        }
-        found = Some(value);
+    let mut entry = reply.secret;
+    if entry.name != name {
+        return Err(AdapterError::Configuration);
     }
-    found.ok_or(AdapterError::Configuration)
+    let value = Zeroizing::new(entry.value.take().ok_or(AdapterError::Configuration)?);
+    if value.is_empty() || value.len() > 4096 || !value.bytes().all(|c| c.is_ascii_graphic()) {
+        return Err(AdapterError::Configuration);
+    }
+    Ok(value)
 }
 
 #[cfg(test)]
@@ -330,19 +312,16 @@ mod tests {
                 request.extend_from_slice(&chunk[..read]);
             }
             let text = String::from_utf8(request).unwrap();
-            assert!(text.starts_with("GET /api/v4/secrets/?"));
+            assert!(text.starts_with("GET /api/v4/secrets/BRAIN_SERVE_OTHER_TOKEN?"));
             assert!(text.contains("projectId=00000000-0000-0000-0000-000000000000"));
             assert!(text.contains("environment=prod"));
+            assert!(text.contains("includeImports=false"));
             assert!(
                 text.lines()
                     .any(|line| line
                         .eq_ignore_ascii_case("authorization: Bearer synthetic-bootstrap"))
             );
-            let body = json!({"secrets":[
-                {"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"synthetic-docs-token"},
-                {"secretKey":"DEADLOCK_CENTRAL_DSN", "secretValue":"synthetic-private-value"}
-            ]})
-            .to_string();
+            let body = json!({"secret":{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"synthetic-docs-token"}}).to_string();
             write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
         });
         let token = config(socket, credential)
@@ -356,15 +335,15 @@ mod tests {
     }
 
     #[test]
-    fn missing_or_duplicate_public_token_fails_closed() {
+    fn missing_or_mismatched_public_token_fails_closed() {
         for body in [
-            json!({"secrets":[]}),
-            json!({"secrets":[{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":""}]}),
-            json!({"secrets":[{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"one"}],
-                   "imports":[{"secrets":[{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"two"}]}]}),
+            json!({"secret":{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":""}}),
+            json!({"secret":{"secretKey":"BRAIN_SERVE_API_TOKEN", "secretValue":"wrong-grant"}}),
         ] {
             let reply = serde_json::from_value(body).unwrap();
             assert!(selected_token(reply, "BRAIN_SERVE_OTHER_TOKEN").is_err());
         }
+        assert!(serde_json::from_value::<Reply>(json!({})).is_err());
+        assert!(serde_json::from_value::<Reply>(json!({"secret":{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"x"}, "imports":[]})).is_err());
     }
 }
