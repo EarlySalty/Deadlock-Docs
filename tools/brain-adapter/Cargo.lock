@@ -47,7 +47,7 @@ checksum = "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06"
 [[package]]
 name = "brain-client"
 version = "0.1.0"
-source = "git+https://github.com/EarlySalty/Deadlock-Brain.git?rev=bdcc6dec3424bd313d36e5f545de2a07df564c7f#bdcc6dec3424bd313d36e5f545de2a07df564c7f"
+source = "git+https://github.com/EarlySalty/Deadlock-Brain.git?rev=54dcae30a172f5cccdb9f53b6bd6ed746f9315ec#54dcae30a172f5cccdb9f53b6bd6ed746f9315ec"
 dependencies = [
  "brain-contracts",
  "reqwest",
@@ -58,7 +58,7 @@ dependencies = [
 [[package]]
 name = "brain-contracts"
 version = "0.1.0"
-source = "git+https://github.com/EarlySalty/Deadlock-Brain.git?rev=bdcc6dec3424bd313d36e5f545de2a07df564c7f#bdcc6dec3424bd313d36e5f545de2a07df564c7f"
+source = "git+https://github.com/EarlySalty/Deadlock-Brain.git?rev=54dcae30a172f5cccdb9f53b6bd6ed746f9315ec#54dcae30a172f5cccdb9f53b6bd6ed746f9315ec"
 dependencies = [
  "serde",
  "serde_json",
