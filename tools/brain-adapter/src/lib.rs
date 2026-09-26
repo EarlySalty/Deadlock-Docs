@@ -4,6 +4,7 @@ use brain_client::{
     AnswerProfile, AsyncBrainClient, PublicAnswerResponse, Query, MAX_REQUEST_BYTES,
 };
 use std::{collections::BTreeSet, io::Read, time::Duration};
+pub mod infisical;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AdapterError {
@@ -178,5 +179,65 @@ mod tests {
         )
         .unwrap();
         assert_eq!(adapter.answer(&query()).await, Err(AdapterError::Transport));
+    }
+
+    #[tokio::test]
+    async fn public_query_uses_typed_loopback_transport_without_client_supplied_authority() {
+        use std::{
+            io::{Read, Write},
+            net::TcpListener,
+            thread,
+        };
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let endpoint = format!("http://{}", listener.local_addr().unwrap());
+        let server = thread::spawn(move || {
+            let (mut stream, _) = listener.accept().unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(3)))
+                .unwrap();
+            let mut bytes = Vec::new();
+            let mut buffer = [0; 4096];
+            loop {
+                let count = stream.read(&mut buffer).unwrap();
+                assert!(count > 0 && bytes.len() + count < 70 * 1024);
+                bytes.extend_from_slice(&buffer[..count]);
+                if let Some(end) = bytes.windows(4).position(|part| part == b"\r\n\r\n") {
+                    let header = String::from_utf8_lossy(&bytes[..end]);
+                    assert!(header.starts_with("POST /v1/answer HTTP/1.1"));
+                    assert!(header.lines().any(|line| line
+                        .eq_ignore_ascii_case("authorization: Bearer synthetic-docs-token")));
+                    let length: usize = header
+                        .lines()
+                        .find_map(|line| {
+                            line.to_ascii_lowercase()
+                                .strip_prefix("content-length:")
+                                .map(|part| part.trim().parse().unwrap())
+                        })
+                        .unwrap();
+                    if bytes.len() >= end + 4 + length {
+                        let value: serde_json::Value =
+                            serde_json::from_slice(&bytes[end + 4..]).unwrap();
+                        assert_eq!(
+                            value["requested_scopes"],
+                            serde_json::json!(["docs.public"])
+                        );
+                        assert!(value.get("principal").is_none());
+                        break;
+                    }
+                }
+            }
+            let body = serde_json::json!({"contract_version":"brain.public.v1", "request_id":"fixture-request", "knowledge_release":"fixture-release", "status":"insufficient_evidence", "text":"", "citations":[]}).to_string();
+            write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
+        });
+        let adapter =
+            DocsBrainAdapter::new(&endpoint, "synthetic-docs-token", Duration::from_secs(2))
+                .unwrap();
+        let response = adapter.answer(&query()).await.unwrap();
+        server.join().unwrap();
+        assert_eq!(
+            response.status,
+            brain_client::AnswerStatus::InsufficientEvidence
+        );
+        assert_eq!(response.knowledge_release, "fixture-release");
     }
 }
