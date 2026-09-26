@@ -1,6 +1,8 @@
 #![forbid(unsafe_code)]
 //! Explicit public documentation query port. Never scans, uploads or publishes the corpus.
-use brain_client::{AsyncBrainClient, PublicAnswerResponse, Query, MAX_REQUEST_BYTES};
+use brain_client::{
+    AnswerProfile, AsyncBrainClient, PublicAnswerResponse, Query, MAX_REQUEST_BYTES,
+};
 use std::{collections::BTreeSet, io::Read, time::Duration};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -29,6 +31,30 @@ pub fn validate_query(query: &Query) -> Result<(), AdapterError> {
     }
     Ok(())
 }
+pub fn direct_query(text: &str) -> Result<Query, AdapterError> {
+    let text = text.trim();
+    if text.is_empty() {
+        return Err(AdapterError::InvalidInput);
+    }
+    let nonce = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|_| AdapterError::InvalidInput)?
+        .as_nanos();
+    let id = format!("docs-brain-{}-{nonce}", std::process::id());
+    let query = Query {
+        request_id: id.clone(),
+        conversation_id: id,
+        text: text.to_string(),
+        domain: None,
+        requested_scopes: BTreeSet::from(["docs.public".to_owned()]),
+        profile: AnswerProfile::Explain,
+        patch: None,
+        mode: None,
+    };
+    validate_query(&query)?;
+    Ok(query)
+}
+
 pub fn read_query(input: impl Read) -> Result<Query, AdapterError> {
     let mut bytes = Vec::new();
     input
@@ -70,6 +96,7 @@ mod tests {
             request_id: "fixture-request".into(),
             conversation_id: "fixture-conversation".into(),
             text: "Dokumentierte Frage äöü".into(),
+            domain: None,
             requested_scopes: BTreeSet::from(["docs.public".into()]),
             profile: AnswerProfile::Explain,
             patch: None,
@@ -107,6 +134,30 @@ mod tests {
             Err(AdapterError::InvalidInput)
         );
     }
+
+    #[test]
+    fn direct_query_is_an_actual_public_brain_client_request() {
+        let query = direct_query("Was ist dokumentiert?").unwrap();
+        assert_eq!(
+            query.requested_scopes,
+            BTreeSet::from(["docs.public".into()])
+        );
+        assert!(query.domain.is_none());
+        assert!(query.request_id.starts_with("docs-brain-"));
+        assert_eq!(query.request_id, query.conversation_id);
+    }
+    #[test]
+    fn unavailable_and_build_rejected_are_part_of_the_pinned_wire_contract() {
+        assert_eq!(
+            serde_json::to_string(&brain_client::AnswerStatus::Unavailable).unwrap(),
+            "\"unavailable\""
+        );
+        assert_eq!(
+            serde_json::to_string(&brain_client::AnswerStatus::BuildRejected).unwrap(),
+            "\"build_rejected\""
+        );
+    }
+
     #[test]
     fn external_https_is_not_implicit_permission_to_export_questions() {
         assert!(matches!(

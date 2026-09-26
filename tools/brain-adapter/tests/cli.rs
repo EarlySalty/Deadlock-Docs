@@ -55,6 +55,24 @@ fn answer_requires_explicit_credentials_before_reading_a_question() {
     assert!(output.stdout.is_empty());
 }
 #[test]
+fn direct_query_path_requires_explicit_credentials() {
+    let output = invoke(
+        &[
+            "query",
+            "http://127.0.0.1:1",
+            "1000",
+            "Was",
+            "ist",
+            "dokumentiert?",
+        ],
+        "",
+        None,
+    );
+    assert!(!output.status.success());
+    assert!(output.stdout.is_empty());
+}
+
+#[test]
 fn explicit_answer_uses_only_the_loopback_fixture_and_public_wire_contract() {
     let listener = TcpListener::bind("127.0.0.1:0").unwrap();
     listener.set_nonblocking(true).unwrap();
