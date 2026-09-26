@@ -2,7 +2,7 @@
 
 Stand: 2026-09-26. C9 macht den typisierten Adapter zum direkt nutzbaren Query-Pfad dieses Repositories. Das Repository bleibt ein Wissensbestand und startet weiterhin keinen eigenen Antwortdienst.
 
-Der einzige Antworttransport ist `brain-client` aus Deadlock-Brain, gepinnt auf `54dcae30a172f5cccdb9f53b6bd6ed746f9315ec`. Kein direkter Modellaufruf, keine lokale RAG-Suche und kein automatischer Ersatzpfad.
+Der einzige Antworttransport ist `brain-client` aus Deadlock-Brain, gepinnt auf `3b86d3cbe5ea39a67b8b1fbd8a3d48ab935982ef`. Kein direkter Modellaufruf, keine lokale RAG-Suche und kein automatischer Ersatzpfad.
 
 ## Vertrag und Schutzgrenzen
 
