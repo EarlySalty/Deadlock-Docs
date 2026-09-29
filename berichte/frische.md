@@ -1,6 +1,6 @@
 # Frische der internen Wissensseiten
 
-Erzeugt: 2026-09-28 von `tools/check_freshness.py` aus `quellen.json`.
+Erzeugt: 2026-09-29 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
 - veraltet: **67**, davon 23 mit genauer Bindung
@@ -706,10 +706,10 @@ Stand der Seite: 2026-07-16
   - `backend/config.py`
   - … 200 weitere
 
-### internal/patchnotes-bot/architektur.html (grob, 100 Commits seit Pruefung)
+### internal/patchnotes-bot/architektur.html (grob, 114 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 100 Commits, 142 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 114 Commits, 365 Dateien
   - `.github/workflows/codeql.yml`
   - `.github/workflows/dev-tracker-rust.yml`
   - `.github/workflows/secret-scanning.yml`
@@ -718,12 +718,12 @@ Stand der Seite: 2026-07-07
   - `.tasks/2026-09-20-global-toml/INVENTAR.md`
   - `.tasks/2026-09-20-global-toml/audit_legacy.py`
   - `.tasks/2026-09-20-global-toml/candidate-comparison.json`
-  - … 134 weitere
+  - … 357 weitere
 
-### internal/patchnotes-bot/betrieb.html (grob, 100 Commits seit Pruefung)
+### internal/patchnotes-bot/betrieb.html (grob, 114 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 100 Commits, 142 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 114 Commits, 365 Dateien
   - `.github/workflows/codeql.yml`
   - `.github/workflows/dev-tracker-rust.yml`
   - `.github/workflows/secret-scanning.yml`
@@ -732,12 +732,12 @@ Stand der Seite: 2026-07-07
   - `.tasks/2026-09-20-global-toml/INVENTAR.md`
   - `.tasks/2026-09-20-global-toml/audit_legacy.py`
   - `.tasks/2026-09-20-global-toml/candidate-comparison.json`
-  - … 134 weitere
+  - … 357 weitere
 
-### internal/patchnotes-bot/integrationen.html (grob, 100 Commits seit Pruefung)
+### internal/patchnotes-bot/integrationen.html (grob, 114 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 100 Commits, 142 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 114 Commits, 365 Dateien
   - `.github/workflows/codeql.yml`
   - `.github/workflows/dev-tracker-rust.yml`
   - `.github/workflows/secret-scanning.yml`
@@ -746,12 +746,12 @@ Stand der Seite: 2026-07-07
   - `.tasks/2026-09-20-global-toml/INVENTAR.md`
   - `.tasks/2026-09-20-global-toml/audit_legacy.py`
   - `.tasks/2026-09-20-global-toml/candidate-comparison.json`
-  - … 134 weitere
+  - … 357 weitere
 
-### internal/patchnotes-bot/uebersicht.html (grob, 100 Commits seit Pruefung)
+### internal/patchnotes-bot/uebersicht.html (grob, 114 Commits seit Pruefung)
 
 Stand der Seite: 2026-07-07
-- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 100 Commits, 142 Dateien
+- `Deadlock--Patchnotes-Bot` (.) ab `e1c71cba` [datum-abgeleitet, grob]: 114 Commits, 365 Dateien
   - `.github/workflows/codeql.yml`
   - `.github/workflows/dev-tracker-rust.yml`
   - `.github/workflows/secret-scanning.yml`
@@ -760,7 +760,7 @@ Stand der Seite: 2026-07-07
   - `.tasks/2026-09-20-global-toml/INVENTAR.md`
   - `.tasks/2026-09-20-global-toml/audit_legacy.py`
   - `.tasks/2026-09-20-global-toml/candidate-comparison.json`
-  - … 134 weitere
+  - … 357 weitere
 
 ### internal/website/datenmodell.html (grob, 92 Commits seit Pruefung)
 
