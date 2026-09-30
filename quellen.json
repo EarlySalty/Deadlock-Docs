@@ -1285,6 +1285,31 @@
           "herkunft": "explizit"
         }
       ]
+    },
+    "internal/patchnotes-bot/konfiguration.html": {
+      "stand": "2026-09-20",
+      "bindungen": [
+        {
+          "repo": "Deadlock--Patchnotes-Bot",
+          "pfade": [
+            "bot_config.py",
+            "bot_runtime.py",
+            "bot_secrets.py",
+            "config/bot.toml",
+            "main.py",
+            "patchnotes_db.py",
+            "perplexity_requests.py",
+            "scripts/run_patchnotes_bot.sh",
+            "scripts/run_prepared_patch_once.sh",
+            "scripts/sync_emojis.py",
+            "scripts/recolor_patch_containers.py",
+            "ops/deadlock-patchnotes.service.d/60-global-toml.conf",
+            ".tasks/2026-09-20-global-toml"
+          ],
+          "geprueft": "d75c717dd9f1cf4ba5e11f456443cbcdca751aa8",
+          "herkunft": "code-geprueft"
+        }
+      ]
     }
   }
 }

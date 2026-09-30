@@ -10,6 +10,7 @@
 <body>
 <main>
 <h1>Patchnotes-Bot Betrieb</h1>
+<p>Stand 20.09.2026: Diese Seite beschreibt den bisherigen ENV-basierten Betrieb. Die <a href="konfiguration.html">geprüfte TOML-Migration mit ihren Abnahmegrenzen</a> ist noch nicht gemergt oder produktiv gestartet. Den nachfolgenden Altstart nicht mit dem neuen Konfigurationspfad kombinieren.</p>
 <p>Start und Neustart laufen über den User-Service <code>deadlock-patchnotes.service</code>. Die Unit startet <code>/usr/bin/bash -lc '/home/naniadm/Documents/Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh'</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
 <pre><code class="language-bash">systemctl --user start deadlock-patchnotes.service
 systemctl --user restart deadlock-patchnotes.service

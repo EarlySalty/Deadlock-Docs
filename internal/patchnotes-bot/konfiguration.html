@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Patchnotes-Bot: zentrale TOML-Konfiguration</title>
+  <meta name="tags" content="internal, patchnotes-bot, konfiguration, toml, betrieb, infisical">
+  <meta name="stand" content="2026-09-20">
+  <meta name="quelle" content="Deadlock--Patchnotes-Bot, d75c717dd9f1cf4ba5e11f456443cbcdca751aa8">
+</head>
+<body>
+<main>
+<h1>Patchnotes-Bot: zentrale TOML-Konfiguration</h1>
+<p>Die vorbereitete Umstellung bündelt globale Betriebswerte in <code>config/bot.toml</code>. Diese Seite beschreibt den getesteten Feature-Stand, nicht einen bereits erfolgten Produktionswechsel. Der bisherige Betrieb ist unter <a href="betrieb.html">Betrieb</a> dokumentiert. (<code>bot_config.py</code>, <code>config/bot.toml</code>)</p>
+<section id="abnahmestand">
+<h2>Abnahmestand vom 20.09.2026</h2>
+<p>Der Feature-Branch heißt <code>feat/patchnotes-toml-runtime-20260920</code>. Die Implementierung wurde bis <code>d75c717dd9f1cf4ba5e11f456443cbcdca751aa8</code> geprüft. Der vorausgehende Commit <code>a2b4a3a</code> ist gepusht; der Push des zweiten Commits wurde vom Ausführungswerkzeug blockiert. Ein Merge und ein Neustart des produktiven Dienstes sind nicht erfolgt.</p>
+<p>Das unabhängige Merge-Gate konnte in zwei Versuchen kein Urteil liefern: Der Grok-Prüfer fehlt, der Claude-Zugriff ist organisatorisch gesperrt und der Codex-Prüfer verlangt eine neuere CLI. Das ist keine inhaltliche Freigabe und kein nachgewiesener Codefehler. Die Produktionsabnahme bleibt offen. Die Prüfprotokolle liegen unter <code>/home/nathanael/.local/state/patchnotes-toml-review-20260920/</code>.</p>
+<p>Die zuletzt bestätigte Produktion läuft auf <code>main</code> bei <code>8114f9c6e01ff7b56236fb76519163c0a6a73c30</code>, mit Python 3.12 und dem Dienst <code>deadlock-patchnotes.service</code>. Der Ausgangsprozess hatte PID 1108 und <code>NRestarts=0</code>. Diese Ausgangswerte sind kein Live-Nachweis der neuen Konfiguration.</p>
+</section>
+<section id="datei-und-prioritaet">
+<h2>Datei, Auswahl und Pfadbezug</h2>
+<p>Der vorgesehene Produktionspfad lautet <code>/home/nathanael/repos/Deadlock--Patchnotes-Bot/config/bot.toml</code>. Die vorbereitete Unit-Ergänzung setzt diesen Pfad ausdrücklich über <code>--config</code>. Der Standardpfad beim direkten Start ist ebenfalls die Datei im Code-Repo, nicht das aktuelle Arbeitsverzeichnis. (<code>ops/deadlock-patchnotes.service.d/60-global-toml.conf</code>, <code>bot_runtime.py</code>)</p>
+<p>Ein explizites <code>--config</code> hat Vorrang vor dem Standardpfad. Werte aus der Datei ersetzen die dokumentierten Schema-Defaults. Betriebsvariablen wie <code>PATCH_CHANNEL_ID</code>, <code>CHECK_INTERVAL_SECONDS</code>, <code>PATCH_EMBED_V2</code> oder <code>PERPLEXITY_MODEL</code> werden vom migrierten Laufzeitpfad nicht ausgewertet. Der Wrapper lädt keine botspezifische Betriebs-ENV-Datei mehr. (<code>bot_config.py</code>, <code>scripts/run_patchnotes_bot.sh</code>, <code>tests/test_config_consumers.py</code>)</p>
+<p>Relative interne Pfade beziehen sich auf das Verzeichnis der ausgewählten TOML. Beispielsweise zeigt <code>../data/emoji_map.json</code> von <code>config/bot.toml</code> auf das Datenverzeichnis des Bots. Relative Werte von <code>--config</code> beziehen sich auf das Code-Repo. Tilde und ENV-Expansion sind in internen Pfaden nicht vorgesehen. (<code>bot_config.py</code>)</p>
+</section>
+<section id="bereiche">
+<h2>Migrierte Bereiche und übernommene Werte</h2>
+<table>
+<thead><tr><th>TOML-Bereich</th><th>Inhalt</th><th>Übernommene Betriebswerte</th></tr></thead>
+<tbody>
+<tr><td><code>discord</code></td><td>Ziel- und Logs-Kanal, Ping-Rolle, Retranslate-Abstand, optionale Application-ID</td><td>Vorhandene Kanal- und Rollen-IDs; Retranslate-Abstand 60 Sekunden</td></tr>
+<tr><td><code>polling</code></td><td>Forum-Intervall, Steam-News, Versionssignal und Burst</td><td>35 Sekunden; beide Steam-Trigger aktiv; Prüfungen 2 Sekunden; Burst 1200 Sekunden mit 20 Sekunden Intervall</td></tr>
+<tr><td><code>sources</code></td><td>Freigegebene Quellen, App-ID, Abrufmengen, HTTP-Zeitlimits und User-Agent</td><td>Steam-App 1422450; Abrufmenge 50; Patch-Historie 6; Index 10 und Inhalt 20 Sekunden</td></tr>
+<tr><td><code>publishing</code></td><td>Altersgrenze, Nachholmenge, Ping, bewusste Wiederholung und Offline-Ausgabe</td><td>2 Tage; höchstens ein Nachholpost; Ping aktiv; erzwungener Startpost und Dry-Run deaktiviert</td></tr>
+<tr><td><code>prepared</code></td><td>Ausdrücklich freigegebener vorbereiteter Einmalauftrag</td><td>Kein vorbereiteter Startauftrag und keine historische Vorgabedatei</td></tr>
+<tr><td><code>formatting</code></td><td>Components V2, Text- und Komponentenbudgets, Farbe, Katalogpfade</td><td>Components V2 aktiv; Text-Chunk 1950 Zeichen; V2-Budget 3500 Zeichen und 35 Komponenten; Farbe 0xC8A86B</td></tr>
+<tr><td><code>translation</code></td><td>Bestehender Anbieter und Pin, Tokenbudget, Zeitlimits, Wiederholungen und Aufteilung</td><td>Perplexity sonar-pro; 128000 Tokens; Verbindung 10 und Lesen 90 Sekunden; drei Versuche</td></tr>
+<tr><td><code>database</code></td><td>Poolgrößen und Verbindungszeitlimit</td><td>Mindestens eine, höchstens drei Verbindungen; 60 Sekunden</td></tr>
+<tr><td><code>brain_sync</code></td><td>Aufruf des vorhandenen Patchnotes-Sync-Dienstes</td><td>Aktiv; bestehender Unit-Name; Startzeitlimit 5 Sekunden</td></tr>
+<tr><td><code>diagnostics</code></td><td>Zeitausgaben, Signalhistorie und Lebenszeichen</td><td>Minimalmodus; Historie 500 Einträge; neues Lebenszeichen nach erfolgreichem Scan, Abstand 300 Sekunden</td></tr>
+<tr><td><code>runtime</code></td><td>Exklusive Publisher-Sperre</td><td>Bestehender Sperrpfad /tmp/deadlock-patchnotes-bot.lock</td></tr>
+<tr><td><code>admin</code></td><td>Vorgaben für ausdrücklich gestartete Emoji- und Recolor-Werkzeuge</td><td>Vorhandene Quellen, API-Zeitlimits, Uploadabstände und Historienmenge</td></tr>
+</tbody>
+</table>
+<p>Ein geschützter lesender Vergleich unter dem bisherigen Startskript ergab 53 gleiche Verbrauchswerte. Die aktive V2-Einstellung wurde aus der bisherigen Betriebsdatei übernommen, statt auf den alten Code-Default false zurückzufallen. Die Einzelfelder mit Herkunft, Default, Typ, Grenze und Verbraucher stehen im vollständigen Inventar. (<code>.tasks/2026-09-20-global-toml/INVENTAR.md</code>, <code>.tasks/2026-09-20-global-toml/legacy-effective.json</code>, <code>.tasks/2026-09-20-global-toml/candidate-comparison.json</code>)</p>
+</section>
+<section id="validierung-und-neustart">
+<h2>Validierung und Neustartpflicht</h2>
+<p>Die Datei benötigt <code>schema_version = 1</code> und die Pflicht-IDs für Zielkanal, Logs-Kanal und Rolle. Unbekannte Felder, falsche Typen, ungültige Zahlen, fehlende Pflichtwerte sowie nicht freigegebene Endpunkte werden abgelehnt. Ein Parserfehler enthält weder Dateiausschnitte noch den verworfenen Wert. Beliebige Texte und Pfade werden in der Statusansicht gehasht. (<code>bot_config.py</code>, <code>tests/test_bot_config.py</code>)</p>
+<p>Der Wrapper validiert vor dem Secret-Lader. Danach prüft der Prozess die Momentaufnahme vor Clients, Datenbankverbindungen und Publisher-Sperre. Die Verbraucher teilen dieselbe unveränderliche Konfiguration. Eine fehlende Datei wird nicht durch eine erzeugte Default-Datei ersetzt. (<code>scripts/run_patchnotes_bot.sh</code>, <code>bot_runtime.py</code>, <code>tests/test_config_consumers.py</code>)</p>
+<p>Änderungen benötigen einen Prozessneustart. Das gilt auch für Modell-Pin, Zielkanäle, Quellen, Datenbankpool und Scheduler. Ein Reload-Versuch prüft die neue Datei, übernimmt sie aber nicht; bei Fehlern bleibt die alte Momentaufnahme bestehen. Hot-Reload wird nicht angeboten. (<code>bot_config.py</code>, <code>tests/test_bot_config.py</code>)</p>
+<p>Der vorhandene Deploy-Prüfer verlangt einen sauberen, gepushten Produktions-Checkout auf main. Änderungen an der versionierten Betriebsdatei müssen deshalb den vorgesehenen Commit-, Prüf- und Freigabeweg durchlaufen. Ein direkter Neustart aus einem schmutzigen Produktions-Checkout wird nicht als Abkürzung verwendet. (<code>scripts/run_patchnotes_bot.sh</code>, <code>/home/nathanael/Documents/Admin-Scripts/deploy-preflight.sh</code>)</p>
+</section>
+<section id="pruefen-ohne-veroeffentlichung">
+<h2>Prüfen ohne Veröffentlichung</h2>
+<p>Die folgenden Befehle gelten im geprüften Feature-Checkout und nach einer späteren Freigabe auch im Produktions-Checkout. <code>--check-config</code> gibt den redigierten Status aus. Der Offline-Test rendert eine lokale Datei mit dem echten Components-V2-Renderer, ohne Publisher, Datenbank- oder Übersetzungsmodul zu importieren. (<code>bot_runtime.py</code>, <code>tests/test_config_consumers.py</code>)</p>
+<pre><code>scripts/run_patchnotes_bot.sh --config /absoluter/pfad/config/bot.toml --check-config
+scripts/run_patchnotes_bot.sh --config /absoluter/pfad/config/bot.toml --dry-run /absoluter/pfad/testpatch.txt
+</code></pre>
+<p>Der Test liefert Ansichtsanzahl, Zeichen- und Komponentenzahlen sowie Hashes statt Patchtext. Eine ausdrücklich konfigurierte Offline-Ausgabe benötigt <code>publishing.dry_run = true</code> und <code>publishing.output_dir</code>; sie erzeugt eine lokale JSON-Datei. Identische Wiederholungen überschreiben das Artefakt nicht. Die TOML und der Veröffentlichungszustand bleiben unverändert. (<code>bot_runtime.py</code>, <code>tests/test_config_consumers.py</code>)</p>
+<p>Ein vorbereiteter Einmalauftrag benötigt eine vorhandene <code>prepared.file</code>, <code>post_on_start = true</code> und für den Helfer <code>only_mode = true</code>. Der Helfer nutzt dieselbe Konfiguration, denselben Secret-Lader und dieselbe Publisher-Sperre. Beim Deploy bleiben vorbereitete und erzwungene Wiederholungen deaktiviert. (<code>scripts/run_prepared_patch_once.sh</code>, <code>bot_runtime.py</code>, <code>bot_config.py</code>)</p>
+</section>
+<section id="secrets-und-daten">
+<h2>Secrets, Laufzeitdaten und bewusste Ausnahmen</h2>
+<p>Infisical liefert das spezifische Discord-Secret <code>DISCORD_TOKEN_PATCHNOTES</code> beziehungsweise <code>PATCHNOTES_BOT_TOKEN</code>, die Postgres-Zugangsinformation <code>DEADLOCK_CENTRAL_DSN</code> und <code>PERPLEXITY_API_KEY</code>. Der geschützte Infisical-Bootstrap und das systemd-Credential bleiben erhalten. Das generische <code>BOT_TOKEN</code> wird nicht als Identität des migrierten Bots gelesen. (<code>bot_secrets.py</code>, <code>scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Veröffentlichte URLs, Inhalts-Hashes, Dispatch-Zustände und Prepared-Signaturen bleiben in der bestehenden Postgres-Persistenz. Die Migration ändert keine fachlichen SQL-Abfragen und setzt keinen Versandzustand zurück. Die Zustände pending und sent blockieren weiterhin erneute Veröffentlichungen desselben Inhalts. (<code>patchnotes_db.py</code>, <code>main.py</code>, <code>tests/test_config_consumers.py</code>)</p>
+<p>Das manuelle Reconciliation-Werkzeug behält seinen dynamischen Namen für eine DSN-Zugangsinformation. Einzelauftragsparameter der Admin-Werkzeuge, etwa ausgewählte Nachrichten, Kanal oder Exportziel, bleiben ausdrückliche CLI-Parameter; ihre Betriebsvorgaben stammen aus der TOML. Die Application-ID für einen Emoji-Upload wurde nicht erfunden und muss vor einem gewünschten Upload eingetragen werden. (<code>reconcile_patchnotes.py</code>, <code>scripts/sync_emojis.py</code>, <code>scripts/recolor_patch_containers.py</code>)</p>
+<p>Signalhistorie, Emoji-Katalog, Fachbegriffe und Parserregeln sind keine globale Einstellungsdatenbank. Der Bot hat keine Dashboard-Mandantenkonfiguration. Interpreter und gemeinsame Installationswerkzeuge bleiben im Startskript verankert; das ist keine weitere Datei mit Bot-Betriebswerten. (<code>entity_emojis.py</code>, <code>scripts/run_patchnotes_bot.sh</code>, <code>.tasks/2026-09-20-global-toml/INVENTAR.md</code>)</p>
+</section>
+<section id="ki-pin">
+<h2>Bestehender KI-Anbieter mit explizitem Pin</h2>
+<p>Dieser Bot verwendet Perplexity mit dem bestätigten Pin <code>sonar-pro</code>. Die Umstellung fügt weder Fireworks noch DeepSeek, einen Modellkatalog oder einen Modell-Cache hinzu. Eine automatische Modellauswahl findet mit diesem expliziten Pin nicht statt. (<code>config/bot.toml</code>, <code>bot_config.py</code>)</p>
+<p>Eine Antwort muss den konfigurierten Modellnamen bestätigen und einen nicht leeren Text enthalten. HTTP 200 mit leerem oder unpassendem Inhalt zählt nicht als KI-Erfolg. HTTP 401/403 wird nicht wiederholt; Zeitüberschreitungen, Verbindungsfehler, 429 und 5xx haben begrenzte Wiederholungen. Bei einem Fehler bleibt der vorhandene Nicht-KI-Fallback zuständig. (<code>perplexity_requests.py</code>, <code>main.py</code>, <code>tests/test_translation_config.py</code>)</p>
+<p>Die Diagnostik nennt Modell, Auswahlgrund explicit_pin, Prüfzeit und einen begrenzten Abschlussstatus. Anfrage und Antwort verwenden dieselbe Konfigurationsmomentaufnahme. Nutzertexte, Zugangsschlüssel und HTTP-Fehlerkörper werden von dieser neuen Providerdiagnostik nicht ausgegeben. (<code>perplexity_requests.py</code>, <code>tests/test_translation_config.py</code>)</p>
+</section>
+<section id="tests-und-live-gate">
+<h2>Tests und noch fehlender Live-Nachweis</h2>
+<p>Der Ausgangsstand hatte 58 erfolgreiche pytest-Tests und fünf erfolgreiche Untertests. Der geprüfte Feature-Stand hat 110 erfolgreiche Tests und 30 erfolgreiche Untertests, ohne übersprungene Tests. Die bereits vorhandene audioop-Abkündigungswarnung bleibt. Geprüft wurden unter anderem Typen und Grenzen, Secret-Redaction, Pfadauflösung, ENV-Wirkungslosigkeit, gemeinsame Verbraucher, Pin-Verhalten und Veröffentlichungsreihenfolge. (<code>.tasks/2026-09-20-global-toml/verification.json</code>, <code>tests/test_bot_config.py</code>, <code>tests/test_config_consumers.py</code>)</p>
+<p>Die Python-Kompilationsprüfung mit <code>compileall -j 2</code>, die Shell-Syntaxprüfung und Ruff für die neuen Module und Tests sind erfolgreich. Ein separater Offline-Aufruf aus einem fremden Arbeitsverzeichnis erzeugte eine Ansicht mit 221 Zeichen und zehn Komponenten, ohne Discord-Nachricht oder Änderung am Veröffentlichungszustand. Das ist ein lokaler Funktionsnachweis, kein Nachweis eines produktiven Neustarts.</p>
+<p>Vor einer Abnahme fehlen die unabhängige Merge-Freigabe, der bestätigte Push des vollständigen Stands, die Integration auf main sowie der Deploy-Nachweis mit neuer PID, ausgeführtem Interpreter und Codepfad, Fehlerjournal, Code-Anker, Konfigurationsfingerabdruck und periodischem Lebenszeichen. Bei Python muss der Code-Anker einem ausgeführten Python-Artefakt zugeordnet werden; der Interpreter allein beweist nicht die geladene Bot-Version. Es wurde kein öffentlicher Testbeitrag versendet.</p>
+</section>
+</main>
+</body>
+</html>

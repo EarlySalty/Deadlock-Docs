@@ -10,6 +10,7 @@
 <body>
 <main>
 <h1>Patchnotes-Bot Übersicht</h1>
+<p>Stand 20.09.2026: Die <a href="konfiguration.html">Umstellung auf eine zentrale TOML-Konfiguration</a> ist auf einem Feature-Branch getestet, aber noch nicht für Produktion freigegeben. Die nachstehenden ENV-Angaben beschreiben den bisherigen Laufzeitpfad, nicht die vorbereitete Migration.</p>
 <p>Der Patchnotes-Bot ist ein Python-Discord-Client. <code>requirements.txt</code> pinnt <code>discord.py==2.7.1</code>, <code>main.py</code> baut <code>PatchnotesClient</code>, lädt <code>BOT_TOKEN</code> und startet <code>client.run(token)</code> am Prozessende. (<code>requirements.txt</code>, <code>main.py</code>)</p>
 <p>Der User-Service heißt <code>deadlock-patchnotes.service</code>. Die Unit nutzt <code>/home/naniadm/Documents/Deadlock--Patchnotes-Bot</code> als <code>WorkingDirectory</code>, startet <code>scripts/run_patchnotes_bot.sh</code> und hat <code>Restart=always</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
 <p>Der Wrapper lädt Infisical, übernimmt ein systemd-Credential namens <code>infisical-token</code>, fordert <code>DEADLOCK_CENTRAL_DSN</code> und setzt <code>BOT_TOKEN</code> aus <code>DISCORD_TOKEN_PATCHNOTES</code> oder <code>PATCHNOTES_BOT_TOKEN</code>. (<code>scripts/run_patchnotes_bot.sh</code>, <code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service.d/20-creds.conf</code>)</p>
