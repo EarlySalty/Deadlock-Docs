@@ -2,9 +2,14 @@
 Description=Interne Wissensseiten gegen die Quell-Repos abgleichen
 After=network-online.target
 Wants=network-online.target
+StartLimitIntervalSec=1800
+StartLimitBurst=3
 
 [Service]
 Type=oneshot
-WorkingDirectory=%h/repos/Deadlock-Docs
-ExecStart=%h/repos/Deadlock-Docs/tools/daily_freshness.sh
+WorkingDirectory=%h/.worktrees/docs-wiki-freshness
+ExecStart=%h/.worktrees/docs-wiki-freshness/tools/daily_freshness.sh
 Environment=DL_REPO_HOME=%h/repos
+Environment=DL_WIKI_FRESHNESS_LIVE=1
+Restart=on-failure
+RestartSec=120

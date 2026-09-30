@@ -12,13 +12,21 @@ BERICHTE=("berichte/frische.md" "berichte/referenzen.md")
 
 cd "$REPO_ROOT"
 
+git fetch -q origin main
+
 # Der Dienst teilt sich den Arbeitsbaum mit Menschen. Laeuft er, waehrend ein
 # Feature-Branch ausgecheckt ist, landet der Bericht per `push` still dort statt
 # auf main. Lieber laut abbrechen als am falschen Ort committen.
+# Der Timer-Arbeitsbaum (DL_WIKI_FRESHNESS_LIVE=1) holt origin/main neu, damit
+# ein veralteter lokaler Stand den Push nicht als non-fast-forward ablehnt.
 ZWEIG="$(git rev-parse --abbrev-ref HEAD)"
-if [ "$ZWEIG" != "main" ]; then
+if [ "${DL_WIKI_FRESHNESS_LIVE:-}" = "1" ]; then
+  git reset --hard origin/main
+elif [ "$ZWEIG" != "main" ]; then
   echo "Arbeitsbaum steht auf '$ZWEIG', nicht auf main – Lauf abgebrochen." >&2
   exit 1
+elif ! git merge-base --is-ancestor origin/main HEAD; then
+  git rebase origin/main
 fi
 
 # Der Bericht beschreibt den committeten Stand der Quell-Repos. Ein schmutziger
@@ -48,5 +56,9 @@ print(sum(1 for s in seiten if s["status"] == "veraltet"))
 
 git add -- "${BERICHTE[@]}"
 git commit -q -m "docs(frische): woechentlicher Quellabgleich, ${VERALTET} Seiten ungeprueft"
-git push -q origin main
+git fetch -q origin main
+if ! git merge-base --is-ancestor origin/main HEAD; then
+  git rebase origin/main
+fi
+git push -q origin HEAD:main
 echo "Bericht aktualisiert und gepusht (${VERALTET} veraltete Seiten)."
