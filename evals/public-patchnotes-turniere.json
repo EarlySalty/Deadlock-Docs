@@ -278,5 +278,9 @@
     "context_terms": ["Spielerprofil", "Historie"],
     "answer_terms": ["Historie", "Siege"],
     "forbidden_terms": ["Datenbanktabelle"]
-  }
+  },
+  {"question": "Aus welchen offiziellen Quellen holt ihr die Deadlock-Patchnotes?", "answerable": true, "expected_sources": ["patchnotes-bot/patchnotes-bot.html"], "context_terms": ["Forum", "Steam"], "answer_terms": ["Forum", "Steam"], "forbidden_terms": ["Prompt", "Quellenauswahl"], "herkunft": "synthetisch"},
+  {"question": "Kann ich alte Patchnots im Archiv suchen?", "answerable": true, "expected_sources": ["patchnotes-bot/patchnotes-bot.html"], "context_terms": ["Archiv", "Patch-Portal"], "answer_terms": ["Archiv", "Portal"], "forbidden_terms": ["Datenbanktabelle"], "herkunft": "synthetisch"},
+  {"question": "Where can I search older Deadlock patch notes?", "answerable": true, "expected_sources": ["patchnotes-bot/patchnotes-bot.html"], "context_terms": ["Archiv", "Patch-Portal"], "answer_terms": ["Archiv", "Portal"], "forbidden_terms": ["Datenbanktabelle"], "herkunft": "synthetisch"},
+  {"question": "Die Übersetzung zeigt PATCH-429-TRANSLATE. Was bedeutet dieser Fehlercode?", "answerable": false, "expected_sources": [], "context_terms": [], "answer_terms": [], "forbidden_terms": [], "herkunft": "synthetisch"}
 ]

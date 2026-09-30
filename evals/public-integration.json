@@ -318,5 +318,9 @@
     "context_terms": [],
     "answer_terms": [],
     "forbidden_terms": []
-  }
+  },
+  {"question": "Welche Community-Dienste stehen mir eigentlich zur Verfügung?", "answerable": true, "expected_sources": ["discord-server/bots-und-dienste.html", "discord-server/ueber-bot-und-server.html"], "context_terms": ["Community-Bot", "Website-Portale"], "answer_terms": ["Community-Bot", "Steam-Bot", "Twitch-Bot", "Patchnotes-Bot", "Turnierportal", "Website-Portale"], "forbidden_terms": ["systemctl", "/internal/"], "herkunft": "synthetisch"},
+  {"question": "Wo finde ich Hilfe zur Steam-Verknüpfng und zum Invite?", "answerable": true, "expected_sources": ["index.html", "steam-bot/steam-bot.html", "discord-server/steam-integration.html"], "context_terms": ["Steam-Verknüpfung", "Playtest-Invite"], "answer_terms": ["Steam-Verknüpfung", "Discord"], "forbidden_terms": ["systemctl", "/internal/"], "herkunft": "synthetisch"},
+  {"question": "What does the Twitch bot do and where do I start?", "answerable": true, "expected_sources": ["index.html", "twitch-bot/twitchbot-ueberblick.html", "twitch-bot/einrichtung.html", "twitch-bot/faq-einstieg.html"], "context_terms": ["Streamer-Onboarding", "Dashboard"], "answer_terms": ["Twitch-Bot", "Streamer-Onboarding"], "forbidden_terms": ["systemctl", "/internal/"], "herkunft": "synthetisch"},
+  {"question": "Der Community-Dienst meldet SERVICE-503-DL. Was ist die Ursache?", "answerable": false, "expected_sources": [], "context_terms": [], "answer_terms": [], "forbidden_terms": [], "herkunft": "synthetisch"}
 ]

@@ -302,5 +302,9 @@
     "context_terms": ["nicht garantiert", "Freundescode"],
     "answer_terms": ["nicht garantiert"],
     "forbidden_terms": ["/invite", "/betainvite"]
-  }
+  },
+  {"question": "Ich bin neu hier – wo muss ich mit meiner Frage hin?", "answerable": true, "expected_sources": ["discord-server/module/serverstruktur.html", "discord-server/rules-und-channels.html", "discord-server/ueber-bot-und-server.html"], "context_terms": ["Willkommen", "Navigation"], "answer_terms": ["Willkommen"], "forbidden_terms": ["systemctl", "shadowban"], "herkunft": "synthetisch"},
+  {"question": "Wie melde ich einen Regelverstoss beim Moderationsteam?", "answerable": true, "expected_sources": ["discord-server/regeln.html", "discord-server/workflows/moderationsfall-einspruch.html"], "context_terms": ["Moderationsteam", "Supportweg"], "answer_terms": ["Team"], "forbidden_terms": ["shadowban", "force-approve"], "herkunft": "synthetisch"},
+  {"question": "Where can I contact the community team for help?", "answerable": true, "expected_sources": ["discord-server/team-und-ansprechpartner.html"], "context_terms": ["Community-Team", "Willkommen"], "answer_terms": ["Community-Team"], "forbidden_terms": ["systemctl", "shadowban"], "herkunft": "synthetisch"},
+  {"question": "Im Discord steht Fehlercode DL-4037. Was bedeutet der genau?", "answerable": false, "expected_sources": [], "context_terms": [], "answer_terms": [], "forbidden_terms": [], "herkunft": "synthetisch"}
 ]

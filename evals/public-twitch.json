@@ -334,5 +334,9 @@
     "context_terms": ["!raidbot_status", "!health"],
     "answer_terms": ["!raidbot_status", "!health", "Anzeige"],
     "forbidden_terms": ["!raid_enable", "nur Mods dürfen", "nur Moderatoren dürfen", "ausschließlich Moderatoren", "nur mit einer Rolle", "eine Rolle ist erforderlich", "sind rollenbeschränkt", "ändert dabei den Status", "Status wird geändert", "!health ändert dabei"]
-  }
+  },
+  {"question": "Wo autorisiere ich meinen Twitch-Kanal für den Bot?", "answerable": true, "expected_sources": ["twitch-bot/einrichtung.html", "twitch-bot/faq-einstieg.html"], "context_terms": ["Twitch OAuth", "Streamer-Onboarding"], "answer_terms": ["OAuth"], "forbidden_terms": ["shadowban"], "herkunft": "synthetisch"},
+  {"question": "Wie widerrufe ich den Zugrif des Twitch-Bots wieder?", "answerable": true, "expected_sources": ["twitch-bot/einrichtung.html", "twitch-bot/faq-einstieg.html"], "context_terms": ["Verbindungen", "widerrufen"], "answer_terms": ["Twitch-Einstellungen"], "forbidden_terms": ["shadowban"], "herkunft": "synthetisch"},
+  {"question": "Which chat commands can I use as a viewer?", "answerable": true, "expected_sources": ["twitch-bot/chat-befehle.html", "twitch-bot/faq-stats-overlay.html"], "context_terms": ["!rank", "Zuschauerbefehle"], "answer_terms": ["!rank"], "forbidden_terms": ["!twl"], "herkunft": "synthetisch"},
+  {"question": "Twitch OAuth zeigt TWITCH-OAUTH-599. Was bedeutet dieser Fehlercode?", "answerable": false, "expected_sources": [], "context_terms": [], "answer_terms": [], "forbidden_terms": [], "herkunft": "synthetisch"}
 ]

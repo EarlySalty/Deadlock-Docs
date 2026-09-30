@@ -246,5 +246,9 @@
     "context_terms": ["mitspieler", "lfg"],
     "answer_terms": ["mitspieler"],
     "forbidden_terms": []
-  }
+  },
+  {"question": "Wo starte ich die Verknüpfung meines Steam-Kontos mit der Community?", "answerable": true, "expected_sources": ["steam-bot/steam-bot.html"], "context_terms": ["steam-anmeldung", "panel"], "answer_terms": ["steam", "anmeld"], "forbidden_terms": [], "herkunft": "synthetisch"},
+  {"question": "Braucht der Bot mein Steam-Paswort für die Verknüpfung?", "answerable": true, "expected_sources": ["steam-bot/steam-bot.html"], "context_terms": ["kein steam-passwort"], "answer_terms": ["kein Steam-Passwort", "direkt bei Steam"], "forbidden_terms": ["gib dem Bot dein Passwort", "Passwort an den Bot geben", "Bot braucht dein Steam-Passwort"], "herkunft": "synthetisch"},
+  {"question": "How do I check my Deadlock rank with the Steam bot?", "answerable": true, "expected_sources": ["steam-bot/steam-bot.html"], "context_terms": ["checkrank", "rang"], "answer_terms": ["rang"], "forbidden_terms": [], "herkunft": "synthetisch"},
+  {"question": "Beim Verknüpfen erscheint STEAM-LINK-451. Was bedeutet der Fehlercode?", "answerable": false, "expected_sources": [], "context_terms": [], "answer_terms": [], "forbidden_terms": [], "herkunft": "synthetisch"}
 ]
