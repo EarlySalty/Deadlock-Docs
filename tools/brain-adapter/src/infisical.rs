@@ -1,11 +1,14 @@
-//! Public Brain credential from the existing local Infisical transport.
-//! Neither the bootstrap credential nor the selected secret enters the process environment.
+//! Öffentliche Brain-Credential über den bestehenden lokalen Infisical-Transport.
+//! Bootstrap-Credential und ausgewähltes Secret gelangen nicht in die Prozessumgebung.
 use crate::AdapterError;
 use serde::Deserialize;
 use std::{
-    fs::OpenOptions,
+    fs::{File, OpenOptions},
     io::Read,
-    os::unix::{fs::OpenOptionsExt, fs::PermissionsExt},
+    os::{
+        fd::FromRawFd,
+        unix::fs::{FileExt, OpenOptionsExt, PermissionsExt},
+    },
     path::{Path, PathBuf},
     time::Duration,
 };
@@ -30,7 +33,8 @@ pub struct InfisicalConfig {
     environment: String,
     secret_path: String,
     socket_path: PathBuf,
-    credential_file: PathBuf,
+    credential_file: Option<PathBuf>,
+    credential_fd: Option<i32>,
     token_secret: String,
 }
 
@@ -77,6 +81,14 @@ impl AdapterConfig {
     }
 
     fn validate(&self) -> Result<(), AdapterError> {
+        let valid_credential_source = match (
+            &self.infisical.credential_file,
+            self.infisical.credential_fd,
+        ) {
+            (Some(path), None) => path.is_absolute(),
+            (None, Some(fd)) => fd >= 3,
+            _ => false,
+        };
         if !(100..=30_000).contains(&self.timeout_ms)
             || self.endpoint.len() > 256
             || !self
@@ -94,7 +106,7 @@ impl AdapterConfig {
             || !self.infisical.secret_path.starts_with('/')
             || self.infisical.secret_path.contains("..")
             || self.infisical.secret_path.len() > 256
-            || !self.infisical.credential_file.is_absolute()
+            || !valid_credential_source
             || !self.infisical.token_secret.starts_with("BRAIN_SERVE_")
             || !self.infisical.token_secret.ends_with("_TOKEN")
             || self.infisical.token_secret.len() > 96
@@ -106,7 +118,7 @@ impl AdapterConfig {
         {
             return Err(AdapterError::Configuration);
         }
-        // The typed client validates loopback, credentials and timeout without egress.
+        // Der typisierte Client prüft Loopback, Credential und Frist ohne Egress.
         brain_client::AsyncBrainClient::new_local(
             &self.endpoint,
             "validation-only-token",
@@ -127,7 +139,11 @@ impl AdapterConfig {
 
 impl InfisicalConfig {
     async fn load_token(&self, socket_owner: u32) -> Result<Zeroizing<String>, AdapterError> {
-        let bootstrap = read_credential(&self.credential_file)?;
+        let bootstrap = match (&self.credential_file, self.credential_fd) {
+            (Some(path), None) => read_credential(path)?,
+            (None, Some(fd)) => read_credential_fd(fd)?,
+            _ => return Err(AdapterError::Configuration),
+        };
         let client = uplink_infisical_transport::client_builder(&self.socket_path, socket_owner)
             .map_err(|_| AdapterError::Configuration)?
             .timeout(Duration::from_secs(10))
@@ -177,15 +193,47 @@ fn read_credential(path: &Path) -> Result<Zeroizing<String>, AdapterError> {
         .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
         .open(path)
         .map_err(|_| AdapterError::Configuration)?;
+    read_credential_contents(&file)
+}
+
+fn read_credential_fd(fd: i32) -> Result<Zeroizing<String>, AdapterError> {
+    if fd < 3 {
+        return Err(AdapterError::Configuration);
+    }
+    // fcntl prüft den vom Starter übergebenen Deskriptor ohne Besitzübernahme.
+    let flags = unsafe { libc::fcntl(fd, libc::F_GETFD) };
+    if flags < 0 || unsafe { libc::fcntl(fd, libc::F_SETFD, flags | libc::FD_CLOEXEC) } < 0 {
+        return Err(AdapterError::Configuration);
+    }
+    // Nur die eigene Kopie wird geschlossen; beide Deskriptoren bleiben CLOEXEC.
+    let duplicate = unsafe { libc::fcntl(fd, libc::F_DUPFD_CLOEXEC, 3) };
+    if duplicate < 0 {
+        return Err(AdapterError::Configuration);
+    }
+    // F_DUPFD_CLOEXEC liefert einen neuen gültigen Deskriptor im eigenen Besitz.
+    let file = unsafe { File::from_raw_fd(duplicate) };
+    read_credential_contents(&file)
+}
+
+fn read_credential_contents(file: &File) -> Result<Zeroizing<String>, AdapterError> {
     let metadata = file.metadata().map_err(|_| AdapterError::Configuration)?;
     if !metadata.is_file() || metadata.permissions().mode() & 0o077 != 0 {
         return Err(AdapterError::Configuration);
     }
-    let mut bytes = Zeroizing::new(Vec::new());
-    file.take(MAX_CREDENTIAL_BYTES + 1)
-        .read_to_end(&mut bytes)
-        .map_err(|_| AdapterError::Configuration)?;
-    if bytes.len() as u64 > MAX_CREDENTIAL_BYTES {
+    // Positionsunabhängiges Lesen erhält den Offset des geerbten Originals.
+    let mut bytes = Zeroizing::new(vec![0; (MAX_CREDENTIAL_BYTES + 1) as usize]);
+    let mut length = 0;
+    while length < bytes.len() {
+        let read = file
+            .read_at(&mut bytes[length..], length as u64)
+            .map_err(|_| AdapterError::Configuration)?;
+        if read == 0 {
+            break;
+        }
+        length += read;
+    }
+    bytes.truncate(length);
+    if length as u64 > MAX_CREDENTIAL_BYTES {
         return Err(AdapterError::Configuration);
     }
     let text = std::str::from_utf8(&bytes).map_err(|_| AdapterError::Configuration)?;
@@ -215,7 +263,10 @@ mod tests {
     use std::{
         fs,
         io::{Read, Write},
-        os::unix::{fs::MetadataExt, net::UnixListener},
+        os::{
+            fd::AsRawFd,
+            unix::{fs::MetadataExt, net::UnixListener},
+        },
         thread,
     };
 
@@ -228,7 +279,8 @@ mod tests {
                 environment: "prod".into(),
                 secret_path: "/".into(),
                 socket_path: socket,
-                credential_file: credential,
+                credential_file: Some(credential),
+                credential_fd: None,
                 token_secret: "BRAIN_SERVE_OTHER_TOKEN".into(),
             },
         }
@@ -282,56 +334,144 @@ mod tests {
         assert!(read_credential(&alias).is_err());
     }
 
+    #[test]
+    fn credential_source_is_exactly_one_private_file_or_inherited_fd() {
+        let example: AdapterConfig =
+            serde_json::from_str(include_str!("../config.example.json")).unwrap();
+        assert!(example.validate().is_ok());
+        assert_eq!(example.infisical.credential_fd, Some(5));
+        assert!(example.infisical.credential_file.is_none());
+        let mut value = json!({
+            "endpoint":"http://127.0.0.1:8788", "timeout_ms":5000,
+            "infisical":{
+                "project_id":"00000000-0000-0000-0000-000000000000", "environment":"prod",
+                "secret_path":"/", "socket_path":"/run/uplink-infisical/api.sock",
+                "credential_fd":5, "token_secret":"BRAIN_SERVE_DOCS_PUBLIC_TOKEN"
+            }
+        });
+        let valid: AdapterConfig = serde_json::from_value(value.clone()).unwrap();
+        assert!(valid.validate().is_ok());
+        for fd in [-1, 0, 1, 2] {
+            value["infisical"]["credential_fd"] = json!(fd);
+            let invalid: AdapterConfig = serde_json::from_value(value.clone()).unwrap();
+            assert!(invalid.validate().is_err());
+        }
+        value["infisical"]["credential_fd"] = json!(5);
+        value["infisical"]["credential_file"] = json!("/run/credentials/docs/infisical-token");
+        let ambiguous: AdapterConfig = serde_json::from_value(value.clone()).unwrap();
+        assert!(ambiguous.validate().is_err());
+        value["infisical"]
+            .as_object_mut()
+            .unwrap()
+            .remove("credential_fd");
+        let file: AdapterConfig = serde_json::from_value(value.clone()).unwrap();
+        assert!(file.validate().is_ok());
+        value["infisical"]
+            .as_object_mut()
+            .unwrap()
+            .remove("credential_file");
+        let missing: AdapterConfig = serde_json::from_value(value).unwrap();
+        assert!(missing.validate().is_err());
+    }
+
+    #[test]
+    fn inherited_credential_fd_preserves_offset_and_remains_owned_by_starter() {
+        use std::io::{Seek, SeekFrom};
+        use std::os::fd::AsRawFd;
+
+        let mut file = tempfile::tempfile().unwrap();
+        file.write_all(b"synthetic-bootstrap\n").unwrap();
+        file.seek(SeekFrom::End(0)).unwrap();
+        let offset = file.stream_position().unwrap();
+        let fd = file.as_raw_fd();
+        // Der Fixture-Deskriptor bleibt während beider Ladevorgänge geöffnet.
+        assert_eq!(unsafe { libc::fcntl(fd, libc::F_SETFD, 0) }, 0);
+        for _ in 0..2 {
+            assert_eq!(
+                read_credential_fd(fd).unwrap().as_str(),
+                "synthetic-bootstrap"
+            );
+            assert_eq!(file.stream_position().unwrap(), offset);
+        }
+        assert_ne!(
+            unsafe { libc::fcntl(fd, libc::F_GETFD) } & libc::FD_CLOEXEC,
+            0
+        );
+    }
+
+    #[test]
+    fn inherited_credential_fd_rejects_absent_public_or_nonregular_sources() {
+        use std::os::fd::AsRawFd;
+
+        assert!(read_credential_fd(-1).is_err());
+        assert!(read_credential_fd(i32::MAX).is_err());
+        let file = tempfile::tempfile().unwrap();
+        file.set_permissions(fs::Permissions::from_mode(0o644))
+            .unwrap();
+        assert!(read_credential_fd(file.as_raw_fd()).is_err());
+        let (socket, _peer) = std::os::unix::net::UnixStream::pair().unwrap();
+        assert!(read_credential_fd(socket.as_raw_fd()).is_err());
+        let directory = tempfile::tempdir().unwrap();
+        let write_only = File::create(directory.path().join("credential")).unwrap();
+        write_only
+            .set_permissions(fs::Permissions::from_mode(0o600))
+            .unwrap();
+        assert!(read_credential_fd(write_only.as_raw_fd()).is_err());
+    }
+
     #[tokio::test]
     async fn existing_unix_transport_fetches_only_one_explicit_token_without_logging_it() {
-        let directory = tempfile::tempdir().unwrap();
-        fs::set_permissions(directory.path(), fs::Permissions::from_mode(0o700)).unwrap();
-        let credential = directory.path().join("credential");
-        fs::write(&credential, "synthetic-bootstrap").unwrap();
-        fs::set_permissions(&credential, fs::Permissions::from_mode(0o600)).unwrap();
-        let socket = directory.path().join("api.sock");
-        let listener = UnixListener::bind(&socket).unwrap();
-        fs::set_permissions(&socket, fs::Permissions::from_mode(0o600)).unwrap();
-        let owner = fs::metadata(directory.path()).unwrap().uid();
-        assert!(read_credential(&credential).is_ok());
-        assert!(
-            uplink_infisical_transport::validate_socket(&socket, owner).is_ok(),
-            "socket path: {}",
-            socket.display()
-        );
-        let server = thread::spawn(move || {
-            let (mut stream, _) = listener.accept().unwrap();
-            stream
-                .set_read_timeout(Some(Duration::from_secs(3)))
-                .unwrap();
-            let mut request = Vec::new();
-            let mut chunk = [0; 4096];
-            while !request.windows(4).any(|part| part == b"\r\n\r\n") {
-                let read = stream.read(&mut chunk).unwrap();
-                assert!(read > 0 && request.len() + read < 16 * 1024);
-                request.extend_from_slice(&chunk[..read]);
-            }
-            let text = String::from_utf8(request).unwrap();
-            assert!(text.starts_with("GET /api/v4/secrets/BRAIN_SERVE_OTHER_TOKEN?"));
-            assert!(text.contains("projectId=00000000-0000-0000-0000-000000000000"));
-            assert!(text.contains("environment=prod"));
-            assert!(text.contains("includeImports=false"));
+        for use_fd in [false, true] {
+            let directory = tempfile::tempdir().unwrap();
+            fs::set_permissions(directory.path(), fs::Permissions::from_mode(0o700)).unwrap();
+            let credential = directory.path().join("credential");
+            fs::write(&credential, "synthetic-bootstrap").unwrap();
+            fs::set_permissions(&credential, fs::Permissions::from_mode(0o600)).unwrap();
+            let socket = directory.path().join("api.sock");
+            let listener = UnixListener::bind(&socket).unwrap();
+            fs::set_permissions(&socket, fs::Permissions::from_mode(0o600)).unwrap();
+            let owner = fs::metadata(directory.path()).unwrap().uid();
+            assert!(read_credential(&credential).is_ok());
             assert!(
-                text.lines()
-                    .any(|line| line
-                        .eq_ignore_ascii_case("authorization: Bearer synthetic-bootstrap"))
+                uplink_infisical_transport::validate_socket(&socket, owner).is_ok(),
+                "socket path: {}",
+                socket.display()
             );
-            let body = json!({"secret":{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"synthetic-docs-token"}}).to_string();
-            write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
-        });
-        let token = config(socket, credential)
-            .infisical
-            .load_token(owner)
-            .await
-            .unwrap();
-        server.join().unwrap();
-        assert_eq!(token.as_str(), "synthetic-docs-token");
-        assert!(!format!("{:?}", AdapterError::Configuration).contains("synthetic-docs-token"));
+            let server = thread::spawn(move || {
+                let (mut stream, _) = listener.accept().unwrap();
+                stream
+                    .set_read_timeout(Some(Duration::from_secs(3)))
+                    .unwrap();
+                let mut request = Vec::new();
+                let mut chunk = [0; 4096];
+                while !request.windows(4).any(|part| part == b"\r\n\r\n") {
+                    let read = stream.read(&mut chunk).unwrap();
+                    assert!(read > 0 && request.len() + read < 16 * 1024);
+                    request.extend_from_slice(&chunk[..read]);
+                }
+                let text = String::from_utf8(request).unwrap();
+                assert!(text.starts_with("GET /api/v4/secrets/BRAIN_SERVE_OTHER_TOKEN?"));
+                assert!(text.contains("projectId=00000000-0000-0000-0000-000000000000"));
+                assert!(text.contains("environment=prod"));
+                assert!(text.contains("includeImports=false"));
+                assert!(text
+                    .lines()
+                    .any(|line| line
+                        .eq_ignore_ascii_case("authorization: Bearer synthetic-bootstrap")));
+                let body = json!({"secret":{"secretKey":"BRAIN_SERVE_OTHER_TOKEN", "secretValue":"synthetic-docs-token"}}).to_string();
+                write!(stream, "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len()).unwrap();
+            });
+            let bootstrap_file = File::open(&credential).unwrap();
+            let mut infisical = config(socket, credential).infisical;
+            if use_fd {
+                infisical.credential_file = None;
+                infisical.credential_fd = Some(bootstrap_file.as_raw_fd());
+            }
+            let token = infisical.load_token(owner).await.unwrap();
+            server.join().unwrap();
+            assert_eq!(token.as_str(), "synthetic-docs-token");
+            assert!(!format!("{:?}", AdapterError::Configuration).contains("synthetic-docs-token"));
+        }
     }
 
     #[test]
