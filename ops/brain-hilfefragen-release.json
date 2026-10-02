@@ -128,5 +128,19 @@
     ],
     "gaps": []
   },
-  "voice_path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html"
+  "voice_path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html",
+  "permanent_release": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002",
+  "publish_policy": {
+    "fetch": false,
+    "automatic_source_updates": false,
+    "note": "Dieses Profil bewahrt den bisherigen veröffentlichten Wissensstand und ergänzt ausschließlich die geprüfte Voice-Anleitung. Neue Produktstände benötigen ein ausdrücklich vorbereitetes und geprüftes Folgeprofil. Der Timer aktualisiert weder Git-Referenzen noch Quellenrevisionen."
+  },
+  "layout": {
+    "editorial_repository": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/editorial",
+    "source_repositories": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/<source-id>",
+    "refresh_config": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/ops/public-corpus-refresh.json",
+    "publisher_tools": "tools aus dem committeten origin/main-Stand des Profilbranches",
+    "current_symlink": "/opt/deadlock-docs/current",
+    "knowledge_base": "/home/nathanael/.local/share/dl-knowledge"
+  }
 }
