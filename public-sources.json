@@ -169,9 +169,9 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/chat-befehle.md": {
-          "source_sha256": "77ead8b97b92299740ee21397047be112d5f3f1e4579e7c41f66aeff630acf78",
-          "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
-          "verified_at": "2026-09-19T23:16:51.084369+00:00",
+          "source_sha256": "3dc4d1d573b64f8cb6912b39f661d608a7f31ba6c61176ef918f5b2af42a5768",
+          "content_sha256": "9f99553e439ac8948f30f590c011b899e81104509fccce61c1ecc8723843ea85",
+          "verified_at": "2026-10-02T22:14:19.648Z",
           "code": [
             {
               "repository": "twitch",

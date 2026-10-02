@@ -1,147 +1,102 @@
 <!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <title>Twitch-Chat-Befehle</title>
-  <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder…">
-  <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
-  <meta name="stand" content="2026-09-20">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
-  <style>
-    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
-    h1, h2 { line-height: 1.25; }
-    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 0.4rem 0.6rem; text-align: left; vertical-align: top; }
-    nav a { margin-right: 0.8rem; }
-  </style>
-</head>
-<body>
-<main>
-  <h1>Twitch-Chat-Befehle</h1>
-  <p><strong>Kurz gesagt.</strong> Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog, darunter <code>!rank</code>, samt vorhandenen Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
-
-  <section id="hinweis-hilfelinks">
-    <h2>Warum die Befehle hier vollständig stehen</h2>
-    <p>Der Bot kennt <code>!commands</code> und <code>!help</code>, die auf eine Befehlsübersicht verweisen. Der kanonische vollständige Katalog samt Aliasen steht direkt auf dieser Seite.</p>
-  </section>
-
-  <section id="statistik-befehle">
-    <h2>Zuschauerbefehle: Deadlock-Statistiken</h2>
-    <p>Diese Zuschauerbefehle kannst du als Zuschauer im Chat benutzen; dazu gehört <code>!rank</code>. Bei den Statistikbefehlen ist <code>!climb</code> ein Alias für <code>!mmr</code> beim Rangtrend und <code>!last</code> ein Alias für <code>!lastmatch</code> beim letzten Match. Die Statistikbefehle zeigen Deadlock-Werte des Streamers und brauchen dessen Steam-Zuordnung. Sie funktionieren auch offline und in anderen Kategorien, sofern der jeweilige Befehl im Dashboard eingeschaltet ist (siehe <a href="faq-funktionen.html">Voraussetzungen</a>).</p>
-    <table>
-      <tr><th>Befehl (mit Aliasen)</th><th>Zeigt</th></tr>
-      <tr><td><code>!rank</code></td><td>Aktueller Deadlock-Rang.</td></tr>
-      <tr><td><code>!wins</code></td><td>Karriere-Siege.</td></tr>
-      <tr><td><code>!winrate</code></td><td>Siegquote über die jüngsten gewerteten Spiele.</td></tr>
-      <tr><td><code>!mmr</code> · <code>!climb</code></td><td>Rang samt Trend der letzten Zeit.</td></tr>
-      <tr><td><code>!live</code></td><td>Ob gerade ein laufendes Deadlock-Match aktiv ist.</td></tr>
-      <tr><td><code>!lastmatch</code> · <code>!last</code></td><td>Das letzte Match.</td></tr>
-      <tr><td><code>!streak</code></td><td>Aktuelle Sieges- oder Pechsträhne.</td></tr>
-      <tr><td><code>!mostplayed</code> · <code>!main</code></td><td>Meistgespielter Held der jüngsten Spiele.</td></tr>
-    </table>
-    <p>Ohne Ziel beziehen sich die Spielstatistiken auf den Streamer. Mit <code>@username</code> kannst du die genannten Befehle und ihre Aliase für eine andere Person aufrufen. Die Einstellungen des aktuellen Kanals gelten weiterhin. Fehlen eine passende Zuordnung oder Daten, meldet der Bot das, statt einen Wert zu erfinden.</p>
-  </section>
-
-  <section id="twitch-steam-direkt-verbinden">
-    <h2>Twitch und Steam direkt verbinden</h2>
-    <ol>
-      <li>Schreibe <code>!connect</code> in den Chat oder öffne <a href="https://deutsche-deadlock-community.de/twitch/connect">Twitch und Steam verbinden</a>.</li>
-      <li>Bestätige dein Twitch-Konto und melde dich anschließend bei Steam an. Ein Discord-Konto oder eine Streamer-Partnerschaft ist dafür nicht nötig.</li>
-      <li>Rufe danach <code>!rank @deinname</code> auf. Der Bot verwendet den bestätigten Steam-Account. Die Verbindung garantiert nicht, dass bereits aktuelle Rangdaten vorliegen.</li>
-    </ol>
-    <p>Mit <code>!unconnect</code> oder <code>!disconnect</code> entfernst du deine direkte Steam-Zuordnung. Auf der Kontoseite heißt der entsprechende Knopf „Verknüpfung entfernen“. Der Chatbefehl gilt nur für dein eigenes Konto, nicht für ein angegebenes <code>@user</code>.</p>
-    <p>Nach dem Trennen bleibt ein Abschaltvermerk an deiner Twitch-ID, damit der Bot die Zuordnung nicht automatisch über Discord oder eine Namenssuche wiederherstellt. Erst wenn du selbst erneut verbindest, wird diese Sperre aufgehoben. Die separate Discord-Verknüpfung und öffentliche Spieldaten werden dadurch nicht gelöscht.</p>
-  </section>
-
-  <section id="werte-anderer-personen">
-    <h2>Werte einer anderen Person abfragen</h2>
-    <p><code>!watchtime @username</code> zeigt die erfasste Zuschauerzeit dieser Person im aktuellen Kanal. Ein Twitch-Name ohne <code>@</code> funktioniert ebenfalls. Pro Aufruf ist genau ein Ziel erlaubt; ohne Ziel siehst du deine eigene erfasste Zeit. Dafür brauchst du keine Steam-Verknüpfung.</p>
-    <p><code>!rank @username</code> bevorzugt die direkte Verbindung über <code>!connect</code>. Ohne sie nutzt der Bot die vorhandene Discord-/Steam-Zuordnung. Fehlen dort Rangdaten, kann er den öffentlichen Rang des bestätigten Accounts abfragen. Ohne bestätigte Zuordnung ist ein eindeutiger exakter Steam-Namensfund ausdrücklich als unbestätigte Twitch-Zuordnung gekennzeichnet; bei mehreren oder nur ähnlichen Treffern erhältst du Vorschläge.</p>
-    <p>Mit <code>!rank steam:&lt;Account-ID&gt;</code> oder <code>!rank steam:&lt;SteamID64&gt;</code> wählst du einen Steam-Account eindeutig aus, ohne eine neue Verknüpfung zu speichern. Öffentliche API-Ränge tragen den Stand des letzten erfassten Ranked-Matches. Fehlende Daten bedeuten nicht, dass die Person noch nie gerankt war. Die übrigen Spielstatistiken brauchen weiterhin die bestehende Discord-/Steam-Zuordnung zum passenden Account.</p>
-  </section>
-
-  <section id="clip-community">
-    <h2>Zuschauerbefehle: Clip und Community</h2>
-    <ul>
-      <li><code>!clip</code> · <code>!createclip</code> erstellt einen Clip aus dem laufenden Stream. Der Kanalschalter muss an sein und die Twitch-Verbindung passen; die Kategorie ist egal.</li>
-      <li><code>!watchtime</code> zeigt deine hier erfasste Zuschauerzeit insgesamt und den Anteil im laufenden Stream. Erfasste Anwesenheiten werden mit ihren Pausen gezählt; dies ist keine lückenlose Messung der tatsächlichen Sehzeit.</li>
-      <li><code>!sub</code> zeigt den Abo-Link dieses Kanals. <code>!sub erinnerung an/aus/status</code> verwaltet deine freiwillige Abo-Erinnerung.</li>
-      <li><code>!lurk</code> sagt dem Chat, dass du still weiterschaust, sofern der Kanalschalter an ist.</li>
-      <li><code>!invite</code>: postet den Einladungslink zur Deutschen Deadlock Community.</li>
-      <li><code>!discord</code> · <code>!dldc</code> · <code>!dlde</code>: posten ebenfalls den Community-Link.</li>
-    </ul>
-  </section>
-
-  <section id="hilfe-befehle">
-    <h2>Immer verfügbar: Hilfe</h2>
-    <p>Diese Befehle funktionieren unabhängig von der gestreamten Kategorie.</p>
-    <ul>
-      <li><code>!commands</code>: verweist auf die Befehlsübersicht.</li>
-      <li><code>!dashboard</code>: verlinkt dein Twitch-Dashboard.</li>
-      <li><code>!help &lt;thema&gt;</code>: Hilfe zu einem Thema, zum Beispiel <code>!help raid</code>.</li>
-      <li><code>!ping</code> · <code>!health</code> · <code>!status</code> · <code>!bot</code>: prüfen, ob der Bot gerade antwortet.</li>
-    </ul>
-  </section>
-
-  <section id="engagement">
-    <h2>Deine eigene Datenschutzwahl</h2>
-    <p>Der Bot hat eine KI-Engagement-Funktion, mit der er sich gelegentlich selbst am Chat beteiligt. Ob er dich dabei einbezieht, entscheidest du selbst im Chat; die Wahl betrifft nur dich:</p>
-    <ul>
-      <li><code>!engagement_ignore_me</code>: nimmt dich aus der KI-Engagement-Funktion heraus; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein.</li>
-      <li><code>!engagement_remember_me</code>: bezieht dich später wieder ein.</li>
-    </ul>
-    <p>Das ist ausdrücklich <strong>keine</strong> Löschung deiner Daten und schaltet auch nicht die allgemeine Kanal-Statistik ab – es steuert nur die KI-Engagement-Funktion. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
-  </section>
-
-  <section id="status-befehle">
-    <h2>Status abfragen: für alle im Chat</h2>
-    <p><code>!raid_status</code> und sein Alias <code>!raidbot_status</code> zeigen den Status, <code>!raid_history</code> die Historie; <code>!health</code> ist ein weiterer Anzeige-Befehl für die Bot-Prüfung. Diese reinen Anzeigen sind nicht rollenbeschränkt: Jede Person im Chat darf sie nutzen, ohne etwas zu ändern. <code>!title</code> ist dagegen ein Steuerungsbefehl für Broadcaster und Mods; er liefert nur einen Titelvorschlag und ändert den Streamtitel nicht.</p>
-    <ul>
-      <li><code>!raid_status</code> · <code>!raidbot_status</code>: zeigen den Auto-Raid-Status und eine grobe Raid-Statistik; sie setzen oder ändern keinen Status.</li>
-      <li><code>!raid_history</code> · <code>!raidbot_history</code>: zeigen die letzten Raid-Versuche; ebenfalls nur lesend.</li>
-      <li><code>!engagement_status</code>: zeigt, ob die KI-Engagement-Funktion im Kanal aktiv ist.</li>
-    </ul>
-  </section>
-
-  <section id="rollenbefehle">
-    <h2>Befehle zur Steuerung: Broadcaster, Moderation und Super-Mods</h2>
-    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
-    <ul>
-      <li>Für Broadcaster und Mods: <code>!raid</code> · <code>!traid</code>: startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
-      <li><code>!title</code> · <code>!titel</code>: liefert einen Titelvorschlag in der Chat-Antwort; den Twitch-Streamtitel setzt der Bot damit nicht. Ein vorhandener Rang und mit <code>--live</code> verfügbare Spieldaten können den Vorschlag ergänzen, sind aber keine Voraussetzung.</li>
-      <li><code>!uban</code> · <code>!unban</code>: nimmt ausschließlich den zuletzt gespeicherten Auto-Ban des Kanals zurück.</li>
-      <li><code>!explain</code>: erklärt, warum der Bot jemanden als Scam eingestuft hat.</li>
-      <li><code>!silentban</code>: schaltet nur die Chat-Hinweise zu Auto-Bans um; die Moderation bleibt aktiv.</li>
-      <li><code>!silentraid</code>: schaltet nur die Chat-Hinweise zu Raids um.</li>
-    </ul>
-    <p>Die KI-Engagement-Funktion für den Kanal dürfen zusätzlich zum Broadcaster und den Kanalmods auch berechtigte Super-Mods umschalten:</p>
-    <ul>
-      <li><code>!engagement_on</code> · <code>!engagement_off</code>: schalten die KI-Engagement-Funktion für den Kanal ein oder aus. <code>!engagement_on</code> deaktiviert sich automatisch bei Stream-Ende. Das betrifft nur die KI-Engagement-Funktion, nicht die gesamte Erfassung oder Auswertung.</li>
-    </ul>
-    <p>Nur der Broadcaster – nicht die Moderation – kann zusätzlich die Lurker-Erinnerung dauerhaft abschalten:</p>
-    <ul>
-      <li><code>!lurkersteuer_off</code> · <code>!lurkersteuer_aus</code> · <code>!lurker_tax_off</code>: deaktivieren die Lurker-Erinnerung. Die Funktion ist standardmäßig aus, gehört zu bestimmten Plänen und wird im Dashboard ein- und ausgeschaltet; per Chat lässt sie sich nur abschalten (siehe <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>).</li>
-    </ul>
-    <p>Mehr zu Raids und Moderation stehen in <a href="auto-raid.html">Auto-Raid</a> und <a href="chat-moderation.html">Chat-Moderation</a>.</p>
-  </section>
-
-  <section id="voraussetzungen">
-    <h2>Voraussetzungen im Überblick</h2>
-    <ul>
-      <li>Statistik- und Einladungsbefehle funktionieren auch offline und in anderen Kategorien. Ein Clip braucht einen laufenden Stream.</li>
-      <li>Die Spielstatistiken des Streamers brauchen dessen Steam-Zuordnung. Watchtime zählt die erfasste Zuschauerzeit der anfragenden Twitch-ID in diesem Kanal.</li>
-      <li>Hilfe, Verbindungsprüfung und die eigene Datenschutzwahl bleiben unabhängig von der Kategorie verfügbar.</li>
-    </ul>
-  </section>
-
-  <section id="grenzen">
-    <h2>Was der Bot nicht ist</h2>
-    <p>Der Twitch-Bot ist kein frei konfigurierbarer Chat-Bot für eigene Fun-Commands oder Filterlisten. Einstellungen findest du im Dashboard. Auto-Raid setzt einen teilnehmenden Kanal, eine gültige Verbindung, einen eingeschalteten Auto-Raid und ein geeignetes Ziel voraus; der Status zeigt fehlende Voraussetzungen.</p>
-    <p>Kurze Wiederholungssperren verhindern doppelte Antworten und Aktionen. Bleibt ein direkt wiederholter Befehl ohne Antwort, warte kurz. Prüfe bei anhaltenden Problemen den Kanalschalter und die Hinweise im Dashboard.</p>
-    <nav><a href="einrichtung.html">Einrichtung</a><a href="twitchbot-ueberblick.html">Überblick</a><a href="faq-support.html">Hilfe und Rechtstexte</a></nav>
-  </section>
-</main>
-</body>
-</html>
+<html lang="de"><head><meta charset="utf-8">
+<title>Twitch-Chat-Befehle</title><meta name="tags" content="hilfe, nutzerwissen">
+<meta name="stand" content="2026-10-03">
+<meta name="quelle" content="Redaktionelle Nutzerhilfe">
+<style>body { font-family: system-ui, sans-serif; line-height: 1.6;
+max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+h1, h2, h3 { line-height: 1.25; }
+code { background: #f2f2f2; padding: .1rem .3rem; border-radius: .2rem;
+overflow-wrap: anywhere; }
+pre { overflow-x: auto; padding: 1rem; background: #f2f2f2; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left;
+vertical-align: top; overflow-wrap: anywhere; }
+nav a { margin-right: .8rem; }
+a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
+</style></head><body><main><h1>Twitch-Chat-Befehle</h1>
+<p>
+Der Twitch-Bot läuft vor allem automatisch. Befehle brauchst du, wenn du im Chat etwas auslösen oder nachschauen willst.</p>
+<section id="wo-sehe-ich-was-der-bot-kann">
+<h2>Wo sehe ich, was der Bot kann?</h2>
+<p>
+<code>!commands</code> schickt einen Link zur Befehlsübersicht. <code>!help &lt;thema&gt;</code> verlinkt die passende Hilfe, zum Beispiel <code>!help raid</code>.</p>
+</section>
+<section id="warum-antwortet-der-bot-manchmal-nicht-auf-rank">
+<h2>Warum antwortet der Bot manchmal nicht auf <code>!rank</code>?</h2>
+<p>
+Die acht Spielstatistikbefehle lassen sich im Dashboard einzeln abschalten. Ohne Ziel zeigen sie die Daten des Streamers, mit @user die Daten der genannten Person. Dafür wird deren Steam-Verknüpfung verwendet; !rank bietet zusätzlich einen öffentlichen API-Fallback. Sie funktionieren auch offline und in anderen Kategorien. Außerdem gelten die normale Chatmoderation und die Teilnahme des Kanals am Bot.</p>
+</section>
+<section id="twitch-und-steam-direkt-verbinden">
+<h2>Twitch und Steam direkt verbinden</h2>
+<p>
+<code>!connect</code> verlinkt unsere Seite <code>/twitch/connect</code>. Dort bestätigst du zuerst dein Twitch-Konto und meldest dich anschließend bei Steam an. Kein Discord-Konto und keine Streamer-Partnerschaft nötig. Gespeichert werden die stabile Twitch-ID und die von Steam bestätigte Steam-ID; ein gleicher Anzeigename ist nicht erforderlich.</p>
+<p>
+Danach nutzt <code>!rank @deinname</code> diesen Account über die Deadlock API. Die Verbindung bestätigt den Account, nicht die Verfügbarkeit oder Aktualität von Rangdaten. Ohne @name zeigt <code>!rank</code> weiterhin den Rang des Streamers. Weitere Spielstatistiken benötigen vorerst zusätzlich die bestehende Discord-/Steam-Verknüpfung zum selben Steam-Account. Watchtime braucht keine Steam-Verknüpfung.</p>
+<p>
+<code>!unconnect</code> (auch <code>!disconnect</code>) entfernt deine direkte Steam-Zuordnung und löscht daraus die Steam-ID. Nur deine Twitch-ID bleibt mit einem Abschaltvermerk gespeichert: Die automatische Zuordnung über Discord und Namenssuche bleibt deaktiviert, bis du selbst erneut verbindest. Der Befehl funktioniert ausschließlich für das eigene Konto, niemals mit @user. Auf der Kontoseite gibt es dafür ebenfalls „Verknüpfung entfernen“. Die separate Discord-Verknüpfung und öffentliche Steam-/Deadlock-Daten werden dadurch nicht gelöscht. Ein bereits gestarteter Steam-Rücksprung kann die Trennung nicht rückgängig machen.</p>
+</section>
+<section id="welche-befehle-können-normale-zuschauer-nutzen">
+<h2>Welche Befehle können normale Zuschauer nutzen?</h2>
+<ul>
+<li>
+<code>!watchtime</code> zeigt deine hier erfasste Zuschauerzeit und den Anteil im laufenden Stream. Gezählt werden erfasste Anwesenheiten, auch mit Pausen dazwischen. Die Zahl ist keine lückenlose Messung deiner tatsächlichen Sehzeit.</li>
+<li>
+<code>!rank</code>, <code>!wins</code>, <code>!winrate</code>, <code>!mmr</code>, <code>!live</code>, <code>!lastmatch</code>, <code>!streak</code> und <code>!mostplayed</code> zeigen Deadlock-Statistiken des Streamers. <code>!live</code> meint ein laufendes Spiel, nicht den Twitch-Livestatus.</li>
+<li>
+<code>!clip</code> erstellt einen Clip aus dem laufenden Stream. Der Kanalschalter muss an sein und die Twitch-Verbindung passen. Die Kategorie ist egal.</li>
+<li>
+<code>!discord</code>, <code>!dldc</code> und <code>!dlde</code> zeigen den hinterlegten Discord-Link. <code>!invite</code> zeigt einen Einladungslink. Diese Befehle funktionieren auch offline.</li>
+<li>
+<code>!sub</code> zeigt den Abo-Link dieses Kanals. <code>!sub erinnerung an/aus/status</code> verwaltet deine freiwillige Abo-Erinnerung.</li>
+<li>
+<code>!lurk</code> sagt dem Chat, dass du still weiterschaust, sofern der Kanal den Befehl eingeschaltet hat.</li>
+<li>
+<code>!commands</code> verlinkt die Befehlsübersicht, <code>!dashboard</code> öffnet dein Twitch-Dashboard, <code>!help &lt;thema&gt;</code> die passende Hilfe und <code>!ping</code> prüft, ob der Bot antwortet.</li>
+<li>
+<code>!raid_status</code> und <code>!raid_history</code> zeigen den Raidstatus und die letzten Raids.</li>
+</ul>
+<p>
+Kurze Wiederholungssperren verhindern doppelte Antworten oder Aktionen.</p>
+</section>
+<section id="kann-ich-die-werte-einer-anderen-person-abfragen">
+<h2>Kann ich die Werte einer anderen Person abfragen?</h2>
+<p>
+Ja: <code>!watchtime @username</code> zeigt die erfasste Zuschauerzeit dieser Person <strong>im aktuellen Kanal</strong>. Ohne Namen zeigt <code>!watchtime</code> weiterhin deine eigene Zeit. Ein Twitch-Name ohne <code>@</code> funktioniert ebenfalls; pro Aufruf ist genau ein Ziel erlaubt.</p>
+<p>
+Auch <code>!rank</code>, <code>!wins</code>, <code>!winrate</code>, <code>!mmr</code>, <code>!live</code>, <code>!lastmatch</code>, <code>!streak</code> und <code>!mostplayed</code> akzeptieren <code>@username</code>, ebenso ihre Aliase <code>!climb</code>, <code>!last</code> und <code>!main</code>. Ohne Ziel bleiben sie auf den Streamer bezogen. Die Einstellungen des aktuellen Kanals gelten weiterhin.</p>
+<p>
+Eine direkte Verbindung über <code>!connect</code> hat Vorrang: <code>!rank @username</code> verwendet diesen bestätigten Account über die Deadlock API. Ohne direkte Verbindung nutzt der Befehl zuerst die bestehende Discord-/Steam-Zuordnung und unseren Steam-Bot. Fehlen dort Rangdaten oder die Bot-Freundschaft, wird der öffentliche Rang des bestätigten Accounts über die Deadlock API abgefragt. Gibt es keine Verknüpfung, sucht der Bot nach dem Twitch-Namen auf Steam. Ein eindeutiger exakter Namensfund wird ausdrücklich als <strong>unbestätigte Twitch-Zuordnung</strong> markiert. Bei mehreren oder nur ähnlichen Treffern gibt es Vorschläge, keinen geratenen Rang. Über <code>!rank steam:&lt;Account-ID&gt;</code> oder <code>!rank steam:&lt;SteamID64&gt;</code> lässt sich ein Steam-Account eindeutig auswählen. Das speichert keine neue Verknüpfung.</p>
+<p>
+API-Ränge werden als Stand des letzten erfassten Ranked-Matches gekennzeichnet. Fehlende Rangdaten sind kein Beweis dafür, dass jemand noch nie gerankt war. Die anderen Spielstatistiken brauchen weiterhin die hinterlegte Steam-Verknüpfung.</p>
+</section>
+<section id="welche-befehle-sind-für-broadcaster-und-mods-gedacht">
+<h2>Welche Befehle sind für Broadcaster und Mods gedacht?</h2>
+<ul>
+<li>
+<code>!raid</code> oder <code>!traid</code> startet einen manuellen Raid zu einem passenden Deadlock-Streamer. Das geht auch noch kurz nach dem Stream. Die Raidprüfung meldet, wenn die Voraussetzungen fehlen.</li>
+<li>
+<code>!uban</code> oder <code>!unban</code> nimmt den letzten gespeicherten Auto-Ban zurück.</li>
+<li>
+<code>!explain</code> erklärt einen vorhandenen Scam-Befund.</li>
+<li>
+<code>!silentban</code> schaltet Chat-Hinweise zu Auto-Bans um. <code>!silentraid</code> schaltet Raid-Hinweise um. Die Aktionen selbst laufen weiter.</li>
+<li>
+<code>!title &lt;stichwörter&gt;</code> oder <code>!titel &lt;stichwörter&gt;</code> schlägt einen Stream-Titel vor, auch offline. Der Befehl setzt den Twitch-Titel nicht automatisch. Ein vorhandener Rang und mit <code>--live</code> verfügbare Spieldaten können den Vorschlag ergänzen; sie sind keine Voraussetzung.</li>
+<li>
+<code>!lurkersteuer_off</code> schaltet die Lurker-Erinnerung ab. Das darf nur der Broadcaster und nur bei einem Plan mit dieser Funktion.</li>
+<li>
+<code>!clipcontest &lt;Clip-Link&gt;</code> reicht einen Clip aus deinem Kanal für den wöchentlichen Clip-Contest im Discord ein. Die Community stimmt dort ab, die besten drei Clips laufen im dach_lock-Stream. Es zählen nur Links wie <code>clips.twitch.tv/...</code> oder <code>twitch.tv/deinkanal/clip/...</code> aus deinem eigenen Kanal. Ohne Link nimmt der Bot den neuesten Clip aus dem laufenden Stream, zum Beispiel den von <code>!clip</code>. Pro Kanal gehen drei Einreichungen am Tag. Im Social-Studio gibt es dafür auch den Knopf „Für Clip-Contest einreichen“.</li>
+</ul>
+</section>
+<section id="welche-engagement-befehle-gibt-es">
+<h2>Welche Engagement-Befehle gibt es?</h2>
+<p>
+Mit <code>!engagement_ignore_me</code> nimmst du dich aus den Engagement-Antworten des Bots heraus. <code>!engagement_remember_me</code> hebt das wieder auf. Normale Chat- und Statistikaufzeichnungen werden dadurch nicht abgeschaltet. <code>!engagement_status</code> zeigt den Kanalstatus; Mods und Broadcaster können die Funktion mit <code>!engagement_on</code> und <code>!engagement_off</code> steuern.</p>
+</section>
+<section id="was-sollte-ich-nicht-erwarten">
+<h2>Was sollte ich nicht erwarten?</h2>
+<p>
+Der Twitch-Bot ist kein frei konfigurierbarer Nightbot-Ersatz. Eigene Fun-Commands und interne Admin-Aktionen gehören nicht zu dieser Befehlsliste. Einstellungen findest du im Dashboard.</p>
+</section>
+</main></body></html>
