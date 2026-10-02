@@ -272,7 +272,7 @@
     {
       "path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html",
       "verified_at": "2026-10-02T20:19:25.462Z",
-      "content_sha256": "90490a3fba39eb20bf43d7ce7f3f6942b1177f1ce5c8b6cd4a2284535a83e637",
+      "content_sha256": "0dbe5ba19948cf692e7dac8ee5c8e2bbcae3479197a9d45eea4ac4d1ac1a6a16",
       "code": [
         {
           "repository": "discord",
