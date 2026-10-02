@@ -26,9 +26,11 @@ Der `query`-Befehl erzeugt eindeutige Request-/Conversation-IDs und bindet fest 
 ## Offline prüfen
 
 ```sh
-cargo test --manifest-path tools/brain-adapter/Cargo.toml --all-targets --locked
-cargo clippy --manifest-path tools/brain-adapter/Cargo.toml --all-targets --locked -- -D warnings
+cargo test --manifest-path tools/brain-adapter/Cargo.toml --all-targets --locked --offline
+cargo clippy --manifest-path tools/brain-adapter/Cargo.toml --all-targets --locked --offline -- -D warnings
 cargo fmt --manifest-path tools/brain-adapter/Cargo.toml -- --check
 ```
+
+Die gesperrten Abhängigkeiten müssen bereits im lokalen Cargo-Cache liegen. Die Prüfungen laufen lokal; ein GitHub-Actions-Workflow wird dafür nicht angelegt.
 
 Vor einer späteren realen Nutzung bleibt ein isolierter Test gegen brain-serve mit einem nichtproduktiven Public-Token nötig. Keine Dokumente wurden veröffentlicht, keine Produktionskonfiguration geändert und kein Deployment ausgeführt.
