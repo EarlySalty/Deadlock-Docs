@@ -11,7 +11,7 @@ async fn configured_adapter(path: &str) -> Result<DocsBrainAdapter, AdapterError
 async fn run(args: &[String]) -> Result<(), AdapterError> {
     match args {
         [command] if command == "--help" => {
-            println!("deadlock-docs-brain-adapter prepare < query.json\ndeadlock-docs-brain-adapter answer CONFIG_JSON < query.json\ndeadlock-docs-brain-adapter query CONFIG_JSON QUESTION...\nanswer/query laden den freigegebenen Brain-Token direkt aus Infisical. prepare nutzt kein Netz. Kein Korpusimport, keine Veröffentlichung, keine Auslieferung.");
+            println!("deadlock-docs-brain-adapter prepare < query.json\ndeadlock-docs-brain-adapter answer CONFIG_TOML < query.json\ndeadlock-docs-brain-adapter query CONFIG_TOML QUESTION...\nanswer/query laden den freigegebenen Brain-Token direkt aus Infisical. prepare nutzt kein Netz. Kein Korpusimport, keine Veröffentlichung, keine Auslieferung.");
             Ok(())
         }
         [command] if command == "prepare" => {
