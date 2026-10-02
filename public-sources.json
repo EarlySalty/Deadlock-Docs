@@ -38,7 +38,7 @@
     {
       "id": "community-docs",
       "label": "Community-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/community-docs",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/community-docs",
       "ref": "HEAD",
       "public": [
         {
@@ -52,7 +52,7 @@
     {
       "id": "twitch",
       "label": "Streamer-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/twitch",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/twitch",
       "ref": "HEAD",
       "public": [
         {
@@ -574,7 +574,7 @@
     {
       "id": "discord",
       "label": "Discord-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/discord",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/discord",
       "ref": "HEAD",
       "public": [
         {
@@ -600,7 +600,7 @@
     {
       "id": "website",
       "label": "Community-Website",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/website",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/website",
       "ref": "HEAD",
       "public": [
         {
@@ -783,7 +783,7 @@
     {
       "id": "turniere",
       "label": "Turnier-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/turniere",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/turniere",
       "ref": "HEAD",
       "public": [
         {
@@ -843,7 +843,7 @@
     {
       "id": "steam",
       "label": "Steam-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/steam",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/steam",
       "ref": "HEAD",
       "public": [],
       "coverage": "docs/README verweist Nutzerhilfe auf zentrale Steam-Integration; redigiert bereits in public/steam-bot.",
@@ -852,7 +852,7 @@
     {
       "id": "patchnotes",
       "label": "Patchnotes-Hilfe",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/patchnotes",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/patchnotes",
       "ref": "HEAD",
       "public": [],
       "coverage": "Öffentliche Nutzerhilfe bereits in public/patchnotes-bot; lokales Betriebshandbuch nicht öffentlich.",
@@ -861,7 +861,7 @@
     {
       "id": "uplink",
       "label": "Uplink",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/uplink",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/uplink",
       "ref": "HEAD",
       "public": [],
       "coverage": "Lokale docs sind Entwicklungs-/Betriebsverträge. Aktuelle öffentliche Uplink-Hilfe stammt aus den ausdrücklich freigegebenen Twitch-Wissensdateien.",
@@ -870,7 +870,7 @@
     {
       "id": "relay",
       "label": "Uplink-Relay",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/relay",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/relay",
       "ref": "HEAD",
       "public": [],
       "coverage": "Support-Agentenleitfaden enthält interne Verbote und veraltete SRT-Aussagen; keine öffentliche Nutzerseite. Aktuelle Hilfe über Twitch-Wissensdateien.",
@@ -879,7 +879,7 @@
     {
       "id": "game-brain",
       "label": "Deadlock-Spielwissen",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/game-brain",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/game-brain",
       "ref": "HEAD",
       "public": [
         {
@@ -893,7 +893,7 @@
     {
       "id": "obsidian",
       "label": "Betriebsgedächtnis",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/obsidian",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/obsidian",
       "ref": "HEAD",
       "public": [],
       "coverage": "README deklariert Betriebsgedächtnis, SOPs und Entscheidungen; keine pauschale öffentliche Freigabe.",
@@ -902,7 +902,7 @@
     {
       "id": "caddy",
       "label": "Website-Betrieb",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/caddy",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/caddy",
       "ref": "HEAD",
       "public": [],
       "reviews": {},
@@ -911,7 +911,7 @@
     {
       "id": "trading",
       "label": "Trading",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/trading",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/trading",
       "ref": "HEAD",
       "public": [],
       "inventory_only": true,
@@ -921,7 +921,7 @@
     {
       "id": "earlysalty",
       "label": "Profil",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/earlysalty",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/earlysalty",
       "ref": "HEAD",
       "public": [],
       "reviews": {},
@@ -930,7 +930,7 @@
     {
       "id": "vault-clients",
       "label": "Vault-Clients",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/vault-clients",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/vault-clients",
       "ref": "HEAD",
       "public": [],
       "reviews": {},
@@ -939,7 +939,7 @@
     {
       "id": "codex-mcp",
       "label": "Entwicklungswerkzeuge",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/codex-mcp",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/codex-mcp",
       "ref": "HEAD",
       "public": [],
       "reviews": {},
@@ -948,7 +948,7 @@
     {
       "id": "t3code",
       "label": "Entwicklungsoberfläche",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/t3code",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/t3code",
       "ref": "HEAD",
       "public": [],
       "reviews": {},
@@ -957,7 +957,7 @@
     {
       "id": "discord-voice",
       "label": "Aktuelle Voice-Anleitung",
-      "path": "/home/nathanael/Documents/.tasks/2026-10-02-brain-hilfefragen/docs-nachweise/gezieltes-release/sources/discord-voice",
+      "path": "/opt/deadlock-docs/releases/brain-hilfefragen-20261002/sources/discord-voice",
       "inventory_only": true,
       "public": [],
       "ref": "HEAD"
