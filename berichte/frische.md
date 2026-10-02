@@ -3,7 +3,7 @@
 Erzeugt: 2026-09-30 von `tools/check_freshness.py` aus `quellen.json`.
 
 - ohne Eintrag in `quellen.json`: **0**
-- veraltet: **75**, davon 31 mit genauer Bindung
+- veraltet: **75**, davon 31 mit genauer und 44 mit grober Bindung
 - aktuell: 5
 - unbekannt: 1
 - nicht verfolgt: 2
@@ -12,10 +12,14 @@ Erzeugt: 2026-09-30 von `tools/check_freshness.py` aus `quellen.json`.
 Quellpfaden weitergearbeitet. Es heisst nicht, dass die Seite falsch ist,
 sondern dass sie ungeprueft ist.
 
-45 Seiten haengen noch an groben Pfaden (ganze Repo-Verzeichnisse).
-Ihre Commit-Zahlen sind Obergrenzen, kein Befund. Wer eine solche Seite
-ueberarbeitet, traegt in `quellen.json` gleich die genauen Pfade nach;
-danach meldet der Bericht fuer sie nur noch echte Treffer.
+45 Seiten haben über alle Zustände hinweg grobe Bindungen. Davon sind 44
+veraltet und eine unbekannt. Die 31 genau gebundenen veralteten Seiten
+gehören deshalb zusammen mit den 44 grob gebundenen zum Gesamtwert 75.
+Die bisherige Darstellung mischte diese beiden Zählmengen.
+
+Die Commit-Zahlen grober Bindungen sind Obergrenzen, kein fachlicher Befund.
+Wer eine solche Seite überarbeitet, trägt in `quellen.json` die genauen
+Pfade nach. Eine Quellenänderung allein belegt keinen falschen Inhalt.
 
 ## veraltet (75)
 

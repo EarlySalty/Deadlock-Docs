@@ -22,7 +22,7 @@
 
   <section id="wie-es-laeuft">
     <h2>Wie der Auto-Raid abläuft</h2>
-    <p>Beende deinen Deadlock-Stream regulär. Der Bot prüft aktiven Partnerstatus, aktivierte Raid-Funktion und eine gültige Twitch-Autorisierung und versucht dann den Raid – ohne weiteren Chatbefehl. Gibt es kein geeignetes Ziel oder ist die Autorisierung nicht mehr gültig, findet kein Raid statt. Das ist ein zulässiges Ergebnis.</p>
+    <p>Beende deinen Deadlock-Stream regulär. Wenn Auto-Raid aktiv und Twitch verbunden ist, versucht der Bot anschließend einen Raid. Du brauchst dafür keinen weiteren Chatbefehl. Gibt es kein geeignetes Ziel oder fehlt eine gültige Twitch-Berechtigung, bleibt der Raid aus.</p>
     <p>Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter. Den konkreten Zielkanal wählst du nicht selbst; beobachtbar ist nur, ob ein Raid stattgefunden hat oder mangels Ziel ausgeblieben ist.</p>
   </section>
 
@@ -31,7 +31,7 @@
     <ul>
       <li>Status prüfen: <code>!raid_status</code>.</li>
       <li>Letzte Versuche ansehen: <code>!raid_history</code>.</li>
-      <li>Manueller Versuch: <code>!raid</code> bzw. <code>!traid</code> – nur durch Broadcaster oder Moderation.</li>
+      <li>Broadcaster oder Moderation können mit <code>!raid</code> bzw. <code>!traid</code> einen manuellen Versuch auslösen.</li>
     </ul>
     <p>Verlangt der Bot eine neue Autorisierung, durchlaufe den sichtbaren Autorisierungsweg erneut (siehe <a href="einrichtung.html">Einrichtung</a>). Ein manueller Raid ersetzt kein geeignetes Ziel und keine gültige Autorisierung.</p>
     <nav><a href="faq-raids.html">FAQ Raids</a><a href="chat-befehle.html">Befehle</a></nav>

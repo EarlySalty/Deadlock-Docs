@@ -9,7 +9,9 @@ Zentrales Wissens-Repo für die Deutsche Deadlock Community. Es bündelt das gep
 - `evals/`: sechs geprüfte Fragenpakete mit insgesamt 224 realistischen Supportfragen.
 - `quellen.json`: bindet jede interne Seite an die Quell-Repos und Pfade, aus denen sie geschrieben wurde, samt geprüftem Commit.
 
-Alle Wissensseiten unter `public/` und `internal/` sind kanonisches, semantisches HTML. Root-Dateien wie README, Plan und Changelog bleiben Markdown und werden nie indexiert.
+Neue und fachlich überarbeitete Wissensseiten erhalten semantisches HTML. Die zwölf vorhandenen Markdownseiten bleiben während der Migration lesbar; ein Formatwechsel ersetzt dieselbe logische Seite. Root-Dateien wie README, Plan und Changelog bleiben Markdown und werden nie indexiert. Der bestehende vollständige Validator meldet die zwölf Markdownseiten noch als Verstöße; diese bekannte Vertragsabweichung wird ohne Massenkonvertierung behoben.
+
+Dieses GitHub-Repository ist öffentlich. Ein Ordnername gewährt keinen Zugriffsschutz. Neue technische Dokumentation und noch nicht freigegebene Kandidaten gehören in die private Dokumentablage.
 
 ## Öffentliche Laufzeit
 
