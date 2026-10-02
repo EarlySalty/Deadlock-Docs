@@ -271,29 +271,29 @@
     },
     {
       "path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html",
-      "verified_at": "2026-09-19T23:10:08.609Z",
+      "verified_at": "2026-10-02T20:19:25.462Z",
       "content_sha256": "90490a3fba39eb20bf43d7ce7f3f6942b1177f1ce5c8b6cd4a2284535a83e637",
       "code": [
         {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "repository": "discord-voice",
+          "revision": "9e602679f6ef8e3f50d0267e565b28d246606622",
           "paths": [
             "rust/crates/dl-voice/src/router.rs",
             "rust/crates/dl-voice/src/tempvoice/engine.rs",
-            "rust/crates/dl-voice/src/feedback.rs"
+            "rust/crates/dl-voice/src/tempvoice/interface.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Erster Router-Beitritt erstellt Casual-Lane, Moduswahl übernimmt bestehende Lane und speichert Standard.",
+          "claim": "Der erste Router-Beitritt ohne Standard erstellt eine Casual-Lane. Die Moduswahl mit Fertig übernimmt die bestehende eigene Lane; spätere Beitritte verwenden den gespeicherten Standard.",
           "verdict": "verified",
-          "evidence": "router.rs spawn_fallback_lane_and_onboard sowie router_dm_done/AlreadyOwnLane; alter Erst-DM-vor-Lane-Ablauf korrigiert."
+          "evidence": "router.rs:1000 handle_event, :1040 spawn_fallback_lane_and_onboard, :1491 spawn_lane_from_current_voice_with_role_ids und :1765 router_dm_done; engine.rs:1033 move_member. Die Moduswahl im Router-Panel benötigt einen bestehenden Sprachkanal (router.rs:1506); ein fehlender Standard wird bei Moduswahl gespeichert (:1567 ensure_default_mode_if_missing)."
         },
         {
-          "claim": "Owner-Verwaltung, optionales Ranked-Gate, Ownerwechsel und Leerlöschung.",
+          "claim": "Owner-Funktionen gelten für die eigene aktuelle Lane. Ein optionales Rang-Gate ist auf Ranked-Lanes beschränkt; ohne Gate bleibt die Lane grundsätzlich offen. Nach dem Verlassen kann der Owner wechseln, leere Lanes werden entfernt.",
           "verdict": "verified",
-          "evidence": "router.rs Panelvertrag/Ownerprüfung; engine.rs Mitgliederwechsel und cleanup_lane; Ranked-Gate betrifft neue Beitritte."
+          "evidence": "tempvoice/interface.rs:725 lane_of und Ownerprüfung im PanelHandler; engine.rs:795 on_leave, :808 cleanup_lane, :812 Ownerwechsel, :1299 set_limit und :1796 set_min_rank. router.rs:424 Lane-Panel mit Umbenennen, Limit, Kick, Ban und Unban."
         }
       ],
       "gaps": []
