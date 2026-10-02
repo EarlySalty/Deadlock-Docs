@@ -2,6 +2,7 @@ use serde_json::{json, Value};
 use std::{
     io::Write,
     process::{Command, Output, Stdio},
+    time::{Duration, Instant},
 };
 
 fn query() -> String {
@@ -19,6 +20,15 @@ fn invoke(args: &[&str], input: &str) -> Output {
         .unwrap();
     if let Some(mut stdin) = child.stdin.take() {
         let _ = stdin.write_all(input.as_bytes());
+    }
+    let deadline = Instant::now() + Duration::from_secs(2);
+    while child.try_wait().unwrap().is_none() {
+        if Instant::now() >= deadline {
+            child.kill().unwrap();
+            child.wait().unwrap();
+            panic!("CLI-Aufruf hat das Zeitlimit überschritten");
+        }
+        std::thread::sleep(Duration::from_millis(10));
     }
     child.wait_with_output().unwrap()
 }
@@ -57,6 +67,25 @@ fn answer_requires_a_config_before_any_transport_or_output() {
     let output = invoke(&["answer", "/path/that/does/not/exist"], &query());
     assert!(!output.status.success());
     assert!(output.stdout.is_empty());
+    let directory = tempfile::tempdir().unwrap();
+    let config_fifo = directory.path().join("config-fifo");
+    let credential_fifo = directory.path().join("credential-fifo");
+    let mode = nix::sys::stat::Mode::S_IRUSR | nix::sys::stat::Mode::S_IWUSR;
+    nix::unistd::mkfifo(&config_fifo, mode).unwrap();
+    nix::unistd::mkfifo(&credential_fifo, mode).unwrap();
+    let mut config: Value = toml::from_str(include_str!("../config.example.toml")).unwrap();
+    config["brain"]["docs"]["infisical"]
+        .as_object_mut()
+        .unwrap()
+        .remove("credential_fd");
+    config["brain"]["docs"]["infisical"]["credential_file"] = json!(credential_fifo);
+    let config_path = directory.path().join("bot.toml");
+    std::fs::write(&config_path, toml::to_string(&config).unwrap()).unwrap();
+    for path in [&config_fifo, &config_path] {
+        let output = invoke(&["answer", path.to_str().unwrap()], &query());
+        assert_eq!(output.status.code(), Some(64));
+        assert!(output.stdout.is_empty());
+    }
 }
 
 #[test]

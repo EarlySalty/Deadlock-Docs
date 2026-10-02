@@ -74,9 +74,16 @@ impl AdapterConfig {
     pub fn load(path: &Path) -> Result<Self, AdapterError> {
         let file = OpenOptions::new()
             .read(true)
-            .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
+            .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC | libc::O_NONBLOCK)
             .open(path)
             .map_err(|_| AdapterError::Configuration)?;
+        if !file
+            .metadata()
+            .map_err(|_| AdapterError::Configuration)?
+            .is_file()
+        {
+            return Err(AdapterError::Configuration);
+        }
         let mut bytes = Vec::new();
         file.take(MAX_CONFIG_BYTES + 1)
             .read_to_end(&mut bytes)
@@ -201,7 +208,7 @@ impl InfisicalConfig {
 fn read_credential(path: &Path) -> Result<Zeroizing<String>, AdapterError> {
     let file = OpenOptions::new()
         .read(true)
-        .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
+        .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC | libc::O_NONBLOCK)
         .open(path)
         .map_err(|_| AdapterError::Configuration)?;
     read_credential_contents(&file)
