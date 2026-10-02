@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "baseline_snapshot": "/home/nathanael/.local/share/dl-knowledge/89c57910fdce-eee60df423b215b1b014-8d5b82a07edf-7e114021717f",
+  "baseline_docs_revision": "89c57910fdcee2e9a5635ccc388c0e32663b9c26",
+  "profile_description": "Die bisher aktivierten Inhalte und Quellen bleiben auf ihrem eingefrorenen Stand. Ausschließlich die erneut gegen aktuellen Rust-Code geprüfte Voice-Anleitung wird ergänzt.",
+  "frozen_sources": [
+    {
+      "id": "community-docs",
+      "path": "/home/nathanael/repos/Deadlock-Docs",
+      "revision": "89c57910fdcee2e9a5635ccc388c0e32663b9c26"
+    },
+    {
+      "id": "twitch",
+      "path": "/home/nathanael/repos/Deadlock-Twitch-Bot",
+      "revision": "a9d2be8be55c6f3dd89cbd533164725790047026"
+    },
+    {
+      "id": "discord",
+      "path": "/home/nathanael/repos/Deadlock-Bots",
+      "revision": "ff635f7b354cb09909c01ddd6f773d0682dd89c9"
+    },
+    {
+      "id": "website",
+      "path": "/home/nathanael/repos/Website",
+      "revision": "d54b52e73b0ccf4739513d85f44d456b590acb48"
+    },
+    {
+      "id": "turniere",
+      "path": "/home/nathanael/repos/Deadlock-Turniere",
+      "revision": "8b3f8023ba032d7adce4d7f8b1dd002d617afeab"
+    },
+    {
+      "id": "steam",
+      "path": "/home/nathanael/repos/Deadlock-Steam-Bot",
+      "revision": "ed3dce67e1b1ccb804e4276499e204c2be5a4714"
+    },
+    {
+      "id": "patchnotes",
+      "path": "/home/nathanael/repos/Deadlock--Patchnotes-Bot",
+      "revision": "31820cbe6c4add9f29364687564c28ac35d5d18a"
+    },
+    {
+      "id": "uplink",
+      "path": "/home/nathanael/repos/uplink",
+      "revision": "ca9abd04102b372bd877bd800243b751e47ebef9"
+    },
+    {
+      "id": "relay",
+      "path": "/home/nathanael/repos/rs-relay",
+      "revision": "78c6b4ab7ec65ba0f6f074ae1467f592d7ffd79c"
+    },
+    {
+      "id": "game-brain",
+      "path": "/home/nathanael/repos/Deadlock-Brain",
+      "revision": "dfefc8f2e0df623d838e0ec7c1f18d86492ae1b5"
+    },
+    {
+      "id": "obsidian",
+      "path": "/home/nathanael/repos/Deadlock-2nd-Brain",
+      "revision": "0171da453592f7c76e75ff9d88c8e906d9b48433"
+    },
+    {
+      "id": "caddy",
+      "path": "/home/nathanael/repos/Caddy",
+      "revision": "c9e6fe9b11eac5eaf91eeee8af0fd64531e0ee32"
+    },
+    {
+      "id": "trading",
+      "path": "/home/nathanael/repos/TradingBot",
+      "revision": "c30af3ca90f87f3851e3eaa5ffa53c4a1e4dc2e3"
+    },
+    {
+      "id": "earlysalty",
+      "path": "/home/nathanael/repos/EarlySalty",
+      "revision": "81725e766f6616fbf3b455d46e50d183985ce39c"
+    },
+    {
+      "id": "vault-clients",
+      "path": "/home/nathanael/repos/vault-clients",
+      "revision": "eb74fb3014c9869b92e67964b3bb5840aca74691"
+    },
+    {
+      "id": "codex-mcp",
+      "path": "/home/nathanael/repos/codex-mcp",
+      "revision": "b2c77f7b16497ea8f844907dc112376155b7635e"
+    },
+    {
+      "id": "t3code",
+      "path": "/home/nathanael/repos/t3code-multi-agent",
+      "revision": "f5ef0ddb90a8c36584e181b1913e7b8a5df30ffc"
+    }
+  ],
+  "voice_source": {
+    "id": "discord-voice",
+    "label": "Aktuelle Voice-Anleitung",
+    "path": "/home/nathanael/repos/Deadlock-Bots",
+    "revision": "9e602679f6ef8e3f50d0267e565b28d246606622",
+    "inventory_only": true,
+    "public": [],
+    "ref": "HEAD"
+  },
+  "voice_audit": {
+    "path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html",
+    "verified_at": "2026-10-02T20:19:25.462Z",
+    "content_sha256": "90490a3fba39eb20bf43d7ce7f3f6942b1177f1ce5c8b6cd4a2284535a83e637",
+    "code": [
+      {
+        "repository": "discord-voice",
+        "revision": "9e602679f6ef8e3f50d0267e565b28d246606622",
+        "paths": [
+          "rust/crates/dl-voice/src/router.rs",
+          "rust/crates/dl-voice/src/tempvoice/engine.rs",
+          "rust/crates/dl-voice/src/tempvoice/interface.rs"
+        ]
+      }
+    ],
+    "claims": [
+      {
+        "claim": "Der erste Router-Beitritt ohne Standard erstellt eine Casual-Lane. Die Moduswahl mit Fertig übernimmt die bestehende eigene Lane; spätere Beitritte verwenden den gespeicherten Standard.",
+        "verdict": "verified",
+        "evidence": "router.rs:1000 handle_event, :1040 spawn_fallback_lane_and_onboard, :1491 spawn_lane_from_current_voice_with_role_ids und :1765 router_dm_done; engine.rs:1033 move_member. Die Moduswahl im Router-Panel benötigt einen bestehenden Sprachkanal (router.rs:1506); ein fehlender Standard wird bei Moduswahl gespeichert (:1567 ensure_default_mode_if_missing)."
+      },
+      {
+        "claim": "Owner-Funktionen gelten für die eigene aktuelle Lane. Ein optionales Rang-Gate ist auf Ranked-Lanes beschränkt; ohne Gate bleibt die Lane grundsätzlich offen. Nach dem Verlassen kann der Owner wechseln, leere Lanes werden entfernt.",
+        "verdict": "verified",
+        "evidence": "tempvoice/interface.rs:725 lane_of und Ownerprüfung im PanelHandler; engine.rs:795 on_leave, :808 cleanup_lane, :812 Ownerwechsel, :1299 set_limit und :1796 set_min_rank. router.rs:424 Lane-Panel mit Umbenennen, Limit, Kick, Ban und Unban."
+      }
+    ],
+    "gaps": []
+  },
+  "voice_path": "public/discord-server/workflows/voice-lane-erstellen-verwalten.html"
+}
