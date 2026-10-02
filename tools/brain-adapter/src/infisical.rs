@@ -338,7 +338,16 @@ mod tests {
         assert_eq!(config.infisical.credential_fd, Some(5));
         assert!(config.infisical.credential_file.is_none());
         for invalid in [
-            json!({"endpoint":"http://127.0.0.1:8788","timeout_ms":5000}).to_string(),
+            json!({
+                "endpoint":"http://127.0.0.1:8788", "timeout_ms":5000,
+                "infisical":{
+                    "project_id":"00000000-0000-0000-0000-000000000000",
+                    "environment":"prod", "secret_path":"/",
+                    "socket_path":"/run/uplink-infisical/api.sock",
+                    "credential_fd":5, "token_secret":"BRAIN_SERVE_DOCS_PUBLIC_TOKEN"
+                }
+            })
+            .to_string(),
             example.replace("[brain.docs]", "[docs]"),
             example.replace(
                 "timeout_ms = 5000",
