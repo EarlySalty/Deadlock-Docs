@@ -18,6 +18,18 @@ const MAX_REPLY_BYTES: usize = 2 * 1024 * 1024;
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct BotConfig {
+    brain: BrainConfig,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct BrainConfig {
+    docs: AdapterConfig,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct AdapterConfig {
     pub endpoint: String,
     pub timeout_ms: u64,
@@ -72,8 +84,9 @@ impl AdapterConfig {
         if bytes.len() as u64 > MAX_CONFIG_BYTES {
             return Err(AdapterError::Configuration);
         }
-        let config: Self =
-            serde_json::from_slice(&bytes).map_err(|_| AdapterError::Configuration)?;
+        let text = std::str::from_utf8(&bytes).map_err(|_| AdapterError::Configuration)?;
+        let config: BotConfig = toml::from_str(text).map_err(|_| AdapterError::Configuration)?;
+        let config = config.brain.docs;
         config.validate()?;
         Ok(config)
     }
@@ -288,29 +301,70 @@ mod tests {
     #[test]
     fn config_is_explicit_and_cannot_select_external_endpoints_or_arbitrary_secrets() {
         let directory = tempfile::tempdir().unwrap();
-        let path = directory.path().join("adapter.json");
+        let path = directory.path().join("bot.toml");
         let mut value = serde_json::to_value(json!({
+            "brain":{"docs":{
             "endpoint":"http://127.0.0.1:8787", "timeout_ms":5000,
             "infisical":{
                 "project_id":"00000000-0000-0000-0000-000000000000", "environment":"prod",
                 "secret_path":"/", "socket_path":"/run/uplink-infisical/api.sock",
                 "credential_file":"/run/credentials/docs/infisical-token",
                 "token_secret":"BRAIN_SERVE_OTHER_TOKEN"
-            }
+            }}}
         }))
         .unwrap();
-        fs::write(&path, value.to_string()).unwrap();
+        fs::write(&path, toml::to_string(&value).unwrap()).unwrap();
         assert!(AdapterConfig::load(&path).is_ok());
-        value["endpoint"] = json!("https://external.example.invalid");
-        fs::write(&path, value.to_string()).unwrap();
+        value["brain"]["docs"]["endpoint"] = json!("https://external.example.invalid");
+        fs::write(&path, toml::to_string(&value).unwrap()).unwrap();
         assert!(AdapterConfig::load(&path).is_err());
-        value["endpoint"] = json!("http://127.0.0.1:8787");
-        value["infisical"]["token_secret"] = json!("DEADLOCK_CENTRAL_DSN");
-        fs::write(&path, value.to_string()).unwrap();
+        value["brain"]["docs"]["endpoint"] = json!("http://127.0.0.1:8787");
+        value["brain"]["docs"]["infisical"]["token_secret"] = json!("DEADLOCK_CENTRAL_DSN");
+        fs::write(&path, toml::to_string(&value).unwrap()).unwrap();
         assert!(AdapterConfig::load(&path).is_err());
-        value["infisical"]["token_secret"] = json!("BRAIN_SERVE_OTHER_TOKEN");
-        value["infisical"]["unexpected"] = json!("not allowed");
-        fs::write(&path, value.to_string()).unwrap();
+        value["brain"]["docs"]["infisical"]["token_secret"] = json!("BRAIN_SERVE_OTHER_TOKEN");
+        value["brain"]["docs"]["infisical"]["unexpected"] = json!("not allowed");
+        fs::write(&path, toml::to_string(&value).unwrap()).unwrap();
+        assert!(AdapterConfig::load(&path).is_err());
+    }
+
+    #[test]
+    fn normal_bot_toml_has_no_json_or_client_authority_fallback() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("bot.toml");
+        let example = include_str!("../config.example.toml");
+        fs::write(&path, example).unwrap();
+        let config = AdapterConfig::load(&path).unwrap();
+        assert_eq!(config.infisical.credential_fd, Some(5));
+        assert!(config.infisical.credential_file.is_none());
+        for invalid in [
+            json!({"endpoint":"http://127.0.0.1:8788","timeout_ms":5000}).to_string(),
+            example.replace("[brain.docs]", "[docs]"),
+            example.replace(
+                "timeout_ms = 5000",
+                "timeout_ms = 5000\nprincipal = \"NEVER_ECHO\"",
+            ),
+            example.replace(
+                "timeout_ms = 5000",
+                "timeout_ms = 5000\nrequested_scopes = [\"second_brain.internal\"]",
+            ),
+            example.replace(
+                "timeout_ms = 5000",
+                "timeout_ms = 5000\nknowledge_release = \"internal-release\"",
+            ),
+            example.replace(
+                "credential_fd = 5",
+                "credential_fd = 5\ncredential_file = \"/run/credentials/docs/infisical-token\"",
+            ),
+            String::new(),
+            "#".repeat((MAX_CONFIG_BYTES + 1) as usize),
+        ] {
+            fs::write(&path, invalid).unwrap();
+            let error = AdapterConfig::load(&path).err().unwrap();
+            assert_eq!(error, AdapterError::Configuration);
+            assert!(!error.to_string().contains("NEVER_ECHO"));
+        }
+        fs::write(&path, [0xff]).unwrap();
         assert!(AdapterConfig::load(&path).is_err());
     }
 
@@ -335,8 +389,8 @@ mod tests {
 
     #[test]
     fn credential_source_is_exactly_one_private_file_or_inherited_fd() {
-        let example: AdapterConfig =
-            serde_json::from_str(include_str!("../config.example.json")).unwrap();
+        let example: BotConfig = toml::from_str(include_str!("../config.example.toml")).unwrap();
+        let example = example.brain.docs;
         assert!(example.validate().is_ok());
         assert_eq!(example.infisical.credential_fd, Some(5));
         assert!(example.infisical.credential_file.is_none());

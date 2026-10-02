@@ -28,7 +28,7 @@ fn help_has_no_runtime_prerequisites_or_environment_secret_path() {
     let output = invoke(&["--help"], "");
     assert!(output.status.success());
     let help = String::from_utf8(output.stdout).unwrap();
-    assert!(help.contains("CONFIG_JSON"));
+    assert!(help.contains("CONFIG_TOML"));
     assert!(!help.contains("BRAIN_ADAPTER_TOKEN"));
 }
 

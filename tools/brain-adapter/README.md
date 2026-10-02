@@ -12,7 +12,9 @@ Die Docs-Credential gehört serverseitig zur Identität `docs-client` im Kanal `
 
 Timeout, Request-/Response-Limits, Redirect-/Proxy-Schutz und Token-Redaktion kommen aus dem typisierten BrainClient. `unavailable` und `build_rejected` sind Teil des gepinnten Wire-Vertrags und werden als unveränderter `PublicAnswerResponse` ausgegeben.
 
-Die nicht geheime [Config-Vorlage](config.example.json) enthält Loopback-Endpunkt, Frist, Infisical-Projekt, `credential_fd: 5` und den Namen eines für `docs.public` vorgesehenen Tokens. Der vertrauenswürdige Starter öffnet die vorhandene geschützte Runtime-Credential auf FD5. Der Adapter liest positionsunabhängig aus einer eigenen CLOEXEC-Kopie und schützt auch den geerbten Deskriptor gegen Weitergabe an Kindprozesse. Die Quelle muss eine reguläre, nur für ihren Besitzer zugängliche Datei sein. Fehlende, ungültige oder unlesbare Deskriptoren brechen den Lauf ab. Für vorhandene dateibasierte Aufrufer bleibt die ausdrücklich konfigurierte absolute `credential_file` unterstützt; beide Quellen zusammen werden abgewiesen. Es gibt keinen automatischen Wechsel zwischen Quellen. Der Adapter legt keine Credential-Datei an.
+Die normale Laufzeitkonfiguration liegt unter `/home/nathanael/.config/deadlock-docs/bot.toml`. Der Adapter lädt ausschließlich `[brain.docs]` mit den bisherigen Feldern `endpoint` und `timeout_ms` sowie `[brain.docs.infisical]` mit den bisherigen sicheren Credentialparametern. Fehlende, ungültige oder widersprüchliche Konfiguration bricht den Aufruf ab.
+
+Die nicht geheime [Config-Vorlage](config.example.toml) enthält Loopback-Endpunkt, Frist, Infisical-Projekt, `credential_fd = 5` und den Namen eines für `docs.public` vorgesehenen Tokens. Der vertrauenswürdige Starter öffnet die vorhandene geschützte Runtime-Credential auf FD5. Der Adapter liest positionsunabhängig aus einer eigenen CLOEXEC-Kopie und schützt auch den geerbten Deskriptor gegen Weitergabe an Kindprozesse. Die Quelle muss eine reguläre, nur für ihren Besitzer zugängliche Datei sein. Fehlende, ungültige oder unlesbare Deskriptoren brechen den Lauf ab. Für vorhandene dateibasierte Aufrufer bleibt die ausdrücklich konfigurierte absolute `credential_file` unterstützt; beide Quellen zusammen werden abgewiesen. Es gibt keinen automatischen Wechsel zwischen Quellen. Der Adapter legt keine Credential-Datei an.
 
 Weder Bootstrap- noch Brain-Token erscheinen in Argumenten, Environment-Variablen oder Logs. Der Infisical-Zugriff verwendet ausschließlich den geschützten lokalen Unix-Socket und fragt genau den benannten Secret-Wert ab, ohne Listenabruf oder Import. Fehlende, abweichende oder ungültige Token-Werte brechen den Lauf ab. Vor einer echten Nutzung muss der Betreiber den gewählten Secret-Namen mit der Brain-Serve-Credential-ACL abgleichen und den erlaubten öffentlichen Wissensrelease live prüfen.
 
@@ -20,9 +22,9 @@ Weder Bootstrap- noch Brain-Token erscheinen in Argumenten, Environment-Variable
 
 ```sh
 # Typisierte Query direkt an eine ausdrücklich freigegebene lokale brain-serve-Instanz.
-# CONFIG_JSON ist eine bearbeitete Kopie der Vorlage ohne Secret-Werte.
+# CONFIG_TOML bezeichnet die normale bot.toml ohne Secret-Werte.
 cargo run --manifest-path tools/brain-adapter/Cargo.toml --locked -- \
-  query CONFIG_JSON "Welche öffentliche Dokumentation gibt es dazu?"
+  query CONFIG_TOML "Welche öffentliche Dokumentation gibt es dazu?"
 ```
 
 Der `query`-Befehl erzeugt eindeutige Request-/Conversation-IDs und bindet fest `docs.public`. Für Contract-/Fixture-Arbeit bleiben `prepare` und `answer` erhalten.
