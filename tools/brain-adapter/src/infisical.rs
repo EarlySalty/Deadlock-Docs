@@ -380,6 +380,8 @@ mod tests {
 
         let mut file = tempfile::tempfile().unwrap();
         file.write_all(b"synthetic-bootstrap\n").unwrap();
+        file.set_permissions(fs::Permissions::from_mode(0o400))
+            .unwrap();
         file.seek(SeekFrom::End(0)).unwrap();
         let offset = file.stream_position().unwrap();
         let fd = file.as_raw_fd();
