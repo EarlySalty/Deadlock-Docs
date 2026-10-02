@@ -1,14 +1,12 @@
 //! Öffentliche Brain-Credential über den bestehenden lokalen Infisical-Transport.
 //! Bootstrap-Credential und ausgewähltes Secret gelangen nicht in die Prozessumgebung.
 use crate::AdapterError;
+use nix::fcntl::{fcntl, FcntlArg, FdFlag};
 use serde::Deserialize;
 use std::{
     fs::{File, OpenOptions},
     io::Read,
-    os::{
-        fd::FromRawFd,
-        unix::fs::{FileExt, OpenOptionsExt, PermissionsExt},
-    },
+    os::unix::fs::{FileExt, OpenOptionsExt, PermissionsExt},
     path::{Path, PathBuf},
     time::Duration,
 };
@@ -201,17 +199,18 @@ fn read_credential_fd(fd: i32) -> Result<Zeroizing<String>, AdapterError> {
         return Err(AdapterError::Configuration);
     }
     // fcntl prüft den vom Starter übergebenen Deskriptor ohne Besitzübernahme.
-    let flags = unsafe { libc::fcntl(fd, libc::F_GETFD) };
-    if flags < 0 || unsafe { libc::fcntl(fd, libc::F_SETFD, flags | libc::FD_CLOEXEC) } < 0 {
-        return Err(AdapterError::Configuration);
-    }
+    let flags = fcntl(fd, FcntlArg::F_GETFD).map_err(|_| AdapterError::Configuration)?;
+    fcntl(
+        fd,
+        FcntlArg::F_SETFD(FdFlag::from_bits_retain(flags) | FdFlag::FD_CLOEXEC),
+    )
+    .map_err(|_| AdapterError::Configuration)?;
     // Nur die eigene Kopie wird geschlossen; beide Deskriptoren bleiben CLOEXEC.
-    let duplicate = unsafe { libc::fcntl(fd, libc::F_DUPFD_CLOEXEC, 3) };
-    if duplicate < 0 {
-        return Err(AdapterError::Configuration);
-    }
-    // F_DUPFD_CLOEXEC liefert einen neuen gültigen Deskriptor im eigenen Besitz.
-    let file = unsafe { File::from_raw_fd(duplicate) };
+    let descriptor =
+        filedescriptor::FileDescriptor::dup(&fd).map_err(|_| AdapterError::Configuration)?;
+    let file = descriptor
+        .as_file()
+        .map_err(|_| AdapterError::Configuration)?;
     read_credential_contents(&file)
 }
 
@@ -385,7 +384,7 @@ mod tests {
         let offset = file.stream_position().unwrap();
         let fd = file.as_raw_fd();
         // Der Fixture-Deskriptor bleibt während beider Ladevorgänge geöffnet.
-        assert_eq!(unsafe { libc::fcntl(fd, libc::F_SETFD, 0) }, 0);
+        fcntl(fd, FcntlArg::F_SETFD(FdFlag::empty())).unwrap();
         for _ in 0..2 {
             assert_eq!(
                 read_credential_fd(fd).unwrap().as_str(),
@@ -394,7 +393,7 @@ mod tests {
             assert_eq!(file.stream_position().unwrap(), offset);
         }
         assert_ne!(
-            unsafe { libc::fcntl(fd, libc::F_GETFD) } & libc::FD_CLOEXEC,
+            fcntl(fd, FcntlArg::F_GETFD).unwrap() & FdFlag::FD_CLOEXEC.bits(),
             0
         );
     }
