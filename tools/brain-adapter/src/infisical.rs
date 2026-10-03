@@ -1,6 +1,7 @@
 //! Öffentliche Brain-Credential über den bestehenden lokalen Infisical-Transport.
 //! Bootstrap-Credential und ausgewähltes Secret gelangen nicht in die Prozessumgebung.
-use crate::AdapterError;
+use crate::{direct_query_for_scope, validate_public_scope, AdapterError};
+use brain_client::Query;
 use nix::fcntl::{fcntl, FcntlArg, FdFlag};
 use serde::Deserialize;
 use std::{
@@ -33,7 +34,13 @@ struct BrainConfig {
 pub struct AdapterConfig {
     pub endpoint: String,
     pub timeout_ms: u64,
+    #[serde(default = "default_public_scope")]
+    pub public_scope: String,
     pub infisical: InfisicalConfig,
+}
+
+fn default_public_scope() -> String {
+    "docs.public".into()
 }
 
 #[derive(Deserialize)]
@@ -99,6 +106,7 @@ impl AdapterConfig {
     }
 
     fn validate(&self) -> Result<(), AdapterError> {
+        validate_public_scope(&self.public_scope).map_err(|_| AdapterError::Configuration)?;
         let valid_credential_source = match (
             &self.infisical.credential_file,
             self.infisical.credential_fd,
@@ -148,6 +156,18 @@ impl AdapterConfig {
 
     pub fn timeout(&self) -> Duration {
         Duration::from_millis(self.timeout_ms)
+    }
+
+    pub fn direct_query(&self, text: &str) -> Result<Query, AdapterError> {
+        direct_query_for_scope(text, &self.public_scope)
+    }
+
+    pub fn validate_query(&self, query: &Query) -> Result<(), AdapterError> {
+        crate::validate_query(query)?;
+        if !query.requested_scopes.contains(&self.public_scope) {
+            return Err(AdapterError::ScopePolicy);
+        }
+        Ok(())
     }
 
     pub async fn load_token(&self) -> Result<Zeroizing<String>, AdapterError> {
@@ -293,6 +313,7 @@ mod tests {
         AdapterConfig {
             endpoint: "http://127.0.0.1:8787".into(),
             timeout_ms: 5000,
+            public_scope: default_public_scope(),
             infisical: InfisicalConfig {
                 project_id: "00000000-0000-0000-0000-000000000000".into(),
                 environment: "prod".into(),
@@ -333,6 +354,67 @@ mod tests {
         value["brain"]["docs"]["infisical"]["unexpected"] = json!("not allowed");
         fs::write(&path, toml::to_string(&value).unwrap()).unwrap();
         assert!(AdapterConfig::load(&path).is_err());
+    }
+
+    #[test]
+    fn public_scope_config_preserves_the_approved_binding_and_legacy_default() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("bot.toml");
+        let example = include_str!("../config.example.toml");
+        for (setting, scope) in [
+            (None, "docs.public"),
+            (Some("docs.public"), "docs.public"),
+            (Some("bot.public"), "bot.public"),
+        ] {
+            let text = match setting {
+                Some(scope) => example.replace(
+                    "[brain.docs]",
+                    &format!("[brain.docs]\npublic_scope = \"{scope}\""),
+                ),
+                None => example.to_owned(),
+            };
+            fs::write(&path, text).unwrap();
+            let config = AdapterConfig::load(&path).unwrap();
+            let query = config
+                .direct_query("Welche Wartung ist dokumentiert?")
+                .unwrap();
+            assert_eq!(
+                query.requested_scopes,
+                std::collections::BTreeSet::from([scope.into()])
+            );
+            assert!(config.validate_query(&query).is_ok());
+            let mut other = query;
+            other.requested_scopes = std::collections::BTreeSet::from([if scope == "bot.public" {
+                "docs.public"
+            } else {
+                "bot.public"
+            }
+            .into()]);
+            assert_eq!(
+                config.validate_query(&other),
+                Err(AdapterError::ScopePolicy)
+            );
+        }
+        for scope in [
+            "",
+            "other.public",
+            "bot.private",
+            "second_brain.internal",
+            "docs.public,bot.public",
+        ] {
+            fs::write(
+                &path,
+                example.replace(
+                    "[brain.docs]",
+                    &format!("[brain.docs]\npublic_scope = \"{scope}\""),
+                ),
+            )
+            .unwrap();
+            assert!(matches!(
+                AdapterConfig::load(&path),
+                Err(AdapterError::Configuration)
+            ));
+        }
     }
 
     #[test]

@@ -44,12 +44,34 @@ fn help_has_no_runtime_prerequisites_or_environment_secret_path() {
 
 #[test]
 fn prepare_works_without_a_token_and_retains_the_typed_query() {
-    let output = invoke(&["prepare"], &query());
-    assert!(output.status.success());
-    let wire: Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(wire["request_id"], "fixture-r");
-    assert_eq!(wire["requested_scopes"], json!(["docs.public"]));
-    assert!(wire.get("principal").is_none());
+    for scope in ["docs.public", "bot.public"] {
+        let mut input: Value = serde_json::from_str(&query()).unwrap();
+        input["requested_scopes"] = json!([scope]);
+        let output = invoke(&["prepare"], &input.to_string());
+        assert!(output.status.success());
+        let wire: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(wire["request_id"], "fixture-r");
+        assert_eq!(wire["requested_scopes"], json!([scope]));
+        assert!(wire.get("principal").is_none());
+    }
+}
+
+#[test]
+fn answer_rejects_a_scope_that_differs_from_config_before_loading_credentials() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("bot.toml");
+    let config = include_str!("../config.example.toml").replace(
+        "[brain.docs]",
+        "[brain.docs]\npublic_scope = \"bot.public\"",
+    );
+    std::fs::write(&path, config).unwrap();
+    let output = invoke(&["answer", path.to_str().unwrap()], &query());
+    assert_eq!(output.status.code(), Some(64));
+    assert!(output.stdout.is_empty());
+    assert_eq!(
+        String::from_utf8(output.stderr).unwrap().trim(),
+        deadlock_docs_brain_adapter::AdapterError::ScopePolicy.to_string()
+    );
 }
 
 #[test]

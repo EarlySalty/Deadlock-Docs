@@ -1,9 +1,8 @@
 use deadlock_docs_brain_adapter::infisical::AdapterConfig;
-use deadlock_docs_brain_adapter::{direct_query, read_query, AdapterError, DocsBrainAdapter};
+use deadlock_docs_brain_adapter::{read_query, AdapterError, DocsBrainAdapter};
 use std::{path::Path, process::ExitCode};
 
-async fn configured_adapter(path: &str) -> Result<DocsBrainAdapter, AdapterError> {
-    let config = AdapterConfig::load(Path::new(path))?;
+async fn configured_adapter(config: &AdapterConfig) -> Result<DocsBrainAdapter, AdapterError> {
     let token = config.load_token().await?;
     DocsBrainAdapter::new(&config.endpoint, &token, config.timeout())
 }
@@ -24,7 +23,9 @@ async fn run(args: &[String]) -> Result<(), AdapterError> {
         }
         [command, path] if command == "answer" => {
             let query = read_query(std::io::stdin().lock())?;
-            let adapter = configured_adapter(path).await?;
+            let config = AdapterConfig::load(Path::new(path))?;
+            config.validate_query(&query)?;
+            let adapter = configured_adapter(&config).await?;
             let response = adapter.answer(&query).await?;
             println!(
                 "{}",
@@ -33,8 +34,9 @@ async fn run(args: &[String]) -> Result<(), AdapterError> {
             Ok(())
         }
         [command, path, question @ ..] if command == "query" && !question.is_empty() => {
-            let query = direct_query(&question.join(" "))?;
-            let adapter = configured_adapter(path).await?;
+            let config = AdapterConfig::load(Path::new(path))?;
+            let query = config.direct_query(&question.join(" "))?;
+            let adapter = configured_adapter(&config).await?;
             let response = adapter.answer(&query).await?;
             println!(
                 "{}",
