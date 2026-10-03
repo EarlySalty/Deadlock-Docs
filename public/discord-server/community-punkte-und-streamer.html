@@ -37,7 +37,7 @@ Wir bringen die Community und unsere Partner-Streamer zusammen. Wer sein Discord
 <li>
 <strong>Clip-Contest:</strong> Jede Woche werden Clips aus den Streams unserer Partner eingereicht und die Community stimmt in Discord ab. Für die Top 3 werden Links und Credits für dach_lock bereitgestellt. Platz 1 bringt 100, Platz 2 bringt 60, Platz 3 bringt 40 Punkte für die Person, die den Clip eingereicht hat. Wer abstimmt, bekommt 2 Punkte, dabei zählt eine Stimme pro Woche.</li>
 <li>
-<strong>Streamer vorschlagen:</strong> Im Clip-Bereich steht unter den Clip-Regeln der Knopf <code>Streamer vorschlagen</code>. Im Fenster gibst du den Twitch-Kanal an, als Namen oder als Link (zum Beispiel <code>twitch.tv/name</code>), und schreibst kurz, warum er zu uns passt. Du bekommst sofort eine Antwort, die nur du siehst: Danke und wir schauen uns den Kanal an, der Kanal ist schon bekannt, er ist schon Partner, wir finden ihn nicht (dann Schreibweise prüfen) oder wir können ihn leider nicht aufnehmen. Jeden Kanal kannst du einmal vorschlagen, insgesamt bis zu 3 Kanäle in 24 Stunden. Das Team schaut sich jeden Vorschlag an und entscheidet selbst, wen es anspricht. Wird der Kanal Partner, bekommt die Person, die ihn als Erste vorgeschlagen hat, 150 Punkte.</li>
+<strong>Streamer vorschlagen:</strong> Im Clip-Bereich steht unter den Clip-Regeln der Knopf <code>Streamer vorschlagen</code>. Im Fenster gibst du den Twitch-Kanal an, als Namen oder als Link (zum Beispiel <code>twitch.tv/name</code>), und schreibst kurz, warum er zu uns passt. Du bekommst sofort eine Antwort, die nur du siehst: Danke und wir schauen uns den Kanal an, der Kanal ist schon bekannt, er ist schon Partner, wir finden ihn nicht (dann Schreibweise prüfen) oder wir können ihn leider nicht aufnehmen. Jeden Kanal kannst du einmal vorschlagen, insgesamt bis zu 3 Kanäle in 24 Stunden. Das Team schaut sich jeden Vorschlag an und entscheidet selbst, wen es anspricht. Wird der Kanal Partner, bekommt die früheste noch berechtigte Person, die ihn vorgeschlagen hat, einmalig 150 Punkte.</li>
 <li>
 <strong>Für Partner-Streamer:</strong> 1 Punkt für alle 30 Minuten, die verknüpfte Community-Mitglieder bei dir zuschauen, 25 Punkte für jeden Raid an einen anderen Partner, 50 Punkte für jede Person, die über deine Einladung auf den Server kommt und hier wirklich aktiv wird, und 100, 60 oder 40 Punkte für die Plätze 1 bis 3 im Clip-Contest. Dafür gibt es ein eigenes Streamer-Leaderboard.</li>
 </ul>
@@ -94,13 +94,31 @@ Dein Löschantrag umfasst auch deine Streamer-Vorschläge und deren Kopien in de
 <p>
 Mit <code>/datenschutz</code> kannst du <code>Daten herunterladen</code> oder <code>Endgültig löschen</code> wählen. Beide Aktionen sind unabhängig. Der Export enthält auch die dir zugeordneten importierten Twitch-Zuschauertageswerte.</p>
 <p>
-Beim endgültigen Löschen entfernen wir deine importierten Twitch-Zuschauertageswerte, deine Community-Punkte, die Kontoverknüpfung und deine zugeordneten Clip-Einreichungen. Ein personenbezogenes Sperrmerkmal bleibt erhalten, damit spätere Abgleiche die gelöschten Twitch-Daten nicht erneut übernehmen. Es ist keine neue Aktivitätshistorie.</p>
+Beim endgültigen Löschen entfernen wir deine importierten Twitch-Zuschauertageswerte, deine Community-Punkte und die Kontoverknüpfung. Ein personenbezogenes Sperrmerkmal bleibt erhalten, damit spätere Abgleiche die gelöschten Twitch-Daten nicht erneut übernehmen. Es ist keine neue Aktivitätshistorie.</p>
 <p>
 Die Löschung setzt außerdem ein globales Opt-out. Neue Speicherung und deine Anzeige im Leaderboard bleiben dadurch gesperrt. Der Löschantrag umfasst auch deine Streamer-Vorschläge und deren Kopien in der Twitch-Community-Brücke. Für einen später aufgenommenen Partner erhältst du daraus nach der Löschung keine Punkte mehr. Die Löschung betrifft diese Community-Daten; sie löscht keine Daten allgemein auf der Twitch-Plattform.</p>
 <p>
 Ist die Twitch-Community-Brücke nicht erreichbar, kann die lokale Löschung bereits abgeschlossen und das Opt-out aktiv sein. Die Bot-Antwort weist dann darauf hin, dass die Löschung der Vorschlagskopien noch nicht bestätigt und die vollständige Löschung noch offen ist. Der Auftrag bleibt gespeichert und wird automatisch erneut versucht. Schlägt die lokale Löschung fehl, versuche sie später erneut.</p>
 <p>
 Auch der vollständige Export enthält die Vorschlagskopien. Sind sie gerade nicht verfügbar, meldet der Bot den Export als unvollständig und fordert dich auf, ihn später erneut anzufordern.</p>
+<p>
+Für Streamer-Vorschläge bleibt ein personenbezogenes Sperrmerkmal erhalten und erscheint im Datenauszug. Es verhindert, dass gelöschte alte Vorschläge erneut übernommen werden. Die einmaligen 150 Vorschlagspunkte werden pro Kanal insgesamt nur einmal vergeben, auch wenn persönliche Punkte später gelöscht werden.</p>
+<p>
+Patchnotes-Freigaben und Server-Einstellungen bleiben erhalten. Deine darin gespeicherte Zuordnung als freigebende oder zuletzt ändernde Person wird gelöscht.</p>
+</section>
+<section id="was-passiert-beim-löschen-mit-meinen-clip-einreichungen">
+<h2>Was passiert beim Löschen mit meinen Clip-Einreichungen?</h2>
+<p>
+Wenn du als Zuschauer oder Moderator einen Twitch-Clip einreichst, enthält der Datenauszug auch deine Einreicher-ID. Beim Löschen wird diese ID anonymisiert. Der Clip, seine öffentliche Kanalzuordnung und die Contestnachweise bleiben erhalten.</p>
+<p>
+Spätere Wiederholungen einer alten Einreichung stellen deine Einreicher-ID nicht wieder her. Nach ausdrücklichem Opt-in und erneuter Twitch-Verknüpfung kann eine neue Einreichung deine ID wieder speichern. Dafür zählt, wann du sie ursprünglich eingereicht hast; ein späterer Wiederholungsversuch macht eine alte Einreichung nicht zu einer neuen.</p>
+</section>
+<section id="was-bleibt-nach-dem-löschen-von-einladungsdaten-erhalten">
+<h2>Was bleibt nach dem Löschen von Einladungsdaten erhalten?</h2>
+<p>
+Bei qualifizierten Twitch-Einladungen werden deine Nachrichten-, Voice- und persönlichen Zuordnungskopien gelöscht. Ein personenbezogenes Sperrmerkmal deiner früheren Mitgliedschaft auf diesem Server bleibt erhalten und erscheint im Datenauszug. Es verhindert, dass dieselbe Person durch erneutes Beitreten einen zweiten Erstmitgliedschaftsbonus auslöst.</p>
+<p>
+Das Sperrmerkmal enthält keine Namen, Beitrittszeiten, Voice-Kanäle oder Einladungscodes. Auch nach einem Opt-in bleibt es erhalten; gelöschte Altwerte werden nicht wiederhergestellt.</p>
 </section>
 <section id="wie-nehme-ich-nach-einer-löschung-wieder-teil">
 <h2>Wie nehme ich nach einer Löschung wieder teil?</h2>

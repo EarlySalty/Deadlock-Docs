@@ -172,11 +172,11 @@
         "rust/knowledge/bot/chat-befehle.md": {
           "source_sha256": "cd1a63f456a3e9d2da536775d6a990c543f75057354c3591cf2fc4c659455319",
           "content_sha256": "24f22b9f29d3db8db985cd1c4552ce397bbf916bb0d4443920aa4cea4539f7cd",
-          "verified_at": "2026-10-03T02:45:39.428662+00:00",
+          "verified_at": "2026-10-03T09:11:36.757Z",
           "code": [
             {
               "repository": "twitch",
-              "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
+              "revision": "cff2ed8f1d09bd6963b468155a4b38ca6fa09a64",
               "paths": [
                 "rust/knowledge/bot/chat-befehle.md",
                 "rust/crates/tb-chat/src/catalog.rs",
@@ -606,13 +606,13 @@
       ],
       "reviews": {
         "docs/community-punkte-und-streamer.md": {
-          "source_sha256": "a0f62849f05643b5d3d5fe7b39bc0c2373928e9e1f84e9edd84c558142c5da2d",
-          "content_sha256": "064f8139fd8fd4785a2d4c4f57e6bcdc026f9aa4aab73c0105c78420378faf6d",
-          "verified_at": "2026-10-03T02:45:39.428662+00:00",
+          "source_sha256": "eb082d2f750fc72772bd7f2fb9b98be4e7ee4de5a0a47c5e21016d4fcbbbce38",
+          "content_sha256": "7ff92d8fed055b766ba1e2eaabcccb365702242cb8de1d4fd3ce7cf7e339808c",
+          "verified_at": "2026-10-03T09:11:36.757Z",
           "code": [
             {
               "repository": "discord",
-              "revision": "a62a7c5d595850351138c9876a0cca1b7ea4d0dc",
+              "revision": "698106c9d0cb4f717581d7bda88f57fa14755ac0",
               "paths": [
                 "docs/community-punkte-und-streamer.md",
                 "docs/stats-und-privacy.md",
@@ -623,12 +623,15 @@
                 "rust/crates/dl-community/src/clip_contest.rs",
                 "rust/crates/dl-community/src/clips.rs",
                 "rust/crates/dl-community/src/streamer_suggest.rs",
-                "rust/crates/dl-community/src/scout_privacy.rs"
+                "rust/crates/dl-community/src/scout_privacy.rs",
+                "rust/crates/dl-community/src/invite_privacy.rs",
+                "rust/crates/dl-broker/src/clips.rs",
+                "rust/crates/dl-central-db/migrations/20261003035000_scout_outcome_credit.sql"
               ]
             },
             {
               "repository": "twitch",
-              "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
+              "revision": "cff2ed8f1d09bd6963b468155a4b38ca6fa09a64",
               "paths": [
                 "rust/crates/tb-analytics/src/community_points.rs"
               ]

@@ -63,12 +63,12 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-10-03T02:45:39.428662+00:00",
+      "verified_at": "2026-10-03T09:11:36.757Z",
       "content_sha256": "24f22b9f29d3db8db985cd1c4552ce397bbf916bb0d4443920aa4cea4539f7cd",
       "code": [
         {
           "repository": "twitch",
-          "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
+          "revision": "cff2ed8f1d09bd6963b468155a4b38ca6fa09a64",
           "paths": [
             "rust/knowledge/bot/chat-befehle.md",
             "rust/crates/tb-chat/src/catalog.rs",
@@ -82,13 +82,16 @@
       ],
       "claims": [
         {
-          "claim": "Öffentliche Befehls-/Rollenhilfe einschließlich eigener Steam-Verknüpfung, Watchtimeziel und Clip-Einreichung an Producer 0a970f09 gebunden.",
+          "claim": "Öffentliche Befehls-/Rollenhilfe einschließlich eigener Steam-Verknüpfung, Watchtimeziel und Clip-Einreichung statisch an Producer cff2ed8f gebunden.",
           "verdict": "verified",
-          "evidence": "Benannte öffentliche Quelle und zugehörige Codepfade am ausdrücklich gelieferten Producer0a970f09 gebunden. Eigene Producer-/Consumergates ALLOW/FIXED und gemeinsame Deltacodeabnahme ALLOW bestätigt. Tatsächliche Writer-Suiten und gemeinsame Produktivauslieferung separat offen."
+          "evidence": "Öffentliche Quelle bytegleich zu ihrem belegten Hash, audience=public und benannte Codepfade an cff2ed8f. Producer-Standardgate ALLOW gemeldet; tatsächliche neue Writer-Suiten und gemeinsame Produktivauslieferung fehlen."
         }
       ],
-      "gaps": [],
-      "runtime_deployment_status": "Gemeinsame Writer-Auslieferung und Docs-Aktivierung noch offen; kein Live-Codegleichstand behauptet."
+      "gaps": [
+        "Das reguläre Consumer-Gate für 698106c9 hat noch kein gültiges Urteil; das technische Exit2 des Vorgängers ist keine Abnahme.",
+        "Echte neue Writer-Suiten und gemeinsame Produktivauslieferung sind noch offen. Dieser statische Kandidatenabgleich erlaubt keinen Refresh."
+      ],
+      "runtime_deployment_status": "Kandidatenpaar cff2ed8f/698106c9 statisch gebunden. Consumer-Gate, echte Writer-Suiten, gemeinsame Auslieferung und Docs-Aktivierung fehlen; keine finale oder produktive Freigabe."
     },
     {
       "path": "public/twitch-bot/faq-funktionen.html",
