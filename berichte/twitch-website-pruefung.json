@@ -63,37 +63,32 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-09-19T23:16:51.084369+00:00",
-      "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
+      "verified_at": "2026-10-03T02:45:39.428662+00:00",
+      "content_sha256": "24f22b9f29d3db8db985cd1c4552ce397bbf916bb0d4443920aa4cea4539f7cd",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
           "paths": [
+            "rust/knowledge/bot/chat-befehle.md",
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/commands.rs",
             "rust/crates/tb-chat/src/player_links.rs",
             "rust/crates/tb-chat/src/rank_lookup.rs",
+            "rust/crates/tb-chat/src/clip_contest_submit.rs",
             "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Befehle, Aliase, Rollen, Offline-Nutzung, eigene Steam-Verknüpfung und getrennte Engagement-Abwahl mit aktuellem Code abgeglichen.",
+          "claim": "Öffentliche Befehls-/Rollenhilfe einschließlich eigener Steam-Verknüpfung, Watchtimeziel und Clip-Einreichung an Producer 0a970f09 gebunden.",
           "verdict": "verified",
-          "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
-          ]
+          "evidence": "Benannte öffentliche Quelle und zugehörige Codepfade am ausdrücklich gelieferten Producer0a970f09 gebunden. Eigene Producer-/Consumergates ALLOW/FIXED und gemeinsame Deltacodeabnahme ALLOW bestätigt. Tatsächliche Writer-Suiten und gemeinsame Produktivauslieferung separat offen."
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "runtime_deployment_status": "Gemeinsame Writer-Auslieferung und Docs-Aktivierung noch offen; kein Live-Codegleichstand behauptet."
     },
     {
       "path": "public/twitch-bot/faq-funktionen.html",

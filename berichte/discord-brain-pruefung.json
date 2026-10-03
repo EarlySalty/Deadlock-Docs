@@ -2059,6 +2059,56 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/discord-server/community-punkte-und-streamer.html",
+      "verified_at": "2026-10-03T02:45:39.428662+00:00",
+      "content_sha256": "064f8139fd8fd4785a2d4c4f57e6bcdc026f9aa4aab73c0105c78420378faf6d",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "a62a7c5d595850351138c9876a0cca1b7ea4d0dc",
+          "paths": [
+            "docs/community-punkte-und-streamer.md",
+            "docs/stats-und-privacy.md",
+            "rust/crates/dl-central-db/src/community_points.rs",
+            "rust/crates/dl-central-db/src/platform_connections.rs",
+            "rust/crates/dl-community/src/privacy.rs",
+            "rust/crates/dl-community/src/privacy_ui.rs",
+            "rust/crates/dl-community/src/clip_contest.rs",
+            "rust/crates/dl-community/src/clips.rs",
+            "rust/crates/dl-community/src/streamer_suggest.rs",
+            "rust/crates/dl-community/src/scout_privacy.rs",
+            "rust/bin/dl-bot/src/main.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
+          "paths": [
+            "rust/crates/tb-analytics/src/community_points.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Punkteregeln und Anzeige ohne Twitchlink sowie Viewerexport, Erasure, Wiederimportsperre und explizite erneute Einwilligung anhand Consumer a62a7c5d und Producer 0a970f09 statisch abgeglichen. Top-3-Übergabe an Kurator beschrieben, keine automatische Wiedergabe zugesagt.",
+          "verdict": "verified",
+          "evidence": "Benannte öffentliche Quellen und aktuelle Codepfade statisch abgeglichen. Enger Consumerersatz a62a7c5d und Producerersatz 0a970f09 haben eigene reguläre Gates ALLOW/FIXED; gemeinsame Deltacodeabnahme ALLOW bestätigt. Tatsächliche Writer-Suiten und gemeinsame Produktivauslieferung separat offen."
+        },
+        {
+          "claim": "Bei unbestätigter Scout-Löschung oder Einwilligung bleibt der Abschluss offen; gespeicherte Aufträge werden wiederholt. Ohne Scoutkopien wird kein vollständiger Export geliefert.",
+          "verdict": "verified",
+          "evidence": "privacy_ui.rs Action::Confirm/OptIn/Export und scout_privacy.rs deliver_user/deliver_pending; streamer_suggest.rs startet Wiederholung im bestehenden Worker; main.rs bindet register_with_scout an denselben Twitchclient. Statischer Quellnachweis, noch kein Livebeleg."
+        },
+        {
+          "claim": "Endgültig abgelehnte Streamervorschläge werden als nicht angenommen angezeigt und nicht automatisch erneut gesendet. Nichterreichbarkeit lässt einen wiederholbaren Auftrag bestehen.",
+          "verdict": "verified",
+          "evidence": "streamer_suggest.rs status_text/outcome_text auf ausdrücklich geliefertem a62a7c5d; endgültig rejected400/409/422 ohne Retry, vorhandene Textfälle angepasst. Noch kein Runtimebeleg."
+        }
+      ],
+      "gaps": [],
+      "runtime_deployment_status": "Gemeinsame Writer-Auslieferung und Docs-Aktivierung noch offen; kein Live-Codegleichstand behauptet."
     }
   ]
 }

@@ -6,8 +6,9 @@
   <meta name="robots" content="index, follow">
   <meta name="description" content="Kurz gesagt. Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder…">
   <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
-  <meta name="stand" content="2026-09-20">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="stand" content="2026-10-03">
+  <meta name="audience" content="public">
+  <meta name="quelle" content="Redaktionelle Nutzerhilfe">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -20,7 +21,7 @@
 <body>
 <main>
   <h1>Twitch-Chat-Befehle</h1>
-  <p><strong>Kurz gesagt.</strong> Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog, darunter <code>!rank</code>, samt vorhandenen Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
+  <p>Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder auslösen willst. Diese Seite listet den aktuellen Befehlskatalog, darunter <code>!rank</code>, samt vorhandenen Aliasen direkt auf, damit du nicht auf eine externe Hilfeseite angewiesen bist.</p>
 
   <section id="hinweis-hilfelinks">
     <h2>Warum die Befehle hier vollständig stehen</h2>
@@ -52,7 +53,7 @@
       <li>Rufe danach <code>!rank @deinname</code> auf. Der Bot verwendet den bestätigten Steam-Account. Die Verbindung garantiert nicht, dass bereits aktuelle Rangdaten vorliegen.</li>
     </ol>
     <p>Mit <code>!unconnect</code> oder <code>!disconnect</code> entfernst du deine direkte Steam-Zuordnung. Auf der Kontoseite heißt der entsprechende Knopf „Verknüpfung entfernen“. Der Chatbefehl gilt nur für dein eigenes Konto, nicht für ein angegebenes <code>@user</code>.</p>
-    <p>Nach dem Trennen bleibt ein Abschaltvermerk an deiner Twitch-ID, damit der Bot die Zuordnung nicht automatisch über Discord oder eine Namenssuche wiederherstellt. Erst wenn du selbst erneut verbindest, wird diese Sperre aufgehoben. Die separate Discord-Verknüpfung und öffentliche Spieldaten werden dadurch nicht gelöscht.</p>
+    <p>Nach dem Trennen bleibt ein Abschaltvermerk an deiner Twitch-ID, damit der Bot die Zuordnung nicht automatisch über Discord oder eine Namenssuche wiederherstellt. Erst wenn du selbst erneut verbindest, wird diese Sperre aufgehoben. Die separate Discord-Verknüpfung und öffentliche Spieldaten werden dadurch nicht gelöscht. Ein bereits gestarteter Steam-Rücksprung kann die Trennung nicht rückgängig machen.</p>
   </section>
 
   <section id="werte-anderer-personen">
@@ -66,6 +67,7 @@
     <h2>Zuschauerbefehle: Clip und Community</h2>
     <ul>
       <li><code>!clip</code> · <code>!createclip</code> erstellt einen Clip aus dem laufenden Stream. Der Kanalschalter muss an sein und die Twitch-Verbindung passen; die Kategorie ist egal.</li>
+      <li>Broadcaster und Moderatoren aktiver Partnerkanäle können mit <code>!clipcontest &lt;Clip-Link&gt;</code> einen Clip aus dem eigenen Kanal für den wöchentlichen Clip-Contest im Discord einreichen. Ohne Link nimmt der Bot den neuesten Clip des laufenden Streams. Pro Kanal sind drei Einreichungen je Tag möglich. Im Social-Studio gibt es dafür den Knopf „Für Clip-Contest einreichen“.</li>
       <li><code>!watchtime</code> zeigt deine hier erfasste Zuschauerzeit insgesamt und den Anteil im laufenden Stream. Erfasste Anwesenheiten werden mit ihren Pausen gezählt; dies ist keine lückenlose Messung der tatsächlichen Sehzeit.</li>
       <li><code>!sub</code> zeigt den Abo-Link dieses Kanals. <code>!sub erinnerung an/aus/status</code> verwaltet deine freiwillige Abo-Erinnerung.</li>
       <li><code>!lurk</code> sagt dem Chat, dass du still weiterschaust, sofern der Kanalschalter an ist.</li>
@@ -92,7 +94,7 @@
       <li><code>!engagement_ignore_me</code>: nimmt dich aus der KI-Engagement-Funktion heraus; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein.</li>
       <li><code>!engagement_remember_me</code>: bezieht dich später wieder ein.</li>
     </ul>
-    <p>Das ist ausdrücklich <strong>keine</strong> Löschung deiner Daten und schaltet auch nicht die allgemeine Kanal-Statistik ab – es steuert nur die KI-Engagement-Funktion. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
+    <p>Diese Wahl steuert nur die KI-Engagement-Funktion. Sie löscht keine Daten und schaltet die allgemeine Kanal-Statistik nicht ab. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
   </section>
 
   <section id="status-befehle">
@@ -120,7 +122,7 @@
     <ul>
       <li><code>!engagement_on</code> · <code>!engagement_off</code>: schalten die KI-Engagement-Funktion für den Kanal ein oder aus. <code>!engagement_on</code> deaktiviert sich automatisch bei Stream-Ende. Das betrifft nur die KI-Engagement-Funktion, nicht die gesamte Erfassung oder Auswertung.</li>
     </ul>
-    <p>Nur der Broadcaster – nicht die Moderation – kann zusätzlich die Lurker-Erinnerung dauerhaft abschalten:</p>
+    <p>Zusätzlich kann der Broadcaster die Lurker-Erinnerung dauerhaft abschalten. Die Moderation hat diese Berechtigung nicht:</p>
     <ul>
       <li><code>!lurkersteuer_off</code> · <code>!lurkersteuer_aus</code> · <code>!lurker_tax_off</code>: deaktivieren die Lurker-Erinnerung. Die Funktion ist standardmäßig aus, gehört zu bestimmten Plänen und wird im Dashboard ein- und ausgeschaltet; per Chat lässt sie sich nur abschalten (siehe <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>).</li>
     </ul>

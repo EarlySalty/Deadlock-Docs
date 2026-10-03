@@ -32,7 +32,8 @@
     "quellen/website/transparenz.html",
     "quellen/website/wohin.html",
     "quellen/turniere/help_tournament_modes.html",
-    "quellen/turniere/comp-finder.html"
+    "quellen/turniere/comp-finder.html",
+    "discord-server/community-punkte-und-streamer.html"
   ],
   "repositories": [
     {
@@ -169,23 +170,25 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/chat-befehle.md": {
-          "source_sha256": "77ead8b97b92299740ee21397047be112d5f3f1e4579e7c41f66aeff630acf78",
-          "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
-          "verified_at": "2026-09-19T23:16:51.084369+00:00",
+          "source_sha256": "cd1a63f456a3e9d2da536775d6a990c543f75057354c3591cf2fc4c659455319",
+          "content_sha256": "24f22b9f29d3db8db985cd1c4552ce397bbf916bb0d4443920aa4cea4539f7cd",
+          "verified_at": "2026-10-03T02:45:39.428662+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
               "paths": [
+                "rust/knowledge/bot/chat-befehle.md",
                 "rust/crates/tb-chat/src/catalog.rs",
                 "rust/crates/tb-chat/src/commands.rs",
                 "rust/crates/tb-chat/src/player_links.rs",
                 "rust/crates/tb-chat/src/rank_lookup.rs",
+                "rust/crates/tb-chat/src/clip_contest_submit.rs",
                 "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
               ]
             }
           ],
-          "owner": "Community-Dokumentationsredaktion"
+          "owner": "Docs-C9 im gemeinsamen Community-Abschluss"
         },
         "rust/knowledge/bot/chat-moderation.md": {
           "source_sha256": "4863c6ede7097244ff27e7a103104aca259dc2dc0a4b687314523427d3c62457",
@@ -593,9 +596,47 @@
           "represented": true,
           "represented_by": "discord-server/module/mitspielersuche-lfg.html",
           "deduplication": "Öffentliche Bedienung kuratiert in der zentralen Anleitung; interne Konfigurationsdetails werden nicht übernommen."
+        },
+        {
+          "glob": "docs/community-punkte-und-streamer.md",
+          "target": "discord-server/community-punkte-und-streamer.html",
+          "use_curated": true,
+          "evidence": "Vom Nutzer und beiden Community-Integratoren ausdrücklich freigegebene öffentliche Mitgliederhilfe; redigierte Fassung mit audience=public. Interne Dev-/Betriebsquellen nicht übernommen."
         }
       ],
-      "reviews": {}
+      "reviews": {
+        "docs/community-punkte-und-streamer.md": {
+          "source_sha256": "a0f62849f05643b5d3d5fe7b39bc0c2373928e9e1f84e9edd84c558142c5da2d",
+          "content_sha256": "064f8139fd8fd4785a2d4c4f57e6bcdc026f9aa4aab73c0105c78420378faf6d",
+          "verified_at": "2026-10-03T02:45:39.428662+00:00",
+          "code": [
+            {
+              "repository": "discord",
+              "revision": "a62a7c5d595850351138c9876a0cca1b7ea4d0dc",
+              "paths": [
+                "docs/community-punkte-und-streamer.md",
+                "docs/stats-und-privacy.md",
+                "rust/crates/dl-central-db/src/community_points.rs",
+                "rust/crates/dl-central-db/src/platform_connections.rs",
+                "rust/crates/dl-community/src/privacy.rs",
+                "rust/crates/dl-community/src/privacy_ui.rs",
+                "rust/crates/dl-community/src/clip_contest.rs",
+                "rust/crates/dl-community/src/clips.rs",
+                "rust/crates/dl-community/src/streamer_suggest.rs",
+                "rust/crates/dl-community/src/scout_privacy.rs"
+              ]
+            },
+            {
+              "repository": "twitch",
+              "revision": "0a970f09286bf1699f4cd64808a74031866a09ca",
+              "paths": [
+                "rust/crates/tb-analytics/src/community_points.rs"
+              ]
+            }
+          ],
+          "owner": "Docs-C9 im gemeinsamen Community-Abschluss"
+        }
+      }
     },
     {
       "id": "website",
