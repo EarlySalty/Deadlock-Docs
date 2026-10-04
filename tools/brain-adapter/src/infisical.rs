@@ -115,7 +115,7 @@ impl AdapterConfig {
             (None, Some(fd)) => fd >= 3,
             _ => false,
         };
-        if !(100..=30_000).contains(&self.timeout_ms)
+        if !(100..=65_000).contains(&self.timeout_ms)
             || self.endpoint.len() > 256
             || !self
                 .infisical
@@ -323,6 +323,22 @@ mod tests {
                 credential_fd: None,
                 token_secret: "BRAIN_SERVE_OTHER_TOKEN".into(),
             },
+        }
+    }
+
+    #[test]
+    fn timeout_erlaubt_65000_und_erhaelt_die_untergrenze() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("bot.toml");
+        let example = include_str!("../config.example.toml");
+        for (timeout, accepted) in [(100, true), (65_000, true), (65_001, false), (99, false)] {
+            let text = example.replace("timeout_ms = 5000", &format!("timeout_ms = {timeout}"));
+            fs::write(&path, text).unwrap();
+            let loaded = AdapterConfig::load(&path);
+            assert_eq!(loaded.is_ok(), accepted);
+            if accepted {
+                assert_eq!(loaded.unwrap().timeout(), Duration::from_millis(timeout));
+            }
         }
     }
 
