@@ -31,11 +31,18 @@ WEB_SOURCE=""
 if [ "$REF" = "--web-source" ]; then
   WEB_SOURCE="$(realpath "${2:?Snapshot erforderlich}")"
   BASE="${3:?Web-Zielverzeichnis erforderlich}"
+  BASE="$(realpath -m "$BASE")"
   SOURCE_BASE="$(jq -er '.base' "$REPO_ROOT/ops/public-corpus-refresh.json")"
   if [ "$(dirname "$WEB_SOURCE")" != "$SOURCE_BASE" ] || [ "$(realpath "$SOURCE_BASE/current")" != "$WEB_SOURCE" ]; then
     echo "deploy: Webquelle ist nicht der aktive öffentliche Snapshot" >&2
     exit 1
   fi
+  # Das isolierte Webziel darf weder Wissensbasis noch Brain-Release berühren.
+  SOURCE_BASE="$(realpath "$SOURCE_BASE")"
+  for protected in "$SOURCE_BASE" /opt/deadlock-docs; do
+    case "$BASE/" in "$protected/"*) echo "deploy: Webziel berührt eine geschützte Laufzeit" >&2; exit 1 ;; esac
+    case "$protected/" in "$BASE/"*) echo "deploy: Webziel umfasst eine geschützte Laufzeit" >&2; exit 1 ;; esac
+  done
   SOURCE_NAME="$(basename "$WEB_SOURCE")"
   jq -e --arg snapshot "$SOURCE_NAME" '.refresh_status == "ok" and .active_snapshot == $snapshot' "$SOURCE_BASE/status-summary.json" >/dev/null
   SOURCE_DATE="$(jq -er '.generated_at' "$SOURCE_BASE/status-summary.json")"
@@ -81,6 +88,7 @@ fi
 DEST="$BASE/$SHA"
 
 mkdir -p "$BASE"
+if [ -n "$WEB_SOURCE" ]; then chmod 0755 "$BASE"; fi
 
 # Den Soll-Snapshot bei jedem Deploy frisch aus Git erzeugen. Auch ein bereits
 # vorhandenes SHA-Verzeichnis ist erst vertrauenswürdig, wenn es erneut den
