@@ -64,3 +64,7 @@ Pflege-Vertrag:
 - `veraltet` heißt ungeprüft, nicht falsch. Grob gebundene Seiten liefern Obergrenzen, genau gebundene liefern Befunde.
 
 Website-FAQ und Twitch-In-App sind mögliche spätere Konsumenten desselben öffentlichen Wissensdienstes.
+
+### Öffentlicher Webexport
+
+Die Website erhält einen eigenen Snapshot unter `/opt/deadlock-docs-web`, getrennt vom Brain-Release unter `/opt/deadlock-docs`. Dafür wird `tools/deploy_corpus.sh <commit> /opt/deadlock-docs-web` aufgerufen. Der Zielpfad wird als Argument übergeben. Nur der validierte, committete `public/`-Baum wird exportiert. Snapshot-Verzeichnisse sind mit `0755`, öffentliche Dateien mit `0644` für Caddy lesbar. `internal/`, Quellen und Betriebsdateien werden nicht ausgeliefert.
