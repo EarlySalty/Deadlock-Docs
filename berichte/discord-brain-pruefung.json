@@ -300,102 +300,46 @@
     },
     {
       "path": "public/steam-bot/steam-bot.html",
-      "verified_at": "2026-09-19T23:10:08.610Z",
-      "content_sha256": "dc2362f2908e14f6ac15a9a6666aa6f7a56c3a11820e2b996d30cfdda81fae54",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "80e9c26363ea67bdf0d9a13064bf8540248298fc954cad4cbe6df89c6dc20452",
       "code": [
-        {
-          "repository": "steam",
-          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
-          "paths": [
-            "rust/crates/steam-flows/src/link.rs",
-            "rust/crates/steam-flows/src/link_commands.rs",
-            "rust/crates/steam-flows/src/rank.rs",
-            "rust/crates/steam-flows/src/invite.rs",
-            "rust/crates/steam-flows/src/purge.rs",
-            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
-          ]
-        }
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/link_commands.rs", "rust/crates/steam-flows/src/unlink.rs", "rust/crates/steam-flows/src/rank.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-flows/src/purge.rs", "rust/crates/steam-core/src/task/handlers/builds/catalog.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]},
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs", "rust/crates/dl-voice/src/router.rs", "rust/crates/dl-voice/src/tempvoice/engine.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
-          "verdict": "verified",
-          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
-        },
-        {
-          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
-          "verdict": "verified",
-          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
-        },
-        {
-          "claim": "Build-Katalog folgt aktiver Freigabe, nicht Website-Stimmen; frische Verknüpfung ist vor Inaktivitätsbereinigung geschützt.",
-          "verdict": "verified",
-          "evidence": "catalog.rs active Builds und Cleanup; purge.rs nur bei Kapazitätsbedarf, Inaktivität und Schonfrist. Codepfade HEAD02f1367 sind mit origin/main f4ac4a86 identisch."
-        }
+        {"claim": "Steam-Anmeldung und Freundescode sind alternative Einstiege; Kontoverwaltung betrifft eigene Links, whoami löst nur die eingegebene Referenz auf.", "verdict": "verified", "evidence": "Produktives link.rs build_steam_login_url/verify_openid_callback und separater handle_friend_code_submit; link_commands.rs:157-298 lädt Links nach user_id, prüft vorhandene eigene Links vor setprimary, delegiert unlink an den gemeinsamen Pfad und löst whoami ohne Besitzbehauptung auf. Panel/Bridge und 🔗deadlock-rang durch produktiven Code plus lesende MCP-Ausgaben bestätigt."},
+        {"claim": "steam_rank liest den Rang, checkrank synchronisiert mit bestem erfolgreich gelesenem Rang; Panel-Rangprüfung schreibt keine Rollen.", "verdict": "verified", "evidence": "rank.rs:1887-1994 panel_rank_check/lookup_rank lesend; :2021-2074 getrennte full/readonly-Modi; :2143-2201 sammelt erfolgreiche Konten und pick_best_snapshot für Rollen. link.rs:1231-1284 bestätigt Bot-Freundschaft und stößt ersten Rangabgleich an; periodischer rank-Scheduler bleibt eigener Pfad. Bestehende offene Ranked-Lanes/optionale Gates laut geprüftem Router-/Engine-Vertrag, kein pauschaler Zugangsentzug behauptet."},
+        {"claim": "Team startet separaten Einladungsauftrag; bestätigte Freundschaft bestimmt Versandkonto; fehlende Freundschaft führt zu automatischem Versand nach Annahme innerhalb 24 Stunden mit Minutenprüfung.", "verdict": "verified", "evidence": "events.rs:563-581 und Discord-Bridge Admin-/invite getrennt von öffentlichen Link-Einstiegen. invite.rs:17-22 TTL 24*60*60/Poll 60 Sekunden; :66-245 Versand oder gespeicherter offener Auftrag; :649-719 resolve_friend_bot/check_friendship/dispatch_invite. :49-63 und Versandclaim verhindern Doppelversand. Offizielle Steam-Seite am 07.10.2026 mit Moli gelesen, keine garantierte Valve-Dauer."},
+        {"claim": "Veröffentlichter Build-Katalog ist von Website-Stimmen getrennt; frische Links sind vor bloßer Voice-Inaktivitätsbereinigung geschützt.", "verdict": "verified", "evidence": "catalog.rs gegenüber vorheriger Fachprüfung nur Testpool-Aufruf geändert, produktiver Katalogvertrag unverändert. purge.rs:123-163 prüft Kapazität und lädt geschützte Karenzlinks; :228-281 protokolliert geschützte Links statt Entfernen. Keine Garantie für dauerhafte externe Zustellung oder allgemeine Datenlöschung aus unlink abgeleitet."}
       ],
       "gaps": []
     },
     {
       "path": "public/discord-server/steam-integration.html",
-      "verified_at": "2026-09-19T23:10:08.610Z",
-      "content_sha256": "bfa7f7ea0187c7e882a4d31583664a3be001af0168b7f9262ea81d84ff4d9bb4",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "72760a476bb3361bb3fab4f2c3d36e974de806967cb65ac069f4f7da8fc1e509",
       "code": [
-        {
-          "repository": "steam",
-          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
-          "paths": [
-            "rust/crates/steam-flows/src/link.rs",
-            "rust/crates/steam-flows/src/link_commands.rs",
-            "rust/crates/steam-flows/src/rank.rs",
-            "rust/crates/steam-flows/src/invite.rs",
-            "rust/crates/steam-flows/src/purge.rs",
-            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
-          ]
-        }
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/link_commands.rs", "rust/crates/steam-flows/src/unlink.rs", "rust/crates/steam-flows/src/rank.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]},
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs", "rust/crates/dl-voice/src/router.rs", "rust/crates/dl-voice/src/tempvoice/engine.rs", "rust/crates/dl-voice/src/lfg_panel.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
-          "verdict": "verified",
-          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
-        },
-        {
-          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
-          "verdict": "verified",
-          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
-        }
+        {"claim": "Alternative Anmeldung/Freundescode, eigene Kontoverwaltung und Rangabgleich mit Freundschaft; keine allgemeine Sperre normaler Ranked-Lanes.", "verdict": "verified", "evidence": "Produktives link.rs OpenID/handle_friend_code_submit und :1231-1284 Freundschaftsprüfung/Verifizierung/Rangabgleich; link_commands.rs:157-298 eigene Links/setprimary/unlink; rank.rs:2021-2201 Rangabgleich. Bestehender Router-/Engine-/LFG-Vertrag unterscheidet normale Lane und optionales Rang-Gate/strukturierte Ranked-Suche. Kanal in lesenden list_channels/public_server_facts vom 07.10.2026 bestätigt."},
+        {"claim": "Team-Einladungsauftrag ist separat; Bot lädt über befreundetes Konto ein, wartet bis zu 24 Stunden und prüft etwa jede Minute.", "verdict": "verified", "evidence": "Produktives events.rs:563-581 routet Admin-/invite; invite.rs:17-22 TTL/Pollkonstanten, :66-245 Versand/Freundschaftsanfrage und offener Auftrag, :649-719 Kontowahl und Versand. :49-63 Steam-Playtest-Einladungen/Bibliothek; laufender/ungeklärter Versand wird nicht wiederholt. Steam-Seite app1422450 mit Moli am 07.10.2026 bestätigt friend invite via our playtesters, keine feste Valve-Dauer."},
+        {"claim": "Steam-Wartungsabschnitt ist ausdrücklich Betreiber-Erfahrungswissen, keine aktuelle Störung oder feste Dauer.", "verdict": "verified", "evidence": "Bereits bestehender Absatz unverändert, als Erfahrung und nicht als aus Rust ableitbare Valve-Zusage gekennzeichnet. Keine neue externe Wartungsbehauptung ergänzt."}
       ],
       "gaps": []
     },
     {
       "path": "public/discord-server/workflows/steam-verknuepfen-rang.html",
-      "verified_at": "2026-09-19T23:10:08.611Z",
-      "content_sha256": "3e2fe0b3b2956caf8af28f6f6708ae873168704ff8734da8d4d5581059ff9ee5",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "e00ae1651087c122aa26d8833497a1656dc326c5a74e97c330265fee8d2f7640",
       "code": [
-        {
-          "repository": "steam",
-          "revision": "f4ac4a868f9162ef9d9cbfd5874af1854b05b2a3",
-          "paths": [
-            "rust/crates/steam-flows/src/link.rs",
-            "rust/crates/steam-flows/src/link_commands.rs",
-            "rust/crates/steam-flows/src/rank.rs",
-            "rust/crates/steam-flows/src/invite.rs",
-            "rust/crates/steam-flows/src/purge.rs",
-            "rust/crates/steam-core/src/task/handlers/builds/catalog.rs"
-          ]
-        }
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/link_commands.rs", "rust/crates/steam-flows/src/rank.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]},
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs", "rust/crates/dl-voice/src/router.rs", "rust/crates/dl-voice/src/tempvoice/engine.rs", "rust/crates/dl-voice/src/lfg_panel.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Anmeldung und Freundescode sind alternative Einstiege; eigene Kontenverwaltung und Rangabgleich.",
-          "verdict": "verified",
-          "evidence": "link.rs OpenID und Code-Flows getrennt; link_commands.rs Eigentumsprüfung; rank.rs readonly/full, Primärkonto und bester Rang."
-        },
-        {
-          "claim": "Invite setzt Freundschaft voraus, Wiederholung ist bei laufendem/ungeklärtem Versand gesperrt; keine externe Erfolgsgarantie.",
-          "verdict": "verified",
-          "evidence": "invite.rs check_friendship, claim/audit und in-progress/uncertain-Rückmeldungen."
-        }
+        {"claim": "Steam-Anmeldung und Freundescode sind alternative Verknüpfungseinstiege; Freundschaftsverifizierung kann Rangabgleich auslösen, Panel-Rangprüfung ist lesend.", "verdict": "verified", "evidence": "Produktives link.rs build_steam_login_url/handle_friend_code_submit; :1231-1284 bestätigt Freundschaft und ruft checkrank_for_user. rank.rs:1887-1964 und :2032-2074 trennen Panelanzeige vom Rollen-Sync, :2227 ff. periodischer Scheduler. Öffentlicher Steam-Kanal lesend durch MCP bestätigt. Bestehender Router-/Engine-/LFG-Vertrag trennt normale Lane und optionales Gate/strukturierte Ranked-Suche."},
+        {"claim": "Verknüpfung allein bestellt keine Einladung; Team-Auftrag und Bot-Freundschaft führen zum Versand über das befreundete Konto.", "verdict": "verified", "evidence": "events.rs:563-581 separater Admin-/invite-Pfad; invite.rs:66-229 und :649-719. TTL 24*60*60 gilt für Freundschaftsannahme, nicht Valve-Freischaltung. :49-63 nennt Steam-Einladungen/Bibliothek. Offizielle Steam-Seite mit Moli am 07.10.2026 bestätigt Freundeseinladungen von Playtestern, keine feste Valve-Dauer."}
       ],
       "gaps": []
     },
@@ -523,34 +467,40 @@
     },
     {
       "path": "public/discord-server/onboarding-und-invites.html",
-      "verified_at": "2026-09-19T23:12:03.738Z",
-      "content_sha256": "3b1c79d7db22073c6ccaec9347304525ca5e575def055e55d2be6b62b0154490",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "6b23c7ded81a897ce4a1dc0feea66688504d8d04559d95257ee93c02ded909d8",
       "code": [
         {
+          "repository": "steam",
+          "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d",
+          "paths": ["rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/link_commands.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]
+        },
+        {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
-          "paths": [
-            "rust/crates/dl-community/src/onboarding.rs",
-            "rust/bin/dl-bot/src/serversync.rs",
-            "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"
-          ]
+          "revision": "4b36999d8dfda924da56b6fb584f6149a8024124",
+          "paths": ["rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs", "rust/bin/dl-bot/src/serversync/welcome_publish.rs"]
         }
       ],
       "claims": [
         {
-          "claim": "Natives Onboarding mit optionalen Ping-Interessen; alte Wizard-/Thread-Flows entfernt.",
-          "evidence": "onboarding.rs ausdrücklich nur verbliebene Konstanten; serversync.rs build_welle2b_onboarding_config und Pingoptionen Patchnotes/LFG/Events/Custom/Streams.",
-          "verdict": "verified"
+          "claim": "Steam-Verknüpfung, Einladungsauftrag durch das Team und bestätigte Bot-Freundschaft sind getrennte Schritte.",
+          "verdict": "verified",
+          "evidence": "Produktiver Steam-SHA 4a5c4ff3: events.rs:563-581 routet /invite mit Freundescode und Zielmitglied separat zu handle_invite_command. invite.rs:66-229 prüft Freundschaft und startet Versand oder Freundschaftsanfrage. :649-719 wählt das befreundete Bot-Konto. link.rs:1231-1284 bestätigt Link und Rang, bestellt keine Playtest-Einladung. Produktive Discord-Bridge e1f11614 registriert /invite als Admin-Befehl und /account_verknüpfen als öffentlichen Link-Einstieg; dieselben Verträge am angegebenen origin/main geprüft. Keine Live-Einladung ausgelöst."
         },
         {
-          "claim": "Kein unbelegter automatischer Rang-Guide-DM-Trigger zugesagt.",
-          "evidence": "Aktueller Onboarding-Code enthält diesen alten Folgeflow nicht; sichtbarer Rang-Guide bleibt über serversync/rang_guide_publish.rs belegt.",
-          "verdict": "verified"
+          "claim": "Bei fehlender Freundschaft automatische Einladung nach Annahme, 24-Stunden-Frist und etwa minütliche Prüfung; laufenden Versand nicht doppelt starten.",
+          "verdict": "verified",
+          "evidence": "Produktives invite.rs:17-22 INVITE_REQUEST_TTL_SECS=24*60*60, INVITE_POLL_INTERVAL=60 Sekunden; :206-245 legt offenen Auftrag an und startet Poller; :49-63 und :75-204 verhindern Wiederholung und nennen Bibliothek/Steam-Playtest-Einladungen; :1006-1009 beendet abgelaufene Freundschaftswartezeit. Frist betrifft keine Freischaltungsdauer bei Valve."
         },
         {
-          "claim": "Invite folgt sichtbarem Serverweg und externen Steamvoraussetzungen.",
-          "evidence": "Steam store app1422450 am Prüftag: Zugang über Einladungen von Playtestern; keine kostenlose oder bedingungslose Zugangsgarantie daraus abgeleitet.",
-          "verdict": "verified"
+          "claim": "Öffentlicher Verknüpfungseinstieg in 🔗deadlock-rang, alternative Steam-Anmeldung/Freundescode sowie natives Server-Onboarding und Navigation in 🧭willkommen.",
+          "verdict": "verified",
+          "evidence": "Lesende dl-bot-MCP tools list_channels und public_server_facts am 07.10.2026 bestätigen beide öffentlichen Kanalnamen. Produktives steam-config/services.rs LinkConfig.panel_channel_id entspricht dem bestätigten Steam-Kanal; link_commands.rs:30-88 und Discord steam.rs/rang_guide_publish.rs enthalten Panel und Button-Verträge. serversync.rs build_welle2b_onboarding_config und welcome_publish.rs belegen Interessen/Navigation; Änderungen seit bisheriger Prüfung sind Twitch-Verknüpfung und Release-Assetauflösung, nicht diese Schritte. Kein Paneltext als unmittelbar live gelesen ausgegeben."
+        },
+        {
+          "claim": "Offizieller Zugang über Freundeseinladungen von Playtestern; kein veröffentlichtes Erscheinungsdatum und keine feste Freischaltungsdauer zugesagt.",
+          "verdict": "verified",
+          "evidence": "Moli las am 07.10.2026 https://store.steampowered.com/app/1422450/Deadlock/: Access is currently limited to friend invite via our playtesters; Planned Release Date: To be announced. Einladung und tatsächliche Freischaltung werden ausdrücklich getrennt."
         }
       ],
       "gaps": []
@@ -591,35 +541,16 @@
     },
     {
       "path": "public/discord-server/workflows/onboarding-beitritt.html",
-      "verified_at": "2026-09-19T23:12:03.792Z",
-      "content_sha256": "0c30161be74445750606abbcc356aa9108f35f06e65c2ebe9e0afc0d7ad7d379",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "8836d4026b89c87e474ae873f6bb1cf25e34645114e50075ba12f10aea34b3eb",
       "code": [
-        {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
-          "paths": [
-            "rust/crates/dl-community/src/onboarding.rs",
-            "rust/bin/dl-bot/src/serversync.rs",
-            "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"
-          ]
-        }
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/bin/dl-bot/src/serversync.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs", "rust/bin/dl-bot/src/serversync/welcome_publish.rs", "rust/crates/dl-bridges/src/steam.rs", "rust/crates/dl-community/src/faq.rs"]},
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-flows/src/link.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Natives Onboarding mit optionalen Ping-Interessen; alte Wizard-/Thread-Flows entfernt.",
-          "evidence": "onboarding.rs ausdrücklich nur verbliebene Konstanten; serversync.rs build_welle2b_onboarding_config und Pingoptionen Patchnotes/LFG/Events/Custom/Streams.",
-          "verdict": "verified"
-        },
-        {
-          "claim": "Kein unbelegter automatischer Rang-Guide-DM-Trigger zugesagt.",
-          "evidence": "Aktueller Onboarding-Code enthält diesen alten Folgeflow nicht; sichtbarer Rang-Guide bleibt über serversync/rang_guide_publish.rs belegt.",
-          "verdict": "verified"
-        },
-        {
-          "claim": "Invite folgt sichtbarem Serverweg und externen Steamvoraussetzungen.",
-          "evidence": "Steam store app1422450 am Prüftag: Zugang über Einladungen von Playtestern; keine kostenlose oder bedingungslose Zugangsgarantie daraus abgeleitet.",
-          "verdict": "verified"
-        }
+        {"claim": "Natives Onboarding mit optionalen Interessen und sichtbare Navigation statt vorausgesetzter Direktnachricht.", "verdict": "verified", "evidence": "serversync.rs build_welle2b_onboarding_config und welcome_publish.rs; relevante Änderungen seit bisheriger Prüfung betreffen Twitch-Verknüpfung und Assetauflösung, nicht den dokumentierten Onboardingweg. faq.rs:200-215 und registrierter /faq-Einstieg belegen privaten Fragechat. Lesende MCP-Ausgaben vom 07.10.2026 bestätigen öffentlichen Willkommen-/Steam-Kanal."},
+        {"claim": "Steam-Verknüpfung ist vom Team-Einladungsauftrag getrennt; Versand mit bestätigter Freundschaft über das befreundete Konto.", "verdict": "verified", "evidence": "Produktives events.rs:563-581, invite.rs:66-229 und :649-719; link.rs:1231-1284 bestätigt Link/Rang ohne Einladungsauftrag. Panel- und Bridge-Einstiege separat geprüft, kein öffentlich erforderlicher Admin-Befehl dokumentiert."},
+        {"claim": "24 Stunden betreffen die Freundschaftsannahme, nicht Valve-Freischaltung; Steam-Einladungen/Bibliothek und alternative Playtester-Einladung.", "verdict": "verified", "evidence": "invite.rs INVITE_REQUEST_TTL_SECS=24*60*60 und :49-63; offizielle Steam-Seite app1422450 mit Moli am 07.10.2026: friend invite via our playtesters. Keine feste Valve-Dauer daraus abgeleitet."}
       ],
       "gaps": []
     },
@@ -1333,28 +1264,16 @@
     },
     {
       "path": "public/discord-server/referenz/glossar.html",
-      "verified_at": "2026-09-19T23:16:29.091Z",
-      "content_sha256": "9dd5efff57edf5fcd46f248aa2a5fbc603a45cf72d9fe2fd5d239e9283ba4c8d",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "ca3fae0776045dd0dba1d4979bd628cd15bdbff756c537ad5aa05b66f479e405",
       "code": [
-        {
-          "repository": "discord",
-          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
-          "paths": [
-            "rust/crates/dl-community/src/concierge.rs",
-            "rust/crates/dl-community/src/faq.rs",
-            "rust/crates/dl-community/src/privacy_ui.rs",
-            "rust/crates/dl-voice/src/router.rs",
-            "rust/crates/dl-stats/src/me.rs",
-            "rust/crates/dl-answer/src/lib.rs"
-          ]
-        }
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/crates/dl-community/src/concierge.rs", "rust/crates/dl-community/src/faq.rs", "rust/crates/dl-community/src/privacy_ui.rs", "rust/crates/dl-voice/src/router.rs", "rust/crates/dl-voice/src/tempvoice/engine.rs", "rust/crates/dl-stats/src/me.rs", "rust/crates/dl-stats/src/rank_history.rs", "rust/crates/dl-answer/src/lib.rs", "rust/bin/dl-bot/src/serversync.rs", "rust/crates/dl-bridges/src/steam.rs"]},
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/link_commands.rs", "rust/crates/steam-flows/src/rank.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Begriffe entsprechen den geprüften aktuellen Familien; gemeinsames Spielwissen und alternative Steam-Einstiege ergänzt.",
-          "evidence": "Abgleich mit Concierge/FAQ/Privacy/Router und zuvor geprüftem Steam link.rs; keine neuen Rechte/Automatikgarantien.",
-          "verdict": "verified"
-        }
+        {"claim": "Neue Steam-Begriffe trennen Verknüpfung, Freundescode, Team-Einladungsauftrag und Bot-Freundschaft.", "verdict": "verified", "evidence": "Produktives events.rs:563-581 und invite.rs:66-245/:649-719; TTL 24*60*60 betrifft Freundschaft, nicht Valve-Zugang. link_commands.rs:30-88 und link.rs getrennte Anmeldung/Freundescode. Öffentlicher Steam-Kanal per lesendem MCP bestätigt. Steam-Seite am 07.10.2026 mit Moli bestätigt Playtester-Freundeseinladung ohne feste Freischaltungsdauer."},
+        {"claim": "Bestehende Begriffe zu Voice, Rang-Sichtbarkeit, Onboarding und Support bleiben auf sichtbare Funktionen beschränkt.", "verdict": "verified", "evidence": "Router erstellt Lane und prüft Owner, Engine setzt optionales min_rank-Gate; Ranghistory parse_visibility/visibility_from_db/visible_to_viewer bestätigen private Voreinstellung und Mitglieder/Öffentlich. Natives Onboarding in serversync.rs; faq.rs:200-215 Frage-stellen-Panel, :850-852 CommunityAndGame und :1391-1452 Ticketentwurf nur im getrennten Shadowkanal. Keine neue Rechte- oder Zustellgarantie ergänzt."},
+        {"claim": "Datenschutzlöschung und stopp sind getrennt; stopp steuert nur echte Concierge-DM, Opt-in hebt den Vermerk auf.", "verdict": "verified", "evidence": "privacy_ui.rs:20-25/:102-105/:203-235 Lösch-/Optin-Verträge; concierge.rs:2768-2801 set_opted_out schreibt globalen Vermerk, :4571/:4608-4621 schützt handle_dm_control durch is_direct_dm. Alte Lösch-/Optout-Semantik nicht erweitert; kein universeller Speicherstopp garantiert."}
       ],
       "gaps": []
     },
@@ -1465,23 +1384,16 @@
     },
     {
       "path": "public/discord-server/deadlock-grundlagen.html",
-      "verified_at": "2026-09-19T23:17:49.110Z",
-      "content_sha256": "cc837d3888409453c5e3a59e08964f032e5e705ba19f09ec54ba13d0be2a47bf",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "451aedbaa1727cccbafbc13ca22f812117256640af9d1c0c4ff5d62d1af33003",
       "code": [
-        {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
-          "paths": [
-            "rust/bin/dl-bot/src/modglue.rs"
-          ]
-        }
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-flows/src/link.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]},
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Grundlagen bleiben allgemeine Orientierung; Zugang ist keine bedingungslose Garantie.",
-          "evidence": "Offizielle Valve-Steamseite app1422450 am 2026-09-20 direkt gelesen: early development, friend invites via playtesters; alte nur-eine-Einladung-/Preisgarantie gestrichen. Bestehende 6-gegen-6-/Helden-/Items-/Souls-Beschreibung unverändert, keine aktuellen Balancewerte.",
-          "verdict": "verified"
-        }
+        {"claim": "Grundlagen bleiben allgemeine Orientierung ohne aktuelle Balancewerte.", "verdict": "verified", "evidence": "Bestehende 6-gegen-6-/Helden-/Items-/Souls-Orientierung aus der bisherigen Fachprüfung erhalten; kein neuer Spielmechanik- oder Balanceanspruch. Fachlicher Zugangsteil neu geprüft, keine Preis- oder Freischaltungsgarantie."},
+        {"claim": "Konkreter Community-Weg: Steam verknüpfen, dem Team Freundescode geben, Bot-Freundschaft annehmen; Verknüpfung allein bestellt keine Einladung.", "verdict": "verified", "evidence": "Dieselben am 07.10.2026 geprüften produktiven Verträge wie onboarding-und-invites.html: events.rs:563-581 separater Team-Auftrag; invite.rs:66-229 und :649-719 prüfen Freundschaft und befreundetes Bot-Konto; link.rs:1231-1284 bestätigt Link/Rang ohne Playtest-Auftrag. Lesende MCP-Ausgaben list_channels/public_server_facts bestätigen 🔗deadlock-rang. Keine Mitgliederaktion ausgelöst."},
+        {"claim": "Freundeseinladung von Playtestern und Prüfung von Steam-Playtest-Einladungen/Bibliothek; keine feste Valve-Dauer.", "verdict": "verified", "evidence": "Offizielle Steam-Seite app1422450 am 07.10.2026 mit Moli gelesen: friend invite via our playtesters. invite.rs:49-63 nennt Bibliothek und store.steampowered.com/account/playtestinvites. Bot-Frist und Valve-Freischaltung bleiben getrennt."}
       ],
       "gaps": []
     },
@@ -1516,26 +1428,15 @@
     },
     {
       "path": "public/discord-server/bots-und-dienste.html",
-      "verified_at": "2026-09-19T23:17:49.143Z",
-      "content_sha256": "8b146c4276de944dd355a77f200f302bde1b479a3da4a907d054c99ad9d44094",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "fc2c5983eaf121f126837d995aeb830a366fecebea0339fabd5f52e495669f86",
       "code": [
-        {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
-          "paths": [
-            "rust/bin/dl-bot/src/serversync/welcome_publish.rs",
-            "rust/bin/dl-bot/src/serversync.rs",
-            "rust/crates/dl-community/src/faq.rs",
-            "rust/crates/dl-community/src/concierge.rs"
-          ]
-        }
+        {"repository": "discord", "revision": "4b36999d8dfda924da56b6fb584f6149a8024124", "paths": ["rust/bin/dl-bot/src/serversync/welcome_publish.rs", "rust/bin/dl-bot/src/serversync.rs", "rust/crates/dl-community/src/faq.rs", "rust/crates/dl-community/src/concierge.rs", "rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"]},
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]}
       ],
       "claims": [
-        {
-          "claim": "Öffentliche Einstiege und getrennte Bereiche, keine Betriebs-/Zustellgarantien aus statischer Übersicht.",
-          "evidence": "Welcome-Bereichszwecke/Schnellzugriffe und native Pingoptionen im Servermodell geprüft; Concierge/FAQ direkte Antwort und gesonderter menschlicher Ticketweg. Detailfunktionen entsprechen den separat geprüften Steam-/Voice-/Coaching-/Brain-Familien.",
-          "verdict": "verified"
-        }
+        {"claim": "Übersicht nennt öffentliche Einstiege und trennt Wissensfragen von menschlichen Tickets und persönlichen Aktionen.", "verdict": "verified", "evidence": "Bestehende allgemeine Portalverweise ohne neue Detailversprechen erhalten. Welcome-/Onboardingänderungen betreffen Twitch-Verknüpfung und Releaseassets, Navigation bleibt erhalten. faq.rs:200-215 Frage-stellen-Panel und :1391-1452 keine Direktantwort im Ticket; concierge.rs:4571-4621 echte DM-Steuerung und getrennte persönliche Aktionsoption. PATE_REQUEST_UNCERTAIN_TEXT verweist weiterhin auf menschliche Prüfung. Keine aktuelle Betriebsbereitschaft aus statischer Übersicht abgeleitet."},
+        {"claim": "Steam-Kurzantwort beschreibt Verknüpfung, Team-Auftrag mit Freundescode und Bot-Freundschaft statt pauschalem Invite-Verweis.", "verdict": "verified", "evidence": "Produktives events.rs:563-581 separat von Link; invite.rs:66-229 und :649-719 Versand nach bestätigter Freundschaft über passendes Konto. link.rs:1231-1284 bestätigt nur Link/Rang. 🔗deadlock-rang am 07.10.2026 lesend durch list_channels/public_server_facts bestätigt; Detailseite onboarding-und-invites.html vollständig neu geprüft."}
       ],
       "gaps": []
     },
@@ -2000,63 +1901,18 @@
     },
     {
       "path": "public/index.html",
-      "verified_at": "2026-09-19T23:39:32.711Z",
-      "content_sha256": "c439a437ea9ebdbb8b8157b0d1a7c3b604c6b15590a1e70c32863733c0e7b4a2",
+      "verified_at": "2026-10-07T19:15:14.172893+00:00",
+      "content_sha256": "6d77f63452c244dbcb96a6d3453e35e3f1997825157b1dcd4c05221e854e4540",
       "code": [
-        {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
-          "paths": [
-            "rust/crates/dl-community/src/concierge.rs",
-            "rust/crates/dl-community/src/faq.rs",
-            "rust/crates/dl-brain/src/lib.rs"
-          ]
-        },
-        {
-          "repository": "website",
-          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
-          "paths": [
-            "dl-coaching/src/App.tsx",
-            "dl-coaching/src/pages/CoachingRequestPage.tsx",
-            "dl-coaching/src/pages/MyCoachingPage.tsx",
-            "dl-coaching/src/pages/MyScrimPage.tsx",
-            "dl-coaching/src/pages/ScrimSignupPage.tsx",
-            "dl-tierlist/src/tierlist.js",
-            "dl-patch/src/patch.js",
-            "dl-activity/src/activity.js"
-          ]
-        },
-        {
-          "repository": "turniere",
-          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
-          "paths": [
-            "rust/crates/turnier-api/src/public/teams.rs",
-            "rust/crates/turnier-api/src/public/signups.rs",
-            "rust/crates/turnier-api/src/public/invitations.rs",
-            "rust/crates/turnier-api/src/consent.rs",
-            "rust/crates/turnier-api/src/account.rs",
-            "rust/crates/turnier-api/src/operations.rs",
-            "rust/crates/turnier-api/src/leaderboard.rs",
-            "rust/crates/turnier-api/src/draft.rs",
-            "frontend/src/pages/Tournament.tsx",
-            "frontend/src/pages/PlayerProfile.tsx",
-            "frontend/src/pages/DraftBoard.tsx",
-            "frontend/src/pages/DraftLobbyNeu.tsx",
-            "frontend/src/hooks/useDraftLobby.ts"
-          ]
-        }
+        {"repository": "discord", "revision": "0fb873c6887c6ec8df6ce50d15c8ded9781fbadf", "paths": ["rust/crates/dl-community/src/concierge.rs", "rust/crates/dl-community/src/faq.rs", "rust/crates/dl-brain/src/lib.rs", "rust/crates/dl-bridges/src/steam.rs", "rust/bin/dl-bot/src/serversync/rang_guide_publish.rs"]},
+        {"repository": "steam", "revision": "4a5c4ff3a38e9a4bf7fe2dbf8de882b00700233d", "paths": ["rust/crates/steam-flows/src/link.rs", "rust/crates/steam-flows/src/invite.rs", "rust/crates/steam-web/src/routes/events.rs", "rust/crates/steam-config/src/services.rs"]},
+        {"repository": "website", "revision": "218c685186dd85f465643487ae706ef67d7f36c0", "paths": ["dl-coaching/src/App.tsx", "dl-coaching/src/pages/CoachingRequestPage.tsx", "dl-coaching/src/pages/MyCoachingPage.tsx", "dl-coaching/src/pages/MyScrimPage.tsx", "dl-coaching/src/pages/ScrimSignupPage.tsx", "dl-tierlist/src/tierlist.js", "dl-patch/src/patch.js", "dl-activity/src/activity.js"]},
+        {"repository": "turniere", "revision": "aee1e059162be0aff4d0ee428186d0e445858ca9", "paths": ["rust/crates/turnier-api/src/public/teams.rs", "rust/crates/turnier-api/src/public/signups.rs", "rust/crates/turnier-api/src/public/invitations.rs", "rust/crates/turnier-api/src/consent.rs", "rust/crates/turnier-api/src/account.rs", "rust/crates/turnier-api/src/operations.rs", "rust/crates/turnier-api/src/leaderboard.rs", "rust/crates/turnier-api/src/draft.rs", "frontend/src/pages/Tournament.tsx", "frontend/src/pages/PlayerProfile.tsx", "frontend/src/pages/DraftBoard.tsx", "frontend/src/pages/DraftLobbyNeu.tsx", "frontend/src/hooks/useDraftLobby.ts"]}
       ],
       "claims": [
-        {
-          "claim": "Übersicht verlinkt tatsächlich vorhandene öffentliche Hilfeseiten.",
-          "evidence": "Relative Ziele geprüft; Fachtexte getrennt gegen aktuelle Implementierung geprüft.",
-          "verdict": "verified"
-        },
-        {
-          "claim": "Concierge und FAQ verbinden Community-/Spielwissen, Brain ist eigener Spielfrageweg.",
-          "evidence": "Gemeinsame AnswerEngine in Concierge/FAQ, GameOnly bei Brain; keine Aktionsausführung durch reine Wissensantwort versprochen.",
-          "verdict": "verified"
-        }
+        {"claim": "Übersicht verlinkt vorhandene Hilfeseiten und sichtbare öffentliche beziehungsweise angemeldete Portalwege ohne Momentangaben für Termine, Preise oder Patches.", "verdict": "verified", "evidence": "Relative Ziele mit vorhandenem Validator geprüft. Gegen bisherige Fachprüfung geänderte Website-Pfade betreffen Coaching-Formular, Scrim-Auswahl und Patchdarstellung; Discord-Login und die hier nur genannten Angebote bleiben. Turnieränderungen sind Typsicherheit, Consent-SQL und datenbasierte Drafthelden; öffentliche Übersichten/eigene Loginaktionen und Einwilligung unverändert. Keine neue Portal-Detailfunktion behauptet."},
+        {"claim": "Wissensfrage ist keine Anmeldung, Patenvergabe oder Build-Veröffentlichung; Concierge/FAQ bieten Community- und Spielwissen.", "verdict": "verified", "evidence": "faq.rs:850-852 CommunityAndGame, :1391-1452 getrennte menschliche Ticketbearbeitung; concierge.rs trennt Wissensantwort und persönliche Aktionsoptionen, Patenwunsch bleibt gesonderter Ablauf. Bestehender Brain-Frageweg in dl-brain bleibt vorhanden; Folgeänderung 0fb873c6 betrifft Tageslimits und trennt Reservierung von Antwort, nicht die hier beschriebene Wissensfunktion. Kein bestimmter interner AnswerEngine-Aufbau öffentlich zugesagt."},
+        {"claim": "Steam-Kurzantwort nennt konkreten Kanal, Team-Einladungsauftrag und Bot-Freundschaft; Link allein bestellt keine Einladung.", "verdict": "verified", "evidence": "Produktives events.rs:563-581 und invite.rs:66-229/:649-719 getrennt vom Link-/Rangpfad link.rs:1231-1284. Öffentlicher Kanal per lesendem MCP am 07.10.2026 bestätigt. Vollständiger Einladungsablauf in onboarding-und-invites.html geprüft."}
       ],
       "gaps": []
     }
