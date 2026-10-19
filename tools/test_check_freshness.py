@@ -159,6 +159,15 @@ class FreshnessTest(unittest.TestCase):
         ungebunden = [e for e in seiten if e["status"] == check_freshness.UNGEBUNDEN]
         self.assertEqual([e["seite"] for e in ungebunden], ["internal/neu/seite.html"])
 
+    def test_markdown_seite_ohne_manifest_eintrag_wird_gemeldet(self):
+        docs = self.basis / "Docs"
+        (docs / "internal" / "wissensbasis").mkdir(parents=True)
+        (docs / "internal" / "wissensbasis" / "neu.md").write_text("# x\n", encoding="utf-8")
+        manifest = self.manifest({})
+        seiten = check_freshness.pruefe(manifest, self.basis, docs)
+        ungebunden = [e for e in seiten if e["status"] == check_freshness.UNGEBUNDEN]
+        self.assertEqual([e["seite"] for e in ungebunden], ["internal/wissensbasis/neu.md"])
+
     def test_ungebundene_seite_laesst_den_lauf_auch_ohne_strict_scheitern(self):
         docs = self.basis / "Docs"
         (docs / "internal").mkdir(parents=True)

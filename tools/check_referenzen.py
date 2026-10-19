@@ -101,16 +101,57 @@ def kandidaten(text):
         yield gemeldet, relativ
 
 
+def pruefe_zeilenbelege(text, manifest, basis, zeilenzahlen):
+    repos = "|".join(re.escape(name) for name in manifest["repos"])
+    if not repos:
+        return set(), []
+    muster = re.compile(
+        r"(?<![\w/.-])(?P<repo>" + repos + r")/"
+        r"(?P<pfad>[A-Za-z0-9_./-]+):(?P<start>[0-9]+)"
+        r"(?:[-–](?P<ende>[0-9]+))?(?![\w–-])"
+    )
+    belegt, fehler = set(), set()
+    for fund in muster.finditer(text):
+        repo, pfad = fund["repo"], fund["pfad"]
+        belegt.add(f"{repo}/{pfad}")
+        wurzel = (basis / manifest["repos"][repo]["verzeichnis"]).resolve()
+        quelle = (wurzel / pfad).resolve()
+        if (not quelle.is_relative_to(wurzel)
+                or any(teil.startswith(".env") for teil in quelle.parts)):
+            fehler.add(fund[0])
+            continue
+        if quelle not in zeilenzahlen:
+            try:
+                zeilenzahlen[quelle] = len(quelle.read_text(encoding="utf-8").splitlines())
+            except (OSError, UnicodeError):
+                zeilenzahlen[quelle] = 0
+        start = int(fund["start"])
+        ende = int(fund["ende"]) if fund["ende"] is not None else start
+        if not 1 <= start <= ende <= zeilenzahlen[quelle]:
+            fehler.add(fund[0])
+    return belegt, sorted(fehler)
+
+
 def pruefe(manifest, basis, docs_root=REPO_ROOT):
     eintraege = quellbaum(manifest, basis)
     fehlend = defaultdict(list)
+    zeilenzahlen = {}
     verzeichnis = Path(docs_root) / "internal"
-    for seite in sorted(verzeichnis.rglob("*.html")) if verzeichnis.is_dir() else []:
+    seiten = sorted(
+        seite for muster in ("*.html", "*.md")
+        for seite in verzeichnis.rglob(muster)
+    ) if verzeichnis.is_dir() else []
+    for seite in seiten:
         rel = seite.relative_to(docs_root).as_posix()
-        text = re.sub(r"<[^>]+>", " ", seite.read_text(encoding="utf-8"))
+        text = seite.read_text(encoding="utf-8")
+        if seite.suffix == ".html":
+            text = re.sub(r"<[^>]+>", " ", text)
+        belegt, fehler = pruefe_zeilenbelege(text, manifest, basis, zeilenzahlen)
         for gemeldet, relativ in sorted(kandidaten(text)):
-            if not existiert(relativ, eintraege):
-                fehlend[rel].append(gemeldet)
+            if gemeldet not in belegt and not existiert(relativ, eintraege):
+                fehler.append(gemeldet)
+        if fehler:
+            fehlend[rel].extend(sorted(set(fehler)))
     return dict(fehlend), len(eintraege)
 
 

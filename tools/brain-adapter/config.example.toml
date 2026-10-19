@@ -1,0 +1,11 @@
+[brain.docs]
+endpoint = "http://127.0.0.1:8788"
+timeout_ms = 5000
+
+[brain.docs.infisical]
+project_id = "00000000-0000-0000-0000-000000000000"
+environment = "prod"
+secret_path = "/"
+socket_path = "/run/uplink-infisical/api.sock"
+credential_fd = 5
+token_secret = "BRAIN_SERVE_DOCS_PUBLIC_TOKEN"

@@ -13,7 +13,7 @@ from urllib.request import Request, urlopen
 DOC_PATH = Path("public/discord-server/team-und-ansprechpartner.html")
 DEPLOY_SCRIPT = Path(__file__).resolve().parent / "deploy_corpus.sh"
 MCP_URL = "http://127.0.0.1:8890/mcp"
-RELOAD_URL = "http://127.0.0.1:8896/internal/reload"
+REFRESH_CONFIG = Path(__file__).resolve().parents[1] / "ops/public-corpus-refresh.json"
 GUILD_ID = "1289721245281292288"
 NANI_ID = "662995601738170389"
 LEO_ID = "193685907071696896"
@@ -134,7 +134,7 @@ def render_document(stand, moderators, community_moderators, coaches):
   <title>Team und Ansprechpartner</title>
   <meta name="tags" content="discord-server, team, support, ansprechpartner, serverproblem, hilfe">
   <meta name="stand" content="{stand}">
-  <meta name="quelle" content="Produktdokumentation und geprüftes sichtbares Verhalten">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
 </head>
 <body>
 <main>
@@ -219,21 +219,9 @@ def committed_doc():
     return result.stdout
 
 
-def deploy_corpus(ref):
-    run([str(DEPLOY_SCRIPT), ref])
-
-
-def reload_knowledge():
-    request = Request(RELOAD_URL, data=b"", method="POST")
-    try:
-        with urlopen(request, timeout=20) as response:
-            response.read()
-    except HTTPError as e:
-        raise RuntimeError(f"Reload HTTP {e.code}: {e.reason}") from e
-    except URLError as e:
-        raise RuntimeError(f"Reload nicht erreichbar: {e.reason}") from e
-    except TimeoutError as e:
-        raise RuntimeError("Reload Timeout") from e
+def deploy_corpus() -> None:
+    """Aktivierung und bestätigten Reload dem gemeinsamen Refresh überlassen."""
+    run([str(DEPLOY_SCRIPT), "--config", str(REFRESH_CONFIG)])
 
 
 def main(argv=None):
@@ -256,8 +244,7 @@ def main(argv=None):
         if args.dry_run:
             return 0
         run(["git", "push"])
-        deploy_corpus("HEAD")
-        reload_knowledge()
+        deploy_corpus()
         return 0
 
     if args.dry_run:
@@ -278,9 +265,8 @@ def main(argv=None):
         ]
     )
     run(["git", "push"])
-    # erst den committeten Korpus deployen, dann den Wissens-Dienst neu laden
-    deploy_corpus("HEAD")
-    reload_knowledge()
+    # Nur der gemeinsame Refresh aktiviert den geprüften Korpus und bestätigt den Leser.
+    deploy_corpus()
     return 0
 
 

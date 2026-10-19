@@ -302,5 +302,50 @@
     "context_terms": ["freie Verwendung", "Credit"],
     "answer_terms": ["Clip", "frei"],
     "forbidden_terms": ["keine freie Verwendung", "keine freie Nutzung", "freie Verwendung ist nicht erlaubt", "freie Verwendung nicht erlaubt", "Verwendung des Clips ist nicht erlaubt", "nicht zur freien Nutzung freigegeben", "nicht zur freien Verwendung freigegeben", "Clip wird nicht frei genutzt", "Clip wird nicht frei verwendet", "Clip ist nicht frei nutzbar", "Clip ist nicht frei verwendbar", "Clip darf nicht frei genutzt", "Clip darf nicht frei verwendet", "Clip nicht frei nutzen", "Credit nicht genannt", "Credit wird nicht genannt", "Credit ist nicht genannt", "Credit kann genannt werden", "Credit ist optional", "Credit ist freiwillig", "Credit-Nennung ist optional", "Credit-Nennung ist freiwillig", "Namensnennung ist optional", "Namensnennung optional", "Nennung des Namens ist optional", "Nennung deines Namens ist optional", "Nennung des Anzeigenamens ist optional", "Nennung des Credits ist freiwillig", "Anzeigename kann genannt werden", "Anzeigename ist optional", "Anzeigename ist freiwillig", "Nennung des Anzeigenamens ist freiwillig", "Name genannt wird, ist freiwillig", "Credit genannt wird, ist nicht zugesagt", "Credit genannt wird, ist aber nicht zugesagt", "Credit ist nicht zugesagt", "Credit wird nicht zugesagt", "Credit-Nennung ist nicht zugesagt"]
+  },
+  {
+    "question": "Wie erstelle ich ne Casual oder Ranked Lane?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html","discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router","Casual","Ranked"],
+    "answer_terms": ["Router","Lane"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "How do I create a casual or ranked voice lane?",
+    "answerable": true,
+    "expected_sources": ["discord-server/voice-features.html","discord-server/module/voice-lanes.html"],
+    "context_terms": ["Router","Casual","Ranked"],
+    "answer_terms": ["Router","Lane"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Was kan ich als Owner von meiner Voice-Lane einstellen?",
+    "answerable": true,
+    "expected_sources": ["discord-server/tempvoice-guide.html","discord-server/workflows/voice-lane-erstellen-verwalten.html"],
+    "context_terms": ["Owner","umbenennen","Teilnehmerlimit"],
+    "answer_terms": ["umbenennen","Limit"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Ich finde niemanden: Wo starte ich die Mitspielersuche nochmal?",
+    "answerable": true,
+    "expected_sources": ["discord-server/community-tools.html","discord-server/module/mitspielersuche-lfg.html","discord-server/workflows/mitspieler-finden.html"],
+    "context_terms": ["LFG","Mitspieler finden","Panel"],
+    "answer_terms": ["LFG"],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
+  },
+  {
+    "question": "Welcher interne Voice-Router-Fehlercode bedeutet, dass die Lane-Datenbank kaputt ist?",
+    "answerable": false,
+    "expected_sources": [],
+    "context_terms": [],
+    "answer_terms": [],
+    "forbidden_terms": [],
+    "herkunft": "synthetisch"
   }
 ]

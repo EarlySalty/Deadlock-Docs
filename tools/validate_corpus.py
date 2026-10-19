@@ -380,7 +380,7 @@ def _relative_target(page_path, value):
     return (page_path.parent / path_part).resolve()
 
 
-def _check_local_target(page_path, kdir, value, rel, errors):
+def _check_local_target(page_path, kdir, value, rel, errors, require_existing_targets=True):
     target = _relative_target(page_path, value)
     if target is None:
         return
@@ -388,7 +388,7 @@ def _check_local_target(page_path, kdir, value, rel, errors):
     # tragen; die Datei (rel) genügt zur Lokalisierung.
     if not _within(target, kdir):
         errors.append(f"{rel}: Pfadflucht, Ziel außerhalb des Korpus-Roots")
-    elif not target.exists():
+    elif require_existing_targets and not target.exists():
         errors.append(f"{rel}: toter relativer Link")
 
 
@@ -416,7 +416,7 @@ def _redaction_errors(source, rel):
     return errors
 
 
-def validate_page(page_path, root, kdir, rel):
+def validate_page(page_path, root, kdir, rel, *, require_existing_targets=True):
     errors = []
     try:
         source = page_path.read_text(encoding="utf-8")
@@ -574,14 +574,14 @@ def validate_page(page_path, root, kdir, rel):
             if category == "external":
                 errors.append(f"{rel}: protokoll-relative Navigation nicht erlaubt")
                 continue
-            _check_local_target(page_path, kdir, norm, rel, errors)
+            _check_local_target(page_path, kdir, norm, rel, errors, require_existing_targets)
             continue
         # Ladende Ressource: jedes Scheme (auch protokoll-relativ) ist extern und
         # verboten; nur schemefreie lokale Ziele werden gegen das Dateisystem geprüft.
         if category == "external":
             errors.append(f"{rel}: externes Asset nicht erlaubt")
             continue
-        _check_local_target(page_path, kdir, norm, rel, errors)
+        _check_local_target(page_path, kdir, norm, rel, errors, require_existing_targets)
 
     # CSS aus Style-Blöcken und Inline-style-Attributen prüfen
     for css in parser.styles:
@@ -605,7 +605,7 @@ def validate_page(page_path, root, kdir, rel):
                 errors.append(f"{rel}: externes Asset in CSS nicht erlaubt")
             else:
                 # lokale CSS-URL derselben Root-/Existenzprüfung unterwerfen
-                _check_local_target(page_path, kdir, norm, rel, errors)
+                _check_local_target(page_path, kdir, norm, rel, errors, require_existing_targets)
 
     # öffentliche Seiten dürfen internal/ nicht referenzieren
     # (entitäten-dekodiert und case-insensitiv, damit INTERNAL/ oder internal&#47; greifen)
@@ -621,7 +621,7 @@ def _knowledge_dirs(root):
     return dirs or [root]
 
 
-def validate_root(root):
+def validate_root(root, *, require_existing_targets=True):
     root = Path(root).resolve()
     errors = []
     for kdir in _knowledge_dirs(root):
@@ -639,7 +639,8 @@ def validate_root(root):
             if low_suffix == ".md":
                 errors.append(f"{rel}: Markdown-Wissensseite (nur HTML erlaubt)")
             elif raw_suffix in HTML_SUFFIXES:
-                errors.extend(validate_page(path, root, kdir, rel))
+                errors.extend(validate_page(path, root, kdir, rel,
+                                            require_existing_targets=require_existing_targets))
             elif low_suffix == ".html":
                 # Runtime-Collector nimmt nur exakt .html; .HTML würde stumm
                 # nicht indexiert – als Vertragsverstoß ablehnen

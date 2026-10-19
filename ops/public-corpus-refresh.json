@@ -1,0 +1,7 @@
+{
+  "repository": "/home/nathanael/repos/Deadlock-Docs",
+  "ref": "origin/main",
+  "base": "/home/nathanael/.local/share/dl-knowledge",
+  "knowledge_url": "http://127.0.0.1:8896",
+  "fetch": true
+}
