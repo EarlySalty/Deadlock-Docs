@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock Steam-Bot Task-Queue</title>
   <meta name="tags" content="internal, steam, queue">
-  <meta name="stand" content="2026-07-08">
+  <meta name="stand" content="2026-10-19">
   <meta name="quelle" content="Deadlock-Steam-Bot">
 </head>
 <body>
@@ -70,6 +70,11 @@
 <p><code>GET /tasks/{id}</code> liest <code>status</code>, <code>result</code> und <code>error</code>. Das Ergebnis wird von Flow-Code gepollt, bis <code>DONE</code>, <code>FAILED</code> oder Timeout erreicht ist. (<code>rust/crates/steam-core/src/api/mod.rs</code>, <code>rust/crates/steam-flows/src/shared.rs</code>)</p>
 <p><code>/health</code> ist immer offen. <code>POST /tasks</code>, <code>GET /tasks/{id}</code>, <code>/status</code> und <code>/friends</code> sind nur geschützt, wenn <code>STEAM_CORE_API_TOKEN</code> gesetzt ist; sonst bleiben sie im Loopback-/Dev-Modus offen. Bei falschem oder fehlendem Header antwortet die API mit <code>ungültiges oder fehlendes X-Internal-Token</code>. (<code>rust/crates/steam-core/src/api/mod.rs</code>)</p>
 <p><code>steam-flows</code> pollt Task-Status alle 500 ms und unterscheidet <code>Settled</code> von <code>Timeout</code>; ein Timeout lässt den Task in der Queue weiterlaufen. (<code>rust/crates/steam-flows/src/shared.rs</code>)</p>
+</section>
+<section id="routing-health">
+<h2>Routing und Health</h2>
+<p>Bevor ein Bot ein neues Task-Ziel wird, prüft <code>task_routing</code> den account-spezifischen Heartbeat in <code>bot.standalone_bot_state</code> (180 Sekunden) und den letzten abgeschlossenen Task (15 Minuten). Bots im Sende-Cooldown gelten ebenfalls als ungesund. Ein Bot ohne aktive Session bekommt keine neuen Tasks. Sind alle bekannten Bots ungesund, bleibt der Task als <code>PENDING</code> mit <code>bot_account_id = 0</code> in der Queue und wird nicht verworfen. Der Backlog-Scheduler weist gehaltene Tasks zu, sobald wieder ein Bot gesund ist. (<code>rust/crates/steam-flows/src/task_routing.rs</code>, <code>rust/crates/steam-core/src/steam/heartbeat.rs</code>)</p>
+<p>Der Stau-Alarm schreibt nur bei Zustandswechsel in den Admin-Log. Schwellen: ältester <code>PENDING</code> älter als 15 Minuten, oder ein Bot hat offene Tasks und hat seit 15 Minuten nichts abgeschlossen. Die 15 Minuten stammen aus der Query über 30 Tage vom 2026-08-16 (1,3 Mio. Abschlüsse, p99-Wartezeit 2,7 s, Maximum 680 s, kein PENDING über 15 Minuten). Override per TOML: <code>cleanup.backlog_pending_stale_secs</code>, <code>cleanup.backlog_idle_with_work_secs</code>. (<code>rust/crates/steam-flows/src/task_backlog.rs</code>, <code>rust/crates/steam-config/src/services.rs</code>)</p>
 </section>
 <section id="wartung">
 <h2>Wartung</h2>
