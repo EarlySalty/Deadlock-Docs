@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Lurker-Steuer</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Die Lurker-Steuer holt ruhige Stamm-Zuschauer sparsam mit einem freundlichen Hinweis zurück in den Chat. Sie braucht eine Kanalpunkte-Belohnung mit dem Namen „Lurker Steuer“.">
+  <meta name="tags" content="twitch-bot, lurker, zuschauer, kanalpunkte, chat">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung (Dashboard Verwaltung und Chat-Befehle)">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Lurker-Steuer</h1>
+  <p><strong>Kurz gesagt.</strong> Die Lurker-Steuer erinnert ab und zu deine ruhigsten Stamm-Zuschauer daran, mal wieder Hallo zu sagen. Sie ist standardmäßig aus und sehr sparsam. Die Funktion ist nicht in jedem Plan enthalten.</p>
+
+  <section id="was-passiert">
+    <h2>Was passiert</h2>
+    <p>Wenn die Lurker-Steuer an ist, schreibt der Community-Bot gelegentlich einen freundlichen @-Hinweis an Zuschauer, die seit längerer Zeit nur still mitschauen. Sie richtet sich nur an langjährige Stamm-Zuschauer, nicht an neue Zuschauer. Der Hinweis lädt zum Hallosagen ein und bietet eine Belohnung an, die du selbst in Twitch festlegst.</p>
+  </section>
+
+  <section id="belohnung">
+    <h2>Die Kanalpunkte-Belohnung einrichten</h2>
+    <p>Damit deine Lurker etwas zum Einlösen haben, legst du in Twitch eine Kanalpunkte-Belohnung mit genau diesem Namen an: <strong>Lurker Steuer</strong>. Den Preis bestimmst du selbst, zum Beispiel 10 Punkte.</p>
+    <ol>
+      <li>Öffne dein Twitch Creator-Dashboard.</li>
+      <li>Gehe zu Zuschauerbelohnungen.</li>
+      <li>Öffne Punkte und Belohnungen.</li>
+      <li>Wähle Individuelle Belohnung hinzufügen und nenne sie genau <strong>Lurker Steuer</strong>.</li>
+    </ol>
+    <p>Im Dashboard unter „Verwaltung“ zeigt der Bereich „Lurker-Steuer“ an, ob die Belohnung gefunden wurde. Steht dort „Belohnung fehlt“, prüfe den Namen auf Schreibweise und Leerzeichen. Steht dort „Status unbekannt“, hat der Bot den Stand gerade nicht prüfen können; er zeigt ihn wieder, sobald die Verbindung klappt.</p>
+  </section>
+
+  <section id="ein-aus">
+    <h2>Ein- und ausschalten</h2>
+    <p>Den Schalter findest du im Dashboard unter „Verwaltung“ im Bereich „Lurker-Steuer“. Im Chat kannst du die Funktion nur abschalten, und zwar mit <code>!lurkersteuer_off</code>. Alternativ funktionieren <code>!lurkersteuer_aus</code> und <code>!lurker_tax_off</code>. Den Befehl darf nur der Kanalinhaber ausführen.</p>
+    <p>Ist der Schalter an, aber die nötige Leseberechtigung für deine Zuschauerliste fehlt, zeigt das Dashboard einen Hinweis. Der Community-Bot braucht diese Berechtigung, um die Erinnerungen zu senden.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was du erwarten kannst</h2>
+    <p>Die Lurker-Steuer ist eine freundliche Erinnerung, keine Pflicht für Zuschauer. Ob Erinnerungen tatsächlich gesendet werden, hängt außerdem von deinem Plan und den Berechtigungen ab.</p>
+    <nav><a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a><a href="faq-plaene.html">Pläne</a><a href="chat-befehle.html">Chat-Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>
