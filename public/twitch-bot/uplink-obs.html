@@ -31,7 +31,7 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 <section id="abschnitt-2">
 <h2>Schritt 2: Ausgabe einstellen</h2>
 <p>Öffne Einstellungen → Ausgabe und wähle Erweitert. AV1 ist bevorzugt, H.264 wird ebenfalls unterstützt. Wähle einen Encoder, den deine OBS-Version für diesen RTMPS-Dienst anbietet. HEVC verwendest du nur mit einem dafür freigegebenen Eingangsprofil. Uplink prüft die tatsächlich empfangenen Eigenschaften.</p>
-<p>Die Encoder-Analyse in OBS liest das Protokoll nur lokal in deinem Browser aus; es wird nicht hochgeladen. Für Live empfiehlt sich ein Hardware-Encoder. Softwarebasiertes AV1 (AOM oder SVT) ist für Live nicht empfohlen.</p>
+<p>Die Encoder-Analyse im Dashboard liest dein OBS-Protokoll nur lokal in deinem Browser; die Logdatei wird nicht hochgeladen. Erkennt sie ein passendes Hardwareprofil für Twitch, speichert Uplink nur dieses normalisierte Profil, nicht die Logdatei. Für Live empfiehlt sich ein Hardware-Encoder. Softwarebasiertes AV1 (AOM oder SVT) ist für Live nicht empfohlen.</p>
 </section>
 <section id="abschnitt-3">
 <h2>Schritt 3: Bitrate und Qualität</h2>

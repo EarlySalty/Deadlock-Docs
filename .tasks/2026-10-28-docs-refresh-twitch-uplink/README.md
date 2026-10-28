@@ -12,7 +12,7 @@
 | Missing VOD track: only Twitch output holds | Twitch card | Present (uplink-obs step 4) | Repeated in stoerungen |
 | Encoder analysis: local log only, not uploaded | OBS encoder analysis | Missing | Added to uplink-obs step 2 |
 | Four OBS dock windows (chat, activity, stream info, channel points) | Dock section | Missing (step 6 generic) | Added to uplink-docks (new), linked from uplink-obs step 6 |
-| Dock address privacy, hidden while live, regeneration | Dock section | Missing | uplink-docks |
+| Dock address privacy, masked fields, regeneration | Dock section | Missing | uplink-docks |
 | Presets 1080p60 .. 480p30 with bitrates | Quality card | Missing | uplink-ziele-qualitaet (new) |
 | Manual output (width, height, fps, bitrate, even numbers) | Quality card | Missing | uplink-ziele-qualitaet |
 | Saved vs running profile | Quality card | Partly (was-ist) | uplink-ziele-qualitaet |
@@ -50,3 +50,14 @@ Counts: 22 rows. Already correct: 2 (desired vs running output, VOD audio). Garb
 - YouTube live auto-start card and Hochkant editor are unmounted; if they get mounted, update uplink-was-ist.
 - rust/knowledge/bot/uplink-obs.md may still say SRT address (bot knowledge, outside this docs area).
 - Kick/YouTube server-side availability flag per user not verified.
+
+## Gate round 1 (BLOCK) and fixes
+
+- Encoder analysis: the browser reads the log locally; a matching hardware profile IS saved (normalized, not the log). Corrected in uplink-obs step 2.
+- managed_targets: import_sources unlinks every listed target and only rewrites it from a rust/knowledge/bot/<stem>.md source. The Twitch repo has no source for the two new pages, so they were removed from managed_targets. Open: confirm the new pages reach the Brain and website without a managed_targets entry, or add knowledge sources in Deadlock-Twitch-Bot.
+- Status texts: Für Uplink fehlen noch Rechte + Rechte ergänzen; Zugang erneuern + Neu verbinden. Corrected.
+- Docks: addresses are masked fields, not hidden; copy allowed. Corrected.
+- AV1 test mode: OBS must send 2560 x 1440 at 60 fps AV1. Added.
+- Kick/YouTube: now conditional on the dashboard offering a connection. Open: per-user verbindbar value not checked live.
+- Reconnect range 0 to 300 s (relay max) and default 90 s: relay src/store.rs:145,148; not checked live.
+- Existing audit records in berichte/twitch-website-pruefung.json for the three edited Uplink pages no longer match the content hash. The website refresh path withdraws such pages to archive/ until re-audited. Open: needs a Fachpruefung run; not done here.
