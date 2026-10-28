@@ -2792,6 +2792,210 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/sprache-und-domains.html",
+      "verified_at": "2026-10-28T17:10:50.853857+00:00",
+      "content_sha256": "f731b78695a32af08c030efa0f54ec778288f7ef7c4f71de3934f9bfc5019aa0",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/context/LanguageContext.tsx",
+            "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "bot/dashboard_v2/src/i18n/oauthLinks.ts"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/layout/Header.tsx",
+            "bot/dashboard_v2/src/components/layout/LanguageSwitch.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "website/src/lib/landingLocale.ts",
+            "website/src/data/landingEnglish.ts",
+            "website/index.html"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-chat/src/standard_replies.rs",
+            "rust/crates/tb-chat/src/invite_question.rs",
+            "rust/crates/tb-raid/src/candidate_selection.rs",
+            "rust/crates/tb-raid/src/eligibility.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/demo.rs",
+            "rust/crates/tb-dashboard-api/src/guild_onboarding.rs",
+            "bot/dashboard_v2/src/i18n/en/overlay.ts"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Startadresse leitet nicht weiter, sie zeigt die englische Partnerseite, deren Links auf /streamer/ führen. Die Aufzählung der übersetzten Dashboard-Seiten ist auf die belegten Beispiele Overlay-Baukasten und Coaching gekürzt. Die Aussage, der Bot antworte im Chat durchgehend auf Deutsch, ist auf die Begrüßung eingegrenzt, weil nur sie geprüft wurde. Die Befehlsnamen-Aussage wurde entfernt, weil das Dashboard-Sprachverhalten der Befehle nicht belegt ist.",
+      "claims": [
+        {
+          "claim": "Dashboard und Partnerseite gibt es auf Deutsch und Englisch; dead-lock.de ist der englische Einstieg.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "website/src/lib/landingLocale.ts"
+          ]
+        },
+        {
+          "claim": "Hauptadresse deutsche-deadlock-community.de; Anmeldung läuft über die Hauptadresse und bringt die gewählte Sprache mit.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/oauthLinks.ts"
+          ]
+        },
+        {
+          "claim": "Startadresse dead-lock.de zeigt die englische Partnerseite; deren Links führen auf /streamer/.",
+          "verdict": "verified",
+          "evidence": [
+            "website/src/lib/landingLocale.ts",
+            "website/index.html"
+          ]
+        },
+        {
+          "claim": "Dashboard, Rundgang, FAQ und Onboarding gibt es auf beiden Adressen.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "website/src/lib/landingLocale.ts",
+            "rust/crates/tb-dashboard-api/src/guild_onboarding.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/demo.rs"
+          ]
+        },
+        {
+          "claim": "Schalter DE und EN in der Kopfzeile des Dashboards wechseln die Sprache sofort.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/layout/Header.tsx",
+            "bot/dashboard_v2/src/components/layout/LanguageSwitch.tsx"
+          ]
+        },
+        {
+          "claim": "Verwaltung, Tab Konto & Verbindungen, Abschnitt Sprache mit denselben Schaltern.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx"
+          ]
+        },
+        {
+          "claim": "Parameter ?lang=de und ?lang=en öffnen die Seite in der gewählten Sprache und verschwinden danach aus der Adresszeile; Beispiel /twitch/verwaltung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/context/LanguageContext.tsx",
+            "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs"
+          ]
+        },
+        {
+          "claim": "Die Wahl wird im Browser gespeichert, getrennt pro Adresse; auf einem anderen Gerät oder Browser startet die Sprache neu.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/context/LanguageContext.tsx",
+            "bot/dashboard_v2/src/i18n/dictionary.ts"
+          ]
+        },
+        {
+          "claim": "Reihenfolge der Startsprache: ?lang=, gespeicherte Auswahl, auf dead-lock.de Englisch, sonst Deutsch bei deutschem Browser, sonst Englisch.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/dictionary.ts"
+          ]
+        },
+        {
+          "claim": "Partnerseite auf der Hauptadresse ist Deutsch, außer ?lang=en; auf dead-lock.de Englisch, außer ?lang=de.",
+          "verdict": "verified",
+          "evidence": [
+            "website/src/lib/landingLocale.ts"
+          ]
+        },
+        {
+          "claim": "Englisch verfügbar: Startseite der Partnerseite, FAQ, Onboarding, Vergleich, Clips, Affiliate-Portal und Vertriebler-Seite.",
+          "verdict": "verified",
+          "evidence": [
+            "website/src/lib/landingLocale.ts"
+          ]
+        },
+        {
+          "claim": "Dashboard-Seiten wie Overlay-Baukasten und Coaching sind übersetzt; Uplink-Hilfe und Uplink-OBS-Anleitung folgen der Sprache.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/overlay.ts",
+            "bot/dashboard_v2/src/i18n/en/charts.ts"
+          ]
+        },
+        {
+          "claim": "Impressum, Datenschutz und AGB bleiben auf Deutsch.",
+          "verdict": "verified",
+          "evidence": [
+            "website/src/data/landingEnglish.ts",
+            "website/src/lib/landingLocale.ts"
+          ]
+        },
+        {
+          "claim": "Der Bot grüßt auf reine Grüße wie hi oder hello mit einem deutschen Gruß; die Begrüßung ist auf Deutsch.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/standard_replies.rs"
+          ]
+        },
+        {
+          "claim": "Pro Zuschauer und Stream nur einen Gruß; höchstens alle zehn Minuten; danach kann eine Antwort ausbleiben.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/standard_replies.rs"
+          ]
+        },
+        {
+          "claim": "Auto-Raid schickt nur an live Kanäle, die zu deinem Kanal passen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/candidate_selection.rs",
+            "rust/crates/tb-raid/src/eligibility.rs"
+          ]
+        },
+        {
+          "claim": "Der Einladungslink im Chat hängt davon ab, welchem Discord-Server du zugeordnet bist.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/invite_question.rs"
+          ]
+        },
+        {
+          "claim": "Öffentlicher Rundgang unter /twitch/rundgang ohne Anmeldung, gleiche Sprachauswahl.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/demo.rs",
+            "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs"
+          ]
+        },
+        {
+          "claim": "Den Schalter Become a partner gibt es auf dead-lock.de (Schaltfläche Partner werden auf Englisch).",
+          "verdict": "verified",
+          "evidence": [
+            "website/src/data/landingEnglish.ts"
+          ]
+        }
+      ],
+      "gaps": []
     }
   ]
 }

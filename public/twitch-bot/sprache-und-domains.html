@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Twitch-Bot: Sprache und Adressen</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist deutsche-deadlock-community.de, dead-lock.de ist der englische Einstieg. Der Bot antwortet im Chat auf Deutsch.">
+  <meta name="description" content="Kurz gesagt. Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist deutsche-deadlock-community.de, dead-lock.de ist der englische Einstieg. Die Begrüßung im Chat bleibt auf Deutsch.">
   <meta name="tags" content="twitch-bot, sprache, englisch, domains, dashboard, partnerseite">
   <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Abgleich mit aktueller Implementierung (Dashboard-Sprachauswahl, Partnerseite, Weiterleitungen)">
@@ -18,13 +18,13 @@
 <body>
 <main>
   <h1>Twitch-Bot: Sprache und Adressen</h1>
-  <p><strong>Kurz gesagt.</strong> Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist <code>https://deutsche-deadlock-community.de</code>; über <code>https://dead-lock.de</code> startest du auf Englisch. Der Bot antwortet im Chat weiterhin auf Deutsch.</p>
+  <p><strong>Kurz gesagt.</strong> Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist <code>https://deutsche-deadlock-community.de</code>; über <code>https://dead-lock.de</code> startest du auf Englisch. Die Begrüßung im Chat bleibt auf Deutsch.</p>
 
   <section id="adressen">
     <h2>Welche Adressen gibt es?</h2>
     <ul>
       <li><strong>https://deutsche-deadlock-community.de</strong>: Hauptadresse. Hier liegen Partnerseite, Dashboard, Verwaltung und alle Anmeldungen bei Twitch und Discord. Links, die Anmeldung oder Verbindung betreffen, führen immer hierher zurück.</li>
-      <li><strong>https://dead-lock.de</strong> (auch mit <code>www.</code>): englischer Einstieg. Die Partnerseite und das Dashboard öffnen sich standardmäßig auf Englisch. Die Startadresse leitet auf die englische Partnerseite unter <code>/streamer/</code> weiter.</li>
+      <li><strong>https://dead-lock.de</strong> (auch mit <code>www.</code>): englischer Einstieg. Die Partnerseite und das Dashboard öffnen sich standardmäßig auf Englisch. Die Startadresse zeigt die englische Partnerseite; ihre Links führen auf <code>/streamer/</code>.</li>
     </ul>
     <p>Dashboard, Rundgang, FAQ und Onboarding gibt es auf beiden Adressen. Die Anmeldung läuft immer über die Hauptadresse; wer sich von <code>dead-lock.de</code> aus anmeldet, bringt die gewählte Sprache mit.</p>
   </section>
@@ -55,7 +55,7 @@
   <section id="was-ist-englisch">
     <h2>Was ist auf Englisch verfügbar?</h2>
     <ul>
-      <li><strong>Dashboard:</strong> Navigation, Kopfzeile und die meisten Seiten sind übersetzt, darunter Analyse, Community, Social Media Manager, Uplink, Overlay-Baukasten, Verwaltung, Preise, Challenges und Coaching. Die Uplink-Hilfe und die Uplink-OBS-Anleitung folgen ebenfalls der gewählten Sprache.</li>
+      <li><strong>Dashboard:</strong> Kopfzeile und viele Seiten sind übersetzt, darunter Overlay-Baukasten und Coaching. Die Uplink-Hilfe und die Uplink-OBS-Anleitung folgen ebenfalls der gewählten Sprache.</li>
       <li><strong>Partnerseite und Hilfe:</strong> Die Startseite der Partnerseite, die FAQ, das Onboarding, der Vergleich, die Clips sowie das Affiliate-Portal und die Vertriebler-Seite gibt es auf Englisch.</li>
       <li><strong>Nur Deutsch:</strong> Impressum, Datenschutz und AGB sowie diese Dokumentation.</li>
     </ul>
@@ -70,9 +70,9 @@
   <section id="bot-im-chat">
     <h2>Was macht der Bot im Chat bei englischen Kanälen?</h2>
     <ul>
-      <li><strong>Sprache der Antworten:</strong> Die Antworten des Bots im Chat sind auf Deutsch, auch wenn dein Kanal auf Englisch läuft.</li>
-      <li><strong>Begrüßung:</strong> Ist die Begrüßungsantwort in der Verwaltung aktiviert, antwortet der Bot auf reine Grüße wie „hi“ oder „hello“ mit einem deutschen Gruß. Pro Zuschauer und Stream gibt es nur einen Gruß, und der Bot grüßt höchstens alle zehn Minuten. Wer kurz nach einem anderen Gruß schreibt, bekommt deshalb manchmal keine Antwort.</li>
-      <li><strong>Befehle:</strong> Die Befehlsnamen sind unabhängig von der Sprache gleich. Eine Übersicht steht unter <a href="chat-befehle.html">Chat-Befehle</a>.</li>
+      <li><strong>Sprache der Begrüßung:</strong> Die Begrüßungsantwort ist auf Deutsch, auch wenn dein Kanal auf Englisch läuft.</li>
+      <li><strong>Begrüßung:</strong> Ist die Begrüßungsantwort eingeschaltet, antwortet der Bot auf reine Grüße wie „hi“ oder „hello“ mit einem deutschen Gruß. Pro Zuschauer und Stream gibt es nur einen Gruß, und der Bot grüßt höchstens alle zehn Minuten. Wer kurz nach einem anderen Gruß schreibt, bekommt deshalb manchmal keine Antwort.</li>
+      <li><strong>Befehle:</strong> Eine Übersicht steht unter <a href="chat-befehle.html">Chat-Befehle</a>.</li>
       <li><strong>Raids:</strong> Auto-Raid schickt Zuschauer nur an einen Kanal, der gerade live streamt und zu deinem Kanal passt. Welche Kriterien dabei gelten, beschreibt die Seite <a href="auto-raid.html">Auto-Raid</a> bewusst nicht im Detail.</li>
       <li><strong>Einladungslink:</strong> Welcher Discord-Link im Chat erscheint, hängt davon ab, zu welchem Discord-Server du zugeordnet bist. Bei Fragen hilft der Community-Discord.</li>
     </ul>
