@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Titel-Studio</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Das Titel-Studio schlägt dir Streamtitel für Deadlock vor, auf Wunsch mit deinen Stichwörtern. Was es kann, wie du den Titelbefehl im Chat nutzt und was der Bot dabei auf Twitch ändert.">
+  <meta name="tags" content="twitch-bot, titel, streamtitel, titel-studio, title">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Dashboard-Verhalten">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Titel-Studio</h1>
+  <p><strong>Kurz gesagt.</strong> Das Titel-Studio schlägt dir Streamtitel vor, die zu deinem Stream und zu deinem Stil passen. Du kannst zwei oder drei Stichwörter angeben oder es ohne Eingabe selbst einen Titel bauen lassen. Auf Twitch wird ein Titel nur gesetzt, wenn du das ausdrücklich einschaltest.</p>
+
+  <section id="was-es-macht">
+    <h2>Was das Titel-Studio macht</h2>
+    <p>Das Titel-Studio findest du im Dashboard in der Seitenleiste unter „Titel-Studio“. Dort erstellst du Vorschläge, siehst deine bisherigen Titel und gibst Rückmeldungen dazu. Die Rückmeldungen und deine gespeicherten Stilwünsche fließen in die nächsten Vorschläge ein.</p>
+    <p>Mit Stichwörtern entsteht ein Titel zu deinem Thema, etwa für ein besonderes Spiel oder einen Anlass. Ohne Eingabe baut das Titel-Studio einen Auto-Titel. Dabei berücksichtigt es deinen Rang, die gespielten Helden und, falls ihr gemeinsam streamt, die erkannten Mitstreamer.</p>
+  </section>
+
+  <section id="stil-und-sperren">
+    <h2>Dein Stil und Formulierungen, die nie erscheinen</h2>
+    <p>Unter „Dein Standard-Stil“ beschreibst du in eigenen Worten, wie deine Titel klingen sollen, zum Beispiel trocken und direkt, ohne Emojis oder ohne Großbuchstaben. Diese Vorgabe gilt dauerhaft und hat Vorrang vor allgemeinen Mustern aus der Community. Dauerhafte Titelwünsche kann nur der Kanalinhaber ändern.</p>
+    <p>Unter „Das will ich nie im Titel“ trägst du Wörter oder Sätze ein, die nie in einem Vorschlag auftauchen sollen. Du kannst bis zu 40 Einträge mit jeweils bis zu 60 Zeichen speichern. Ist die Liste voll, entfernst du zuerst einen Eintrag.</p>
+  </section>
+
+  <section id="auf-twitch-setzen">
+    <h2>Titel direkt auf Twitch setzen</h2>
+    <p>Der Schalter „Experimentell: automatisch auf Twitch setzen“ übernimmt den Hauptvorschlag nach der Erstellung direkt als Twitch-Titel. Dafür braucht der Bot das Recht, deinen Twitch-Titel zu ändern. Fehlt dieses Recht, zeigt das Titel-Studio an, dass du Twitch neu verbinden musst. Bestätigt Twitch das Setzen nicht, meldet es das ebenfalls. Ein Vorschlag ohne Schalter ändert deinen Titel nie.</p>
+  </section>
+
+  <section id="titelbefehl">
+    <h2>Der Titelbefehl im Chat</h2>
+    <p>Im Chat gibt es <code>!title</code> und <code>!titel</code>. Mit <code>!title &lt;stichworte&gt;</code> liefert der Bot einen Titelvorschlag als Chat-Antwort. Den Streamtitel setzt der Befehl dabei nicht. Den Befehl schaltest du unter Verwaltung, Tab „Chat-Befehle“, pro Kanal ein oder aus. Die Zuschauer-Befehle sind in der <a href="chat-befehle.html">Befehlsübersicht</a> beschrieben.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was das Titel-Studio nicht verspricht</h2>
+    <p>Die Zuschauerzahl ist nur ein Signal unter mehreren. Ein guter Titel garantiert keine höheren Zahlen. Die Vorschläge sind Ideen, die du prüfen und anpassen solltest, bevor du sie verwendest.</p>
+    <nav><a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a><a href="chat-befehle.html">Befehle</a><a href="faq-funktionen.html">FAQ Funktionen</a></nav>
+  </section>
+</main>
+</body>
+</html>
