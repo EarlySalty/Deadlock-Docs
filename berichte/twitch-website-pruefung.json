@@ -587,51 +587,115 @@
     },
     {
       "path": "public/twitch-bot/uplink-was-ist.html",
-      "verified_at": "2026-09-19T23:23:36.076691+00:00",
-      "content_sha256": "f499ac918f17991a68defa7d7e2ab81c18a9b9cda7c1717160dd9e5bc2650955",
+      "verified_at": "2026-10-28T17:14:08.123093+00:00",
+      "content_sha256": "125593a4ed65c5b93bac8a30641ceff6f9d841788eae228ab2e3f908d97a0399",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-            "bot/dashboard_v2/public/uplink/obs.html"
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/components/uplink/UplinkYouTubeLive.tsx",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
           ]
         },
         {
-          "repository": "uplink",
-          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "crates/uplink-ingest/src/media.rs",
-            "crates/uplink-service/src/media.rs",
-            "crates/uplink-service/src/media_output.rs",
-            "crates/uplink-service/src/media_status.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/uplink/UplinkHochkantEditor.tsx"
           ]
         }
       ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Aussage, es gebe keinen YouTube-Livestart aus dem Dashboard, war falsch. Uplink legt ihn beim OBS-Start an, wenn der Nutzer das freigibt (UplinkYouTubeLive.tsx). Die Hochkant-Aussage bleibt: der Editor ist in keiner Seite eingebunden. Offen bleiben Punkte, deren Code nicht gelesen wurde (Kick/YouTube-Verfügbarkeit je Dienst, Medienzugang, Add-on-Status, Bildformate).",
       "claims": [
         {
-          "claim": "Eingang, gewünschte Ausgabe, tatsächlich gesendete Medien und Plattformbestätigung sind getrennte Zustände; keine Qualitätszusage allein aus eingeschaltetem Ziel.",
+          "claim": "Uplink nimmt den OBS-Stream einmal entgegen und verteilt ihn; Zugang, Plattformen, Qualität und OBS-Fenster richtest du im Dashboard ein.",
           "verdict": "verified",
           "evidence": [
-            [
-              "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-              "bot/dashboard_v2/public/uplink/obs.html"
-            ],
-            [
-              "crates/uplink-ingest/src/media.rs",
-              "crates/uplink-service/src/media.rs",
-              "crates/uplink-service/src/media_output.rs",
-              "crates/uplink-service/src/media_status.rs"
-            ]
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
+          ]
+        },
+        {
+          "claim": "Ohne Zugang erscheint der Knopf Auf die Warteliste; Admin gibt frei oder lehnt ab; mit Freischaltung verschwindet der Eintrag.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
+          ]
+        },
+        {
+          "claim": "Twitch, YouTube, Kick und TikTok als Ziele; Karte mit Verbindung, Schalter und Qualität.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "TikTok braucht einen freigeschalteten RTMP-Zugang; der Chat von TikTok ist dort nicht bestätigt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Eingeschaltet heißt nur, dass ein Ziel beim nächsten Stream berücksichtigt werden soll; die Livebestätigung erscheint nur, wenn sie vorliegt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Live- und VOD-Mischung bleiben getrennt; fehlt Spur 2, hält Uplink nur den Twitch-Ausgang an, Spur 1 wird nie als VOD-Ersatz kopiert.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Twitch-VOD-Ton stellt Uplink automatisch zusammen; Livemischung auf Livestream, zweite Mischung auf VOD.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Hochkant-Ausgabe (Vertikalformat) gibt es in Uplink derzeit nicht.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/uplink/UplinkHochkantEditor.tsx",
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
+          ]
+        },
+        {
+          "claim": "Uplink legt einen YouTube-Livestream beim OBS-Start nur an, wenn der Nutzer das im Dashboard freigibt; ohne Freigabe startet man YouTube-Übertragungen selbst.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/uplink/UplinkYouTubeLive.tsx",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Abgelehnte Profile, fehlender VOD-Ton oder fehlende Plattformfreigabe werden am Ziel angezeigt; Verweise auf Störungen, Ziele und Qualität sowie OBS-Fenster.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
           ]
         }
       ],
-      "gaps": [],
-      "operational_gaps": [
-        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
-      ],
-      "live_release_revision": "e4118d3e9e742dfe8e40e4f3e5f36f9db3471dfa"
+      "gaps": [
+        "Kick und YouTube sind je nach Uplink-Dienst verbindbar oder zeigen „noch nicht eingerichtet“; die Verfügbarkeitslogik je Dienst ist nicht abschließend geprüft.",
+        "Die Trennung der Verbindung je Ziel und der Satz zum weiterlaufenden Medienzugang sind nicht geprüft.",
+        "Add-on-Status („bezahltes Add-on“), Weiterleitung passender Medien ohne Umwandlung und Bild-/Tonquellen in OBS sind nicht geprüft."
+      ]
     },
     {
       "path": "public/twitch-bot/uplink-stoerungen.html",
@@ -3121,6 +3185,69 @@
       ],
       "gaps": [
         "Der Absatz „Was das Titel-Studio nicht verspricht“ (Zuschauerzahl, Garantie, Prüfpflicht) ist redaktioneller Hinweistext ohne Code-Beleg und daher nicht prüfbar."
+      ]
+    },
+    {
+      "path": "public/twitch-bot/uplink-docks.html",
+      "verified_at": "2026-10-28T17:14:16.576603+00:00",
+      "content_sha256": "1d9d773ac57b09a242db7c44f5b6e9be6beb2faf9b29d6597c7e5499e77cb6d3",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/api/uplink.ts",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Vier Fenster (Chat, Aktivität, Stream-Infos, Kanalpunkte), Neu-Erzeugen-Handler und Zeigen-Knopf belegt. Nicht vollständig belegt: welche Stream-Info-Felder genau geändert werden, der Abhaken-Vorgang bei Kanalpunkten, die Wirkung der Adressen im Chat und die genauen Bedingungen des Zeigen-Knopfs.",
+      "claims": [
+        {
+          "claim": "Uplink stellt vier Fenster für OBS bereit: Chat mit Antwortfeld, Aktivität, Stream-Infos und Kanalpunkte.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/api/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Die Adressen der vier Fenster findest du im Dashboard und fügst sie in OBS als Dock hinzu.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
+          ]
+        },
+        {
+          "claim": "Der Zeigen-Knopf schaltet die verdeckte Adresse sichtbar; Kopieren bleibt möglich.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
+          ]
+        },
+        {
+          "claim": "Neu erzeugen ersetzt die Adressen durch neue; die bisherigen Adressen funktionieren danach nicht mehr.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
+          ]
+        }
+      ],
+      "gaps": [
+        "Stream-Infos ändern nur Titel, Kategorie und Tags; Live-Benachrichtigung, Zuschauerzahl und Wiederholen bleiben im Twitch-Dashboard. Der Umfang ist nicht gegen die Stream-Info-Funktion geprüft.",
+        "Kanalpunkt-Einlösungen als erledigt abhaken: nicht im Code geprüft.",
+        "Die Adressen sind privat und erlauben Schreiben im Chat als du: nicht geprüft.",
+        "Die Bedingungen für Zeigen (nur bei ausgeschaltetem Live-Status und ohne aktive Session) sind nicht im Detail geprüft; der Knopf ist nur über darfAufdecken gesteuert."
       ]
     }
   ]
