@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Automatische Hinweise im Chat</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Der Bot schreibt im Chat auch ohne Befehl: Follow-Hinweise, Begrüßungen, Discord-Hinweise, Erinnerungen an die Twitch-Autorisierung und die KI-Engagement-Funktion. Hier steht, was du steuern kannst.">
+  <meta name="tags" content="twitch-bot, chat, hinweise, community-hinweise, discord, follow, begruessung, engagement, autorisierung">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten, Dashboard-Verwaltung Stand 2026-10-28">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Automatische Hinweise im Chat</h1>
+  <p><strong>Kurz gesagt.</strong> Der Bot schreibt im Chat auch dann, wenn niemand einen Befehl eingibt. Die Hinweise sind auf Deutsch, erscheinen nur in Partnerkanälen und lassen sich im Dashboard steuern, soweit unten angegeben.</p>
+
+  <section id="follow-und-begruessung">
+    <h2>Follow-Hinweis und Begrüßung</h2>
+    <p>Follow-Hinweis und Begrüßung schaltest du im Dashboard. Beide sind unter <a href="chat-befehle.html#automatische-antworten">Automatische Antworten im Chat</a> genauer beschrieben.</p>
+  </section>
+
+  <section id="community-hinweise">
+    <h2>Hinweis auf den Community-Discord</h2>
+    <p>Ab und zu weist der Bot im Chat auf den Discord der Deutschen Deadlock Community hin. Im Dashboard unter Verwaltung heißt der Schalter „Community-Hinweise im Chat“. Er ist standardmäßig an. Ab dem Netzwerk-Plus-Plan kannst du ihn ausschalten.</p>
+  </section>
+
+  <section id="abo-erinnerung">
+    <h2>Abo-Erinnerung</h2>
+    <p>Eine Abo-Erinnerung schreibt der Bot nur dann, wenn Zuschauer sie selbst mit <code>!sub erinnerung an</code> einschalten. Der Streamer schaltet die Funktion im Dashboard frei. Details stehen unter <a href="chat-befehle.html#abo-erinnerung">Freiwillige Abo-Erinnerung</a>.</p>
+  </section>
+
+  <section id="autorisierung-erinnerung">
+    <h2>Erinnerung an die Twitch-Autorisierung</h2>
+    <p>Fehlt dem Bot die neue Twitch-Autorisierung für Raids oder Statistiken, erinnert er den Streamer im Chat. Die Erinnerung kommt höchstens einmal pro Livegang und nennt den nächsten Schritt: im Dashboard einloggen und Twitch neu verbinden.</p>
+  </section>
+
+  <section id="ki-engagement">
+    <h2>KI-Engagement-Funktion</h2>
+    <p>Die KI-Engagement-Funktion lässt den Bot gelegentlich selbst am Chat teilnehmen. Der Streamer schaltet sie mit <code>!engagement_on</code> und <code>!engagement_off</code> ein oder aus. <code>!engagement_on</code> schaltet sich beim Stream-Ende automatisch wieder ab. Wer nicht einbezogen werden möchte, nutzt <code>!engagement_ignore_me</code>. Die Wahl betrifft nur die KI-Engagement-Funktion und keine Statistik. Mehr dazu steht unter <a href="faq-community.html">FAQ Community und Engagement</a>.</p>
+  </section>
+
+  <section id="moderation-hinweise">
+    <h2>Moderationshinweise</h2>
+    <p>Wenn der Bot eingreift, etwa mit einem Auto-Bann, meldet er das im Chat, sofern die Hinweise nicht stummgeschaltet sind. Mit <code>!silentban</code> stellst du nur diese Chat-Hinweise um. Die Moderation selbst bleibt aktiv. Einzelheiten stehen unter <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was der Bot dabei nicht tut</h2>
+    <p>Der Bot wirbt nicht in fremden Kanälen und reagiert dort nicht auf Befehle. Wenn dir ein Hinweis stört, schalte den passenden Bereich im Dashboard aus, sofern er dort steuerbar ist, oder wende dich an den Support.</p>
+    <nav><a href="chat-befehle.html">Befehle</a><a href="faq-community.html">FAQ Community</a><a href="faq-support.html">Support</a></nav>
+  </section>
+</main>
+</body>
+</html>

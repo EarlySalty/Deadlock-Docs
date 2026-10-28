@@ -6,7 +6,7 @@
   <meta name="robots" content="index, follow">
   <meta name="description" content="Kurz gesagt. Der Bot leitet am Stream-Ende Zuschauer weiter, kann Spam-Accounts moderieren, wertet den eigenen Kanal aus und bindet die Community an. Vieles…">
   <meta name="tags" content="twitch-bot, faq, funktionen, rechte">
-  <meta name="stand" content="2026-09-20">
+  <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -27,13 +27,15 @@
       <li>Chatmoderation gegen als Spam erkannte Accounts (siehe <a href="chat-moderation.html">Chat-Moderation</a>).</li>
       <li>Auswertungen zum eigenen Kanal (siehe <a href="analytics-dashboard.html">Analytics-Dashboard</a>).</li>
       <li>Chat-Befehle für Zuschauer, Broadcaster und Moderation (siehe <a href="chat-befehle.html">Chat-Befehle</a>).</li>
+      <li>Automatische Hinweise im Chat, etwa zum Discord oder zur Twitch-Autorisierung (siehe <a href="chat-hinweise.html">Automatische Hinweise im Chat</a>).</li>
+      <li>Clip-Befehle für Clips, private VOD-Ausschnitte und den Clip-Contest (siehe <a href="clip-befehle.html">Clip-Befehle</a>).</li>
       <li>Discord-Anbindung für aktive Partnerkanäle (siehe <a href="discord-golive.html">Discord-Go-Live</a>).</li>
     </ul>
   </section>
 
   <section id="moderiert-der-bot">
     <h2>Moderiert der Bot auch meinen Chat?</h2>
-    <p>Ja. In verbundenen Partnerkanälen kann die Chatmoderation des Bots als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren – unabhängig vom gestreamten Spiel. Die Chatmoderation ist sorgfältig ausgelegt, aber keine Maßnahme ist absolut fehlerfrei. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen; den Weg beschreibt <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
+    <p>Ja. In verbundenen Partnerkanälen moderiert der Bot in vier Bereichen, die du im Dashboard unter Verwaltung einzeln ein- oder ausschaltest: bekannte Betrüger fernhalten, vor Abzock-Maschen warnen, Werbe-Spam automatisch stoppen und verdächtige Discord-Einladungen bremsen. Dazu kommt der Scam-Schutz für Erstschreiber, der nur bei sehr hoher Sicherheit handelt. Das gilt unabhängig vom gestreamten Spiel. Keine Maßnahme ist absolut fehlerfrei. Ein versehentlich getroffener Account lässt sich über den zuletzt gespeicherten Auto-Ban zurücknehmen; die Einzelheiten beschreibt <a href="chat-moderation.html">Chat-Moderation und Einspruch</a>.</p>
   </section>
 
   <section id="warum-rank-nicht">
@@ -45,6 +47,11 @@
   <section id="welche-rechte">
     <h2>Welche Rechte braucht der Bot?</h2>
     <p>Der Bot meldet sich per Twitch OAuth an; du autorisierst über dein Twitch-Konto, ohne ein zusätzliches Passwort zu geben. Damit Löschen, Ban oder Unban tatsächlich ausgeführt werden können, braucht der Bot die dafür nötigen Twitch-Rechte im Kanal. Du kannst die Verbindung jederzeit in deinen Twitch-Einstellungen widerrufen (siehe <a href="einrichtung.html">Einrichtung</a>).</p>
+  </section>
+
+  <section id="autorisierung-abgelaufen">
+    <h2>Was passiert, wenn die Twitch-Autorisierung fehlt?</h2>
+    <p>Fehlt dem Bot die neue Twitch-Autorisierung für Raids oder Statistiken, erinnert er dich im Chat, höchstens einmal pro Livegang. Logge dich dann im Dashboard ein und verbinde Twitch neu. Details stehen unter <a href="chat-hinweise.html#autorisierung-erinnerung">Automatische Hinweise im Chat</a>.</p>
     <nav><a href="chat-befehle.html">Befehle</a><a href="faq-einstieg.html">Einstieg</a></nav>
   </section>
 </main>

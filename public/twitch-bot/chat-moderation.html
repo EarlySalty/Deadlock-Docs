@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Chat-Moderation und Einspruch</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Die Chatmoderation des Bots kann in registrierten Partnerkanälen als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren.…">
-  <meta name="tags" content="twitch-bot, moderation, chatmoderation, einspruch, unban">
+  <meta name="description" content="Kurz gesagt. Die Chatmoderation des Bots entfernt in Partnerkanälen Werbe-Spam, warnt vor Abzock-Maschen und bremst verdächtige Discord-Einladungen. Du steuerst die Bereiche im Dashboard.">
+  <meta name="tags" content="twitch-bot, moderation, chatmoderation, scam-schutz, einspruch, unban, explain">
   <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
@@ -18,17 +18,23 @@
 <body>
 <main>
   <h1>Chat-Moderation und Einspruch</h1>
-  <p>Die Chatmoderation des Bots kann in registrierten Partnerkanälen als Spam erkannte Nachrichten entfernen und den betroffenen Account moderieren. Broadcaster oder Moderation können den zuletzt gespeicherten Auto-Ban zurücknehmen.</p>
+  <p>Der Bot moderiert den Chat von Partnerkanälen in mehreren Bereichen. Du kannst jeden Bereich im Dashboard einzeln ein- oder ausschalten. Broadcaster und Moderation können eine automatische Sperre zurücknehmen und nachlesen, warum der Bot gehandelt hat.</p>
 
   <section id="was-die-moderation-macht">
-    <h2>Was die Chatmoderation macht</h2>
-    <p>Sobald ein Kanal als Partner verbunden ist, kann die Chatmoderation Nachrichten entfernen, die der Bot als Spam einstuft, und den zugehörigen Account moderieren. Das läuft unabhängig vom gerade gestreamten Spiel. Der Bot braucht dafür die nötigen Twitch-Rechte im Kanal.</p>
-    <p>Auch die automatische Moderation kann sich irren. Bei einem falschen Treffer hilft dir das Kanalteam über den unten beschriebenen Einspruchsweg.</p>
+    <h2>Was die Chatmoderation übernimmt</h2>
+    <p>Im Dashboard unter Verwaltung, „Was der Bot übernimmt“, stehen vier Bereiche. Alle sind von Haus aus eingeschaltet. Schaltest du einen aus, lässt der Bot diesen Bereich in deinem Chat in Ruhe.</p>
+    <ul>
+      <li><strong>Bekannte Betrüger fernhalten:</strong> Accounts, die in der Community schon als Betrüger aufgefallen sind, kommen in deinem Chat gar nicht erst zum Zug.</li>
+      <li><strong>Vor Abzock-Maschen warnen:</strong> Der Bot erkennt typische Anwerb- und Abzock-Nachrichten und warnt frühzeitig davor.</li>
+      <li><strong>Werbe-Spam automatisch stoppen:</strong> Offensichtliche Werbung und Viewer-Kauf-Nachrichten werden automatisch aus dem Chat entfernt.</li>
+      <li><strong>Verdächtige Discord-Einladungen bremsen:</strong> Fremde Discord-Einladungen von ganz neuen Zuschauern werden kurz ausgebremst.</li>
+    </ul>
+    <p>Die Chatmoderation gilt unabhängig vom gerade gestreamten Spiel. Der Bot braucht dafür die nötigen Twitch-Rechte im Kanal. Auch die automatische Moderation kann sich irren. Bei einem falschen Treffer hilft dir das Kanalteam über den Einspruchsweg unten.</p>
   </section>
 
   <section id="scam-schutz">
-    <h2>Scam-Schutz im Chat</h2>
-    <p>Zusätzlich zur Spam-Erkennung prüft der Bot Chat-Verläufe auf Betrugsversuche. Er handelt nur, wenn er sich sehr sicher ist. Welche Aktion dann passiert, stellst du im Dashboard unter Verwaltung, „Scam-Schutz“, ein:</p>
+    <h2>Scam-Schutz für Erstschreiber</h2>
+    <p>Zusätzlich prüft ein eigener Schutz die Nachrichten von Personen, die zum ersten Mal in deinem Chat schreiben. Er sucht nach aufgesetzten Betrugsmaschen, etwa Beziehungs- oder Wachstums-Angeboten, die einfache Wortfilter durchrutschen. Er handelt nur, wenn er sich sehr sicher ist. Welche Aktion dann passiert, stellst du im Dashboard unter Verwaltung, „Scam-Schutz“, ein:</p>
     <ul>
       <li><strong>Auto-Bann:</strong> der Account wird im Kanal gebannt.</li>
       <li><strong>Auto-Timeout:</strong> der Account bekommt einen Timeout statt eines Banns.</li>
@@ -37,17 +43,22 @@
     <p>Den Schutz schaltest du mit „Scam-Schutz aktiv“ ein oder aus. Mit <code>!explain</code> erklärt der Bot den letzten Fall, und einen Auto-Bann nimmst du mit <code>!unban</code> zurück.</p>
   </section>
 
+  <section id="crew-und-verdacht">
+    <h2>Verdachtsfälle, die nur gemeldet werden</h2>
+    <p>Zwei Fälle meldet der Bot, ohne selbst zu handeln: Nachrichten, die sich als Mitglied deiner Crew oder deines Teams ausgeben, und Accounts, die bekannte Namen nachahmen. Die Meldung landet im Discord-Moderationskanal der Community, damit ein Mensch entscheidet.</p>
+  </section>
+
   <section id="einspruch">
     <h2>Wie kann ich eine Maßnahme prüfen lassen?</h2>
     <p>Um eine aus deiner Sicht falsche Maßnahme prüfen zu lassen, wende dich an den Broadcaster oder die Moderation des Kanals. Ist ein legitimer Account versehentlich vom letzten Auto-Ban betroffen, können sie den Treffer mit <code>!unban</code> bzw. <code>!uban</code> zurücknehmen.</p>
     <ol>
-      <li>Betroffene:r meldet den Fall an Broadcaster oder Moderation des Kanals.</li>
+      <li>Betroffene Person meldet den Fall an Broadcaster oder Moderation des Kanals.</li>
       <li>Broadcaster oder Mod prüft, ob es der zuletzt gespeicherte Auto-Ban des Kanals war.</li>
       <li>Broadcaster oder Mod führt <code>!unban</code> bzw. <code>!uban</code> aus.</li>
-      <li>Bei fehlendem Eintrag, Fehlschlag oder wiederkehrendem Problem an den menschlichen Community-Support eskalieren.</li>
+      <li>Bei fehlendem Eintrag, Fehlschlag oder wiederkehrendem Problem wende dich an den menschlichen Community-Support.</li>
     </ol>
-    <p>Wichtig: <code>!unban</code> zielt nur auf den zuletzt gespeicherten Auto-Ban, nicht auf eine beliebige Person oder jede beliebige Moderationsentscheidung. Ein eigener Zuschauer-Einspruchsbutton ist nicht belegt; der Weg führt über das Kanalteam. <code>!silentban</code> ändert nur die Chat-Benachrichtigung und schaltet die Moderation nicht ab.</p>
-    <p>Broadcaster und Moderation können mit <code>!explain</code> nachlesen, warum der Bot jemanden als Scam eingestuft hat. Das ist eine Erklärung des letzten Falls, keine Freigabe: Zum Zurücknehmen dient weiterhin <code>!unban</code> bzw. <code>!uban</code>.</p>
+    <p>Wichtig: <code>!unban</code> zielt nur auf den zuletzt gespeicherten Auto-Ban, nicht auf eine beliebige Person oder jede beliebige Moderationsentscheidung. Zuschauer haben keinen eigenen Einspruchsknopf; der Weg führt über das Kanalteam. <code>!silentban</code> ändert nur die Chat-Benachrichtigung und schaltet die Moderation nicht ab.</p>
+    <p>Broadcaster und Moderation können mit <code>!explain</code> nachlesen, warum der Bot jemanden als Scam eingestuft hat. Das ist eine Erklärung des letzten Falls, keine Freigabe. Zum Zurücknehmen dient weiterhin <code>!unban</code> bzw. <code>!uban</code>.</p>
     <nav><a href="chat-befehle.html">Befehle</a><a href="faq-support.html">Support</a></nav>
   </section>
 </main>

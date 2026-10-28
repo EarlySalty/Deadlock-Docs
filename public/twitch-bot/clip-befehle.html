@@ -2,12 +2,12 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>Clip-Befehle: !clip und !vodclip</title>
+  <title>Clip-Befehle: !clip, !vodclip und !clipcontest</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Mit !clip erstellen Zuschauer und Mods einen Clip aus dem laufenden Stream. Mit !vodclip fordert der Kanalinhaber oder ein Mod einen privaten Ausschnitt aus dem VOD-Archiv an.">
-  <meta name="tags" content="twitch-bot, clip, clips, vodclip, createclip, chat-befehle">
+  <meta name="description" content="Kurz gesagt. Mit !clip erstellen Zuschauer und Mods einen Clip aus dem laufenden Stream. Mit !vodclip fordert der Kanalinhaber oder ein Mod einen privaten Ausschnitt aus dem VOD-Archiv an. Mit !clipcontest reicht der Kanalinhaber einen Clip für den Community-Contest ein.">
+  <meta name="tags" content="twitch-bot, clip, clips, vodclip, createclip, clipcontest, chat-befehle">
   <meta name="stand" content="2026-10-28">
-  <meta name="quelle" content="Chat-Befehle !clip und !vodclip sowie Dashboard-Verwaltung Clip-Befehl und VOD-Ausschnitt, Stand 2026-10-28">
+  <meta name="quelle" content="Chat-Befehle !clip, !vodclip und !clipcontest sowie Dashboard-Verwaltung Clip-Befehl und VOD-Ausschnitt, Stand 2026-10-28">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -17,8 +17,8 @@
 </head>
 <body>
 <main>
-  <h1>Clip-Befehle: !clip und !vodclip</h1>
-  <p><strong>Kurz gesagt.</strong> <code>!clip</code> erstellt einen Clip aus dem laufenden Stream. <code>!vodclip</code> erstellt einen privaten Ausschnitt aus einem VOD und ist dem Kanalinhaber und den Mods vorbehalten.</p>
+  <h1>Clip-Befehle: !clip, !vodclip und !clipcontest</h1>
+  <p><strong>Kurz gesagt.</strong> <code>!clip</code> erstellt einen Clip aus dem laufenden Stream. <code>!vodclip</code> erstellt einen privaten Ausschnitt aus dem VOD-Archiv und ist dem Kanalinhaber und den Mods vorbehalten. <code>!clipcontest</code> reicht einen Clip für den Community-Contest im Discord ein.</p>
 
   <section id="clip">
     <h2>Wie funktioniert !clip?</h2>
@@ -43,14 +43,25 @@
 
   <section id="vodclip">
     <h2>Wie funktioniert !vodclip?</h2>
-    <p>Mit <code>!vodclip &lt;start&gt; &lt;ende&gt;</code> fordert der Kanalinhaber oder ein Mod einen Ausschnitt aus dem VOD-Archiv an. Die Zahlen sind Minuten, etwa <code>!vodclip 55 58</code>. Du kannst auch Stunden, Minuten und Sekunden angeben, etwa <code>!vodclip 1:55:00 1:58:00</code>. Ein Ausschnitt dauert 1 bis 10 Minuten.</p>
+    <p>Mit <code>!vodclip &lt;start&gt; &lt;ende&gt;</code> fordert der Kanalinhaber oder ein Mod einen Ausschnitt aus dem VOD-Archiv an. Die Zahlen sind Minuten, etwa <code>!vodclip 55 58</code>. Du kannst auch Stunden, Minuten und Sekunden angeben, etwa <code>!vodclip 1:55:00 1:58:00</code>. Ein Ausschnitt dauert mindestens 1 und höchstens 10 Minuten.</p>
     <ul>
-      <li><strong>Live:</strong> Der Ausschnitt kommt aus der laufenden Aufnahme.</li>
-      <li><strong>Offline:</strong> Der Ausschnitt kommt aus dem letzten Stream.</li>
-      <li>Pro Kanal läuft höchstens ein Auftrag gleichzeitig. Es sind höchstens drei Aufträge pro Stunde möglich.</li>
-      <li>Die fertige Datei ist eine MP4-Datei mit höchstens 64 MiB. Die Vorbereitung dauert höchstens 15 Minuten.</li>
-      <li>Der Download ist für den Kanalinhaber bestimmt, wird nicht veröffentlicht und läuft nach 24 Stunden ab.</li>
       <li>Der Schalter für den Befehl steht im Dashboard. Ist er aus, erstellt der Bot keinen Ausschnitt.</li>
+      <li>Der Kanal muss aktiver Partner sein.</li>
+      <li>Der Ausschnitt ist eine MP4-Datei mit höchstens 64 MiB.</li>
+      <li>Der Download ist für den Kanalinhaber bestimmt, wird nicht veröffentlicht und ist 24 Stunden ab der Anfrage verfügbar. Er liegt im Dashboard unter Chat.</li>
+      <li>Zwischen zwei Anfragen im selben Kanal muss kurz gewartet werden.</li>
+    </ul>
+  </section>
+
+  <section id="clipcontest">
+    <h2>Wie funktioniert !clipcontest?</h2>
+    <p>Mit <code>!clipcontest</code> reicht der Kanalinhaber oder ein Mod einen Clip für den wöchentlichen Clip-Contest im Community-Discord ein. Die Community stimmt dort ab.</p>
+    <ul>
+      <li>Mit <code>!clipcontest &lt;Clip-Link&gt;</code> wählst du den Clip. Ohne Link nimmt der Bot den neuesten Clip des laufenden Streams.</li>
+      <li>Es zählen nur Clips aus deinem eigenen Kanal.</li>
+      <li>Der Kanal muss aktiver Partner sein.</li>
+      <li>Pro Kanal sind am Tag bis zu drei Einreichungen möglich.</li>
+      <li>Ein Clip, der schon eingereicht ist, wird nicht doppelt gezählt.</li>
     </ul>
   </section>
 
