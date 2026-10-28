@@ -1998,38 +1998,48 @@
     },
     {
       "path": "public/twitch-bot/lurker-steuer.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "verified_at": "2026-10-28T16:48:22.323620+00:00",
       "content_sha256": "43e673929aebe93b7537c1035e974f8057ea8a681d59ce59d4de47cb5e860bff",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
             "rust/crates/tb-chat/src/promos.rs"
           ]
         },
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/commands.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft; origin/main ändert an diesen Dateien nichts. Keine Textänderung nötig.",
       "claims": [
         {
-          "claim": "Reward name is 'Lurker Steuer'; dashboard shows 'Belohnung fehlt' or 'Status unbekannt'; the dashboard guides you to Zuschauerbelohnungen, Punkte und Belohnungen and Individuelle Belohnung hinzufügen.",
+          "claim": "Lurker-Steuer ist standardmäßig aus, sparsam und nicht in jedem Plan enthalten.",
           "verdict": "verified",
           "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Erinnerung per freundlichem @-Hinweis an langjährige Stamm-Zuschauer, die nur still mitschauen; nicht an neue Zuschauer.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/promos.rs",
             "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
           ]
         },
         {
-          "claim": "Reminders are sparse, at most two mentions per reminder, only for long-standing viewers; the feature is off by default and plan-gated.",
+          "claim": "Kanalpunkte-Belohnung mit dem Namen Lurker Steuer, angelegt über Zuschauerbelohnungen, Punkte und Belohnungen, Individuelle Belohnung hinzufügen.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx",
@@ -2037,7 +2047,22 @@
           ]
         },
         {
-          "claim": "Chat command !lurkersteuer_off with aliases !lurkersteuer_aus and !lurker_tax_off; only the broadcaster may use it.",
+          "claim": "Status Belohnung gefunden, Belohnung fehlt oder Status unbekannt im Bereich Lurker-Steuer.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
+          ]
+        },
+        {
+          "claim": "Schalter im Dashboard unter Verwaltung im Bereich Lurker-Steuer.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
+          ]
+        },
+        {
+          "claim": "Chat-Befehl !lurkersteuer_off mit den Alternativen !lurkersteuer_aus und !lurker_tax_off; nur der Kanalinhaber darf ihn ausführen.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/catalog.rs",
@@ -2045,9 +2070,17 @@
           ]
         },
         {
-          "claim": "When the viewer list read permission is missing while the switch is on, the dashboard shows a notice.",
+          "claim": "Fehlt die Leseberechtigung für die Zuschauerliste bei eingeschaltetem Schalter, zeigt das Dashboard einen Hinweis.",
           "verdict": "verified",
           "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
+          ]
+        },
+        {
+          "claim": "Erinnerung ist freundlich, keine Pflicht; Versand hängt von Plan und Berechtigungen ab.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
             "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
           ]
         }
@@ -2339,6 +2372,317 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/layout/Header.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/social-media-manager.html",
+      "verified_at": "2026-10-28T16:52:45.401289+00:00",
+      "content_sha256": "1203b2de9db0df6636f9f60732549aa906d4c6b0baa415b9498415676585f279",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/socialmedia/SocialMediaAccessRequests.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/PipelinePlanControls.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/socialmedia/ClipCard.tsx",
+            "rust/crates/tb-social-media/src/capabilities.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Satz zum Instagram-Limit (100 Beiträge in 24 Stunden) war im Code nicht belegt und wurde entfernt.",
+      "claims": [
+        {
+          "claim": "Zugang anfragen und Hinweis, dass der Kanal noch nicht freigeschaltet ist.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/SocialMediaAccessRequests.tsx"
+          ]
+        },
+        {
+          "claim": "Bereiche Heute, Planen und VOD-Archiv.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/PipelinePlanControls.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "TikTok-Clips landen als Entwurf in TikTok.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ClipCard.tsx"
+          ]
+        },
+        {
+          "claim": "Instagram ist in der Beta und ohne Freigabe nicht verfügbar.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-social-media/src/capabilities.rs",
+            "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/vod-archiv.html",
+      "verified_at": "2026-10-28T16:52:45.454265+00:00",
+      "content_sha256": "08d20ee5cfc989d955494d872f2a8b839a89a74703db7db8db9c6202dd56a8e1",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx",
+            "bot/dashboard_v2/src/i18n/vodArchive.ts",
+            "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/PrivateVodSection.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. !vodclip ist laut PrivateVodSection dem Kanalinhaber und den Mods vorbehalten.",
+      "claims": [
+        {
+          "claim": "Das VOD-Archiv wird pro Kanal an- und ausgeschaltet; ist es aus, werden keine Streams gesichert.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Teile eines langen Streams erscheinen als YouTube: Teil 1, Teil 2 usw.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx",
+            "bot/dashboard_v2/src/i18n/vodArchive.ts"
+          ]
+        },
+        {
+          "claim": "Ist YouTube voll, werden keine Uploads angenommen; ein neuer Versuch folgt später.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Der Button YouTube neu verbinden erscheint bei abgelaufener Verbindung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Google-Drive-Sicherung mit der Rückfrage Dieses VOD auf Drive sichern? und einem teilbaren Link.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Status Abschluss unklar startet das Archiv nicht von selbst neu.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Nach bestätigtem Upload werden die temporären Dateien gelöscht.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/vodArchive.ts"
+          ]
+        },
+        {
+          "claim": "Aus der Liste ausblenden entfernt den Eintrag aus der Übersicht, die Sicherung bleibt erhalten.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/VodArchiveTab.tsx"
+          ]
+        },
+        {
+          "claim": "Befehl !vodclip für kurze private Ausschnitte, nur für Kanalinhaber und Mods, im Dashboard einzuschalten.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/PrivateVodSection.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/ueber-den-bot.html",
+      "verified_at": "2026-10-28T16:52:45.507650+00:00",
+      "content_sha256": "07b91a5ddf7a12b904e8ec859a5d57e8bb13b90c1115eda4e9dcf6374cb7f6f0",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Abschnitt Bot vom Kanal trennen steht in Verwaltung direkt nach dem Abschnitt mit der Kennzeichnung Bot & Schutz. Die Kennzeichnung gehört zum vorherigen Abschnitt.",
+      "claims": [
+        {
+          "claim": "Eine separate Abschaltung des Auto-Raids gibt es noch nicht; kein Schalter und kein Chat-Befehl.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx"
+          ]
+        },
+        {
+          "claim": "Den Bot vollständig trennen unter Verwaltung, Bot & Schutz, Bot vom Kanal trennen.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx"
+          ]
+        },
+        {
+          "claim": "Mit dem Trennen endet die Partnerschaft.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/vertrauen-seriositaet.html",
+      "verified_at": "2026-10-28T16:52:45.557535+00:00",
+      "content_sha256": "56c10808fb2ada62ac86d6e1bf430297aba71e575193498dc9045caa0d7af4d6",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/bin/tb-bot/src/brain_chat_wiring.rs",
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Twitch-Einstellungsweg (Verbindungen) liegt außerhalb des Repos und ist nicht im Code belegt; dieser Punkt bleibt ein Prüfhinweis.",
+      "claims": [
+        {
+          "claim": "Der Bot heißt im Chat deutschedeadlockcommunity.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/brain_chat_wiring.rs"
+          ]
+        },
+        {
+          "claim": "Abmelden und Wiederanmelden der KI-Chat-Reaktionen per Chat-Befehl (!engagement_ignore_me, !engagement_remember_me).",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Nach dem Trennen laufen keine Chat-Funktionen mehr, bereits erfasste Daten bleiben erhalten.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/social-ai-videos.html",
+      "verified_at": "2026-10-28T16:52:45.627622+00:00",
+      "content_sha256": "c30b5fec5adf5638f585e0c7f62db0b01484eb267ceae6a9aba4d07abc23415c",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.css",
+            "bot/dashboard_v2/src/components/socialmedia/ai"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-social-media/src/ai_editor"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Die Kostenzeile zeigt Im Claude-Abo enthalten, wenn der Betrag im Abo liegt, sonst Noch unbekannt. Die Textfassung wurde auf diesen Wortlaut angepasst.",
+      "claims": [
+        {
+          "claim": "Die KI-Bearbeitung braucht eine Einwilligung; ohne sie startet keine Bearbeitung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai",
+            "rust/crates/tb-social-media/src/ai_editor"
+          ]
+        },
+        {
+          "claim": "Ein Admin muss die externe KI erst freigeben; bis dahin erscheint der Hinweis Ein Admin muss die externe KI erst freigeben.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai"
+          ]
+        },
+        {
+          "claim": "Geschätzte Anbieter-Kosten mit der Angabe Im Claude-Abo enthalten oder Noch unbekannt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai"
+          ]
+        },
+        {
+          "claim": "Die Prüfansicht bietet Fassung gefällt mir, Fassung gefällt mir nicht, Bevorzugte Fassung und Änderung anfordern.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai"
+          ]
+        },
+        {
+          "claim": "Kamera-Layout einrichten legt die Kameraposition fest.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai"
           ]
         }
       ],
