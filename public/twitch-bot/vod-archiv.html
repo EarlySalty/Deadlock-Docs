@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>VOD-Archiv: Streams sichern und hochladen</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Das VOD-Archiv sichert deine Streams pro Kanal, lädt sie auf YouTube hoch und weicht bei Bedarf auf Google Drive aus. Erst nach einem bestätigten Upload werden die temporären Dateien gelöscht.">
+  <meta name="tags" content="twitch-bot, vod, archiv, youtube, google drive, stream-aufzeichnung">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Dashboard-Oberfläche VOD-Archiv im Social Media Manager, Stand origin/main 2026-10-28">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>VOD-Archiv: Streams sichern und hochladen</h1>
+  <p><strong>Kurz gesagt.</strong> Das VOD-Archiv hält deine gesicherten Streams bereit und lädt sie auf YouTube hoch. Du findest es im Social Media Manager im Bereich „VOD-Archiv“.</p>
+
+  <section id="an-und-aus">
+    <h2>Wie schalte ich das Archiv ein?</h2>
+    <p>Das VOD-Archiv schaltest du pro Kanal mit „VOD-Archiv: an/aus“ ein oder aus. Ist es aus, werden keine Streams gesichert.</p>
+  </section>
+
+  <section id="uploads">
+    <h2>Wie kommen Streams auf YouTube?</h2>
+    <ul>
+      <li>Ein VOD wird auf dein YouTube-Konto hochgeladen. Für VODs kannst du ein eigenes YouTube-Konto verbinden, siehe <a href="twitch-streamer-dashboard.html">Dashboard für Streamer</a>.</li>
+      <li>Ist ein Stream zu lang für ein einzelnes Video, wird er in Teile aufgeteilt. Die Teile erscheinen als „YouTube: Teil 1“, „YouTube: Teil 2“ und so weiter.</li>
+      <li>Ist YouTube heute voll, nimmt es keine weiteren Uploads an. Der Upload wird später erneut versucht.</li>
+      <li>Ist die Verbindung zu YouTube abgelaufen, siehst du „YouTube neu verbinden“. Mit diesem Knopf verbindest du das Konto neu.</li>
+    </ul>
+  </section>
+
+  <section id="drive">
+    <h2>Was passiert, wenn der Upload nicht klappt?</h2>
+    <p>Du kannst das VOD auf Google Drive ausweichen lassen. Das Dashboard fragt vorher: „Dieses VOD auf Drive sichern? Für die Kopie wird ein teilbarer Link erstellt.“ Wer den Link hat, kann die Datei öffnen. Teile den Link deshalb nur mit Personen, denen du die Aufzeichnung geben willst.</p>
+  </section>
+
+  <section id="status">
+    <h2>Was bedeuten die Status?</h2>
+    <ul>
+      <li><strong>Abschluss unklar:</strong> Der Abschluss des Uploads ist nicht eindeutig. Das Archiv startet dann nicht von selbst neu. Du entscheidest, ob der Upload erneut laufen soll.</li>
+      <li><strong>Offene Uploads:</strong> Die Liste zeigt, was noch nicht bestätigt hochgeladen ist.</li>
+    </ul>
+    <p>Nach einem bestätigten Upload werden die temporären Dateien gelöscht.</p>
+  </section>
+
+  <section id="ausblenden">
+    <h2>Kann ich einen Eintrag entfernen?</h2>
+    <p>Mit „Aus der Liste ausblenden“ verschwindet der Eintrag aus der Übersicht. Die Sicherung bleibt dabei erhalten. Der Eintrag ist nur nicht mehr sichtbar.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Wo geht es weiter?</h2>
+    <p>Die Grundlagen des Managers stehen auf <a href="social-media-manager.html">Social Media Manager</a>. Für kurze Ausschnitte aus einem VOD gibt es den Befehl <code>!vodclip</code>, siehe <a href="clip-befehle.html">Clip-Befehle</a>.</p>
+  </section>
+</main>
+</body>
+</html>
