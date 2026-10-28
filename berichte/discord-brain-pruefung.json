@@ -1461,8 +1461,8 @@
     },
     {
       "path": "public/discord-server/workflows/streamer-partner-werden.html",
-      "verified_at": "2026-10-28T16:50:00.000Z",
-      "content_sha256": "d216c364b812c45a4296b84bc4ddb2e2b2011f30c690792872d3a0cbc16a795b",
+      "verified_at": "2026-10-28T17:40:00.000Z",
+      "content_sha256": "8949722d259e823e5d5fe157fb0ad04c4406aee39ce6fd2c2758c6b2e7959ac9",
       "code": [
         {
           "repository": "discord",
@@ -1489,6 +1489,13 @@
             "rust/bin/tb-bot/src/streamer_role_sync.rs",
             "rust/crates/tb-raid/src/deadlock_pause.rs",
             "rust/migrations/20261017180000_guild_streamer_role_keep_min_days.sql"
+          ]
+        },
+        {
+          "repository": "discord",
+          "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
+          "paths": [
+            "rust/crates/dl-voice/src/live_dot.rs"
           ]
         }
       ],
@@ -1525,8 +1532,8 @@
         },
         {
           "claim": "Bot gibt nach 60 Tagen ohne Deadlock-Stream die Mod-Rechte ab, Partnerschaft bleibt; Benachrichtigung per DM bei verknüpftem Discord-Konto.",
-          "evidence": "tb-raid deadlock_pause.rs DEADLOCK_PAUSE_DAYS = 60; unmod_candidates nur Kanäle mit Deadlock-Historie; user_dm_deadlock_pause_text an Streamer. Die Bedingung \"Discord-Konto verknüpft\" für die DM ist im Sweep nicht separat geprüft.",
-          "verdict": "partial"
+          "evidence": "tb-raid deadlock_pause.rs DEADLOCK_PAUSE_DAYS = 60; unmod_candidates nur Kanäle mit Deadlock-Historie; user_dm_deadlock_pause_text an Streamer. DM nur bei verknüpftem Discord-Konto (notify_pause, discord_user_id_for).",
+          "verdict": "verified"
         },
         {
           "claim": "Ein neuer Deadlock-Stream bringt den Bot zurück, sofern die Twitch-Verbindung gültig ist.",
@@ -1534,14 +1541,17 @@
           "verdict": "verified"
         },
         {
-          "claim": "Live-Streamer-Rolle während Deadlock-Stream; Live-Rolle steht über der Streamer-Rolle.",
-          "evidence": "streamer_role_sync.rs sync_live_role und live_role_id (HOME_LIVE_ROLE_ID) vorhanden. Rangfolge über der Streamer-Rolle nicht im Repo belegt; offen.",
-          "verdict": "partial"
+          "claim": "Während Deadlock-Live-Stream zusätzlich Rolle Live Streamer; Streamer-Rolle bleibt bestehen; Bedingungen wie Streamer-Rolle.",
+          "evidence": "streamer_role_sync.rs sync_live_role und live_role_id (HOME_LIVE_ROLE_ID); Bedingungen über dieselbe Policy/Entitlement-Prüfung.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Sitzt ein Live-Streamer in einem Voice-Kanal, setzt der Bot 🟣 vor den Kanalnamen; kommt er weg, entfällt der Punkt.",
+          "evidence": "Deadlock-Bots rust/crates/dl-voice/src/live_dot.rs LIVE_PREFIX \"🟣 \" und decorate_name; Test entfernt Präfix bei false.",
+          "verdict": "verified"
         }
       ],
-      "gaps": [
-        "Lila Punkt 🟣 vor Voice-Kanälen: im Rust-Code von Deadlock-Twitch-Bot (rust/bin, rust/crates) nicht gefunden; Fundort offen."
-      ]
+      "gaps": []
     },
     {
       "path": "public/discord-server/scrims.html",
@@ -2112,29 +2122,6 @@
           "claim": "Steam-Kurzantwort nennt konkreten Kanal, Team-Einladungsauftrag und Bot-Freundschaft; Link allein bestellt keine Einladung.",
           "verdict": "verified",
           "evidence": "Produktives events.rs:563-581 und invite.rs:66-229/:649-719 getrennt vom Link-/Rangpfad link.rs:1231-1284. Öffentlicher Kanal per lesendem MCP am 07.10.2026 bestätigt. Vollständiger Einladungsablauf in onboarding-und-invites.html geprüft."
-        }
-      ],
-      "gaps": []
-    },
-    {
-      "path": "public/twitch-bot/aktivitaet-und-pausen.html",
-      "verified_at": "2026-10-28T16:50:00.000Z",
-      "content_sha256": "22794852d8cb9d94fcf5f5dbd7a9d9d9c5d4b2b68146fdb6cc893623590c0c60",
-      "code": [
-        {
-          "repository": "twitch",
-          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
-          "paths": [
-            "rust/crates/tb-raid/src/deadlock_pause.rs",
-            "rust/bin/tb-bot/src/streamer_role_sync.rs"
-          ]
-        }
-      ],
-      "claims": [
-        {
-          "claim": "Pause nach 60 Tagen ohne Deadlock-Stream; Rückkehr bei Deadlock-Stream; nur Kanäle mit Deadlock-Historie.",
-          "evidence": "deadlock_pause.rs DEADLOCK_PAUSE_DAYS 60, unmod_candidates, remod_candidates. Text auf 60 Tage präzisiert.",
-          "verdict": "verified"
         }
       ],
       "gaps": []
