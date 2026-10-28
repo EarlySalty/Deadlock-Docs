@@ -63,19 +63,16 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-10-28T12:01:31.400800+00:00",
-      "content_sha256": "e473ae056e431dbe1b2be56fce2664c8a9d2ba29e5ff36f1d7bfe59daae5dab3",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "5ff609507efc31df26533f94f135d90dc0bdb170f6d88745038218d6d2f808b1",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/command_names.rs",
-            "rust/crates/tb-chat/src/sub_reminder.rs",
-            "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-domain/src/vod_range.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "rust/crates/tb-db/src/guild_membership.rs"
           ]
         }
       ],
@@ -83,15 +80,12 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Befehlskatalog, Gruppen, !raid <name>, !vodclip (Minuten, 1 bis 10 Minuten), !clipcontest, !trustpilot, eigene Befehlsnamen (max. 5 Zusatznamen) und !sub-Unterbefehle mit origin/main verglichen.",
+          "claim": "Befehlsliste ohne !discord; !raid <name> verlangt Deadlock beim eigenen Stream und Live-Ziel; Sprach- und Serverregel gilt nur für die automatische Auswahl; !vodclip in Minuten mit 1 bis 10 Minuten Länge.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/command_names.rs",
-            "rust/crates/tb-chat/src/sub_reminder.rs",
-            "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-domain/src/vod_range.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "rust/crates/tb-db/src/guild_membership.rs"
           ]
         }
       ],
@@ -131,16 +125,15 @@
     },
     {
       "path": "public/twitch-bot/chat-moderation.html",
-      "verified_at": "2026-09-19T23:16:51.276949+00:00",
-      "content_sha256": "8430ed4c0c93ec5d613abccedb365f7f94fffc2157bee227ab00bcc23e0f7cdc",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "26b521e15d3e2f6165276f798d0d02ec7a7f8b1b21cc3161318aad5ae1d27bc4",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/moderation.rs"
+            "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
+            "rust/crates/tb-chat/src/conversation_scam.rs"
           ]
         }
       ],
@@ -148,12 +141,11 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Moderation nur berechtigter Kanal; letztes gespeichertes Auto-Ban-Ziel und Rollen für Unban/Explain; Silentban betrifft Hinweise.",
+          "claim": "Scam-Schutz hat die Aktionen Auto-Bann, Auto-Timeout und Nur melden, einen Schalter Scam-Schutz aktiv sowie !explain und !unban.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/moderation.rs"
+            "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
+            "rust/crates/tb-chat/src/conversation_scam.rs"
           ]
         }
       ],
@@ -161,8 +153,8 @@
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
-      "verified_at": "2026-10-28T12:01:31.400800+00:00",
-      "content_sha256": "f55ad95c5c3173e7c568bbbc6be640f0f0a6cd40d25a5c8f5c5e27e59b087574",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "5190493542f9905e877726764afed4d47090520d95a37c6c45500c7100702c04",
       "code": [
         {
           "repository": "twitch",
@@ -170,8 +162,7 @@
           "paths": [
             "rust/crates/tb-db/src/guild_membership.rs",
             "rust/crates/tb-raid/src/partner_roster.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs"
           ]
         }
       ],
@@ -179,13 +170,12 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Zielregel (gemeinsamer Server oder gleiche Sprachgruppe mit aktivem Heimatserver, Ziel mit aktivem Server, aktiver Partner) mit raid_scope_allows und partner_roster abgeglichen.",
+          "claim": "Automatische Ziele sind live Partnerkanäle mit gemeinsamem Server oder gleicher Sprache; für die Sprachregel brauchen beide Seiten die Freigabe für Raids über Server hinweg, die das Community-Team pro Server setzt. Interne Auswahlkriterien sind nicht beschrieben.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-db/src/guild_membership.rs",
             "rust/crates/tb-raid/src/partner_roster.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs"
           ]
         }
       ],
@@ -193,17 +183,15 @@
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
-      "verified_at": "2026-10-28T12:01:31.400800+00:00",
-      "content_sha256": "76ebf651fe8509a6860fea492e6665afa28b72e5e79f3d5955806175c19a3205",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "0eda88ce88199459bc593f2f78f75ea3fe77babf651fedbe7e30c82063915557",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-raid/src/partner_roster.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-db/src/guild_membership.rs"
           ]
         }
       ],
@@ -211,13 +199,11 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Auto-Raid-Zielwahl und manueller !raid <name>-Pfad (Live-Pflicht) mit origin/main abgeglichen; Geltung der Zielregel für manuelle Raids nicht belegt und deshalb nicht behauptet.",
+          "claim": "Der manuelle Raid mit !raid <name> verlangt Deadlock beim eigenen Stream und ein Live-Ziel; die Auswahlregeln gelten nur für den automatischen Raid.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-raid/src/partner_roster.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-db/src/guild_membership.rs"
           ]
         }
       ],
@@ -279,15 +265,14 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-10-28T12:01:31.400800+00:00",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
       "content_sha256": "cb385292b92f250f8eaacb403b9927b4f32541fca4413e2360a257ea5a10b9ff",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/command_names.rs"
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -295,11 +280,10 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Invite-Befehle: !invite, !dldc, !dlde; !discord ist kein Auslöser.",
+          "claim": "Community-Befehle sind !invite, !dldc und !dlde; !discord ist kein Befehl.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/command_names.rs"
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -914,6 +898,139 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/faq-support.html",
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "ad3d705195a98178117b9f179925a0af03d5591e551d5de3c52b4b12487fce11",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Support-Verweis nennt !invite und !dldc statt des nicht vorhandenen !discord.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "public/twitch-bot/faq-stats-overlay.html",
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "c789637548dadcb3cf97001453ca75d31b285153e8511a913a6ee82bfbf0b907",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
+            "rust/docs/stats-overlay.md"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Das OBS-Overlay braucht die Discord-Verknüpfung mit Steam; Chat-Befehle akzeptieren zusätzlich !connect.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
+            "rust/docs/stats-overlay.md"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "public/twitch-bot/twitch-streamer-dashboard.html",
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "2ae0332ab4a19f47dd4ddb1ad4c396667aaf8c431399e061c6503742f3fca71c",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "rust/crates/tb-internal-api/src/handlers/streamers.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Sprache, Spendenziel, Social Media Manager, VOD-Ausschnitte mit 64 MiB und 24 Stunden sowie Bot vom Kanal trennen mit Moderatorentzug, Partnerende und Auto-Raid-Aus entsprechen dem Code.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "rust/crates/tb-internal-api/src/handlers/streamers.rs"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "public/twitch-bot/twitchbot-ueberblick.html",
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "811c16738ad2e77fb2e7ed8efdb331d28f9954040f8505493b1e9544e7b2fd39",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Funktionsübersicht nennt den OBS-Pause-Loop und den Onboarding-Pfad /twitch/onboarding.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "public/twitch-bot/pause-loop-obs.html",
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "content_sha256": "ebce6501ed6c9a5aacc72334bcb3ece3b7f75f5f7f778d774e7a1fb004a8a0b1",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Der Pause-Loop spielt nur bestehende Deadlock-Clips aktiver, verbundener Partner ab, mischt sie ohne Wiederholung im Durchlauf und erstellt keine Clips.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -30,20 +30,20 @@
     <p>Der Auto-Raid läuft ohne Zutun am Ende eines Deadlock-Streams, wenn Partnerstatus, aktivierte Raid-Funktion und gültige Autorisierung passen. Welche Kanäle dafür infrage kommen, steht unter <a href="auto-raid.html">Auto-Raid</a>. Zusätzlich können Broadcaster und Moderation manuell arbeiten:</p>
     <ul>
       <li><code>!raid</code> bzw. <code>!traid</code>: manueller Raid zu einem passenden Kanal, den der Bot auswählt (nur Broadcaster oder Moderation).</li>
-<li><code>!raid &lt;name&gt;</code>: Raid zu einem bestimmten Twitch-Kanal, der gerade live ist (nur Broadcaster oder Moderation).</li>
-      <li><code>!raid_status</code> · <code>!raidbot_status</code> – aktueller Auto-Raid-Status; jeder im Chat darf ihn abfragen.</li>
-      <li><code>!raid_history</code> · <code>!raidbot_history</code> – die letzten Raid-Versuche; ebenfalls für alle abfragbar.</li>
+      <li><code>!raid &lt;name&gt;</code>: Raid zu einem bestimmten Twitch-Kanal, der gerade live ist (nur Broadcaster oder Moderation).</li>
+      <li><code>!raid_status</code> · <code>!raidbot_status</code>: aktueller Auto-Raid-Status; jeder im Chat darf ihn abfragen.</li>
+      <li><code>!raid_history</code> · <code>!raidbot_history</code>: die letzten Raid-Versuche; ebenfalls für alle abfragbar.</li>
     </ul>
     <p>Den Ablauf beschreibt <a href="auto-raid.html">Auto-Raid</a>.</p>
   </section>
 
   <section id="zielkanal-nicht-waehlbar">
     <h2>Kann ich den Zielkanal des Raids selbst festlegen?</h2>
-    <p>Beim Auto-Raid nicht: Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter, der die Regeln für Sprache und gemeinsame Server erfüllt (siehe <a href="auto-raid.html">Auto-Raid</a>). Mit <code>!raid &lt;name&gt;</code> kann Broadcaster oder Moderation einen bestimmten Kanal wählen; er muss gerade live sein und die Deadlock-Prüfung bestehen. Beobachtbar ist nur das Ergebnis: Gibt es kein geeignetes, live streamendes Ziel, findet kein Raid statt – das ist normal und kein Fehler. Über <code>!raid_status</code> und <code>!raid_history</code> siehst du Status und die letzten Versuche.</p>
+    <p>Beim Auto-Raid nicht. Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter, der die Regeln für Sprache und gemeinsame Server erfüllt (siehe <a href="auto-raid.html">Auto-Raid</a>). Mit <code>!raid &lt;name&gt;</code> kann Broadcaster oder Moderation einen bestimmten Kanal wählen; er muss gerade live sein. Der Befehl funktioniert nur, wenn du selbst gerade Deadlock streamst. Beobachtbar ist nur das Ergebnis: Gibt es kein geeignetes, live streamendes Ziel, findet kein Raid statt. Das ist normal und kein Fehler. Über <code>!raid_status</code> und <code>!raid_history</code> siehst du Status und die letzten Versuche.</p>
   </section>
 
   <section id="kein-raid">
-    <h2>Es hat kein Raid stattgefunden – was tun?</h2>
+    <h2>Es hat kein Raid stattgefunden: was tun?</h2>
     <p>Prüfe, ob du in der Deadlock-Kategorie gestreamt hast, ob deine Twitch-Autorisierung noch gültig ist und ob überhaupt ein passender Partner live war. Zeigt das Dashboard eine abgelaufene Autorisierung, verbinde erneut. Bleibt das Problem bestehen, wende dich an den Support (siehe <a href="faq-support.html">FAQ Support</a>).</p>
     <nav><a href="auto-raid.html">Auto-Raid</a><a href="chat-befehle.html">Befehle</a></nav>
   </section>

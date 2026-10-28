@@ -36,3 +36,35 @@ Checked, no change needed: chat-moderation, berechtigungen, discord-golive, faq-
 4. Scope rule for `!raid <name>`: not verified whether it applies to manual named raids. Page says it does not.
 5. TikTok uploads may wait for TikTok approval (`waiting_tiktok_approval`); documented in the Social Media section.
 6. `internal/deadlock-twitch-bot/`: not reviewed in this pass; open item.
+
+## Gate round 1 (fa94cce, BLOCK, 11 findings) and fixes
+
+| Finding | Fix |
+|---|---|
+| `!raid <name>` said the target must pass the Deadlock check | Deadlock check applies to the caller's own stream (`start_manual_raid`, `classify_eligibility`); the target only needs to be live and not the caller (`start_targeted_raid`). Fixed in chat-befehle and faq-raids. |
+| auto-raid: "mindestens einen aktiven Server" and "Hauptserver aktiv" as rules | Removed. Shared server needs no switch; same language needs the cross-server release on both sides (`raid_scope_allows`, `partner_roster.rs`). The release is set per server by the community team (`admin_guild_raids.rs`, admin UI), not by streamers. |
+| faq-stats-overlay: "beides" works with `!connect` | The overlay resolves the streamer via Discord only (`overlay.rs` `resolve_discord_id`); `!connect` feeds chat stats only. Meta, body, setup and troubleshooting fixed. |
+| Overlay meta description contained `<code>` | Plain text now. |
+| twitch-streamer-dashboard: 64 MB and "nur für dich" | Limit is 64 MiB, shown as "etwa 67 MB"; the download is for the channel owner, created by owner or mod. |
+| auto-raid: "Den Zielkanal wählst du nicht selbst" without scope | Limited to the automatic raid, points to `!raid <name>`. |
+| faq-raids: list indentation | Fixed. |
+| Review report bound to old content | Hashes refreshed for all changed pages; new entries for chat-moderation, faq-support, faq-stats-overlay, twitch-streamer-dashboard, twitchbot-ueberblick, pause-loop-obs. |
+
+## Public-rule pass (no internals in public/)
+
+Rule: public pages describe what a feature does and how members or streamers use it, never the selection, scoring, weights, thresholds, ordering, cooldowns, tie-breaks or detection logic. Removed from touched pages: partner and server threshold wording in auto-raid; no numbers for the pause-loop pool, clip limits or concurrency (kept in the internal doc only). Scam-guard thresholds and providers are not in public/ (only the three user-chosen actions and the switch).
+
+## Features added for public/ (were only in internal/ or repo docs)
+
+| Feature | Source | Public page |
+|---|---|---|
+| OBS-Pause-Loop (browser source /twitch/pause-loop) | internal/pause-loop-obs.html, pause_loop.rs | new `public/twitch-bot/pause-loop-obs.html`, linked from twitchbot-ueberblick |
+| Scam-Schutz (Auto-Bann, Auto-Timeout, Nur melden, switch, !explain, !unban) | internal/scam-guard.html, ScamGuardSection.tsx | section "Scam-Schutz im Chat" in chat-moderation.html |
+| Bot vom Kanal trennen (moderator removal, partner end, auto-raid off, nothing deleted, re-auth restores) | internal/bot-trennen.html, streamers.rs | section "bot-trennen" in twitch-streamer-dashboard.html |
+
+Not made public (internal or staff only): crew-guard-radar (staff alert channel), stream-coaching-audit (internal coaching service for own team), smalltalk-shadow (no sending, internal test mode), knowledge-faq, architektur, betrieb, datenmodell, integrationen, uebersicht, affiliate (public faq-affiliate exists), verwaltung-selbstbedienung (internal toggle API).
+
+## Open items after round 1
+
+- Brain answer is only as good as the public pages; `pause-loop-obs` must be live at its route before the Brain import is trusted for it.
+- Public live check of new route pending (see live proof section, if present).

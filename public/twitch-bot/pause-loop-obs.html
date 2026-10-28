@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>OBS-Pause-Loop mit Deadlock-Clips</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Der OBS-Pause-Loop ist eine Browserquelle, die während deiner Pause Deadlock-Clips aktiver Partnerkanäle abspielt. Er erstellt selbst keine Clips.">
+  <meta name="tags" content="twitch-bot, obs, pause, clips, browserquelle">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung (Seite /twitch/pause-loop)">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>OBS-Pause-Loop mit Deadlock-Clips</h1>
+  <p><strong>Kurz gesagt.</strong> Der OBS-Pause-Loop ist eine Browserquelle, die während deiner Pause Deadlock-Clips aktiver Partnerkanäle abspielt. Er erstellt selbst keine Clips und keine Videos, sondern zeigt bestehende Twitch-Clips.</p>
+
+  <section id="einrichten">
+    <h2>Wie richte ich den Pause-Loop in OBS ein?</h2>
+    <ol>
+      <li>Füge in OBS eine Browser-Quelle hinzu.</li>
+      <li>Trage als URL <code>https://deutsche-deadlock-community.de/twitch/pause-loop</code> ein.</li>
+      <li>Stelle Breite und Höhe passend zu deiner Pausenszene ein.</li>
+    </ol>
+    <p>Die Adresse ist öffentlich. Du brauchst dafür keinen Login.</p>
+  </section>
+
+  <section id="was-gezeigt-wird">
+    <h2>Welche Clips werden gezeigt?</h2>
+    <ul>
+      <li>Es sind Clips von Partnerkanälen, die aktuell aktiv und mit Twitch verbunden sind.</li>
+      <li>Es werden nur Clips aus der Deadlock-Kategorie gezeigt.</li>
+      <li>Der Browser mischt die Clips und wiederholt innerhalb eines Durchlaufs keinen Clip.</li>
+      <li>Kanäle, die vom Bot ausgeschlossen sind oder keine Partnerschaft mehr haben, erscheinen nicht.</li>
+    </ul>
+    <p>Die Auswahl wird regelmäßig neu geladen. Ist gerade kein passender Clip verfügbar, bleibt die Quelle leer.</p>
+  </section>
+
+  <section id="grenzen">
+    <h2>Was der Pause-Loop nicht tut</h2>
+    <p>Er erstellt keine Clips und keine Videos. Ob ein Kanal im Pause-Loop erscheint, hängt davon ab, ob er als aktiver Partner mit Twitch verbunden ist. Bei Fragen hilft der <a href="faq-support.html">Support</a>.</p>
+    <nav><a href="twitchbot-ueberblick.html">Überblick</a><a href="faq-stats-overlay.html">Stats und Overlay</a></nav>
+  </section>
+</main>
+</body>
+</html>
