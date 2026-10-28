@@ -1729,25 +1729,72 @@
     },
     {
       "path": "public/quellen/turniere/help_tournament_modes.html",
-      "verified_at": "2026-09-19T23:47:49.926635+00:00",
-      "content_sha256": "1443d8b7690df9db7adc65826a7f327237a858cb0e08d6860c659b804375dffb",
+      "verified_at": "2026-10-28T17:55:23.919746+00:00",
+      "content_sha256": "09f986c59e8bbc65eabcabed71bf541c1f7bfac2ea31b96987c7b273ed13964a",
       "code": [
         {
           "repository": "turniere",
-          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+          "revision": "feb7a2a49c50418b527918e93a8c36671d14c889",
           "paths": [
+            "rust/crates/turnier-core/src/enums.rs",
             "rust/crates/turnier-engine/src/status.rs",
-            "rust/crates/turnier-core/src/enums.rs"
+            "rust/crates/turnier-engine/src/engine/groups.rs",
+            "rust/crates/turnier-engine/src/persist/bracket.rs"
+          ]
+        },
+        {
+          "repository": "docs",
+          "revision": "baeb8b5c65b21a9e91423bfa4cfd4e3316fcfcfb",
+          "paths": [
+            "public/turniere/turniere.html"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Statusengine verwendet expliziten Format-Override vor automatischer Schwelle16. Veraltete pauschale12-Teams-Regel entfernt; maßgeblich tatsächliches Eventformat, Gruppen-/Bracketgrundlagen erhalten.",
+          "claim": "The format on the tournament page is authoritative; organizers choose between group phase with bracket and a direct bracket, so team count alone does not decide the format.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/turnier-engine/src/status.rs",
-            "rust/crates/turnier-core/src/enums.rs"
+            "rust/crates/turnier-core/src/enums.rs: tournament format variants",
+            "rust/crates/turnier-engine/src/status.rs: format on the event"
+          ]
+        },
+        {
+          "claim": "Group phase: teams play in their assigned groups, results feed the group standing, and qualified teams advance to the bracket.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-engine/src/engine/groups.rs: group assignment and standings",
+            "rust/crates/turnier-engine/src/persist/bracket.rs: advancement into bracket"
+          ]
+        },
+        {
+          "claim": "Group size, number of qualification places and schedule depend on the event as created.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-engine/src/engine/groups.rs: configurable group size and qualifiers"
+          ]
+        },
+        {
+          "claim": "Direct bracket: teams start in the tree; single elimination ends after one loss; double elimination has a loser bracket.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-core/src/enums.rs: SingleElimination and DoubleElimination",
+            "rust/crates/turnier-engine/src/persist/bracket.rs: loser bracket"
+          ]
+        },
+        {
+          "claim": "Players check the tournament page for registration, check-in and their match; a tree not yet generated is not a result and no match may be skipped or invented.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-engine/src/status.rs: pending bracket state",
+            "public/turniere/turniere.html: check-in and result sections"
+          ]
+        },
+        {
+          "claim": "Turnierhilfe link explains check-in, result reporting and no-shows; the anchors check-in, ergebnis-melden and no-show exist.",
+          "verdict": "verified",
+          "evidence": [
+            "public/turniere/turniere.html: sections check-in, ergebnis-melden, no-show"
           ]
         }
       ],
