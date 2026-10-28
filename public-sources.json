@@ -135,13 +135,13 @@
       ],
       "reviews": {
         "rust/knowledge/bot/analytics-dashboard.md": {
-          "source_sha256": "e3c00679d6cab41000e632ccf5b916265892c2974cb7e361e707ea7c4bf13fe2",
-          "content_sha256": "0b2d60e245a2be71faad040603fc7ae763add92921a877341d0c885e1a972d8b",
-          "verified_at": "2026-09-19T23:22:29.306Z",
+          "source_sha256": "ae8028cf053d939ad08d075dcc68813aec1079862d1d63e0e3169fdfec6568cd",
+          "content_sha256": "c3361da0b25e55c5c712fb8bc438a5aaa99a79a289a17ac56845d4b668635553",
+          "verified_at": "2026-10-28T16:07:45.643602+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
               "paths": [
                 "bot/dashboard_v2/src/App.tsx",
                 "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
@@ -464,13 +464,13 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-analytics.md": {
-          "source_sha256": "027ec9c8de17055081f0a4f2375e3e91a69812b75f18ec073d77b9788e20cb5a",
-          "content_sha256": "ac730f8bac35817d03180c7c5c8611f702a497b8013342c8dc24c6ba1f076769",
-          "verified_at": "2026-09-19T23:47:49.832246+00:00",
+          "source_sha256": "603548bfe9bd77df49617c82c46551ec325ad9ce514a53c151af263725b11033",
+          "content_sha256": "b8fdb8d41591a912f87e45afdeb496741b141866c7ea159598df40ea4ec46caf",
+          "verified_at": "2026-10-28T16:07:45.643602+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
               "paths": [
                 "bot/dashboard_v2/src/App.tsx",
                 "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
