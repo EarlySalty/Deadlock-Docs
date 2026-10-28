@@ -3,6 +3,7 @@
   "managed_targets": [
     "twitch-bot/analytics-dashboard.html",
     "twitch-bot/auto-raid.html",
+    "twitch-bot/challenges.html",
     "twitch-bot/chat-befehle.html",
     "twitch-bot/chat-moderation.html",
     "twitch-bot/discord-golive.html",
@@ -17,6 +18,8 @@
     "twitch-bot/faq-stats-overlay.html",
     "twitch-bot/faq-support.html",
     "twitch-bot/faq-werbung.html",
+    "twitch-bot/feedback.html",
+    "twitch-bot/partnerprofil.html",
     "twitch-bot/vertrauen-seriositaet.html",
     "quellen/twitch/chat_network_disabled.html",
     "quellen/twitch/features.html",

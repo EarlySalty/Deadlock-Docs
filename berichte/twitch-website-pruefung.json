@@ -234,27 +234,68 @@
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
-      "verified_at": "2026-09-19T23:16:51.616954+00:00",
-      "content_sha256": "f990498fe3551308c42cb71012efc13e48582577f3a09ef0636806c696832fbd",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "8f023abd8bc5c7bb30c93d28d0c3080652302cadda0371a711b0270debed1096",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-analytics/src/billing/catalog.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx",
+            "bot/dashboard_v2/src/pages/verwaltungTabs.ts"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
       "claims": [
         {
-          "claim": "Freie Grundnutzung/Zusatzpläne, Kundenportal und Kündigung zum Periodenende; keine ungeprüften Preise versprochen.",
+          "claim": "Netzwerk Free ist kostenlos ohne Abo; Netzwerk Plus und Studio sind kostenpflichtig, Studio wird in drei Versionen gebucht.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-analytics/src/billing/catalog.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx"
+          ]
+        },
+        {
+          "claim": "Jahrespreis entspricht zehn Monatspreisen (zwei Monate geschenkt); Monats- und Jahrestakt sind wählbar.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx"
+          ]
+        },
+        {
+          "claim": "Testphase von 30 Tagen für Netzwerk Plus im Monatstakt; der Jahrestakt startet ohne Testphase.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx"
+          ]
+        },
+        {
+          "claim": "Analyse-Daten bleiben 30 Tage nach Kündigung gespeichert.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx"
+          ]
+        },
+        {
+          "claim": "Ab Netzwerk Plus werden Funktionen unter Bot & Schutz ein- und ausgeschaltet; der Tab bot existiert in der Verwaltung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx",
+            "bot/dashboard_v2/src/pages/verwaltungTabs.ts"
+          ]
+        },
+        {
+          "claim": "Kündigung ohne Mindestlaufzeit; Funktionen bleiben bis zum Ende des Abrechnungszeitraums verfügbar.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+            "bot/dashboard_v2/src/pages/Pricing.tsx"
           ]
         }
       ],
@@ -262,25 +303,36 @@
     },
     {
       "path": "public/twitch-bot/faq-affiliate.html",
-      "verified_at": "2026-09-19T23:16:51.630026+00:00",
-      "content_sha256": "58813d31f7862095caaeb34e8943aa741ee279ee69e65a1b1cc7e48d60547b2a",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "c91e1d6bba1daed715345e79f4d56345e5fe3b5898c1411588db0ad156cc74c0",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs",
+            "website/src/data/affiliateFeatures.ts"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
       "claims": [
         {
-          "claim": "Eigenes Affiliateportal mit Claims, Profil und Status; keine pauschalen Provisionsbeträge oder Auszahlungsgarantie.",
+          "claim": "Affiliate-Portal unter /twitch/affiliate/portal; Zugang nur für Konten mit aktivem Affiliate-Status.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs"
+          ]
+        },
+        {
+          "claim": "Portal bietet Claims, Affiliate-Profil, Provisions- und Gutschriftstatus sowie Stripe-Connect-Auszahlungskonto.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs",
+            "website/src/data/affiliateFeatures.ts"
           ]
         }
       ],
@@ -928,31 +980,30 @@
     },
     {
       "path": "public/twitch-bot/faq-support.html",
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "ad3d705195a98178117b9f179925a0af03d5591e551d5de3c52b4b12487fce11",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs"
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
           ]
         }
       ],
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
       "claims": [
         {
-          "claim": "Support-Verweis nennt !invite und !dldc statt des nicht vorhandenen !discord.",
+          "claim": "Kritik und Feature-Wünsche werden über /twitch/feedback eingereicht; nur Nutzer und Betreiber sehen den Text.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs"
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
+            "bot/dashboard_v2/src/App.tsx"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-stats-overlay.html",
@@ -1025,33 +1076,56 @@
     },
     {
       "path": "public/twitch-bot/twitchbot-ueberblick.html",
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "94593f3c07b1bd1141be8653f6e8de564dd82fc3aaba460f77f91e130d296022",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "bf564e5cd9f7f91033e0b492bfb9313ec758dee5829f48fa1ed67abd89eb0398",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/onboarding.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
-            "website/src/pages/StreamerOnboardingPage.tsx"
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/components/onboarding/steps.ts",
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
       ],
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
       "claims": [
         {
-          "claim": "Funktionsübersicht nennt den OBS-Pause-Loop und den Onboarding-Pfad /twitch/onboarding.",
+          "claim": "Verwaltung ist unter /twitch/verwaltung erreichbar (Tabs über den Hash, z. B. #konto).",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs"
+            "bot/dashboard_v2/src/components/onboarding/steps.ts",
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        },
+        {
+          "claim": "Challenges unter /twitch/challenges.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        },
+        {
+          "claim": "Partnerprofile sind opt-in und Übersicht unter /twitch/partners.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs"
+          ]
+        },
+        {
+          "claim": "Feedback unter /twitch/feedback.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
+            "bot/dashboard_v2/src/App.tsx"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/pause-loop-obs.html",
@@ -1082,6 +1156,133 @@
       "gaps": [
         "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
+    },
+    {
+      "path": "public/twitch-bot/challenges.html",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "b5a212f2f5549bd4f3392fc4fdd3e1fe78ad531c734af931cb884e5d147be5ed",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/Challenges.tsx"
+          ]
+        }
+      ],
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "claims": [
+        {
+          "claim": "Erfolge Werber, Teamspieler, Duo, Ausdauer, Talentscout und Clipjäger existieren.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Challenges.tsx"
+          ]
+        },
+        {
+          "claim": "Wöchentliche Aufgaben werden montags zurückgesetzt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Challenges.tsx"
+          ]
+        },
+        {
+          "claim": "Zwei Ranglisten nach viewers und effort; monatliche Wertung vorhanden.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Challenges.tsx"
+          ]
+        },
+        {
+          "claim": "Challenges unter /twitch/challenges.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/feedback.html",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "2ab94c0a721f252ac602fab5b3cb88875d49e200cc4cbeea50ea26e3dc68a877",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
+          ]
+        }
+      ],
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "claims": [
+        {
+          "claim": "Zwei Arten: Kritik oder Feedback und Feature-Wunsch.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
+          ]
+        },
+        {
+          "claim": "Nur Nutzer und Betreiber sehen den Text; Antwort später im Dashboard.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
+          ]
+        },
+        {
+          "claim": "Route /twitch/feedback.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/partnerprofil.html",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "content_sha256": "0b9b3a2b758e295b7272c83a88c554578b452a419623c45564d895204a8c24a8",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs"
+          ]
+        }
+      ],
+      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "claims": [
+        {
+          "claim": "Partnerseiten sind opt-in; Sichtbarkeit folgt dem Lebenszyklus-Gate.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs"
+          ]
+        },
+        {
+          "claim": "Keine Analysedaten, Zuschauer-Identitäten oder Tokens werden veröffentlicht.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs"
+          ]
+        },
+        {
+          "claim": "Übersicht unter /twitch/partners.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/lib.rs"
+          ]
+        }
+      ],
+      "gaps": []
     }
   ]
 }
