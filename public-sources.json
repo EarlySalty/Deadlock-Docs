@@ -3,7 +3,6 @@
   "managed_targets": [
     "twitch-bot/analytics-dashboard.html",
     "twitch-bot/auto-raid.html",
-    "twitch-bot/challenges.html",
     "twitch-bot/chat-befehle.html",
     "twitch-bot/chat-moderation.html",
     "twitch-bot/discord-golive.html",
@@ -18,8 +17,6 @@
     "twitch-bot/faq-stats-overlay.html",
     "twitch-bot/faq-support.html",
     "twitch-bot/faq-werbung.html",
-    "twitch-bot/feedback.html",
-    "twitch-bot/partnerprofil.html",
     "twitch-bot/vertrauen-seriositaet.html",
     "quellen/twitch/chat_network_disabled.html",
     "quellen/twitch/features.html",
@@ -225,15 +222,17 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-affiliate.md": {
-          "source_sha256": "361006f07e684ed0423705eb98e9c93fb35ad639b66e8d834b726963e7dd4e63",
-          "content_sha256": "58813d31f7862095caaeb34e8943aa741ee279ee69e65a1b1cc7e48d60547b2a",
-          "verified_at": "2026-09-19T23:16:51.630026+00:00",
+          "source_sha256": "1992cda1c040e37de4bdc6f9190df0fd89f63c2f74bac01062a3c319524a77f2",
+          "content_sha256": "c91e1d6bba1daed715345e79f4d56345e5fe3b5898c1411588db0ad156cc74c0",
+          "verified_at": "2026-10-28T15:43:41.417456+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
-                "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs"
+                "rust/crates/tb-dashboard-api/src/handlers/affiliate_portal.rs",
+                "rust/crates/tb-dashboard-api/src/lib.rs",
+                "website/src/data/affiliateFeatures.ts"
               ]
             }
           ],
@@ -275,16 +274,17 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-plaene.md": {
-          "source_sha256": "c804d5efcf2a7c0ece827d26407e8afe65dce4412eb8b024a9faa098e2588f68",
-          "content_sha256": "f990498fe3551308c42cb71012efc13e48582577f3a09ef0636806c696832fbd",
-          "verified_at": "2026-09-19T23:16:51.616954+00:00",
+          "source_sha256": "bfc5f198d6aa1b50c911e1bf251103d4711c43f912634351c5991360d5c00dc0",
+          "content_sha256": "8f023abd8bc5c7bb30c93d28d0c3080652302cadda0371a711b0270debed1096",
+          "verified_at": "2026-10-28T15:43:41.417456+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
-                "rust/crates/tb-analytics/src/billing/catalog.rs",
-                "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+                "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
+                "bot/dashboard_v2/src/pages/Pricing.tsx",
+                "bot/dashboard_v2/src/pages/verwaltungTabs.ts"
               ]
             }
           ],
@@ -326,17 +326,16 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-support.md": {
-          "source_sha256": "2d391d3a994231a325bffce836dddc4aa33433618aab93d58696d346dadc853c",
-          "content_sha256": "012bf5a8bf9ce820748ef6c76c64b0f8d73afdc28d6ed5f3aac4896f174188ce",
-          "verified_at": "2026-09-19T23:22:29.293Z",
+          "source_sha256": "784c9e977a48c6684d0858c6c672098ece2681e34300df5c2f54c1f326c6a068",
+          "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
+          "verified_at": "2026-10-28T15:43:41.417456+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
-                "rust/crates/tb-chat/src/commands.rs",
-                "rust/crates/tb-chat/src/promos.rs",
-                "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
+                "bot/dashboard_v2/src/App.tsx",
+                "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
               ]
             }
           ],
