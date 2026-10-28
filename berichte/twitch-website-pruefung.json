@@ -254,7 +254,7 @@
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
       "content_sha256": "be184f6ebe8793d0a7ba74de22035a353c83cc8cb176ae39c7def6082209ce99",
       "code": [
         {
@@ -314,7 +314,7 @@
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
       "content_sha256": "536853c3133f9e48ab6384d41bd1b663f2002764eb9447d41e16f18d902d0eb2",
       "code": [
         {
@@ -365,7 +365,7 @@
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "8f023abd8bc5c7bb30c93d28d0c3080652302cadda0371a711b0270debed1096",
       "code": [
         {
@@ -445,7 +445,7 @@
     },
     {
       "path": "public/twitch-bot/faq-affiliate.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "c91e1d6bba1daed715345e79f4d56345e5fe3b5898c1411588db0ad156cc74c0",
       "code": [
         {
@@ -713,7 +713,7 @@
     },
     {
       "path": "public/twitch-bot/discord-golive.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
       "content_sha256": "50a0a91f9af39424209c8eb3efa7224fd5cd6571f1f5dc4bd05c575cfea942e8",
       "code": [
         {
@@ -812,7 +812,7 @@
     },
     {
       "path": "public/twitch-bot/faq-werbung.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
       "content_sha256": "322c5ae9a37e22ce52c708793a1ff257514590ebc890ae2260d6f529fd6338f9",
       "code": [
         {
@@ -1193,7 +1193,7 @@
     },
     {
       "path": "public/twitch-bot/faq-support.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
       "code": [
         {
@@ -1284,7 +1284,7 @@
       "path": "public/twitch-bot/twitch-streamer-dashboard.html",
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
       "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
       "content_sha256": "3155301107045c26e40da6358718bb577907f17ee0c25c3564d2007e15d69168",
       "code": [
         {
@@ -1326,7 +1326,7 @@
     },
     {
       "path": "public/twitch-bot/twitchbot-ueberblick.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "bf564e5cd9f7f91033e0b492bfb9313ec758dee5829f48fa1ed67abd89eb0398",
       "code": [
         {
@@ -1391,7 +1391,7 @@
       "path": "public/twitch-bot/pause-loop-obs.html",
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
       "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T12:13:30.975753+00:00",
       "content_sha256": "ebce6501ed6c9a5aacc72334bcb3ece3b7f75f5f7f778d774e7a1fb004a8a0b1",
       "code": [
         {
@@ -1417,7 +1417,7 @@
     },
     {
       "path": "public/twitch-bot/challenges.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "83502ad8d187582af073d3610e115f1f5be2674e8e67e4510e9dd576a55c201d",
       "code": [
         {
@@ -1465,7 +1465,7 @@
     },
     {
       "path": "public/twitch-bot/feedback.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "2ab94c0a721f252ac602fab5b3cb88875d49e200cc4cbeea50ea26e3dc68a877",
       "code": [
         {
@@ -1506,7 +1506,7 @@
     },
     {
       "path": "public/twitch-bot/partnerprofil.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:35:07.586571+00:00",
       "content_sha256": "0b9b3a2b758e295b7272c83a88c554578b452a419623c45564d895204a8c24a8",
       "code": [
         {
@@ -1547,7 +1547,7 @@
     },
     {
       "path": "public/twitch-bot/aktivitaet-und-pausen.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:46:27.020568+00:00",
       "content_sha256": "ae1e93bc9b11984efe5a8f7beb1c936f1679ef45cc599ccafd1005b71d62c599",
       "code": [
         {
@@ -1611,7 +1611,7 @@
     },
     {
       "path": "public/twitch-bot/werbemanager.html",
-      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "verified_at": "2026-10-28T15:46:27.020568+00:00",
       "content_sha256": "a6e877262d4ed9328ef498bfebbfcead1957e53c237c4be8c007455c8a7a68f0",
       "code": [
         {
