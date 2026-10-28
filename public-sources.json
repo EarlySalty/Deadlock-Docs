@@ -507,7 +507,10 @@
               "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
                 "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
-                "rust/crates/tb-analytics/src/ad_manager.rs"
+                "rust/crates/tb-analytics/src/ad_manager.rs",
+                "rust/crates/tb-analytics/src/billing/catalog.rs",
+                "rust/crates/tb-analytics/src/plan.rs",
+                "rust/crates/tb-chat/src/promos.rs"
               ]
             }
           ],
