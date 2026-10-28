@@ -254,7 +254,7 @@
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
-      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "be184f6ebe8793d0a7ba74de22035a353c83cc8cb176ae39c7def6082209ce99",
       "code": [
         {
@@ -269,8 +269,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Der Auto-Raid startet am Stream-Ende und wählt einen live Deadlock-Kanal; die Auswahlregeln sind nicht beschrieben.",
@@ -310,13 +310,11 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
-      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "536853c3133f9e48ab6384d41bd1b663f2002764eb9447d41e16f18d902d0eb2",
       "code": [
         {
@@ -330,8 +328,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Manuelle Raids dürfen Broadcaster, Moderation und Super-Mods auslösen; die Quelle muss in Deadlock live sein oder kürzlich in Deadlock geendet haben.",
@@ -363,13 +361,11 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "8f023abd8bc5c7bb30c93d28d0c3080652302cadda0371a711b0270debed1096",
       "code": [
         {
@@ -390,7 +386,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Netzwerk Free ist kostenlos ohne Abo; Netzwerk Plus und Studio sind kostenpflichtig, Studio wird in drei Versionen gebucht.",
@@ -444,14 +440,12 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/faq-affiliate.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "c91e1d6bba1daed715345e79f4d56345e5fe3b5898c1411588db0ad156cc74c0",
       "code": [
         {
@@ -464,7 +458,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Affiliate-Portal unter /twitch/affiliate/portal; Zugang nur für Konten mit aktivem Affiliate-Status.",
@@ -484,10 +478,8 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/faq-community.html",
@@ -721,7 +713,7 @@
     },
     {
       "path": "public/twitch-bot/discord-golive.html",
-      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "50a0a91f9af39424209c8eb3efa7224fd5cd6571f1f5dc4bd05c575cfea942e8",
       "code": [
         {
@@ -735,8 +727,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Für einen aktiven Partner postet der Bot beim Live-Gehen in der Deadlock-Kategorie einen Hinweis im Community-Discord und stellt ihn beim Offline-Gehen auf beendet um.",
@@ -820,7 +812,7 @@
     },
     {
       "path": "public/twitch-bot/faq-werbung.html",
-      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "322c5ae9a37e22ce52c708793a1ff257514590ebc890ae2260d6f529fd6338f9",
       "code": [
         {
@@ -835,8 +827,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Der Werbemanager verschiebt geplante Werbung in passende Pausen und kann laufende Matches schützen; sind keine Verschiebungen mehr übrig, läuft geplante Werbung auch während eines Matches weiter.",
@@ -1201,7 +1193,7 @@
     },
     {
       "path": "public/twitch-bot/faq-support.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
       "code": [
         {
@@ -1222,7 +1214,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Kritik und Feature-Wünsche werden über /twitch/feedback eingereicht; nur Nutzer und Betreiber sehen den Text.",
@@ -1254,10 +1246,8 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/faq-stats-overlay.html",
@@ -1292,9 +1282,9 @@
     },
     {
       "path": "public/twitch-bot/twitch-streamer-dashboard.html",
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "3155301107045c26e40da6358718bb577907f17ee0c25c3564d2007e15d69168",
       "code": [
         {
@@ -1332,13 +1322,11 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/twitchbot-ueberblick.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "bf564e5cd9f7f91033e0b492bfb9313ec758dee5829f48fa1ed67abd89eb0398",
       "code": [
         {
@@ -1354,7 +1342,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Verwaltung ist unter /twitch/verwaltung erreichbar (Tabs über den Hash, z. B. #konto).",
@@ -1396,16 +1384,14 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/pause-loop-obs.html",
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "ebce6501ed6c9a5aacc72334bcb3ece3b7f75f5f7f778d774e7a1fb004a8a0b1",
       "code": [
         {
@@ -1427,13 +1413,11 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/challenges.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "83502ad8d187582af073d3610e115f1f5be2674e8e67e4510e9dd576a55c201d",
       "code": [
         {
@@ -1445,7 +1429,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Erfolge Werber, Teamspieler, Duo, Ausdauer, Talentscout und Clipjäger existieren.",
@@ -1476,14 +1460,12 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/feedback.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "2ab94c0a721f252ac602fab5b3cb88875d49e200cc4cbeea50ea26e3dc68a877",
       "code": [
         {
@@ -1495,7 +1477,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Zwei Arten: Kritik oder Feedback und Feature-Wunsch.",
@@ -1519,14 +1501,12 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/partnerprofil.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "0b9b3a2b758e295b7272c83a88c554578b452a419623c45564d895204a8c24a8",
       "code": [
         {
@@ -1538,7 +1518,7 @@
           ]
         }
       ],
-      "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Partnerseiten sind opt-in; Sichtbarkeit folgt dem Lebenszyklus-Gate.",
@@ -1562,14 +1542,12 @@
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb"
     },
     {
       "path": "public/twitch-bot/aktivitaet-und-pausen.html",
-      "verified_at": "2026-10-28T15:46:27.020568+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "ae1e93bc9b11984efe5a8f7beb1c936f1679ef45cc599ccafd1005b71d62c599",
       "code": [
         {
@@ -1582,8 +1560,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Nach längerer Zeit ohne Deadlock-Stream entzieht der Bot seine Moderatorrechte; die Partnerschaft bleibt bestehen.",
@@ -1633,7 +1611,7 @@
     },
     {
       "path": "public/twitch-bot/werbemanager.html",
-      "verified_at": "2026-10-28T15:46:27.020568+00:00",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
       "content_sha256": "a6e877262d4ed9328ef498bfebbfcead1957e53c237c4be8c007455c8a7a68f0",
       "code": [
         {
@@ -1646,8 +1624,8 @@
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
       "claims": [
         {
           "claim": "Der Tab heißt „Werbung (Experimentell)“ und ist unter Verwaltung zu finden.",
@@ -1710,8 +1688,8 @@
     },
     {
       "path": "public/twitch-bot/clip-befehle.html",
-      "verified_at": "2026-10-28T16:09:39.732928+00:00",
-      "content_sha256": "3679db2585cff51559ffae60f0a58754a939264e5842fe2307b29ef91ef0bd43",
+      "verified_at": "2026-10-28T16:27:53.845423+00:00",
+      "content_sha256": "2445370e407c0209bf25de73805d80f2363eca16f4873865039329d1ff84f8a6",
       "code": [
         {
           "repository": "twitch",
@@ -1721,7 +1699,8 @@
             "rust/crates/tb-chat/src/clip_contest_submit.rs",
             "rust/crates/tb-domain/src/clip.rs",
             "rust/crates/tb-domain/src/vod_range.rs",
-            "bot/dashboard_v2/src/components/verwaltung/ClipCommandSection.tsx"
+            "bot/dashboard_v2/src/components/verwaltung/ClipCommandSection.tsx",
+            "rust/crates/tb-vod-archive/src/private_range.rs"
           ]
         }
       ],
@@ -1785,6 +1764,13 @@
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/clip_contest_submit.rs"
+          ]
+        },
+        {
+          "claim": "Pro Kanal läuft nur ein VOD-Ausschnitt-Auftrag zur Zeit, höchstens drei pro Stunde.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-vod-archive/src/private_range.rs"
           ]
         }
       ],
