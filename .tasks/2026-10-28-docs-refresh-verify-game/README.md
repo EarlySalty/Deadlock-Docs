@@ -22,7 +22,9 @@ je Seite mit Hash, Pins und Belegen aktualisieren.
   Pin b306fa90 (dort war nur `game-wiki/AGENTS.md` geändert).
 - Turniere: `origin/main` feb7a2a49c50418b527918e93a8c36671d14c889.
 
-## Offen
+## Manifest
 
-- Die Caddy-Route `/turnier/comp` auf dem Hauptdomain-Host ist über das Matcher-Set
-  `turnier_paths` abgedeckt, aber nicht für genau diesen Host einzeln bestätigt.
+- `public-sources.json` (Reviews der drei Seiten) auf den neuen Audit-Stand gezogen:
+  Hash, Zeitstempel und Code-Pins. Die Repo-ID `docs` im Audit ist `community-docs`.
+- Route `/turnier/comp`: Caddy-Site `deutsche-deadlock-community.de` leitet
+  `/turnier*` an Port 8900 weiter (Caddyfile, Block ab Zeile 203).

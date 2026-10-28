@@ -726,8 +726,8 @@
         },
         "dl-landing/guides/anfaenger/index.html": {
           "source_sha256": "7a0a304cc38ec90124ae0fee789265c83f197163811b899acf3e1309b762bef9",
-          "content_sha256": "1810a87e261842343c47ad2190ea104e948c27cbde0f8bb97e33f44956a7a42f",
-          "verified_at": "2026-09-19T23:47:49.873342+00:00",
+          "content_sha256": "413d30cf98c56413d6689e3343ff209d9731fb62242885adafae7214cadb27c7",
+          "verified_at": "2026-10-28T17:53:55.855278+00:00",
           "code": [
             {
               "repository": "website",
@@ -738,9 +738,18 @@
             },
             {
               "repository": "game-brain",
-              "revision": "b306fa9030bf32669d9c91a50fdd665bde73cb3a",
+              "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
               "paths": [
                 "game-wiki/pages/deadlock-wiki/wiki-page.md"
+              ]
+            },
+            {
+              "repository": "community-docs",
+              "revision": "503f0c67c2f3db12d749310f43d1dcc0dfde232e",
+              "paths": [
+                "public/quellen/website/coaching.html",
+                "public/quellen/website/mitspieler.html",
+                "public/discord-server/steam-integration.html"
               ]
             }
           ],
@@ -838,15 +847,24 @@
       "reviews": {
         "docs/HELP_TOURNAMENT_MODES.md": {
           "source_sha256": "577441f1a494e9b09d26feab3eec0d43277948fe488b9becb6d8b36e559b6268",
-          "content_sha256": "1443d8b7690df9db7adc65826a7f327237a858cb0e08d6860c659b804375dffb",
-          "verified_at": "2026-09-19T23:47:49.926635+00:00",
+          "content_sha256": "09f986c59e8bbc65eabcabed71bf541c1f7bfac2ea31b96987c7b273ed13964a",
+          "verified_at": "2026-10-28T17:55:23.919746+00:00",
           "code": [
             {
               "repository": "turniere",
-              "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+              "revision": "feb7a2a49c50418b527918e93a8c36671d14c889",
               "paths": [
+                "rust/crates/turnier-core/src/enums.rs",
                 "rust/crates/turnier-engine/src/status.rs",
-                "rust/crates/turnier-core/src/enums.rs"
+                "rust/crates/turnier-engine/src/engine/groups.rs",
+                "rust/crates/turnier-engine/src/persist/bracket.rs"
+              ]
+            },
+            {
+              "repository": "community-docs",
+              "revision": "baeb8b5c65b21a9e91423bfa4cfd4e3316fcfcfb",
+              "paths": [
+                "public/turniere/turniere.html"
               ]
             }
           ],
@@ -854,16 +872,26 @@
         },
         "docs/comp-finder.md": {
           "source_sha256": "8f9bc34006dfcf69d611cac3cb26edbe8822bf61eb0b56aec32d6de5c7448707",
-          "content_sha256": "4f5957149599cd60b10f942c1236fbfa7148e74d98392a435cdf7aeb2239f16b",
-          "verified_at": "2026-09-19T23:47:49.931502+00:00",
+          "content_sha256": "2cc44093ffccb59e15429c562263b5d7474aa0d4d63679725ebfac7a709c7189",
+          "verified_at": "2026-10-28T17:55:01.157098+00:00",
           "code": [
             {
               "repository": "turniere",
-              "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+              "revision": "feb7a2a49c50418b527918e93a8c36671d14c889",
               "paths": [
                 "frontend/src/pages/CompFinder.tsx",
+                "frontend/src/hooks/compState.ts",
+                "frontend/src/hooks/useCompFinder.ts",
+                "frontend/src/App.tsx",
                 "rust/crates/turnier-api/src/comp.rs",
                 "rust/crates/turnier-draft/src/comp/solver.rs"
+              ]
+            },
+            {
+              "repository": "community-docs",
+              "revision": "ec7bebbef4a8d49b97e8b1211788ad4573c56995",
+              "paths": [
+                "public/quellen/turniere/comp-finder.html"
               ]
             }
           ],

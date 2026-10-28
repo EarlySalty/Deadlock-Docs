@@ -1743,7 +1743,7 @@
           ]
         },
         {
-          "repository": "docs",
+          "repository": "community-docs",
           "revision": "baeb8b5c65b21a9e91423bfa4cfd4e3316fcfcfb",
           "paths": [
             "public/turniere/turniere.html"
@@ -1818,7 +1818,7 @@
           ]
         },
         {
-          "repository": "docs",
+          "repository": "community-docs",
           "revision": "ec7bebbef4a8d49b97e8b1211788ad4573c56995",
           "paths": [
             "public/quellen/turniere/comp-finder.html"
@@ -1830,8 +1830,8 @@
           "claim": "Route https://deutsche-deadlock-community.de/turnier/comp leads to the Comp-Finder.",
           "verdict": "verified",
           "evidence": [
-            "frontend/src/App.tsx: comp route",
-            "Caddy hosts/v50671/Caddyfile turnier_paths matcher routes /turnier/* to the turnier service; exact host route not separately confirmed"
+            "Caddy hosts/v50671/Caddyfile site deutsche-deadlock-community.de: handle /turnier* forwards to port 8900",
+            "frontend/src/App.tsx: comp route"
           ]
         },
         {
