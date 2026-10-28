@@ -125,6 +125,7 @@
 <section id="nicht-aktiv">
 <h2>Nicht aktiv oder nicht vorhanden</h2>
 <ul>
+<li><code>deadlock-twitch-stream-coaching-watch.service</code> existiert zusätzlich als deaktivierte, inaktive User-Unit unter <code>~/.config/systemd/user/</code>. Die aktive Unit ist die System-Unit; die User-Kopie nicht starten.</li>
 <li><code>dl-knowledge.service</code> existiert als User-Unit nicht und hat keinen Listener auf <code>8896</code>. Der Wissensdienst ist im Betrieb nicht aktiv; die gehärtete Fassung ist im Support-Agent-Design beschrieben (<code>internal/deadlock-bots/support-agent-design.html</code>).</li>
 <li><code>deadlock-bot.service</code>, <code>deadlock-twitch-bot.service</code> und <code>deadlock-twitch-dashboard.service</code> sind Python-Legacy-Units und nicht aktiv.</li>
 </ul>

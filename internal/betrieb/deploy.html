@@ -38,14 +38,14 @@
 </tr>
 <tr>
 <td>Turniere</td>
-<td><code>/opt/deadlock/bots/launchers/&lt;sha&gt;</code></td>
-<td><code>turnier-bot</code> über <code>deadlock-turniere.service</code>, gestartet über <code>dl-infisical-env</code>.</td>
+<td>Launcher <code>/opt/deadlock/bots/launchers/&lt;sha&gt;</code> (nur <code>dl-infisical-env</code>)</td>
+<td><code>turnier-bot</code> aus dem Checkout <code>~/repos/Deadlock-Turniere/rust/target/release</code>, gestartet über den Launcher. Kein Release-Verzeichnis unter <code>/opt</code>.</td>
 <td><code>systemctl --user show -p ExecStart deadlock-turniere.service</code></td>
 </tr>
 <tr>
 <td>Patchnotes</td>
 <td><code>/opt/deadlock/patchnotes/current</code></td>
-<td><code>bin/deadlock-patchnotes</code> über <code>deadlock-patchnotes.service</code>.</td>
+<td><code>/opt/deadlock/patchnotes/current/bin/deadlock-patchnotes</code> über <code>deadlock-patchnotes.service</code>.</td>
 <td><code>systemctl --user show -p ExecStart deadlock-patchnotes.service</code></td>
 </tr>
 <tr>
@@ -62,7 +62,7 @@
 </tr>
 </tbody>
 </table>
-<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
+<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website, Turniere und die Timer-Jobs laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt, und für den Live-Beweis <code>/proc/&lt;pid&gt;/exe</code> gegen diesen Pfad. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
 </section>
 <section id="build">
 <h2>Build</h2>
@@ -71,7 +71,7 @@
 <section id="neustart">
 <h2>Neustart</h2>
 <p>Nach dem Umschalten wird nur der betroffene Service neu gestartet. User-Units und System-Units brauchen unterschiedliche Befehle:</p>
-<pre><code>systemctl --user restart &lt;service-name&gt;     # User-Units: Bots, Steam, Turniere, Patchnotes
+<pre><code>systemctl --user restart &lt;service-name&gt;     # User-Units: Bots, Steam, Turniere, Patchnotes, Website
 sudo -n systemctl restart &lt;service-name&gt;   # System-Units: Twitch, Brain-Site</code></pre>
 <p>Abhängige Paare: <code>steam-bot.service</code> hängt an <code>steam-core.service</code> und wartet auf <code>http://127.0.0.1:8782/</code>. Twitch-Dashboard, Twitch-Bot und Stream-Coaching-Watch sind getrennte System-Units.</p>
 </section>
