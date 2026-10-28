@@ -42,7 +42,7 @@ Counts: 17 features in inventory (admin host and preview routes excluded). Alrea
 
 ## Open items
 - Public docs keep no internal rules: no raid target selection, no invite routing logic, no Caddy snippets, no admin host.
-- The Deadlock Brain question path is verified after import (see report).
+- The Deadlock Brain question path is not yet verified; it runs after the import in the merge step.
 - The "Rundgang" description says only "ohne Anmeldung ansehen"; whether its data is demo data was not verified.
 - Legacy `twitch.earlysalty.com` is mentioned generically; no change requested for it.
 - `docs/architecture/LANGUAGES-AND-DOMAINS.md` in the bot repo is internal and was not touched (outside this scope).
