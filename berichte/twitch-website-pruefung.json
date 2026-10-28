@@ -683,33 +683,31 @@
     },
     {
       "path": "public/quellen/twitch/features.html",
-      "verified_at": "2026-09-19T23:23:36.095146+00:00",
-      "content_sha256": "db7f2612a1a22c1a190da70fc7cd562f3535787cd11a114a2ad8a97fc5eca082",
+      "verified_at": "2026-10-28T17:06:25.285977+00:00",
+      "content_sha256": "75c2b2176499fc5dfb5ef4beb20a1819f17a622a5b46b383295f3de42c8c97be",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
-            "rust/crates/tb-dashboard-api/src/lib.rs",
-            "rust/crates/tb-monitoring/src/announce/sink.rs"
+            "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Entfernter Go-Live-Editor wird nicht beworben; automatische Partnerankündigung und nächster Supportschritt bleiben erklärt.",
+          "claim": "The former editor for own Discord live announcements is no longer offered; the old builder routes answer with 410 Gone, so no template, preview or test announcement can be created through them.",
           "verdict": "verified",
           "evidence": [
-            [
-              "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
-              "rust/crates/tb-dashboard-api/src/lib.rs",
-              "rust/crates/tb-monitoring/src/announce/sink.rs"
-            ]
+            "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346."
     },
     {
       "path": "public/twitch-bot/discord-golive.html",
@@ -764,47 +762,43 @@
     },
     {
       "path": "public/twitch-bot/faq-analytics.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "b8fdb8d41591a912f87e45afdeb496741b141866c7ea159598df40ea4ec46caf",
+      "verified_at": "2026-10-28T17:04:10.011763+00:00",
+      "content_sha256": "0c81be7a581701a4f5a0ff29c745a4bc96168bef3003db10e91b2c311714277f",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/App.tsx",
-            "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs",
-            "rust/crates/tb-chat/src/commands.rs"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-          "paths": [
-            "bot/dashboard_v2/src/pages/Category.tsx",
-            "bot/dashboard_v2/src/pages/Community.tsx"
+            "bot/dashboard_v2/src/components/cards/PostStreamReportCard.tsx",
+            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346.",
       "claims": [
         {
-          "claim": "Channel-scoped access, existing analytics views, report dependency; no completeness or retention guarantee. Engagement opt-out is not a full data deletion.",
+          "claim": "The dashboard offers these areas: Übersicht, Streams, Publikum, Wachstum, Planung, Zusammen spielen, Mein Profil, Was tun? and Monetization.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/App.tsx",
-            "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
+            "bot/dashboard_v2/src/App.tsx"
           ]
         },
         {
-          "claim": "Markt under Wachstum and the suggestions under Zusammen spielen show data beyond the own channel.",
+          "claim": "The stream analysis after a stream is a feature that can be locked; for a plan without it, the dashboard shows a lock card instead of a report.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/pages/Category.tsx",
-            "bot/dashboard_v2/src/pages/Community.tsx"
+            "bot/dashboard_v2/src/components/cards/PostStreamReportCard.tsx"
+          ]
+        },
+        {
+          "claim": "The chat command !engagement_ignore_me removes the streamer from the bot's engagement replies, and !engagement_remember_me adds them back.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -849,61 +843,103 @@
     },
     {
       "path": "public/twitch-bot/berechtigungen.html",
-      "verified_at": "2026-09-19T23:47:49.855833+00:00",
-      "content_sha256": "3dea0d7bcf7a285a12872289abde226c9f4fa30f40a96aeba449d94ce4d24cd1",
+      "verified_at": "2026-10-28T16:59:42.325416+00:00",
+      "content_sha256": "4965751ac1032c32a7c6de51c36c14ba2595e31dba0bf1386191e5e66d8fefde",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "rust/crates/tb-raid/src/scope_profiles.rs",
-            "rust/crates/tb-chat/src/moderation.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/lurker_tax_settings.rs"
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "bot/dashboard_v2/src/hooks/useScopes.tsx",
+            "bot/dashboard_v2/src/pages/AuthScopes.tsx",
+            "rust/bin/tb-bot/src/chat_wiring.rs",
+            "rust/bin/tb-bot/src/chatters_wiring.rs",
+            "rust/crates/tb-analytics/src/system_oauth_scopes.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/lurker_tax_settings.rs",
+            "rust/crates/tb-transport-twitch/src/chat.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Moderatorrolle und Broadcaster-OAuth getrennt; Raid/Clip/Chatterrechte zweckgebunden und Widerruf vorhanden.",
+          "claim": "The bot's moderator role gives no blanket access; it allows concrete chat actions: sending announcements, deleting or banning detected spam bots, and lifting bans.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-raid/src/scope_profiles.rs",
-            "rust/crates/tb-chat/src/moderation.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+            "rust/crates/tb-transport-twitch/src/chat.rs",
+            "rust/bin/tb-bot/src/chat_wiring.rs"
+          ]
+        },
+        {
+          "claim": "Auto-raids and clips do not depend on the moderator role; the streamer authorizes separate scopes for raid management (channel:manage:raids) and clip creation (clips:edit).",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/AuthScopes.tsx",
+            "bot/dashboard_v2/src/hooks/useScopes.tsx",
+            "rust/crates/tb-analytics/src/system_oauth_scopes.rs"
+          ]
+        },
+        {
+          "claim": "The lurker analysis can additionally need read access to the chatter list (moderator:read:chatters).",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/chatters_wiring.rs",
             "rust/crates/tb-dashboard-api/src/handlers/lurker_tax_settings.rs"
+          ]
+        },
+        {
+          "claim": "Twitch shows the requested permissions in the connection dialog; the connection can be revoked in the Twitch settings, and the bot can be removed from the channel under 'Bot vom Kanal trennen' in the management area of the dashboard.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
+          ]
+        },
+        {
+          "claim": "Without the moderator role the matching chat actions do not work; functions that do not depend on it get no extra rights.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/chat_wiring.rs"
           ]
         }
       ],
       "gaps": [],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346."
     },
     {
       "path": "public/quellen/twitch/chat_network_disabled.html",
-      "verified_at": "2026-09-19T23:47:49.859839+00:00",
-      "content_sha256": "29e4b44832f7b6347265f329e6cabbf9fc470c9ba1fb3a4317ee300365569173",
+      "verified_at": "2026-10-28T17:06:25.285977+00:00",
+      "content_sha256": "1bef40e84b08557e038a413240d2396d1e3ea802aa25f958ebbd74a08fab21a4",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
+            "bot/dashboard_v2/src/pages/chatAnalyticsContent.tsx",
             "bot/dashboard_v2/src/pages/useChatAnalyticsPage.ts"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "CHAT_SOCIAL_GRAPH_ENABLED ist false; andere Chatansichten bleiben getrennt.",
+          "claim": "The additional chat network view is disabled in the current dashboard; its switch is fixed to off.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/pages/useChatAnalyticsPage.ts"
+            "bot/dashboard_v2/src/pages/useChatAnalyticsPage.ts",
+            "bot/dashboard_v2/src/pages/chatAnalyticsContent.tsx"
+          ]
+        },
+        {
+          "claim": "The other chat analyses are rendered independently of the network view.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/chatAnalyticsContent.tsx"
           ]
         }
       ],
       "gaps": [],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346."
     },
     {
       "path": "public/quellen/twitch/werbemanager.html",
@@ -1251,34 +1287,93 @@
     },
     {
       "path": "public/twitch-bot/faq-stats-overlay.html",
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "05effbc110ca07b82585f5c62ec865efd1278ffa4972b676d5ef54a0bafa3440",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346.",
+      "verified_at": "2026-10-28T16:58:47.917638+00:00",
+      "content_sha256": "d7c41edc0229b32c4f45b36d7c2ae73814ced4bba4b931c0424ad6e2843fac7f",
       "code": [
         {
           "repository": "twitch",
-          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx",
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs",
             "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
-            "rust/docs/stats-overlay.md"
+            "rust/crates/tb-chat/src/stats.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.html",
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Das OBS-Overlay braucht die Discord-Verknüpfung mit Steam; Chat-Befehle akzeptieren zusätzlich !connect.",
+          "claim": "Once the channel's Steam account is linked, the bot answers statistics commands such as !rank, !wins, !winrate, !mmr, !live, !lastmatch, !streak and !mostplayed with their aliases.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
-            "rust/docs/stats-overlay.md"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!connect links the Twitch account to a Steam account; the Steam sign-in runs through OpenID, so the bot never asks for a password.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/player_links.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        },
+        {
+          "claim": "Without a linked account the bot replies with a notice instead of numbers.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/stats.rs"
+          ]
+        },
+        {
+          "claim": "The OBS overlay needs a Discord link to a Steam account; the overlay resolves the Discord ID from the login, then Steam data.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs"
+          ]
+        },
+        {
+          "claim": "The finished OBS URL is a public render link (/twitch/api/v2/public/overlay).",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.rs"
+          ]
+        },
+        {
+          "claim": "The overlay builder offers styles, layouts, game modes and modules; 'Module frei bearbeiten', 'Layout speichern', 'URL kopieren', 'Leinwand-Breite', 'Empfohlene OBS-Größe' and 'Vorlage' exist.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx"
+          ]
+        },
+        {
+          "claim": "Keyboard: F toggles full screen, Alt+T the cinema mode; Strg, Cmd or Shift select several modules; holding Alt disables snapping.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx"
+          ]
+        },
+        {
+          "claim": "A template does not change the saved module positions.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/OverlayBuilderSection.tsx"
+          ]
+        },
+        {
+          "claim": "When the overlay has nothing to show, it hides itself.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/overlay.html"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/twitch-streamer-dashboard.html",
@@ -1547,12 +1642,12 @@
     },
     {
       "path": "public/twitch-bot/aktivitaet-und-pausen.html",
-      "verified_at": "2026-10-28T15:46:27.020568+00:00",
-      "content_sha256": "ae1e93bc9b11984efe5a8f7beb1c936f1679ef45cc599ccafd1005b71d62c599",
+      "verified_at": "2026-10-28T16:57:50.645165+00:00",
+      "content_sha256": "cc546ddacc6a4239437cde0d1a186fd3207709321b01c8fc54516905a991868a",
       "code": [
         {
           "repository": "twitch",
-          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
             "rust/bin/tb-bot/src/streamer_role_sync.rs",
@@ -1561,24 +1656,24 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Live-Release 8e00a346 ist Vorfahre von origin/main; d1b234cc ändert nur Dokumentation, die geprüften Codepfade sind identisch. Nur Lesezugriff, kein Deployment.",
+      "live_code_note": "Checked against live release 8e00a346; the evidence files are identical at d1b234cc and 8e00a346.",
       "claims": [
         {
-          "claim": "Nach längerer Zeit ohne Deadlock-Stream entzieht der Bot seine Moderatorrechte; die Partnerschaft bleibt bestehen.",
+          "claim": "After 60 days without a Deadlock stream the bot gives up its moderator rights in the channel; the partnership stays.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-raid/src/deadlock_pause.rs"
           ]
         },
         {
-          "claim": "Die Pause gilt nur für Kanäle mit Deadlock-Historie.",
+          "claim": "The pause applies only to channels with a Deadlock stream in the recorded history (SQL candidate filter).",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-raid/src/deadlock_pause.rs"
           ]
         },
         {
-          "claim": "Startet der Kanal wieder einen Deadlock-Stream und die Streamer-Verbindung ist gültig, setzt der Bot die Moderatorrechte wieder.",
+          "claim": "When the channel streams Deadlock again and the Twitch connection is still valid, the bot restores its moderator rights automatically.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-raid/src/deadlock_pause.rs"
@@ -1950,40 +2045,45 @@
     },
     {
       "path": "public/twitch-bot/dashboard-hilfe.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "1d27e90d8503c55045c99876ca374190da6b985693ffcbf1f5d7ea2b859b9cb3",
+      "verified_at": "2026-10-28T16:56:55.002748+00:00",
+      "content_sha256": "2cc0500eef5e739d98c6438951926c9ebb8becd74000e058f08ee94808873dea",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/App.tsx",
-            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-          "paths": [
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx",
+            "bot/dashboard_v2/src/components/assistent/vorschlaege.ts",
+            "bot/dashboard_v2/src/components/assistent/assistent.css",
             "rust/crates/tb-dashboard-api/src/handlers/dashboard_assistent.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346 (Twitch origin/main is d1b234cc); code paths read at 8e00a346.",
       "claims": [
         {
-          "claim": "The button 'Hilfe bekommen' opens the assistant (closes with 'Schließen'); the assistant offers questions suggested for the current tab.",
+          "claim": "The button 'Hilfe bekommen' opens the assistant and 'Schließen' closes it; the assistant offers suggested questions for the page it is on.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx",
+            "bot/dashboard_v2/src/components/assistent/vorschlaege.ts"
           ]
         },
         {
-          "claim": "The assistant is shown on dashboard routes, except in preview and demo mode.",
+          "claim": "The button sits at the bottom right of the Home page; the assistant is shown only on the Home route, not in preview or demo mode.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/App.tsx"
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/components/assistent/assistent.css"
+          ]
+        },
+        {
+          "claim": "Answers show a 'Quelle' line with their sources.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
           ]
         },
         {
@@ -1992,9 +2092,17 @@
           "evidence": [
             "rust/crates/tb-dashboard-api/src/handlers/dashboard_assistent.rs"
           ]
+        },
+        {
+          "claim": "Too many questions in a short time show a pause message.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "operational_gaps": []
     },
     {
       "path": "public/twitch-bot/lurker-steuer.html",
@@ -2185,28 +2293,23 @@
     },
     {
       "path": "public/twitch-bot/coaching-was-tun.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "7ef76d31797b5f557e277be62b197de637644b87662822f688a137955ae2c661",
+      "verified_at": "2026-10-28T16:56:55.002748+00:00",
+      "content_sha256": "28aa32fc6e965f096bd7936428a3d1654251e31e6d219f1d1ce14a8a17214e66",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/pages/WasTun.tsx",
             "bot/dashboard_v2/src/pages/coachingSubPages.tsx",
-            "bot/dashboard_v2/src/components/layout/Header.tsx"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-          "paths": [
+            "bot/dashboard_v2/src/pages/Coaching.tsx",
+            "bot/dashboard_v2/src/components/layout/Header.tsx",
             "bot/dashboard_v2/src/pages/AIAnalysis.tsx"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346 (Twitch origin/main is d1b234cc); code paths read at 8e00a346.",
       "claims": [
         {
           "claim": "Was tun? has five sub-tabs: Pro Session, Empfehlungen, Format & Auffindbarkeit, Community & Konkurrenz, KI-Analyse.",
@@ -2233,6 +2336,14 @@
           "claim": "Community sub-tab covers retention, community strength, double streams and raids, peer comparison and competition density.",
           "verdict": "verified",
           "evidence": [
+            "bot/dashboard_v2/src/pages/coachingSubPages.tsx",
+            "bot/dashboard_v2/src/pages/Coaching.tsx"
+          ]
+        },
+        {
+          "claim": "An empty recommendation area asks the streamer to stream more.",
+          "verdict": "verified",
+          "evidence": [
             "bot/dashboard_v2/src/pages/coachingSubPages.tsx"
           ]
         },
@@ -2251,48 +2362,36 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "operational_gaps": []
     },
     {
       "path": "public/twitch-bot/analytics-dashboard.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "c3361da0b25e55c5c712fb8bc438a5aaa99a79a289a17ac56845d4b668635553",
+      "verified_at": "2026-10-28T16:56:55.002748+00:00",
+      "content_sha256": "73e8cbedd0a2ed32f8cda41f3dbcedfb1040a42b801a7b4964c7c5a0d89e9cb4",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
             "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
             "bot/dashboard_v2/src/pages/Overview.tsx",
-            "bot/dashboard_v2/src/components/charts/ViewerTimelineChart.tsx"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-          "paths": [
+            "bot/dashboard_v2/src/pages/Monetization.tsx",
+            "bot/dashboard_v2/src/pages/PartnerProfile.tsx",
+            "bot/dashboard_v2/src/pages/Viewers.tsx",
             "bot/dashboard_v2/src/pages/Publikum.tsx",
             "bot/dashboard_v2/src/pages/Audience.tsx",
-            "bot/dashboard_v2/src/pages/Viewers.tsx"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-          "paths": [
             "bot/dashboard_v2/src/pages/Growth.tsx",
             "bot/dashboard_v2/src/pages/Wachstum.tsx",
             "bot/dashboard_v2/src/pages/Planung.tsx",
             "bot/dashboard_v2/src/pages/StreamReports.tsx",
-            "bot/dashboard_v2/src/pages/PartnerProfile.tsx",
-            "bot/dashboard_v2/src/pages/Monetization.tsx",
             "bot/dashboard_v2/src/components/layout/Header.tsx"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Checked against live release 8e00a346 (Twitch origin/main is d1b234cc); code paths read at 8e00a346.",
       "claims": [
         {
           "claim": "Tabs: Übersicht, Streams, Publikum, Wachstum, Planung, Zusammen spielen, Mein Profil, Was tun?, Monetization.",
@@ -2303,11 +2402,10 @@
           ]
         },
         {
-          "claim": "Übersicht shows four KPI cards (Growth, Revenue, Network, Retention) and a viewer chart, labelled Viewer Timeline (Live-Daten) or Viewer Entwicklung.",
+          "claim": "Übersicht has four score gauges (Growth, Revenue, Network, Retention) in the Insights panel, KPI cards for Ø Viewers, Hours Watched, Follower and Retention, and a viewer chart labelled Viewer Timeline (Live-Daten) or Viewer Entwicklung.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/pages/Overview.tsx",
-            "bot/dashboard_v2/src/components/charts/ViewerTimelineChart.tsx"
+            "bot/dashboard_v2/src/pages/Overview.tsx"
           ]
         },
         {
@@ -2325,14 +2423,14 @@
           ]
         },
         {
-          "claim": "Einzel-Viewer contains viewer segments (Dedicated, Regular, Casual, Lurker, Neu), Vermisste Chatter and the Viewer-Verzeichnis.",
+          "claim": "Einzel-Viewer contains viewer segments, Vermisste Chatter and the viewer directory.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Viewers.tsx"
           ]
         },
         {
-          "claim": "Wachstum contains Raid-Bilanz, Raid-Retention, Trends, Vergleich, Markt and Experimentell.",
+          "claim": "Wachstum has Trends with follower and hours development, Raid-Bilanz, Raid-Retention, the raider list, and sub-tabs Vergleich, Markt and Experimentell.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Growth.tsx",
@@ -2347,21 +2445,21 @@
           ]
         },
         {
-          "claim": "Planung shows planning figures for stream times.",
+          "claim": "Planung shows weekday and hour analysis for stream times.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Planung.tsx"
           ]
         },
         {
-          "claim": "Mein Profil is the partner profile with stream schedule; a switched-off profile stays a private draft.",
+          "claim": "Mein Profil is the partner profile with the Twitch stream plan; 'Profil veröffentlichen' publishes it, until then it is a private draft (Entwurf).",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/PartnerProfile.tsx"
           ]
         },
         {
-          "claim": "Monetization covers Hype Train figures.",
+          "claim": "Monetization covers Hype Train figures and Ad Breaks.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Monetization.tsx"
@@ -2375,7 +2473,8 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [],
+      "operational_gaps": []
     },
     {
       "path": "public/twitch-bot/social-media-manager.html",
