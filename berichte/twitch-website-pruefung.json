@@ -539,51 +539,65 @@
     },
     {
       "path": "public/twitch-bot/uplink-obs.html",
-      "verified_at": "2026-09-19T23:23:36.076196+00:00",
-      "content_sha256": "413bf45a05100d9177e4e3799ced2d6da9121a9ca17a64f2a69d5562c60bec6d",
+      "verified_at": "2026-10-28T17:15:48.080404+00:00",
+      "content_sha256": "5175843c4f0f777ac2fa86af02ad0ec29ccc24a5a446606bdd71a8bafdcbf143",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-            "bot/dashboard_v2/public/uplink/obs.html"
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/pages/Uplink.layout.test.tsx",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
           ]
         },
         {
-          "repository": "uplink",
-          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "crates/uplink-ingest/src/media.rs",
-            "crates/uplink-service/src/media.rs",
-            "crates/uplink-service/src/media_output.rs",
-            "crates/uplink-service/src/media_status.rs"
+            "bot/dashboard_v2/src/api/uplink.ts"
           ]
         }
       ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Fehlt die VOD-Spur, hält Uplink nur den Twitch-Ausgang an (so steht es im Code), statt dass er nicht starten kann. Verifiziert sind die Voreinstellungen der Qualitätsprofile, der Schlüssel EnableCustomServerVodTrack=true, die Betriebsarten und die VOD-Spur-Regel. Offen bleiben OBS-Bedienschritte, Encoder-Empfehlungen, die Aussage zur lokalen Protokollanalyse und die Dienst-Beschränkung auf H.264.",
       "claims": [
         {
-          "claim": "RTMPS-Felder getrennt; OBS-Encoder und getrennte VOD-Mischung nur gemäß unterstütztem Eingangs-/aktivem Zielprofil; keine pauschale Zweispurpflicht.",
+          "claim": "Voreinstellungen Qualitätsprofile 1440p60, 1080p60, 1080p60 hoch, 720p60 und 480p30 mit den angegebenen Bitraten.",
           "verdict": "verified",
           "evidence": [
-            [
-              "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-              "bot/dashboard_v2/public/uplink/obs.html"
-            ],
-            [
-              "crates/uplink-ingest/src/media.rs",
-              "crates/uplink-service/src/media.rs",
-              "crates/uplink-service/src/media_output.rs",
-              "crates/uplink-service/src/media_status.rs"
-            ]
+            "bot/dashboard_v2/src/api/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Die Twitch-VOD-Spur wird über EnableCustomServerVodTrack=true in user.ini im Abschnitt [General] freigeschaltet.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/pages/Uplink.layout.test.tsx"
+          ]
+        },
+        {
+          "claim": "Fehlt eine vom Zielprofil verlangte VOD-Spur, hält Uplink nur den Twitch-Ausgang an; Spur 1 wird nie als VOD-Ersatz verwendet.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Betriebsarten Einzelstream, Uplink Enhanced (Upload sparen) und natives Twitch-2K; Enhanced erzeugt die H.264-Stufen und hat kein natives 2K.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
           ]
         }
       ],
-      "gaps": [],
-      "operational_gaps": [
-        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
-      ],
-      "live_release_revision": "e4118d3e9e742dfe8e40e4f3e5f36f9db3471dfa"
+      "gaps": [
+        "OBS-Bedienschritte (Dienst Benutzerdefiniert, Server- und Streamschlüssel-Felder, Encoder-Auswahl, Audiozuordnung, Dateipfade je Betriebssystem) sind nicht gegen den Code geprüft.",
+        "Encoder- und Bitratenempfehlungen (CBR, 2 s Keyframe-Intervall, Hardware-Encoder für Live, Ausschluss von Software-AV1) sind nicht geprüft.",
+        "Aussage, die Encoder-Analyse lese das OBS-Protokoll nur lokal im Browser und speichere nur das normalisierte Profil: nicht geprüft; Datenschutzaussagen brauchen nachweisbare technische Durchsetzung.",
+        "Aussage, der native Twitch-Dienst sei im geprüften OBS-Dienstprofil auf H.264 beschränkt und Uplink ordne die Mischungen serverseitig den Rollen Live und VOD zu: nicht geprüft."
+      ]
     },
     {
       "path": "public/twitch-bot/uplink-was-ist.html",
@@ -699,51 +713,58 @@
     },
     {
       "path": "public/twitch-bot/uplink-stoerungen.html",
-      "verified_at": "2026-09-19T23:23:36.077475+00:00",
-      "content_sha256": "6b04c30230ddccca7082c45e62fca38ae406306814a7004d64f0201a8e80fc5f",
+      "verified_at": "2026-10-28T17:15:47.933006+00:00",
+      "content_sha256": "61e99a02d143af7b3a1cad97f480a0010f7baa24123766da73848ae316c8e0c8",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-            "bot/dashboard_v2/public/uplink/obs.html"
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
           ]
         },
         {
-          "repository": "uplink",
-          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "crates/uplink-ingest/src/media.rs",
-            "crates/uplink-service/src/media.rs",
-            "crates/uplink-service/src/media_output.rs",
-            "crates/uplink-service/src/media_status.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
           ]
         }
       ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Verifiziert sind die Aussagen zu eingeschalteten Zielen und Livebestätigung, zur fehlenden zweiten Tonspur, zur Neu-Erzeugung der Dock-Adressen und zu den Dock-Adressen. Nicht geprüft sind Anleitungsschritte zu Rechten, Stream-Schlüssel und Verbindungsabbrüchen; dazu kommen Aussagen zur Übertragungsqualität, die im Code nicht belegt sind.",
       "claims": [
         {
-          "claim": "Fehlerhilfe prüft Eingang, Ziel, Zugang und reale Uploadbedingungen; kein unbelegtes Wartebild oder automatischer nahtloser Übergang versprochen.",
+          "claim": "Ein eingeschaltetes Ziel gilt erst dann als auf der Plattform bestätigt, wenn dort die Livebestätigung vorliegt.",
           "verdict": "verified",
           "evidence": [
-            [
-              "rust/crates/tb-dashboard-api/src/handlers/uplink.rs",
-              "bot/dashboard_v2/public/uplink/obs.html"
-            ],
-            [
-              "crates/uplink-ingest/src/media.rs",
-              "crates/uplink-service/src/media.rs",
-              "crates/uplink-service/src/media_output.rs",
-              "crates/uplink-service/src/media_status.rs"
-            ]
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Fehlt die zweite Tonspur für das VOD, hält nur der Twitch-Ausgang an.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Die Dashboard-Adressen der Docks sind verdeckt und lassen sich über Neu erzeugen ersetzen.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
           ]
         }
       ],
-      "gaps": [],
-      "operational_gaps": [
-        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
-      ],
-      "live_release_revision": "e4118d3e9e742dfe8e40e4f3e5f36f9db3471dfa"
+      "gaps": [
+        "Eine alte Gesamtadresse mit eingebettetem Schlüssel funktioniert nicht: der Code zeigt nur getrennte Felder, das Fehlverhalten der alten Adresse ist nicht belegt.",
+        "Zugang erneuern und fehlende Rechte: Knöpfe Rechte ergänzen, Neu verbinden, Stream-Schlüssel holen und die Aussage zum Chatrecht sind nicht geprüft.",
+        "Bild stockt: Hinweise zu CBR-Budget, Bildformatwechsel und Stockende bei Wechsel sind nicht geprüft.",
+        "Internet bricht weg: Feld Verhalten bei Internetabriss, ausgegraute Frist und fehlendes eigenes Wartebild sind nicht im Detail geprüft (kein Wartebild-Text im Code gefunden, Aussage nur bedingt belegt).",
+        "Hinweis zum Bildformatwechsel und zur Stockende-Dauer beschreibt Zuschauerwirkung; nicht im Code belegbar."
+      ]
     },
     {
       "path": "public/quellen/twitch/features.html",
@@ -3248,6 +3269,61 @@
         "Kanalpunkt-Einlösungen als erledigt abhaken: nicht im Code geprüft.",
         "Die Adressen sind privat und erlauben Schreiben im Chat als du: nicht geprüft.",
         "Die Bedingungen für Zeigen (nur bei ausgeschaltetem Live-Status und ohne aktive Session) sind nicht im Detail geprüft; der Knopf ist nur über darfAufdecken gesteuert."
+      ]
+    },
+    {
+      "path": "public/twitch-bot/uplink-ziele-qualitaet.html",
+      "verified_at": "2026-10-28T17:15:48.012246+00:00",
+      "content_sha256": "f05952e5e974248f65f490153ab78935be5f23255751e9a3a5c4a50cdaadd58a",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/api/uplink.ts",
+            "bot/dashboard_v2/src/pages/Uplink.tsx",
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Verifiziert sind die fünf Voreinstellungen, die drei Betriebsarten und die Trennung von Wunsch- und laufendem Profil. Offen bleiben Karten-Knöpfe, die Änderungswirkung im laufenden Stream und die Manuell-Regeln.",
+      "claims": [
+        {
+          "claim": "Voreinstellungsprofile 1080p60, 1080p60 hoch, 1440p60, 720p60 und 480p30 mit Auflösung, Bildrate und Bitrate.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/api/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Betriebsarten für Twitch: Einzelstream, Uplink Enhanced (Upload sparen) und Native Twitch 2K (HEVC); Enhanced erzeugt die niedrigeren H.264-Stufen ohne natives 2K.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+          ]
+        },
+        {
+          "claim": "Das gespeicherte Profil ist der Wunsch für den nächsten Stream.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
+          ]
+        }
+      ],
+      "gaps": [
+        "Das laufende Profil als tatsächlich gesendetes Profil: Trennung im Dashboard nicht geprüft.",
+        "Knöpfe Ziel einschalten und Ziel pausieren, Zugangsdaten auf der Karte und Qualitätsänderung ohne neue Zugangsdaten sind nicht geprüft.",
+        "Die Liste der Wirkungen einer Änderung im laufenden Stream (Bitrate, Bildformat, Server ausgelastet, kein Stream) ist nicht gegen die Hinweistexte geprüft.",
+        "Manueller Modus: Breite und Höhe gerade Zahlen und die Exklusivität zu Voreinstellungen sind nicht geprüft.",
+        "Die Aussage, Uplink prüfe Eingangsprofile und zeige abgelehnte Profile an, ist nur teilweise belegt; Ausschluss einer AV1-Testbetriebsart ist nicht bewiesen."
       ]
     }
   ]
