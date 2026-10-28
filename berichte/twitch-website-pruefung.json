@@ -2996,6 +2996,132 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/titel-studio.html",
+      "verified_at": "2026-10-28T17:12:39.102616+00:00",
+      "content_sha256": "357108068824737041816b8ae77f78dea9c3f88b5d3cd2b28e80262c2326eafd",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx",
+            "bot/dashboard_v2/src/components/layout/DashboardSidebar.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs",
+            "rust/crates/tb-chat/src/title_db.rs",
+            "rust/crates/tb-chat/src/title_ai.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Rang- und Helden-Angabe hängt am Schalter „Rang, gespielten Helden und gemeinsames Streamen berücksichtigen“, nicht fest am Auto-Titel. Die Live-Angabe „Spielzustand“ ist nicht als eigener Schritt belegt und wurde gestrichen. Beim Limit von 40 Einträgen werden überzählige Zeilen verworfen, nicht zum Entfernen aufgefordert. Der redaktionelle Absatz „Was das Titel-Studio nicht verspricht“ bleibt offen.",
+      "claims": [
+        {
+          "claim": "Das Titel-Studio liegt in der Seitenleiste unter Titel-Studio.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/layout/DashboardSidebar.tsx",
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx"
+          ]
+        },
+        {
+          "claim": "Zwei oder drei Stichwörter oder leer für den Auto-Modus.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx"
+          ]
+        },
+        {
+          "claim": "Rückmeldungen und gespeicherte Stilwünsche fließen in die nächsten Vorschläge ein.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs",
+            "rust/crates/tb-chat/src/title_db.rs"
+          ]
+        },
+        {
+          "claim": "Auto-Titel berücksichtigt Rang und gespielte Helden über den Schalter Rang, gespielten Helden und gemeinsames Streamen berücksichtigen; bei gemeinsamem Streamen kommen Mitstreamer hinzu.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs"
+          ]
+        },
+        {
+          "claim": "Dein Standard-Stil wird gespeichert und fließt in jeden neuen Vorschlag ein.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs"
+          ]
+        },
+        {
+          "claim": "Das will ich nie im Titel speichert bis zu 40 Einträge; weitere Zeilen werden verworfen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/title_db.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs"
+          ]
+        },
+        {
+          "claim": "Der Schalter Experimentell: automatisch auf Twitch setzen übernimmt den Hauptvorschlag; standardmäßig aus.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx"
+          ]
+        },
+        {
+          "claim": "Fehlt das Recht, zeigt das Titel-Studio, dass Twitch neu verbunden werden muss; bestätigt Twitch das Setzen nicht, wird das gemeldet.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs"
+          ]
+        },
+        {
+          "claim": "Mit dem Schalter aus ändert ein Vorschlag den Twitch-Titel nie.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/TitleGenerator.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/title.rs"
+          ]
+        },
+        {
+          "claim": "Im Chat gibt es !title und !titel; sie liefern einen Vorschlag als Chat-Antwort und setzen den Streamtitel nicht.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Der Befehl ist unter Verwaltung, Tab Chat-Befehle, pro Kanal ein- und ausschaltbar und nur für Kanalinhaber und Moderation nutzbar.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        }
+      ],
+      "gaps": [
+        "Der Absatz „Was das Titel-Studio nicht verspricht“ (Zuschauerzahl, Garantie, Prüfpflicht) ist redaktioneller Hinweistext ohne Code-Beleg und daher nicht prüfbar."
+      ]
     }
   ]
 }
