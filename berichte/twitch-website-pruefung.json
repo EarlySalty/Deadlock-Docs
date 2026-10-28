@@ -1737,7 +1737,7 @@
     {
       "path": "public/twitch-bot/twitchbot-ueberblick.html",
       "verified_at": "2026-10-28T18:05:01.767595+00:00",
-      "content_sha256": "f6a38100f215e970c98187717cc17e5b2ec7069c563d7dd96f23806b1b0a73f4",
+      "content_sha256": "cf0ac0dc3361cfb010dce47275bd31fa107538f6cb318bfaee19bde8235c8d6f",
       "code": [
         {
           "repository": "twitch",
@@ -1786,7 +1786,7 @@
           ]
         },
         {
-          "claim": "Funktionsübersicht nennt den OBS-Pause-Loop und den Onboarding-Pfad /twitch/onboarding.",
+          "claim": "Funktionsübersicht nennt den OBS-Pause-Loop.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
@@ -1794,9 +1794,10 @@
           ]
         },
         {
-          "claim": "Einstieg über „Jetzt Partner werden“ und Twitch-Anmeldung; danach Einrichtungsliste im Dashboard unter /twitch/dashboard (Lesezeichen, Discord, Steam, Chat, Bot, optional Overlay und Werbung). /twitch/onboarding ist nur ein Alias der Dashboard-Startseite.",
+          "claim": "Einstieg über „Jetzt Partner werden“ und Twitch-Anmeldung; danach Einrichtungsliste im Dashboard unter /twitch/dashboard (Lesezeichen, Discord, Steam, Chat, Bot, optional Overlay und Werbung, Feedback). /twitch/onboarding ist nur ein Alias der Dashboard-Startseite.",
           "verdict": "verified",
           "evidence": [
+            "website/src/components/partner-clean/CTA.tsx",
             "bot/dashboard_v2/src/components/onboarding/steps.ts",
             "bot/dashboard_v2/src/App.tsx"
           ]
