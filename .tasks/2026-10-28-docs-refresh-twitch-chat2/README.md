@@ -33,7 +33,8 @@ Counts: 16 features in scope (LFG, invite question and streamer voice counted se
 
 - Nothing merged to main. No brain-job run, no Brain test questions asked.
 - gate-review: round 1 BLOCK (missing publication audits, hash mismatches, crew text); crew text fixed; round 2 BLOCK, only publication audit remains.
-- Blocker: audits must verify claims against live behaviour. Live Twitch release 4bfc09af lacks d1b234cc (Scam-Schutz, VOD range, clip contest). Audits not self-attested.
-- Affected pages without audit or with changed hash: chat-hinweise.html, clip-befehle.html, chat-moderation.html, chat-befehle.html, faq-community.html, faq-funktionen.html.
+- Live Twitch release is 8e00a346 (`/opt/deadlock/twitch/current`). origin/main d1b234cc3 adds only docs on top of it, so origin/main code equals live code (Scam-Schutz, VOD range, clip contest are live).
+- Audits: read-only checks against origin/main code, live release 8e00a346, no self-attestation.
+- Audit entries written for chat-hinweise.html, clip-befehle.html, chat-moderation.html, chat-befehle.html, faq-community.html, faq-funktionen.html (hashes match final page bytes). Unverified claims removed: clip offline wording, VOD "nicht veröffentlicht", watchtime "Pausen", non-partner section, "wirbt nicht in fremden Kanälen", reauth "pro Livegang" (now "beim Go-Live").
 - Next steps: user decides on releasing d1b234cc; then audit the six pages against live behaviour; rebase on origin/main; gate-review ALLOW; push HEAD:main; sudo -n systemctl start brain-job@deadlock-docs.service; verify 0 rejections; ask 3 Brain questions (moderation, AI chat reply, promo/invite); remove worktree and branch.
 - Decision needed: whether smalltalk (non-partner outreach experiment, .tasks/2026-09-18-smalltalk-live-resume/REPORT.md) may be documented publicly.

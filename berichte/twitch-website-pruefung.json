@@ -63,69 +63,112 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "dcdbfb2566768841188785ec111f9892df0c0416b8f1816f37aaf5fe1c7936f6",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "1cada4df667e08ad773d6c8bd4d6a164d0d864b2118c4c9bd36f09bbf190edea",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/bin/tb-bot/src/auto_raid.rs",
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/command_names.rs",
             "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/command_name_settings.rs",
-            "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-domain/src/vod_range.rs"
+            "rust/crates/tb-chat/src/standard_replies.rs",
+            "rust/crates/tb-chat/src/follow_hint.rs",
+            "rust/crates/tb-chat/src/sub_reminder.rs",
+            "rust/crates/tb-chat/src/clip_contest_submit.rs",
+            "rust/bin/tb-bot/src/offline_side_effects.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
       "claims": [
         {
-          "claim": "Befehlsliste ohne !discord; !raid <name> verlangt Deadlock beim eigenen Stream und Live-Ziel; Sprach- und Serverregel gilt nur für die automatische Auswahl; !vodclip in Minuten mit 1 bis 10 Minuten Länge.",
+          "claim": "Command aliases (!climb for !mmr, !last for !lastmatch, !createclip for !clip) are defined in the catalog.",
           "verdict": "verified",
           "evidence": [
-            "rust/bin/tb-bot/src/auto_raid.rs",
-            "rust/crates/tb-domain/src/vod_range.rs",
-            "rust/crates/tb-db/src/guild_membership.rs"
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        },
+        {
+          "claim": "Custom command names are at most 32 characters including '!' and at most 5 extra names per command.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/command_names.rs"
+          ]
+        },
+        {
+          "claim": "!invite is only answered in partner channels, with a one hour silent cooldown per channel and chatter; an @mention targets another person.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!watchtime shows the total tracked viewing time and the part in the current stream.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!engagement_on turns itself off at stream end.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/offline_side_effects.rs"
+          ]
+        },
+        {
+          "claim": "Broadcaster and mods only commands are refused for other people with a chat hint; !raid, !traid, !silentban, !silentraid and the AI engagement commands may also be run by a super mod.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-funktionen.html",
-      "verified_at": "2026-09-19T23:16:51.124093+00:00",
-      "content_sha256": "4f812c411e1515cba59974abaf53c1a7fa3b0ce40b0a6dfffd83c9cef993430f",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "df77b79180d651ab445e6c6a0846968b1aed0cf9fd97d60be7dfbaafd70d6c9c",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs",
+            "bot/dashboard_v2/src/components/verwaltung/ModerationSection.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
+            "rust/bin/tb-bot/src/reauth_reminder.rs",
             "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs"
+            "rust/crates/tb-chat/src/impersonation_guard.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
       "claims": [
         {
-          "claim": "Falsche Deadlock-Kategoriepflicht für rank entfernt; Ziel-/Verknüpfungswege ergänzt, Moderationsrechte und Einwilligung erhalten.",
+          "claim": "Chat moderation toggles and the scam guard are configured in Verwaltung and act on partner channels.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs"
+            "bot/dashboard_v2/src/components/verwaltung/ModerationSection.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx"
+          ]
+        },
+        {
+          "claim": "!rank works offline and in other categories; without a target it asks for the streamer, with @username for that user.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Missing Twitch re-authorization for raids or stats is reminded in chat at go-live.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/reauth_reminder.rs"
           ]
         }
       ],
@@ -133,36 +176,80 @@
     },
     {
       "path": "public/twitch-bot/chat-moderation.html",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "859cb7fccfffea598ad882fb14b8841aca722132a00079acdc7e23154e425a3d",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "0f9f94c378f1a91ec9b809863246c1de7948ef59bfa0f552eb5b50f6b8565b7e",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/ModerationSection.tsx",
             "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/pipeline.rs",
             "rust/crates/tb-chat/src/conversation_scam.rs",
-            "rust/crates/tb-chat/src/moderation.rs"
+            "rust/crates/tb-chat/src/impersonation_guard.rs",
+            "rust/crates/tb-chat/src/commands.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
       "claims": [
         {
-          "claim": "Scam-Schutz hat die Aktionen Auto-Bann, Auto-Timeout und Nur melden, einen Schalter Scam-Schutz aktiv sowie !explain und !unban.",
+          "claim": "Four Verwaltung toggles (known scammers, scam warnings, spam stop, Discord invite throttling), all default on.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/ModerationSection.tsx",
+            "rust/crates/tb-chat/src/pipeline.rs"
+          ]
+        },
+        {
+          "claim": "Scam guard for first-time writers with modes Auto-Bann, Auto-Timeout and Nur melden; toggle 'Scam-Schutz aktiv'.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
             "rust/crates/tb-chat/src/conversation_scam.rs"
           ]
+        },
+        {
+          "claim": "Impersonation of the community in private 6v6 invites gets a 10 minute timeout and a chat notice.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/impersonation_guard.rs"
+          ]
+        },
+        {
+          "claim": "Moderation runs independent of the streamed game (command processing runs regardless of live status and category).",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/pipeline.rs"
+          ]
+        },
+        {
+          "claim": "!uban/!unban reverse only the last stored auto-ban of the channel.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!explain is available to broadcaster and mods and explains the last Scam case.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/conversation_scam.rs"
+          ]
+        },
+        {
+          "claim": "!silentban only changes the chat notice; moderation stays active.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/pipeline.rs"
+          ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
@@ -403,33 +490,59 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "e7d268937839c75ed72328e986e37e60c20730a26c7bb33f728087f8dc62f8fc",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "3e51f4cc7301da4b3c760ac7fbb642f337ee50ecbf87b37d8957d986085f7252",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-chat/src/commands.rs",
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx",
+            "rust/bin/tb-bot/src/reauth_reminder.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
       "claims": [
         {
-          "claim": "Community-Befehle sind !invite, !dldc und !dlde; !discord ist kein Befehl.",
+          "claim": "!invite and !dldc post the community Discord invitation link.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Community hint on the Discord can be switched off from Netzwerk Plus in the dashboard.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx"
+          ]
+        },
+        {
+          "claim": "!engagement_ignore_me and !engagement_remember_me opt the viewer out of and back into AI engagement; !engagement_status shows the channel status.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!engagement_on and !engagement_off are limited to broadcaster, channel mods and eligible super mods.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Revoking the Twitch authorization leaves the bot without the permissions that depend on it; raid and stats features then need re-authorization.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/reauth_reminder.rs"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/uplink-obs.html",
@@ -1565,6 +1678,162 @@
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/clip-befehle.html",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "3679db2585cff51559ffae60f0a58754a939264e5842fe2307b29ef91ef0bd43",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/clip_contest_submit.rs",
+            "rust/crates/tb-domain/src/clip.rs",
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "bot/dashboard_v2/src/components/verwaltung/ClipCommandSection.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
+      "claims": [
+        {
+          "claim": "!clip and !createclip create a clip in a live stream; the channel cooldown is 10 seconds.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Offline, !clip answers with a short no-stream notice (one of several German texts).",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Clip duration is configurable from 5 to 60 seconds in the dashboard, default 60.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/ClipCommandSection.tsx",
+            "rust/crates/tb-domain/src/clip.rs"
+          ]
+        },
+        {
+          "claim": "A title after !clip names the clip, long titles are truncated with '...', and an empty title gets a fallback title.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-domain/src/clip.rs"
+          ]
+        },
+        {
+          "claim": "!vodclip takes minutes or h:m:s, range 1 to 10 minutes.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-domain/src/vod_range.rs"
+          ]
+        },
+        {
+          "claim": "!vodclip download is an MP4 up to 64 MiB, available for 24 hours.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-domain/src/vod_range.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "!vodclip is limited to broadcaster and mods and requires an active partner channel and the dashboard switch.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "bot/dashboard_v2/src/components/verwaltung/ClipCommandSection.tsx"
+          ]
+        },
+        {
+          "claim": "!clipcontest requires an own-channel partner clip, up to 3 submissions per channel per Berlin day, no double counting.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/clip_contest_submit.rs"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/chat-hinweise.html",
+      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "content_sha256": "9b4d4481a8522b8cc77739b901755f0cd80daeb8b726e32ad452a9fe0bb7e9dc",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx",
+            "rust/crates/tb-chat/src/sub_reminder.rs",
+            "rust/crates/tb-chat/src/follow_hint.rs",
+            "rust/crates/tb-chat/src/standard_replies.rs",
+            "rust/bin/tb-bot/src/reauth_reminder.rs",
+            "rust/bin/tb-bot/src/eventsub_hooks.rs",
+            "rust/bin/tb-bot/src/offline_side_effects.rs",
+            "rust/crates/tb-chat/src/pipeline.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Live release 8e00a346 is an ancestor of origin/main; origin/main adds only docs (d1b234cc3), so the checked code paths equal the live release code. Read-only check, no deployment.",
+      "claims": [
+        {
+          "claim": "Community hint on the Deutsche Deadlock Community Discord is on by default; from Netzwerk Plus it can be switched off in the dashboard.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx"
+          ]
+        },
+        {
+          "claim": "Abo-Erinnerung is only written when a viewer enables it with !sub erinnerung an and the streamer has enabled the feature.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/sub_reminder.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Follow hint and greeting are dashboard switches; greeting is off by default; follow hint excludes mods, broadcaster and commands.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/follow_hint.rs",
+            "rust/crates/tb-chat/src/standard_replies.rs"
+          ]
+        },
+        {
+          "claim": "Twitch re-authorization reminder is sent at go-live (stream went live handler), deduplicated for 5 minutes, German text.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/reauth_reminder.rs",
+            "rust/bin/tb-bot/src/eventsub_hooks.rs"
+          ]
+        },
+        {
+          "claim": "!engagement_on switches the AI engagement layer on and is switched off automatically at stream end.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/offline_side_effects.rs",
+            "rust/bin/tb-bot/src/eventsub_hooks.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Moderation notices in chat can be silenced with !silentban; moderation itself stays active.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/pipeline.rs"
           ]
         }
       ],
