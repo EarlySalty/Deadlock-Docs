@@ -207,17 +207,23 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/einrichtung.md": {
-          "source_sha256": "315b8639b93b3fb1660b1aa884170de8d1f3dec1cd9ed001440dfe80e6f84bbd",
-          "content_sha256": "c844d1d60a461b78531cded03363a5374082b9906028a24d67ed19a00d36b0de",
-          "verified_at": "2026-09-19T23:16:51.018638+00:00",
+          "source_sha256": "8fac2a085fd0a51040c60d3e396403e3f07226fe07468d7181a78d665bc9cae8",
+          "content_sha256": "e80a983181c1f4f1cec3fd1794d7721182e6174f71445501dd14d168a36deb0f",
+          "verified_at": "2026-10-28T18:00:16.096367+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
               "paths": [
+                "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+                "rust/crates/tb-chat/src/impersonation_guard.rs",
+                "rust/crates/tb-dashboard-api/src/auth/oauth_login.rs",
+                "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
                 "website/src/components/partner-clean/Hero.tsx",
                 "website/src/data/externalLinks.ts",
-                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+                "website/src/pages/StreamerNetworkPage.tsx",
+                "website/src/streamer-v2.tsx"
               ]
             }
           ],
@@ -241,17 +247,23 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-einstieg.md": {
-          "source_sha256": "68c7b32e94201ec0f0bfae0796ac0d8c9d739d9020c8555861e955db6a9f4fa9",
-          "content_sha256": "7a9db7f0bd827a7cf76702d7c8d3998d4ba04fa4b2901f216924906d744c5694",
-          "verified_at": "2026-09-19T23:16:51.044558+00:00",
+          "source_sha256": "9d5c944017207faa31258cf07672f304fc11e4f9e9c3d92162e13a88198c60cd",
+          "content_sha256": "97295e4c3fa689487afb4940125d5db3be5a294f16ecf03f3a8aefcf9089d79a",
+          "verified_at": "2026-10-28T18:00:16.096367+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
               "paths": [
-                "website/src/data/externalLinks.ts",
+                "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+                "rust/crates/tb-analytics/src/billing/catalog.rs",
+                "rust/crates/tb-analytics/src/telemetry_routes.rs",
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+                "rust/crates/tb-dashboard-api/src/lib.rs",
                 "website/src/components/partner-clean/Hero.tsx",
-                "rust/crates/tb-analytics/src/billing/catalog.rs"
+                "website/src/data/externalLinks.ts"
               ]
             }
           ],
@@ -667,22 +679,22 @@
       ],
       "reviews": {
         "dl-landing/beitreten/index.html": {
-          "source_sha256": "8a659e85d34482822e88f876afc38f55f8c767c9b4c7af3c7996d15e0218592a",
-          "content_sha256": "4123d1b7fa2749fff94cfab1621b17b63070d83074f985745733fd128b8be717",
-          "verified_at": "2026-09-19T23:47:49.881500+00:00",
+          "source_sha256": "1c5f0919c9ae93084a5cd7c86e1ebbc6ec39bb7344494f88c929b8648263af19",
+          "content_sha256": "2fd6da8ccb2091389a00034285ab1b67b629175d955bb1293ed3e3ca9ea8b027",
+          "verified_at": "2026-10-28T18:00:16.096367+00:00",
           "code": [
             {
-              "repository": "website",
-              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+              "repository": "discord",
+              "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
               "paths": [
-                "dl-landing/beitreten/index.html"
+                "rust/crates/dl-community/src/concierge.rs"
               ]
             },
             {
-              "repository": "discord",
-              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "repository": "website",
+              "revision": "db8647d3b5844469920c70a4c9fff5081735b466",
               "paths": [
-                "rust/crates/dl-community/src/concierge.rs"
+                "dl-landing/beitreten/index.html"
               ]
             }
           ],

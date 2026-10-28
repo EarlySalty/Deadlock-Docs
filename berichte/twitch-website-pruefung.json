@@ -3,8 +3,8 @@
   "documents": [
     {
       "path": "public/twitch-bot/einrichtung.html",
-      "verified_at": "2026-10-28T17:52:32.449544+00:00",
-      "content_sha256": "40638d2efaf95ac30354cd564c07673b1d032473d8dd5e5dc2ae314bc142cd7f",
+      "verified_at": "2026-10-28T18:00:10.287198+00:00",
+      "content_sha256": "e80a983181c1f4f1cec3fd1794d7721182e6174f71445501dd14d168a36deb0f",
       "code": [
         {
           "repository": "twitch",
@@ -36,10 +36,10 @@
           ]
         },
         {
-          "claim": "Nach erfolgreicher Anmeldung Meldung „Autorisierung erfolgreich“; neuer Klick auf den Knopf startet die Anmeldung erneut.",
+          "claim": "Neuer Klick auf den Knopf „Jetzt Partner werden“ startet die Anmeldung erneut.",
           "verdict": "verified",
           "evidence": [
-            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "website/src/components/partner-clean/Hero.tsx",
             "website/src/data/externalLinks.ts"
           ]
         },
@@ -68,14 +68,16 @@
           ]
         }
       ],
-      "gaps": [
-        "Twitch-Menüpfad „Einstellungen, Verbindungen“ und der Link twitch.tv/settings/connections liegen außerhalb der Repos und sind nicht extern geprüft."
+      "gaps": [],
+      "operational_gaps": [
+        "Twitch-Menüpfad „Einstellungen, Verbindungen“ und der Link twitch.tv/settings/connections liegen außerhalb der Repos und sind nicht extern geprüft.",
+        "Die Erfolgsseite nach der Twitch-Anmeldung wurde nicht live durchgespielt; sie ist nur aus dem Code belegt."
       ]
     },
     {
       "path": "public/twitch-bot/faq-einstieg.html",
-      "verified_at": "2026-10-28T17:53:20.571668+00:00",
-      "content_sha256": "79a012fba94b5fe10f415890bb34ee36122b834509304c3b8f5a104a8378c957",
+      "verified_at": "2026-10-28T18:00:10.357504+00:00",
+      "content_sha256": "97295e4c3fa689487afb4940125d5db3be5a294f16ecf03f3a8aefcf9089d79a",
       "code": [
         {
           "repository": "twitch",
@@ -130,14 +132,15 @@
           ]
         },
         {
-          "claim": "Verweis auf Discord-Go-Live für Live-Hinweise im Community-Discord.",
+          "claim": "Der Bot ist mit dem Community-Discord verbunden; Live-Hinweise und ihre Bedingungen stehen unter Discord-Go-Live.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
       ],
-      "gaps": [
+      "gaps": [],
+      "operational_gaps": [
         "Twitch-Menüpfad „Einstellungen, Verbindungen“ und der Link twitch.tv/settings/connections liegen außerhalb der Repos und sind nicht extern geprüft."
       ]
     },
