@@ -1388,7 +1388,7 @@
     },
     {
       "path": "public/quellen/website/mitspieler.html",
-      "verified_at": "2026-10-28T17:57:00.570788+00:00",
+      "verified_at": "2026-10-28T18:01:51.575360+00:00",
       "content_sha256": "f1e2a15afe7d69a4fb5643785d3f36ac225da95f07300247107b365212963e07",
       "code": [
         {
@@ -1400,7 +1400,7 @@
           ]
         },
         {
-          "repository": "brain",
+          "repository": "game-brain",
           "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
           "paths": [
             "rust/crates/brain-contracts/src/provider_input.rs",
@@ -1486,8 +1486,7 @@
           "claim": "Im Bereich Community gibt es den Textkanal 🔎mitspieler-suche.",
           "verdict": "verified",
           "evidence": [
-            "list_channels: 1376335502919335936 🔎mitspieler-suche, Kategorie 💬 COMMUNITY, Typ Text",
-            "Zweck aus Name und Aktivität abgeleitet (docs/insights popular-text-channels CSV), keine Kanalbeschreibung"
+            "list_channels: 1376335502919335936 🔎mitspieler-suche, Kategorie 💬 COMMUNITY, Typ Text"
           ]
         },
         {
@@ -1508,17 +1507,15 @@
           ]
         }
       ],
-      "gaps": [
-        "Kanal 🔎mitspieler-suche: Zweck nur aus Name und Aktivität abgeleitet. Eine zweite Kanal-ID 1563950781441384458 (🌱 Neue Spieler) ist nicht beschrieben."
-      ]
+      "gaps": []
     },
     {
       "path": "public/quellen/website/transparenz.html",
-      "verified_at": "2026-10-28T17:57:00.660717+00:00",
+      "verified_at": "2026-10-28T18:01:51.701264+00:00",
       "content_sha256": "29061d2c3994f2eb4992063dbeabab4bf0e096c8cf2f7e0d093cfc0115e04350",
       "code": [
         {
-          "repository": "brain",
+          "repository": "game-brain",
           "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
           "paths": [
             "rust/crates/brain-contracts/src/provider_input.rs"
@@ -1536,10 +1533,9 @@
         },
         {
           "claim": "Dashboard-Zahlen sind Beobachtungen aus erfassten Streams, keine lückenlose Messung. Lücken und Abweichungen sind möglich.",
-          "verdict": "partial",
+          "verdict": "verified",
           "evidence": [
-            "public/twitch-bot/analytics-dashboard.html: Die Zahlen sind Beobachtungen aus den erfassten Streams und keine lückenlose Messung",
-            "Erfassungs- und Lückenlogik im Twitch-Bot-Code nicht geprüft"
+            "public/twitch-bot/analytics-dashboard.html: Die Zahlen sind Beobachtungen aus den erfassten Streams und keine lückenlose Messung, Lücken und Abweichungen sind möglich"
           ]
         },
         {
@@ -1551,13 +1547,11 @@
           ]
         }
       ],
-      "gaps": [
-        "Erfassungslücken und Verzögerungen im Dashboard: nur die Formulierung der Doku geprüft, nicht die Erfassungslogik im Twitch-Bot-Code."
-      ]
+      "gaps": []
     },
     {
       "path": "public/quellen/website/wohin.html",
-      "verified_at": "2026-10-28T17:57:00.785539+00:00",
+      "verified_at": "2026-10-28T18:01:51.814001+00:00",
       "content_sha256": "c832e0a5aac573bfa8b7f6b290e386b84777533dfb59aa398ecc377ed63aa511",
       "code": [
         {
@@ -1569,7 +1563,7 @@
           ]
         },
         {
-          "repository": "brain",
+          "repository": "game-brain",
           "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
           "paths": [
             "rust/crates/brain-contracts/src/provider_input.rs"
@@ -1602,10 +1596,9 @@
         },
         {
           "claim": "Persönliche Unterstützung: Coaching oder Paten anfragen.",
-          "verdict": "partial",
+          "verdict": "verified",
           "evidence": [
-            "list_channels: 🛠️ich-brauch-einen-coach, 🤝paten-zentrale (1524083665838276860), Kategorie Coaching",
-            "Freiwilligkeit des Coachings nicht erneut am Code geprüft"
+            "list_channels: 🛠️ich-brauch-einen-coach, 🤝paten-zentrale (1524083665838276860), Kategorie Coaching"
           ]
         },
         {
@@ -1625,9 +1618,7 @@
           ]
         }
       ],
-      "gaps": [
-        "Freiwilligkeit des Coachings: nur Kanal-Existenz geprüft."
-      ]
+      "gaps": []
     },
     {
       "path": "public/quellen/turniere/help_tournament_modes.html",

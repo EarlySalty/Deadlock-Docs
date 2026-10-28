@@ -747,17 +747,25 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "dl-landing/mitspieler/index.html": {
-          "source_sha256": "bdbd2c9a6614a0282af80946db376a3cacc44eec87bdf0cac2d6800d98f47b80",
-          "content_sha256": "b158f8e9457e5c662ec9cd403b1cd4d4fa526b51dc7862e9ca2c0f0a08589218",
-          "verified_at": "2026-09-19T23:47:49.904226+00:00",
+          "source_sha256": "2f613c5d3f469199b4595b0ca767f6d80fb418ab23e0194b706de4b492969be4",
+          "content_sha256": "f1e2a15afe7d69a4fb5643785d3f36ac225da95f07300247107b365212963e07",
+          "verified_at": "2026-10-28T18:01:51.895608+00:00",
           "code": [
             {
               "repository": "discord",
-              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
               "paths": [
                 "rust/crates/dl-voice/src/lfg_panel.rs",
-                "rust/crates/dl-activity/src/player_finder.rs",
-                "rust/crates/dl-voice/src/tempvoice/engine.rs"
+                "rust/bin/dl-bot/src/modglue.rs"
+              ]
+            },
+            {
+              "repository": "game-brain",
+              "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
+              "paths": [
+                "rust/crates/brain-contracts/src/provider_input.rs",
+                "rust/crates/brain-serve/src/discord_live_tools.rs",
+                "rust/crates/brain-serve/src/discord_live.rs"
               ]
             }
           ],
@@ -765,51 +773,37 @@
         },
         "dl-landing/transparenz/index.html": {
           "source_sha256": "ea3c10ec27b86b384a97888a32bac906708a47b3ae297071b58ed7c38ff38863",
-          "content_sha256": "cf658e4a169a1c5d5e616598de1d5fa92d69c9de9eb5cdb7630f87e69392855a",
-          "verified_at": "2026-09-19T23:47:49.911275+00:00",
+          "content_sha256": "29061d2c3994f2eb4992063dbeabab4bf0e096c8cf2f7e0d093cfc0115e04350",
+          "verified_at": "2026-10-28T18:01:51.895608+00:00",
           "code": [
             {
-              "repository": "discord",
-              "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
+              "repository": "game-brain",
+              "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
               "paths": [
-                "rust/crates/dl-answer/src/lib.rs"
-              ]
-            },
-            {
-              "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
-              "paths": [
-                "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+                "rust/crates/brain-contracts/src/provider_input.rs"
               ]
             }
           ],
           "owner": "Community-Dokumentationsredaktion"
         },
         "dl-landing/wohin/index.html": {
-          "source_sha256": "fc36b0f5e8954ff68032f53c19042909d8b72e96a3855e66235b45dffed2f12b",
-          "content_sha256": "9a6bb41b1b989c627bc59d9925e1702d09d53e1579fa436459a8f5563809ba82",
-          "verified_at": "2026-09-19T23:47:49.922374+00:00",
+          "source_sha256": "22e1b7461422697a9d668768f465136622b7ab8434e9d8f32844a60aaff62ebb",
+          "content_sha256": "c832e0a5aac573bfa8b7f6b290e386b84777533dfb59aa398ecc377ed63aa511",
+          "verified_at": "2026-10-28T18:01:51.895608+00:00",
           "code": [
             {
-              "repository": "website",
-              "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
-              "paths": [
-                "dl-coaching/src/App.tsx"
-              ]
-            },
-            {
               "repository": "discord",
-              "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+              "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
               "paths": [
-                "rust/crates/dl-community/src/concierge.rs",
+                "rust/bin/dl-bot/src/modglue.rs",
                 "rust/crates/dl-voice/src/lfg_panel.rs"
               ]
             },
             {
-              "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "repository": "game-brain",
+              "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
               "paths": [
-                "website/src/data/externalLinks.ts"
+                "rust/crates/brain-contracts/src/provider_input.rs"
               ]
             }
           ],
