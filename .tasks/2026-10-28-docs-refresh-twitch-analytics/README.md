@@ -12,11 +12,11 @@ Scope: streamer- and viewer-facing numbers and coaching in Deadlock-Twitch-Bot d
 | Stream list and details | Streams | partial | documented in analytics-dashboard |
 | Wachstum (followers, raids) | Wachstum | missing | documented in analytics-dashboard |
 | Planung | Planung | missing | documented in analytics-dashboard |
-| Mein Profil | Mein Profil | missing | named in analytics-dashboard only; detail not verified, open item |
+| Mein Profil | Mein Profil | missing | described in analytics-dashboard (Bio, Bild, Banner, Streamplan, Entwurf/Veröffentlicht), matches PartnerProfile.tsx |
 | Was tun? coaching (Pro Session, Empfehlungen, Format & Auffindbarkeit, Community & Konkurrenz, KI-Analyse) | Was tun? | missing | new page coaching-was-tun |
-| Kategorie-Seite (/twitch/kategorie) | Kategorie | missing | new page kategorie-seite |
+| Markt-Unterreiter (Wachstum > Markt) | Wachstum | missing | new page kategorie-markt; /twitch/kategorie is a different page (CategoryCollector), not covered |
 | Zusammen spielen (partner overlap, voice channels) | Zusammen spielen | missing | new page zusammen-spielen |
-| Dashboard assistant "Hilfe bekommen" | Dashboard, all pages | missing | new page dashboard-hilfe, pointer in streamer dashboard |
+| Dashboard assistant "Hilfe bekommen" | Startseite /twitch/dashboard only (App.tsx zeigeAssistent) | missing | new page dashboard-hilfe, pointer in streamer dashboard |
 | Lurker-Steuer and reward "Lurker Steuer" | Verwaltung | partial (reminder only) | new page lurker-steuer, streamer-dashboard updated |
 | !lurkersteuer_off aliases | Chat, broadcaster only | documented, matches code | kept |
 | Go-live Discord ping | Discord | wrong ("bestimmte Rollen-Pings") | fixed in discord-golive (no role ping) |
