@@ -28,3 +28,12 @@ Counts: 16 features in scope (LFG, invite question and streamer voice counted se
 - LFG pitch, invite access question and streamer voice: need code-level verification of trigger wording and public behaviour before documenting.
 - Smalltalk: user decides whether non-partner outreach may be documented publicly.
 - Chat reply language German: reply constants checked for clip, vodclip and clipcontest; not checked for every reply path.
+
+## Gate status (not merged)
+
+- Nothing merged to main. No brain-job run, no Brain test questions asked.
+- gate-review: round 1 BLOCK (missing publication audits, hash mismatches, crew text); crew text fixed; round 2 BLOCK, only publication audit remains.
+- Blocker: audits must verify claims against live behaviour. Live Twitch release 4bfc09af lacks d1b234cc (Scam-Schutz, VOD range, clip contest). Audits not self-attested.
+- Affected pages without audit or with changed hash: chat-hinweise.html, clip-befehle.html, chat-moderation.html, chat-befehle.html, faq-community.html, faq-funktionen.html.
+- Next steps: user decides on releasing d1b234cc; then audit the six pages against live behaviour; rebase on origin/main; gate-review ALLOW; push HEAD:main; sudo -n systemctl start brain-job@deadlock-docs.service; verify 0 rejections; ask 3 Brain questions (moderation, AI chat reply, promo/invite); remove worktree and branch.
+- Decision needed: whether smalltalk (non-partner outreach experiment, .tasks/2026-09-18-smalltalk-live-resume/REPORT.md) may be documented publicly.
