@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Werbemanager für Streamer</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Der Werbemanager legt Twitch-Werbepausen in deinem Stream so, dass deine Zuschauer möglichst wenig gestört werden. Was er tut, was du einstellst und was er nicht kann.">
+  <meta name="tags" content="twitch-bot, werbemanager, werbung, twitch-werbung, experimentell">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung auf origin/main und Dashboard-Oberfläche">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Werbemanager für Streamer</h1>
+  <p><strong>Kurz gesagt.</strong> Der Werbemanager plant die Werbepausen deines Twitch-Streams so, dass sie deine Zuschauer möglichst wenig stören. Er ersetzt nicht die Werbung von Twitch: Die Gesamtmenge bestimmt weiterhin Twitch. Der Bereich ist im Dashboard als experimentell gekennzeichnet.</p>
+
+  <section id="wo-finde-ich-ihn">
+    <h2>Wo finde ich den Werbemanager?</h2>
+    <p>Im Dashboard unter Verwaltung, Tab „Werbung (Experimentell)“. Die Funktion ist in der Planübersicht aufgeführt; welcher Zugang für deinen Kanal gilt, zeigt das Dashboard.</p>
+  </section>
+
+  <section id="was-er-tut">
+    <h2>Was der Werbemanager tut</h2>
+    <ul>
+      <li>Er verschiebt geplante Twitch-Werbung in Pausen, in denen gerade wenig passiert, etwa in Warteschlangen oder Menüs.</li>
+      <li>Er schützt laufende Matches vor Werbung, sofern du den Schutz aktivierst. Sind keine Verschiebungen mehr übrig, läuft geplante Werbung auch während eines Matches weiter.</li>
+      <li>Er schreibt auf Wunsch eine kurze Zeile in den Chat, bevor eine Werbung läuft.</li>
+      <li>Er protokolliert im Verlauf, wann und warum eine Werbung gestartet, verschoben oder ausgelassen wurde.</li>
+    </ul>
+  </section>
+
+  <section id="strategien">
+    <h2>Welche Strategien gibt es?</h2>
+    <ul>
+      <li><strong>Nur Twitch-Pausen nutzen:</strong> Der Bot verschiebt geplante Twitch-Werbung nur in Pausen, die ohnehin verfügbar sind. Eigene Werbung startet er damit nicht.</li>
+      <li><strong>Match schützen &amp; Queue nutzen:</strong> Der Bot schützt laufende Matches und nutzt Warteschlange oder Menü als Werbefenster. Sind keine Verschiebungen mehr übrig, läuft geplante Werbung auch während eines Matches weiter.</li>
+    </ul>
+    <p>Für den Matchschutz braucht der Bot einen aktuellen Steam-Status. Verknüpfe dafür dein Steam-Konto oder trage deine SteamID64 unter „Bot &amp; Schutz“ ein. Ohne aktuellen Steam-Status startet der Bot keine eigene Werbung.</p>
+  </section>
+
+  <section id="eigenes-budget">
+    <h2>Wie viel Werbung darf der Bot starten?</h2>
+    <p>Hast du bei Twitch ein Werbe-Kontingent, richtet sich der Werbemanager danach. Ohne ein solches Kontingent legst du im Dashboard selbst einen Wert pro Stunde fest. Der Bot kann die Gesamtmenge, die Twitch für deinen Kanal vorgibt, nicht erhöhen.</p>
+  </section>
+
+  <section id="einstellungen">
+    <h2>Einstellungen</h2>
+    <p>Im Tab findest du Regler für den Abstand zwischen Werbepausen, einen Startschutz nach Stream-Beginn, eine Chat-Ruhe rund um Werbung und den Vorlauf vor einer Werbepause. Jede Einstellung erklärt das Dashboard direkt daneben.</p>
+  </section>
+
+  <section id="verschieben-und-zuschauer">
+    <h2>Wer sieht Werbung?</h2>
+    <p>Ob Abonnenten und Turbo-Nutzer Werbung sehen, entscheidet Twitch nach den eigenen Regeln und Kanaleinstellungen. Der Werbemanager ändert daran nichts.</p>
+    <nav><a href="faq-werbung.html">Bot-Werbung und Werbefrei</a><a href="aktivitaet-und-pausen.html">Aktivität und Pausen</a><a href="faq-plaene.html">Pläne und Preise</a></nav>
+  </section>
+</main>
+</body>
+</html>

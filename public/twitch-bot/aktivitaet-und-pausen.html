@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Aktivität, Pausen und Streamer-Rolle</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Der Bot pausiert seine Moderatorrechte in Kanälen ohne Deadlock-Streams und kehrt bei neuen Deadlock-Streams zurück. Wie die Streamer-Rolle auf Discord dazu passt.">
+  <meta name="tags" content="twitch-bot, deadlock-pause, moderator, streamer-rolle, discord, aktivitaet">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung auf origin/main und Dashboard-Oberfläche">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Aktivität, Pausen und Streamer-Rolle</h1>
+  <p><strong>Kurz gesagt.</strong> Streamst du längere Zeit kein Deadlock mehr, pausiert der Bot seine Moderatorrechte in deinem Kanal. Deine Partnerschaft bleibt bestehen, und sobald du wieder Deadlock streamst, kommt der Bot von allein zurück.</p>
+
+  <section id="deadlock-pause">
+    <h2>Was ist die Deadlock-Pause?</h2>
+    <p>Der Bot ist für Deadlock-Kanäle gedacht. Streamst du über einen längeren Zeitraum kein Deadlock, entzieht der Bot sich die Moderatorrechte in deinem Kanal. Die Pause gilt nur für Kanäle mit echter Deadlock-Historie.</p>
+    <p>Du musst nichts tun. Die Partnerschaft läuft weiter. Startest du wieder einen Deadlock-Stream, setzt der Bot die Moderatorrechte automatisch wieder, sofern die Twitch-Verbindung gültig ist.</p>
+  </section>
+
+  <section id="wenn-es-nicht-zurueckkommt">
+    <h2>Der Bot kommt nach einem Deadlock-Stream nicht zurück: was tun?</h2>
+    <p>Meist ist die Verbindung zu deinem Twitch-Konto abgelaufen. Prüfe im Dashboard den Verbindungsstatus und verbinde deinen Kanal erneut (siehe <a href="einrichtung.html">Einrichtung</a>). Danach kehrt der Bot beim nächsten Deadlock-Stream zurück. Bleibt es dabei, wende dich an den Support (siehe <a href="faq-support.html">FAQ Support</a>).</p>
+  </section>
+
+  <section id="streamer-rolle">
+    <h2>Was ist die Streamer-Rolle auf Discord?</h2>
+    <p>Auf dem Community-Discord gibt es eine Streamer-Rolle für Partner, die regelmäßig Deadlock streamen. Sie setzt ein verknüpftes Discord-Konto und eine gültige Twitch-Verbindung voraus. Ist die Verbindung zu deinem Twitch-Konto abgelaufen, entfällt die Rolle ebenfalls.</p>
+    <p>Die Rolle wird nicht von einem einzelnen Stream entschieden, sondern richtet sich nach deiner Deadlock-Aktivität über die letzten Wochen. Kurze Pausen führen deshalb nicht sofort zum Verlust. Die genauen Schwellen legen wir nicht offen.</p>
+  </section>
+
+  <section id="bot-trennen">
+    <h2>Unterschied zu „Bot vom Kanal trennen“</h2>
+    <p>Die Deadlock-Pause ist eine automatische Pause ohne Aktion von dir. Trennst du den Bot selbst unter Verwaltung, „Bot &amp; Schutz“, endet die Partnerschaft, und die Streamer-Rolle geht verloren. Details stehen unter <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</p>
+    <nav><a href="auto-raid.html">Auto-Raid</a><a href="discord-golive.html">Discord-Go-Live</a><a href="twitch-streamer-dashboard.html">Dashboard</a></nav>
+  </section>
+</main>
+</body>
+</html>

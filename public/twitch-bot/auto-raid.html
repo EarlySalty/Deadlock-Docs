@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>Auto-Raid</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Endet der Deadlock-Stream eines aktiven, autorisierten Partners und ist Auto-Raid aktiv, versucht der Bot, deine Zuschauer an einen passenden, live…">
-  <meta name="tags" content="twitch-bot, raid, auto-raid, weiterleitung">
+  <meta name="description" content="Kurz gesagt. Endet dein Deadlock-Stream und ist der Auto-Raid aktiv, leitet der Bot deine Zuschauer an einen live streamenden Deadlock-Kanal weiter. Was dabei passiert und wie du es beeinflusst.">
+  <meta name="tags" content="twitch-bot, raid, auto-raid, weiterleitung, raid-netzwerk">
   <meta name="stand" content="2026-10-28">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung auf origin/main und Dashboard-Oberfläche">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -18,35 +18,50 @@
 <body>
 <main>
   <h1>Auto-Raid</h1>
-  <p><strong>Kurz gesagt.</strong> Endet der Deadlock-Stream eines aktiven, autorisierten Partners und ist Auto-Raid aktiv, versucht der Bot, deine Zuschauer an einen passenden, live streamenden Deadlock-Kanal weiterzuleiten. Ein Raid ohne geeignetes Ziel bleibt aus.</p>
+  <p><strong>Kurz gesagt.</strong> Endet dein Deadlock-Stream und ist der Auto-Raid aktiv, leitet der Bot deine Zuschauer automatisch an einen live streamenden Deadlock-Kanal weiter. Findet sich gerade kein passender Kanal, bleibt der Raid aus.</p>
 
   <section id="wie-es-laeuft">
     <h2>Wie der Auto-Raid abläuft</h2>
-    <p>Beende deinen Deadlock-Stream regulär. Wenn Auto-Raid aktiv und Twitch verbunden ist, versucht der Bot anschließend einen Raid. Du brauchst dafür keinen weiteren Chatbefehl. Gibt es kein geeignetes Ziel oder fehlt eine gültige Twitch-Berechtigung, bleibt der Raid aus.</p>
-    <p>Der Bot leitet an einen passenden, live streamenden Deadlock-Kanal weiter. Beim automatischen Raid wählst du den Zielkanal nicht selbst; mit <code>!raid &lt;name&gt;</code> geht das gezielt (siehe <a href="chat-befehle.html">Befehle</a>). Beobachtbar ist nur, ob ein Raid stattgefunden hat oder mangels Ziel ausgeblieben ist.</p>
+    <p>Beende deinen Deadlock-Stream ganz normal. Der Bot prüft dann, ob ein passender Kanal live ist, und startet den Raid. Du brauchst dafür keinen Chat-Befehl.</p>
+    <p>Den Status zeigt <code>!raid_status</code>, die letzten Versuche zeigt <code>!raid_history</code>. Beide Befehle darf jede Person im Chat abfragen; sie ändern nichts.</p>
   </section>
 
-  <section id="welche-ziele">
-    <h2>Welche Kanäle kommen als Ziel infrage?</h2>
-    <p>Der Bot wählt nur Partnerkanäle, die gerade live streamen und zu deinem Kanal passen. Die genauen Kriterien für die Zielauswahl beschreiben wir hier bewusst nicht. Ob ein Raid möglich ist, siehst du an den Status- und Verlaufsanzeigen im Chat.</p>
+  <section id="zielkanal">
+    <h2>Welcher Kanal wird ausgewählt?</h2>
+    <p>Die Auswahl übernimmt der Bot. Infrage kommen Deadlock-Kanäle, die gerade live sind. Die genauen Auswahlregeln legen wir nicht offen. Wenn du einen bestimmten Kanal raiden willst, nutze den manuellen Raid (siehe unten).</p>
   </section>
 
-  <section id="rueckkehr">
-    <h2>Kurzer Rücksprung: Stream startet wieder</h2>
-    <p>Startest du kurz nach einem ausgehenden Raid erneut einen Stream, bricht der Bot den Raid ab, damit deine Zuschauer nicht unnötig weggeschickt werden. Das passiert beim ersten Mal ohne Hinweis im Chat.</p>
-    <p>Wiederholt sich das kurz danach, hält der Bot die automatischen Raids für eine Weile an und schreibt eine kurze Nachricht in deinen Chat. Während dieser Pause können Broadcaster und Moderation weiterhin manuell mit <code>!raid</code> raiden.</p>
+  <section id="flip-schutz">
+    <h2>Was passiert, wenn der Stream kurz wieder läuft?</h2>
+    <p>Gehst du kurz nachdem der Bot einen automatischen Raid gestartet hat wieder live, bricht er den Raid ab. Wiederholt sich das in kurzer Zeit, pausiert der Bot die automatischen Raids für deinen Kanal für einige Stunden. Während der Pause können Broadcaster, Moderation und Super-Mods weiterhin manuell mit <code>!raid</code> raiden.</p>
   </section>
 
-  <section id="bedienung">
-    <h2>Bedienung und Status</h2>
-    <p>Den Auto-Raid separat abzuschalten und den Bot weiter zu nutzen, ist vorgesehen, aber noch nicht verfügbar. Einen Schalter oder Chat-Befehl dafür gibt es derzeit nicht. Den Bot vollständig vom Kanal trennen kannst du im Dashboard unter Verwaltung, „Bot &amp; Schutz“, „Bot vom Kanal trennen“. Dabei endet auch deine Partnerschaft. Bei Fragen hilft dir Nani im <a href="https://discord.gg/z5TfVHuQq2">Community-Discord</a>.</p>
+  <section id="manuell">
+    <h2>Manuell raiden</h2>
+    <p>Broadcaster, Moderation und Super-Mods können im Chat einen manuellen Raid auslösen. Dein Stream muss dafür in Deadlock laufen oder erst kürzlich in Deadlock geendet haben:</p>
     <ul>
-      <li>Status prüfen: <code>!raid_status</code>.</li>
-      <li>Letzte Versuche ansehen: <code>!raid_history</code>.</li>
-      <li>Broadcaster oder Moderation können mit <code>!raid</code> bzw. <code>!traid</code> einen manuellen Versuch auslösen.</li>
+      <li><code>!raid &lt;name&gt;</code> schickt deine Zuschauer zu einem bestimmten Twitch-Kanal, der gerade live ist.</li>
+      <li><code>!raid</code> bzw. <code>!traid</code> startet einen Raid zu einem vom Bot gewählten passenden Kanal.</li>
     </ul>
-    <p>Verlangt der Bot eine neue Autorisierung, durchlaufe den sichtbaren Autorisierungsweg erneut (siehe <a href="einrichtung.html">Einrichtung</a>). Ein manueller Raid ersetzt kein geeignetes Ziel und keine gültige Autorisierung.</p>
-    <nav><a href="faq-raids.html">FAQ Raids</a><a href="chat-befehle.html">Befehle</a></nav>
+    <p>Ein manueller Raid ersetzt keine gültige Twitch-Verbindung. Ist der Zielkanal offline, ist er selbst oder ein gesperrter Kanal, nennt der Bot den Grund im Chat.</p>
+  </section>
+
+  <section id="ausschalten">
+    <h2>Kann ich den Auto-Raid abschalten?</h2>
+    <p>Einen eigenen Schalter, der nur den Auto-Raid abstellt, gibt es im Dashboard derzeit nicht. Willst du den Bot nicht mehr in deinem Kanal, trennst du ihn unter Verwaltung, „Bot &amp; Schutz“, mit „Bot vom Kanal trennen“. Dabei endet auch deine Partnerschaft und der Auto-Raid ist danach aus.</p>
+  </section>
+
+  <section id="wenn-kein-raid">
+    <h2>Wann bleibt ein Raid aus?</h2>
+    <ul>
+      <li>Es ist gerade kein passender Kanal live.</li>
+      <li>Der Auto-Raid ist für deinen Kanal deaktiviert; <code>!raid_status</code> zeigt das an.</li>
+      <li>Die Twitch-Verbindung ist abgelaufen oder fehlt. Das Dashboard zeigt dann einen Hinweis; verbinde den Kanal erneut (siehe <a href="einrichtung.html">Einrichtung</a>).</li>
+      <li>Der Stream lief nicht in der Deadlock-Kategorie.</li>
+      <li>Die Flip-Schutz-Pause ist aktiv (siehe oben).</li>
+    </ul>
+    <p>Ein Ausbleiben ist kein Fehler, wenn kein geeigneter Kanal live ist.</p>
+    <nav><a href="faq-raids.html">FAQ Raids</a><a href="chat-befehle.html">Befehle</a><a href="aktivitaet-und-pausen.html">Aktivität und Pausen</a></nav>
   </section>
 </main>
 </body>

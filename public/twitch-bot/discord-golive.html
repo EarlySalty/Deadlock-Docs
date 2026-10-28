@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>Discord-Go-Live-Hinweise</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Für einen aktiven Partnerkanal versucht der Bot, beim Streamen in der Deadlock-Kategorie automatisch einen Hinweis im Community-Discord zu senden.…">
-  <meta name="tags" content="twitch-bot, discord, go-live, ankündigung">
-  <meta name="stand" content="2026-09-20">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="description" content="Kurz gesagt. Für einen aktiven Partnerkanal postet der Bot beim Streamen in der Deadlock-Kategorie einen Hinweis im Community-Discord und stellt ihn beim Offline-Gehen auf beendet um.">
+  <meta name="tags" content="twitch-bot, discord, go-live, ankündigung, streamer-rolle">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung auf origin/main und Dashboard-Oberfläche">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -18,26 +18,36 @@
 <body>
 <main>
   <h1>Discord-Go-Live-Hinweise</h1>
-  <p><strong>Kurz gesagt.</strong> Für einen aktiven Partnerkanal versucht der Bot, beim Streamen in der Deadlock-Kategorie automatisch einen Hinweis im Community-Discord zu senden. Geht der Kanal offline oder verlässt die Kategorie, stellt der Bot den bestehenden Hinweis auf einen beendeten Zustand um.</p>
+  <p><strong>Kurz gesagt.</strong> Für einen aktiven Partnerkanal postet der Bot beim Streamen in der Deadlock-Kategorie einen Hinweis im Community-Discord. Geht der Kanal offline, zeigt der Hinweis die Streamdauer und ist als beendet markiert.</p>
 
   <section id="wann-erscheint-ein-hinweis">
     <h2>Wann erscheint ein Hinweis?</h2>
     <ol>
       <li>Schließe die Twitch-Einrichtung erfolgreich ab (siehe <a href="einrichtung.html">Einrichtung</a>).</li>
-      <li>Gehe mit dem registrierten Kanal in der Deadlock-Kategorie live.</li>
+      <li>Gehe mit dem verbundenen Kanal in der Deadlock-Kategorie live.</li>
       <li>Der Bot versucht, den Hinweis im Community-Discord zu setzen.</li>
     </ol>
     <p>Voraussetzung sind ein aktiver Partnerstatus und die passende Twitch-Kategorie. Der Bot versucht die Zustellung; eine feste Erkennungszeit, bestimmte Rollen-Pings oder eine garantierte Veröffentlichung sagen wir nicht zu.</p>
   </section>
 
-  <section id="kein-hinweis">
-    <h2>Es erscheint kein Hinweis – was prüfen?</h2>
-    <p>Prüfe zuerst deinen Partnerstatus und die Twitch-Kategorie. Fehlt der Hinweis weiterhin, melde den Fall dem Support mit Kanalname und ungefährem Streamzeitpunkt (siehe <a href="faq-support.html">FAQ Support</a>).</p>
+  <section id="offline-hinweis">
+    <h2>Was zeigt der Hinweis, wenn der Stream endet?</h2>
+    <p>Geht der Kanal offline oder verlässt die Deadlock-Kategorie, wird der bestehende Hinweis auf beendet umgestellt. Dazu gehört die Dauer des Streams, sofern der Bot das Stream-Ende zuverlässig kennt. Ist die Dauer nicht bekannt, fehlt sie im Hinweis, statt eine falsche Zahl anzuzeigen.</p>
+  </section>
+
+  <section id="kurze-unterbrechungen">
+    <h2>Kurze Unterbrechungen: entsteht dann ein zweiter Hinweis?</h2>
+    <p>Nein, nicht bei einem kurzen Abbruch. Der Bot wartet nach einem Offline-Signal kurz, bevor er einen neuen Hinweis postet. Kommt der Stream in dieser Zeit zurück, bleibt der bestehende Hinweis stehen. So entstehen keine doppelten Ankündigungen für ein und denselben Stream.</p>
   </section>
 
   <section id="zwei-hinweise">
     <h2>Warum sind nach einem Neustart zwei Hinweise sichtbar?</h2>
     <p>Erkennt Twitch einen echten neuen Stream, wird der bisherige Hinweis zuerst als beendet markiert; danach kann ein neuer Live-Hinweis erscheinen. Ein älterer beendeter Hinweis neben dem neuen Live-Hinweis ist daher möglich. Bleiben dagegen beide Hinweise gleichzeitig LIVE, melde dem Support bitte den Kanalnamen und den ungefähren Zeitpunkt.</p>
+  </section>
+
+  <section id="streamer-rolle">
+    <h2>Hat das etwas mit der Streamer-Rolle zu tun?</h2>
+    <p>Ja, aber es sind zwei Dinge. Die Streamer-Rolle auf dem Community-Discord bekommst du als verknüpftes Discord-Konto, solange du regelmäßig Deadlock streamst; die Details dazu stehen unter <a href="aktivitaet-und-pausen.html">Aktivität und Pausen</a>. Der Go-Live-Hinweis selbst ist davon unabhängig.</p>
   </section>
 
   <section id="kein-discord-voice-golive">
@@ -47,7 +57,7 @@
 
   <section id="was-es-nicht-gibt">
     <h2>Was es nicht gibt</h2>
-    <p>Ein sichtbarer Onboarding-Schalter mit der Beschriftung rund um „Go-Live“ steuert diese Discord-Ankündigung nicht; er betrifft einen separaten Go-Live-Chat-Tipp. Ein eigenes Werkzeug zum Anpassen, zur Vorschau oder zum Test-Versenden der Discord-Ankündigung gibt es aktuell nicht. Für die Discord-Ankündigung ist keine persönliche Discord-Kontoverknüpfung als zwingende Voraussetzung belegt.</p>
+    <p>Ein eigenes Werkzeug zum Anpassen, zur Vorschau oder zum Test-Versenden der Discord-Ankündigung gibt es aktuell nicht. Für die Discord-Ankündigung ist keine persönliche Discord-Kontoverknüpfung als zwingende Voraussetzung belegt.</p>
     <nav><a href="faq-community.html">FAQ Community</a><a href="einrichtung.html">Einrichtung</a></nav>
   </section>
 </main>

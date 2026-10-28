@@ -152,17 +152,19 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/auto-raid.md": {
-          "source_sha256": "648039bcf6e8c914feabd04bd61e6d2e8ee32b7f5710c2cb221b7e61acb97190",
-          "content_sha256": "82355d36f98f1705f322439a952c4db3231cefb208749ee2561f8d8ad417d87d",
-          "verified_at": "2026-09-19T23:16:51.314000+00:00",
+          "source_sha256": "e63260617c62ffe06f09d86545b0560c1dff314380fe9e6f5b1e5ca493ed6d40",
+          "content_sha256": "be184f6ebe8793d0a7ba74de22035a353c83cc8cb176ae39c7def6082209ce99",
+          "verified_at": "2026-10-28T15:52:15.168328+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
+                "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+                "rust/bin/tb-bot/src/auto_raid.rs",
+                "rust/crates/tb-chat/src/commands.rs",
                 "rust/crates/tb-raid/src/eligibility.rs",
-                "rust/crates/tb-raid/src/candidate_selection.rs",
-                "rust/crates/tb-chat/src/commands.rs"
+                "rust/crates/tb-raid/src/flip_unraid.rs"
               ]
             }
           ],
@@ -299,17 +301,18 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-raids.md": {
-          "source_sha256": "1a75df0b84002f199cca5ab3a4b838e0e98dc143ae4ef2c1a216ddc5389f8893",
-          "content_sha256": "125cd251ebccde84f8561c40b16132251abff3e027d962b73cd1d349dfe8780c",
-          "verified_at": "2026-09-19T23:16:51.535101+00:00",
+          "source_sha256": "7be706d524f0fa2800dffc691912ae3e2faee429bff825ec939f0f431122fe3b",
+          "content_sha256": "536853c3133f9e48ab6384d41bd1b663f2002764eb9447d41e16f18d902d0eb2",
+          "verified_at": "2026-10-28T15:52:15.168328+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
+                "rust/bin/tb-bot/src/auto_raid.rs",
+                "rust/crates/tb-chat/src/commands.rs",
                 "rust/crates/tb-raid/src/eligibility.rs",
-                "rust/crates/tb-raid/src/candidate_selection.rs",
-                "rust/crates/tb-chat/src/commands.rs"
+                "rust/crates/tb-raid/src/flip_unraid.rs"
               ]
             }
           ],
@@ -443,17 +446,18 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/discord-golive.md": {
-          "source_sha256": "8280451d8dfa131e449d01a1a6569e39c233f59c95ae7ed0663f7222a1ed0109",
-          "content_sha256": "7339e817ad9d09d84df5eaf79af1b80f799714092a9302ecd663563c9ffac00a",
-          "verified_at": "2026-09-19T23:47:49.820344+00:00",
+          "source_sha256": "3e766145ac1c3b395a2dd57f6009364691e5c980ac4b66166c49e02556e58902",
+          "content_sha256": "50a0a91f9af39424209c8eb3efa7224fd5cd6571f1f5dc4bd05c575cfea942e8",
+          "verified_at": "2026-10-28T15:52:15.168328+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
+                "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
                 "rust/crates/tb-monitoring/src/announce/sink.rs",
                 "rust/crates/tb-monitoring/src/announce/template.rs",
-                "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs"
+                "rust/crates/tb-monitoring/src/handlers.rs"
               ]
             }
           ],
@@ -494,17 +498,16 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-werbung.md": {
-          "source_sha256": "253182c45e303d173f8a6b5a2e64e9bf42c79a9c0e47d827f38ca62d76b0421f",
-          "content_sha256": "4f719ac3810b68b57ca50671f297d66e474b8f38460072ac004b0bf3e7d085fe",
-          "verified_at": "2026-09-19T23:47:49.843146+00:00",
+          "source_sha256": "d0a021591581e65ab622660752d644066291d3235b3a2344e461568224950163",
+          "content_sha256": "322c5ae9a37e22ce52c708793a1ff257514590ebc890ae2260d6f529fd6338f9",
+          "verified_at": "2026-10-28T15:52:15.168328+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
               "paths": [
-                "rust/crates/tb-chat/src/promos.rs",
-                "rust/crates/tb-analytics/src/billing/catalog.rs",
-                "rust/crates/tb-analytics/src/plan.rs"
+                "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
+                "rust/crates/tb-analytics/src/ad_manager.rs"
               ]
             }
           ],

@@ -166,44 +166,68 @@
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "eed6b1ac6ae6ea4359a2087343ddd92ea72b2fb7820c6c53ca73b80501de0d3f",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "content_sha256": "be184f6ebe8793d0a7ba74de22035a353c83cc8cb176ae39c7def6082209ce99",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "bot/admin_dashboard/src/pages/config/GuildRaidsSection.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
             "rust/bin/tb-bot/src/auto_raid.rs",
             "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/admin_guild_raids.rs",
-            "rust/crates/tb-db/src/guild_membership.rs",
             "rust/crates/tb-raid/src/eligibility.rs",
-            "rust/crates/tb-raid/src/partner_roster.rs"
+            "rust/crates/tb-raid/src/flip_unraid.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
       "claims": [
         {
-          "claim": "Automatische Ziele sind live Partnerkanäle mit gemeinsamem Server oder gleicher Sprache; für die Sprachregel brauchen beide Seiten die Freigabe für Raids über Server hinweg, die das Community-Team pro Server setzt. Interne Auswahlkriterien sind nicht beschrieben.",
+          "claim": "Der Auto-Raid startet am Stream-Ende und wählt einen live Deadlock-Kanal; die Auswahlregeln sind nicht beschrieben.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-raid/src/partner_roster.rs",
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-raid/src/eligibility.rs"
+          ]
+        },
+        {
+          "claim": "!raid_status und !raid_history darf jede Person im Chat abfragen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Ein Stream-Start kurz nach dem Raid bricht ihn ab; wiederholte Flips pausieren automatische Raids für mehrere Stunden.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/flip_unraid.rs"
+          ]
+        },
+        {
+          "claim": "Manuelle Raids mit !raid sind für Broadcaster, Moderation und Super-Mods; die Quelle muss in Deadlock live oder kürzlich in Deadlock beendet sein.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
             "rust/bin/tb-bot/src/auto_raid.rs"
+          ]
+        },
+        {
+          "claim": "Einen eigenen Schalter nur für den Auto-Raid gibt es nicht; Trennen unter Bot & Schutz beendet die Partnerschaft.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "1941bb4e29acaab825c95b9d727d86418e625b6d564ca03f9b13411f8b31e88d",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "content_sha256": "536853c3133f9e48ab6384d41bd1b663f2002764eb9447d41e16f18d902d0eb2",
       "code": [
         {
           "repository": "twitch",
@@ -211,26 +235,45 @@
           "paths": [
             "rust/bin/tb-bot/src/auto_raid.rs",
             "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-raid/src/eligibility.rs"
+            "rust/crates/tb-raid/src/eligibility.rs",
+            "rust/crates/tb-raid/src/flip_unraid.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
       "claims": [
         {
-          "claim": "Der manuelle Raid mit !raid <name> verlangt Deadlock beim eigenen Stream und ein Live-Ziel; die Auswahlregeln gelten nur für den automatischen Raid.",
+          "claim": "Manuelle Raids dürfen Broadcaster, Moderation und Super-Mods auslösen; die Quelle muss in Deadlock live sein oder kürzlich in Deadlock geendet haben.",
           "verdict": "verified",
           "evidence": [
-            "rust/bin/tb-bot/src/auto_raid.rs",
-            "rust/crates/tb-db/src/guild_membership.rs"
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/bin/tb-bot/src/auto_raid.rs"
+          ]
+        },
+        {
+          "claim": "!raid_status und !raid_history sind für alle abfragbar.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Ein manueller Raid ist nur zu einem live Ziel möglich; die Auswahl eines Ziels übernimmt der Bot.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/auto_raid.rs"
+          ]
+        },
+        {
+          "claim": "Flip-Schutz und Pause werden im Chat und im Ablauf wie beschrieben angewendet.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/flip_unraid.rs"
           ]
         }
       ],
-      "gaps": [
-        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
-      ]
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
@@ -560,33 +603,54 @@
     },
     {
       "path": "public/twitch-bot/discord-golive.html",
-      "verified_at": "2026-09-19T23:47:49.820344+00:00",
-      "content_sha256": "7339e817ad9d09d84df5eaf79af1b80f799714092a9302ecd663563c9ffac00a",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "content_sha256": "50a0a91f9af39424209c8eb3efa7224fd5cd6571f1f5dc4bd05c575cfea942e8",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs",
             "rust/crates/tb-monitoring/src/announce/sink.rs",
             "rust/crates/tb-monitoring/src/announce/template.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs"
+            "rust/crates/tb-monitoring/src/handlers.rs"
           ]
         }
       ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
       "claims": [
         {
-          "claim": "Automatische Partnerankündigung und Offlinebearbeitung vorhanden; alter Editor/Preview/Test liefert entfernt. Kein Discord-Bildschirmstream und keine feste Zustellzeit versprochen.",
+          "claim": "Für einen aktiven Partner postet der Bot beim Live-Gehen in der Deadlock-Kategorie einen Hinweis im Community-Discord und stellt ihn beim Offline-Gehen auf beendet um.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-monitoring/src/announce/sink.rs",
-            "rust/crates/tb-monitoring/src/announce/template.rs",
+            "rust/crates/tb-monitoring/src/announce/template.rs"
+          ]
+        },
+        {
+          "claim": "Die Streamdauer steht im beendeten Hinweis, wenn Start und Ende bekannt sind; sonst fehlt sie.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-monitoring/src/announce/template.rs"
+          ]
+        },
+        {
+          "claim": "Nach einem Offline-Signal greift eine kurze Sperre; kehrt der Stream innerhalb dieser Zeit zurück, bleibt der bestehende Hinweis stehen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-monitoring/src/handlers.rs"
+          ]
+        },
+        {
+          "claim": "Der alte Editor, die Vorschau und der Test-Versand sind entfernt.",
+          "verdict": "verified",
+          "evidence": [
             "rust/crates/tb-dashboard-api/src/handlers/obsolete_routes.rs"
           ]
         }
       ],
-      "gaps": [],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-analytics.html",
@@ -622,33 +686,37 @@
     },
     {
       "path": "public/twitch-bot/faq-werbung.html",
-      "verified_at": "2026-09-19T23:47:49.843146+00:00",
-      "content_sha256": "4f719ac3810b68b57ca50671f297d66e474b8f38460072ac004b0bf3e7d085fe",
+      "verified_at": "2026-10-28T15:52:15.168328+00:00",
+      "content_sha256": "322c5ae9a37e22ce52c708793a1ff257514590ebc890ae2260d6f529fd6338f9",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/promos.rs",
-            "rust/crates/tb-analytics/src/billing/catalog.rs",
-            "rust/crates/tb-analytics/src/plan.rs"
+            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
+            "rust/crates/tb-analytics/src/ad_manager.rs"
           ]
         }
       ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
       "claims": [
         {
-          "claim": "Wirksames Planrecht unterdrückt Promos, Ablauf hebt Recht auf; technischen Fail-open ausdrücklich erklärt. Twitch-Werbespots davon getrennt.",
+          "claim": "Der Werbemanager verschiebt geplante Werbung in passende Pausen und kann laufende Matches schützen; sind keine Verschiebungen mehr übrig, läuft geplante Werbung auch während eines Matches weiter.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/promos.rs",
-            "rust/crates/tb-analytics/src/billing/catalog.rs",
-            "rust/crates/tb-analytics/src/plan.rs"
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "claim": "Der Werbemanager ist ein separates Dashboard-Element unter Verwaltung, Tab Werbung (Experimentell).",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx"
           ]
         }
       ],
-      "gaps": [],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/berechtigungen.html",
@@ -1353,6 +1421,147 @@
         "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
+    },
+    {
+      "path": "public/twitch-bot/aktivitaet-und-pausen.html",
+      "verified_at": "2026-10-28T15:46:27.020568+00:00",
+      "content_sha256": "ae1e93bc9b11984efe5a8f7beb1c936f1679ef45cc599ccafd1005b71d62c599",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "rust/bin/tb-bot/src/streamer_role_sync.rs",
+            "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
+      "claims": [
+        {
+          "claim": "Nach längerer Zeit ohne Deadlock-Stream entzieht der Bot seine Moderatorrechte; die Partnerschaft bleibt bestehen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        },
+        {
+          "claim": "Die Pause gilt nur für Kanäle mit Deadlock-Historie.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        },
+        {
+          "claim": "Startet der Kanal wieder einen Deadlock-Stream und die Streamer-Verbindung ist gültig, setzt der Bot die Moderatorrechte wieder.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        },
+        {
+          "claim": "Die Streamer-Rolle setzt ein verknüpftes Discord-Konto und eine gültige Twitch-Verbindung voraus; eine abgelaufene Verbindung entfernt sie.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
+          ]
+        },
+        {
+          "claim": "Die Rolle richtet sich nach der Deadlock-Aktivität über mehrere Wochen, nicht nach einem einzelnen Stream.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
+          ]
+        },
+        {
+          "claim": "Bot trennen unter Bot & Schutz beendet die Partnerschaft und die Streamer-Rolle.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/werbemanager.html",
+      "verified_at": "2026-10-28T15:46:27.020568+00:00",
+      "content_sha256": "a6e877262d4ed9328ef498bfebbfcead1957e53c237c4be8c007455c8a7a68f0",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx",
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Geprüfte Fachpfade gegen origin/main d1b234cc; Live-Release 4bfc09af nicht geändert, kein Deployment.",
+      "claims": [
+        {
+          "claim": "Der Tab heißt „Werbung (Experimentell)“ und ist unter Verwaltung zu finden.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Verwaltung.tsx"
+          ]
+        },
+        {
+          "claim": "Die Strategien heißen „Nur Twitch-Pausen nutzen“ und „Match schützen & Queue nutzen“; die erste startet keine eigene Werbung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx"
+          ]
+        },
+        {
+          "claim": "Matchschutz braucht einen frischen Steam-Status; ohne ihn startet der Bot keine eigene Werbung.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "claim": "Ist keine Verschiebung mehr übrig, läuft geplante Werbung auch während eines Matches weiter.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "claim": "Ohne Twitch-Kontingent legt man ein Budget pro Stunde selbst fest; der Bot überschreitet die Twitch-Vorgabe nicht.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "claim": "Der Bot schreibt vor einer Werbung eine Zeile in den Chat, wenn der Werbemanager aktiv ist.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx"
+          ]
+        },
+        {
+          "claim": "Der Verlauf protokolliert Entscheidungen zu Werbung und Verschiebung.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "claim": "Abonnenten- und Turbo-Befreiung entscheidet Twitch; der Werbemanager hat dafür keine eigene Regel.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        }
+      ],
+      "gaps": []
     }
   ]
 }

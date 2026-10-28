@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>Bot-Werbung und Werbefrei</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Der Bot kann in laufenden Partnerstreams gelegentlich auf die Deadlock-Community und den Discord hinweisen. Wer diese Bot-Werbung im eigenen Kanal…">
-  <meta name="tags" content="twitch-bot, werbung, werbefrei, abwahl">
-  <meta name="stand" content="2026-09-20">
-  <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
+  <meta name="description" content="Kurz gesagt. Der Bot kann in laufenden Partnerstreams gelegentlich auf die Deadlock-Community und den Discord hinweisen. Wer diese Bot-Werbung im eigenen Kanal abstellen will, und wo der Werbemanager für Twitch-Werbung liegt.">
+  <meta name="tags" content="twitch-bot, werbung, werbefrei, abwahl, werbemanager">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung auf origin/main und Dashboard-Oberfläche">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
     h1, h2 { line-height: 1.25; }
@@ -18,11 +18,11 @@
 <body>
 <main>
   <h1>Bot-Werbung und Werbefrei</h1>
-  <p><strong>Kurz gesagt.</strong> Der Bot kann in laufenden Partnerstreams gelegentlich auf die Deadlock-Community und den Discord hinweisen. Wer diese Bot-Werbung im eigenen Kanal abstellen will, wählt einen Plan mit der Funktion „Werbefrei“.</p>
+  <p><strong>Kurz gesagt.</strong> Der Bot kann in laufenden Partnerstreams gelegentlich auf die Deadlock-Community und den Discord hinweisen. Wer diese Bot-Werbung im eigenen Kanal abstellen will, wählt einen Plan mit der Funktion „Werbefrei“. Die Werbung von Twitch selbst steuert der Werbemanager, siehe unten.</p>
 
   <section id="welche-werbung">
     <h2>Welche Werbung schickt der Bot?</h2>
-    <p>Es geht ausschließlich um sichtbare Hinweise auf die Deutsche Deadlock Community und ihren Discord – keine externen Sponsoren oder Fremdprodukte. Eine feste Häufigkeit, bestimmte Auslöser, eine Zielgruppenlogik oder konkrete Werbetexte sagen wir nicht als dauerhaften Vertrag zu.</p>
+    <p>Es geht ausschließlich um sichtbare Hinweise auf die Deutsche Deadlock Community und ihren Discord, keine externen Sponsoren oder Fremdprodukte. Eine feste Häufigkeit, bestimmte Auslöser oder konkrete Werbetexte sagen wir nicht als dauerhaften Vertrag zu.</p>
   </section>
 
   <section id="abschalten">
@@ -39,7 +39,12 @@
   <section id="was-werbefrei-nicht-ist">
     <h2>Was „Werbefrei“ nicht bedeutet</h2>
     <p>Moderations- und Raid-Grundfunktionen sind von „Werbefrei“ nicht betroffen. Moderationshinweise, Befehlsantworten und andere funktionale Bot-Nachrichten verschwinden dadurch nicht. Andere Bot-Einstellungen ersetzen die Funktion „Werbefrei“ nicht.</p>
-    <nav><a href="faq-plaene.html">Pläne</a><a href="faq-community.html">Community</a></nav>
+  </section>
+
+  <section id="twitch-werbung">
+    <h2>Und die Werbung von Twitch?</h2>
+    <p>Die Werbung, die Twitch in deinem Stream ausspielt, ist eine andere Sache. Dafür gibt es den Werbemanager im Dashboard unter Verwaltung, Tab „Werbung (Experimentell)“. Er verschiebt geplante Werbung in passende Pausen und kann laufende Matches schützen. Sind keine Verschiebungen mehr übrig, läuft geplante Werbung auch während eines Matches weiter. Details stehen unter <a href="werbemanager.html">Werbemanager für Streamer</a>.</p>
+    <nav><a href="faq-plaene.html">Pläne</a><a href="faq-community.html">Community</a><a href="werbemanager.html">Werbemanager</a></nav>
   </section>
 </main>
 </body>
