@@ -1285,30 +1285,52 @@
     },
     {
       "path": "public/quellen/website/beitreten.html",
-      "verified_at": "2026-09-19T23:47:49.881500+00:00",
-      "content_sha256": "4123d1b7fa2749fff94cfab1621b17b63070d83074f985745733fd128b8be717",
+      "verified_at": "2026-10-28T17:53:47.841008+00:00",
+      "content_sha256": "2fd6da8ccb2091389a00034285ab1b67b629175d955bb1293ed3e3ca9ea8b027",
       "code": [
         {
-          "repository": "website",
-          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "repository": "discord",
+          "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
           "paths": [
-            "dl-landing/beitreten/index.html"
+            "rust/crates/dl-community/src/concierge.rs"
           ]
         },
         {
-          "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "repository": "website",
+          "revision": "db8647d3b5844469920c70a4c9fff5081735b466",
           "paths": [
-            "rust/crates/dl-community/src/concierge.rs"
+            "dl-landing/beitreten/index.html"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Öffentlicher Einladungsweg und angezeigte Verifizierung; Concierge/Paten nur auf Wunsch, keine garantierte Wartezeit oder Kontofreigabe.",
+          "claim": "Beitrittsseite /beitreten/ mit Knopf „Discord beitreten“, Anmeldung mit dem Discord-Konto und Schritt „Regeln lesen“ im Server (Live-Probe bestätigt die Texte).",
+          "verdict": "verified",
+          "evidence": [
+            "dl-landing/beitreten/index.html"
+          ]
+        },
+        {
+          "claim": "Der Concierge auf dem Server begrüßt neue Mitglieder und zeigt den Weg zu Mitspielern, Voice-Lanes, Coaching und Hilfe; ein Pate kann vermittelt werden.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "dl-landing/beitreten/index.html"
+          ]
+        },
+        {
+          "claim": "Mitspieler-Suche und Voice-Lanes; eigene Gruppe öffnen; keine Aussage zur Verfügbarkeit von Mitspielern.",
           "verdict": "verified",
           "evidence": [
             "dl-landing/beitreten/index.html",
+            "rust/crates/dl-community/src/concierge.rs"
+          ]
+        },
+        {
+          "claim": "Bei Problemen den Concierge im Discord fragen, ohne Kennwörter oder Zugangsdaten zu teilen.",
+          "verdict": "verified",
+          "evidence": [
             "rust/crates/dl-community/src/concierge.rs"
           ]
         }
