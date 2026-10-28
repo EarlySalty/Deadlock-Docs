@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Clip-Befehle: !clip und !vodclip</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Mit !clip erstellen Zuschauer und Mods einen Clip aus dem laufenden Stream. Mit !vodclip fordert der Kanalinhaber oder ein Mod einen privaten Ausschnitt aus dem VOD-Archiv an.">
+  <meta name="tags" content="twitch-bot, clip, clips, vodclip, createclip, chat-befehle">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Chat-Befehle tb-chat (commands.rs, catalog.rs), Dashboard-Verwaltung Clip-Befehl und VOD-Ausschnitt, Stand origin/main 2026-10-28">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Clip-Befehle: !clip und !vodclip</h1>
+  <p><strong>Kurz gesagt.</strong> <code>!clip</code> erstellt einen Clip aus dem laufenden Stream. <code>!vodclip</code> erstellt einen privaten Ausschnitt aus einem VOD und ist dem Kanalinhaber und den Mods vorbehalten.</p>
+
+  <section id="clip">
+    <h2>Wie funktioniert !clip?</h2>
+    <ul>
+      <li>Der Befehl heißt <code>!clip</code> oder <code>!createclip</code>.</li>
+      <li>Er funktioniert nur während eines laufenden Streams. Offline antwortet der Bot mit „Hier läuft gerade kein Stream“.</li>
+      <li>Alle Zuschauer dürfen ihn nutzen, sofern der Schalter im Dashboard an ist.</li>
+      <li>Pro Kanal kann nur alle 10 Sekunden ein Clip entstehen.</li>
+      <li>Mit einem Titel nach dem Befehl bekommt der Clip diesen Namen, zum Beispiel <code>!clip Krasser Headshot</code>. Ohne Titel vergibt der Bot einen Ersatztitel. Sehr lange Titel werden gekürzt und mit „...“ abgeschlossen.</li>
+    </ul>
+  </section>
+
+  <section id="clip-einstellungen">
+    <h2>Wo stelle ich Dauer und Schalter ein?</h2>
+    <p>Im Dashboard unter „Verwaltung“ findest du den Bereich „Clip-Befehl“.</p>
+    <ul>
+      <li><strong>Clip-Dauer in Sekunden:</strong> Zwischen 5 und 60 Sekunden, in Schritten von 0,1 Sekunden. Standard ist 60 Sekunden.</li>
+      <li><strong>Eigener Titel:</strong> Hier siehst du, wie der Titel nach dem Befehl aussieht.</li>
+      <li><strong>Schalter aus:</strong> Der Bot erstellt keinen Clip und bleibt still.</li>
+    </ul>
+  </section>
+
+  <section id="vodclip">
+    <h2>Wie funktioniert !vodclip?</h2>
+    <p>Mit <code>!vodclip &lt;start&gt; &lt;ende&gt;</code> fordert der Kanalinhaber oder ein Mod einen Ausschnitt aus dem VOD-Archiv an. Die Zahlen sind Minuten, etwa <code>!vodclip 55 58</code>. Du kannst auch Stunden, Minuten und Sekunden angeben, etwa <code>!vodclip 1:55:00 1:58:00</code>. Ein Ausschnitt dauert 1 bis 10 Minuten.</p>
+    <ul>
+      <li><strong>Live:</strong> Der Ausschnitt kommt aus der laufenden Aufnahme.</li>
+      <li><strong>Offline:</strong> Der Ausschnitt kommt aus dem letzten Stream.</li>
+      <li>Pro Kanal läuft höchstens ein Auftrag gleichzeitig. Es sind höchstens drei Aufträge pro Stunde möglich.</li>
+      <li>Die fertige Datei ist eine MP4-Datei mit höchstens 64 MiB. Die Vorbereitung dauert höchstens 15 Minuten.</li>
+      <li>Der Download ist für den Kanalinhaber bestimmt, wird nicht veröffentlicht und läuft nach 24 Stunden ab.</li>
+      <li>Der Schalter für den Befehl steht im Dashboard. Ist er aus, erstellt der Bot keinen Ausschnitt.</li>
+    </ul>
+  </section>
+
+  <section id="grenzen">
+    <h2>Wo geht es weiter?</h2>
+    <p>Die Liste aller Befehle steht auf <a href="chat-befehle.html">Chat-Befehle</a>. Das VOD-Archiv für ganze Streams steht auf <a href="vod-archiv.html">VOD-Archiv</a>.</p>
+  </section>
+</main>
+</body>
+</html>
