@@ -4,85 +4,95 @@
   <meta charset="utf-8">
   <title>Cross-System-Betrieb - Deploy</title>
   <meta name="tags" content="internal, betrieb, deploy, systemd">
-  <meta name="stand" content="2026-07-07">
-  <meta name="quelle" content="Service-Wrapper, Cargo-Workspaces, systemd-User-Units">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="systemd-Units und /opt/deadlock-Layout auf v50671 (live geprüft 2026-10-28), origin/main der Bots-, Steam-, Turnier-, Patchnotes- und Website-Repos">
 </head>
 <body>
 <main>
 <h1>Cross-System-Betrieb - Deploy</h1>
-<p>Rust-Dienste werden als Release-Binary gebaut und per systemd-User-Service neu gestartet.
-Der Live-Beweis ist PID-Wechsel plus <code>/proc/&lt;pid&gt;/exe</code>.
-Git-Schritte gehören nicht in dieses Runbook.</p>
-<section id="build">
-<h2>Build</h2>
+<p>Die Dienste laufen auf dem Host v50671 unter dem Benutzer <code>nathanael</code>. Sie starten aus Release-Verzeichnissen unter <code>/opt/deadlock/&lt;bereich&gt;/releases/&lt;sha&gt;</code>; ein Symlink <code>current</code> zeigt auf den aktiven Release. Umschaltung und Rollback stehen im Runbook des jeweiligen Repos.</p>
+<p>Git-Schritte gehören nicht in dieses Runbook. Merge, Push und Deploy laufen über die Merge-Schleuse.</p>
+<section id="release-layout">
+<h2>Release-Layout (live)</h2>
 <table>
 <thead>
 <tr>
-<th>Repo</th>
-<th>Build-Pfad</th>
-<th>Kommando</th>
+<th>Bereich</th>
+<th>Aktiver Stand</th>
+<th>Binaries und Startpfad</th>
 <th>Beleg</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Deadlock-Bots</code></td>
-<td><code>/home/naniadm/Documents/Deadlock-Bots/rust</code></td>
-<td><code>cargo build --release --workspace</code></td>
-<td><code>Deadlock-Bots/rust/Cargo.toml</code>; <code>Deadlock-Bots/scripts/run_dl_bot_service.sh</code>; <code>Deadlock-Bots/scripts/run_dl_web_service.sh</code></td>
+<td>Bots</td>
+<td><code>/opt/deadlock/bots/current</code></td>
+<td><code>dl-bot</code>, <code>dl-web</code>, <code>dl-community-points-sync</code>, <code>dl-verbinder</code>, <code>dl-brain-feeder</code>, <code>dl-ai-gateway</code>; gestartet über <code>dl-infisical-env</code>. Das Binary <code>dl-knowledge</code> liegt im Release, eine aktive Unit dafür gibt es nicht.</td>
+<td><code>systemctl --user show -p ExecStart deadlock-bot-rust.service</code></td>
 </tr>
 <tr>
-<td><code>Deadlock-Steam-Bot</code></td>
-<td><code>/home/naniadm/Documents/Deadlock-Steam-Bot/rust</code></td>
-<td><code>cargo build --release --workspace</code></td>
-<td><code>Deadlock-Steam-Bot/rust/Cargo.toml</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-core.sh</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-bot.sh</code></td>
+<td>Steam</td>
+<td><code>/opt/deadlock/steam/current</code></td>
+<td><code>steam-core</code> und <code>steam-bot</code>. <code>steam-core-2.service</code> startet ebenfalls <code>steam-core</code>, mit eigenem Port.</td>
+<td><code>systemctl --user show -p ExecStart steam-bot.service</code></td>
 </tr>
 <tr>
-<td><code>Deadlock-Twitch-Bot</code></td>
-<td><code>/home/naniadm/Documents/Deadlock-Twitch-Bot/rust</code></td>
-<td><code>cargo build --release --workspace</code></td>
-<td><code>Deadlock-Twitch-Bot/rust/Cargo.toml</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_bot_service.sh</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_dashboard_service.sh</code></td>
+<td>Turniere</td>
+<td><code>/opt/deadlock/bots/launchers/&lt;sha&gt;</code></td>
+<td><code>turnier-bot</code> über <code>deadlock-turniere.service</code>, gestartet über <code>dl-infisical-env</code>.</td>
+<td><code>systemctl --user show -p ExecStart deadlock-turniere.service</code></td>
 </tr>
 <tr>
-<td><code>Deadlock-Turniere</code></td>
-<td><code>/home/naniadm/Documents/Deadlock-Turniere/rust</code></td>
-<td><code>cargo build --release --workspace</code></td>
-<td><code>Deadlock-Turniere/rust/Cargo.toml</code>; <code>Deadlock-Turniere/scripts/run_turniere_backend_rust.sh</code></td>
+<td>Patchnotes</td>
+<td><code>/opt/deadlock/patchnotes/current</code></td>
+<td><code>bin/deadlock-patchnotes</code> über <code>deadlock-patchnotes.service</code>.</td>
+<td><code>systemctl --user show -p ExecStart deadlock-patchnotes.service</code></td>
 </tr>
 <tr>
-<td><code>Website</code></td>
-<td><code>/home/naniadm/Documents/Website/builds/backend-rust</code></td>
-<td><code>cargo build --release</code></td>
-<td><code>Website/builds/backend-rust/Cargo.toml</code>; <code>Website/scripts/run_builds_backend.sh</code></td>
+<td>Website</td>
+<td>Checkout <code>Website/builds/backend-rust</code></td>
+<td><code>ddc-website-backend</code> über <code>deadlock-website-backend.service</code>. Der Startpfad zeigt noch auf <code>/home/naniadm/Documents/Website</code>.</td>
+<td><code>systemctl --user show -p ExecStart deadlock-website-backend.service</code></td>
+</tr>
+<tr>
+<td>Twitch</td>
+<td><code>/opt/deadlock/twitch/current</code></td>
+<td><code>tb-bot</code>, <code>tb-dashboard</code>, <code>tb-stream-audit</code> und der Discord-Hub. Diese Units sind System-Units unter <code>/etc/systemd/system</code>, keine User-Units. Release über <code>/usr/local/bin/deploy-twitch-release &lt;sha&gt;</code>.</td>
+<td><code>systemctl show -p FragmentPath deadlock-twitch-bot-rust.service</code></td>
 </tr>
 </tbody>
 </table>
-<p>Patchnotes ist die Ausnahme: <code>deadlock-patchnotes.service</code> startet <code>main.py</code> über den Wrapper und hat keinen Rust-Build im Servicepfad. (<code>systemctl --user cat deadlock-patchnotes.service</code>; <code>Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh</code>)</p>
+<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
+</section>
+<section id="build">
+<h2>Build</h2>
+<p>Gebaut wird im Rust-Verzeichnis des Repos mit <code>cargo build --release --workspace</code>, mit den Build-Regeln aus <code>claude-config/machines/v50671/RUST-BUILDS.md</code>. Der Haupt-Checkout wird nicht für Release-Builds genutzt, wenn er durch laufende Arbeit belegt ist; dann im Worktree bauen.</p>
 </section>
 <section id="neustart">
 <h2>Neustart</h2>
-<p>Nach einem erfolgreichen Build wird nur der betroffene User-Service neu gestartet:</p>
-<pre><code class="language-bash">systemctl --user restart &lt;service-name&gt;
-</code></pre>
-<p>Bei abhängigen Paaren ist die Reihenfolge aus den Units und Wrappern abzuleiten: <code>steam-bot.service</code> hängt an <code>steam-core.service</code> und wartet zusätzlich auf <code>http://127.0.0.1:8782/</code>; Twitch-Dashboard und Twitch-Worker sind getrennte Rust-Services. (<code>systemctl --user cat steam-bot.service</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-bot.sh</code>; <code>systemctl --user cat deadlock-twitch-bot-rust.service</code>; <code>systemctl --user cat deadlock-twitch-dashboard-rust.service</code>)</p>
+<p>Nach dem Umschalten wird nur der betroffene Service neu gestartet. User-Units und System-Units brauchen unterschiedliche Befehle:</p>
+<pre><code>systemctl --user restart &lt;service-name&gt;     # User-Units: Bots, Steam, Turniere, Patchnotes
+sudo -n systemctl restart &lt;service-name&gt;   # System-Units: Twitch, Brain-Site</code></pre>
+<p>Abhängige Paare: <code>steam-bot.service</code> hängt an <code>steam-core.service</code> und wartet auf <code>http://127.0.0.1:8782/</code>. Twitch-Dashboard, Twitch-Bot und Stream-Coaching-Watch sind getrennte System-Units.</p>
 </section>
 <section id="live-beweis">
 <h2>Live-Beweis</h2>
-<p>Der minimale Beweis nach einem Neustart:</p>
-<pre><code class="language-bash">svc=&lt;service-name&gt;
+<p>Der minimale Beweis nach einem Neustart: PID-Wechsel, Binary-Pfad über <code>/proc</code> und ein Journal ohne neue Startfehler.</p>
+<pre><code>svc=&lt;service-name&gt;
 before=&lt;pid-vor-restart&gt;
-systemctl --user restart &quot;$svc&quot;
-after=&quot;$(systemctl --user show -p MainPID --value &quot;$svc&quot;)&quot;
-test &quot;$after&quot; != &quot;$before&quot;
-readlink -f &quot;/proc/$after/exe&quot;
-journalctl --user -u &quot;$svc&quot; -n 200 --no-pager | rg -i 'panic|error|failed|traceback'
-</code></pre>
-<p><code>readlink -f /proc/&lt;pid&gt;/exe</code> muss auf das erwartete <code>target/release/*</code>-Binary zeigen, weil die Wrapper am Ende <code>exec</code> verwenden. Der Journal-Grep darf bekannte Warnungen zeigen, aber keine neuen Startfehler, Panics oder Tracebacks. (<code>Deadlock-Bots/scripts/run_dl_bot_service.sh</code>; <code>Deadlock-Steam-Bot/rust/deploy/run-steam-core.sh</code>; <code>Deadlock-Twitch-Bot/rust/scripts/run_tb_bot_service.sh</code>; <code>Deadlock-Turniere/scripts/run_turniere_backend_rust.sh</code>; <code>Website/scripts/run_builds_backend.sh</code>)</p>
+systemctl --user restart "$svc"
+after="$(systemctl --user show -p MainPID --value "$svc")"
+test "$after" != "$before"
+readlink -f "/proc/$after/exe"
+journalctl --user -u "$svc" -n 200 --no-pager | rg -i 'panic|error|failed|traceback'</code></pre>
+<p>Für System-Units dieselben Schritte ohne <code>--user</code>. <code>readlink -f /proc/&lt;pid&gt;/exe</code> muss auf das Binary im erwarteten <code>releases/&lt;sha&gt;</code>-Verzeichnis zeigen, weil die Wrapper mit <code>exec</code> starten. Bekannte Warnungen im Journal sind erlaubt; neue Startfehler, Panics oder Tracebacks nicht.</p>
 </section>
-<section id="haupttree-belegt">
-<h2>Haupttree belegt</h2>
-<p>Wenn der Haupttree durch laufende Arbeit belegt ist, im vorhandenen Worktree unter <code>.claude/worktrees/...</code> bauen oder den Build dort anstoßen lassen. Die Repos ignorieren diese Worktree-Pfade, also gehören Artefakte nicht in den Haupttree zurück außer dem freigegebenen Release-Binary. (<code>Deadlock-Bots/.gitignore</code>; <code>Deadlock-Twitch-Bot/.gitignore</code>)</p>
-<p>Binary-Swap ist nur der letzte Schritt: aus dem Worktree bauen, Zielservice stoppen oder kontrolliert neu starten, dann das geprüfte Binary in den vom Wrapper erwarteten Pfad unter <code>target/release/</code> installieren. Danach gilt wieder der Live-Beweis mit PID-Wechsel, <code>/proc/&lt;pid&gt;/exe</code> und Journal-Grep. (<code>Deadlock-Steam-Bot/rust/deploy/run-steam-bot.sh</code>; <code>Deadlock-Turniere/scripts/run_turniere_backend_rust.sh</code>; <code>Website/scripts/run_builds_backend.sh</code>)</p>
+<section id="fehlerbilder">
+<h2>Bekannte Fehlerbilder</h2>
+<ul>
+<li><code>dl-community-points-sync.service</code> stand am 2026-10-28 als <code>failed</code>, obwohl sein Timer aktiv ist. Vor einer Entscheidung das Journal des Jobs lesen.</li>
+<li>Units mit Startpfad unter <code>/home/naniadm/Documents</code> laufen aus dem Legacy-Checkout. Der Umzug auf <code>/opt/deadlock/...</code> ist eine eigene Änderung.</li>
+</ul>
 </section>
 </main>
 </body>
