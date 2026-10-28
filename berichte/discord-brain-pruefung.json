@@ -1461,8 +1461,8 @@
     },
     {
       "path": "public/discord-server/workflows/streamer-partner-werden.html",
-      "verified_at": "2026-09-19T23:16:29.094Z",
-      "content_sha256": "449db69024a1d0dc5a5351ecf84f9f52109e3241368512cfb846a323955f947d",
+      "verified_at": "2026-10-28T16:50:00.000Z",
+      "content_sha256": "d216c364b812c45a4296b84bc4ddb2e2b2011f30c690792872d3a0cbc16a795b",
       "code": [
         {
           "repository": "discord",
@@ -1480,12 +1480,15 @@
         },
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
             "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs",
             "rust/crates/tb-monitoring/src/announce/mod.rs",
             "rust/crates/tb-monitoring/src/announce/template.rs",
-            "rust/crates/tb-monitoring/src/announce/sink.rs"
+            "rust/crates/tb-monitoring/src/announce/sink.rs",
+            "rust/bin/tb-bot/src/streamer_role_sync.rs",
+            "rust/crates/tb-raid/src/deadlock_pause.rs",
+            "rust/migrations/20261017180000_guild_streamer_role_keep_min_days.sql"
           ]
         }
       ],
@@ -1499,9 +1502,46 @@
           "claim": "Twitch-Livehinweise hängen an aktivierter Einrichtung; Discord Go Live ist davon getrennt.",
           "evidence": "Twitch announce/{mod,template,sink}.rs durch unabhängigen A/B-Codeaudit bestätigt; keine native Discord-Streaming-Verknüpfung behauptet.",
           "verdict": "verified"
+        },
+        {
+          "claim": "Rolle Streamer bleibt, solange man im Fenster der letzten 60 Tage an mindestens 4 verschiedenen Tagen Deadlock gestreamt hat; danach wird sie entfernt. Text vorher falsch (4 Wochen, einmal).",
+          "evidence": "streamer_role_sync.rs Policy::fallback keep_window_days 60, keep_min_days 4; active_enough zählt COUNT(DISTINCT Berliner Datum) über had_deadlock_in_session oder Stream-Spiel deadlock. Migration 20261017180000 setzt role_keep_window_days auf 60 und role_keep_min_days 4 (Schema-Snapshot tb-db fresh_schema_snapshot.txt Zeilen 396-399). Text korrigiert, ohne Zahlen in Public-Text (Tiefenregel).",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Rolle (wieder) bekommen: regelmäßige Deadlock-Streams an mehreren Tagen in den letzten Wochen; Schwellen nicht offengelegt.",
+          "evidence": "gain_window_days 30, gain_min_days 4 in streamer_role_sync.rs; im Text bewusst ohne Zahlen, wie aktivitaet-und-pausen.html.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Grundvoraussetzungen: Mitglied auf dem Server, aktiver Partner, verknüpftes Discord-Konto; Entfernung bei Ende der Partnerschaft oder Abmeldung. Bot muss nutzbar sein (Mod, nicht gebannt, Verbindung gültig).",
+          "evidence": "streamer_role_sync.rs availability/excluded: status active, has_bot_auth, bot_unavailable (bot_unmodded, bot_banned, token_error), departnered/archived/blocked; require_bot_access aus Policy.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Die Prüfung läuft etwa jede Minute.",
+          "evidence": "discord.rs oauth_followup role_sync_interval_secs Standard 60; streamer_role_sync.rs Intervall mit Delay-Missed-Tick.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Bot gibt nach 60 Tagen ohne Deadlock-Stream die Mod-Rechte ab, Partnerschaft bleibt; Benachrichtigung per DM bei verknüpftem Discord-Konto.",
+          "evidence": "tb-raid deadlock_pause.rs DEADLOCK_PAUSE_DAYS = 60; unmod_candidates nur Kanäle mit Deadlock-Historie; user_dm_deadlock_pause_text an Streamer. Die Bedingung \"Discord-Konto verknüpft\" für die DM ist im Sweep nicht separat geprüft.",
+          "verdict": "partial"
+        },
+        {
+          "claim": "Ein neuer Deadlock-Stream bringt den Bot zurück, sofern die Twitch-Verbindung gültig ist.",
+          "evidence": "deadlock_pause.rs remod_candidates: Partner aktiv, needs_reauth false, gültiger Token, Deadlock-Session am oder nach dem Unmod-Tag genügt.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Live-Streamer-Rolle während Deadlock-Stream; Live-Rolle steht über der Streamer-Rolle.",
+          "evidence": "streamer_role_sync.rs sync_live_role und live_role_id (HOME_LIVE_ROLE_ID) vorhanden. Rangfolge über der Streamer-Rolle nicht im Repo belegt; offen.",
+          "verdict": "partial"
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Lila Punkt 🟣 vor Voice-Kanälen: im Rust-Code von Deadlock-Twitch-Bot (rust/bin, rust/crates) nicht gefunden; Fundort offen."
+      ]
     },
     {
       "path": "public/discord-server/scrims.html",
@@ -2072,6 +2112,29 @@
           "claim": "Steam-Kurzantwort nennt konkreten Kanal, Team-Einladungsauftrag und Bot-Freundschaft; Link allein bestellt keine Einladung.",
           "verdict": "verified",
           "evidence": "Produktives events.rs:563-581 und invite.rs:66-229/:649-719 getrennt vom Link-/Rangpfad link.rs:1231-1284. Öffentlicher Kanal per lesendem MCP am 07.10.2026 bestätigt. Vollständiger Einladungsablauf in onboarding-und-invites.html geprüft."
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/aktivitaet-und-pausen.html",
+      "verified_at": "2026-10-28T16:50:00.000Z",
+      "content_sha256": "22794852d8cb9d94fcf5f5dbd7a9d9d9c5d4b2b68146fdb6cc893623590c0c60",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-raid/src/deadlock_pause.rs",
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Pause nach 60 Tagen ohne Deadlock-Stream; Rückkehr bei Deadlock-Stream; nur Kanäle mit Deadlock-Historie.",
+          "evidence": "deadlock_pause.rs DEADLOCK_PAUSE_DAYS 60, unmod_candidates, remod_candidates. Text auf 60 Tage präzisiert.",
+          "verdict": "verified"
         }
       ],
       "gaps": []
