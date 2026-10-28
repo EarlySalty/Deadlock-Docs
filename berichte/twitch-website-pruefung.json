@@ -557,6 +557,16 @@
           "paths": [
             "bot/dashboard_v2/src/api/uplink.ts"
           ]
+        },
+        {
+          "repository": "uplink",
+          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "paths": [
+            "crates/uplink-ingest/src/media.rs",
+            "crates/uplink-service/src/media.rs",
+            "crates/uplink-service/src/media_output.rs",
+            "crates/uplink-service/src/media_status.rs"
+          ]
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
@@ -597,12 +607,15 @@
         "Encoder- und Bitratenempfehlungen (CBR, 2 s Keyframe-Intervall, Hardware-Encoder für Live, Ausschluss von Software-AV1) sind nicht geprüft.",
         "Aussage, die Encoder-Analyse lese das OBS-Protokoll nur lokal im Browser und speichere nur das normalisierte Profil: nicht geprüft; Datenschutzaussagen brauchen nachweisbare technische Durchsetzung.",
         "Aussage, der native Twitch-Dienst sei im geprüften OBS-Dienstprofil auf H.264 beschränkt und Uplink ordne die Mischungen serverseitig den Rollen Live und VOD zu: nicht geprüft."
+      ],
+      "operational_gaps": [
+        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
       ]
     },
     {
       "path": "public/twitch-bot/uplink-was-ist.html",
-      "verified_at": "2026-10-28T17:14:08.123093+00:00",
-      "content_sha256": "125593a4ed65c5b93bac8a30641ceff6f9d841788eae228ab2e3f908d97a0399",
+      "verified_at": "2026-10-28T17:25:43.377907+00:00",
+      "content_sha256": "61e7a72973a2404b2ba2aec6d59cb0902ee1e4c7e960e6c3cd71ab64d6cd46f4",
       "code": [
         {
           "repository": "twitch",
@@ -626,10 +639,20 @@
           "paths": [
             "bot/dashboard_v2/src/components/uplink/UplinkHochkantEditor.tsx"
           ]
+        },
+        {
+          "repository": "uplink",
+          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "paths": [
+            "crates/uplink-ingest/src/media.rs",
+            "crates/uplink-service/src/media.rs",
+            "crates/uplink-service/src/media_output.rs",
+            "crates/uplink-service/src/media_status.rs"
+          ]
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Aussage, es gebe keinen YouTube-Livestart aus dem Dashboard, war falsch. Uplink legt ihn beim OBS-Start an, wenn der Nutzer das freigibt (UplinkYouTubeLive.tsx). Die Hochkant-Aussage bleibt: der Editor ist in keiner Seite eingebunden. Offen bleiben Punkte, deren Code nicht gelesen wurde (Kick/YouTube-Verfügbarkeit je Dienst, Medienzugang, Add-on-Status, Bildformate).",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die VOD-Spur-Aussagen gelten nur für Zielprofile, die eine VOD-Spur verlangen (media_output.rs, config.rs). Der YouTube-Satz war falsch, die Freigabe im Dashboard ist nicht eingebunden; die alte Aussage „kein automatischer YouTube-Livestart“ wurde wiederhergestellt. Offen bleiben die Gaps.",
       "claims": [
         {
           "claim": "Uplink nimmt den OBS-Stream einmal entgegen und verteilt ihn; Zugang, Plattformen, Qualität und OBS-Fenster richtest du im Dashboard ein.",
@@ -668,17 +691,20 @@
           ]
         },
         {
-          "claim": "Live- und VOD-Mischung bleiben getrennt; fehlt Spur 2, hält Uplink nur den Twitch-Ausgang an, Spur 1 wird nie als VOD-Ersatz kopiert.",
+          "claim": "Live- und VOD-Mischung bleiben getrennt; fehlt die vom Zielprofil verlangte Spur 2, hält Uplink nur den Twitch-Ausgang an, Spur 1 wird nie als VOD-Ersatz kopiert.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+            "bot/dashboard_v2/src/i18n/en/uplink.ts",
+            "uplink/crates/uplink-service/src/media_output.rs"
           ]
         },
         {
-          "claim": "Twitch-VOD-Ton stellt Uplink automatisch zusammen; Livemischung auf Livestream, zweite Mischung auf VOD.",
+          "claim": "Verlangt das Zielprofil eine Twitch-VOD-Spur, stellt Uplink den VOD-Ton automatisch zusammen; Livemischung auf Livestream, zweite Mischung auf VOD.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+            "bot/dashboard_v2/src/i18n/en/uplink.ts",
+            "uplink/crates/uplink-service/src/media_output.rs",
+            "uplink/crates/uplink-service/src/config.rs"
           ]
         },
         {
@@ -690,11 +716,10 @@
           ]
         },
         {
-          "claim": "Uplink legt einen YouTube-Livestream beim OBS-Start nur an, wenn der Nutzer das im Dashboard freigibt; ohne Freigabe startet man YouTube-Übertragungen selbst.",
+          "claim": "Uplink legt beim OBS-Start keinen YouTube-Livestream automatisch an; YouTube-Übertragungen startet man über YouTube selbst.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/components/uplink/UplinkYouTubeLive.tsx",
-            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+            "bot/dashboard_v2/src/pages/Uplink.tsx"
           ]
         },
         {
@@ -708,13 +733,17 @@
       "gaps": [
         "Kick und YouTube sind je nach Uplink-Dienst verbindbar oder zeigen „noch nicht eingerichtet“; die Verfügbarkeitslogik je Dienst ist nicht abschließend geprüft.",
         "Die Trennung der Verbindung je Ziel und der Satz zum weiterlaufenden Medienzugang sind nicht geprüft.",
-        "Add-on-Status („bezahltes Add-on“), Weiterleitung passender Medien ohne Umwandlung und Bild-/Tonquellen in OBS sind nicht geprüft."
+        "Add-on-Status („bezahltes Add-on“), Weiterleitung passender Medien ohne Umwandlung und Bild-/Tonquellen in OBS sind nicht geprüft.",
+        "Die Komponente UplinkYouTubeLive.tsx ist nicht eingebunden; ein künftiger Freigabeschalter ist nicht belegt."
+      ],
+      "operational_gaps": [
+        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
       ]
     },
     {
       "path": "public/twitch-bot/uplink-stoerungen.html",
-      "verified_at": "2026-10-28T17:15:47.933006+00:00",
-      "content_sha256": "61e99a02d143af7b3a1cad97f480a0010f7baa24123766da73848ae316c8e0c8",
+      "verified_at": "2026-10-28T17:25:43.427057+00:00",
+      "content_sha256": "3eb3a8cd43e5fe5f27f9b9c4e194a6900bf1dc03d2bf2392502ae14f55b5cbcc",
       "code": [
         {
           "repository": "twitch",
@@ -730,6 +759,16 @@
           "paths": [
             "rust/crates/tb-dashboard-api/src/handlers/uplink.rs"
           ]
+        },
+        {
+          "repository": "uplink",
+          "revision": "ca9abd04102b372bd877bd800243b751e47ebef9",
+          "paths": [
+            "crates/uplink-ingest/src/media.rs",
+            "crates/uplink-service/src/media.rs",
+            "crates/uplink-service/src/media_output.rs",
+            "crates/uplink-service/src/media_status.rs"
+          ]
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
@@ -743,10 +782,11 @@
           ]
         },
         {
-          "claim": "Fehlt die zweite Tonspur für das VOD, hält nur der Twitch-Ausgang an.",
+          "claim": "Verlangt das Zielprofil eine VOD-Tonspur und fehlt sie, hält nur der Twitch-Ausgang an.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/i18n/en/uplink.ts"
+            "bot/dashboard_v2/src/i18n/en/uplink.ts",
+            "uplink/crates/uplink-service/src/media_output.rs"
           ]
         },
         {
@@ -764,6 +804,9 @@
         "Bild stockt: Hinweise zu CBR-Budget, Bildformatwechsel und Stockende bei Wechsel sind nicht geprüft.",
         "Internet bricht weg: Feld Verhalten bei Internetabriss, ausgegraute Frist und fehlendes eigenes Wartebild sind nicht im Detail geprüft (kein Wartebild-Text im Code gefunden, Aussage nur bedingt belegt).",
         "Hinweis zum Bildformatwechsel und zur Stockende-Dauer beschreibt Zuschauerwirkung; nicht im Code belegbar."
+      ],
+      "operational_gaps": [
+        "Die veröffentlichte Twitch-OBS-Hilfe verlangt pauschal zwei Mischungen; der laufende Uplink-Release erlaubt abhängig vom gespeicherten Zielprofil auch Live-Ton ohne getrennte VOD-Spur. Die redaktionelle Hilfe beschreibt deshalb ausdrücklich das tatsächlich aktive Zielprofil."
       ]
     },
     {
@@ -1028,8 +1071,8 @@
     },
     {
       "path": "public/quellen/twitch/werbemanager.html",
-      "verified_at": "2026-10-28T17:17:24.376460+00:00",
-      "content_sha256": "8e64373f634a726e5e14cf0d06ac65d83043fc38d6cbc6d3375bb6275a2e815a",
+      "verified_at": "2026-10-28T17:25:50.127250+00:00",
+      "content_sha256": "1b45c052422b70bfe6a687853c75ff994c7408c93360caa4066fa67c6666f01c",
       "code": [
         {
           "repository": "twitch",
@@ -1057,20 +1100,13 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Strategie heißt im Dashboard „Match schützen & Queue nutzen“ (nicht „und“). Verifiziert sind Strategienamen, Budgetgrenzen 1 bis 8 mit Standard 3, Mindestabstand und Startschutz, die Budgetanzeige bei Twitch-Plan, die 30-Tage-Aufbewahrung der Entscheidungen, der Tab-Name und die Berechtigungen. Offen bleiben das Verhalten bei Twitch-Grenzen, die Wirkung des ausgeschalteten Schalters und die Chat-Signal-Aussage.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Verifiziert sind Tab-Name, Budgetgrenzen 1 bis 8 mit Standard 3, Mindestabstand und Startschutz, die Budgetanzeige bei Twitch-Plan, die 30-Tage-Aufbewahrung der Entscheidungen, die Steam-ID-Stelle und die Berechtigungen. Offen bleiben Strategienamen (Dashboard „&“, Quelle „und“), Twitch-Verhalten und die Chat-Signal-Aussage.",
       "claims": [
         {
           "claim": "Der Tab heißt „Werbung (Experimentell)“ in Verwaltung.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/i18n/en/verwaltung.ts"
-          ]
-        },
-        {
-          "claim": "Zwei Strategien: „Nur Twitch-Pausen nutzen“ und „Match schützen & Queue nutzen“.",
-          "verdict": "verified",
-          "evidence": [
-            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx"
           ]
         },
         {
@@ -1131,7 +1167,8 @@
         "Die Aussagen zu Twitch-Plänen, Pausenverfügbarkeit, Werbung im Match ohne Pausen und zu ausgenommenen Zuschauern hängen von Twitch-Verhalten ab und sind nicht im Code belegbar.",
         "Der Werbemanager verschiebt Werbung in Warteschlange und Menü; die Auswahl dieser Momente und der Ablauf „Verschoben“ sind nur teilweise geprüft.",
         "Die Bilanz je Stream (gelaufene Werbung, guter Moment, genutztes Budget, Verschiebungen) ist nicht gegen die Anzeige geprüft.",
-        "Die Abgrenzung zur FAQ zur Bot-Werbung und zum Twitch-Werbungs-Manager ist nicht geprüft."
+        "Die Abgrenzung zur FAQ zur Bot-Werbung und zum Twitch-Werbungs-Manager ist nicht geprüft.",
+        "Strategienamen: Das Dashboard zeigt „Match schützen & Queue nutzen“, die Quelle und die Seite schreiben „und“. Die Seite bleibt bei der Quellfassung, bis die Quelle geändert ist."
       ]
     },
     {
@@ -1236,46 +1273,105 @@
     },
     {
       "path": "public/quellen/website/mitspieler.html",
-      "verified_at": "2026-10-28T17:17:24.425790+00:00",
-      "content_sha256": "e329cc1a425d708e26d305bf0d604294c6d9c27e06ffa57e2e1688514e0aa57d",
-      "code": [],
-      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 nicht prüfbar: Die Aussagen betreffen die Mitspielersuche und Voice-Lanes im Community-Discord, nicht den Twitch-Code. Ohne Prüfung bleibt die Seite unverifiziert.",
-      "claims": [],
-      "gaps": [
-        "Mitspielersuche im Community-Discord: Ablauf, sichtbare Felder und Freitext nicht gegen den Discord-Bot-Code geprüft.",
-        "Voice-Lane: automatische Zuordnung, Panel mit Modus, Plätzen und Zugangsregeln sowie Abhängigkeit vom Lane-Typ nicht geprüft.",
-        "Rangvoraussetzungen über Steam- und Rangverknüpfung, Wirkung eines Anzeigenamens und Support-Weg nicht geprüft."
-      ]
+      "verified_at": "2026-09-19T23:47:49.904226+00:00",
+      "content_sha256": "b158f8e9457e5c662ec9cd403b1cd4d4fa526b51dc7862e9ca2c0f0a08589218",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "rust/crates/dl-activity/src/player_finder.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Vorhandenes LFG-Panel und Voice-Lanes, Zugriffsregeln abhängig vom Typ; keine ungefragten Direktnachrichten oder unbestätigte Rangidentität empfohlen.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "rust/crates/dl-activity/src/player_finder.rs",
+            "rust/crates/dl-voice/src/tempvoice/engine.rs"
+          ]
+        }
+      ],
+      "gaps": []
     },
     {
       "path": "public/quellen/website/transparenz.html",
-      "verified_at": "2026-10-28T17:17:24.476466+00:00",
-      "content_sha256": "41bb3d40a204065984bc43101d3bb429545c7e9c864188b2bc8a491d7e9dd5ae",
-      "code": [],
-      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 nicht prüfbar: Die Aussagen betreffen die Wissenshilfe, die Dashboard-Anzeigen und Datenschutzwege anderer Angebote. Ohne Prüfung bleibt die Seite unverifiziert.",
-      "claims": [],
-      "gaps": [
-        "Wissenshilfe: Antworten beruhen nur auf freigegebenen Anleitungen und belegten Quellen; das Verhalten bei fehlenden Belegen ist nicht gegen den Brain-Code geprüft.",
-        "Dashboardzahlen sind keine vollständige Beobachtung; Lücken und Verzögerungen sind nicht gegen die Erfassungslogik geprüft.",
-        "Verweise auf Datenschutzhinweise, Twitch-Supporthilfe und Discord-FAQ sowie der Hinweis zu Löschanfragen sind nicht geprüft."
-      ]
+      "verified_at": "2026-09-19T23:47:49.911275+00:00",
+      "content_sha256": "cf658e4a169a1c5d5e616598de1d5fa92d69c9de9eb5cdb7630f87e69392855a",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
+          "paths": [
+            "rust/crates/dl-answer/src/lib.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Antwortschicht benötigt öffentliche Belege, technische Fehler sind keine Wissensbestätigung. Dashboardzählungen nicht als vollständige Aufmerksamkeit interpretiert; Löschung nur über tatsächlichen Hilfsweg.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/dl-answer/src/lib.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+          ]
+        }
+      ],
+      "gaps": []
     },
     {
       "path": "public/quellen/website/wohin.html",
-      "verified_at": "2026-10-28T17:17:24.520987+00:00",
-      "content_sha256": "3f845f36988f27ed425944d535489152fc196a09b1751312a12b405f2ec00ff7",
-      "code": [],
-      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 nicht prüfbar: Die Aussagen verweisen auf Discord-Angebote, Scrim- und Turnierwege, Concierge, !brain, Coaching und Paten. Ohne Prüfung bleibt die Seite unverifiziert.",
-      "claims": [],
-      "gaps": [
-        "Mitspielersuche und Voice-Lane im Community-Discord sowie die Scrim- und Turnierwege sind nicht gegen den Discord-Code geprüft.",
-        "Concierge und !brain als Quelle belegten Spielwissens sowie freiwilliges Coaching und Paten sind nicht geprüft.",
-        "Die Angaben zur Streamer-Teilnahme (Partnerseite, Twitch-Einrichtung, Uplink-OBS-Anleitung) sind nicht geprüft.",
-        "Die Aussage zum Zugang und zu bereits ausgeführten Freigaben ist nicht geprüft."
-      ]
+      "verified_at": "2026-09-19T23:47:49.922374+00:00",
+      "content_sha256": "9a6bb41b1b989c627bc59d9925e1702d09d53e1579fa436459a8f5563809ba82",
+      "code": [
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-coaching/src/App.tsx"
+          ]
+        },
+        {
+          "repository": "discord",
+          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "paths": [
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-voice/src/lfg_panel.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "paths": [
+            "website/src/data/externalLinks.ts"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Vorhandene LFG/Coaching/Concierge/Brain/Streamerwege mit konkreten Links; keine ausgeführten Kontofreigaben behauptet.",
+          "verdict": "verified",
+          "evidence": [
+            "dl-coaching/src/App.tsx",
+            "rust/crates/dl-community/src/concierge.rs",
+            "rust/crates/dl-voice/src/lfg_panel.rs",
+            "website/src/data/externalLinks.ts"
+          ]
+        }
+      ],
+      "gaps": []
     },
     {
       "path": "public/quellen/turniere/help_tournament_modes.html",
@@ -2899,8 +2995,8 @@
     },
     {
       "path": "public/twitch-bot/sprache-und-domains.html",
-      "verified_at": "2026-10-28T17:10:50.853857+00:00",
-      "content_sha256": "f731b78695a32af08c030efa0f54ec778288f7ef7c4f71de3934f9bfc5019aa0",
+      "verified_at": "2026-10-28T17:25:43.478174+00:00",
+      "content_sha256": "f7b1396f95034713344228b74a2aca5d2bb7e99eed34e05d67538aa33f6cdb12",
       "code": [
         {
           "repository": "twitch",
@@ -2951,7 +3047,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Startadresse leitet nicht weiter, sie zeigt die englische Partnerseite, deren Links auf /streamer/ führen. Die Aufzählung der übersetzten Dashboard-Seiten ist auf die belegten Beispiele Overlay-Baukasten und Coaching gekürzt. Die Aussage, der Bot antworte im Chat durchgehend auf Deutsch, ist auf die Begrüßung eingegrenzt, weil nur sie geprüft wurde. Die Befehlsnamen-Aussage wurde entfernt, weil das Dashboard-Sprachverhalten der Befehle nicht belegt ist.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Korrigiert: Die Startadresse leitet nicht weiter, sie zeigt die englische Partnerseite, deren Links auf /streamer/ führen. Die Aufzählung der übersetzten Dashboard-Seiten ist auf die belegten Beispiele Overlay-Baukasten und Coaching gekürzt. Die Aussage, der Bot antworte im Chat durchgehend auf Deutsch, ist auf die Begrüßung eingegrenzt, weil nur sie geprüft wurde. Die Befehlsnamen-Aussage wurde entfernt, weil das Dashboard-Sprachverhalten der Befehle nicht belegt ist. Zusätzlich korrigiert: Coaching und die Uplink-OBS-Anleitung als übersetzt sind nicht belegt und stehen jetzt unter Lücken; der Satz wurde im Text gekürzt.",
       "claims": [
         {
           "claim": "Dashboard und Partnerseite gibt es auf Deutsch und Englisch; dead-lock.de ist der englische Einstieg.",
@@ -3039,14 +3135,6 @@
           ]
         },
         {
-          "claim": "Dashboard-Seiten wie Overlay-Baukasten und Coaching sind übersetzt; Uplink-Hilfe und Uplink-OBS-Anleitung folgen der Sprache.",
-          "verdict": "verified",
-          "evidence": [
-            "bot/dashboard_v2/src/i18n/en/overlay.ts",
-            "bot/dashboard_v2/src/i18n/en/charts.ts"
-          ]
-        },
-        {
           "claim": "Impressum, Datenschutz und AGB bleiben auf Deutsch.",
           "verdict": "verified",
           "evidence": [
@@ -3097,9 +3185,19 @@
           "evidence": [
             "website/src/data/landingEnglish.ts"
           ]
+        },
+        {
+          "claim": "Dashboard-Seiten wie der Overlay-Baukasten sind übersetzt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/i18n/en/overlay.ts"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Coaching-Seiten als übersetzte Dashboard-Seiten: nicht im geprüften Code belegt.",
+        "Uplink-Hilfe und Uplink-OBS-Anleitung folgen der Sprache: nicht belegt; die statische Anleitung im Dashboard ist deutsch."
+      ]
     },
     {
       "path": "public/twitch-bot/titel-studio.html",
