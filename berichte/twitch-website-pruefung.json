@@ -1852,48 +1852,97 @@
     },
     {
       "path": "public/twitch-bot/kategorie-markt.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "8aef879c9764bd6d79158f37d76c0526beac4870fb318d26556f545af0bb58bf",
+      "verified_at": "2026-10-28T16:47:36.878050+00:00",
+      "content_sha256": "246dc5179d63e97758b041dc4f8652c20b0501b20d0d68f7f4de86e9af9be1b5",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/pages/Category.tsx",
             "bot/dashboard_v2/src/components/charts/CategoryTimingsChart.tsx"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft; Dashboard-Code dieser Seite ist identisch zu origin/main. Zwei Aussagen zu Schwellenwert und Auswertungsfenster aus dem Text entfernt.",
       "claims": [
         {
-          "claim": "Category KPI cards: Streamer gesamt, Partner (Tracked), Kategorie Ø Viewer, Platz #1; top lists of 20 partner and category streamers; full list with rank, Ø viewers, peak and status, paginated and sortable by rank, Ø viewers or peak.",
+          "claim": "KPI-Karten Streamer gesamt, Partner (Tracked), Kategorie Ø Viewer und Platz #1 mit dem Streamer auf Rang 1.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Category.tsx"
           ]
         },
         {
-          "claim": "Filters: name search, partner status (all / partner / community), Alle Streamer / Meine Peer-Group, Nur organisch hiding streamers above 100 Ø viewers.",
+          "claim": "Top Partner Streamer und Top Deadlock Streamer (Kategorie gesamt) zeigen jeweils die ersten 20 Einträge.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Category.tsx"
           ]
         },
         {
-          "claim": "The market evaluates the first 300 category entries; partner-tracked count and top lists are taken from this slice.",
+          "claim": "Gesamtliste mit Rang, Streamer, Ø Viewer, Peak und Status Partner oder Community, seitenweise und sortierbar nach Rang, Ø Viewer oder Peak.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Category.tsx"
           ]
         },
         {
-          "claim": "Kategorie-Timings chart is plan-dependent.",
+          "claim": "Suchfeld Streamer suchen, Partnerstatus Alle, Partner und Community.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Einstufung Alle Streamer und Meine Peer-Group erscheint nur, wenn der Kanal eingestuft ist; die Ergebniszeile nennt bei Peer-Group die Einstufung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Nur organisch blendet Kanäle mit großer externer Reichweite aus.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Nur organisch: konkreter Reichweitenschwellenwert aus dem früheren Text entfernt, weil er Entscheidungslogik ist.",
+          "verdict": "removed",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Kategorie-Timings zeigt Aktivität nach Uhrzeit oder Wochentag und ist plan-gebunden.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Category.tsx",
             "bot/dashboard_v2/src/components/charts/CategoryTimingsChart.tsx"
+          ]
+        },
+        {
+          "claim": "Werte gelten für den im Dashboard gewählten Zeitraum; Peak ist der Spitzenwert in diesem Zeitraum.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Auswertungsfenster von 300 Kategorie-Einträgen im früheren Text; im neuen Text durch Aussage zum oberen Teil der Rangliste ersetzt.",
+          "verdict": "removed",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Partner (Tracked) und die Top-Listen stammen aus dem oberen Teil der Kategorie-Rangliste.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
           ]
         }
       ],
@@ -2007,43 +2056,92 @@
     },
     {
       "path": "public/twitch-bot/zusammen-spielen.html",
-      "verified_at": "2026-10-28T15:51:42.336037+00:00",
-      "content_sha256": "9d5c325ca38a4ec3faaf77f14889c73a5b84d033b8e3f8210e393e0c4219cc35",
+      "verified_at": "2026-10-28T16:47:36.912808+00:00",
+      "content_sha256": "5c3cc60d37213c06a040c217690e3d93cff52333c7c713a05ce10ecdb701e50c",
       "code": [
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/pages/Community.tsx"
           ]
         },
         {
           "repository": "twitch",
-          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "rust/crates/tb-dashboard-api/src/handlers/community.rs"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft; origin/main ändert an diesen Dateien nichts. Ergänzt um den Button Zum Streamer-VC, der bisher fehlte.",
       "claims": [
         {
-          "claim": "Partner suggestions include only active partners that have not left, are not archived and have not opted out.",
+          "claim": "Vorschläge nur aus aktiven Partnern, die nicht ausgeschieden, nicht archiviert und nicht ausgenommen sind.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-dashboard-api/src/handlers/community.rs"
           ]
         },
         {
-          "claim": "Voice channel texts: 'Zum Sprachkanal', 'Du bist bereits in diesem Sprachkanal.', 'Belegung des Sprachkanals', 'Discord-Verbindung verwalten'.",
+          "claim": "Passende Streamzeiten stehen zuerst; bekannte Ränge und Spielmodi fließen in die Auswahl ein.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Community.tsx"
           ]
         },
         {
-          "claim": "Schedule grid in Europe/Berlin time with 30-minute cells.",
+          "claim": "Jeder Vorschlag zeigt Signalpunkte als Orientierung, kein Versprechen für einen gemeinsamen Stream.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Aktuelle Titel gelten als Absichtshinweise, nicht als bestätigte Match-Daten.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Gemeinsame Zeitfenster in Berliner Zeit in halbstündigen Fenstern; beobachtete Gewohnheiten sind keine Termine.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Button Zum Streamer-VC zur Verabredung mit anderen Streamern.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Sprachkanäle sind auf das verknüpfte Discord-Konto begrenzt; Klick öffnet Discord; Discord prüft Beitritt; kein Verschieben durch den Bot, kein Audio im Browser.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Anzeige aktualisiert sich regelmäßig (alle 30 Sekunden); veraltete Daten werden markiert.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Bei fehlendem Zugriff verlinkt der Reiter auf Discord-Verbindung verwalten.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Demo zeigt die Oberfläche ohne persönliche Steam- oder Discord-Livedaten; echte Vorschläge brauchen ein Partner-Konto.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/pages/Community.tsx"
