@@ -84,7 +84,7 @@
     <p>Neben den Befehlen gibt es Nachrichten, die der Bot ohne Befehl schreibt. Der Streamer steuert sie im Dashboard.</p>
     <ul>
       <li><strong>Follow-Hinweis:</strong> Ist er eingeschaltet, bittet der Bot Zuschauer um einen Follow, die dem Kanal noch nicht folgen und zum ersten Mal im Chat schreiben. Der Text ist anpassbar, und der Bot wartet zwischen zwei Hinweisen im Kanal kurz. Mods und der Streamer erhalten ihn nicht, Befehle lösen ihn nicht aus.</li>
-      <li><strong>Begrüßung:</strong> Standardmäßig aus. Ist sie eingeschaltet, grüßt der Bot zurück, wenn jemand nur mit einem Gruß wie „Hi“ oder „Moin“ in den Chat kommt. Pro Person und Stream geschieht das höchstens einmal. Eine Begrüßung von sich aus gibt es nicht.</li>
+      <li><strong>Begrüßung:</strong> Standardmäßig aus. Ist sie eingeschaltet, grüßt der Bot zurück, wenn jemand nur mit einem Gruß wie „Hi“ oder „Moin“ in den Chat kommt. Pro Person und Stream geschieht das höchstens einmal, und im Kanal grüßt der Bot höchstens alle zehn Minuten. Bekommt dieselbe Nachricht bereits den Follow-Hinweis, bleibt der Gruß aus. Eine Begrüßung von sich aus gibt es nicht.</li>
     </ul>
   </section>
 
@@ -121,7 +121,7 @@
 
   <section id="rollenbefehle">
     <h2>Befehle zur Steuerung: Broadcaster, Moderation und Super-Mods</h2>
-    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Bei <code>!title</code> bleibt er still; bei <code>!vodclip</code> ebenfalls, wenn die Einstellung aus ist. Bei <code>!clipcontest</code> bleibt er still, wenn die Nachricht aus einem fremden Shared Chat stammt. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code>, <code>!silentraid</code> und die KI-Engagement-Befehle darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
+    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Bei <code>!title</code> bleibt er still; bei <code>!vodclip</code> ebenfalls, wenn die Einstellung aus ist, die Nachricht aus einem fremden Shared Chat stammt oder der Kanal innerhalb der letzten 60 Sekunden schon einen Ausschnitt angefordert hat. Bei <code>!clipcontest</code> bleibt er still, wenn die Nachricht aus einem fremden Shared Chat stammt. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code>, <code>!silentraid</code> und die KI-Engagement-Befehle darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
     <ul>
       <li><code>!raid</code> · <code>!traid</code>: startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
       <li><code>!raid &lt;name&gt;</code>: schickt deine Zuschauer direkt zu diesem Twitch-Kanal, zum Beispiel <code>!raid kanalname</code>. Der Kanal muss gerade live sein. Der Befehl funktioniert, wenn dein letzter Stream in der Deadlock-Kategorie lief und du gerade live bist oder der Stream erst kurz vorbei ist. Ist der Zielkanal offline, antwortet der Bot im Chat. Den automatischen Raid am Stream-Ende beschreibt die Seite <a href="auto-raid.html">Auto-Raid</a>.</li>

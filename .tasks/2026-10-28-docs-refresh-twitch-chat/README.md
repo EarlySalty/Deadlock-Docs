@@ -1,6 +1,6 @@
 # Docs refresh: Twitch chat (2026-10-28)
 
-Source: origin/main Deadlock-Twitch-Bot (tb-chat command dispatch, sub_reminder.rs, follow_hint.rs, command catalog).
+Source: Deadlock-Twitch-Bot origin/main d1b234cc3 (local ref, read from the ~/repos checkout; tb-chat command dispatch, sub_reminder.rs, follow_hint.rs, command catalog).
 
 ## Inventory (chat-befehle scope)
 | Feature | Where visible | Before | Action |
