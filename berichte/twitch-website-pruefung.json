@@ -772,8 +772,8 @@
     },
     {
       "path": "public/twitch-bot/faq-analytics.html",
-      "verified_at": "2026-09-19T23:47:49.832246+00:00",
-      "content_sha256": "ac730f8bac35817d03180c7c5c8611f702a497b8013342c8dc24c6ba1f076769",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "b8fdb8d41591a912f87e45afdeb496741b141866c7ea159598df40ea4ec46caf",
       "code": [
         {
           "repository": "twitch",
@@ -784,11 +784,21 @@
             "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs",
             "rust/crates/tb-chat/src/commands.rs"
           ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Category.tsx",
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
         }
       ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
       "claims": [
         {
-          "claim": "Kanalbezogener Zugriff, vorhandene Analyticsansichten und Reportabhängigkeit; keine Vollständigkeits- oder Speicherzeitgarantie. Engagement-Opt-out ausdrücklich keine vollständige Datenlöschung.",
+          "claim": "Channel-scoped access, existing analytics views, report dependency; no completeness or retention guarantee. Engagement opt-out is not a full data deletion.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/App.tsx",
@@ -796,11 +806,17 @@
             "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs",
             "rust/crates/tb-chat/src/commands.rs"
           ]
+        },
+        {
+          "claim": "Markt under Wachstum and the suggestions under Zusammen spielen show data beyond the own channel.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx",
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
         }
       ],
-      "gaps": [],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Fachpfade ohne Diff zwischen Releasequelle und origin/main; keine laufende Funktion allein aus Fremdbranch beworben."
+      "gaps": []
     },
     {
       "path": "public/twitch-bot/faq-werbung.html",
@@ -1278,8 +1294,8 @@
       "path": "public/twitch-bot/twitch-streamer-dashboard.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
       "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
-      "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "a9fbcb6a3bfa34acc412d8921f42a1970fcfa84006b3d8157c1190241d69c472",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "3155301107045c26e40da6358718bb577907f17ee0c25c3564d2007e15d69168",
       "code": [
         {
           "repository": "twitch",
@@ -1305,6 +1321,14 @@
             "bot/dashboard_v2/src/i18n/dictionary.ts",
             "rust/crates/tb-domain/src/vod_range.rs",
             "rust/crates/tb-internal-api/src/handlers/streamers.rs"
+          ]
+        },
+        {
+          "claim": "'Hilfe im Dashboard' section: the assistant answers questions about the bot, the partner network and the channel.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/dashboard_assistent.rs"
           ]
         }
       ],
@@ -1835,6 +1859,402 @@
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs",
             "rust/crates/tb-chat/src/pipeline.rs"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/kategorie-markt.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "8aef879c9764bd6d79158f37d76c0526beac4870fb318d26556f545af0bb58bf",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Category.tsx",
+            "bot/dashboard_v2/src/components/charts/CategoryTimingsChart.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "Category KPI cards: Streamer gesamt, Partner (Tracked), Kategorie Ø Viewer, Platz #1; top lists of 20 partner and category streamers; full list with rank, Ø viewers, peak and status, paginated and sortable by rank, Ø viewers or peak.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Filters: name search, partner status (all / partner / community), Alle Streamer / Meine Peer-Group, Nur organisch hiding streamers above 100 Ø viewers.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "The market evaluates the first 300 category entries; partner-tracked count and top lists are taken from this slice.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx"
+          ]
+        },
+        {
+          "claim": "Kategorie-Timings chart is plan-dependent.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Category.tsx",
+            "bot/dashboard_v2/src/components/charts/CategoryTimingsChart.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/dashboard-hilfe.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "1d27e90d8503c55045c99876ca374190da6b985693ffcbf1f5d7ea2b859b9cb3",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/dashboard_assistent.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "The button 'Hilfe bekommen' opens the assistant (closes with 'Schließen'); the assistant offers questions suggested for the current tab.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/assistent/DashboardAssistent.tsx"
+          ]
+        },
+        {
+          "claim": "The assistant is shown on dashboard routes, except in preview and demo mode.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        },
+        {
+          "claim": "The assistant answers questions about the bot, the partner network and the channel; when information is missing it says so and points to the community Discord instead of guessing.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/dashboard_assistent.rs"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/lurker-steuer.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "43e673929aebe93b7537c1035e974f8057ea8a681d59ce59d4de47cb5e860bff",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx",
+            "rust/crates/tb-chat/src/promos.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "Reward name is 'Lurker Steuer'; dashboard shows 'Belohnung fehlt' or 'Status unbekannt'; the dashboard guides you to Zuschauerbelohnungen, Punkte und Belohnungen and Individuelle Belohnung hinzufügen.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
+          ]
+        },
+        {
+          "claim": "Reminders are sparse, at most two mentions per reminder, only for long-standing viewers; the feature is off by default and plan-gated.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx",
+            "rust/crates/tb-chat/src/promos.rs"
+          ]
+        },
+        {
+          "claim": "Chat command !lurkersteuer_off with aliases !lurkersteuer_aus and !lurker_tax_off; only the broadcaster may use it.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "When the viewer list read permission is missing while the switch is on, the dashboard shows a notice.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/verwaltung/LurkerTaxSection.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/zusammen-spielen.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "9d5c325ca38a4ec3faaf77f14889c73a5b84d033b8e3f8210e393e0c4219cc35",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "rust/crates/tb-dashboard-api/src/handlers/community.rs"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "Partner suggestions include only active partners that have not left, are not archived and have not opted out.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/community.rs"
+          ]
+        },
+        {
+          "claim": "Voice channel texts: 'Zum Sprachkanal', 'Du bist bereits in diesem Sprachkanal.', 'Belegung des Sprachkanals', 'Discord-Verbindung verwalten'.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        },
+        {
+          "claim": "Schedule grid in Europe/Berlin time with 30-minute cells.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Community.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/coaching-was-tun.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "7ef76d31797b5f557e277be62b197de637644b87662822f688a137955ae2c661",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/WasTun.tsx",
+            "bot/dashboard_v2/src/pages/coachingSubPages.tsx",
+            "bot/dashboard_v2/src/components/layout/Header.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/AIAnalysis.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "Was tun? has five sub-tabs: Pro Session, Empfehlungen, Format & Auffindbarkeit, Community & Konkurrenz, KI-Analyse.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/WasTun.tsx"
+          ]
+        },
+        {
+          "claim": "Empfehlungen shows Top-Empfehlungen first, then Weitere Empfehlungen.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/coachingSubPages.tsx"
+          ]
+        },
+        {
+          "claim": "Format sub-tab covers stream length, schedule, titles and category tags.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/coachingSubPages.tsx"
+          ]
+        },
+        {
+          "claim": "Community sub-tab covers retention, community strength, double streams and raids, peer comparison and competition density.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/coachingSubPages.tsx"
+          ]
+        },
+        {
+          "claim": "The period is selected in the dashboard header.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/layout/Header.tsx"
+          ]
+        },
+        {
+          "claim": "KI-Analyse is a textual summary of the channel's own numbers.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/AIAnalysis.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    {
+      "path": "public/twitch-bot/analytics-dashboard.html",
+      "verified_at": "2026-10-28T15:51:42.336037+00:00",
+      "content_sha256": "c3361da0b25e55c5c712fb8bc438a5aaa99a79a289a17ac56845d4b668635553",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
+            "bot/dashboard_v2/src/App.tsx",
+            "bot/dashboard_v2/src/pages/Overview.tsx",
+            "bot/dashboard_v2/src/components/charts/ViewerTimelineChart.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Publikum.tsx",
+            "bot/dashboard_v2/src/pages/Audience.tsx",
+            "bot/dashboard_v2/src/pages/Viewers.tsx"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+          "paths": [
+            "bot/dashboard_v2/src/pages/Growth.tsx",
+            "bot/dashboard_v2/src/pages/Wachstum.tsx",
+            "bot/dashboard_v2/src/pages/Planung.tsx",
+            "bot/dashboard_v2/src/pages/StreamReports.tsx",
+            "bot/dashboard_v2/src/pages/PartnerProfile.tsx",
+            "bot/dashboard_v2/src/pages/Monetization.tsx",
+            "bot/dashboard_v2/src/components/layout/Header.tsx"
+          ]
+        }
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+      "live_code_note": "Checked against the live release revision; the page describes the live state of the dashboard.",
+      "claims": [
+        {
+          "claim": "Tabs: Übersicht, Streams, Publikum, Wachstum, Planung, Zusammen spielen, Mein Profil, Was tun?, Monetization.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/layout/TabNavigation.tsx",
+            "bot/dashboard_v2/src/App.tsx"
+          ]
+        },
+        {
+          "claim": "Übersicht shows four KPI cards (Growth, Revenue, Network, Retention) and a viewer chart, labelled Viewer Timeline (Live-Daten) or Viewer Entwicklung.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Overview.tsx",
+            "bot/dashboard_v2/src/components/charts/ViewerTimelineChart.tsx"
+          ]
+        },
+        {
+          "claim": "Publikum sub-tabs: Überblick, Einzel-Viewer, Chat-Treue, Chat-Aktivität, Chat-Tiefe.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Publikum.tsx"
+          ]
+        },
+        {
+          "claim": "Überblick contains Watch Time, Conversion, Follower funnel, demographics and Lurker-Analyse.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Audience.tsx"
+          ]
+        },
+        {
+          "claim": "Einzel-Viewer contains viewer segments (Dedicated, Regular, Casual, Lurker, Neu), Vermisste Chatter and the Viewer-Verzeichnis.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Viewers.tsx"
+          ]
+        },
+        {
+          "claim": "Wachstum contains Raid-Bilanz, Raid-Retention, Trends, Vergleich, Markt and Experimentell.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Growth.tsx",
+            "bot/dashboard_v2/src/pages/Wachstum.tsx"
+          ]
+        },
+        {
+          "claim": "Streams lists stream reports.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/StreamReports.tsx"
+          ]
+        },
+        {
+          "claim": "Planung shows planning figures for stream times.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Planung.tsx"
+          ]
+        },
+        {
+          "claim": "Mein Profil is the partner profile with stream schedule; a switched-off profile stays a private draft.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/PartnerProfile.tsx"
+          ]
+        },
+        {
+          "claim": "Monetization covers Hype Train figures.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Monetization.tsx"
+          ]
+        },
+        {
+          "claim": "The period is selected in the dashboard header.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/layout/Header.tsx"
           ]
         }
       ],

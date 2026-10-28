@@ -16,7 +16,7 @@ Scope: streamer- and viewer-facing numbers and coaching in Deadlock-Twitch-Bot d
 | Was tun? coaching (Pro Session, Empfehlungen, Format & Auffindbarkeit, Community & Konkurrenz, KI-Analyse) | Was tun? | missing | new page coaching-was-tun |
 | Markt-Unterreiter (Wachstum > Markt) | Wachstum | missing | new page kategorie-markt; /twitch/kategorie is a different page (CategoryCollector), not covered |
 | Zusammen spielen (partner overlap, voice channels) | Zusammen spielen | missing | new page zusammen-spielen |
-| Dashboard assistant "Hilfe bekommen" | Startseite /twitch/dashboard only (App.tsx zeigeAssistent) | missing | new page dashboard-hilfe, pointer in streamer dashboard |
+| Dashboard assistant "Hilfe bekommen" | Live release 4bfc09af: every dashboard route except preview/demo (App.tsx zeigeAssistent); origin/main d1b234cc restricts it to /twitch/dashboard (PREVIEW_HOME_ROUTE) | missing | page written for live state; update when the restriction ships |
 | Lurker-Steuer and reward "Lurker Steuer" | Verwaltung | partial (reminder only) | new page lurker-steuer, streamer-dashboard updated |
 | !lurkersteuer_off aliases | Chat, broadcaster only | documented, matches code | kept |
 | Go-live Discord ping | Discord | wrong ("bestimmte Rollen-Pings") | fixed in discord-golive (no role ping) |
