@@ -132,6 +132,8 @@ def render_document(stand, moderators, community_moderators, coaches):
 <head>
   <meta charset="utf-8">
   <title>Team und Ansprechpartner</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz: Die aktuell zuständigen Personen findest du in Willkommen im Abschnitt Community-Team . Für ein persönliches Anliegen nutzt du den dortigen…">
   <meta name="tags" content="discord-server, team, support, ansprechpartner, serverproblem, hilfe">
   <meta name="stand" content="{stand}">
   <meta name="quelle" content="Abgleich mit aktueller Implementierung und angegebenen Quellen">
@@ -150,10 +152,12 @@ def render_document(stand, moderators, community_moderators, coaches):
   <section id="richtiger-weg">
     <h2>Der richtige Weg je Anliegen</h2>
     <table>
+      <tbody>
       <tr><th>Anliegen</th><th>Weg</th></tr>
       <tr><td>Server- oder Bot-Frage</td><td>Privater Fragechat über <code>/faq</code>.</td></tr>
       <tr><td>Persönliches Support- oder Moderationsanliegen</td><td>Support-Schnellzugriff im Abschnitt <em>Willkommen</em>.</td></tr>
       <tr><td>Coaching</td><td>Sichtbarer Coaching-Bereich beziehungsweise <code>/coaching-anfrage</code>.</td></tr>
+    </tbody>
     </table>
   </section>
 
