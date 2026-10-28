@@ -28,7 +28,7 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 <section id="sendet-obs-aber-nichts-kommt-an">
 <h2>OBS sendet, aber auf der Plattform kommt nichts an</h2>
 <p>Ein eingeschaltetes Ziel heißt nur, dass es beim nächsten Stream berücksichtigt wird. Ob Uplink gerade sendet, zeigt der laufende Betrieb im Dashboard. Eine Übertragung gilt auf der Plattform erst als bestätigt, wenn dort die Livebestätigung vorliegt.</p>
-<p>Fehlt die zweite Tonspur für das Twitch-VOD, hält nur der Twitch-Ausgang an. Die Anleitung dazu steht unter <a href="uplink-obs.html">Uplink: OBS einrichten</a>, Schritt 4.</p>
+<p>Fehlt die zweite Tonspur für das Twitch-VOD, hält nur der Twitch-Ausgang an. Die Anleitung dazu steht unter <a href="uplink-obs.html">Uplink: OBS einrichten</a>, Schritt 5.</p>
 </section>
 <section id="obs-kann-sich-nicht-verbinden">
 <h2>OBS kann sich nicht verbinden</h2>
@@ -46,8 +46,8 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 </section>
 <section id="internet-bricht-weg">
 <h2>Internet bricht weg</h2>
-<p>Bricht die Verbindung von OBS ab, wartet Uplink eine gespeicherte Frist auf die Wiederverbindung. Du stellst sie im Dashboard unter <strong>Verhalten bei Internetabriss</strong> ein: von 0 bis 300 Sekunden, Standard sind 90 Sekunden. Die Änderung gilt für die nächste Session, nicht für den laufenden Stream.</p>
-<p>Solange die Frist im Dashboard als noch nicht angewendet markiert ist, gilt sie für den aktuellen Betrieb noch nicht. Ein Verbindungsende allein heißt nicht, dass du den Stream bewusst beendet hast. Uplink bietet kein eigenes Wartebild an.</p>
+<p>Bricht die Verbindung von OBS ab, kann Uplink eine gespeicherte Frist auf die Wiederverbindung warten. Die Frist findest du im Dashboard unter <strong>Verhalten bei Internetabriss</strong>. Ob sie einstellbar ist, zeigt das Dashboard: Ist das Feld ausgegraut, gibt es im Dienst noch keine wirksame Frist, und das Dashboard sagt dir das. Ist das Feld bedienbar, gilt eine geänderte Frist für die nächste Session, nicht für den laufenden Stream. Die zulässigen Werte zeigt das Eingabefeld selbst.</p>
+<p>Ein Verbindungsende allein heißt nicht, dass du den Stream bewusst beendet hast. Uplink bietet kein eigenes Wartebild an.</p>
 </section>
 </main>
 </body>

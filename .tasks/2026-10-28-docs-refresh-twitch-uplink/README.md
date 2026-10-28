@@ -57,7 +57,20 @@ Counts: 22 rows. Already correct: 2 (desired vs running output, VOD audio). Garb
 - managed_targets: import_sources unlinks every listed target and only rewrites it from a rust/knowledge/bot/<stem>.md source. The Twitch repo has no source for the two new pages, so they were removed from managed_targets. Open: confirm the new pages reach the Brain and website without a managed_targets entry, or add knowledge sources in Deadlock-Twitch-Bot.
 - Status texts: Für Uplink fehlen noch Rechte + Rechte ergänzen; Zugang erneuern + Neu verbinden. Corrected.
 - Docks: addresses are masked fields, not hidden; copy allowed. Corrected.
-- AV1 test mode: OBS must send 2560 x 1440 at 60 fps AV1. Added.
+- AV1 test mode: OBS must send 2560 x 1440 at 60 fps AV1. Documented as not selectable in the dashboard (round 2).
 - Kick/YouTube: now conditional on the dashboard offering a connection. Open: per-user verbindbar value not checked live.
 - Reconnect range 0 to 300 s (relay max) and default 90 s: relay src/store.rs:145,148; not checked live.
 - Existing audit records in berichte/twitch-website-pruefung.json for the three edited Uplink pages no longer match the content hash. The website refresh path withdraws such pages to archive/ until re-audited. Open: needs a Fachpruefung run; not done here.
+
+## Gate round 3 (BLOCK) and fixes
+
+- Reconnect wait: the dashboard enables the setting only when the service reports capabilities.reconnect. The page now says so and drops fixed 0-300 s and 90 s values; the input shows its own bounds.
+- Stoerungen VOD hint now points to uplink-obs Schritt 5 (unlock procedure).
+- Docks: reveal button condition added; Kick/YouTube wording now refers to what the Uplink service offers.
+
+## Open live checks (not blocking the docs text)
+
+- GET of the Uplink me endpoint: capabilities.reconnect, reconnect_wait_max_s, default, and verbindbar for Kick and YouTube on the live host.
+- obs_docks.enabled value in the production bot config.
+- Activity dock content: obs_dock.rs also carries raids and gift subs; not yet reflected in the page.
+- Website export after merge: confirm the five uplink pages land in public output and not in archive/ (audit hashes changed).
