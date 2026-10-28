@@ -1237,16 +1237,15 @@
     },
     {
       "path": "public/quellen/website/coaching.html",
-      "verified_at": "2026-10-28T17:39:02.032957+00:00",
-      "content_sha256": "62527f266980baaaf3a4a708a86f90a1a33dce4bfd4e614841dea6507ff08eb5",
+      "verified_at": "2026-10-28T17:42:34.781347+00:00",
+      "content_sha256": "07fa725303ecbdd22570f2be1c1141cee4e9710c551a8303076389a2bebba752",
       "code": [
         {
           "repository": "website",
           "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
           "paths": [
-            "dl-coaching/src/App.tsx",
-            "builds/backend-rust/src/routes/coaching.rs",
-            "dl-landing/coaching/index.html"
+            "dl-landing/coaching/index.html",
+            "dl-coaching/src/App.tsx"
           ]
         },
         {
@@ -1259,18 +1258,24 @@
       ],
       "claims": [
         {
-          "claim": "Im Discord-Coaching-Bereich führt der Button „Coaching-Anfrage starten“ (Alternative „Auf der Website öffnen“) auf /coaching; Übernahme über „Coaching übernehmen“ mit 24 h Reservierung.",
+          "claim": "Im Discord-Coaching-Bereich führt der Button „Coaching-Anfrage starten“ auf /coaching, wo die Anfrage gestellt wird.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/dl-community/src/coaching_requests.rs",
-            "dl-landing/coaching/index.html"
+            "rust/crates/dl-community/src/coaching_requests.rs:64,630-637"
+          ]
+        },
+        {
+          "claim": "Nach dem Absenden wird die Anfrage automatisch einem Coach zugeteilt und 24 h reserviert; nur dieser Coach (oder ein Admin) kann sie übernehmen. Übernahme per „Coaching übernehmen“; der Coachee erhält eine Nachricht mit 7 Tagen Zeitfenster.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/dl-community/src/coaching_requests.rs:60,1041-1045,2305-2310,2342-2373,2416"
           ]
         },
         {
           "claim": "Das Coaching in der Community ist kostenlos.",
           "verdict": "verified",
           "evidence": [
-            "dl-landing/coaching/index.html"
+            "dl-landing/coaching/index.html (Website ff6ebffd, Seitentitel und Beschreibung)"
           ]
         }
       ],
