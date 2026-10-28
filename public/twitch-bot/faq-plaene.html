@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title>Pläne, Preise und Kündigung</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Die aktuelle Planseite im Dashboard zeigt die heute verfügbaren Funktionen und Abrechnungsoptionen. Feste Preise, Rabatte oder Kontingente nennen…">
-  <meta name="tags" content="twitch-bot, pläne, preise, kündigung, abo">
-  <meta name="stand" content="2026-09-20">
+  <meta name="description" content="Kurz gesagt. Der Twitch-Bot hat einen kostenlosen Tarif Netzwerk Free und die kostenpflichtigen Stufen Netzwerk Plus und Studio. Die aktuellen Preise zeigt die Planseite…">
+  <meta name="tags" content="twitch-bot, pläne, preise, kündigung, abo, netzwerk plus, studio">
+  <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -18,28 +18,42 @@
 <body>
 <main>
   <h1>Pläne, Preise und Kündigung</h1>
-  <p><strong>Kurz gesagt.</strong> Die aktuelle Planseite im Dashboard zeigt die heute verfügbaren Funktionen und Abrechnungsoptionen. Feste Preise, Rabatte oder Kontingente nennen wir hier bewusst nicht – maßgeblich ist immer der aktuelle Katalog.</p>
+  <p><strong>Kurz gesagt.</strong> Es gibt den kostenlosen Tarif Netzwerk Free sowie die kostenpflichtigen Stufen Netzwerk Plus und Studio. Die aktuellen Preise und Abrechnungsoptionen zeigt die Planseite unter <code>/twitch/pricing</code>; dort gilt die Anzeige.</p>
 
-  <section id="was-kostet-der-bot">
-    <h2>Was kostet der Twitch-Bot aktuell?</h2>
-    <p>Es gibt eine kostenlose Grundnutzung und kostenpflichtige Zusatzfunktionen. Was der Twitch-Bot aktuell kostet, steht auf der Planseite im Dashboard (Menüpunkt „Preise“, erreichbar unter <code>/twitch/pricing</code>); dort siehst du den heute gültigen Preis und Umfang. Weil sich der Katalog ändern kann, ist die dortige Anzeige die verbindliche Quelle – nicht diese Seite.</p>
+  <section id="plaene-im-ueberblick">
+    <h2>Welche Pläne gibt es?</h2>
+    <ul>
+      <li><strong>Netzwerk Free:</strong> kostenlos, kein Abo. Der Twitch-Bot, der Steam-Bot und alle Free-Funktionen sind enthalten.</li>
+      <li><strong>Netzwerk Plus:</strong> kostenpflichtige Stufe mit vollem Verlauf der Auswertungen, Vergleichen und Wachstumsübersicht, KI-Analyse, KI-Chat, Coaching und Wochenreport, der Lurker-Erinnerung sowie abschaltbaren Community-Hinweisen.</li>
+      <li><strong>Studio:</strong> enthält alles aus Netzwerk Plus und wird in drei Versionen gebucht. Welche Funktionen jede Version umfasst, zeigt die Planseite.</li>
+    </ul>
+    <p>Ab Netzwerk Plus schaltest du Funktionen in der Verwaltung unter „Bot &amp; Schutz“ ein oder aus.</p>
+  </section>
+
+  <section id="abrechnung">
+    <h2>Monatlich oder jährlich bezahlen?</h2>
+    <p>Netzwerk Plus und Studio gibt es im Monatstakt oder im Jahrestakt. Der Jahrespreis entspricht zehn Monatspreisen; du zahlst also für zwei Monate weniger als bei zwölf Monatsbeiträgen.</p>
+  </section>
+
+  <section id="testphase">
+    <h2>Gibt es eine Testphase?</h2>
+    <p>Für Netzwerk Plus im Monatstakt gibt es eine Testphase von 30 Tagen. Der Jahrestakt startet ohne Testphase und wird sofort abgerechnet. Die genauen Bedingungen zeigt die Planseite beim Abschluss.</p>
   </section>
 
   <section id="plan-sehen-oder-buchen">
     <h2>Wo sehe oder buche ich meinen Plan?</h2>
     <ol>
-      <li>Deinen Plan siehst du auf der Planseite im Dashboard.</li>
-      <li>Wähle die gewünschte Funktionskombination aus dem aktuellen Katalog.</li>
+      <li>Deinen aktuellen Plan siehst du auf der Planseite im Dashboard (<code>/twitch/pricing</code>).</li>
+      <li>Wähle die gewünschte Stufe und den Abrechnungstakt.</li>
       <li>Folge dem angezeigten Bezahlweg.</li>
-      <li>Beende ein aktives Abo über „Rechnungen &amp; Abo verwalten“ im Kundenportal; dort löst du die Kündigung aus.</li>
     </ol>
-    <p>Bei einem aktiven Abo öffnet „Rechnungen &amp; Abo verwalten“ nach Möglichkeit das Kundenportal für Rechnungen, Zahlungsdaten und Kündigung.</p>
+    <p>Rechnungen, Zahlungsdaten und Kündigung verwaltest du im Kundenportal, das über „Rechnungen &amp; Abo verwalten“ erreichbar ist, sobald ein aktives Abo besteht.</p>
   </section>
 
   <section id="kuendigung">
     <h2>Wie beende ich meinen Plan?</h2>
-    <p>Eine Kündigung löst du im Kundenportal aus. Dein Plan wird dabei nicht sofort deaktiviert: Die Kündigung wird zum Ende des laufenden Abrechnungszeitraums vorgemerkt; bis dahin bleiben die enthaltenen Funktionen verfügbar. Fehlt ein aktives Abo, ist die Sitzung abgelaufen oder ist das Kundenportal nicht erreichbar, zeigt das Dashboard einen Hinweiszustand.</p>
-    <p>Erstattungs- oder feste Datenaufbewahrungsregeln nach Kündigung nennen wir hier nicht; für solche Fragen gilt der veröffentlichte Support- bzw. Datenschutzkontakt (siehe <a href="faq-support.html">FAQ Support</a>).</p>
+    <p>Eine Kündigung löst du im Kundenportal aus. Dein Plan wird dabei nicht sofort deaktiviert: Die Kündigung wird zum Ende des laufenden Abrechnungszeitraums vorgemerkt; bis dahin bleiben die enthaltenen Funktionen verfügbar. Nach Kündigung bleiben Analyse-Daten laut Planseite 30 Tage gespeichert.</p>
+    <p>Fehlt ein aktives Abo, ist die Sitzung abgelaufen oder ist das Kundenportal nicht erreichbar, zeigt das Dashboard einen Hinweiszustand. Erstattungsfragen klärt der veröffentlichte Support (siehe <a href="faq-support.html">FAQ Support</a>).</p>
     <nav><a href="twitch-streamer-dashboard.html">Dashboard</a><a href="faq-werbung.html">Werbefrei</a></nav>
   </section>
 </main>
