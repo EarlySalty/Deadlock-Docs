@@ -261,7 +261,7 @@
           ]
         },
         {
-          "claim": "Ein manueller Raid ist nur zu einem live Ziel möglich; die Auswahl eines Ziels übernimmt der Bot.",
+          "claim": "Ein manueller Raid ist nur zu einem live Ziel möglich; ohne Zielnamen (!raid, !traid) wählt der Bot das Ziel.",
           "verdict": "verified",
           "evidence": [
             "rust/bin/tb-bot/src/auto_raid.rs"
