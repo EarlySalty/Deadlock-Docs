@@ -139,7 +139,7 @@
 </section>
 <section id="live-user-services">
 <h2>Live-User-Services</h2>
-<p><code>deadlock-bot-rust.service</code> und <code>deadlock-web-rust.service</code> starten live <code>/opt/deadlock/bots/current/dl-bot</code> bzw. <code>dl-web</code> über <code>sudo -n /opt/deadlock/bots/current/dl-infisical-env</code>. Die Units liegen unter <code>/home/nathanael/.config/systemd/user/</code>. Der Startpfad im Unit-Text nennt noch Wrapper unter <code>/home/naniadm/Documents/Deadlock-Bots</code>; maßgeblich ist <code>systemctl --user show -p ExecStart</code>.</p>
+<p><code>deadlock-bot-rust.service</code> und <code>deadlock-web-rust.service</code> starten live <code>/opt/deadlock/bots/current/dl-bot</code> bzw. <code>dl-web</code> über <code>sudo -n /opt/deadlock/bots/current/dl-infisical-env</code>. Die Units liegen unter <code>/home/nathanael/.config/systemd/user/</code>. Der Startpfad im Unit-Text nennt noch Wrapper unter <code>/home/naniadm/Documents/Deadlock-Bots</code>; Drop-ins überschreiben <code>ExecStart</code>; maßgeblich ist <code>systemctl --user cat &lt;unit&gt;</code>.</p>
 <p><code>deadlock-twitch-invite-sync.timer</code> startet alle 15 Minuten den Oneshot-Service <code>deadlock-twitch-invite-sync.service</code>. Dessen Startpfad ist <code>scripts/run_twitch_invite_sync.sh</code> im Legacy-Checkout.</p>
 <p><code>dl-repostats.timer</code> startet <code>dl-repostats.service</code> 3 Minuten nach Boot und danach alle 2 Stunden. Die Unit führt <code>rust/target/release/dl-repostats</code> im Legacy-Checkout aus.</p>
 </section>

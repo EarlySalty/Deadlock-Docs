@@ -85,7 +85,7 @@ after="$(systemctl --user show -p MainPID --value "$svc")"
 test "$after" != "$before"
 readlink -f "/proc/$after/exe"
 journalctl --user -u "$svc" -n 200 --no-pager | rg -i 'panic|error|failed|traceback'</code></pre>
-<p>Für System-Units dieselben Schritte ohne <code>--user</code>. <code>readlink -f /proc/&lt;pid&gt;/exe</code> muss auf das Binary im erwarteten <code>releases/&lt;sha&gt;</code>-Verzeichnis zeigen, weil die Wrapper mit <code>exec</code> starten. Bekannte Warnungen im Journal sind erlaubt; neue Startfehler, Panics oder Tracebacks nicht.</p>
+<p>Für System-Units dieselben Schritte mit <code>sudo -n systemctl</code> ohne <code>--user</code>. <code>readlink -f /proc/&lt;pid&gt;/exe</code> muss auf das Binary im erwarteten <code>releases/&lt;sha&gt;</code>-Verzeichnis zeigen, weil die Wrapper mit <code>exec</code> starten. Bekannte Warnungen im Journal sind erlaubt; neue Startfehler, Panics oder Tracebacks nicht.</p>
 </section>
 <section id="fehlerbilder">
 <h2>Bekannte Fehlerbilder</h2>

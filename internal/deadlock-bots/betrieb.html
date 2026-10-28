@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Deadlock-Bots Betrieb</title>
   <meta name="tags" content="deadlock-bots, intern, betrieb">
-  <meta name="stand" content="2026-07-12">
+  <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Deadlock-Bots main 3bc8ca8a + Deadlock-Docs tools/deploy_corpus.sh">
 </head>
 <body>
@@ -13,6 +13,7 @@
 <p>Build und Checks laufen über <code>rust/scripts/check.sh</code>: <code>cargo fmt --all --check</code>, <code>cargo clippy --workspace --all-targets -- -D warnings</code> und <code>cargo test --workspace</code>. Zentrale DB-Integrationstests laufen über <code>rust/scripts/central_test_db.sh</code>; das Skript startet einen Timescale-Testcontainer, setzt <code>CENTRAL_TEST_DSN</code>, spiegelt ihn nach <code>DEADLOCK_CENTRAL_DSN</code> und führt <code>dl-central-migrate</code> aus (<code>rust/scripts/check.sh</code>, <code>rust/scripts/central_test_db.sh</code>).</p>
 <section id="startpfade">
 <h2>Startpfade</h2>
+<p><strong>Stand 2026-10-28:</strong> Live starten die Units <code>/opt/deadlock/bots/current/dl-bot</code> und <code>dl-web</code> über <code>dl-infisical-env</code>, nicht über die Skripte unten. Maßgeblich ist <code>systemctl --user cat &lt;unit&gt;</code>, weil Drop-ins den <code>ExecStart</code> überschreiben. Die folgenden Absätze beschreiben den Repo-Stand der Startskripte.</p>
 <p><code>scripts/run_dl_bot_service.sh</code> lädt nicht-geheime Infisical-Verbindungsparameter aus <code>$HOME/.config/deadlock-bots/infisical.conf</code>, liest den Bootstrap-Token aus systemd-Credentials und injiziert Secrets über <code>scripts/export_infisical_env.py</code>. Danach setzt es unter anderem <code>DL_BOT_GATEWAY</code>, <code>DL_ENABLE_PRESENCE_INTENT</code>, <code>DL_BOT_COMMAND_SYNC</code>, <code>WEBSITE_API_BASE</code>, <code>AI_MODERATOR_ENABLE</code>, <code>MODERATION_ENFORCE</code>, LFG-Forum-Variablen und startet <code>rust/target/release/dl-bot</code> (<code>scripts/run_dl_bot_service.sh</code>).</p>
 <p><code>scripts/run_dl_web_service.sh</code> nutzt denselben Infisical-Ladepfad und startet <code>rust/target/release/dl-web</code>. Der Code bindet Dashboard, Public-Stats und Tierlist; er bindet keinen Turnier-Server (<code>scripts/run_dl_web_service.sh</code>, <code>rust/bin/dl-web/src/main.rs</code>).</p>
 <p><code>scripts/run_dl_knowledge_service.sh</code> startet <code>dl-knowledge</code> über den Rust-Loader <code>dl-infisical-env --profile knowledge</code>, der das Ziel direkt ausführt und weder Secrets noch Shell-Exports ausgibt; der frühere Python-Direct-Exec-Loader ist mit der Python-Laufzeit entfallen. Im Produktionsmodus akzeptiert das Binary weder einen CLI-Korpuspfad noch <code>DL_DOCS_PATH</code>, sondern liest ausschließlich den festen <code>current/public</code>-Deploypfad. <code>Deadlock-Docs/tools/deploy_corpus.sh</code> exportiert dafür nur den committeten <code>public/</code>-Baum der angegebenen Revision, validiert ihn vor dem Umschalten und übernimmt niemals <code>internal/</code> oder uncommittete Arbeitsbaumdateien (<code>scripts/run_dl_knowledge_service.sh</code>, <code>rust/bin/dl-knowledge/src/main.rs</code>, <code>Deadlock-Docs/tools/deploy_corpus.sh</code>).</p>
