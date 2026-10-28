@@ -1,0 +1,49 @@
+# Docs-Refresh Discord (2026-10-28)
+
+Ziel: Der Deadlock Brain soll Fragen zum Discord-Server der Deutschen Deadlock Community (Guild 1289721245281292288) aus den öffentlichen Docs beantworten können.
+
+Geltungsbereich: `public/discord-server/` und Discord-bezogene Seiten im `public/`-Stamm.
+
+Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue Seiten sind validiert. Die Brain-Abdeckung ist separat gemessen (siehe offene Punkte).
+
+## Coverage-Tabelle
+
+| Thema | Quelle | Docs-Seite | Status |
+|---|---|---|---|
+| Turnierformate (Gruppenphase, Bracket, Single/Double Elimination) | Deadlock-Turniere `docs/HELP_TOURNAMENT_MODES.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
+| Anmeldung und Check-in für Turniere | Deadlock-Turniere `docs/HELP_TOURNAMENT_MODES.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
+| Comp-Finder (Lobby, 6 Plätze, Code, 24 h, Prioritäten, keine Discord-Nachrichten) | Deadlock-Turniere `docs/comp-finder.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
+| Kanäle nach Zweck (Information, Neue Spieler, Community, Support, Voice, Coaching, Scrims, Custom Games, Streamer) | Live-Kanalliste über dl-bot `list_channels` und `server_overview` | `public/discord-server/kanaele-und-rollen-karte.html` | neu, Stand 2026-10-28; Kanalnamen nicht erneut live abgeglichen |
+| Rang-Rollen (Initiate bis Eternus, je Stufe 1 bis 6) | Live-Rollenliste, Bot-Verknüpfung | `kanaele-und-rollen-karte.html`, `workflows/steam-verknuepfen-rang.html` | neu, Rangfolge nicht erneut gegen Live-Rollen geprüft |
+| Ping-Rollen und Benachrichtigungen | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, allgemein formuliert, keine Einzelrollen aufgelistet |
+| Weitere Rollen (Steam Verifiziert, Booster, Unterstützer, Lurker) | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, Lurker und Verknüpfte Rollen nicht live bestätigt |
+| Begrüßung und Einstieg | Bots `assets/welcome_texts.toml` | `rules-und-channels.html`, `onboarding-und-invites.html` | bestehend, unverändert, keine Abweichung zu den Begrüßungstexten festgestellt |
+| FAQ-Menü des Bots (15 Optionen) | Bots `assets/faq_texts.toml` | `faq-bot-selbst.html`, `haeufige-probleme.html` | offen: nicht Option für Option abgeglichen |
+| Regelwerk | Bots `assets/regelwerk_texts.toml` | `regeln.html` | offen: nicht abgeglichen |
+| Paten-Programm | Bots `assets/paten_leitfaden` | `paten.html` | offen: nicht abgeglichen |
+| Rang-Guide | Bots `assets/rang_guide_texts.toml` | `workflows/steam-verknuepfen-rang.html` | offen: nicht abgeglichen |
+| Steam-Verknüpfung | Steam-Bot README (steam-core, steam-bot) | `steam-integration.html` | bestehend, unverändert |
+| Reaction Roles | Bots `dl-community/src/reaction_roles.rs` (generisch) | keine | bewusst nicht dokumentiert: kein Live-Nachweis der Panels |
+| LFG-Rang-Tags | keine geprüfte Quelle | keine | offen |
+| Team-Bewerbung | Bots `assets/team_application_texts.toml` | `team-und-ansprechpartner.html` | offen: nicht abgeglichen |
+
+## Änderungen
+
+- Neu: `public/discord-server/turniere.html`.
+- Neu: `public/discord-server/kanaele-und-rollen-karte.html`.
+- Zwei Fehler im Entwurf der Karte korrigiert: NSFW-Beschreibung, Coaching-Lane-Bezeichnung und Satz zur Team-Rollenvergabe.
+- Keine bestehende Seite geändert.
+
+## Prüfungen
+
+- Alle internen Links der beiden neuen Seiten lösen auf.
+- `tools/validate_corpus.py`: „Korpus gültig“.
+- Keine Mitgliedernamen, Nachrichten oder IDs in den Seiten.
+- Keine Admin-Host-Links.
+
+## Offene Punkte
+
+1. Brain-Abdeckung: `community-docs` hat im Status-Summary 0 öffentliche Dokumente und 134 ausgeschlossene. `public-sources.json` hat für `community-docs` keine Prüfnachweise (`reviews {}`). Ohne Prüfnachweise nimmt der Korpus die neuen Seiten nicht auf.
+2. Frozen Baseline: `ops/brain-hilfefragen-release.json` friert `community-docs` auf 89c57910. Ein Deploy allein ändert den Brain-Stand nicht, solange die Baseline gilt.
+3. Veralteter Live-Link: `/opt/deadlock-docs/current` zeigt auf `releases/brain-hilfefragen-20261002`.
+4. Offen wie oben in der Tabelle markiert: FAQ, Regelwerk, Paten, Rang-Guide, Team-Bewerbung, LFG-Rang-Tags.
