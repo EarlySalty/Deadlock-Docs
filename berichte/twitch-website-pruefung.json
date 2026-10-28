@@ -2089,7 +2089,7 @@
     },
     {
       "path": "public/twitch-bot/zusammen-spielen.html",
-      "verified_at": "2026-10-28T17:00:40.106926+00:00",
+      "verified_at": "2026-10-28T17:05:29.074085+00:00",
       "content_sha256": "6dc85e1f6b7699ce6fbfd4e42611064ecffd1793da7135e5449098ecad2f1e1f",
       "code": [
         {
@@ -2379,7 +2379,7 @@
     },
     {
       "path": "public/twitch-bot/social-media-manager.html",
-      "verified_at": "2026-10-28T17:00:40.156160+00:00",
+      "verified_at": "2026-10-28T17:05:28.952005+00:00",
       "content_sha256": "1203b2de9db0df6636f9f60732549aa906d4c6b0baa415b9498415676585f279",
       "code": [
         {
@@ -2397,7 +2397,8 @@
           "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "bot/dashboard_v2/src/components/socialmedia/ClipCard.tsx",
-            "rust/crates/tb-social-media/src/capabilities.rs"
+            "rust/crates/tb-social-media/src/capabilities.rs",
+            "bot/dashboard_v2/src/components/socialmedia/pipelinePlan.ts"
           ]
         }
       ],
@@ -2445,7 +2446,7 @@
         }
       ],
       "gaps": [
-        "Abschnitte Clips, Einstellungen und Freigabemodi sowie Gemeinsamer Plan und Pausieren wurden in dieser Runde nicht einzeln gegen Code geprüft."
+        "Abschnitte Clips, Einstellungen und Freigabemodi sowie Gemeinsamer Plan und Pausieren wurden in dieser Runde nicht einzeln gegen Code geprüft. Solange diese Lücke besteht, bleibt die Seite aus dem verifizierten Brain-Korpus ausgeschlossen."
       ]
     },
     {
@@ -2632,15 +2633,15 @@
     },
     {
       "path": "public/twitch-bot/social-ai-videos.html",
-      "verified_at": "2026-10-28T17:00:40.366286+00:00",
-      "content_sha256": "dd2a48d14e7d61762b1523f82cf1a6c93cb848dee58b1236ec47d381edb62705",
+      "verified_at": "2026-10-28T17:05:29.025362+00:00",
+      "content_sha256": "ee4b31a78c3a39c22d569678342546a760afa9f9334768116bab6861fa273757",
       "code": [
         {
           "repository": "twitch",
           "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.css",
-            "bot/dashboard_v2/src/components/socialmedia/ai"
+            "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.tsx",
+            "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.css"
           ]
         },
         {
@@ -2652,7 +2653,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft (AiEditorPanel.tsx, Zeile 192). Die Kostenzeile hat drei Fälle; der Schätzfall ist jetzt auf der Seite beschrieben.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft (AiEditorPanel.tsx, Zeile 192). Die Kostenzeile hat drei Fälle; der Schätzfall ist auf der Seite beschrieben. Der Anbietername steht bewusst nicht auf der öffentlichen Seite.",
       "claims": [
         {
           "claim": "Die KI-Bearbeitung braucht eine Einwilligung; ohne sie startet keine Bearbeitung.",
@@ -2664,13 +2665,6 @@
         },
         {
           "claim": "Ein Admin muss die externe KI erst freigeben; bis dahin erscheint der Hinweis Ein Admin muss die externe KI erst freigeben.",
-          "verdict": "verified",
-          "evidence": [
-            "bot/dashboard_v2/src/components/socialmedia/ai"
-          ]
-        },
-        {
-          "claim": "Geschätzte Anbieter-Kosten mit der Angabe Im Claude-Abo enthalten oder Noch unbekannt.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/socialmedia/ai"
@@ -2691,7 +2685,7 @@
           ]
         },
         {
-          "claim": "Kosten: Im Claude-Abo enthalten, Noch unbekannt, oder Dollarbetrag mit Zusatz Schätzung aus Tokenverbrauch.",
+          "claim": "Kosten: Im Abo enthaltener Betrag mit einem entsprechenden Hinweis, Noch unbekannt, oder Dollarbetrag mit Zusatz Schätzung aus Tokenverbrauch.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.tsx"

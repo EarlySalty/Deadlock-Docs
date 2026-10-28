@@ -5,9 +5,9 @@ Code-Basis: ~/repos/Deadlock-Twitch-Bot bei 8e00a346 (origin/main d1b234cc, 14 D
 
 ## Erledigt (committed, Branch docs/twitch-reverify-b-20261028)
 
-- Commit 2a2a536: kategorie-markt, zusammen-spielen, lurker-steuer
-- Commit b21665e: social-media-manager (Instagram-Limit-Satz entfernt, nicht im Code belegt), social-ai-videos (Zitat "Im Claude-Abo enthalten"), vod-archiv (!vodclip für Kanalinhaber und Mods), ueber-den-bot, vertrauen-seriositaet
-- tools-Unit-Tests: "Korpus gültig"
+- Branch-Commits: kategorie-markt, zusammen-spielen, lurker-steuer (31c9cdf, Rebase auf origin/main)
+- social-media-manager (Instagram-Limit-Satz entfernt, nicht im Code belegt), social-ai-videos (Zitat "Im Claude-Abo enthalten"), vod-archiv (!vodclip für Kanalinhaber und Mods), ueber-den-bot, vertrauen-seriositaet
+- tools-Unit-Tests grün. validate_corpus.py meldet 12 Funde, alle in internal/wissensbasis/*.md (nicht durch diesen Branch verändert), keine in public/twitch-bot/.
 
 ## Offen
 
