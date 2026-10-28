@@ -64,20 +64,26 @@
     {
       "path": "public/twitch-bot/chat-befehle.html",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "5ff609507efc31df26533f94f135d90dc0bdb170f6d88745038218d6d2f808b1",
+      "content_sha256": "dcdbfb2566768841188785ec111f9892df0c0416b8f1816f37aaf5fe1c7936f6",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
             "rust/bin/tb-bot/src/auto_raid.rs",
-            "rust/crates/tb-domain/src/vod_range.rs",
-            "rust/crates/tb-db/src/guild_membership.rs"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/command_names.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/player_links.rs",
+            "rust/crates/tb-chat/src/rank_lookup.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/command_name_settings.rs",
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-domain/src/vod_range.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
           "claim": "Befehlsliste ohne !discord; !raid <name> verlangt Deadlock beim eigenen Stream und Live-Ziel; Sprach- und Serverregel gilt nur für die automatische Auswahl; !vodclip in Minuten mit 1 bis 10 Minuten Länge.",
@@ -89,7 +95,9 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ]
     },
     {
       "path": "public/twitch-bot/faq-funktionen.html",
@@ -126,19 +134,22 @@
     {
       "path": "public/twitch-bot/chat-moderation.html",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "26b521e15d3e2f6165276f798d0d02ec7a7f8b1b21cc3161318aad5ae1d27bc4",
+      "content_sha256": "859cb7fccfffea598ad882fb14b8841aca722132a00079acdc7e23154e425a3d",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
             "bot/dashboard_v2/src/components/verwaltung/ScamGuardSection.tsx",
-            "rust/crates/tb-chat/src/conversation_scam.rs"
+            "rust/crates/tb-chat/src/channel_policy.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/conversation_scam.rs",
+            "rust/crates/tb-chat/src/moderation.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
           "claim": "Scam-Schutz hat die Aktionen Auto-Bann, Auto-Timeout und Nur melden, einen Schalter Scam-Schutz aktiv sowie !explain und !unban.",
@@ -149,25 +160,31 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ]
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "5190493542f9905e877726764afed4d47090520d95a37c6c45500c7100702c04",
+      "content_sha256": "eed6b1ac6ae6ea4359a2087343ddd92ea72b2fb7820c6c53ca73b80501de0d3f",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
+            "bot/admin_dashboard/src/pages/config/GuildRaidsSection.tsx",
+            "rust/bin/tb-bot/src/auto_raid.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/admin_guild_raids.rs",
             "rust/crates/tb-db/src/guild_membership.rs",
-            "rust/crates/tb-raid/src/partner_roster.rs",
-            "rust/bin/tb-bot/src/auto_raid.rs"
+            "rust/crates/tb-raid/src/eligibility.rs",
+            "rust/crates/tb-raid/src/partner_roster.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
           "claim": "Automatische Ziele sind live Partnerkanäle mit gemeinsamem Server oder gleicher Sprache; für die Sprachregel brauchen beide Seiten die Freigabe für Raids über Server hinweg, die das Community-Team pro Server setzt. Interne Auswahlkriterien sind nicht beschrieben.",
@@ -179,24 +196,28 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ]
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "0eda88ce88199459bc593f2f78f75ea3fe77babf651fedbe7e30c82063915557",
+      "content_sha256": "1941bb4e29acaab825c95b9d727d86418e625b6d564ca03f9b13411f8b31e88d",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
             "rust/bin/tb-bot/src/auto_raid.rs",
-            "rust/crates/tb-db/src/guild_membership.rs"
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-raid/src/eligibility.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
           "claim": "Der manuelle Raid mit !raid <name> verlangt Deadlock beim eigenen Stream und ein Live-Ziel; die Auswahlregeln gelten nur für den automatischen Raid.",
@@ -207,7 +228,9 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ]
     },
     {
       "path": "public/twitch-bot/faq-plaene.html",
@@ -266,18 +289,20 @@
     {
       "path": "public/twitch-bot/faq-community.html",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "cb385292b92f250f8eaacb403b9927b4f32541fca4413e2360a257ea5a10b9ff",
+      "content_sha256": "e7d268937839c75ed72328e986e37e60c20730a26c7bb33f728087f8dc62f8fc",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/channel_policy.rs",
+            "rust/crates/tb-chat/src/commands.rs"
           ]
         }
       ],
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
           "claim": "Community-Befehle sind !invite, !dldc und !dlde; !discord ist kein Befehl.",
@@ -287,7 +312,9 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ]
     },
     {
       "path": "public/twitch-bot/uplink-obs.html",
@@ -902,7 +929,7 @@
     {
       "path": "public/twitch-bot/faq-support.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
       "content_sha256": "ad3d705195a98178117b9f179925a0af03d5591e551d5de3c52b4b12487fce11",
       "code": [
@@ -922,19 +949,23 @@
             "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
+      ],
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
     },
     {
       "path": "public/twitch-bot/faq-stats-overlay.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "c789637548dadcb3cf97001453ca75d31b285153e8511a913a6ee82bfbf0b907",
+      "content_sha256": "05effbc110ca07b82585f5c62ec865efd1278ffa4972b676d5ef54a0bafa3440",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
+            "rust/crates/tb-chat/src/player_links.rs",
             "rust/crates/tb-dashboard-api/src/handlers/overlay.rs",
             "rust/docs/stats-overlay.md"
           ]
@@ -949,20 +980,29 @@
             "rust/docs/stats-overlay.md"
           ]
         }
+      ],
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
     },
     {
       "path": "public/twitch-bot/twitch-streamer-dashboard.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "2ae0332ab4a19f47dd4ddb1ad4c396667aaf8c431399e061c6503742f3fca71c",
+      "content_sha256": "a9fbcb6a3bfa34acc412d8921f42a1970fcfa84006b3d8157c1190241d69c472",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
+            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "bot/dashboard_v2/src/components/verwaltung/DonoGoalSection.tsx",
             "bot/dashboard_v2/src/i18n/dictionary.ts",
+            "bot/dashboard_v2/src/pages/SocialMediaManager.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/caster_overlay.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/dono_goal.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
             "rust/crates/tb-domain/src/vod_range.rs",
             "rust/crates/tb-internal-api/src/handlers/streamers.rs"
           ]
@@ -978,20 +1018,25 @@
             "rust/crates/tb-internal-api/src/handlers/streamers.rs"
           ]
         }
+      ],
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
     },
     {
       "path": "public/twitch-bot/twitchbot-ueberblick.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
-      "content_sha256": "811c16738ad2e77fb2e7ed8efdb331d28f9954040f8505493b1e9544e7b2fd39",
+      "content_sha256": "94593f3c07b1bd1141be8653f6e8de564dd82fc3aaba460f77f91e130d296022",
       "code": [
         {
           "repository": "twitch",
           "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs"
+            "rust/crates/tb-dashboard-api/src/handlers/onboarding.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
+            "website/src/pages/StreamerOnboardingPage.tsx"
           ]
         }
       ],
@@ -1003,12 +1048,15 @@
             "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs"
           ]
         }
+      ],
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
     },
     {
       "path": "public/twitch-bot/pause-loop-obs.html",
       "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_code_note": "Live-Release 4bfc09af weicht in den geprüften Pfaden von d1b234cc ab; kein Twitch-Deployment vorgenommen.",
       "verified_at": "2026-10-28T12:13:30.975753+00:00",
       "content_sha256": "ebce6501ed6c9a5aacc72334bcb3ece3b7f75f5f7f778d774e7a1fb004a8a0b1",
       "code": [
@@ -1030,6 +1078,9 @@
             "rust/crates/tb-dashboard-api/src/handlers/pause_loop_player.html"
           ]
         }
+      ],
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
       ]
     }
   ]

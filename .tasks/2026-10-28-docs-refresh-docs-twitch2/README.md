@@ -18,7 +18,7 @@ Live checks: Caddyfile routes and HTTP status codes, plus the code paths listed 
 | twitch-streamer-dashboard.html | No dashboard language info; no dono goal, caster overlays, Social Media Manager, VOD range downloads, Uplink language. | New sections: "Sprache des Dashboards", "Spendenziel und Caster-Overlays", "Social Media Manager", "VOD-Ausschnitte herunterladen". |
 | uplink-*.html, faq-* (others) | Uplink help language not stated. | Stated in the dashboard language section (Uplink help and VOD links follow dashboard language, commit 5fdafff4d). Uplink pages stay German. |
 
-Checked, no change needed: chat-moderation, berechtigungen, discord-golive, faq-einstieg, faq-funktionen, faq-plaene (no `/twitch/abbo` link left), faq-affiliate, faq-analytics, faq-werbung, uplink-stoerungen, vertrauen-seriositaet, einrichtung, ueber-den-bot (auto-raid-off wording still true: no switch exists), analytics-dashboard.
+Checked, no change needed: berechtigungen, discord-golive, faq-einstieg, faq-funktionen, faq-plaene (no `/twitch/abbo` link left), faq-affiliate, faq-analytics, faq-werbung, uplink-stoerungen, vertrauen-seriositaet, einrichtung, ueber-den-bot (auto-raid-off wording still true: no switch exists), analytics-dashboard.
 
 ## Facts verified in code
 
@@ -33,7 +33,7 @@ Checked, no change needed: chat-moderation, berechtigungen, discord-golive, faq-
 1. Paten program: Discord feature, `public/discord-server/` belongs to another agent. Not touched.
 2. Multi-server onboarding and Hub (768d324fb): runtime activation disabled per commit message. Not documented as a live feature.
 3. Dashboard language default: commit b69500f14 says "German default", but `dictionary.ts` falls back to English for non-German browsers on first visit. Docs follow the code. Product decision needed if German default was intended.
-4. Scope rule for `!raid <name>`: not verified whether it applies to manual named raids. Page says it does not.
+4. Scope rule for `!raid <name>`: `start_targeted_raid` (`auto_raid.rs`) applies no scope rule; the page says so.
 5. TikTok uploads may wait for TikTok approval (`waiting_tiktok_approval`); documented in the Social Media section.
 6. `internal/deadlock-twitch-bot/`: not reviewed in this pass; open item.
 
@@ -64,7 +64,30 @@ Rule: public pages describe what a feature does and how members or streamers use
 
 Not made public (internal or staff only): crew-guard-radar (staff alert channel), stream-coaching-audit (internal coaching service for own team), smalltalk-shadow (no sending, internal test mode), knowledge-faq, architektur, betrieb, datenmodell, integrationen, uebersicht, affiliate (public faq-affiliate exists), verwaltung-selbstbedienung (internal toggle API).
 
-## Open items after round 1
+## Gate round 2 (BLOCK, 8 findings) and fixes
 
-- Brain answer is only as good as the public pages; `pause-loop-obs` must be live at its route before the Brain import is trusted for it.
-- Public live check of new route pending (see live proof section, if present).
+| Finding | Cause | Fix |
+|---|---|---|
+| `<code>` left in faq-stats-overlay meta description | instance (round-1 fix recorded but not applied) | Plain `!connect` in the meta description. |
+| Audit `code` paths did not cover the page claims (chat-befehle, chat-moderation, auto-raid, faq-raids, faq-community, faq-stats-overlay, twitch-streamer-dashboard, twitchbot-ueberblick) | spec (no rule that every claim needs its code paths) | Paths extended with the code that backs each claim (commands, catalog, player_links, rank_lookup, moderation, channel_policy, eligibility, GuildRaidsSection, DonoGoal, caster overlay, Social Media Manager, disconnect, onboarding route). |
+| "Der Befehl funktioniert nur, wenn du selbst gerade Deadlock streamst" | spec (after-stream DB fallback in `auto_raid.rs` manual path not in the page) | Wording now covers the last Deadlock stream and the short window after it, without numbers. |
+| "gelten nur der automatischen Auswahl" | instance (German dative) | "gelten nur für die automatische Auswahl". |
+| Live release `4bfc09af` does not contain the d1b234cc changes in the listed paths (raid scope `guild_membership.rs`, Scam-Schutz, VOD range, overlay, pause loop, bot-trennen, catalog) and `live_code_note` said "ohne Diff" | spec (importer checks only against origin/main, never against the live release) | Each of the 10 affected audits now carries a gap until the release containing d1b234cc is live; `live_code_note` corrected. These pages are withheld from the Brain until then. |
+| Stand dates 2026-09-20 on edited pages | instance | Set to 2026-10-28 on all touched pages. |
+| Hashes not recomputed | process | Recomputed for the 10 touched pages. |
+| "bis zu fünf weitere Namen je Befehl" disputed | false | Disproved: `MAX_EXTRA_NAMES = 5` in `command_names.rs` at d1b234cc (the reviewer checked another checkout, 730c8e1). Claim kept. |
+| README stale (chat-moderation listed as unchanged, open item 4) | instance | Updated. |
+
+Unit tests: 195 run, 1 failure in `test_update_team_doc` (team doc, discord-server). The same test fails on origin/main, so it is pre-existing. `validate_corpus.py` passes.
+
+## Open items after round 2
+
+- Release gap: the twitch bot release `4bfc09af` is behind d1b234cc. Until a release with d1b234cc is live, the 10 twitch-bot audits stay pending and the Brain will not serve their new content. Deploying is not part of this docs change.
+- `pause-loop-obs` is only verifiable live once the release contains `pause_loop.rs` changes.
+- Paten program (discord-server scope) not touched.
+- Hub multi-server not documented as live.
+- Dashboard language default conflict: commit b69500f14 says German default, `dictionary.ts` falls back to English for non-German browsers; docs follow code. Product decision.
+- Cross-server opt-in is set per server by the community team (`GuildRaidsSection.tsx`), not by streamers.
+- `internal/deadlock-twitch-bot/` not reviewed in this pass.
+- Brain path for subdirectory pages to confirm after the brain-job run.
+- Pre-existing en dashes in untouched public lines (chat-befehle, twitchbot-ueberblick, twitch-streamer-dashboard).
