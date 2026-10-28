@@ -1256,31 +1256,138 @@
     },
     {
       "path": "public/quellen/website/anfaenger.html",
-      "verified_at": "2026-09-19T23:47:49.873342+00:00",
-      "content_sha256": "1810a87e261842343c47ad2190ea104e948c27cbde0f8bb97e33f44956a7a42f",
+      "verified_at": "2026-10-28T17:53:55.855278+00:00",
+      "content_sha256": "413d30cf98c56413d6689e3343ff209d9731fb62242885adafae7214cadb27c7",
       "code": [
         {
-          "repository": "website",
-          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "repository": "game-brain",
+          "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
           "paths": [
-            "dl-landing/guides/anfaenger/index.html"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md"
           ]
         },
         {
-          "repository": "game-brain",
-          "revision": "b306fa9030bf32669d9c91a50fdd665bde73cb3a",
+          "repository": "community-docs",
+          "revision": "503f0c67c2f3db12d749310f43d1dcc0dfde232e",
           "paths": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md"
+            "public/quellen/website/coaching.html",
+            "public/quellen/website/mitspieler.html",
+            "public/discord-server/steam-integration.html"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Nur stabile grundlegende Spielhilfe: Ressourcen, Items, Bewegung, Parieren, Teamziele. Veraltete vier Lanes, feste Speichergröße, Soulanteile, Itempreise und Heldenrangliste entfernt; aktuelle Zahlen bewusst ins Spiel bzw. Brain verwiesen.",
+          "claim": "Intro: shooting, hero abilities, Souls as currency bought into items, Guardians and Walkers as the route to the enemy Patron; kills give souls.",
           "verdict": "verified",
           "evidence": [
-            "dl-landing/guides/anfaenger/index.html",
-            "game-wiki/pages/deadlock-wiki/wiki-page.md"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Mechanics overview, Souls, Stats",
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Guardians/Walkers per lane"
+          ]
+        },
+        {
+          "claim": "Installation via Steam; check whether the game is in the library and set controls and audio before the first match.",
+          "verdict": "verified",
+          "evidence": [
+            "public/discord-server/steam-integration.html (Deadlock on Steam)"
+          ]
+        },
+        {
+          "claim": "Support contact for access questions (Community-Support).",
+          "verdict": "removed",
+          "evidence": [
+            "Not confirmable from code or game data; removed from the page"
+          ]
+        },
+        {
+          "claim": "Practice area (Übung) to try heroes and controls.",
+          "verdict": "removed",
+          "evidence": [
+            "No practice or tutorial mode in the pinned game wiki; removed"
+          ]
+        },
+        {
+          "claim": "Match phases follow the match flow, not a fixed minute mark; second phase starts when lanes open.",
+          "verdict": "removed",
+          "evidence": [
+            "No fixed timer phases in game data; lane-open wording replaced by first Guardians falling (shops close after the first Guardian dies)"
+          ]
+        },
+        {
+          "claim": "Souls come from troopers, soul orbs, Guardians and Walkers, and killed enemies; uncollected orbs go to nearby allies when they pop.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls, Soul Orbs"
+          ]
+        },
+        {
+          "claim": "Unsecured souls can be lost on death or picked up by others and become secured over time.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls (unsecured souls, Soul Container, conversion over time)"
+          ]
+        },
+        {
+          "claim": "Item categories Weapon, Vitality and Spirit with the listed stat groups; active items bound to one of four keys.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Items, Stats (Weapon, Vitality, Spirit), Active Items"
+          ]
+        },
+        {
+          "claim": "Melee attacks are light (fast, low damage) or heavy (charged, more damage and range); parry blocks a melee hit and stuns the enemy on success.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Offense and Defense (Melee Attacks, Parry)"
+          ]
+        },
+        {
+          "claim": "Slide, sprint and stamina exist as movement stats.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Stats, Vitality (Slide Distance, Sprint Speed, Stamina)"
+          ]
+        },
+        {
+          "claim": "Dodging as a separate mechanic.",
+          "verdict": "removed",
+          "evidence": [
+            "Not a named mechanic in game data; removed"
+          ]
+        },
+        {
+          "claim": "Ability range, duration and cooldown are shown in game and matter for fights.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Stats (Ability Cooldown, Ability Duration, Ability Range)"
+          ]
+        },
+        {
+          "claim": "Minimap shows shops and enemies approaching.",
+          "verdict": "verified",
+          "evidence": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Curiosity Shop (shop icon on minimap), Soul Container (minimap marker)"
+          ]
+        },
+        {
+          "claim": "Mitspielersuche and Voice-Lanes help find other players.",
+          "verdict": "verified",
+          "evidence": [
+            "public/quellen/website/mitspieler.html"
+          ]
+        },
+        {
+          "claim": "Coaching is free; the request is assigned to a coach automatically after submission; availability depends on who is free.",
+          "verdict": "verified",
+          "evidence": [
+            "public/quellen/website/coaching.html (free, automatic assignment, 24 h reservation)"
+          ]
+        },
+        {
+          "claim": "Advice on play habits, mistakes and asking for help (no game fact stated).",
+          "verdict": "verified",
+          "evidence": [
+            "Editorial advice; no game mechanic asserted beyond the claims above"
           ]
         }
       ],
