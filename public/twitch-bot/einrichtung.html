@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title>Einrichtung und Twitch-OAuth</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Kurz gesagt. Richte den Bot für deinen Kanal über das Streamer-Onboarding mit Twitch ein. Die Verbindung nutzt Twitch OAuth und lässt sich jederzeit in den…">
+  <meta name="description" content="Kurz gesagt. Du verbindest deinen Twitch-Kanal über die Partnerseite der Community. Die Anmeldung läuft über Twitch, und du kannst die Verbindung jederzeit wieder trennen.">
   <meta name="tags" content="twitch-bot, einrichtung, oauth, widerruf">
-  <meta name="stand" content="2026-09-20">
+  <meta name="stand" content="2026-10-28">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -18,35 +18,35 @@
 <body>
 <main>
   <h1>Einrichtung und Twitch-OAuth</h1>
-  <p><strong>Kurz gesagt.</strong> Richte den Bot für deinen Kanal über das Streamer-Onboarding mit Twitch ein. Die Verbindung nutzt Twitch OAuth und lässt sich jederzeit in den Twitch-Einstellungen unter Verbindungen wieder widerrufen.</p>
+  <p><strong>Kurz gesagt.</strong> Du verbindest deinen Twitch-Kanal über die Partnerseite der Community. Die Anmeldung läuft über Twitch, und du kannst die Verbindung jederzeit bei Twitch oder in der Kanalverwaltung wieder trennen.</p>
 
   <section id="so-verbindest-du-deinen-kanal">
     <h2>So verbindest du deinen Kanal</h2>
     <ol>
       <li>Öffne die <a href="https://deutsche-deadlock-community.de/streamer/">Partnerseite der Deutschen Deadlock Community</a>.</li>
-      <li>Klicke auf „Jetzt Partner werden“. Damit startest du die Twitch-Autorisierung für deinen Kanal.</li>
-      <li>Autorisiere bei Twitch mit dem Twitch-Konto des vorgesehenen Kanals und bestätige die angezeigten Berechtigungen.</li>
-      <li>Warte die Erfolgsseite ab. Öffne anschließend deine <a href="https://deutsche-deadlock-community.de/twitch/verwaltung">Kanalverwaltung</a> und erledige dort die angezeigten Einrichtungsschritte.</li>
-      <li>Discord und Steam verbindest du nur dort, wo die jeweilige Zusatzfunktion sie verlangt.</li>
+      <li>Klicke auf „Jetzt Partner werden“. Der Knopf öffnet die Twitch-Anmeldung für den Bot.</li>
+      <li>Melde dich bei Twitch mit dem Konto an, dem der Kanal gehört. Prüfe die angezeigten Berechtigungen und bestätige sie.</li>
+      <li>Danach zeigt die Seite „Autorisierung erfolgreich“ mit dem Hinweis, dass der Raid-Bot autorisiert ist. Du kannst das Fenster schließen.</li>
+      <li>Öffne die <a href="https://deutsche-deadlock-community.de/twitch/verwaltung">Kanalverwaltung</a>. Dort siehst du den Stand deines Kanals.</li>
     </ol>
-    <p>Die Erfolgsseite bestätigt, dass die Autorisierung gespeichert wurde. Ein Teil der Einrichtung läuft danach im Hintergrund; eine feste Fertigstellungszeit gibt es nicht.</p>
+    <p>Wenn die Anmeldung fehlschlägt, klicke einfach erneut auf „Jetzt Partner werden“.</p>
   </section>
 
   <section id="sichere-verbindung">
     <h2>Wie sicher ist die Verbindung?</h2>
-    <p>Der Dashboard-Zugang verwendet Twitch OAuth. Du autorisierst über dein Twitch-Konto, ohne dem Bot ein zusätzliches Passwort zu geben. Der Bot heißt im Chat <code>deutschedeadlockcommunity</code>; jede Nachricht ist klar an diesem Absender erkennbar.</p>
+    <p>Die Anmeldung läuft über Twitch OAuth. Du meldest dich bei Twitch an und gibst dem Bot kein Passwort. Der Bot läuft im Chat als <code>deutschedeadlockcommunity</code>. Konten mit ähnlichen Namen gehören nicht zur Community.</p>
   </section>
 
   <section id="zugriff-widerrufen">
     <h2>Zugriff widerrufen</h2>
-    <p>Du kannst die Autorisierung jederzeit in deinen Twitch-Einstellungen entfernen: Twitch → Einstellungen → Verbindungen → die Autorisierung der Deutschen Deadlock Community entfernen. Nach dem Widerruf werden die betroffenen Bot-Funktionen deaktiviert.</p>
-    <p>Die Verbindungen verwaltest du bei Twitch unter <a href="https://www.twitch.tv/settings/connections">twitch.tv/settings/connections</a>.</p>
-    <p>Das Entfernen einer Autorisierung ist keine vollständige Datenlöschung. Für Auskunft oder Löschung nutze den veröffentlichten Datenschutz- bzw. Supportkontakt in <a href="faq-support.html">Hilfe und Rechtstexte</a>.</p>
+    <p>Du kannst die Autorisierung bei Twitch entfernen: Einstellungen, dann Verbindungen, dort die Deutsche Deadlock Community auswählen und entfernen. Direkt geht es unter <a href="https://www.twitch.tv/settings/connections">twitch.tv/settings/connections</a>.</p>
+    <p>Alternativ trennst du den Bot in der Kanalverwaltung vom Kanal. Zur Bestätigung tippst du dafür deinen eigenen Kanalnamen ein.</p>
+    <p>Für Fragen zu deinen Daten nutze den Kontakt unter <a href="faq-support.html">Hilfe und Rechtstexte</a>.</p>
   </section>
 
   <section id="wenn-etwas-hakt">
     <h2>Wenn beim Verbinden etwas hakt</h2>
-    <p>Hast du versehentlich das falsche Twitch-Konto verwendet oder ist die Autorisierung fehlgeschlagen, starte den Vorgang mit dem richtigen Kanal neu. Zeigt das Dashboard fehlende Berechtigungen oder eine abgelaufene Autorisierung, verbinde über den angebotenen Weg erneut. Details zu Dashboard und Verwaltung in <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</p>
+    <p>Hast du das falsche Twitch-Konto verwendet, trenne den Bot in der Kanalverwaltung oder bei Twitch und starte die Anmeldung mit dem richtigen Kanal neu. Details zu Dashboard und Verwaltung stehen im <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</p>
     <nav><a href="faq-einstieg.html">FAQ Einstieg</a><a href="chat-befehle.html">Befehle</a></nav>
   </section>
 </main>

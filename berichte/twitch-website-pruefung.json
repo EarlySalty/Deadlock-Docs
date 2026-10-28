@@ -3,33 +3,74 @@
   "documents": [
     {
       "path": "public/twitch-bot/einrichtung.html",
-      "verified_at": "2026-09-19T23:16:51.018638+00:00",
-      "content_sha256": "c844d1d60a461b78531cded03363a5374082b9906028a24d67ed19a00d36b0de",
+      "verified_at": "2026-10-28T17:52:32.449544+00:00",
+      "content_sha256": "40638d2efaf95ac30354cd564c07673b1d032473d8dd5e5dc2ae314bc142cd7f",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "rust/crates/tb-chat/src/impersonation_guard.rs",
+            "rust/crates/tb-dashboard-api/src/auth/oauth_login.rs",
+            "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
             "website/src/components/partner-clean/Hero.tsx",
             "website/src/data/externalLinks.ts",
-            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+            "website/src/pages/StreamerNetworkPage.tsx",
+            "website/src/streamer-v2.tsx"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle 8e00a346 und origin/main d1b234cc3; Live-Probe /streamer/ (200, Knopf vorhanden) und /twitch/raid/auth (303 zur Twitch-Autorisierung) am 2026-10-28.",
       "claims": [
         {
-          "claim": "Partnerknopf startet Twitch-Autorisierung; Kanalverwaltung und getrennte Widerrufs-/Löschwege erhalten.",
+          "claim": "Partnerseite /streamer/ mit Knopf „Jetzt Partner werden“, der die Twitch-Autorisierung startet (Live-Probe bestätigt Knopf und Redirect).",
           "verdict": "verified",
           "evidence": [
             "website/src/components/partner-clean/Hero.tsx",
             "website/src/data/externalLinks.ts",
+            "website/src/streamer-v2.tsx",
+            "website/src/pages/StreamerNetworkPage.tsx"
+          ]
+        },
+        {
+          "claim": "Nach erfolgreicher Anmeldung Meldung „Autorisierung erfolgreich“; neuer Klick auf den Knopf startet die Anmeldung erneut.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "website/src/data/externalLinks.ts"
+          ]
+        },
+        {
+          "claim": "Kanalverwaltung unter /twitch/verwaltung für den Kanalstand; Bot-Trennung im Verwaltungsbereich mit Eingabe des eigenen Kanalnamens.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/auth/oauth_login.rs",
+            "rust/crates/tb-dashboard-api/src/auth/partner_gate.rs",
             "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+          ]
+        },
+        {
+          "claim": "Bot läuft im Chat als deutschedeadlockcommunity; Nachahmer-Konten gehören nicht zur Community.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/impersonation_guard.rs"
+          ]
+        },
+        {
+          "claim": "Anmeldung über Twitch OAuth ohne Passwortweitergabe an den Bot.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "website/src/data/externalLinks.ts"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Twitch-Menüpfad „Einstellungen, Verbindungen“ und der Link twitch.tv/settings/connections liegen außerhalb der Repos und sind nicht extern geprüft."
+      ]
     },
     {
       "path": "public/twitch-bot/faq-einstieg.html",
