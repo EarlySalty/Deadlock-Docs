@@ -1514,35 +1514,46 @@
     },
     {
       "path": "public/quellen/website/transparenz.html",
-      "verified_at": "2026-09-19T23:47:49.911275+00:00",
-      "content_sha256": "cf658e4a169a1c5d5e616598de1d5fa92d69c9de9eb5cdb7630f87e69392855a",
+      "verified_at": "2026-10-28T17:53:59.400624+00:00",
+      "content_sha256": "29061d2c3994f2eb4992063dbeabab4bf0e096c8cf2f7e0d093cfc0115e04350",
       "code": [
         {
-          "repository": "discord",
-          "revision": "0b5a6792df82775c36a5faa08573d053848f701d",
+          "repository": "brain",
+          "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
           "paths": [
-            "rust/crates/dl-answer/src/lib.rs"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
-          "paths": [
-            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+            "rust/crates/brain-contracts/src/provider_input.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Antwortschicht benötigt öffentliche Belege, technische Fehler sind keine Wissensbestätigung. Dashboardzählungen nicht als vollständige Aufmerksamkeit interpretiert; Löschung nur über tatsächlichen Hilfsweg.",
+          "claim": "Die Wissenshilfe antwortet nur aus freigegebenen Quellen. Fehlen Belege oder schlägt eine Quelle fehl, wird nichts erfunden.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/dl-answer/src/lib.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/stream_report.rs"
+            "provider_input.rs Systemvorgabe: Antworte ausschließlich anhand dieser Inhalte, Erfinde keine Fakten oder Quellen, leere Antwort ohne Beleg",
+            "Brain liefert nur public/-Docs (RULES.md, brain-nur-public-docs)"
+          ]
+        },
+        {
+          "claim": "Dashboard-Zahlen sind Beobachtungen aus erfassten Streams, keine lückenlose Messung. Lücken und Abweichungen sind möglich.",
+          "verdict": "partial",
+          "evidence": [
+            "public/twitch-bot/analytics-dashboard.html: Die Zahlen sind Beobachtungen aus den erfassten Streams und keine lückenlose Messung",
+            "Erfassungs- und Lückenlogik im Twitch-Bot-Code nicht geprüft"
+          ]
+        },
+        {
+          "claim": "Datenschutzhinweise und Kontoeinstellungen; Verweise auf Twitch-Supporthilfe und Discord-FAQ; allgemeine Antwort bestätigt keine ausgeführte Löschung.",
+          "verdict": "verified",
+          "evidence": [
+            "public/twitch-bot/faq-support.html, public/discord-server/module/faq-support.html existieren",
+            "public/twitch-bot/einrichtung.html und public/index.html nennen Datenschutz"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Erfassungslücken und Verzögerungen im Dashboard: nur die Formulierung der Doku geprüft, nicht die Erfassungslogik im Twitch-Bot-Code."
+      ]
     },
     {
       "path": "public/quellen/website/wohin.html",
