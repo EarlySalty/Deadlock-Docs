@@ -1256,9 +1256,16 @@
     },
     {
       "path": "public/quellen/website/anfaenger.html",
-      "verified_at": "2026-10-28T17:53:55.855278+00:00",
-      "content_sha256": "413d30cf98c56413d6689e3343ff209d9731fb62242885adafae7214cadb27c7",
+      "verified_at": "2026-10-28T18:11:41.488599+00:00",
+      "content_sha256": "b2b0d5e4afc0e6e208089d22821af7c4d6ddf4a2a89fc86db48a6b72ee5cd4be",
       "code": [
+        {
+          "repository": "website",
+          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
+          "paths": [
+            "dl-landing/guides/anfaenger/index.html"
+          ]
+        },
         {
           "repository": "game-brain",
           "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
@@ -1268,7 +1275,7 @@
         },
         {
           "repository": "community-docs",
-          "revision": "503f0c67c2f3db12d749310f43d1dcc0dfde232e",
+          "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
           "paths": [
             "public/quellen/website/coaching.html",
             "public/quellen/website/mitspieler.html",
@@ -1281,8 +1288,7 @@
           "claim": "Intro: shooting, hero abilities, Souls as currency bought into items, Guardians and Walkers as the route to the enemy Patron; kills give souls.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Mechanics overview, Souls, Stats",
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Guardians/Walkers per lane"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls overview, Mechanics overview, Guardians/Walkers"
           ]
         },
         {
@@ -1307,45 +1313,45 @@
           ]
         },
         {
-          "claim": "Match phases follow the match flow, not a fixed minute mark; second phase starts when lanes open.",
+          "claim": "Match phases follow the match flow, not a fixed minute mark; the first Guardian falling marks the change.",
           "verdict": "removed",
           "evidence": [
-            "No fixed timer phases in game data; lane-open wording replaced by first Guardians falling (shops close after the first Guardian dies)"
+            "No fixed timer phases in game data; lane-open wording replaced by first Guardians falling"
           ]
         },
         {
           "claim": "Souls come from troopers, soul orbs, Guardians and Walkers, and killed enemies; uncollected orbs go to nearby allies when they pop.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls, Soul Orbs"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls, Soul Orbs (orbs released by troopers and the Soul Urn)"
           ]
         },
         {
-          "claim": "Unsecured souls can be lost on death or picked up by others and become secured over time.",
+          "claim": "Souls from Denizens and Sinner's Sacrifice machines are unsecured and lost on death; only from 150 unsecured souls a Soul Container drops that other players can claim; unsecured souls convert to secured souls over time.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Souls (unsecured souls, Soul Container, conversion over time)"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Unsecured Souls section (Denizens, Sinner's Sacrifice, Soul Container at 150, conversion over time)"
           ]
         },
         {
           "claim": "Item categories Weapon, Vitality and Spirit with the listed stat groups; active items bound to one of four keys.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Items, Stats (Weapon, Vitality, Spirit), Active Items"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Items, Active Items (bound to one of four keys)"
           ]
         },
         {
-          "claim": "Melee attacks are light (fast, low damage) or heavy (charged, more damage and range); parry blocks a melee hit and stuns the enemy on success.",
+          "claim": "Melee attacks are light (fast, low damage) or heavy (charged, more damage and range); parry (default key F) blocks a melee hit and stuns the enemy on success.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Offense and Defense (Melee Attacks, Parry)"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Melee Attacks (default key Q), Parry (default key F, stun)"
           ]
         },
         {
           "claim": "Slide, sprint and stamina exist as movement stats.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Stats, Vitality (Slide Distance, Sprint Speed, Stamina)"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Stats, Movement (Stamina, Slide Distance, Sprint Speed)"
           ]
         },
         {
@@ -1363,10 +1369,10 @@
           ]
         },
         {
-          "claim": "Minimap shows shops and enemies approaching.",
+          "claim": "The minimap shows shops, camps and friendly and enemy troopers, and enemy heroes under certain conditions; checking it regularly helps.",
           "verdict": "verified",
           "evidence": [
-            "game-wiki/pages/deadlock-wiki/wiki-page.md: Curiosity Shop (shop icon on minimap), Soul Container (minimap marker)"
+            "game-wiki/pages/deadlock-wiki/wiki-page.md: Minimap section (Camps, Troopers, Shops, Buffs, enemy Heroes under conditions)"
           ]
         },
         {
@@ -1380,7 +1386,7 @@
           "claim": "Coaching is free; the request is assigned to a coach automatically after submission; availability depends on who is free.",
           "verdict": "verified",
           "evidence": [
-            "public/quellen/website/coaching.html (free, automatic assignment, 24 h reservation)"
+            "public/quellen/website/coaching.html (free, automatic assignment)"
           ]
         },
         {
@@ -1744,7 +1750,7 @@
         },
         {
           "repository": "community-docs",
-          "revision": "baeb8b5c65b21a9e91423bfa4cfd4e3316fcfcfb",
+          "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
           "paths": [
             "public/turniere/turniere.html"
           ]
@@ -1819,7 +1825,7 @@
         },
         {
           "repository": "community-docs",
-          "revision": "ec7bebbef4a8d49b97e8b1211788ad4573c56995",
+          "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
           "paths": [
             "public/quellen/turniere/comp-finder.html"
           ]

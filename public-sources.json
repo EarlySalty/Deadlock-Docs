@@ -726,8 +726,8 @@
         },
         "dl-landing/guides/anfaenger/index.html": {
           "source_sha256": "7a0a304cc38ec90124ae0fee789265c83f197163811b899acf3e1309b762bef9",
-          "content_sha256": "413d30cf98c56413d6689e3343ff209d9731fb62242885adafae7214cadb27c7",
-          "verified_at": "2026-10-28T17:53:55.855278+00:00",
+          "content_sha256": "b2b0d5e4afc0e6e208089d22821af7c4d6ddf4a2a89fc86db48a6b72ee5cd4be",
+          "verified_at": "2026-10-28T18:11:41.488599+00:00",
           "code": [
             {
               "repository": "website",
@@ -745,7 +745,7 @@
             },
             {
               "repository": "community-docs",
-              "revision": "503f0c67c2f3db12d749310f43d1dcc0dfde232e",
+              "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
               "paths": [
                 "public/quellen/website/coaching.html",
                 "public/quellen/website/mitspieler.html",
@@ -862,7 +862,7 @@
             },
             {
               "repository": "community-docs",
-              "revision": "baeb8b5c65b21a9e91423bfa4cfd4e3316fcfcfb",
+              "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
               "paths": [
                 "public/turniere/turniere.html"
               ]
@@ -889,7 +889,7 @@
             },
             {
               "repository": "community-docs",
-              "revision": "ec7bebbef4a8d49b97e8b1211788ad4573c56995",
+              "revision": "8e66a4fc07e2adc3e791d73c5f62684628c4cc6c",
               "paths": [
                 "public/quellen/turniere/comp-finder.html"
               ]
