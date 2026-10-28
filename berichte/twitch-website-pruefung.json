@@ -1237,8 +1237,8 @@
     },
     {
       "path": "public/quellen/website/coaching.html",
-      "verified_at": "2026-09-19T23:47:49.895905+00:00",
-      "content_sha256": "58bf31584e1aa1ebf291c02b6f5dee2fce7d7a5589ed6f7a00eb34609fde87af",
+      "verified_at": "2026-10-28T17:37:44.627473+00:00",
+      "content_sha256": "61925a0b550300fc96b61dcd407363fe99a3b7c631451afa874c22d85f2a12f1",
       "code": [
         {
           "repository": "website",
@@ -1259,13 +1259,18 @@
       ],
       "claims": [
         {
-          "claim": "Neue Anfragen über Website mit Discordlogin, Status pending; kostenlos/freiwillig redaktionell ausgewiesen. Keine automatische Rolle, kein Privatchat und kein automatischer Termin.",
+          "claim": "Im Discord-Coaching-Bereich führt der Button „Coaching-Anfrage starten“ (Alternative „Auf der Website öffnen“) auf /coaching; Übernahme über „Coaching übernehmen“ mit 24 h Reservierung.",
           "verdict": "verified",
           "evidence": [
-            "dl-coaching/src/App.tsx",
-            "builds/backend-rust/src/routes/coaching.rs",
-            "dl-landing/coaching/index.html",
-            "rust/crates/dl-community/src/coaching_requests.rs"
+            "rust/crates/dl-community/src/coaching_requests.rs",
+            "dl-landing/coaching/index.html"
+          ]
+        },
+        {
+          "claim": "Das Coaching in der Community ist kostenlos.",
+          "verdict": "verified",
+          "evidence": [
+            "dl-landing/coaching/index.html"
           ]
         }
       ],
