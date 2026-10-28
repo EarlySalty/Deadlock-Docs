@@ -286,6 +286,14 @@
                 "bot/dashboard_v2/src/pages/Pricing.tsx",
                 "bot/dashboard_v2/src/pages/verwaltungTabs.ts"
               ]
+            },
+            {
+              "repository": "twitch",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+              "paths": [
+                "rust/crates/tb-analytics/src/billing/catalog.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+              ]
             }
           ],
           "owner": "Community-Dokumentationsredaktion"
@@ -336,6 +344,15 @@
               "paths": [
                 "bot/dashboard_v2/src/App.tsx",
                 "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
+              ]
+            },
+            {
+              "repository": "twitch",
+              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+              "paths": [
+                "rust/crates/tb-chat/src/catalog.rs",
+                "rust/crates/tb-chat/src/commands.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
               ]
             }
           ],

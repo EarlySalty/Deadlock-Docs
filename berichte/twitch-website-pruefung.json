@@ -245,6 +245,14 @@
             "bot/dashboard_v2/src/pages/Pricing.tsx",
             "bot/dashboard_v2/src/pages/verwaltungTabs.ts"
           ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-analytics/src/billing/catalog.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
+          ]
         }
       ],
       "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
@@ -270,7 +278,8 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
-            "bot/dashboard_v2/src/pages/Pricing.tsx"
+            "bot/dashboard_v2/src/pages/Pricing.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
           ]
         },
         {
@@ -295,11 +304,15 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/pricing/PlanStufen.tsx",
-            "bot/dashboard_v2/src/pages/Pricing.tsx"
+            "bot/dashboard_v2/src/pages/Pricing.tsx",
+            "rust/crates/tb-dashboard-api/src/handlers/billing_page.rs"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/faq-affiliate.html",
@@ -336,7 +349,10 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/faq-community.html",
@@ -990,6 +1006,15 @@
             "bot/dashboard_v2/src/App.tsx",
             "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
           ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+          "paths": [
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
+          ]
         }
       ],
       "live_code_note": "Geprüft gegen origin/main der Twitch-Quelle; kein Live-Abgleich dieser Fassung.",
@@ -1001,9 +1026,33 @@
             "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
             "bot/dashboard_v2/src/App.tsx"
           ]
+        },
+        {
+          "claim": "Support-Verweis nennt !invite und !dldc statt des nicht vorhandenen !discord.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/catalog.rs"
+          ]
+        },
+        {
+          "claim": "Impressum, Datenschutzerklärung und AGB sind unter /twitch/impressum, /twitch/datenschutz und /twitch/agb erreichbar.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/legal.rs"
+          ]
+        },
+        {
+          "claim": "!engagement_ignore_me und !engagement_remember_me setzen bzw. entfernen nur den Engagement-Opt-out-Eintrag und löschen keine Daten.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/faq-stats-overlay.html",
@@ -1087,6 +1136,7 @@
             "bot/dashboard_v2/src/components/onboarding/steps.ts",
             "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
             "rust/crates/tb-dashboard-api/src/handlers/partner_profiles.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
             "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
@@ -1123,9 +1173,20 @@
             "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx",
             "bot/dashboard_v2/src/App.tsx"
           ]
+        },
+        {
+          "claim": "Funktionsübersicht nennt den OBS-Pause-Loop und den Onboarding-Pfad /twitch/onboarding.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/pause_loop.rs",
+            "bot/dashboard_v2/src/App.tsx"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/pause-loop-obs.html",
@@ -1160,7 +1221,7 @@
     {
       "path": "public/twitch-bot/challenges.html",
       "verified_at": "2026-10-28T15:35:07.586571+00:00",
-      "content_sha256": "b5a212f2f5549bd4f3392fc4fdd3e1fe78ad531c734af931cb884e5d147be5ed",
+      "content_sha256": "83502ad8d187582af073d3610e115f1f5be2674e8e67e4510e9dd576a55c201d",
       "code": [
         {
           "repository": "twitch",
@@ -1188,21 +1249,24 @@
           ]
         },
         {
-          "claim": "Zwei Ranglisten nach viewers und effort; monatliche Wertung vorhanden.",
-          "verdict": "verified",
-          "evidence": [
-            "bot/dashboard_v2/src/pages/Challenges.tsx"
-          ]
-        },
-        {
           "claim": "Challenges unter /twitch/challenges.",
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/App.tsx"
           ]
+        },
+        {
+          "claim": "Zwei Ranglisten nach viewers und effort.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/pages/Challenges.tsx"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/feedback.html",
@@ -1242,7 +1306,10 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     },
     {
       "path": "public/twitch-bot/partnerprofil.html",
@@ -1282,7 +1349,10 @@
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Codeänderungen aus d1b234cc sind im Live-Release 4bfc09af noch nicht enthalten; Seite erst nach Release gültig"
+      ],
+      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3"
     }
   ]
 }
