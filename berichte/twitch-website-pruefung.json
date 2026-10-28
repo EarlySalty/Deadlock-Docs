@@ -63,7 +63,7 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
       "content_sha256": "1cada4df667e08ad773d6c8bd4d6a164d0d864b2118c4c9bd36f09bbf190edea",
       "code": [
         {
@@ -131,7 +131,7 @@
     },
     {
       "path": "public/twitch-bot/faq-funktionen.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
       "content_sha256": "df77b79180d651ab445e6c6a0846968b1aed0cf9fd97d60be7dfbaafd70d6c9c",
       "code": [
         {
@@ -176,8 +176,8 @@
     },
     {
       "path": "public/twitch-bot/chat-moderation.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
-      "content_sha256": "0f9f94c378f1a91ec9b809863246c1de7948ef59bfa0f552eb5b50f6b8565b7e",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
+      "content_sha256": "45cf4889d2844f53bb936c95656d7d358dae65fa5a74389bfb7e2fd99fbb41ed",
       "code": [
         {
           "repository": "twitch",
@@ -212,10 +212,11 @@
           ]
         },
         {
-          "claim": "Impersonation of the community in private 6v6 invites gets a 10 minute timeout and a chat notice.",
+          "claim": "Impersonation of the community in private 6v6 invites gets a 10 minute timeout and a chat notice, but only when a crew member wrote in the channel earlier and the chatter is not a regular in that channel.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/impersonation_guard.rs"
+            "rust/crates/tb-chat/src/impersonation_guard.rs",
+            "rust/crates/tb-chat/src/crew_guard.rs"
           ]
         },
         {
@@ -490,7 +491,7 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
       "content_sha256": "3e51f4cc7301da4b3c760ac7fbb642f337ee50ecbf87b37d8957d986085f7252",
       "code": [
         {
@@ -1685,7 +1686,7 @@
     },
     {
       "path": "public/twitch-bot/clip-befehle.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
       "content_sha256": "3679db2585cff51559ffae60f0a58754a939264e5842fe2307b29ef91ef0bd43",
       "code": [
         {
@@ -1767,8 +1768,8 @@
     },
     {
       "path": "public/twitch-bot/chat-hinweise.html",
-      "verified_at": "2026-10-28T16:03:34.328264+00:00",
-      "content_sha256": "9b4d4481a8522b8cc77739b901755f0cd80daeb8b726e32ad452a9fe0bb7e9dc",
+      "verified_at": "2026-10-28T16:09:39.732928+00:00",
+      "content_sha256": "7021ce2bccc108e56580afe0409485f3f3d24507683e5bb469c50424b16fa6a0",
       "code": [
         {
           "repository": "twitch",
