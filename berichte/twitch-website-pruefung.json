@@ -1852,7 +1852,7 @@
     },
     {
       "path": "public/twitch-bot/kategorie-markt.html",
-      "verified_at": "2026-10-28T16:47:36.878050+00:00",
+      "verified_at": "2026-10-28T17:00:39.962911+00:00",
       "content_sha256": "246dc5179d63e97758b041dc4f8652c20b0501b20d0d68f7f4de86e9af9be1b5",
       "code": [
         {
@@ -1998,7 +1998,7 @@
     },
     {
       "path": "public/twitch-bot/lurker-steuer.html",
-      "verified_at": "2026-10-28T16:48:22.323620+00:00",
+      "verified_at": "2026-10-28T17:00:40.038952+00:00",
       "content_sha256": "43e673929aebe93b7537c1035e974f8057ea8a681d59ce59d4de47cb5e860bff",
       "code": [
         {
@@ -2089,8 +2089,8 @@
     },
     {
       "path": "public/twitch-bot/zusammen-spielen.html",
-      "verified_at": "2026-10-28T16:47:36.912808+00:00",
-      "content_sha256": "5c3cc60d37213c06a040c217690e3d93cff52333c7c713a05ce10ecdb701e50c",
+      "verified_at": "2026-10-28T17:00:40.106926+00:00",
+      "content_sha256": "6dc85e1f6b7699ce6fbfd4e42611064ecffd1793da7135e5449098ecad2f1e1f",
       "code": [
         {
           "repository": "twitch",
@@ -2379,7 +2379,7 @@
     },
     {
       "path": "public/twitch-bot/social-media-manager.html",
-      "verified_at": "2026-10-28T16:52:45.401289+00:00",
+      "verified_at": "2026-10-28T17:00:40.156160+00:00",
       "content_sha256": "1203b2de9db0df6636f9f60732549aa906d4c6b0baa415b9498415676585f279",
       "code": [
         {
@@ -2402,7 +2402,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Satz zum Instagram-Limit (100 Beiträge in 24 Stunden) war im Code nicht belegt und wurde entfernt.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Satz zum Instagram-Limit (100 Beiträge in 24 Stunden) war im Code nicht belegt und wurde entfernt. Der Zeitplan-Absatz wurde auf mehrere Uhrzeiten pro Wochentag mit eindeutigen Zeiten umgestellt und ist geprüft.",
       "claims": [
         {
           "claim": "Zugang anfragen und Hinweis, dass der Kanal noch nicht freigeschaltet ist.",
@@ -2434,13 +2434,23 @@
             "rust/crates/tb-social-media/src/capabilities.rs",
             "bot/dashboard_v2/src/components/socialmedia/BetaNotice.tsx"
           ]
+        },
+        {
+          "claim": "Zeitplan mit mehreren festen Uhrzeiten pro Wochentag, jede Uhrzeit nur einmal, Sommerzeit wird berücksichtigt, verpasste Termine werden nicht nachgeholt.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/pipelinePlan.ts",
+            "bot/dashboard_v2/src/components/socialmedia/PipelinePlanControls.tsx"
+          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Abschnitte Clips, Einstellungen und Freigabemodi sowie Gemeinsamer Plan und Pausieren wurden in dieser Runde nicht einzeln gegen Code geprüft."
+      ]
     },
     {
       "path": "public/twitch-bot/vod-archiv.html",
-      "verified_at": "2026-10-28T16:52:45.454265+00:00",
+      "verified_at": "2026-10-28T17:00:40.208642+00:00",
       "content_sha256": "08d20ee5cfc989d955494d872f2a8b839a89a74703db7db8db9c6202dd56a8e1",
       "code": [
         {
@@ -2533,7 +2543,7 @@
     },
     {
       "path": "public/twitch-bot/ueber-den-bot.html",
-      "verified_at": "2026-10-28T16:52:45.507650+00:00",
+      "verified_at": "2026-10-28T17:00:40.265421+00:00",
       "content_sha256": "07b91a5ddf7a12b904e8ec859a5d57e8bb13b90c1115eda4e9dcf6374cb7f6f0",
       "code": [
         {
@@ -2547,7 +2557,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Abschnitt Bot vom Kanal trennen steht in Verwaltung direkt nach dem Abschnitt mit der Kennzeichnung Bot & Schutz. Die Kennzeichnung gehört zum vorherigen Abschnitt.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Die Kennzeichnung Bot & Schutz ist der Tab Verwaltung (Verwaltung.tsx); dort rendert DisconnectBotSection. Der Seitenpfad stimmt.",
       "claims": [
         {
           "claim": "Eine separate Abschaltung des Auto-Raids gibt es noch nicht; kein Schalter und kein Chat-Befehl.",
@@ -2577,7 +2587,7 @@
     },
     {
       "path": "public/twitch-bot/vertrauen-seriositaet.html",
-      "verified_at": "2026-10-28T16:52:45.557535+00:00",
+      "verified_at": "2026-10-28T17:00:40.310037+00:00",
       "content_sha256": "56c10808fb2ada62ac86d6e1bf430297aba71e575193498dc9045caa0d7af4d6",
       "code": [
         {
@@ -2598,7 +2608,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Twitch-Einstellungsweg (Verbindungen) liegt außerhalb des Repos und ist nicht im Code belegt; dieser Punkt bleibt ein Prüfhinweis.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Der Weg Twitch-Einstellungen > Verbindungen ist nicht im Repo belegt und steht als Lücke im Eintrag.",
       "claims": [
         {
           "claim": "Der Bot heißt im Chat deutschedeadlockcommunity.",
@@ -2614,21 +2624,16 @@
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/commands.rs"
           ]
-        },
-        {
-          "claim": "Nach dem Trennen laufen keine Chat-Funktionen mehr, bereits erfasste Daten bleiben erhalten.",
-          "verdict": "verified",
-          "evidence": [
-            "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx"
-          ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Der Weg Twitch-Einstellungen > Verbindungen und die Deaktivierung danach liegen außerhalb des Repos und sind nicht im Code belegt."
+      ]
     },
     {
       "path": "public/twitch-bot/social-ai-videos.html",
-      "verified_at": "2026-10-28T16:52:45.627622+00:00",
-      "content_sha256": "c30b5fec5adf5638f585e0c7f62db0b01484eb267ceae6a9aba4d07abc23415c",
+      "verified_at": "2026-10-28T17:00:40.366286+00:00",
+      "content_sha256": "dd2a48d14e7d61762b1523f82cf1a6c93cb848dee58b1236ec47d381edb62705",
       "code": [
         {
           "repository": "twitch",
@@ -2647,7 +2652,7 @@
         }
       ],
       "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
-      "live_code_note": "Gegen Twitch 8e00a346 geprüft. Die Kostenzeile zeigt Im Claude-Abo enthalten, wenn der Betrag im Abo liegt, sonst Noch unbekannt. Die Textfassung wurde auf diesen Wortlaut angepasst.",
+      "live_code_note": "Gegen Twitch 8e00a346 geprüft (AiEditorPanel.tsx, Zeile 192). Die Kostenzeile hat drei Fälle; der Schätzfall ist jetzt auf der Seite beschrieben.",
       "claims": [
         {
           "claim": "Die KI-Bearbeitung braucht eine Einwilligung; ohne sie startet keine Bearbeitung.",
@@ -2683,6 +2688,13 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/socialmedia/ai"
+          ]
+        },
+        {
+          "claim": "Kosten: Im Claude-Abo enthalten, Noch unbekannt, oder Dollarbetrag mit Zusatz Schätzung aus Tokenverbrauch.",
+          "verdict": "verified",
+          "evidence": [
+            "bot/dashboard_v2/src/components/socialmedia/ai/AiEditorPanel.tsx"
           ]
         }
       ],
