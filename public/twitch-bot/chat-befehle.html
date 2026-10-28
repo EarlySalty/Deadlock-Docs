@@ -67,7 +67,7 @@
   <section id="clip-community">
     <h2>Zuschauerbefehle: Clip und Community</h2>
     <ul>
-      <li><code>!clip</code> · <code>!createclip</code> erstellt einen Clip aus dem laufenden Stream. Der Streamer kann den Befehl im Dashboard abschalten und dort die Länge des Clips festlegen (5 bis 60 Sekunden). Außerhalb eines laufenden Streams funktioniert er nicht. Zwischen zwei Clips im selben Kanal muss kurz gewartet werden.</li>
+      <li><code>!clip</code> · <code>!createclip</code> erstellt einen Clip aus dem laufenden Stream. Der Streamer kann den Befehl im Dashboard abschalten und dort die Länge des Clips festlegen (5 bis 60 Sekunden). Außerhalb eines laufenden Streams funktioniert er nicht. Der Kanal muss Partner sein. Zwischen zwei Aufrufen im selben Kanal muss kurz gewartet werden, auch wenn der Clip dann nicht entsteht.</li>
       <li><code>!watchtime</code> zeigt deine hier erfasste Zuschauerzeit insgesamt und den Anteil im laufenden Stream. Erfasste Anwesenheiten werden mit ihren Pausen gezählt; dies ist keine lückenlose Messung der tatsächlichen Sehzeit.</li>
       <li><code>!sub</code> zeigt den Abo-Link dieses Kanals. <code>!sub erinnerung an</code>, <code>!sub erinnerung aus</code> und <code>!sub erinnerung status</code> verwalten deine freiwillige Abo-Erinnerung (siehe unten).</li>
       <li><code>!lurk</code> sagt dem Chat, dass du still weiterschaust, sofern der Kanalschalter an ist.</li>
@@ -83,7 +83,7 @@
     <h2>Automatische Antworten im Chat</h2>
     <p>Neben den Befehlen gibt es Nachrichten, die der Bot ohne Befehl schreibt. Der Streamer steuert sie im Dashboard.</p>
     <ul>
-      <li><strong>Follow-Hinweis:</strong> Ist er eingeschaltet, bittet der Bot Zuschauer, die dem Kanal noch nicht folgen, um einen Follow. Der Text ist anpassbar, und der Bot wartet zwischen zwei Hinweisen im Kanal kurz. Mods und der Streamer erhalten ihn nicht, Befehle lösen ihn nicht aus.</li>
+      <li><strong>Follow-Hinweis:</strong> Ist er eingeschaltet, bittet der Bot Zuschauer um einen Follow, die dem Kanal noch nicht folgen und zum ersten Mal im Chat schreiben. Der Text ist anpassbar, und der Bot wartet zwischen zwei Hinweisen im Kanal kurz. Mods und der Streamer erhalten ihn nicht, Befehle lösen ihn nicht aus.</li>
       <li><strong>Begrüßung:</strong> Standardmäßig aus. Ist sie eingeschaltet, grüßt der Bot zurück, wenn jemand nur mit einem Gruß wie „Hi“ oder „Moin“ in den Chat kommt. Pro Person und Stream geschieht das höchstens einmal. Eine Begrüßung von sich aus gibt es nicht.</li>
     </ul>
   </section>
@@ -121,7 +121,7 @@
 
   <section id="rollenbefehle">
     <h2>Befehle zur Steuerung: Broadcaster, Moderation und Super-Mods</h2>
-    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Nur bei <code>!title</code> bleibt er still. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code>, <code>!silentraid</code> und die KI-Engagement-Befehle darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
+    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Bei <code>!title</code> bleibt er still; bei <code>!vodclip</code> und <code>!clipcontest</code> ebenfalls, wenn die Einstellung aus ist oder die Nachricht aus einem fremden Shared Chat stammt. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code>, <code>!silentraid</code> und die KI-Engagement-Befehle darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
     <ul>
       <li><code>!raid</code> · <code>!traid</code>: startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
       <li><code>!raid &lt;name&gt;</code>: schickt deine Zuschauer direkt zu diesem Twitch-Kanal, zum Beispiel <code>!raid kanalname</code>. Der Kanal muss gerade live sein. Der Befehl funktioniert, wenn dein letzter Stream in der Deadlock-Kategorie lief und du gerade live bist oder der Stream erst kurz vorbei ist. Ist der Zielkanal offline, antwortet der Bot im Chat. Den automatischen Raid am Stream-Ende beschreibt die Seite <a href="auto-raid.html">Auto-Raid</a>.</li>
