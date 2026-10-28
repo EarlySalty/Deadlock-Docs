@@ -14,7 +14,7 @@ Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue
 | Anmeldung und Check-in für Turniere | Deadlock-Turniere `docs/HELP_TOURNAMENT_MODES.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
 | Comp-Finder (Lobby, 6 Plätze, Code, 24 h, Prioritäten, keine Discord-Nachrichten) | Deadlock-Turniere `docs/comp-finder.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
 | Kanäle nach Zweck (Information, Neue Spieler, Community, Support, Voice, Coaching, Scrims, Custom Games, Streamer) | Live-Kanalliste über dl-bot `list_channels` und `server_overview` | `public/discord-server/kanaele-und-rollen-karte.html` | neu, Stand 2026-10-28; Kanalnamen nicht erneut live abgeglichen |
-| Rang-Rollen (Initiate bis Eternus, je Stufe 1 bis 6) | Live-Rollenliste, Bot-Verknüpfung | `kanaele-und-rollen-karte.html`, `workflows/steam-verknuepfen-rang.html` | neu, Rangfolge nicht erneut gegen Live-Rollen geprüft |
+| Rang-Rollen (Initiate bis Eternus, 11 Haupt-Ränge) | Bots `dl-voice/src/rank.rs` (`major_rank_roles`), `dl-stats/src/ranks.rs` (`RANK_ORDER`) | `kanaele-und-rollen-karte.html`, `workflows/steam-verknuepfen-rang.html` | korrigiert nach Gate-Befund; Live-Rollennamen noch nicht gegen die Guild abgeglichen |
 | Ping-Rollen und Benachrichtigungen | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, allgemein formuliert, keine Einzelrollen aufgelistet |
 | Weitere Rollen (Steam Verifiziert, Booster, Unterstützer, Lurker) | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, Lurker und Verknüpfte Rollen nicht live bestätigt |
 | Begrüßung und Einstieg | Bots `assets/welcome_texts.toml` | `rules-und-channels.html`, `onboarding-und-invites.html` | bestehend, unverändert, keine Abweichung zu den Begrüßungstexten festgestellt |
@@ -31,7 +31,8 @@ Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue
 
 - Neu: `public/discord-server/turniere.html`.
 - Neu: `public/discord-server/kanaele-und-rollen-karte.html`.
-- Zwei Fehler im Entwurf der Karte korrigiert: NSFW-Beschreibung, Coaching-Lane-Bezeichnung und Satz zur Team-Rollenvergabe.
+- Drei Fehler im Entwurf der Karte korrigiert: NSFW-Beschreibung, Coaching-Lane-Bezeichnung und Satz zur Team-Rollenvergabe.
+- Gate-Runde 1: Rangliste der Karte korrigiert (Acolyte, Sentinel, Mystic waren erfunden; Alchemist, Arcanist, Archon fehlten). Satz zu Ranked-Lanes entfernt. Turnier-Zählung auf das einfache K.-o.-Turnier begrenzt.
 - Keine bestehende Seite geändert.
 
 ## Prüfungen
@@ -47,3 +48,4 @@ Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue
 2. Frozen Baseline: `ops/brain-hilfefragen-release.json` friert `community-docs` auf 89c57910. Ein Deploy allein ändert den Brain-Stand nicht, solange die Baseline gilt.
 3. Veralteter Live-Link: `/opt/deadlock-docs/current` zeigt auf `releases/brain-hilfefragen-20261002`.
 4. Offen wie oben in der Tabelle markiert: FAQ, Regelwerk, Paten, Rang-Guide, Team-Bewerbung, LFG-Rang-Tags.
+5. Ranked-Lanes: `module/voice-lanes.html` sagt „grundsätzlich offen“, `dl-voice/src/rank.rs` setzt Rang-Fenster mit `@everyone deny`. Erst ein Live-Check der Kanalrechte entscheidet; bis dahin steht dazu nichts in der Karte.
