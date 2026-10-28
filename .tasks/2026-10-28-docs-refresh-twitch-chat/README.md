@@ -22,7 +22,7 @@ Source: origin/main Deadlock-Twitch-Bot (tb-chat command dispatch, sub_reminder.
 
 ## Not verified or not documented yet (open)
 - Release-question reply in standard_replies.rs: exact trigger unclear, omitted.
-- Follow hint: the code gates on "not following" and channel cooldown; the default text says "zum ersten Mal", but no first-time check was located. Documented only what the code does.
+- Follow hint: verified. Pipeline calls it only for a first chat message (tracked_was_first_message), skips non-followers check, mods, commands, 90 s channel cooldown. Page states this.
 - Smalltalk/AI chat replies, promos, promo pitch, LFG pitch, invite question, streamer voice: not read in this pass.
 - Title studio /twitch/titel details, crew_guard action state, token-health notifications, bot language in chat: not covered.
 - chat-moderation, faq-funktionen, faq-community: not edited in this pass.
