@@ -5,7 +5,7 @@
   <title>Deadlock-Bots Betrieb</title>
   <meta name="tags" content="deadlock-bots, intern, betrieb">
   <meta name="stand" content="2026-10-28">
-  <meta name="quelle" content="Deadlock-Bots origin/main 2430990 (Stand 2026-10-28), Startpfade gegen systemctl --user cat geprüft">
+  <meta name="quelle" content="Deadlock-Bots origin/main c68f89a8 (Stand 2026-10-28), Startpfade gegen systemctl --user cat geprüft">
 </head>
 <body>
 <main>
@@ -40,7 +40,7 @@
 </section>
 <section id="fallen">
 <h2>Fallen</h2>
-<p><strong>Release-Pfad:</strong> dl-bot und dl-web laufen aus <code>/opt/deadlock/bots/current/</code> (Symlink auf <code>releases/&lt;sha&gt;</code>), nicht aus <code>rust/target/release</code>. Ein Build im Worktree wird erst live, wenn das Release-Verzeichnis umgeschaltet und der Service neu gestartet ist. Der Live-Beweis umfasst PID-Wechsel, <code>/proc/&lt;pid&gt;/exe</code> im erwarteten <code>releases/&lt;sha&gt;</code>-Verzeichnis und ein fehlerfreies Startjournal. Der Ablauf über alle Bereiche steht in <code>internal/betrieb/deploy.html</code>.</p>
+<p><strong>Release-Pfad:</strong> dl-bot und dl-web laufen aus <code>/opt/deadlock/bots/current/</code> (Symlink auf <code>releases/&lt;sha&gt;</code>), nicht aus <code>rust/target/release</code>. Ein Build im Worktree wird erst live, wenn das Release-Verzeichnis umgeschaltet und der Service neu gestartet ist. Der Live-Beweis umfasst PID-Wechsel und ein fehlerfreies Startjournal; bei Starts über <code>sudo -n</code> belegt den Binary-Pfad <code>systemctl --user cat</code>, nicht <code>/proc</code> (siehe <code>internal/betrieb/deploy.html</code>). Der Ablauf über alle Bereiche steht in <code>internal/betrieb/deploy.html</code>.</p>
 <p><code>DL_BOT_GATEWAY=1</code> macht <code>dl-bot</code> zum Gateway-Owner. Ohne diese Variable bleiben Gateway-Subscriber aus, aber Broker, Changelog, Server-Sync und MCP binden trotzdem. Zwei aktive Gateway-Sessions mit demselben Bot-Token sind laut Wrapper nicht erlaubt (<code>rust/bin/dl-bot/src/main.rs</code>, <code>scripts/run_dl_bot_service.sh</code>).</p>
 <p><code>DL_ENABLE_PRESENCE_INTENT=1</code> fordert den privilegierten Presence-Intent an. Der Wrapper setzt ihn auf <code>1</code>; der Code nutzt ihn nur im Gateway-Zweig (<code>scripts/run_dl_bot_service.sh</code>, <code>rust/bin/dl-bot/src/main.rs</code>).</p>
 <p><code>DL_TIERLIST_REFRESH=0</code> ist der Schalter, um den Tierlist-Refresh-Loop auszuschalten. Sonst startet <code>dl-web</code> den Refresh-Loop nach dem Bind der Tierlist (<code>rust/bin/dl-web/src/main.rs</code>, <code>rust/crates/dl-webcore/src/config.rs</code>).</p>

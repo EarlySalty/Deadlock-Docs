@@ -27,7 +27,7 @@
 <tr>
 <td>Bots</td>
 <td><code>/opt/deadlock/bots/current</code></td>
-<td><code>dl-bot</code>, <code>dl-web</code>, <code>dl-community-points-sync</code>, <code>dl-verbinder</code>, <code>dl-brain-feeder</code>, <code>dl-ai-gateway</code>; gestartet über <code>dl-infisical-env</code>. Das Binary <code>dl-knowledge</code> liegt im Release, eine aktive Unit dafür gibt es nicht.</td>
+<td><code>dl-bot</code>, <code>dl-web</code>, <code>dl-brain-feeder</code>, <code>dl-ai-gateway</code>; gestartet über <code>dl-infisical-env</code>. Timer-Jobs <code>dl-community-points-sync</code> und <code>dl-verbinder</code> stehen in der Übersicht unter Timer-gesteuerte Jobs. Das Binary <code>dl-knowledge</code> liegt im Release, eine aktive Unit dafür gibt es nicht.</td>
 <td><code>systemctl --user show -p ExecStart deadlock-bot-rust.service</code></td>
 </tr>
 <tr>
@@ -62,7 +62,7 @@
 </tr>
 </tbody>
 </table>
-<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website, Turniere und die Timer-Jobs laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt, und für den Live-Beweis <code>/proc/&lt;pid&gt;/exe</code> gegen diesen Pfad. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
+<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website und Turniere laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt. Die Timer-Jobs starten aus <code>releases/&lt;sha&gt;</code> bzw. <code>current</code>. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
 </section>
 <section id="build">
 <h2>Build</h2>
@@ -85,7 +85,7 @@ after="$(systemctl --user show -p MainPID --value "$svc")"
 test "$after" != "$before"
 readlink -f "/proc/$after/exe"
 journalctl --user -u "$svc" -n 200 --no-pager | rg -i 'panic|error|failed|traceback'</code></pre>
-<p>Für System-Units dieselben Schritte mit <code>sudo -n systemctl</code> ohne <code>--user</code>. <code>readlink -f /proc/&lt;pid&gt;/exe</code> muss auf das Binary im erwarteten <code>releases/&lt;sha&gt;</code>-Verzeichnis zeigen, weil die Wrapper mit <code>exec</code> starten. Bekannte Warnungen im Journal sind erlaubt; neue Startfehler, Panics oder Tracebacks nicht.</p>
+<p>Für System-Units dieselben Schritte mit <code>sudo -n systemctl</code> ohne <code>--user</code>, sofern sudoers das für den Benutzer erlaubt; sonst den Deploy-Weg über die Queue nutzen. Bei Starts über <code>sudo -n</code> (Bots, Steam, Turniere) ist <code>readlink -f /proc/&lt;pid&gt;/exe</code> nicht verlässlich: am 2026-10-28 war das Binary weder am Haupt- noch am Kindprozess lesbar. Dort belegt der Binary-Pfad <code>systemctl --user cat &lt;unit&gt;</code>, der Live-Beweis PID-Wechsel und Startjournal. Bekannte Warnungen im Journal sind erlaubt; neue Startfehler, Panics oder Tracebacks nicht.</p>
 </section>
 <section id="fehlerbilder">
 <h2>Bekannte Fehlerbilder</h2>
