@@ -63,18 +63,19 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-09-19T23:16:51.084369+00:00",
-      "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
+      "verified_at": "2026-10-28T12:01:31.400800+00:00",
+      "content_sha256": "e473ae056e431dbe1b2be56fce2664c8a9d2ba29e5ff36f1d7bfe59daae5dab3",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/command_names.rs",
+            "rust/crates/tb-chat/src/sub_reminder.rs",
             "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
+            "rust/crates/tb-domain/src/vod_range.rs"
           ]
         }
       ],
@@ -82,14 +83,15 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Befehle, Aliase, Rollen, Offline-Nutzung, eigene Steam-Verknüpfung und getrennte Engagement-Abwahl mit aktuellem Code abgeglichen.",
+          "claim": "Befehlskatalog, Gruppen, !raid <name>, !vodclip (Minuten, 1 bis 10 Minuten), !clipcontest, !trustpilot, eigene Befehlsnamen (max. 5 Zusatznamen) und !sub-Unterbefehle mit origin/main verglichen.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/catalog.rs",
             "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/command_names.rs",
+            "rust/crates/tb-chat/src/sub_reminder.rs",
             "rust/crates/tb-chat/src/player_links.rs",
-            "rust/crates/tb-chat/src/rank_lookup.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
+            "rust/crates/tb-domain/src/vod_range.rs"
           ]
         }
       ],
@@ -159,16 +161,17 @@
     },
     {
       "path": "public/twitch-bot/auto-raid.html",
-      "verified_at": "2026-09-19T23:16:51.314000+00:00",
-      "content_sha256": "82355d36f98f1705f322439a952c4db3231cefb208749ee2561f8d8ad417d87d",
+      "verified_at": "2026-10-28T12:01:31.400800+00:00",
+      "content_sha256": "f55ad95c5c3173e7c568bbbc6be640f0f0a6cd40d25a5c8f5c5e27e59b087574",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-raid/src/eligibility.rs",
-            "rust/crates/tb-raid/src/candidate_selection.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-raid/src/partner_roster.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -176,12 +179,13 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Partner-/Autorisierungs-/Aktivierungsvoraussetzungen, geeigneter Live-Zielkanal und manuelle Rollenbefehle.",
+          "claim": "Zielregel (gemeinsamer Server oder gleiche Sprachgruppe mit aktivem Heimatserver, Ziel mit aktivem Server, aktiver Partner) mit raid_scope_allows und partner_roster abgeglichen.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-raid/src/eligibility.rs",
-            "rust/crates/tb-raid/src/candidate_selection.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-raid/src/partner_roster.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -189,16 +193,17 @@
     },
     {
       "path": "public/twitch-bot/faq-raids.html",
-      "verified_at": "2026-09-19T23:16:51.535101+00:00",
-      "content_sha256": "125cd251ebccde84f8561c40b16132251abff3e027d962b73cd1d349dfe8780c",
+      "verified_at": "2026-10-28T12:01:31.400800+00:00",
+      "content_sha256": "76ebf651fe8509a6860fea492e6665afa28b72e5e79f3d5955806175c19a3205",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-raid/src/eligibility.rs",
-            "rust/crates/tb-raid/src/candidate_selection.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-raid/src/partner_roster.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -206,12 +211,13 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Raidstatus und Historie lesend, manueller Raid berechtigt, kein Ziel- oder Erfolgsgarant.",
+          "claim": "Auto-Raid-Zielwahl und manueller !raid <name>-Pfad (Live-Pflicht) mit origin/main abgeglichen; Geltung der Zielregel für manuelle Raids nicht belegt und deshalb nicht behauptet.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-raid/src/eligibility.rs",
-            "rust/crates/tb-raid/src/candidate_selection.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-db/src/guild_membership.rs",
+            "rust/crates/tb-raid/src/partner_roster.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -273,15 +279,15 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-09-19T23:16:51.640032+00:00",
-      "content_sha256": "3b05280ca9fb482fdfe7d8829cbf8a50c5437fd356cbf3f685ccae0ed333a0f2",
+      "verified_at": "2026-10-28T12:01:31.400800+00:00",
+      "content_sha256": "cb385292b92f250f8eaacb403b9927b4f32541fca4413e2360a257ea5a10b9ff",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
           "paths": [
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/command_names.rs"
           ]
         }
       ],
@@ -289,11 +295,11 @@
       "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
       "claims": [
         {
-          "claim": "Engagement-Abwahl wird nicht als Datenerfassungslöschung dargestellt; eigene Teilnahme und Kanalrollen getrennt.",
+          "claim": "Invite-Befehle: !invite, !dldc, !dlde; !discord ist kein Auslöser.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/channel_policy.rs"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/command_names.rs"
           ]
         }
       ],

@@ -70,7 +70,8 @@
       <li><code>!sub</code> zeigt den Abo-Link dieses Kanals. <code>!sub erinnerung an/aus/status</code> verwaltet deine freiwillige Abo-Erinnerung.</li>
       <li><code>!lurk</code> sagt dem Chat, dass du still weiterschaust, sofern der Kanalschalter an ist.</li>
       <li><code>!invite</code>: postet den Einladungslink zur Deutschen Deadlock Community.</li>
-      <li><code>!discord</code> · <code>!dldc</code> · <code>!dlde</code>: posten ebenfalls den Community-Link.</li>
+      <li><code>!dldc</code> · <code>!dlde</code>: posten den Community-Link zur Deutschen Deadlock Community.</li>
+      <li><code>!trustpilot</code> · <code>!bewerten</code>: verlinken die Bewertung der Community auf Trustpilot.</li>
     </ul>
   </section>
 
@@ -110,11 +111,14 @@
     <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen.</p>
     <ul>
       <li>Für Broadcaster und Mods: <code>!raid</code> · <code>!traid</code>: startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
+      <li><code>!raid &lt;name&gt;</code>: schickt deine Zuschauer direkt zu diesem Twitch-Kanal, zum Beispiel <code>!raid kanalname</code>. Der Kanal muss gerade live sein und die Deadlock-Prüfung bestehen. Ist er offline, antwortet der Bot im Chat. Die Regeln für Sprache und gemeinsame Server gelten nur der automatischen Auswahl (siehe <a href="auto-raid.html">Auto-Raid</a>).</li>
       <li><code>!title</code> · <code>!titel</code>: liefert einen Titelvorschlag in der Chat-Antwort; den Twitch-Streamtitel setzt der Bot damit nicht. Ein vorhandener Rang und mit <code>--live</code> verfügbare Spieldaten können den Vorschlag ergänzen, sind aber keine Voraussetzung.</li>
       <li><code>!uban</code> · <code>!unban</code>: nimmt ausschließlich den zuletzt gespeicherten Auto-Ban des Kanals zurück.</li>
       <li><code>!explain</code>: erklärt, warum der Bot jemanden als Scam eingestuft hat.</li>
       <li><code>!silentban</code>: schaltet nur die Chat-Hinweise zu Auto-Bans um; die Moderation bleibt aktiv.</li>
       <li><code>!silentraid</code>: schaltet nur die Chat-Hinweise zu Raids um.</li>
+      <li><code>!vodclip &lt;start&gt; &lt;ende&gt;</code>: erstellt einen privaten VOD-Ausschnitt aus dem eigenen Archiv. Die Zahlen sind Minuten, etwa <code>!vodclip 55 58</code>; auch <code>!vodclip 1:55:00 1:58:00</code> ist möglich. Ein Ausschnitt dauert 1 bis 10 Minuten. Der Befehl muss im Dashboard eingeschaltet sein; Details stehen unter <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</li>
+      <li><code>!clipcontest</code>: reicht einen Clip für den wöchentlichen Clip-Contest im Discord ein. Mit <code>!clipcontest &lt;Clip-Link&gt;</code> wählst du den Clip, ohne Link den neuesten Clip des laufenden Streams.</li>
     </ul>
     <p>Die KI-Engagement-Funktion für den Kanal dürfen zusätzlich zum Broadcaster und den Kanalmods auch berechtigte Super-Mods umschalten:</p>
     <ul>
@@ -134,6 +138,12 @@
       <li>Die Spielstatistiken des Streamers brauchen dessen Steam-Zuordnung. Watchtime zählt die erfasste Zuschauerzeit der anfragenden Twitch-ID in diesem Kanal.</li>
       <li>Hilfe, Verbindungsprüfung und die eigene Datenschutzwahl bleiben unabhängig von der Kategorie verfügbar.</li>
     </ul>
+  </section>
+
+  <section id="eigene-namen">
+    <h2>Eigene Befehlsnamen</h2>
+    <p>Im Dashboard kannst du für jeden Chat-Befehl einen eigenen Namen setzen, zum Beispiel <code>!dachraid</code> statt <code>!raid</code>. Ein eigener Name ersetzt für deinen Kanal alle Standardnamen dieses Befehls, inklusive Kurzformen. Zusätzlich sind bis zu fünf weitere Namen je Befehl möglich. Der Name bleibt für deinen Kanal gültig und ändert nichts an der Funktion selbst.</p>
+    <p>Ein Name kann nicht gewählt werden, wenn er schon zu einem anderen Befehl deines Kanals gehört.</p>
   </section>
 
   <section id="grenzen">
