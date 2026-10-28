@@ -62,7 +62,7 @@
 </tr>
 </tbody>
 </table>
-<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website und Turniere laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt. Die Timer-Jobs starten aus <code>releases/&lt;sha&gt;</code> bzw. <code>current</code>. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
+<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website und Turniere laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt. Von den Timer-Jobs starten nur <code>dl-verbinder</code> (aus <code>releases/&lt;sha&gt;</code>) und <code>dl-community-points-sync</code> (aus <code>current</code>) aus <code>/opt</code>; <code>dl-repostats</code> und <code>deadlock-twitch-invite-sync</code> laufen noch aus dem Legacy-Checkout unter <code>/home/naniadm/Documents</code>. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
 </section>
 <section id="build">
 <h2>Build</h2>
