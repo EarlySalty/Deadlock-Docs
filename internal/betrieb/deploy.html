@@ -62,7 +62,7 @@
 </tr>
 </tbody>
 </table>
-<p>Patchnotes ist die Ausnahme ohne Rust-Build im Servicepfad: Der Service startet ein Release-Binary. Website und Turniere laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt. Von den Timer-Jobs starten nur <code>dl-verbinder</code> (aus <code>releases/&lt;sha&gt;</code>) und <code>dl-community-points-sync</code> (aus <code>current</code>) aus <code>/opt</code>; <code>dl-repostats</code> und <code>deadlock-twitch-invite-sync</code> laufen noch aus dem Legacy-Checkout unter <code>/home/naniadm/Documents</code>. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
+<p>Website und Turniere laufen nicht aus <code>/opt/deadlock/&lt;bereich&gt;/releases/</code>; dort gilt der Pfad, den <code>ExecStart</code> nennt. Von den Timer-Jobs starten nur <code>dl-verbinder</code> (aus <code>releases/&lt;sha&gt;</code>) und <code>dl-community-points-sync</code> (aus <code>current</code>) aus <code>/opt</code>; <code>dl-repostats</code> und <code>deadlock-twitch-invite-sync</code> laufen noch aus dem Legacy-Checkout unter <code>/home/naniadm/Documents</code>. Ein Teil der Units nennt im Startpfad noch den alten Checkout unter <code>/home/naniadm/Documents</code>; ein Umzug auf <code>/opt/deadlock</code> ist eine eigene Änderung.</p>
 </section>
 <section id="build">
 <h2>Build</h2>
@@ -77,7 +77,7 @@ sudo -n systemctl restart &lt;service-name&gt;   # System-Units: Twitch, Brain-S
 </section>
 <section id="live-beweis">
 <h2>Live-Beweis</h2>
-<p>Der minimale Beweis nach einem Neustart: PID-Wechsel, Binary-Pfad über <code>/proc</code> und ein Journal ohne neue Startfehler.</p>
+<p>Der minimale Beweis nach einem Neustart: PID-Wechsel, Binary-Pfad (über <code>/proc</code>, bei Starts über <code>sudo -n</code> nicht verlässlich, siehe unten) und ein Journal ohne neue Startfehler.</p>
 <pre><code>svc=&lt;service-name&gt;
 before=&lt;pid-vor-restart&gt;
 systemctl --user restart "$svc"

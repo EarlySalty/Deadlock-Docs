@@ -145,7 +145,7 @@
 </section>
 <section id="stand-oktober-2026">
 <h2>Stand Oktober 2026</h2>
-<p>Diese Punkte sind im Code auf origin/main belegt. Wo eine Einzelseite dem Code widerspricht, gilt der Code.</p>
+<p>Diese Punkte sind im Code auf origin/main belegt; Rang-Panel und <code>/rank</code> stehen im Repo Deadlock-Steam-Bot, der Rest in Deadlock-Bots. Wo eine Einzelseite dem Code widerspricht, gilt der Code.</p>
 <ul>
 <li><strong>Globaler Bot-DM-Opt-out:</strong> Der Knopf „Keine Bot-Nachrichten mehr“ setzt <code>core.dm_optout</code> (Migration <code>20261021120000_global_dm_optout.sql</code>, Commit <code>d8b2b2cd</code>). Gegated sind nur proaktive DMs (<code>DmIntent::Proactive</code> in <code>rust/crates/dl-discord/src/dm_gate.rs</code>). Antworten auf eigene Befehle, Moderation, Sicherheit, Aufräumen und interne Vorgänge bleiben ungegated. Der Knopf „Doch wieder Nachrichten erhalten“ hebt den Opt-out auf. Die Twitch-Bot-Rolle darf <code>core.dm_optout</code> lesen (Migration <code>20261022120000_dm_optout_twitchbot_read.sql</code>).</li>
 <li><strong>Paten-Launch:</strong> Panel, Rückzug und Lebenszyklus der Patenschaft im Concierge, gemergt am 2026-10-20 (<code>4badadd1</code>, Commits <code>7abfc55b</code> und <code>0861c683</code>).</li>
