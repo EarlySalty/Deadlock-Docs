@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Twitch-Bot: Sprache und Adressen</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Kurz gesagt. Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist deutsche-deadlock-community.de, dead-lock.de ist der englische Einstieg. Der Bot antwortet im Chat auf Deutsch.">
+  <meta name="tags" content="twitch-bot, sprache, englisch, domains, dashboard, partnerseite">
+  <meta name="stand" content="2026-10-28">
+  <meta name="quelle" content="Abgleich mit aktueller Implementierung (Dashboard-Sprachauswahl, Partnerseite, Weiterleitungen)">
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+    h1, h2 { line-height: 1.25; }
+    code { background: #f2f2f2; padding: 0.1rem 0.3rem; border-radius: 0.2rem; }
+    nav a { margin-right: 0.8rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Twitch-Bot: Sprache und Adressen</h1>
+  <p><strong>Kurz gesagt.</strong> Dashboard und Partnerseite gibt es auf Deutsch und Englisch. Die Hauptadresse ist <code>https://deutsche-deadlock-community.de</code>; über <code>https://dead-lock.de</code> startest du auf Englisch. Der Bot antwortet im Chat weiterhin auf Deutsch.</p>
+
+  <section id="adressen">
+    <h2>Welche Adressen gibt es?</h2>
+    <ul>
+      <li><strong>https://deutsche-deadlock-community.de</strong>: Hauptadresse. Hier liegen Partnerseite, Dashboard, Verwaltung und alle Anmeldungen bei Twitch und Discord. Links, die Anmeldung oder Verbindung betreffen, führen immer hierher zurück.</li>
+      <li><strong>https://dead-lock.de</strong> (auch mit <code>www.</code>): englischer Einstieg. Die Partnerseite und das Dashboard öffnen sich standardmäßig auf Englisch. Die Startadresse leitet auf die englische Partnerseite unter <code>/streamer/</code> weiter.</li>
+      <li><strong>Ältere Adressen</strong>, etwa <code>twitch.earlysalty.com</code>, leiten auf die Hauptadresse weiter.</li>
+    </ul>
+    <p>Die Seiten unter <code>/twitch/…</code> gibt es auf beiden Adressen.</p>
+  </section>
+
+  <section id="sprache-umschalten">
+    <h2>Sprache umschalten</h2>
+    <p>Die Sprache stellst du an einer dieser Stellen um:</p>
+    <ul>
+      <li><strong>Kopfzeile des Dashboards:</strong> Die Schalter <strong>DE</strong> und <strong>EN</strong> wechseln die Sprache sofort.</li>
+      <li><strong>Verwaltung:</strong> Im Tab „Konto &amp; Verbindungen“ gibt es den Abschnitt „Sprache“ mit denselben Schaltern.</li>
+      <li><strong>Über die Adresse:</strong> Hänge <code>?lang=de</code> oder <code>?lang=en</code> an eine Seite an, etwa <code>/twitch/verwaltung?lang=en</code>. Die Seite öffnet sich in der gewählten Sprache und entfernt den Parameter danach aus der Adresszeile.</li>
+    </ul>
+    <p>Deine Wahl wird im Browser gespeichert. Auf einem anderen Gerät oder in einem anderen Browser startet die Sprache deshalb neu.</p>
+  </section>
+
+  <section id="welche-sprache-zuerst">
+    <h2>Welche Sprache startet zuerst?</h2>
+    <p>Das Dashboard wählt die Startsprache in dieser Reihenfolge:</p>
+    <ol>
+      <li>Ein <code>?lang=</code>-Parameter in der Adresse, falls vorhanden.</li>
+      <li>Deine gespeicherte Auswahl im Browser.</li>
+      <li>Auf <code>dead-lock.de</code>: Englisch.</li>
+      <li>Auf der Hauptadresse: Deutsch, wenn dein Browser Deutsch meldet, sonst Englisch.</li>
+    </ol>
+    <p>Die Partnerseite auf der Hauptadresse ist Deutsch, außer du öffnest sie mit <code>?lang=en</code>. Auf <code>dead-lock.de</code> ist sie Englisch, außer du öffnest sie mit <code>?lang=de</code>.</p>
+  </section>
+
+  <section id="was-ist-englisch">
+    <h2>Was ist auf Englisch verfügbar?</h2>
+    <ul>
+      <li><strong>Dashboard:</strong> Navigation, Kopfzeile und die meisten Seiten sind übersetzt, darunter Analyse, Community, Social Media Manager, Uplink, Overlay-Baukasten, Verwaltung, Preise, Challenges und Coaching. Die Uplink-Hilfe und die Uplink-OBS-Anleitung folgen ebenfalls der gewählten Sprache.</li>
+      <li><strong>Partnerseite und Hilfe:</strong> Die Startseite der Partnerseite, die FAQ, das Onboarding, der Vergleich, die Clips sowie das Affiliate-Portal und die Vertriebler-Seite gibt es auf Englisch.</li>
+      <li><strong>Nur Deutsch:</strong> Impressum, Datenschutz und AGB sowie diese Dokumentation.</li>
+    </ul>
+    <p>Seiten ohne englische Übersetzung bleiben auf Deutsch. Dann können einzelne Begriffe in einer Seite gemischt erscheinen.</p>
+  </section>
+
+  <section id="einrichtung-auf-englisch">
+    <h2>Einrichtung auf Englisch</h2>
+    <p>Öffne <code>https://dead-lock.de</code> und klicke auf „Become a partner“. Die Twitch-Anmeldung läuft danach über die Hauptadresse. Die einzelnen Schritte stehen in <a href="einrichtung.html">Einrichtung</a>.</p>
+  </section>
+
+  <section id="bot-im-chat">
+    <h2>Was macht der Bot im Chat bei englischen Kanälen?</h2>
+    <ul>
+      <li><strong>Sprache der Antworten:</strong> Die Antworten des Bots im Chat sind auf Deutsch, auch wenn dein Kanal auf Englisch läuft. Das gilt auch für Begrüßungen wie „hi“ oder „hello“, die mit einem deutschen Gruß beantwortet werden.</li>
+      <li><strong>Befehle:</strong> Die Befehlsnamen sind unabhängig von der Sprache gleich. Eine Übersicht steht unter <a href="chat-befehle.html">Chat-Befehle</a>.</li>
+      <li><strong>Raids:</strong> Auto-Raid schickt Zuschauer nur an Kanäle, die zu deinem Kanal passen: Partner auf einem gemeinsamen Discord-Server oder Kanäle in derselben Sprache. Für den Weg über dieselbe Sprache braucht es die Freigabe auf beiden Seiten. Details stehen unter <a href="auto-raid.html">Auto-Raid</a>.</li>
+      <li><strong>Einladungslink:</strong> Welcher Discord-Link im Chat erscheint, hängt davon ab, zu welchem Discord-Server du zugeordnet bist. Bei Fragen hilft der Community-Discord.</li>
+    </ul>
+  </section>
+
+  <section id="oeffentlicher-rundgang">
+    <h2>Öffentlicher Rundgang</h2>
+    <p>Unter <code>/twitch/rundgang</code> kannst du die Dashboard-Seiten ohne Anmeldung ansehen, um einen Eindruck zu bekommen. Der Rundgang folgt derselben Sprachauswahl wie das Dashboard.</p>
+  </section>
+
+  <section id="hilfe-und-mehr">
+    <h2>Hilfe und mehr</h2>
+    <p>Den Überblick über alle Funktionen findest du unter <a href="twitchbot-ueberblick.html">Twitch-Bot Überblick</a>. Support und Rechtstexte behandelt <a href="faq-support.html">FAQ Support</a>.</p>
+    <nav><a href="twitchbot-ueberblick.html">Überblick</a><a href="einrichtung.html">Einrichtung</a><a href="chat-befehle.html">Befehle</a></nav>
+  </section>
+</main>
+</body>
+</html>
