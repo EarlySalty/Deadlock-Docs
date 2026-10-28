@@ -11,6 +11,8 @@
 <main>
 <h1>Patchnotes-Bot Betrieb</h1>
 <p>Start und Neustart laufen über den User-Service <code>deadlock-patchnotes.service</code>. Die Unit startet <code>/usr/bin/bash -lc '/home/naniadm/Documents/Deadlock--Patchnotes-Bot/scripts/run_patchnotes_bot.sh'</code>. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
+<section id="start-und-neustart">
+<h2>Start und Neustart</h2>
 <pre><code class="language-bash">systemctl --user start deadlock-patchnotes.service
 systemctl --user restart deadlock-patchnotes.service
 systemctl --user status deadlock-patchnotes.service
@@ -18,6 +20,7 @@ systemctl --user status deadlock-patchnotes.service
 <p>Die Unit setzt <code>Restart=always</code>, <code>RestartSec=5</code>, <code>TimeoutStopSec=20</code> und <code>KillMode=mixed</code>. Ein Prozess-Crash wird damit von systemd neu gestartet. (<code>/home/naniadm/.config/systemd/user/deadlock-patchnotes.service</code>)</p>
 <p>Der Wrapper nimmt zuerst <code>$DEADLOCK_HOME/.venv/bin/python</code>, wenn diese Datei ausführbar ist, sonst <code>python3</code>. Danach führt er im Bot-Repo <code>main.py</code> aus. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
 <p>Der Wrapper hält eine exklusive <code>flock</code> auf <code>PATCHNOTES_LOCK_FILE</code>; ohne Lock beendet er den Start mit Hinweis auf den laufenden Bot. (<code>scripts/run_patchnotes_bot.sh</code>)</p>
+</section>
 <section id="env-variablen">
 <h2>Env-Variablen</h2>
 <p>Start und Secrets lesen <code>INFISICAL_CONFIG_FILE</code>, <code>PATCHNOTES_ENV_FILE</code>, <code>CREDENTIALS_DIRECTORY</code>, <code>INFISICAL_SERVICE_TOKEN</code>, <code>DEADLOCK_HOME</code>, <code>PYTHON_BIN</code>, <code>INFISICAL_RETRY_DELAY</code>, <code>INFISICAL_MAX_ATTEMPTS</code> und <code>PATCHNOTES_LOCK_FILE</code>. (<code>scripts/run_patchnotes_bot.sh</code>)</p>

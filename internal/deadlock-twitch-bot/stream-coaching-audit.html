@@ -74,6 +74,7 @@
 <p>Unit: <code>deadlock-twitch-stream-coaching-watch.service</code> (ops/systemd/). Sie hat <code>Requires=deadlock-stt-server.service</code>: ohne lokalen STT-Dienst liefe die Warteschlange voll, ohne dass ein einziger Block ausgewertet würde; lieber gar nicht starten.</p>
 <p>Die Unit bindet bewusst <strong>keine</strong> <code>EnvironmentFile</code> ein: Werte aus der gemeinsamen <code>bots.env</code> können <code>Environment=</code>-Zeilen überschreiben, und dieser Dienst hängt genau an ihnen, Kanäle, Ablage, Ortsbindung von Transkription und Modell. Secrets kommen über denselben Infisical-Wrapper wie beim Twitch-Bot (rust/scripts/run_stream_audit_service.sh, Profil <code>all</code>); der Service-Token liegt in systemd-Credentials. Das Skript exportiert ihn nur für den Loader-Aufruf und entfernt ihn vor dem <code>exec</code> wieder: sonst stünde er in der Umgebung des Audits und damit in der jedes gestarteten streamlink-Prozesses, lesbar über <code>/proc</code>. Wichtig im Wrapper ist <code>set -a</code> um das <code>source</code> der Config: der Loader liest ausschließlich die Umgebung, ohne Export sieht er <code>INFISICAL_PROJECT_ID</code> nicht.</p>
 <table>
+<tbody>
 <tr><th>Variable</th><th>Bedeutung</th><th>Default</th></tr>
 <tr><td><code>STREAM_AUDIT_CHANNELS</code></td><td>Kanäle, Komma/Leerzeichen getrennt; ganze URLs gehen auch</td><td>leer (kein Kanal fest eingebaut)</td></tr>
 <tr><td><code>STREAM_AUDIT_OUTPUT_DIR</code></td><td>Ablage der Berichte</td><td><code>data/stream_coaching_audits</code></td></tr>
@@ -85,6 +86,7 @@
 <tr><td><code>VOICE_REACTION_STREAMLINK_BIN</code></td><td>streamlink für die Aufnahme</td><td>im Code <code>streamlink</code> aus dem <code>PATH</code>; die Unit setzt <code>~/stt-tools/bin/streamlink</code></td></tr>
 <tr><td><code>FFMPEG_BIN</code></td><td>ffmpeg für die Tonspur</td><td>im Code <code>ffmpeg</code> aus dem <code>PATH</code>; die Unit pinnt <code>/usr/bin/ffmpeg</code>, weil der systemd-PATH <code>~/.local/bin</code> vorn hat und der Build dort mit leerem stderr abstürzt</td></tr>
 <tr><td><code>TWITCH_CLIENT_ID</code>/<code>_SECRET</code></td><td>Helix-Abfrage, wer live ist</td><td>aus Infisical</td></tr>
+</tbody>
 </table>
 <p>Kanäle stehen in der Unit und nicht im Binärprogramm: wer aufgenommen wird, soll sichtbar sein, ohne im Code zu suchen. Aktuell <code>helmbombenricky</code>, <code>skifahrertv</code>, <code>deadlockgermany</code>.</p>
 </section>

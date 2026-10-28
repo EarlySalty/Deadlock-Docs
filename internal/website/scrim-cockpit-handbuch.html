@@ -25,11 +25,13 @@ von selbst.</p>
 <section id="was-wo">
 <h2>Was liegt wo</h2>
 <table>
+  <tbody>
   <tr><th>Seite</th><th>Adresse</th><th>Wer sieht sie</th></tr>
   <tr><td>Anmeldung</td><td><code>/coaching/scrims/signup</code></td><td>alle (Tab „Scrims", Login erst beim Absenden)</td></tr>
   <tr><td>Mein Team</td><td><code>/coaching/me/scrims</code></td><td>angemeldete Spieler</td></tr>
   <tr><td>Scrim-Verwaltung</td><td><code>/coaching/scrims</code></td><td><strong>nur Coaches</strong></td></tr>
   <tr><td>Team-Board</td><td><code>/coaching/scrims/teams/&lt;id&gt;</code></td><td><strong>nur Coaches</strong></td></tr>
+</tbody>
 </table>
 <p>Coach ist, wer Admin ist oder in der Coach-Liste aktiv steht — nicht über Discord-Rollen.</p>
 </section>
@@ -56,12 +58,14 @@ sich mit Discord anmeldet: Der Abgleich läuft über den Anzeigenamen.</p>
 <p>Auf <code>/coaching/scrims</code>, sortiert entlang des Ablaufs. Verschieben per Status-Auswahl
 in der Zeile:</p>
 <table>
+  <tbody>
   <tr><th>Topf</th><th>Bedeutung</th><th>Discord-Rolle</th></tr>
   <tr><td>Neue Anmeldungen</td><td>frisch rein, noch nicht einsortiert</td><td>Scrims Teilnehmer</td></tr>
   <tr><td>Spieler-Pool</td><td>wartet auf ein festes Team</td><td>Scrims Teilnehmer</td></tr>
   <tr><td>Auswechselspieler</td><td>springt ein, wenn wer fehlt</td><td>+ Auswechselspieler (pingbar)</td></tr>
   <tr><td>In Teams</td><td>fest eingeteilt</td><td>+ Team-Rolle</td></tr>
   <tr><td>Ausgetreten</td><td>raus</td><td>alle Scrim-Rollen entzogen</td></tr>
+</tbody>
 </table>
 <p>Die Rollen vergibt und entzieht der Bot selbst, sobald ihr jemanden verschiebt. Ihr müsst in
 Discord nichts nachziehen.</p>
