@@ -14,7 +14,7 @@ Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue
 | Anmeldung und Check-in für Turniere | Deadlock-Turniere `docs/HELP_TOURNAMENT_MODES.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
 | Comp-Finder (Lobby, 6 Plätze, Code, 24 h, Prioritäten, keine Discord-Nachrichten) | Deadlock-Turniere `docs/comp-finder.md` | `public/discord-server/turniere.html` | neu, gegen Quelle geprüft |
 | Kanäle nach Zweck (Information, Neue Spieler, Community, Support, Voice, Coaching, Scrims, Custom Games, Streamer) | Live-Kanalliste über dl-bot `list_channels` und `server_overview` | `public/discord-server/kanaele-und-rollen-karte.html` | neu, Stand 2026-10-28; Kanalnamen nicht erneut live abgeglichen |
-| Rang-Rollen (Initiate bis Eternus, 11 Haupt-Ränge) | Bots `dl-voice/src/rank.rs` (`major_rank_roles`), `dl-stats/src/ranks.rs` (`RANK_ORDER`) | `kanaele-und-rollen-karte.html`, `workflows/steam-verknuepfen-rang.html` | korrigiert nach Gate-Befund; Live-Rollennamen noch nicht gegen die Guild abgeglichen |
+| Rang-Rollen (Initiate bis Eternus, 11 Haupt-Ränge) | Bots `dl-voice/src/rank.rs` (`major_rank_roles`), `dl-stats/src/ranks.rs` (`RANK_ORDER`) | `kanaele-und-rollen-karte.html`, `workflows/steam-verknuepfen-rang.html` | Live-Abgleich 2026-10-28 (dl-bot `api_call` GET `/guilds/1289721245281292288/roles`, 212 Rollen): Live-Ränge sind Initiate, Seeker, Acolyte, Sentinel, Mystic, Ritualist, Emissary, Oracle, Phantom, Ascendant, Eternus (je 6 Stufen, plus „(unverifiziert)"-Varianten). Alchemist, Arcanist und Archon existieren nicht mehr. Die fünf Rollen-IDs in `dl-voice/src/rank.rs:58-68` (1331457571118387210, 1331457699992436829, 1331457724848017539, 1331457949654319114, 1331458087349129296) sind in der Guild nicht vorhanden. Die Code-Tabelle ist veraltet; die Docs folgen der Live-Guild. |
 | Ping-Rollen und Benachrichtigungen | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, allgemein formuliert, keine Einzelrollen aufgelistet |
 | Weitere Rollen (Steam Verifiziert, Booster, Unterstützer, Lurker) | Live-Rollenliste | `kanaele-und-rollen-karte.html` | neu, Lurker und Verknüpfte Rollen nicht live bestätigt |
 | Begrüßung und Einstieg | Bots `assets/welcome_texts.toml` | `rules-und-channels.html`, `onboarding-und-invites.html` | bestehend, unverändert, keine Abweichung zu den Begrüßungstexten festgestellt |
@@ -32,7 +32,8 @@ Abnahme: Jedes Thema der Tabelle hat eine Quelle und eine Seite mit Status. Neue
 - Neu: `public/discord-server/turniere.html`.
 - Neu: `public/discord-server/kanaele-und-rollen-karte.html`.
 - Drei Fehler im Entwurf der Karte korrigiert: NSFW-Beschreibung, Coaching-Lane-Bezeichnung und Satz zur Team-Rollenvergabe.
-- Gate-Runde 1: Rangliste der Karte korrigiert (Acolyte, Sentinel, Mystic waren erfunden; Alchemist, Arcanist, Archon fehlten). Satz zu Ranked-Lanes entfernt. Turnier-Zählung auf das einfache K.-o.-Turnier begrenzt.
+- Gate-Runde 1: Satz zu Ranked-Lanes entfernt.
+- Gate-Runde 2: Rangliste auf die Live-Guild umgestellt (siehe Tabelle, Zeile „Rang-Rollen"). Alchemist, Arcanist, Archon sind in der Guild nicht vorhanden. Der Bot-Code (`dl-voice/src/rank.rs`, `dl-stats/src/ranks.rs`) ist als Fehlerquelle zu melden, nicht als Maßstab für die Docs. Turnier-Zählung auf das einfache K.-o.-Turnier begrenzt.
 - Keine bestehende Seite geändert.
 
 ## Prüfungen
