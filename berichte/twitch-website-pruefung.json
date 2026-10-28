@@ -74,33 +74,72 @@
     },
     {
       "path": "public/twitch-bot/faq-einstieg.html",
-      "verified_at": "2026-09-19T23:16:51.044558+00:00",
-      "content_sha256": "7a9db7f0bd827a7cf76702d7c8d3998d4ba04fa4b2901f216924906d744c5694",
+      "verified_at": "2026-10-28T17:53:20.571668+00:00",
+      "content_sha256": "79a012fba94b5fe10f415890bb34ee36122b834509304c3b8f5a104a8378c957",
       "code": [
         {
           "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
-            "website/src/data/externalLinks.ts",
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "rust/crates/tb-analytics/src/billing/catalog.rs",
+            "rust/crates/tb-analytics/src/telemetry_routes.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs",
+            "rust/crates/tb-dashboard-api/src/lib.rs",
             "website/src/components/partner-clean/Hero.tsx",
-            "rust/crates/tb-analytics/src/billing/catalog.rs"
+            "website/src/data/externalLinks.ts"
           ]
         }
       ],
-      "live_release_revision": "4bfc09af005d407061d523a9f7563466b5890de3",
-      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle und origin/main; kein Twitch-Deployment vorgenommen.",
+      "live_release_revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+      "live_code_note": "Geprüfte Pfade ohne Diff zwischen Releasequelle 8e00a346 und origin/main d1b234cc3; Live-Probe /streamer/ und Auth-Redirect am 2026-10-28.",
       "claims": [
         {
-          "claim": "Konkreter Einstieg, OAuth, kostenlose Grundnutzung und Zusatzpläne; keine automatische Freischaltzeit zugesagt.",
+          "claim": "Bot-Funktionen: Auto-Raid, Chat-Befehle, Analyse-Auswertungen in der Kanalverwaltung und Anbindung an den Community-Discord.",
           "verdict": "verified",
           "evidence": [
-            "website/src/data/externalLinks.ts",
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs",
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-analytics/src/telemetry_routes.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs"
+          ]
+        },
+        {
+          "claim": "Verbindung über die Partnerseite mit „Jetzt Partner werden“ und Twitch-OAuth ohne Passwortweitergabe an den Bot.",
+          "verdict": "verified",
+          "evidence": [
             "website/src/components/partner-clean/Hero.tsx",
+            "website/src/data/externalLinks.ts",
+            "rust/bin/tb-bot/src/raid_oauth_impl.rs"
+          ]
+        },
+        {
+          "claim": "Bot-Trennung in der Kanalverwaltung als zweiter Weg zum Widerruf.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/handlers/streamer_disconnect.rs"
+          ]
+        },
+        {
+          "claim": "Kostenlose Stufe Netzwerk Free und kostenpflichtige Pläne; Umfang und Preise unter Pläne und Preise.",
+          "verdict": "verified",
+          "evidence": [
             "rust/crates/tb-analytics/src/billing/catalog.rs"
+          ]
+        },
+        {
+          "claim": "Verweis auf Discord-Go-Live für Live-Hinweise im Community-Discord.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-dashboard-api/src/lib.rs"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Twitch-Menüpfad „Einstellungen, Verbindungen“ und der Link twitch.tv/settings/connections liegen außerhalb der Repos und sind nicht extern geprüft."
+      ]
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
