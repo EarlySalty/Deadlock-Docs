@@ -1755,27 +1755,104 @@
     },
     {
       "path": "public/quellen/turniere/comp-finder.html",
-      "verified_at": "2026-09-19T23:47:49.931502+00:00",
-      "content_sha256": "4f5957149599cd60b10f942c1236fbfa7148e74d98392a435cdf7aeb2239f16b",
+      "verified_at": "2026-10-28T17:55:01.157098+00:00",
+      "content_sha256": "2cc44093ffccb59e15429c562263b5d7474aa0d4d63679725ebfac7a709c7189",
       "code": [
         {
           "repository": "turniere",
-          "revision": "c9fad4346cd0d86fce542dcb2da6f2dc0cadf047",
+          "revision": "feb7a2a49c50418b527918e93a8c36671d14c889",
           "paths": [
             "frontend/src/pages/CompFinder.tsx",
+            "frontend/src/hooks/compState.ts",
+            "frontend/src/hooks/useCompFinder.ts",
+            "frontend/src/App.tsx",
             "rust/crates/turnier-api/src/comp.rs",
             "rust/crates/turnier-draft/src/comp/solver.rs"
+          ]
+        },
+        {
+          "repository": "docs",
+          "revision": "ec7bebbef4a8d49b97e8b1211788ad4573c56995",
+          "paths": [
+            "public/quellen/turniere/comp-finder.html"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Öffentliche Lobby ohne Discordlogin, achtstelliger Code, maximal6, explizites Speichern, drei Prioritätsstufen, bis10 eindeutige Zuordnungen und Konfliktmeldungen gegen Frontend/Resolver geprüft. Keine Metabewertung behauptet.",
+          "claim": "Route https://deutsche-deadlock-community.de/turnier/comp leads to the Comp-Finder.",
           "verdict": "verified",
           "evidence": [
-            "frontend/src/pages/CompFinder.tsx",
-            "rust/crates/turnier-api/src/comp.rs",
+            "frontend/src/App.tsx: comp route",
+            "Caddy hosts/v50671/Caddyfile turnier_paths matcher routes /turnier/* to the turnier service; exact host route not separately confirmed"
+          ]
+        },
+        {
+          "claim": "The Comp-Finder distributes chosen heroes across the team and searches combinations from the wishes; it does not rate meta, roles or synergies.",
+          "verdict": "verified",
+          "evidence": [
             "rust/crates/turnier-draft/src/comp/solver.rs"
+          ]
+        },
+        {
+          "claim": "A person creates a lobby with a display name and shares the lobby link or the eight-character code.",
+          "verdict": "verified",
+          "evidence": [
+            "frontend/src/pages/CompFinder.tsx: lobby creation and join labels",
+            "rust/crates/turnier-api/src/comp.rs: lobby code"
+          ]
+        },
+        {
+          "claim": "Up to six people can join without Discord login; smaller groups work too.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-api/src/comp.rs: player limit and join without login"
+          ]
+        },
+        {
+          "claim": "Each person selects playable heroes and clicks Auswahl speichern; the team sees changes only after saving.",
+          "verdict": "verified",
+          "evidence": [
+            "frontend/src/pages/CompFinder.tsx: button label Auswahl speichern",
+            "frontend/src/hooks/useCompFinder.ts: saved state"
+          ]
+        },
+        {
+          "claim": "Wish levels Nicht ausgewählt, Spielbar, Bevorzugt and Höchste Priorität with the listed meanings.",
+          "verdict": "verified",
+          "evidence": [
+            "frontend/src/hooks/compState.ts: wish levels",
+            "frontend/src/pages/CompFinder.tsx: level labels"
+          ]
+        },
+        {
+          "claim": "Several heroes can share the same level; more alternatives make a full lineup easier to find.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-draft/src/comp/solver.rs: multiple candidates per player"
+          ]
+        },
+        {
+          "claim": "Suggestions give each player exactly one hero with no duplicates; up to ten different combinations are shown, best fulfilled wishes first, higher-priority picks as tie-breaker.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-draft/src/comp/solver.rs: uniqueness, result limit and ranking"
+          ]
+        },
+        {
+          "claim": "A missing selection names the affected person; a shared shortage of distinct heroes is shown as bottleneck.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/turnier-draft/src/comp/solver.rs: missing and bottleneck results",
+            "frontend/src/pages/CompFinder.tsx: messages"
+          ]
+        },
+        {
+          "claim": "Reloading the tab keeps your seat; the link gives view access but not control over other seats; leaving before switching browsers, and the host can free orphaned seats.",
+          "verdict": "verified",
+          "evidence": [
+            "frontend/src/hooks/useCompFinder.ts: local seat persistence",
+            "rust/crates/turnier-api/src/comp.rs: leave and host free-seat actions"
           ]
         }
       ],
