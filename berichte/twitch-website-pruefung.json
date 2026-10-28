@@ -1388,8 +1388,8 @@
     },
     {
       "path": "public/quellen/website/mitspieler.html",
-      "verified_at": "2026-10-28T17:53:45.982308+00:00",
-      "content_sha256": "862fcd82be686806ea48d8ce70c825e17eb61e58f7441204214c694364bfd047",
+      "verified_at": "2026-10-28T17:57:00.570788+00:00",
+      "content_sha256": "f1e2a15afe7d69a4fb5643785d3f36ac225da95f07300247107b365212963e07",
       "code": [
         {
           "repository": "discord",
@@ -1441,7 +1441,7 @@
           ]
         },
         {
-          "claim": "Im Kanal ➕Sprachkanal erstellen oder über das Panel öffnet der Bot eine eigene Lane in der passenden Kategorie und zieht dich hinein. Du musst bereits in einem Sprachkanal sitzen.",
+          "claim": "Im Kanal ➕Sprachkanal erstellen öffnet der Bot eine eigene Lane in der passenden Kategorie und zieht dich hinein. Das Panel setzt voraus, dass du bereits in einem Sprachkanal sitzt.",
           "verdict": "verified",
           "evidence": [
             "list_channels: 1513468587195633674 ➕Sprachkanal erstellen (Join-to-create, Kategorie Voice)",
@@ -1483,8 +1483,8 @@
           ]
         },
         {
-          "claim": "🔎mitspieler-suche ist ein Textkanal im Bereich Community für die allgemeine Suche.",
-          "verdict": "partial",
+          "claim": "Im Bereich Community gibt es den Textkanal 🔎mitspieler-suche.",
+          "verdict": "verified",
           "evidence": [
             "list_channels: 1376335502919335936 🔎mitspieler-suche, Kategorie 💬 COMMUNITY, Typ Text",
             "Zweck aus Name und Aktivität abgeleitet (docs/insights popular-text-channels CSV), keine Kanalbeschreibung"
@@ -1514,7 +1514,7 @@
     },
     {
       "path": "public/quellen/website/transparenz.html",
-      "verified_at": "2026-10-28T17:53:59.400624+00:00",
+      "verified_at": "2026-10-28T17:57:00.660717+00:00",
       "content_sha256": "29061d2c3994f2eb4992063dbeabab4bf0e096c8cf2f7e0d093cfc0115e04350",
       "code": [
         {
@@ -1557,8 +1557,8 @@
     },
     {
       "path": "public/quellen/website/wohin.html",
-      "verified_at": "2026-10-28T17:54:07.951570+00:00",
-      "content_sha256": "4069da754ca9a744f6f8ffc446ba61ff1ba321863977954d94cd1b363b1fde29",
+      "verified_at": "2026-10-28T17:57:00.785539+00:00",
+      "content_sha256": "c832e0a5aac573bfa8b7f6b290e386b84777533dfb59aa398ecc377ed63aa511",
       "code": [
         {
           "repository": "discord",
@@ -1566,6 +1566,13 @@
           "paths": [
             "rust/bin/dl-bot/src/modglue.rs",
             "rust/crates/dl-voice/src/lfg_panel.rs"
+          ]
+        },
+        {
+          "repository": "brain",
+          "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
+          "paths": [
+            "rust/crates/brain-contracts/src/provider_input.rs"
           ]
         }
       ],
