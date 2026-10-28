@@ -1388,31 +1388,129 @@
     },
     {
       "path": "public/quellen/website/mitspieler.html",
-      "verified_at": "2026-09-19T23:47:49.904226+00:00",
-      "content_sha256": "b158f8e9457e5c662ec9cd403b1cd4d4fa526b51dc7862e9ca2c0f0a08589218",
+      "verified_at": "2026-10-28T17:53:45.982308+00:00",
+      "content_sha256": "862fcd82be686806ea48d8ce70c825e17eb61e58f7441204214c694364bfd047",
       "code": [
         {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
           "paths": [
             "rust/crates/dl-voice/src/lfg_panel.rs",
-            "rust/crates/dl-activity/src/player_finder.rs",
-            "rust/crates/dl-voice/src/tempvoice/engine.rs"
+            "rust/bin/dl-bot/src/modglue.rs"
+          ]
+        },
+        {
+          "repository": "brain",
+          "revision": "2bb225de35db89045555a4da80d1dc4640d47c96",
+          "paths": [
+            "rust/crates/brain-contracts/src/provider_input.rs",
+            "rust/crates/brain-serve/src/discord_live_tools.rs",
+            "rust/crates/brain-serve/src/discord_live.rs"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Vorhandenes LFG-Panel und Voice-Lanes, Zugriffsregeln abhängig vom Typ; keine ungefragten Direktnachrichten oder unbestätigte Rangidentität empfohlen.",
+          "claim": "Panel im Kanal 📖sprachkanal-verwalten: Button Mitspieler suchen, Modi Normale Lane, Ranked, Street Brawl, optionaler Rang-Bereich, Plätze, Suche veröffentlichen, Post in 🎯mitspieler-suche mit Beitreten und live freien Plätzen. Nur über das Formular.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/dl-voice/src/lfg_panel.rs",
-            "rust/crates/dl-activity/src/player_finder.rs",
-            "rust/crates/dl-voice/src/tempvoice/engine.rs"
+            "lfg_panel.rs: LFG_PANEL_BUTTON, LFG_MODE_BUTTON_*, LFG_RANK_*_PLACEHOLDER, LFG_BTN_POSTEN, LFG_POST_BODY_*, LFG_BTN_BEITRETEN",
+            "list_channels (dl-bot): 1513468476365209670 📖sprachkanal-verwalten, 1522769149208821881 🎯mitspieler-suche (Forum), Topic: Neue Posts nur über das Formular",
+            "public_server_facts bot_infos: Panel-Text in 1513468476365209670"
+          ]
+        },
+        {
+          "claim": "Gesuche räumen sich weg, sobald die Lane schließt. 🔔 Benachrichtige mich schickt eine Direktnachricht bei passendem Gesuch.",
+          "verdict": "verified",
+          "evidence": [
+            "lfg_panel.rs: LFG_PANEL_BODY, LFG_WATCH_BUILDER_TEXT, LFG_WATCH_PANEL_BUTTON"
+          ]
+        },
+        {
+          "claim": "Bitte andere Mitglieder nicht ungefragt anschreiben (Hinweis, keine Systemfunktion).",
+          "verdict": "verified",
+          "evidence": [
+            "Hinweistext; keine Systemaussage, Verhalten im Code nicht geprüft"
+          ]
+        },
+        {
+          "claim": "Verlinkte Seite public/discord-server/module/mitspielersuche-lfg.html existiert.",
+          "verdict": "verified",
+          "evidence": [
+            "public/discord-server/module/mitspielersuche-lfg.html"
+          ]
+        },
+        {
+          "claim": "Im Kanal ➕Sprachkanal erstellen oder über das Panel öffnet der Bot eine eigene Lane in der passenden Kategorie und zieht dich hinein. Du musst bereits in einem Sprachkanal sitzen.",
+          "verdict": "verified",
+          "evidence": [
+            "list_channels: 1513468587195633674 ➕Sprachkanal erstellen (Join-to-create, Kategorie Voice)",
+            "lfg_panel.rs: Fehlertext Geh erst in irgendeinen Voice-Kanal",
+            "welcome_texts.toml: Beitreten, und deine eigene Lane öffnet sich automatisch",
+            "public_server_facts tempvoice.join_channel_ids"
+          ]
+        },
+        {
+          "claim": "Buttons wirken auf die Lane, in der du sitzt. Nur der Owner verwaltet sie. Ist er weg, holst du die Lane mit „Owner übernehmen“. Bei Ranked setzt der Owner Rang-Vorgaben.",
+          "verdict": "verified",
+          "evidence": [
+            "public_server_facts bot_infos 1513468476365209670 und 1513468587195633674: Owner übernehmen, Rang-Gates setzt der Lane-Owner"
+          ]
+        },
+        {
+          "claim": "Ranked-Lanes und Ranked-Gesuche brauchen verifizierten Rang. Verknüpfung über 🔗deadlock-rang. Normale Lanes und Street Brawl stehen allen offen.",
+          "verdict": "verified",
+          "evidence": [
+            "lfg_panel.rs: LFG_ERR_KEIN_RANKED_RANG, LFG_ERR_JOIN_KEIN_RANG",
+            "list_channels: 1398021105339334666 🔗deadlock-rang",
+            "list_channels: 1522769149208821881 Topic: Casual und Street Brawl gehen für alle"
+          ]
+        },
+        {
+          "claim": "Bei Problemen Ticket im Kanal 🎟️support-ticket-eröffnen.",
+          "verdict": "verified",
+          "evidence": [
+            "list_channels: 1459628609705738539 🎟️support-ticket-eröffnen",
+            "regelwerk_publish.rs: REGELWERK_SECTION_WEGWEISER (Ticket aufmachen)"
+          ]
+        },
+        {
+          "claim": "Offene Lanes sind Sprachkanäle in der Kategorie Voice, mit Belegung.",
+          "verdict": "verified",
+          "evidence": [
+            "public_server_facts voice_counts und tempvoice.open_lanes",
+            "list_channels: Kategorie Voice 1289721245281292290"
+          ]
+        },
+        {
+          "claim": "🔎mitspieler-suche ist ein Textkanal im Bereich Community für die allgemeine Suche.",
+          "verdict": "partial",
+          "evidence": [
+            "list_channels: 1376335502919335936 🔎mitspieler-suche, Kategorie 💬 COMMUNITY, Typ Text",
+            "Zweck aus Name und Aktivität abgeleitet (docs/insights popular-text-channels CSV), keine Kanalbeschreibung"
+          ]
+        },
+        {
+          "claim": "Concierge oder !brain nennt bei Fragen nach Mitspielern oder offenen Lanes die passenden Lanes mit Belegung und verlinkt sie zum Beitreten.",
+          "verdict": "verified",
+          "evidence": [
+            "Brain provider_input.rs (Systemvorgabe Beitritt-Platzhalter, Belegung)",
+            "discord_live.rs Tests offene_lanes_tragen_aufloesbare_beitrittsreferenzen, antwortwerkzeug_liefert_offene_lanes_mit_beitrittsreferenzen",
+            "discord_live_tools.rs definition: Live-Stand offene Lanes",
+            "dl-bot modglue.rs:1311 !brain-Präfix"
+          ]
+        },
+        {
+          "claim": "Ohne passende Lane verweist er auf die Mitspieler-Suche und den Join-to-create-Kanal.",
+          "verdict": "verified",
+          "evidence": [
+            "provider_input.rs Systemvorgabe: Gibt es keine passende offene Lane, verweise auf die Mitspieler-Suche und auf den Join-to-create-Kanal"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Kanal 🔎mitspieler-suche: Zweck nur aus Name und Aktivität abgeleitet. Eine zweite Kanal-ID 1563950781441384458 (🌱 Neue Spieler) ist nicht beschrieben."
+      ]
     },
     {
       "path": "public/quellen/website/transparenz.html",
