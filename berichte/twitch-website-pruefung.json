@@ -1557,45 +1557,70 @@
     },
     {
       "path": "public/quellen/website/wohin.html",
-      "verified_at": "2026-09-19T23:47:49.922374+00:00",
-      "content_sha256": "9a6bb41b1b989c627bc59d9925e1702d09d53e1579fa436459a8f5563809ba82",
+      "verified_at": "2026-10-28T17:54:07.951570+00:00",
+      "content_sha256": "4069da754ca9a744f6f8ffc446ba61ff1ba321863977954d94cd1b363b1fde29",
       "code": [
         {
-          "repository": "website",
-          "revision": "ff6ebffdc2174bac1c8a7b9cf3d756bb6b7c5a10",
-          "paths": [
-            "dl-coaching/src/App.tsx"
-          ]
-        },
-        {
           "repository": "discord",
-          "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
+          "revision": "c68f89a8a732e9ceb57e6316306244c330ff611a",
           "paths": [
-            "rust/crates/dl-community/src/concierge.rs",
+            "rust/bin/dl-bot/src/modglue.rs",
             "rust/crates/dl-voice/src/lfg_panel.rs"
-          ]
-        },
-        {
-          "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
-          "paths": [
-            "website/src/data/externalLinks.ts"
           ]
         }
       ],
       "claims": [
         {
-          "claim": "Vorhandene LFG/Coaching/Concierge/Brain/Streamerwege mit konkreten Links; keine ausgeführten Kontofreigaben behauptet.",
+          "claim": "Beginne mit Mitspielersuche oder einer passenden Voice-Lane im Community-Discord.",
           "verdict": "verified",
           "evidence": [
-            "dl-coaching/src/App.tsx",
-            "rust/crates/dl-community/src/concierge.rs",
-            "rust/crates/dl-voice/src/lfg_panel.rs",
-            "website/src/data/externalLinks.ts"
+            "lfg_panel.rs: Mitspieler suchen, Voice-Lane-Panel"
+          ]
+        },
+        {
+          "claim": "Für organisierte Teamrunden: Scrim-Anleitung und Turnierseite.",
+          "verdict": "verified",
+          "evidence": [
+            "public/dokus/scrims/scrim-orga.html und public/turniere/turniere.html existieren",
+            "public/website/website-portale.html: Einstiege für Scrims und Turniere"
+          ]
+        },
+        {
+          "claim": "Fragen zu Held, Fähigkeit, Item oder Spielsituation: Concierge und !brain erklären belegtes Spielwissen.",
+          "verdict": "verified",
+          "evidence": [
+            "modglue.rs:1311 !brain",
+            "provider_input.rs Concierge-Systemvorgabe"
+          ]
+        },
+        {
+          "claim": "Persönliche Unterstützung: Coaching oder Paten anfragen.",
+          "verdict": "partial",
+          "evidence": [
+            "list_channels: 🛠️ich-brauch-einen-coach, 🤝paten-zentrale (1524083665838276860), Kategorie Coaching",
+            "Freiwilligkeit des Coachings nicht erneut am Code geprüft"
+          ]
+        },
+        {
+          "claim": "Streamer: Partnerseite /streamer und Twitch-Einrichtung; Uplink-OBS-Anleitung mit Adressen aus dem Dashboard.",
+          "verdict": "verified",
+          "evidence": [
+            "public/website/website-portale.html: /streamer/",
+            "public/twitch-bot/einrichtung.html existiert",
+            "public/twitch-bot/uplink-obs.html: Adressen aus dem Dashboard"
+          ]
+        },
+        {
+          "claim": "Zugangshilfe: Support im Community-Discord über 🎟️support-ticket-eröffnen.",
+          "verdict": "verified",
+          "evidence": [
+            "list_channels: 1459628609705738539 🎟️support-ticket-eröffnen"
           ]
         }
       ],
-      "gaps": []
+      "gaps": [
+        "Freiwilligkeit des Coachings: nur Kanal-Existenz geprüft."
+      ]
     },
     {
       "path": "public/quellen/turniere/help_tournament_modes.html",
