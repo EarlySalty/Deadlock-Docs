@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <title>Uplink: Was ist Uplink</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Uplink nimmt deinen OBS-Stream entgegen und verteilt ihn passend an deine Plattformen. Du richtest den Zugang, die Plattformen und deine OBS-Fenster im…">
+  <meta name="description" content="Uplink nimmt deinen OBS-Stream entgegen und verteilt ihn an Twitch, YouTube, Kick und TikTok. Zugang, Plattformen, Ausgabe und die vier OBS-Fenster richtest du im Dashboard ein.">
 <meta name="tags" content="hilfe, nutzerwissen">
-<meta name="stand" content="2026-09-20">
+<meta name="stand" content="2026-10-28">
 <meta name="quelle" content="Streamer-Hilfe">
 <style>body { font-family: system-ui, sans-serif; line-height: 1.6;
 max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -24,21 +24,33 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 <body>
 <main>
 <h1>Uplink: Was ist Uplink</h1>
-<section id="abschnitt-1">
+<p>Uplink nimmt deinen OBS-Stream einmal entgegen und verteilt ihn an deine Plattformen. Du musst nur noch in OBS zu einer Adresse senden. Zugang, Plattformen, Qualität und die OBS-Fenster richtest du im Dashboard ein.</p>
+<section id="ein-eingang-mehrere-ziele">
 <h2>Ein Eingang, mehrere Ziele</h2>
-<p>Uplink nimmt deinen OBS-Stream entgegen und verteilt ihn passend an deine Plattformen. Du richtest den Zugang, die Plattformen und deine OBS-Fenster im bestehenden Dashboard ein.</p>
+<p>Uplink unterstützt Twitch, YouTube, Kick und TikTok als Ziele. Jedes Ziel hat seine eigene Karte im Dashboard mit Verbindung, Schalter und Qualität. Twitch, Kick und YouTube verbindest du über ihre Freigabe; TikTok braucht einen freigeschalteten RTMP-Zugang, und der Chat von TikTok ist dort nicht bestätigt.</p>
+<p>Die Verbindung ist für jedes Ziel getrennt. Wenn ein Ziel Chat- oder Aktivitätsrechte nicht hat, fehlt nur diese Funktion. Der Medienzugang bleibt davon unberührt, solange er gültig ist.</p>
 </section>
-<section id="abschnitt-2">
+<section id="zugang-und-warteliste">
+<h2>Zugang: Add-on und Warteliste</h2>
+<p>Uplink ist ein bezahltes Add-on. Ohne Zugang siehst du im Dashboard den Knopf <strong>Auf die Warteliste</strong>. Ein Admin nimmt dich dann frei oder lehnt den Eintrag ab. Mit der Freischaltung bekommst du einen Uplink-Zugang und der Eintrag verschwindet aus der Liste.</p>
+</section>
+<section id="wunsch-und-laufende-ausgabe">
 <h2>Wunsch und laufende Ausgabe</h2>
-<p>Eingeschaltet bedeutet, dass ein Ziel beim nächsten Stream berücksichtigt werden soll. Erst der gemessene Medienbetrieb zeigt, ob Uplink dorthin sendet. Eine öffentliche Livebestätigung der Plattform wird nur angezeigt, wenn sie tatsächlich vorliegt.</p>
+<p>Eingeschaltet bedeutet, dass ein Ziel beim nächsten Stream berücksichtigt werden soll. Ob Uplink tatsächlich dorthin sendet, zeigt erst der laufende Medienbetrieb. Eine öffentliche Livebestätigung der Plattform wird nur angezeigt, wenn sie tatsächlich vorliegt.</p>
 </section>
-<section id="abschnitt-3">
+<section id="bild-und-ton">
 <h2>Bild und Ton</h2>
-<p>Kompatible Medien können unverändert weitergeleitet werden. Erforderliche andere Bilder oder Ausgabeprofile werden serverseitig verarbeitet. Live- und VOD-Mischungen bleiben getrennt; benötigte Bild- und Tonquellen müssen bereits im Eingang vorhanden sein.</p>
+<p>Passende Medien werden unverändert weitergeleitet. Andere Bildformate oder Ausgabeprofile verarbeitet Uplink auf dem Server. Live- und VOD-Mischung bleiben getrennt. Die nötigen Bild- und Tonquellen müssen bereits in deinem OBS-Eingang vorhanden sein.</p>
+<p>Twitch-VOD-Ton stellt Uplink automatisch zusammen. Du musst dafür nichts auswählen: Die Livemischung geht auf den Livestream, die zweite Mischung auf das VOD. Fehlt die zweite Spur, bekommt nur der Twitch-Ausgang keinen VOD-Ton. Die Livemischung wird nicht als VOD kopiert.</p>
 </section>
-<section id="abschnitt-4">
+<section id="was-noch-nicht-angeboten-wird">
+<h2>Was noch nicht angeboten wird</h2>
+<p>Hochkant-Ausgabe (Vertikalformat) gibt es in Uplink derzeit nicht. Einen automatischen YouTube-Livestart aus dem Dashboard gibt es ebenfalls nicht: Du startest YouTube-Übertragungen weiterhin über YouTube selbst.</p>
+</section>
+<section id="wenn-etwas-fehlt">
 <h2>Wenn etwas fehlt</h2>
-<p>Abgelehnte Profile, fehlender VOD-Ton oder eine erforderliche neue Plattformfreigabe werden am betroffenen Ziel angezeigt. Gespeicherte Einstellungen allein sind kein Qualitäts- oder Funktionsnachweis.</p>
+<p>Abgelehnte Profile, fehlender VOD-Ton oder eine nötige neue Plattformfreigabe werden am betroffenen Ziel angezeigt. Gespeicherte Einstellungen allein zeigen noch nicht, dass ein Ziel gesendet wird. Die Hinweise zu den einzelnen Fehlern stehen auf der Seite <a href="uplink-stoerungen.html">Uplink: Störungen</a>.</p>
+<p>Plattformen, Qualität und Betriebsart erklärt <a href="uplink-ziele-qualitaet.html">Uplink: Ziele und Qualität</a>. Die vier OBS-Fenster beschreibt <a href="uplink-docks.html">Uplink: OBS-Fenster</a>.</p>
 </section>
 </main>
 </body>

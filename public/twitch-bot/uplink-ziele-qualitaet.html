@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Uplink: Ziele und Qualität</title>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Ziele einschalten, Qualitätsprofile und manuelle Ausgabe bei Uplink, Betriebsart für Twitch sowie was eine Änderung während eines laufenden Streams bewirkt.">
+<meta name="tags" content="hilfe, nutzerwissen">
+<meta name="stand" content="2026-10-28">
+<meta name="quelle" content="Streamer-Hilfe">
+<style>body { font-family: system-ui, sans-serif; line-height: 1.6;
+max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
+h1, h2, h3 { line-height: 1.25; }
+code { background: #f2f2f2; padding: .1rem .3rem; border-radius: .2rem;
+overflow-wrap: anywhere; }
+pre { overflow-x: auto; padding: 1rem; background: #f2f2f2; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left;
+vertical-align: top; overflow-wrap: anywhere; }
+nav a { margin-right: .8rem; }
+a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Uplink: Ziele und Qualität</h1>
+<p>Hier steht, wie du Ziele ein- und ausschaltest, welche Qualitätsprofile es gibt und was eine Änderung im laufenden Stream bewirkt. Die Grundlagen stehen auf <a href="uplink-was-ist.html">Uplink: Was ist Uplink</a>.</p>
+<section id="ziele-ein-und-ausschalten">
+<h2>Ziele ein- und ausschalten</h2>
+<p>Jedes Ziel hat einen Schalter auf seiner Karte. Eingeschaltet heißt: Das Ziel wird beim nächsten Stream berücksichtigt, sofern seine Voraussetzungen erfüllt sind. Ausgeschaltet bleibt das Ziel gespeichert, sendet aber nicht. Ob es tatsächlich sendet, zeigt der laufende Betrieb.</p>
+<p>Die Zugangsdaten eines Ziels änderst du auf seiner Karte. Die Qualität eines Ziels kannst du auch ohne neue Zugangsdaten ändern.</p>
+</section>
+<section id="qualitaetsprofile">
+<h2>Qualitätsprofile</h2>
+<p>Für jedes Ziel wählst du ein Profil. Die Voreinstellungen sind:</p>
+<table>
+<thead>
+<tr><th>Profil</th><th>Auflösung</th><th>Bildrate</th><th>Bitrate</th></tr>
+</thead>
+<tbody>
+<tr><td>1080p60</td><td>1920 × 1080</td><td>60 fps</td><td>6000 kbps</td></tr>
+<tr><td>1080p60 hoch</td><td>1920 × 1080</td><td>60 fps</td><td>8000 kbps</td></tr>
+<tr><td>1440p60</td><td>2560 × 1440</td><td>60 fps</td><td>12000 kbps</td></tr>
+<tr><td>720p60</td><td>1280 × 720</td><td>60 fps</td><td>4500 kbps</td></tr>
+<tr><td>480p30</td><td>854 × 480</td><td>30 fps</td><td>1500 kbps</td></tr>
+</tbody>
+</table>
+<p>Das Zielprofil muss nicht dem Eingang deines OBS entsprechen. Uplink prüft, ob der Eingang das gewählte Profil liefern kann. Ist das nicht der Fall, zeigt das Dashboard das Profil als abgelehnt an.</p>
+</section>
+<section id="manuelle-ausgabe">
+<h2>Manuelle Ausgabe</h2>
+<p>Im manuellen Modus legst du Breite, Höhe, Bildrate und Bitrate selbst fest. Breite und Höhe müssen gerade Zahlen sein. Das manuelle Profil und ein Voreinstellungsprofil schließen sich aus: Du wählst eines von beiden.</p>
+</section>
+<section id="gespeichert-und-laufend">
+<h2>Gespeichert und laufend</h2>
+<p>Das Dashboard trennt zwei Dinge. Das <strong>gespeicherte</strong> Profil ist dein Wunsch für den nächsten Stream. Das <strong>laufende</strong> Profil ist das, was gerade gesendet wird. Ein gespeichertes Profil ist kein Beleg dafür, dass es läuft.</p>
+</section>
+<section id="aenderung-im-laufenden-stream">
+<h2>Änderung im laufenden Stream</h2>
+<p>Speicherst du während eines Streams eine Änderung, zeigt das Dashboard direkt danach, was sie bewirkt:</p>
+<ul>
+<li><strong>Nur die Bitrate</strong> wechselt. Zuschauer merken davon in der Regel nichts.</li>
+<li><strong>Das Bildformat</strong> wechselt. Zuschauer sehen dabei kurz ein Stocken.</li>
+<li><strong>Der Server ist ausgelastet.</strong> Die Einstellung ist gespeichert, der laufende Stream bleibt aber bis zum nächsten Mal, wie er ist.</li>
+<li><strong>Kein Stream läuft.</strong> Die Einstellung gilt für den nächsten Stream.</li>
+</ul>
+</section>
+<section id="betriebsart-twitch">
+<h2>Betriebsart für Twitch</h2>
+<p>Für Twitch wählst du eine Betriebsart. Sie bestimmt, welche Stufen Uplink an Twitch ausgibt:</p>
+<ul>
+<li><strong>Einzelstream:</strong> Ein Profil wird an Twitch gesendet.</li>
+<li><strong>Uplink Enhanced (Upload sparen):</strong> Dein OBS sendet 1080p60 als Hauptausgabe. Uplink erzeugt daraus die niedrigeren H.264-Stufen. Ein natives 2K-Profil gibt es in dieser Betriebsart nicht.</li>
+<li><strong>Native Twitch 2K (HEVC):</strong> OBS sendet 2560 × 1440 mit 60 fps in HEVC. Das funktioniert nur mit einem passenden Hardwareprofil.</li>
+<li><strong>Native 2K (AV1 Test):</strong> Diese Betriebsart ist nur freigegeben, wenn der Server einen Echtzeit-Lasttest bestanden hat. Ist sie gesperrt, wählst du sie nicht.</li>
+</ul>
+<p>Ist die Voraussetzung einer Betriebsart nicht erfüllt, bleibt das gespeicherte Einzelprofil aktiv. Encoder, Bitrate und Tonspuren für jede Betriebsart stehen in <a href="uplink-obs.html">Uplink: OBS einrichten</a>.</p>
+</section>
+</main>
+</body>
+</html>

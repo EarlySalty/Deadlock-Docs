@@ -31,6 +31,7 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 <section id="abschnitt-2">
 <h2>Schritt 2: Ausgabe einstellen</h2>
 <p>Öffne Einstellungen → Ausgabe und wähle Erweitert. AV1 ist bevorzugt, H.264 wird ebenfalls unterstützt. Wähle einen Encoder, den deine OBS-Version für diesen RTMPS-Dienst anbietet. HEVC verwendest du nur mit einem dafür freigegebenen Eingangsprofil. Uplink prüft die tatsächlich empfangenen Eigenschaften.</p>
+<p>Die Encoder-Analyse in OBS liest das Protokoll nur lokal in deinem Browser aus; es wird nicht hochgeladen. Für Live empfiehlt sich ein Hardware-Encoder. Softwarebasiertes AV1 (AOM oder SVT) ist für Live nicht empfohlen.</p>
 </section>
 <section id="abschnitt-3">
 <h2>Schritt 3: Bitrate und Qualität</h2>
@@ -52,7 +53,8 @@ a:focus-visible { outline: 3px solid #805400; outline-offset: 3px; }
 </section>
 <section id="abschnitt-6">
 <h2>Schritt 6: Fenster einrichten</h2>
-<p>Verbinde deine Plattformen in ihren Dashboard-Karten. Gespeicherte Wunschprofile werden anhand des Eingangs und des Kanalzugangs geprüft; das tatsächlich aktive Profil wird getrennt angezeigt. Profiländerungen gelten zunächst für den nächsten Stream. Die privaten, dauerhaft gespeicherten Dockadressen findest du im selben Dashboard. Danach startest du in OBS wie gewohnt.</p>
+<p>Verbinde deine Plattformen in ihren Dashboard-Karten. Gespeicherte Wunschprofile werden anhand des Eingangs und des Kanalzugangs geprüft; das tatsächlich aktive Profil wird getrennt angezeigt. Profiländerungen gelten zunächst für den nächsten Stream.</p>
+<p>Für OBS gibt es vier Dock-Fenster: Chat, Aktivität, Stream-Infos und Kanalpunkte. Du fügst sie in OBS über ihre privaten Adressen aus dem Dashboard hinzu. Was jedes Fenster kann und wie du die Adressen schützt, steht auf <a href="uplink-docks.html">Uplink: OBS-Fenster</a>. Danach startest du in OBS wie gewohnt.</p>
 </section>
 </main>
 </body>
