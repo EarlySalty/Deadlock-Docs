@@ -4,63 +4,48 @@
   <meta charset="utf-8">
   <title>Scrims</title>
   <meta name="robots" content="index, follow">
-  <meta name="description" content="Scrims auf dem Discord-Server: wie du mitmachst, wer die Team-Rollen vergibt, wo du fragen kannst und wie ein Scrim grundsätzlich abläuft.">
-  <meta name="tags" content="discord-server, scrims, scrim-teilnehmer, team-rolle, scrim-manager, direktnachricht">
-  <meta name="stand" content="2026-10-28">
-  <meta name="quelle" content="Abgleich mit Discord-Kanälen des Servers und dem Bot-Code (Scrim-Anmeldung, Rollenvergabe, Brain-Antworten)">
+  <meta name="description" content="Scrims auf dem Discord-Server: wie du mitmachst, wie du die Rolle Scrims Teilnehmer bekommst, wer die Team-Rollen vergibt und wo du Termine findest.">
+  <meta name="tags" content="discord-server, scrims, scrims-teilnehmer, scrim-signup, team-rolle, scrim-orga">
+  <meta name="stand" content="2026-10-29">
+  <meta name="quelle" content="Abgleich mit Discord-Kanälen und Rollen des Servers und dem Bot-Code (Scrim-Anmeldung mit Rollenvergabe)">
 </head>
 <body>
 <main>
 <h1>Scrims</h1>
-<p><strong>Überblick.</strong> Scrims sind Übungsspiele in festen Teams. Diese Seite erklärt den allgemeinen Ablauf. Fragen zu deinem eigenen Team beantwortet der Bot direkt im Discord.</p>
+<p><strong>Überblick.</strong> Scrims sind Übungsspiele in festen Teams mit Coach, organisiert von der Scrim-Orga des Servers.</p>
 
 <section id="mitmachen">
 <h2>Ich will bei Scrims mitmachen, was muss ich tun?</h2>
 <ol>
-<li>Lies die Regeln im Kanal <strong>scrimregeln-channel</strong>.</li>
-<li>Hol dir die Rolle <strong>Scrim-Teilnehmer</strong>. Dafür gibt es zwei Wege: Reagiere auf das Häkchen, wenn ein Scrim-Aufruf eines anbietet. Oder schreib dem Bot eine Direktnachricht und bitte um die Rolle.</li>
-<li>Melde dich mit dem Befehl <code>/scrim-signup</code> an. Angegeben werden dein Rang (leer lassen, wenn dein Rang schon verifiziert ist, über Steam oder eine Rang-Rolle), deine bevorzugte Rolle oder Lane und deine Zeiten.</li>
-<li>Trag deine Zeiten grob und ehrlich ein. Daran wird geplant, wann ein Team gemeinsam spielen kann.</li>
+<li>Gib auf dem Discord-Server den Befehl <code>/scrim-signup</code> ein. Es öffnet sich ein kurzes Formular für deinen Rang, deine bevorzugte Rolle oder Lane und deine Zeiten. Den Rang kannst du leer lassen, wenn er schon verifiziert ist, über Steam oder eine Rang-Rolle.</li>
+<li>Nach dem Absenden gibt dir der Bot automatisch die Rolle <strong>Scrims Teilnehmer</strong>. Damit siehst du den <strong>scrim-channel</strong> und den <strong>scrimregeln-channel</strong>.</li>
+<li>Lies die Regeln im <strong>scrimregeln-channel</strong>.</li>
 </ol>
-<p>Eine Anmeldung garantiert weder einen festen Platz in einem Team noch eine bestimmte Zahl Scrims pro Woche.</p>
+<p>Trag deine Zeiten grob und ehrlich ein. Daran plant die Scrim-Orga, wann ein Team gemeinsam spielen kann. Eine Anmeldung garantiert weder einen festen Platz in einem Team noch eine bestimmte Zahl Scrims pro Woche.</p>
+<p>Deine Angaben änderst du, indem du <code>/scrim-signup</code> einfach noch einmal ausfüllst. Die Anmeldung über die Website unter <a href="../website/website-portale.html">Website-Portale</a> speichert dieselben Angaben, die Rolle gibt es aber nur über <code>/scrim-signup</code> im Discord.</p>
 </section>
 
 <section id="team-rolle">
 <h2>Ich bin in einem Team, wie komme ich in die Team-Rolle?</h2>
-<p>Die Teamzuordnung legt der <strong>Scrim-Manager</strong> fest, also wer die Rolle <strong>Scrim-Manager</strong> hat. Danach bekommst du die Team-Rolle automatisch.</p>
-<ol>
-<li>Ist die Rolle nach der Zuordnung nicht da, wende dich an jemanden mit der Rolle <strong>Scrim-Manager</strong>.</li>
-<li>Den Bot kannst du fragen, welches Team du hast und wo du mitlesen kannst. Er antwortet dir auf Basis der Kanäle, die du selbst sehen kannst.</li>
-</ol>
+<p>Die Teams stellt die Scrim-Orga zusammen. Sie vergibt auch die Team-Rollen. Mit deiner Team-Rolle siehst du die Kanäle und den Sprachkanal deines Teams sowie <strong>announcement-scrims</strong>. Fehlt dir die Rolle nach der Zuteilung, frag im <strong>scrim-channel</strong> nach.</p>
 </section>
 
 <section id="naechster-scrim">
 <h2>Wann ist der nächste Scrim und wo treffen wir uns?</h2>
-<ol>
-<li>Schau in <strong>announcement-scrims</strong> nach den angekündigten Terminen.</li>
-<li>Termine für dein Team stehen in dessen Kanälen. Der Bot kann dir sagen, wo du sie findest.</li>
-<li>Die Lobby bereitet die Orga vor. Den Lobbycode bekommst du rechtzeitig vor dem Spieltag über deinen Team-Kanal.</li>
-</ol>
-<p>Ist ein Termin noch nicht angekündigt, frag in <strong>scrim-channel</strong> oder wende dich an den Scrim-Manager. Verbindlich sind die angekündigten Termine.</p>
+<p>Termine und Paarungen stehen in <strong>announcement-scrims</strong>, Absprachen für dein Team in dessen Kanal. Ist ein Termin noch nicht angekündigt, frag im <strong>scrim-channel</strong>. Verbindlich sind die angekündigten Termine.</p>
 </section>
 
 <section id="fuenfter-spieler">
 <h2>Mein Team hat keinen fünften Spieler, was jetzt?</h2>
-<ol>
-<li>Melde den Ausfall in deinem Team-Kanal, sobald du davon weißt. Nenne den Termin und, falls bekannt, wie lange der Ausfall dauert.</li>
-<li>Bitte den Scrim-Manager um eine <strong>Aushilfe</strong>. Eine Aushilfe spielt für einen festen Zeitraum im Team mit. Die Team-Rolle wird ihr dafür befristet gegeben und endet automatisch, wenn der Zeitraum abläuft.</li>
-<li>Willst du selbst einspringen, sag das im Team-Kanal oder dem Scrim-Manager.</li>
-</ol>
+<p>Melde den Ausfall in deinem Team-Kanal, sobald du davon weißt, und nenne den Termin. Die Scrim-Orga sucht dann einen Ersatzspieler. Willst du selbst einspringen, sag das im <strong>scrim-channel</strong>.</p>
 </section>
 
 <section id="fragen-stellen">
-<h2>Wie stelle ich eine Frage, die der Bot beantworten soll?</h2>
+<h2>Wo stelle ich Fragen?</h2>
 <ul>
-<li><strong>In den Scrim-Kanälen</strong>: Schreib deine Frage in <strong>scrim-channel</strong>. Das Deadlock Brain antwortet dort.</li>
-<li><strong>Per Direktnachricht an den Bot</strong>: Schreib dem Bot eine Direktnachricht. Die Antwort kommt vom Deadlock Brain. Das ist der richtige Weg für persönliche Fragen zu deiner Anmeldung.</li>
-<li><strong>Beim Scrim-Manager</strong>: Für Teamzuordnungen, Termine und Rollen, die nicht automatisch vergeben werden.</li>
+<li><strong>Per Direktnachricht an den Bot</strong>: Das Deadlock Brain beantwortet allgemeine Fragen zu Scrims.</li>
+<li><strong>Im scrim-channel</strong>: für Fragen an die Scrim-Orga, zu Teams und Terminen.</li>
 </ul>
-<p>Der Bot beantwortet Fragen zu deinem eigenen Team aus den Kanälen, die du selbst sehen kannst. Was du nicht sehen kannst, bleibt für dich auch in der Antwort verborgen.</p>
 <p><strong>Wenn du keine Bot-Nachrichten mehr willst:</strong> Hast du den Knopf <em>Keine Bot-Nachrichten mehr</em> gedrückt, schreibt der Bot dir nicht von sich aus. Antworten auf deine eigenen Fragen und Klicks bekommst du weiterhin.</p>
 </section>
 
