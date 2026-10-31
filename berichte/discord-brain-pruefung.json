@@ -2125,6 +2125,81 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/deadlock-patches/halloween-2026-gameplay-update.html",
+      "verified_at": "2026-10-31T00:29:40.124Z",
+      "content_sha256": "e1c825db584f8ad8b485e7e316dc21101eb8a980d08807370bf74fb47dd6b20a",
+      "code": [
+        {
+          "repository": "game-brain",
+          "revision": "1a273fc6a8e061d14309a271262633aaad63c7c4",
+          "paths": [
+            "rust/crates/brain-job/src/patch_source.rs",
+            "rust/crates/brain-job/src/patch_ledger.rs",
+            "rust/crates/brain-job/src/docs_extract.rs",
+            "rust/crates/brain-serve/src/docs_tools.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Mid-Boss: 20% mehr Leben und Lebenszuwachs pro Minute, Resistenzreduktionen nur noch zu 50% wirksam, Roar bei 25% statt 50%, Kopfgeld von 3000 (+50/min) auf 1500 (+25/min), größeres Gelände mit mehr Deckung.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „Mid-Boss: Health increased by 20%“, „Health gained per minute increased by 20%“, „Resistance reductions are now only 50% as effective“, „Roar now happens at 25% HP instead of 50%“, „Bounty reduced from 3000 (+50/min) to 1500 (+25/min)“, „Adjusted the terrain layout ... more cover“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Rejuvenator fällt als 3 Kristalle zufällig verteilt um die Grube, je 1 Heavy Melee und 1 Rejuvenator (insgesamt weiter 3), volle Heilung je Kristall, 500 (+9/min) Kopfgeld je Kristall, Drop-Zeit von 6s auf 7.5s; Babas Stampfer trifft nur den nächsten Rejuvenator.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: die sechs Zeilen „Mid-Boss: The Rejuvenator now drops as 3 crystals ...“ bis „Rejuvenator crystal drop time increased from 6s to 7.5s“ sowie „Baba: Granny Long Legs - Heavy melee stomp now only hits the closest Rejuvenator in range“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Comeback: Comeback-Gold aus Nicht-Helden-Quellen von maximal 26% auf 30%, Tick-Seelen für die 2 ärmsten Spieler im Rückstand.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „Comeback gold from non-hero sources increased from a max of 26% to 30% (when behind by ~20% Net Worth)“ und „The bonus NPC souls multiplier when behind now also increases tick souls for the 2 poorest players“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Haunted Souls werden grundsätzlich 25% langsamer und bei Net-Worth-Rückstand bis zu 50% schneller gesichert (höchste Rate ab 20% Rückstand); die Seite beschreibt das als Geschwindigkeit des Sicherns, nicht als Menge. Haunts: Kopfgeld, Wachstum, Leben und Schaden +10%, Past Dues kanalisiert eine Schlaf-Aura.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „Haunted Souls secure rate is now 25% slower“, „Haunted Souls secure rate is now up to 50% faster than baseline ... (max rate at a 20% Net Worth gap)“, „Haunts base bounty and growth increased by 10%“, „Haunts HP and Damage output increased by 10%“, „Haunts - Past Dues: Now channels their special attack ...“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Sustain: Lebensraub-Items (Bullet Lifesteal, Spirit Lifesteal, Leech, Infuser, Vampiric Burst, Fury Trance) und Anti-Heilung (Toxic Bullets 40%, Crippling Headshot -40%, Decay -55%) werden stärker, Healbane stapelt mit abnehmender Wirkung und heilt bei Kills 170 + 3/Boon statt 275.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: Item-Zeilen zu Bullet Lifesteal, Spirit Lifesteal, Leech, Infuser, Vampiric Burst, Fury Trance, „Toxic Bullets: Anti Heal increased from 35% to 40%“, „Crippling Headshot: Anti-Heal increased from -35% to -40%“, „Decay: Incoming Heal reduction increased from -50% to -55%“, beide Healbane-Zeilen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Regeneration: Radiant Regeneration schwächer (0.35 auf 0.25, Heal on Ability Cast nur im Kampf, 65 auf 40, Boon-Skalierung 1.7 auf 1.4), Healing Booster ohne Extra Regen und +3 Health Regen, Juggernaut und Bullet Resilience mit mehr Regeneration, Healing Nova skaliert mit Spirit Power.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: vier Radiant-Regeneration-Zeilen, drei Healing-Booster-Zeilen, „Juggernaut: Health Regen increased from +8 to +15“, beide Bullet-Resilience-Zeilen, „Healing Nova: Now scales with Spirit Power (1.1) instead of Boons (6)“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Shadow Weave verliert Ambush Fire Rate und Melee Damage, bekommt +50% Ambush Weapon Damage, Boni bauen sich über 6s Tarnung auf, und Fähigkeiten zum Tarnungsbruch bekommen den Bonus auf ihren eigenen Schaden.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: die vier Zeilen „Shadow Weave: No longer has Ambush Fire Rate or Melee Damage“, „Now has +50% Ambush Weapon Damage“, „Ambush bonuses now build up over 6s ...“, „Abilities used to break stealth now benefit ...“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Helden-Umbauten bei Mirage (Traveler), Solomon, Violet, Rat King, Apollo, Baba und Nurse Harrow mit den auf der Seite genannten Werten, dazu Buffs und Nerfs für weitere Helden.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: Abschnitt „Heroes:“, alle Zeilen zu Mirage: Traveler, Solomon, Violet, Rat King, Apollo, Baba und Nurse Harrow sowie die übrigen Heldenzeilen; Seitenwerte je Zeile in CLAIMS.md zugeordnet.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Halloween-Event mit Halloween Cauldrons, Candy und Buff Sugar Rush läuft bis zum 2. November 2026; das Update erschien am 30. Oktober 2026.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „New this year - Halloween Cauldrons“, „With a Heavy Melee, break the cauldron to pick up a piece of Candy“, „temporary Sugar Rush buff“, „available in-game now through November 2nd, 2026“; Erscheinungsdatum laut Steam-News-API: Beitrag „Halloween 2026 + Gameplay Update“ vom 30.10.2026, 20:51 UTC (steam_community_announcements 1847920302240420).",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Street Brawl: eigene Nerfs für Deadman Danny, Nurse Harrow, Paige, Rat King (Radien und Dauer) und Violet (Abstract Landscape 6s auf 5s, T3 +4s auf +3s).",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: Abschnitt „Street Brawl:“, alle Zeilen bis „Violet: Abstract Landscape - T3 reduced from +4s to +3s“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Die neuesten 6 Helden gelten nicht mehr als neu, haben normale Ranked-Freischaltung und können gebannt werden; Karte und Bewegung: Breakables -10%, Healing Snacks 14%, Steam Vents +150% Ausdauerregeneration, Tunnel-Tempo +50% statt +70%.",
+          "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „Latest 6 heroes are no longer categorized as \"new\" anymore ...“, „Breakables growth values reduced by 10%“, „Healing Snacks heal increased from 10% Max HP to 14%“, „Steam Vents now increase stamina regeneration by 150%“, „Move speed in tunnels reduced from +70% to +50%“.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
     }
   ]
 }

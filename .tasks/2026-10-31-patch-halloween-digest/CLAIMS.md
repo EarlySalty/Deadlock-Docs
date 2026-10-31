@@ -1,6 +1,6 @@
 # Claims for public/deadlock-patches/halloween-2026-gameplay-update.html
 
-Source: official Steam patch notes "Halloween 2026 + Gameplay Update" (2026-10-30), raw text in patch-raw.txt.
+Source: official Steam patch notes "Halloween 2026 + Gameplay Update" (2026-10-30), raw text in `.tasks/2026-10-31-patch-halloween-digest/patch-raw.txt` (copied from the Steam post, quotes below are checkable against it).
 Every numeric or mechanical statement of the page maps to one quoted patch line. Statements marked DB come from the Brain database (serve.current_fact item/ability descriptions, read-only) and carry no numbers.
 
 ## Event and general
