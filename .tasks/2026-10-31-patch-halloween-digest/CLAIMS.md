@@ -8,10 +8,12 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 | Page statement (short) | Patch line |
 |---|---|
 | Hideout new look, heroes masks, NYC pumpkins and cauldrons | "The Hideout gains a spooky new look, our heroes don masks, and NYC is now littered with pumpkins and curious [i]Halloween Cauldrons[/i]" |
-| Cauldrons in Manhattan streets during a match | "As you walk down the streets of Manhattan during a match, you'll come across bubbling cauldrons" |
+| Cauldrons named as this year's novelty | "New this year - Halloween Cauldrons:" (section heading) |
+| Cauldrons in Manhattan streets during a match, bubbling, offering treats | "As you walk down the streets of Manhattan during a match, you'll come across bubbling cauldrons boasting a tempting display of treats." |
 | Heavy Melee breaks cauldron, Candy stashed | "With a [i]Heavy Melee[/i], break the cauldron to pick up a piece of Candy and stash it in your pocket for later." |
 | Candy grants temporary Sugar Rush buff (energy boost) | "consume the candy to grant yourself a boost of energy with the temporary [i]Sugar Rush[/i] buff" |
 | Event until 2 November 2026 | "available in-game now through November 2nd, 2026" |
+| Release date 30 October 2026 | Steam post date of the patch notes (2026-10-30 20:51 UTC), given in the task brief; page meta stand 2026-10-30 |
 | Latest 6 heroes no longer new, normal ranked unlock, bannable | "Latest 6 heroes are no longer categorized as \"new\" anymore. This means they have normal hero unlocking requirements for ranked and can now be banned." |
 
 ## Mid-Boss and Rejuvenator
@@ -37,7 +39,7 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 |---|---|
 | Haunts base bounty and growth +10% | "Haunts base bounty and growth increased by 10%" |
 | Haunts HP and damage +10% | "Haunts HP and Damage output increased by 10%" |
-| Haunted Souls 25% slower | "Haunted Souls secure rate is now 25% slower" |
+| Haunted Souls 25% slower (lower base rate) | "Haunted Souls secure rate is now 25% slower" |
 | Up to 50% faster when behind, max at 20% gap | "Haunted Souls secure rate is now up to 50% faster than baseline based on how far behind you are in Net Worth compared to the enemy team's average (max rate at a 20% Net Worth gap)" |
 | Past Dues channel, sleep aura, killing creature destroys it | "Haunts - Past Dues: Now channels their special attack, creating a build-up aura on the ground that applies sleep slowly to Heroes standing within it over time. Killing the channeling creature destroys the aura." |
 | Comeback gold max 26% to 30% at ~20% gap | "Comeback gold from non-hero sources increased from a max of 26% to 30% (when behind by ~20% Net Worth)" |
@@ -54,6 +56,7 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 
 | Page statement (short) | Patch line |
 |---|---|
+| Overview: lifesteal and anti-heal items get stronger at the same time, Healbane stacks, regeneration items partly weaker, partly stronger | summary of the lifesteal, anti-heal and regeneration rows in this section |
 | Bullet Lifesteal WD 6% to 10% | "Bullet Lifesteal: Weapon Damage increased from 6% to 10%" |
 | Bullet Lifesteal 13% to 15% | "Bullet Lifesteal: Bullet Lifesteal increased from 13% to 15%" |
 | Spirit Lifesteal SP 6 to 8 | "Spirit Lifesteal: Spirit Power increased from 6 to 8" |
@@ -108,6 +111,9 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 
 | Page statement (short) | Patch line |
 |---|---|
+| Weapon item group: High-Velocity Rounds, Express Shot, Point Blank, Armor Piercer, Glass Cannon, Spiritual Overflow; Shadow Weave, Toxic Bullets, Crippling Headshot, Hunter's Aura also weapon (DB) | Brain DB item_slot = weapon for each |
+| Spirit item group: Golden Goose Egg, Spirit Sap, Mystic Slow, Silence Wave, Torment Pulse, Echo Shard, Focus Lens, Lightning Scroll; Decay and Radiant Regeneration also spirit (DB) | Brain DB item_slot = spirit for each |
+| Vitality item group: Divine Barrier, Metal Skin, Rebuttal, Battle Vest, Spirit Shielding, Return Fire, Spellbreaker; lifesteal and regeneration items also vitality (DB) | Brain DB item_slot = vitality for each |
 | High-Velocity Rounds 60% to 45%, upgrades unaffected | "High-Velocity Rounds: Bullet Velocity reduced from 60% to 45% (upgrades unaffected)" |
 | Express Shot -5% | "Express Shot: Secondary Fire Weapon Damage and growth reduced by 5%" |
 | Point Blank slow 2s to 2.5s | "Point Blank: Slow duration increased from 2s to 2.5s" |
@@ -145,6 +151,7 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 
 | Page statement (short) | Patch line |
 |---|---|
+| Traveler: target a minimap location, teleport after a brief wait, barrier afterwards (DB) | Brain DB ability 287 (mirage_teleport) description: "Target a location on the minimap. After a brief wait, teleport to that location. Taking damage or being Stunned, Immobilized, put to Sleep or Movement Silenced during the wait period causes the teleport to be interrupted. After teleporting, gain a Barrier." |
 | Mirage Traveler channel 2s to 3s | "Mirage: Traveler - Channel time increased from 2s to 3s" |
 | Mirage interrupt/cancel cooldown 4s to 5s | "Mirage: Traveler - Onterrupt/cancel cooldown increased from 4s to 5s" |
 | Mirage interrupted by stun/immobilize/sleep/slowing hex | "Mirage: Traveler - Now gets interrupted if you are Stunned/Immobilized/Slept or have slowing hex on you" |
@@ -155,6 +162,7 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 | Mirage T2 -65s Cooldown | "Mirage: Traveler - T2 changed from \"400 Barrier that scales with spirit\" to \"-65s Cooldown\"" |
 | Mirage T3 cannot be interrupted by damage | "Mirage: Traveler - T3 changed from \"-90s Cooldown\" to \"Cannot be interrupted by damage\"" |
 | Mirage T3 barrier scaling 0.8 | "Mirage: Traveler - T3 now also adds barrier spirit scaling (0.8)" |
+| Solomon heavily reworked (summary) | summary of all Solomon rows below |
 | Solomon -20% headshot damage | "Solomon: Gun now deals -20% headshot damage" |
 | Solomon base bullet 30 to 25 | "Solomon: Base bullet damage reduced from 30 to 25" |
 | Solomon animations | "Solomon: Polished slide animations, added new ability and item aim poses, and adjusted run-to-stop timing" |
@@ -183,13 +191,14 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 | Still Life T1 regen only while drawing, 4s refresh | "Violet: Still Life - T1 health regen is now only granted while drawing (still refreshes for 4s on pickup)" |
 | Still Life T1 scaling 0.25 to 0.15 | "Violet: Still Life - T1 health regen scaling reduced from 0.25 to 0.15" |
 | Still Life T3 +0.35s to +0.45s | "Violet: Still Life - T3 stun duration increased from +0.35s to +0.45s" |
-| Still Life basic function, sketches give permanent stats (DB) | DB ability 790 description |
+| Still Life: Violet picks a hero, completed sketch stuns, dropped sketch gives permanent stats based on the hero (DB) | Brain DB ability 790 description: "Choose a hero to be your subject, dealing spirit damage over time as long as you are looking at them. If the sketch is completed they take additional spirit damage, suffer from stun, and drop a sketch that can be picked up. For each collected sketch, you permanently gain stats based on the hero." |
 | Abstract Landscape 165s to 180s | "Violet: Abstract Landscape - Cooldown increased from 165s to 180s" |
 | Abstract Landscape duration scaling 0.04 to 0.01 | "Violet: Abstract Landscape - Duration spirit scaling reduced from 0.04 to 0.01" |
 | Abstract Landscape ends if Violet dies | "Violet: Abstract Landscape - Now ends early if Violet dies" |
 | Abstract Landscape 0.5s to 0.75s | "Violet: Abstract Landscape - Cooldown between times you can be affected by it increased from 0.5s to 0.75s" |
 | Abstract Landscape T3 lost "Ink is no longer destroyed" | "Violet: Abstract Landscape - T3 no longer has \"Ink is no longer destroyed\"" |
-| Abstract Landscape basic function, leaving destroys ink (DB) | DB ability 791 description: "...leaving causes them to take spirit damage and suffer from Silence and slow, destroying the ink in the process." |
+| Abstract Landscape: circular ink, blocks vision, grants allies Spirit; enemies leaving take damage, Silence and slow, ink destroyed (DB) | Brain DB ability 791 description: "Create a circular display of ink that blocks vision and grants allies Spirit. Enemies inside are revealed, and leaving causes them to take spirit damage and suffer from Silence and slow, destroying the ink in the process." |
+| Rat King clearly weakened (summary) | all Rat King rows below are nerfs |
 | Rat King base bullet -5% | "Rat King: Base bullet damage reduced by 5%" |
 | Rat King growth -20% | "Rat King: Bullet damage growth reduced by 20%" |
 | Scrap Grenade 70 to 60 | "Rat King: Scrap Grenade - Damage reduced from 70 to 60" |
@@ -331,6 +340,8 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 | rejuvenator-einschaetzung | Baba can no longer break several crystals with one stomp | "Heavy melee stomp now only hits the closest Rejuvenator in range" |
 | haunts-und-haunted-souls | Haunts more rewarding but more dangerous; kill Past Dues creature first | Haunts bounty/growth +10%, HP/damage +10%; Past Dues aura destroyed by killing creature |
 | comeback-mechanik | Leads harder to hold, comebacks likelier, 2 poorest benefit | comeback gold 26% to 30%; tick souls for 2 poorest; Haunted Souls up to 50% faster when behind; Mid-Boss bounty halved |
+| comeback-mechanik, gewinner | Haunted Souls help only far-behind teams; with a small deficit securing can even be slower than before the patch | "Haunted Souls secure rate is now 25% slower" + "Haunted Souls secure rate is now up to 50% faster than baseline based on how far behind you are in Net Worth compared to the enemy team's average (max rate at a 20% Net Worth gap)" |
+| ueberblick | Haunts more rewarding and more dangerous independent of game state (not a comeback tool) | "Haunts base bounty and growth increased by 10%" + "Haunts HP and Damage output increased by 10%" (no Net Worth condition) |
 | karte-und-bewegung | Slowed heroes travel worse in the air | move slow to air drag ratio 0.35 to 0.5 (consistent with Danny line on slows and in-air impulse) |
 | karte-und-bewegung | Tunnel rotations slower; Healing Snacks worth more | tunnels +70% to +50%; Healing Snacks 10% to 14% |
 | sustain-anti-heilung | Stronger answers to lifesteal | Toxic Bullets, Crippling Headshot, Decay, Healbane lines |
@@ -365,6 +376,14 @@ Every numeric or mechanical statement of the page maps to one quoted patch line.
 | street-brawl | Rat King and Nurse Harrow hit twice | Street Brawl lines + normal-mode nerfs |
 | gewinner | Winner list | lines cited in the sections above |
 | verlierer | Loser list | lines cited in the sections above |
+
+## Meta statements
+
+| Page statement | Basis |
+|---|---|
+| "Alle Zahlen stammen aus den offiziellen Deadlock Patch Notes auf Steam" / "Alle Werte stammen aus dem Halloween 2026 + Gameplay Update" | checked by script: every number on the page appears in patch-raw.txt, except 34, the computed break-even in the weitere-nerfs-und-gemischtes Einschätzung |
+| "Welche 6 Helden gemeint sind, nennen die offiziellen Patch Notes nicht" / "Genaue Werte nennen die Patch Notes nicht" (Sugar Rush) | absence checked in patch-raw.txt |
+| Bugfix section | each bullet repeats a fix row from the hero and item tables above |
 
 ## Deliberately left out
 
