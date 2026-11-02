@@ -2335,8 +2335,8 @@
     },
     {
       "path": "public/twitch-bot/aktivitaet-und-pausen.html",
-      "verified_at": "2026-10-28T16:57:50.645165+00:00",
-      "content_sha256": "cc546ddacc6a4239437cde0d1a186fd3207709321b01c8fc54516905a991868a",
+      "verified_at": "2026-11-02T19:43:43.494548+00:00",
+      "content_sha256": "e90f03662d593f39eea24fada63daf72b6ed33373fdb87dafbe30491ded64c02",
       "code": [
         {
           "repository": "twitch",
@@ -2345,6 +2345,13 @@
             "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
             "rust/bin/tb-bot/src/streamer_role_sync.rs",
             "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "67c72d55652cf710438dd8a8de55a260ba3ad126",
+          "paths": [
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
           ]
         }
       ],
@@ -2391,6 +2398,13 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/verwaltung/DisconnectBotSection.tsx",
+            "rust/bin/tb-bot/src/streamer_role_sync.rs"
+          ]
+        },
+        {
+          "claim": "Die Streamer-Rolle bleibt im Moment mit mindestens 4 Deadlock-Tagen in 60 Tagen. Zahl auf Vorgabe von Nani am 2026-11-02 öffentlich.",
+          "verdict": "verified",
+          "evidence": [
             "rust/bin/tb-bot/src/streamer_role_sync.rs"
           ]
         }
@@ -3935,6 +3949,61 @@
         "Manueller Modus: Breite und Höhe gerade Zahlen und die Exklusivität zu Voreinstellungen sind nicht geprüft.",
         "Die Aussage, Uplink prüfe Eingangsprofile und zeige abgelehnte Profile an, ist nur teilweise belegt; Ausschluss einer AV1-Testbetriebsart ist nicht bewiesen."
       ]
+    },
+    {
+      "path": "public/twitch-bot/andere-kategorien.html",
+      "verified_at": "2026-11-02T19:43:43.494548+00:00",
+      "content_sha256": "c79f0f89851483a6cb9883bf3461c3f336551e21fc6e83f4f6d92c917439b3bf",
+      "code": [
+        {
+          "repository": "twitch",
+          "revision": "67c72d55652cf710438dd8a8de55a260ba3ad126",
+          "paths": [
+            "rust/crates/tb-monitoring/src/poller/engine.rs",
+            "rust/crates/tb-raid/src/deadlock_pause.rs",
+            "rust/knowledge/bot/auto-raid.md"
+          ]
+        }
+      ],
+      "live_release_revision": "67c72d55652cf710438dd8a8de55a260ba3ad126",
+      "claims": [
+        {
+          "claim": "Auto-Raid läuft nur nach Deadlock-Streams und nur zu Deadlock-Partnern.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/knowledge/bot/auto-raid.md"
+          ]
+        },
+        {
+          "claim": "Mindestanforderung im Moment: 4 Deadlock-Tage in 60 Tagen (INACTIVITY_MIN_DAYS, INACTIVITY_WINDOW_DAYS); Vorgabe von Nani am 2026-11-02: 4 Streams in 2 Monaten, änderbar.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-monitoring/src/poller/engine.rs"
+          ]
+        },
+        {
+          "claim": "Keine Mindestzahl an Zuschauern: Vorgabe von Nani am 2026-11-02; die Inaktivitätsprüfung zählt nur Tage.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-monitoring/src/poller/engine.rs"
+          ]
+        },
+        {
+          "claim": "Darunter wird der Partner als inaktiv markiert und der Bot pausiert, Dashboard-Zugang bleibt; Deadlock-Streams heben das automatisch auf.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-monitoring/src/poller/engine.rs"
+          ]
+        },
+        {
+          "claim": "60 Tage ganz ohne Deadlock: Bot gibt die Moderatorrechte ab.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-raid/src/deadlock_pause.rs"
+          ]
+        }
+      ],
+      "gaps": []
     }
   ]
 }

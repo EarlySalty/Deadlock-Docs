@@ -1461,8 +1461,8 @@
     },
     {
       "path": "public/discord-server/workflows/streamer-partner-werden.html",
-      "verified_at": "2026-10-28T17:40:00.000Z",
-      "content_sha256": "8949722d259e823e5d5fe157fb0ad04c4406aee39ce6fd2c2758c6b2e7959ac9",
+      "verified_at": "2026-11-02T19:43:43.494548+00:00",
+      "content_sha256": "de2886279b4d11d68b287760078477d6821e9a4616dd736d1a49853fa8a8dc0a",
       "code": [
         {
           "repository": "discord",
@@ -1512,11 +1512,11 @@
         },
         {
           "claim": "Rolle Streamer bleibt, solange man im Fenster der letzten 60 Tage an mindestens 4 verschiedenen Tagen Deadlock gestreamt hat; danach wird sie entfernt. Text vorher falsch (4 Wochen, einmal).",
-          "evidence": "streamer_role_sync.rs Policy::fallback keep_window_days 60, keep_min_days 4; active_enough zählt COUNT(DISTINCT Berliner Datum) über had_deadlock_in_session oder Stream-Spiel deadlock. Migration 20261017180000 setzt role_keep_window_days auf 60 und role_keep_min_days 4 (Schema-Snapshot tb-db fresh_schema_snapshot.txt Zeilen 396-399). Text korrigiert, ohne Zahlen in Public-Text (Tiefenregel).",
+          "evidence": "streamer_role_sync.rs Policy::fallback keep_window_days 60, keep_min_days 4; active_enough zählt COUNT(DISTINCT Berliner Datum) über had_deadlock_in_session oder Stream-Spiel deadlock. Migration 20261017180000 setzt role_keep_window_days auf 60 und role_keep_min_days 4 (Schema-Snapshot tb-db fresh_schema_snapshot.txt Zeilen 396-399). Text korrigiert, ohne Zahlen in Public-Text (Tiefenregel). Zahl seit 2026-11-02 auf Vorgabe von Nani im Public-Text.",
           "verdict": "verified"
         },
         {
-          "claim": "Rolle (wieder) bekommen: regelmäßige Deadlock-Streams an mehreren Tagen in den letzten Wochen; Schwellen nicht offengelegt.",
+          "claim": "Rolle (wieder) bekommen: regelmäßige Deadlock-Streams an mehreren Tagen in den letzten Wochen.",
           "evidence": "gain_window_days 30, gain_min_days 4 in streamer_role_sync.rs; im Text bewusst ohne Zahlen, wie aktivitaet-und-pausen.html.",
           "verdict": "verified"
         },
