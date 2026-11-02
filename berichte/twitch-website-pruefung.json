@@ -3952,8 +3952,8 @@
     },
     {
       "path": "public/twitch-bot/andere-kategorien.html",
-      "verified_at": "2026-11-02T19:43:43.494548+00:00",
-      "content_sha256": "c79f0f89851483a6cb9883bf3461c3f336551e21fc6e83f4f6d92c917439b3bf",
+      "verified_at": "2026-11-02T20:09:58.462426+00:00",
+      "content_sha256": "9c8f435a65c7b0a02322aea43fc7baffacb584f1f3495a3f41b3bc6095dad375",
       "code": [
         {
           "repository": "twitch",
