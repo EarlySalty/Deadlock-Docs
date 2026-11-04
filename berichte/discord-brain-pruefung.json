@@ -2203,8 +2203,8 @@
     },
     {
       "path": "public/discord-server/referenz/spielbegriffe.html",
-      "verified_at": "2026-11-04T07:09:32.346803+00:00",
-      "content_sha256": "fbb14880e13f82ccadb634ae686463efbdeb8cc5837943bf039022535dceecea",
+      "verified_at": "2026-11-04T07:19:55.870396+00:00",
+      "content_sha256": "6ca0d48acd1fe82464999c7f99bc3db127166cc82a21153ca88e9a9e4f2bbfb0",
       "code": [
         {
           "repository": "game-brain",
@@ -2227,13 +2227,18 @@
           "verdict": "verified"
         },
         {
-          "claim": "Souls sind Währung und Erfahrung; Quellen sind unter anderem Trooper, Camps, Objectives und Gegner.",
-          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Eintrag Souls: „serving both as currency and experience points (XP) for heroes“; Mechanics-Tabelle nennt Trooper, Camps, Guardians und Walker als Soul-Quellen.",
+          "claim": "Souls sind Währung und Erfahrung; Quellen sind unter anderem Trooper, Camps, Objectives und besiegte Gegner.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Eintrag Souls: „serving both as currency and experience points (XP) for heroes“ und „Players collect souls by various means, including shooting Soul Orbs released when certain entities die, taking Guardians/Walkers, killing enemy players“; Mechanics-Tabelle nennt Trooper und Camps als Soul-Quellen.",
           "verdict": "verified"
         },
         {
-          "claim": "Denies: Abschießen der schwebenden Kugel eines gegnerischen Troopers nimmt dem Gegner die Souls und gibt sie dem Schützen.",
-          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Soul Orbs: „Hitting an enemy orb will deny the souls to the killer and grant them to the player who hit it“; nur aufgeleuchtete schwebende Kugeln sind bestätigbar.",
+          "claim": "Objectives sind Guardians, Walker, Shrines, Patron, Mid-Boss und Urne; das Match ist gewonnen, sobald der gegnerische Patron fällt.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle zählt Guardian, Walker, Base Guardians, Shrines und Patron als Lane- und Basisziele auf, dazu Mid-Boss und Soul Urn; „The fifth and final objective is the Patron, which ends the game“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Denies: Erledigt ein Gegner einen Trooper, erscheint eine orange Kugel; wer sie trifft, bevor der Gegner sie sichert, nimmt ihm diese Souls und bekommt sie selbst.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Soul Orbs: „Ally orbs are green and enemy orbs are orange.“ und „Hitting an enemy orb will deny the souls to the killer and grant them to the player who hit it.“",
           "verdict": "verified"
         },
         {
@@ -2242,8 +2247,8 @@
           "verdict": "verified"
         },
         {
-          "claim": "Walker ist das große Lane-Objective; jeder zerstörte Walker schaltet einen Flex-Slot frei.",
-          "evidence": "game-wiki/pages/deadlock-data/patchnote.md Patch 11-21-2025: „Base slot count changed from 8 to 9 and Flex slot count reduced from 4 to 3. One is given for each Walker killed.“ Ebenso im Brain patch_search am 04.11.2026.",
+          "claim": "Walker ist das zweite Lane-Objective nach dem Guardian; jeder zerstörte Walker schaltet einen Flex-Slot frei.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The second objective of the lane is the Walker“; game-wiki/pages/deadlock-data/patchnote.md Patch 11-21-2025: „Base slot count changed from 8 to 9 and Flex slot count reduced from 4 to 3. One is given for each Walker killed.“",
           "verdict": "verified"
         },
         {
@@ -2257,8 +2262,8 @@
           "verdict": "verified"
         },
         {
-          "claim": "Mid-Boss steht in der Kartenmitte, braucht meist mehrere Spieler und hinterlässt den Rejuvenator.",
-          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The Mid-Boss is located in the center of the map ... typically requires multiple team members ... When the mid boss dies it drops the Rejuvenator“.",
+          "claim": "Mid-Boss steht in der Kartenmitte und braucht meist mehrere Spieler; nach seinem Tod fallen Rejuvenatoren, und jeder stärkt das Team, das ihn sichert, samt seiner Trooper. Das gilt auch für die drei Kristalle seit dem Patch vom 30.10.2026.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The Mid-Boss is located in the center of the map ... typically requires multiple team members ... When the mid boss dies it drops the Rejuvenator“ und „Securing the Rejuvenator awards your team with the Rejuvenation Credit that buffs you and your team along with your Troopers.“; public/deadlock-patches/halloween-2026-gameplay-update.html Abschnitt rejuvenator-kristalle: „Jeder Rejuvenator-Kristall zerbricht mit 1 Heavy Melee und gibt dem Team 1 Rejuvenator“.",
           "verdict": "verified"
         },
         {
