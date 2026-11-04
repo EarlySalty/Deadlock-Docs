@@ -2200,6 +2200,84 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/discord-server/referenz/spielbegriffe.html",
+      "verified_at": "2026-11-04T07:09:32.346803+00:00",
+      "content_sha256": "fbb14880e13f82ccadb634ae686463efbdeb8cc5837943bf039022535dceecea",
+      "code": [
+        {
+          "repository": "game-brain",
+          "revision": "da959bd332b346a559d9982e3fa4b9593d2245b2",
+          "paths": [
+            "game-wiki/pages/deadlock-wiki/wiki-page.md",
+            "game-wiki/pages/deadlock-data/patchnote.md"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Allgemeine MOBA-Begriffe (Lane, Farmen, Gank, Roamen, Splitpush, Peel, Kiten, Burst, Carry, Snowball) bleiben allgemeine Spielsprache ohne Werte oder Balanceanspruch.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Überblick: zwei Teams, drei Lanes mit Guardians und Walkern, Trooper geben Souls. Keine Zahl, kein Patchstand und keine Heldenwertung auf der Seite.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "CC sind Effekte, die Bewegung oder Handlung eines Gegners einschränken.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Eintrag Crowd Control: „Crowd Control (CC) refers to effects that alter an opponent's capability to function, including their movement, ability ...“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Souls sind Währung und Erfahrung; Quellen sind unter anderem Trooper, Camps, Objectives und Gegner.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Eintrag Souls: „serving both as currency and experience points (XP) for heroes“; Mechanics-Tabelle nennt Trooper, Camps, Guardians und Walker als Soul-Quellen.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Denies: Abschießen der schwebenden Kugel eines gegnerischen Troopers nimmt dem Gegner die Souls und gibt sie dem Schützen.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Soul Orbs: „Hitting an enemy orb will deny the souls to the killer and grant them to the player who hit it“; nur aufgeleuchtete schwebende Kugeln sind bestätigbar.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Guardian ist das erste Lane-Objective mit Laser- und Nahkampfangriff; vor der Basis stehen Base Guardians.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The first objective of the lane is the Guardian, who has a laser attack, a melee a...“ sowie Base Guardians vor der Basis.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Walker ist das große Lane-Objective; jeder zerstörte Walker schaltet einen Flex-Slot frei.",
+          "evidence": "game-wiki/pages/deadlock-data/patchnote.md Patch 11-21-2025: „Base slot count changed from 8 to 9 and Flex slot count reduced from 4 to 3. One is given for each Walker killed.“ Ebenso im Brain patch_search am 04.11.2026.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Shrines greifen nicht an, werden erst nach einem Paar Base Guardians angreifbar, beide müssen fallen, damit der Patron verwundbar wird.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „They have no attacks ... They both need to be destroyed in order to weaken the Patron“; game-wiki/pages/deadlock-data/patchnote.md Patch 05-22-2026: „Shrines are now invulnerable until one pair of Base Guardians are destroyed“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Patron ist das Hauptziel in der Basis; seine Zerstörung beendet und gewinnt das Match.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The fifth and final objective is the Patron, which ends the game ... it must be exposed by killing both Shrines“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Mid-Boss steht in der Kartenmitte, braucht meist mehrere Spieler und hinterlässt den Rejuvenator.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „The Mid-Boss is located in the center of the map ... typically requires multiple team members ... When the mid boss dies it drops the Rejuvenator“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Die Soul Urn erscheint im Match, wird aufgenommen und abgeliefert; das Team erhält viele Souls und kleine Werteboni, der Abliefernde einen Fähigkeitspunkt früher.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Mechanics-Tabelle: „the Soul Urn will appear and be ready for capture. The capturing team will receive a large bounty of Souls and a few minor stat buffs“; Abilities: „the player can earn 1 point earlier by delivering the Soul Urn“; Patchzeilen zu drop-off.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Flex-Slots sind zusätzliche Item-Plätze, freigeschaltet über zerstörte gegnerische Walker.",
+          "evidence": "game-wiki/pages/deadlock-data/patchnote.md Patch 11-21-2025, siehe Walker-Zeile.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Imbue: bestimmte Items lassen beim Kauf eine Fähigkeit wählen, die den Bonus erhält, etwa Spirit Power oder kürzere Abklingzeit.",
+          "evidence": "game-wiki/pages/deadlock-wiki/wiki-page.md Imbuing: „When certain items are purchased, the player is prompted to imbue one of their hero's abilities ... Surge of Power ... extra Spirit Power“; Itemdaten Compress Cooldown: „Imbue an ability to reduce its Cooldown“.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
     }
   ]
 }
