@@ -2283,6 +2283,80 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/deadlock-patches/ranked-beta-season-2.html",
+      "verified_at": "2026-11-05T20:16:12.000Z",
+      "content_sha256": "85b1df257f27618d1b552241d5619de72431c62d33688f45b8c73d71bee55c3c",
+      "code": [
+        {
+          "repository": "game-brain",
+          "revision": "bab399bec28eafe8b95dc80abe8cbec3f9d2ea31",
+          "paths": [
+            "rust/crates/brain-job/src/docs_source.rs",
+            "rust/crates/brain-job/src/docs_extract.rs",
+            "rust/crates/brain-serve/src/docs_tools.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Beta Season 2 läuft vom 5. November 2026 bis Donnerstag, 11. März 2027, vier Monate; Beta Season 1 endete am 5. November 2026 mit Hideout-Plakette des höchsten Rangs.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Today marks the end of our first Ranked Beta Season“, „commemorative Hideout plaque of their highest achieved rank“, „will end on Thursday March 11th 2027, lasting four months“; Veröffentlichung 1793908694 = 2026-11-05.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Soft Reset im Schnitt etwa 1 Badge, deutlich kleiner als zuvor, plus 1 bis 2 Unterränge Anpassung nach Winrate der Vorsaison.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „This soft reset is significantly smaller than the previous one“, „decrease by around 1 badge“, „winrate in the previous season to make further adjustments of 1-2 subranks“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Globale Neuverteilung in zwei Schritten: erst Kurve neu verteilen, dann Soft Reset; manche steigen trotz Reset auf, andere rutschen weiter ab.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „global redistribution at the start of this new season“, „two-step operation. The first is ... redistributing the curve ... Second is ... applying the soft reset“, „some may gain ranks despite the soft reset and others may get moved down slightly more“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Bisherige Ranked-Spieler kalibrieren nicht neu; wer in Season 1 nicht Ranked spielte, kalibriert wie gewohnt.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Existing Ranked players will not have to complete calibration again ... players who did not participate in Ranked last season will need to calibrate as usual“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Phantom, Ascendant und Eternus ohne Schilde; sonst 3 statt 5 an ganzen Rängen (Mystic-I-Beispiel), 1 statt 2 zwischen Unterrängen.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Phantom, Ascendant, and Eternus ranks will no longer have any rank loss protection shields (previously 5 on full ranks and 2 on subranks)“, „reduced from 5 to 3 (i.e. if you are at Mystic I with 0 rank points ... only 3 losses before dropping to Sentinel“, „subranks (i.e. Mystic III → Mystic II), the shield count is reduced from 2 to 1“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "350 statt 300 Rangpunkte pro Match, 1500 statt 2000 zum nächsten Badge, 1000 zwischen Unterrängen.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „increased from 300 to 350“, „decreased from 2000 to 1500“, „points between subranks remain unchanged at 1000“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "4 statt 3 Helden-Bans pro Ranked-Match.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „increased the number of hero bans per match in Ranked from 3 to 4“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Höchste Startplatzierung Ascendant I, bis Ascendant III je nach Vorsaison; vorher Oracle VI.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „The highest players can be placed in the new season will be Ascendant I, with some potential for up to Ascendant III ... (up from Oracle VI max last season)“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Helden freischalten mit 35 Punkten, 2 pro Sieg, 1 pro Niederlage; altes 15-Siege-System entsprach bei 50 % Winrate 45 Punkten.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Unlocking a hero now requires 35 points, you will gain 2 points for a win and 1 point for a loss“, „previous 15 win system (assuming 50% WR) ... 45 points (15 wins = 30 points, 15 losses = 15 points“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Eigene Bestenliste je Season; 50 Ranked-Matches in der Season in den letzten 30 Tagen, Wertung nach Badge-Fortschritt; Helden-Bestenliste 15 Matches mit dem Helden in 30 Tagen, Wertung nach Badge-Fortschritt und letzten Siegen und Niederlagen; Backend umgebaut, Bugs behoben.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Each Ranked season now has its own leaderboard“, „at least 50 Ranked matches in that season within the last 30 days. Ranking is based on your current badge progress“, „at least 15 Ranked matches with that hero within the last 30 days ... recent win/loss performance on that hero“, „reworked the backend ... to fix numerous bugs“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Deutsche Formulierungen folgen der geprüften Übersetzung im DDC-Kanal #patchnotes.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: Nachricht 1567994077130129411 in Kanal 1326973956825284628, Kopie in .tasks/2026-11-05-ranked-beta-season-2/ddc-uebersetzung.txt, am 2026-11-05 lesend abgerufen; Zahlen deckungsgleich mit dem Valve-Text.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
     }
   ]
 }

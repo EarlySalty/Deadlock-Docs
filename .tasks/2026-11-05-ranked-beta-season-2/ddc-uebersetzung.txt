@@ -1,0 +1,48 @@
+DDC #patchnotes channel 1326973956825284628, message 1567994077130129411
+
+<@&1330994309524357140>
+
+#  Ranked - Beta Season 2
+
+### Deadlock Patch Notes (05.11.2026)
+
+Heute endet die erste Ranked-Beta-Season. Wer in Beta Season 1 mitgespielt hat, bekommt mit dem Seasonwechsel eine Erinnerungsplakette für das Hideout, passend zum höchsten erreichten Rang.
+
+Beta Season 2 startet jetzt und läuft vier Monate bis **Donnerstag, 11. März 2027**.
+
+**Soft Reset der Ränge**
+Zum Start der neuen Season werden die Ränge leicht zurückgesetzt. Der Reset fällt deutlich kleiner aus als beim letzten Mal: Im Schnitt verliert ihr etwa 1 Badge. Zusätzlich wird eure Winrate aus der letzten Season genutzt, um euch um 1 bis 2 Unterränge feiner einzuordnen. Wer schon Ranked gespielt hat, muss sich nicht neu kalibrieren. Wer letzte Season nicht dabei war, kalibriert wie gewohnt.
+
+**Globale Neuverteilung der Ränge**
+Nach der Auswertung der ersten Season und wegen der vielen neuen Spieler wird die Rangverteilung zum Seasonstart global neu ausgerichtet. Manche steigen dadurch trotz Soft Reset sogar auf.
+
+Beides passiert in zwei Schritten: Zuerst wird die Kurve aller bestehenden Ränge neu verteilt, danach greift auf die neuen Werte der Soft Reset von im Schnitt etwa 1 Badge. Das Ergebnis ist für jeden anders. Manche steigen trotz Reset auf, andere rutschen etwas weiter ab.
+
+### Regeländerungen für Beta Season 2
+
+**Schutz vor Rangverlust (Schilde)**
+- Phantom, Ascendant und Eternus haben keine Schilde mehr (bisher 5 auf ganzen Rängen und 2 auf Unterrängen).
+- Für alle anderen sinkt die Zahl der Schilde an der Grenze eines ganzen Rangs von 5 auf 3. Beispiel: Mit Mystic I und 0 Rangpunkten behaltet ihr das Mystic-Badge nur noch 3 Niederlagen lang statt 5, bevor ihr auf Sentinel fallt.
+- Zwischen Unterrängen (z. B. Mystic III → Mystic II) sinkt die Zahl von 2 auf 1.
+
+**Rangpunkte**
+- Pro Match gibt es jetzt 350 statt 300 Punkte.
+- Vom letzten Unterrang zum nächsten Badge braucht ihr nur noch 1500 statt 2000 Punkte. Zwischen Unterrängen bleibt es bei 1000.
+
+**Helden-Bans**
+- Pro Ranked-Match gibt es jetzt 4 statt 3 Bans.
+
+**Erste Platzierung**
+- Die höchste Startplatzierung ist jetzt Ascendant I, je nach Leistung in der letzten Season bis zu Ascendant III (letzte Season maximal Oracle VI).
+
+**Helden freischalten**
+- Valve legt weiter Wert darauf, dass ihr einen Helden im Ranked sicher beherrscht, will das aber besser messen. Statt nur über Siege läuft das Freischalten jetzt über Punkte: 35 Punkte, 2 pro Sieg, 1 pro Niederlage.
+- Zum Vergleich: Das alte System mit 15 Siegen entsprach bei 50 % Winrate 45 Punkten (15 Siege = 30, 15 Niederlagen = 15).
+
+**Ranked-Bestenlisten**
+- Das Backend der Bestenlisten wurde umgebaut, dabei wurden etliche Bugs behoben.
+- Jede Ranked-Season hat jetzt eine eigene Bestenliste.
+- Für die Bestenliste braucht ihr mindestens 50 Ranked-Matches in der Season innerhalb der letzten 30 Tage. Gewertet wird euer aktueller Badge-Fortschritt.
+- Für eine Helden-Bestenliste braucht ihr mindestens 15 Ranked-Matches mit diesem Helden in den letzten 30 Tagen. Gewertet werden Badge-Fortschritt und eure letzten Siege und Niederlagen mit dem Helden.
+
+Beta Season 2 beginnt heute, wir sehen uns dort!
