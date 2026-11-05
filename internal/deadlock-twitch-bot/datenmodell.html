@@ -46,7 +46,9 @@
 <section id="identitaet-und-partner">
 <h2>Identität und Partner</h2>
 <ul>
-<li><code>twitch_streamers</code> hält Streamer-Logins und Twitch-User-IDs; spätere Migrationen entfernen die alte numerische ID und nutzen <code>twitch_login</code> als Schlüssel. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260630140000_streamers_drop_legacy_id.sql)</li>
+<li><code>twitch_channels</code> (bis 2026-11-05 <code>twitch_streamers</code>) hält nur beobachtete Kanäle, die keine aktiven Partner sind, etwa aus Scout, Monitoring und Kategorie-Erfassung; ein Trigger weist aktive Partner ab. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260630140000_streamers_drop_legacy_id.sql; rust/migrations/20261105120000_partner_channel_separation.sql)</li>
+<li><code>twitch_partner_accounts</code> hält Twitch-User-ID und Login jedes Kanals, der Partner ist oder war; der Trigger auf <code>twitch_partners</code> pflegt sie, die Zeile bleibt nach dem Austritt erhalten. Die Social-Media-Fremdschlüssel zeigen auf diese Tabelle. (rust/migrations/20261105120000_partner_channel_separation.sql)</li>
+<li><code>twitch_any_channel</code> ist die Sicht für Code, der jeden bekannten Kanal braucht: aktive Partner aus <code>twitch_partner_accounts</code> plus <code>twitch_channels</code>. (rust/migrations/20261105120000_partner_channel_separation.sql)</li>
 <li><code>twitch_partners</code> hält Partnerstatus, manuelle Flags, Raid-Bot-Flags, Live-Ping-Rollen und technische Pausen. (rust/migrations/20260601000000_baseline_schema.sql)</li>
 <li><code>twitch_streamer_identities</code> verbindet Twitch-User mit Discord-Usern und Discord-Anzeigenamen. (rust/migrations/20260601000000_baseline_schema.sql)</li>
 <li><code>twitch_partners_all_state</code> und <code>twitch_streamers_partner_state</code> materialisieren Partner- und Streamer-Zustände für Dashboard und Bot. (rust/migrations/20260601000000_baseline_schema.sql; rust/migrations/20260622130000_partner_state_keystone.sql; rust/migrations/20260623150000_drop_manual_verified_columns.sql)</li>
