@@ -2128,8 +2128,8 @@
     },
     {
       "path": "public/deadlock-patches/halloween-2026-gameplay-update.html",
-      "verified_at": "2026-10-31T00:29:40.124Z",
-      "content_sha256": "e1c825db584f8ad8b485e7e316dc21101eb8a980d08807370bf74fb47dd6b20a",
+      "verified_at": "2026-11-05T20:23:38.000Z",
+      "content_sha256": "f3731b998f78d346d34dd8ed6d199d848fd607beb88a52c94fdcc6fc33cb38c1",
       "code": [
         {
           "repository": "game-brain",
@@ -2196,6 +2196,11 @@
         {
           "claim": "Die neuesten 6 Helden gelten nicht mehr als neu, haben normale Ranked-Freischaltung und können gebannt werden; Karte und Bewegung: Breakables -10%, Healing Snacks 14%, Steam Vents +150% Ausdauerregeneration, Tunnel-Tempo +50% statt +70%.",
           "evidence": "Patchzeile in .tasks/2026-10-31-patch-halloween-digest/patch-raw.txt: „Latest 6 heroes are no longer categorized as \"new\" anymore ...“, „Breakables growth values reduced by 10%“, „Healing Snacks heal increased from 10% Max HP to 14%“, „Steam Vents now increase stamina regeneration by 150%“, „Move speed in tunnels reduced from +70% to +50%“.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Die normalen Ranked-Freischalt-Voraussetzungen haben sich seit Beta Season 2 am 5. November 2026 geändert: 35 Punkte, 2 pro Sieg, 1 pro Niederlage; Verweis auf ranked-beta-season-2.html.",
+          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Unlocking a hero now requires 35 points, you will gain 2 points for a win and 1 point for a loss“; Veröffentlichung 1793908694 = 2026-11-05.",
           "verdict": "verified"
         }
       ],
@@ -2286,8 +2291,8 @@
     },
     {
       "path": "public/deadlock-patches/ranked-beta-season-2.html",
-      "verified_at": "2026-11-05T20:16:12.000Z",
-      "content_sha256": "85b1df257f27618d1b552241d5619de72431c62d33688f45b8c73d71bee55c3c",
+      "verified_at": "2026-11-05T20:23:38.000Z",
+      "content_sha256": "d1480bfef84463e8dcf5b151069dccabec26877818a29cc54c8e7ee2297e7d0e",
       "code": [
         {
           "repository": "game-brain",
@@ -2301,7 +2306,7 @@
       ],
       "claims": [
         {
-          "claim": "Beta Season 2 läuft vom 5. November 2026 bis Donnerstag, 11. März 2027, vier Monate; Beta Season 1 endete am 5. November 2026 mit Hideout-Plakette des höchsten Rangs.",
+          "claim": "Die aktuelle Season ist Ranked Beta Season 2, vom 5. November 2026 bis Donnerstag, 11. März 2027, vier Monate; Beta Season 1 endete am 5. November 2026 mit Hideout-Plakette des höchsten Rangs.",
           "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: „Today marks the end of our first Ranked Beta Season“, „commemorative Hideout plaque of their highest achieved rank“, „will end on Thursday March 11th 2027, lasting four months“; Veröffentlichung 1793908694 = 2026-11-05.",
           "verdict": "verified"
         },
@@ -2352,7 +2357,7 @@
         },
         {
           "claim": "Deutsche Formulierungen folgen der geprüften Übersetzung im DDC-Kanal #patchnotes.",
-          "evidence": "Valve-Beitrag „Ranked - Beta Season 2“ (Steam News gid 1848664643342973) in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt: Nachricht 1567994077130129411 in Kanal 1326973956825284628, Kopie in .tasks/2026-11-05-ranked-beta-season-2/ddc-uebersetzung.txt, am 2026-11-05 lesend abgerufen; Zahlen deckungsgleich mit dem Valve-Text.",
+          "evidence": "DDC-Kanal #patchnotes, Nachricht 1567994077130129411 in Kanal 1326973956825284628, Kopie in .tasks/2026-11-05-ranked-beta-season-2/ddc-uebersetzung.txt, am 2026-11-05 lesend abgerufen; Zahlen deckungsgleich mit dem Valve-Text in .tasks/2026-11-05-ranked-beta-season-2/valve-raw.txt.",
           "verdict": "verified"
         }
       ],
