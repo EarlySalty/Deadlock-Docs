@@ -526,7 +526,7 @@
     {
       "path": "public/discord-server/module/steam-twitch-verknuepfung.html",
       "verified_at": "2026-09-19T23:12:03.729Z",
-      "content_sha256": "b7669fe5a7639c62dbf5dd0ce81730eb7c84b5b664fdf67756561ce43375d374",
+      "content_sha256": "acc7d64665ebd1c8803db6d6ea21fa11ca939dfd193604afa478f0baa1e1084f",
       "code": [
         {
           "repository": "discord",
@@ -562,6 +562,11 @@
         {
           "claim": "Twitch-Livehinweise hängen an aktivierter Einrichtung; Discord Go Live ist davon getrennt.",
           "evidence": "Twitch announce/{mod,template,sink}.rs durch unabhängigen A/B-Codeaudit bestätigt; keine native Discord-Streaming-Verknüpfung behauptet.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Zuschauer-Verknüpfung mit Twitch läuft getrennt vom Streamer-Onboarding über den Knopf Twitch verknüpfen im Verify-Kanal.",
+          "evidence": "Deadlock-Bots 490d17bb serversync/twitch_link.rs und concierge_community.rs VERIFY_CHANNEL_ID; Details auf community-punkte.html.",
           "verdict": "verified"
         }
       ],
