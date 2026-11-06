@@ -2362,6 +2362,48 @@
         }
       ],
       "gaps": []
+    },
+    {
+      "path": "public/discord-server/module/community-punkte.html",
+      "verified_at": "2026-11-06T15:06:56.000Z",
+      "content_sha256": "888c404edc9f3b1c67e975f48423b4314750f4748e53c8eba9a536caed4f8eab",
+      "code": [
+        {
+          "repository": "discord",
+          "revision": "490d17bb099b2bd93219fc26ce93ecbc93db50e9",
+          "paths": [
+            "rust/crates/dl-central-db/src/community_points.rs",
+            "rust/crates/dl-community/src/streamer_suggest.rs",
+            "rust/crates/dl-community/src/concierge_community.rs",
+            "rust/bin/dl-bot/src/serversync/twitch_link.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "05f32857545587046808c5b66c4a1591dd84399e",
+          "paths": [
+            "rust/crates/tb-analytics/src/community_points.rs"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Zuschau-, Chat- und Entdeckerpunkte mit 5 Minuten je Punkt, 72 je Kanal und 144 je Tag, Chat höchstens 30 je Kanal mit 10 Zeichen und 60 Sekunden Abstand, Entdeckerbonus 10 Punkte höchstens 3 mal am Tag, Tag nach deutscher Zeit.",
+          "evidence": "tb-analytics community_points.rs: WATCH_MINUTES_PER_POINT 5, WATCH_POINTS_CAP_PER_CHANNEL_DAY 72, WATCH_POINTS_CAP_PER_VIEWER_DAY 144, CHAT_POINTS_CAP_PER_CHANNEL_DAY 30, CHAT_MIN_CHARS 10, CHAT_COOLDOWN_SECS 60, DISCOVERY_BONUS_POINTS 10, DISCOVERY_BONUS_MAX_PER_DAY 3, Berliner Tagesgrenze.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Clip-Contest 100, 60 und 40 Punkte, Abstimmen 2 Punkte, Streamer-Vorschlag 150 Punkte, Partner 1 Punkt je 30 Zuschauerminuten, Raid 25, qualifizierter Beitritt 50.",
+          "evidence": "dl-central-db community_points.rs Punktwerte gelesen; streamer_suggest.rs DAILY_LIMIT 3 mit Fenster interval '24 hours'; Kanal-Erwähnungen ohne IDs.",
+          "verdict": "verified"
+        },
+        {
+          "claim": "Twitch-Verknüpfung über den Knopf Twitch verknüpfen im Verify-Kanal; Discord-Freigabe der verbundenen Konten, gelesen wird nur das Twitch-Konto; Twitch muss unter Verbindungen hinterlegt sein.",
+          "evidence": "serversync/twitch_link.rs Scope identify connections; concierge_community.rs Texte TWITCH_LINK_READY_TEXT und TWITCH_LINK_FALLBACK_TEXT mit VERIFY_CHANNEL_ID.",
+          "verdict": "verified"
+        }
+      ],
+      "gaps": []
     }
   ]
 }
