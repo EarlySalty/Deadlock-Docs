@@ -525,14 +525,22 @@
     },
     {
       "path": "public/discord-server/module/steam-twitch-verknuepfung.html",
-      "verified_at": "2026-09-19T23:12:03.729Z",
-      "content_sha256": "acc7d64665ebd1c8803db6d6ea21fa11ca939dfd193604afa478f0baa1e1084f",
+      "verified_at": "2026-11-06T16:30:00.000Z",
+      "content_sha256": "912e633130eec5a96ba3fb1522d6abb50aa442cf42315762bd1c8a27c1316886",
       "code": [
         {
           "repository": "discord",
           "revision": "371a90e8bcf3a1a6cae8cd285867b0e1dffcd0e7",
           "paths": [
             "rust/crates/dl-bridges/src/streamer_intent.rs"
+          ]
+        },
+        {
+          "repository": "discord",
+          "revision": "490d17bb099b2bd93219fc26ce93ecbc93db50e9",
+          "paths": [
+            "rust/crates/dl-community/src/concierge_community.rs",
+            "rust/bin/dl-bot/src/serversync/twitch_link.rs"
           ]
         },
         {
@@ -566,7 +574,7 @@
         },
         {
           "claim": "Zuschauer-Verknüpfung mit Twitch läuft getrennt vom Streamer-Onboarding über den Knopf Twitch verknüpfen im Verify-Kanal.",
-          "evidence": "Deadlock-Bots 490d17bb serversync/twitch_link.rs und concierge_community.rs VERIFY_CHANNEL_ID; Details auf community-punkte.html.",
+          "evidence": "Deadlock-Bots 490d17bb rust/bin/dl-bot/src/serversync/twitch_link.rs und rust/crates/dl-community/src/concierge_community.rs (VERIFY_CHANNEL_ID, twitch_link_button); Details auf community-punkte.html.",
           "verdict": "verified"
         }
       ],
