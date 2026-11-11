@@ -146,8 +146,8 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-10-28T16:09:39.732928+00:00",
-      "content_sha256": "1cada4df667e08ad773d6c8bd4d6a164d0d864b2118c4c9bd36f09bbf190edea",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "ab7ffc8315df3e08a5a85aa375c62909c970cf8b273b79014cce604d71c16b09",
       "code": [
         {
           "repository": "twitch",
@@ -196,17 +196,18 @@
           ]
         },
         {
-          "claim": "!engagement_on turns itself off at stream end.",
-          "verdict": "verified",
-          "evidence": [
-            "rust/bin/tb-bot/src/offline_side_effects.rs"
-          ]
-        },
-        {
-          "claim": "Broadcaster and mods only commands are refused for other people with a chat hint; !raid, !traid, !silentban, !silentraid and the AI engagement commands may also be run by a super mod.",
+          "claim": "Broadcaster and mods only commands are refused for other people with a chat hint; !raid, !traid, !silentban and !silentraid may also be run by a super mod.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs"
+          ]
+        },
+        {
+          "claim": "Automatic chat contributions by the bot are not available (decision E4); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out. !engagement_status, !engagement_on and !engagement_off are not listed.",
+          "verdict": "verified",
+          "evidence": [
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -566,8 +567,8 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-10-28T16:09:39.732928+00:00",
-      "content_sha256": "3e51f4cc7301da4b3c760ac7fbb642f337ee50ecbf87b37d8957d986085f7252",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "50e73f002ca6cd14ab5360c5823e07ba426fced135bc8146deed8ad42c8bae4b",
       "code": [
         {
           "repository": "twitch",
@@ -597,17 +598,11 @@
           ]
         },
         {
-          "claim": "!engagement_ignore_me and !engagement_remember_me opt the viewer out of and back into AI engagement; !engagement_status shows the channel status.",
+          "claim": "Automatic chat contributions by the bot are not available (decision E4); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-chat/src/commands.rs"
-          ]
-        },
-        {
-          "claim": "!engagement_on and !engagement_off are limited to broadcaster, channel mods and eligible super mods.",
-          "verdict": "verified",
-          "evidence": [
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         },
         {
@@ -973,8 +968,8 @@
     },
     {
       "path": "public/twitch-bot/faq-analytics.html",
-      "verified_at": "2026-10-28T17:04:10.011763+00:00",
-      "content_sha256": "0c81be7a581701a4f5a0ff29c745a4bc96168bef3003db10e91b2c311714277f",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "bfe0f12e7a43428e41170d6cbfe7ef28175b8c83c0d471bfbfe25e14cd6e2655",
       "code": [
         {
           "repository": "twitch",
@@ -1003,13 +998,6 @@
           "verdict": "verified",
           "evidence": [
             "bot/dashboard_v2/src/components/cards/PostStreamReportCard.tsx"
-          ]
-        },
-        {
-          "claim": "The chat command !engagement_ignore_me removes the streamer from the bot's engagement replies, and !engagement_remember_me adds them back.",
-          "verdict": "verified",
-          "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
@@ -1154,8 +1142,8 @@
     },
     {
       "path": "public/quellen/twitch/werbemanager.html",
-      "verified_at": "2026-10-28T17:25:50.127250+00:00",
-      "content_sha256": "1b45c052422b70bfe6a687853c75ff994c7408c93360caa4066fa67c6666f01c",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "0edadc27cb980b86331472acf9dcb42c2fa35a99cf5526b34daef7a3713dcd56",
       "code": [
         {
           "repository": "twitch",
@@ -1179,6 +1167,15 @@
           "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
           "paths": [
             "rust/crates/tb-analytics/src/ad_manager.rs"
+          ]
+        },
+        {
+          "repository": "twitch",
+          "revision": "8e00a346b58a3dbb108f1b4a23ab89d67a51bdcb",
+          "paths": [
+            "rust/crates/tb-analytics/src/ad_manager/steam.rs",
+            "rust/crates/tb-chat/src/player_links.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
           ]
         }
       ],
@@ -1235,16 +1232,16 @@
           ]
         },
         {
-          "claim": "Die Steam-ID wird unter Verwaltung, Tab Bot & Schutz hinterlegt.",
+          "claim": "Die Queue-Steuerung liest die Steam-ID aus der direkten Verbindung über !connect bzw. /twitch/connect.",
           "verdict": "verified",
           "evidence": [
-            "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
-            "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx"
+            "rust/crates/tb-analytics/src/ad_manager/steam.rs",
+            "rust/crates/tb-chat/src/player_links.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
           ]
         }
       ],
       "gaps": [
-        "Der Abschnitt „KI-Engagement“ als Name im Dashboard ist im geprüften Code nicht gefunden.",
         "Ohne frischen Matchstatus nutzt der Bot Chat-Signale; ein sicherer Match-Schutz ohne Spielstatus ist nicht im Detail belegt.",
         "Der Schalter aus, bei dem der Bot nur mitliest und den Status zeigt, ist nicht geprüft.",
         "Die Aussagen zu Twitch-Plänen, Pausenverfügbarkeit, Werbung im Match ohne Pausen und zu ausgenommenen Zuschauern hängen von Twitch-Verhalten ab und sind nicht im Code belegbar.",
@@ -1913,8 +1910,8 @@
     },
     {
       "path": "public/twitch-bot/faq-support.html",
-      "verified_at": "2026-10-28T15:35:07.586571+00:00",
-      "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "5d458745ddf558ddd146f261789c89fe19e8a823dd035d5c8e6d0b2dc0e3ec3c",
       "code": [
         {
           "repository": "twitch",
@@ -2580,8 +2577,8 @@
     },
     {
       "path": "public/twitch-bot/chat-hinweise.html",
-      "verified_at": "2026-10-28T16:09:39.732928+00:00",
-      "content_sha256": "7021ce2bccc108e56580afe0409485f3f3d24507683e5bb469c50424b16fa6a0",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "ef75402030ee03b253d9b7668a7036051cbaade1d70ba3e983067db51ef3c608",
       "code": [
         {
           "repository": "twitch",
@@ -2633,12 +2630,11 @@
           ]
         },
         {
-          "claim": "!engagement_on switches the AI engagement layer on and is switched off automatically at stream end.",
+          "claim": "Automatic chat contributions by the bot are not available (decision E4).",
           "verdict": "verified",
           "evidence": [
-            "rust/bin/tb-bot/src/offline_side_effects.rs",
-            "rust/bin/tb-bot/src/eventsub_hooks.rs",
-            "rust/crates/tb-chat/src/commands.rs"
+            "rust/crates/tb-chat/src/commands.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         },
         {
@@ -3394,8 +3390,8 @@
     },
     {
       "path": "public/twitch-bot/vertrauen-seriositaet.html",
-      "verified_at": "2026-10-28T17:00:40.310037+00:00",
-      "content_sha256": "56c10808fb2ada62ac86d6e1bf430297aba71e575193498dc9045caa0d7af4d6",
+      "verified_at": "2026-11-11T03:09:00.984506+00:00",
+      "content_sha256": "6e3c22ddd0f28ed9c16deb4b00dcf2854e3f8d1d55bf9cfd00cb97a9c8847966",
       "code": [
         {
           "repository": "twitch",
@@ -3422,14 +3418,6 @@
           "verdict": "verified",
           "evidence": [
             "rust/bin/tb-bot/src/brain_chat_wiring.rs"
-          ]
-        },
-        {
-          "claim": "Abmelden und Wiederanmelden der KI-Chat-Reaktionen per Chat-Befehl (!engagement_ignore_me, !engagement_remember_me).",
-          "verdict": "verified",
-          "evidence": [
-            "rust/crates/tb-chat/src/catalog.rs",
-            "rust/crates/tb-chat/src/commands.rs"
           ]
         }
       ],

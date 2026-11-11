@@ -6,7 +6,7 @@
   <meta name="robots" content="index, follow">
   <meta name="description" content="Kurz gesagt. Der Twitch-Bot der Deutschen Deadlock Community arbeitet vor allem automatisch. Befehle brauchst du nur, wenn du im Chat bewusst etwas abrufen oder…">
   <meta name="tags" content="twitch-bot, chat, befehle, commands, zuschauer">
-  <meta name="stand" content="2026-10-28">
+  <meta name="stand" content="2026-11-11">
   <meta name="quelle" content="Produktdokumentation und geprüftes Live-Verhalten">
   <style>
     body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 46rem; margin: 2rem auto; padding: 0 1rem; color: #1b1b1b; }
@@ -101,12 +101,12 @@
 
   <section id="engagement">
     <h2>Deine eigene Datenschutzwahl</h2>
-    <p>Der Bot hat eine KI-Engagement-Funktion, mit der er sich gelegentlich selbst am Chat beteiligt. Ob er dich dabei einbezieht, entscheidest du selbst im Chat; die Wahl betrifft nur dich:</p>
+    <p>Automatische Chat-Beiträge des Bots sind derzeit nicht verfügbar. Wer sich trotzdem vorsorglich ausnehmen möchte, entscheidet das selbst im Chat; die Wahl betrifft nur dich:</p>
     <ul>
-      <li><code>!engagement_ignore_me</code>: nimmt dich aus der KI-Engagement-Funktion heraus; der Bot bezieht dich dann nicht mehr in seine automatischen KI-Chat-Reaktionen ein.</li>
-      <li><code>!engagement_remember_me</code>: bezieht dich später wieder ein.</li>
+      <li><code>!engagement_ignore_me</code>: nimmt dich aus automatischen Chat-Beiträgen des Bots heraus.</li>
+      <li><code>!engagement_remember_me</code>: hebt das wieder auf.</li>
     </ul>
-    <p>Das ist ausdrücklich <strong>keine</strong> Löschung deiner Daten und schaltet auch nicht die allgemeine Kanal-Statistik ab. Es steuert nur die KI-Engagement-Funktion. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
+    <p>Das ist ausdrücklich <strong>keine</strong> Löschung deiner Daten und schaltet auch nicht die allgemeine Kanal-Statistik ab. Für Auskunft, Löschung oder einen vollständigen Widerspruch gibt es keinen belegten Self-Service-Schalter; dafür gilt der veröffentlichte Datenschutz- bzw. Support-Weg (siehe <a href="faq-support.html">FAQ Support</a>). Beide Befehle sind unabhängig von der Streamkategorie verfügbar; mehr in <a href="faq-community.html">FAQ Community</a>.</p>
   </section>
 
   <section id="status-befehle">
@@ -115,13 +115,12 @@
     <ul>
       <li><code>!raid_status</code> · <code>!raidbot_status</code>: zeigen den Auto-Raid-Status und eine grobe Raid-Statistik; sie setzen oder ändern keinen Status.</li>
       <li><code>!raid_history</code> · <code>!raidbot_history</code>: zeigen die letzten Raid-Versuche; ebenfalls nur lesend.</li>
-      <li><code>!engagement_status</code>: zeigt, ob die KI-Engagement-Funktion im Kanal aktiv ist.</li>
     </ul>
   </section>
 
   <section id="rollenbefehle">
     <h2>Befehle zur Steuerung: Broadcaster, Moderation und Super-Mods</h2>
-    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Bei <code>!title</code> bleibt er still; bei <code>!vodclip</code> ebenfalls, wenn die Einstellung aus ist, die Nachricht aus einem fremden Shared Chat stammt oder der Kanal innerhalb der letzten 60 Sekunden schon einen Ausschnitt angefordert hat. Bei <code>!clipcontest</code> bleibt er still, wenn die Nachricht aus einem fremden Shared Chat stammt. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code>, <code>!silentraid</code> und die KI-Engagement-Befehle darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
+    <p>Die folgenden Befehle stehen dem Kanalinhaber und der Kanal-Moderation (Mods) zur Verfügung. Führt sie eine andere Person aus, werden sie abgewiesen, und der Bot antwortet mit einem Hinweis. Bei <code>!title</code> bleibt er still; bei <code>!vodclip</code> ebenfalls, wenn die Einstellung aus ist, die Nachricht aus einem fremden Shared Chat stammt oder der Kanal innerhalb der letzten 60 Sekunden schon einen Ausschnitt angefordert hat. Bei <code>!clipcontest</code> bleibt er still, wenn die Nachricht aus einem fremden Shared Chat stammt. Ausnahme: <code>!raid</code>, <code>!traid</code>, <code>!silentban</code> und <code>!silentraid</code> darf zusätzlich ein Super-Mod ausführen (siehe <a href="berechtigungen.html">Berechtigungen</a>).</p>
     <ul>
       <li><code>!raid</code> · <code>!traid</code>: startet einen manuellen Raid zu einem passenden, live streamenden Deadlock-Kanal.</li>
       <li><code>!raid &lt;name&gt;</code>: schickt deine Zuschauer direkt zu diesem Twitch-Kanal, zum Beispiel <code>!raid kanalname</code>. Der Kanal muss gerade live sein. Der Befehl funktioniert, wenn dein letzter Stream in der Deadlock-Kategorie lief und du gerade live bist oder der Stream erst kurz vorbei ist. Ist der Zielkanal offline, antwortet der Bot im Chat. Den automatischen Raid am Stream-Ende beschreibt die Seite <a href="auto-raid.html">Auto-Raid</a>.</li>
@@ -133,10 +132,6 @@
       <li><code>!silentraid</code>: schaltet nur die Chat-Hinweise zu Raids um.</li>
       <li><code>!vodclip &lt;start&gt; &lt;ende&gt;</code>: erstellt einen privaten VOD-Ausschnitt aus dem eigenen Archiv. Die Zahlen sind Minuten, etwa <code>!vodclip 55 58</code>; auch <code>!vodclip 1:55:00 1:58:00</code> ist möglich. Ein Ausschnitt dauert 1 bis 10 Minuten. Der Befehl muss im Dashboard eingeschaltet sein; Details stehen unter <a href="twitch-streamer-dashboard.html">Streamer-Dashboard</a>.</li>
       <li><code>!clipcontest</code>: reicht einen Clip für den wöchentlichen Clip-Contest im Discord ein. Mit <code>!clipcontest &lt;Clip-Link&gt;</code> wählst du den Clip, ohne Link den neuesten Clip des laufenden Streams. Pro Kanal sind am Tag bis zu drei Einreichungen möglich. Die Community stimmt im Discord ab.</li>
-    </ul>
-    <p>Die KI-Engagement-Funktion für den Kanal schalten Broadcaster, Mods und Super-Mods um:</p>
-    <ul>
-      <li><code>!engagement_on</code> · <code>!engagement_off</code>: schalten die KI-Engagement-Funktion für den Kanal ein oder aus. <code>!engagement_on</code> deaktiviert sich automatisch bei Stream-Ende. Das betrifft nur die KI-Engagement-Funktion, nicht die gesamte Erfassung oder Auswertung.</li>
     </ul>
     <p>Nur der Broadcaster, nicht die Moderation, kann zusätzlich die Lurker-Erinnerung dauerhaft abschalten:</p>
     <ul>
