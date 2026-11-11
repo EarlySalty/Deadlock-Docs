@@ -1767,30 +1767,6 @@
       "gaps": []
     },
     {
-      "path": "public/twitch-bot/vertrauen-seriositaet.html",
-      "verified_at": "2026-09-19T23:22:29.288Z",
-      "content_sha256": "9396238593bc2378ef96b5eabddbb41f6a74cb3c776799bfc54422cadf8c919c",
-      "code": [
-        {
-          "repository": "twitch",
-          "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
-          "paths": [
-            "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/legal.rs",
-            "rust/crates/tb-dashboard-api/src/handlers/discord_link.rs"
-          ]
-        }
-      ],
-      "claims": [
-        {
-          "claim": "OAuth statt Botpasswort, Widerruf und Support-Datenschutzweg; Engagementoptout ist kein Löschen.",
-          "evidence": "commands.rs cmd_engagement_ignore_me schreibt nur twitch_user_engagement_optout per Plattform-ID, remember entfernt nur diesen Eintrag. Autorisierung/geschützter Login bestehender OAuthflow; unverifizierbare pauschale Echtheit jedes Zuschauers entfernt.",
-          "verdict": "verified"
-        }
-      ],
-      "gaps": []
-    },
-    {
       "path": "public/dokus/index.html",
       "verified_at": "2026-09-19T23:39:32.700Z",
       "content_sha256": "83399edf424eaf333155888b308fed48aac1e660b0e1794d2f69166b6c397c2a",
