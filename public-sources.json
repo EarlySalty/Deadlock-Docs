@@ -171,19 +171,22 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/chat-befehle.md": {
-          "source_sha256": "77ead8b97b92299740ee21397047be112d5f3f1e4579e7c41f66aeff630acf78",
-          "content_sha256": "790c297a96ba6194d5266d872c0254db3c9566ce6298a8955d3f6397139cb673",
-          "verified_at": "2026-09-19T23:16:51.084369+00:00",
+          "source_sha256": "e1e970b7569305c25752c8305572c89f05686c9e4d08ffd3802c03c715fac4e0",
+          "content_sha256": "a91e80d7fb10f1eccd9edf0eed61498b342f9962f60a55a1251fd6c6072d440e",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "rust/crates/tb-chat/src/catalog.rs",
                 "rust/crates/tb-chat/src/commands.rs",
                 "rust/crates/tb-chat/src/player_links.rs",
                 "rust/crates/tb-chat/src/rank_lookup.rs",
-                "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
+                "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs",
+                "rust/crates/tb-engagement/src/gate.rs",
+                "rust/crates/tb-engagement/src/pipeline.rs",
+                "rust/bin/tb-bot/src/brain_chat_wiring.rs"
               ]
             }
           ],
@@ -350,12 +353,12 @@
         },
         "rust/knowledge/bot/faq-support.md": {
           "source_sha256": "784c9e977a48c6684d0858c6c672098ece2681e34300df5c2f54c1f326c6a068",
-          "content_sha256": "b0a042812b60088bef055c8ec6004e222174508ec29b1a8e22b3deea0cd474a2",
-          "verified_at": "2026-10-28T15:43:41.417456+00:00",
+          "content_sha256": "80373856eae6cca31e06c3f5d8f31df5ba08040320b71b59c79c8c35c70931d1",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "bot/dashboard_v2/src/App.tsx",
                 "bot/dashboard_v2/src/pages/feedback/FeedbackPage.tsx"
@@ -363,7 +366,7 @@
             },
             {
               "repository": "twitch",
-              "revision": "d1b234cc3041b4e344bb91c6916afca71037e01c",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "rust/crates/tb-chat/src/catalog.rs",
                 "rust/crates/tb-chat/src/commands.rs",
@@ -374,13 +377,13 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/vertrauen-seriositaet.md": {
-          "source_sha256": "f545f5744777b132d5200ebf6697b052161e41a8f029e27dbd49544cb159135b",
-          "content_sha256": "9396238593bc2378ef96b5eabddbb41f6a74cb3c776799bfc54422cadf8c919c",
-          "verified_at": "2026-09-19T23:22:29.288Z",
+          "source_sha256": "d31ccbc9308f559b810205f68c6918a01f7b0eeb0fb1bda709756be70c7a51c2",
+          "content_sha256": "9f60bed6296b701efb68a6dfd4087987657729e9eddab8e1fffcc197d5ae9c27",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "rust/crates/tb-chat/src/commands.rs",
                 "rust/crates/tb-dashboard-api/src/handlers/legal.rs",
@@ -423,17 +426,20 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "docs/streamer/WERBEMANAGER.md": {
-          "source_sha256": "b09206d738e3964fd4ac557eb65ff31f9ef99e4251c793447f1246c1ae699829",
-          "content_sha256": "e900f3f6b4a687d51e800e48c6966f60e3778ad054100e690826048c94d46d91",
-          "verified_at": "2026-09-19T23:47:49.866039+00:00",
+          "source_sha256": "33a45e9c38b9f14a709944aa7962cdab2dd2899ff29ba556487fddac3ead05e2",
+          "content_sha256": "30a4b78c42af4a89de990df48b7ad4d29b2c51d4fefb5bbeb454aa90655896fb",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "rust/crates/tb-analytics/src/ad_manager.rs",
                 "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
-                "bot/dashboard_v2/src/components/verwaltung/adManagerTexte.ts"
+                "bot/dashboard_v2/src/components/verwaltung/adManagerTexte.ts",
+                "rust/crates/tb-analytics/src/ad_manager/steam.rs",
+                "rust/crates/tb-chat/src/player_links.rs",
+                "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs"
               ]
             }
           ],
@@ -477,12 +483,12 @@
         },
         "rust/knowledge/bot/faq-analytics.md": {
           "source_sha256": "603548bfe9bd77df49617c82c46551ec325ad9ce514a53c151af263725b11033",
-          "content_sha256": "b8fdb8d41591a912f87e45afdeb496741b141866c7ea159598df40ea4ec46caf",
-          "verified_at": "2026-10-28T16:07:45.643602+00:00",
+          "content_sha256": "daaeb3874525906e042cf0bd641ee47a569fe8cd65eef7401a72ba42d13c6c40",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "4bfc09af005d407061d523a9f7563466b5890de3",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "bot/dashboard_v2/src/App.tsx",
                 "rust/crates/tb-dashboard-api/src/auth/streamer_scope.rs",
@@ -494,16 +500,20 @@
           "owner": "Community-Dokumentationsredaktion"
         },
         "rust/knowledge/bot/faq-community.md": {
-          "source_sha256": "6f71c4bbf4da432120395c9b1095d0e6e2743cc04b171a85173faebb0e1a97a9",
-          "content_sha256": "3b05280ca9fb482fdfe7d8829cbf8a50c5437fd356cbf3f685ccae0ed333a0f2",
-          "verified_at": "2026-09-19T23:16:51.640032+00:00",
+          "source_sha256": "53161ff5762b3902f11b7d40528b7915e16d38befb538ed635cdf1849f0c6696",
+          "content_sha256": "50f9da038e01144d3f88e6f617b7f26fbcff7a19eb53a2fa9e17b39d6b023216",
+          "verified_at": "2026-11-11T20:40:03.879318+00:00",
           "code": [
             {
               "repository": "twitch",
-              "revision": "c8c8b258977a96bbc4639f242f96a6394cf5e6e6",
+              "revision": "87b79fdd9ba823594a1933b6dadd439ecb5d9626",
               "paths": [
                 "rust/crates/tb-chat/src/commands.rs",
-                "rust/crates/tb-chat/src/channel_policy.rs"
+                "rust/crates/tb-chat/src/channel_policy.rs",
+                "rust/crates/tb-chat/src/catalog.rs",
+                "rust/crates/tb-engagement/src/gate.rs",
+                "rust/crates/tb-engagement/src/pipeline.rs",
+                "rust/bin/tb-bot/src/brain_chat_wiring.rs"
               ]
             }
           ],
