@@ -203,7 +203,7 @@
           ]
         },
         {
-          "claim": "AI conversation in chat is not released (decision E4); !engagement_on stores nothing and replies that it cannot be switched on. The bot still posts on its own (answers, scam warnings, greetings, Discord hints); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out. !engagement_status, !engagement_on and !engagement_off are not listed.",
+          "claim": "AI conversation in chat is not released (decision E4); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out. !engagement_status, !engagement_on and !engagement_off are not listed.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs",
@@ -576,7 +576,12 @@
           "paths": [
             "rust/crates/tb-chat/src/commands.rs",
             "bot/dashboard_v2/src/components/verwaltung/CommunityHinweiseSection.tsx",
-            "rust/bin/tb-bot/src/reauth_reminder.rs"
+            "rust/bin/tb-bot/src/reauth_reminder.rs",
+            "rust/crates/tb-chat/src/invite_question.rs",
+            "rust/crates/tb-chat/src/scam_pitch.rs",
+            "rust/crates/tb-chat/src/promos.rs",
+            "rust/crates/tb-chat/src/pipeline.rs",
+            "rust/bin/tb-bot/src/raid_greeting.rs"
           ]
         }
       ],
@@ -598,11 +603,16 @@
           ]
         },
         {
-          "claim": "AI conversation in chat is not released (decision E4); !engagement_on stores nothing and replies that it cannot be switched on. The bot still posts on its own (answers, scam warnings, greetings, Discord hints); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out.",
+          "claim": "AI conversation in chat is not released (decision E4). The bot still posts on its own (answers, scam warnings, greetings, Discord hints); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs",
-            "rust/crates/tb-chat/src/catalog.rs"
+            "rust/crates/tb-chat/src/catalog.rs",
+            "rust/crates/tb-chat/src/invite_question.rs",
+            "rust/crates/tb-chat/src/scam_pitch.rs",
+            "rust/crates/tb-chat/src/promos.rs",
+            "rust/crates/tb-chat/src/pipeline.rs",
+            "rust/bin/tb-bot/src/raid_greeting.rs"
           ]
         },
         {
@@ -2419,7 +2429,9 @@
           "paths": [
             "bot/dashboard_v2/src/components/verwaltung/AdManagerSection.tsx",
             "bot/dashboard_v2/src/pages/Verwaltung.tsx",
-            "rust/crates/tb-analytics/src/ad_manager.rs"
+            "rust/crates/tb-analytics/src/ad_manager.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         }
       ],
