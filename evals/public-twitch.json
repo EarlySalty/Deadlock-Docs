@@ -272,12 +272,12 @@
     "forbidden_terms": ["!twl", "Hilfeseite ist kaputt", "Hilfeseite ist nicht erreichbar", "nicht zuverlässig erreichbar"]
   },
   {
-    "question": "Löscht !engagement_ignore_me meine Daten oder stoppt es die ganze Erfassung?",
+    "question": "Beteiligt sich der Bot von sich aus an Gesprächen im Chat, und löscht !engagement_ignore_me meine Daten?",
     "answerable": true,
     "expected_sources": ["twitch-bot/faq-community.html", "twitch-bot/chat-befehle.html"],
-    "context_terms": ["KI-Engagement", "keine Löschung"],
-    "answer_terms": ["!engagement_ignore_me", "KI-Engagement"],
-    "forbidden_terms": ["shadowban", "löscht alle deine Daten und", "löscht sämtliche Daten", "Daten werden gelöscht", "stoppt alles", "stoppt jede Erfassung", "stoppt die gesamte Erfassung", "gesamte Erfassung wird gestoppt"]
+    "context_terms": ["KI-Gespräche", "nicht freigegeben", "keine Löschung"],
+    "answer_terms": ["!engagement_ignore_me", "nicht freigegeben"],
+    "forbidden_terms": ["shadowban", "!engagement_on", "KI-Engagement aktiviert", "löscht alle deine Daten und", "löscht sämtliche Daten", "Daten werden gelöscht", "stoppt alles", "stoppt jede Erfassung", "stoppt die gesamte Erfassung", "gesamte Erfassung wird gestoppt"]
   },
   {
     "question": "Kann ich den Bot komplett für mich abschalten oder alle meine Daten löschen lassen?",
