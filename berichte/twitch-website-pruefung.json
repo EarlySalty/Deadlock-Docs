@@ -146,8 +146,8 @@
     },
     {
       "path": "public/twitch-bot/chat-befehle.html",
-      "verified_at": "2026-11-11T03:09:00.984506+00:00",
-      "content_sha256": "ab7ffc8315df3e08a5a85aa375c62909c970cf8b273b79014cce604d71c16b09",
+      "verified_at": "2026-11-11T19:26:00.384092+00:00",
+      "content_sha256": "8a1a6ab612f6884e8b687645021617b566e0cf4f495f5b7bf00dbba044309248",
       "code": [
         {
           "repository": "twitch",
@@ -203,7 +203,7 @@
           ]
         },
         {
-          "claim": "Automatic chat contributions by the bot are not available (decision E4); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out. !engagement_status, !engagement_on and !engagement_off are not listed.",
+          "claim": "AI conversation in chat is not released (decision E4); !engagement_on stores nothing and replies that it cannot be switched on. The bot still posts on its own (answers, scam warnings, greetings, Discord hints); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out. !engagement_status, !engagement_on and !engagement_off are not listed.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs",
@@ -567,8 +567,8 @@
     },
     {
       "path": "public/twitch-bot/faq-community.html",
-      "verified_at": "2026-11-11T03:09:00.984506+00:00",
-      "content_sha256": "50e73f002ca6cd14ab5360c5823e07ba426fced135bc8146deed8ad42c8bae4b",
+      "verified_at": "2026-11-11T19:26:00.384092+00:00",
+      "content_sha256": "0e4ce43d5d4f085ad3b995b98585d941de243a4d7e33736c5c7132509bb28275",
       "code": [
         {
           "repository": "twitch",
@@ -598,7 +598,7 @@
           ]
         },
         {
-          "claim": "Automatic chat contributions by the bot are not available (decision E4); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out.",
+          "claim": "AI conversation in chat is not released (decision E4); !engagement_on stores nothing and replies that it cannot be switched on. The bot still posts on its own (answers, scam warnings, greetings, Discord hints); !engagement_ignore_me and !engagement_remember_me only set and remove the personal opt-out.",
           "verdict": "verified",
           "evidence": [
             "rust/crates/tb-chat/src/commands.rs",
@@ -2410,8 +2410,8 @@
     },
     {
       "path": "public/twitch-bot/werbemanager.html",
-      "verified_at": "2026-10-28T15:46:27.020568+00:00",
-      "content_sha256": "a6e877262d4ed9328ef498bfebbfcead1957e53c237c4be8c007455c8a7a68f0",
+      "verified_at": "2026-11-11T19:26:00.384092+00:00",
+      "content_sha256": "65a0567a229b5b72674255d01515a6c8b5e50eae8c71e7a0bbb6f07a6df80c71",
       "code": [
         {
           "repository": "twitch",
@@ -2441,10 +2441,12 @@
           ]
         },
         {
-          "claim": "Matchschutz braucht einen frischen Steam-Status; ohne ihn startet der Bot keine eigene Werbung.",
+          "claim": "Matchschutz braucht einen frischen Steam-Status; ohne ihn startet der Bot keine eigene Werbung. Steam wird mit !connect oder auf /twitch/connect verbunden.",
           "verdict": "verified",
           "evidence": [
-            "rust/crates/tb-analytics/src/ad_manager.rs"
+            "rust/crates/tb-analytics/src/ad_manager.rs",
+            "rust/crates/tb-dashboard-api/src/handlers/player_connect.rs",
+            "rust/crates/tb-chat/src/catalog.rs"
           ]
         },
         {
